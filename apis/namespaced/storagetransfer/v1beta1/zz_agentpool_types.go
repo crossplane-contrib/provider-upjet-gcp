@@ -34,6 +34,10 @@ type AgentPoolObservation struct {
 	// Structure is documented below.
 	BandwidthLimit *BandwidthLimitObservation `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Specifies the client-specified AgentPool description.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

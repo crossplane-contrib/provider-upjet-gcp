@@ -566,6 +566,8 @@ type TemplateObservation struct {
 	// Create time stamp
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 

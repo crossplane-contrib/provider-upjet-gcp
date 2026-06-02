@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: foldersinks.logging.gcp.m.upbound.io
 spec:
   group: logging.gcp.m.upbound.io
@@ -381,6 +381,11 @@ spec:
                           has to be used instead. In both cases, tables are sharded based on UTC timezone.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.

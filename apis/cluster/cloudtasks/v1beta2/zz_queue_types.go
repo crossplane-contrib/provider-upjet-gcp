@@ -387,6 +387,9 @@ type QueueInitParameters struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// The desired state of the queue. Use this to pause and resume the queue.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
 	// Modifies HTTP target for HTTP tasks.
 	// Structure is documented below.
 	HTTPTarget *HTTPTargetInitParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
@@ -424,6 +427,13 @@ type QueueObservation struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// The desired state of the queue. Use this to pause and resume the queue.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
 	// Modifies HTTP target for HTTP tasks.
 	// Structure is documented below.
 	HTTPTarget *HTTPTargetObservation `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
@@ -449,6 +459,9 @@ type QueueObservation struct {
 	// Configuration options for writing logs to Stackdriver Logging.
 	// Structure is documented below.
 	StackdriverLoggingConfig *StackdriverLoggingConfigObservation `json:"stackdriverLoggingConfig,omitempty" tf:"stackdriver_logging_config,omitempty"`
+
+	// The current state of the queue.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type QueueParameters struct {
@@ -458,6 +471,10 @@ type QueueParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride *AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// The desired state of the queue. Use this to pause and resume the queue.
+	// +kubebuilder:validation:Optional
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// Modifies HTTP target for HTTP tasks.
 	// Structure is documented below.

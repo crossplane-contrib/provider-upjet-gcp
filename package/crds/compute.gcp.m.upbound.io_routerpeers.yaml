@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: routerpeers.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -1411,6 +1411,11 @@ spec:
                       You can choose a value from 0 to 65335. If you don't provide a value,
                       Google Cloud assigns a priority of 100 to the ranges.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session

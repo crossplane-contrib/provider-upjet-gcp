@@ -46,6 +46,10 @@ type BackendBucketSignedURLKeyObservation struct {
 	// The backend bucket this signed URL key belongs.
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{backend_bucket}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

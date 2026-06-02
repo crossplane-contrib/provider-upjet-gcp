@@ -450,6 +450,10 @@ type FlowObservation struct {
 	// Structure is documented below.
 	AdvancedSettings *FlowAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the flow. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

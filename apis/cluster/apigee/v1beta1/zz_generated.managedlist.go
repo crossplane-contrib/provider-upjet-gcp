@@ -61,24 +61,6 @@ func (l *EnvgroupList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this EnvironmentIAMMemberList.
-func (l *EnvironmentIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this EnvironmentList.
-func (l *EnvironmentList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this InstanceAttachmentList.
 func (l *InstanceAttachmentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -108,15 +90,6 @@ func (l *KeystoresAliasesKeyCertFileList) GetItems() []resource.Managed {
 
 // GetItems of this NATAddressList.
 func (l *NATAddressList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this OrganizationList.
-func (l *OrganizationList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

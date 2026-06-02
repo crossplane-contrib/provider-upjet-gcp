@@ -36,6 +36,10 @@ type InstanceGroupNamedPortInitParameters struct {
 
 type InstanceGroupNamedPortObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the instance group.
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 

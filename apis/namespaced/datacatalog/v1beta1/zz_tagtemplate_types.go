@@ -168,6 +168,10 @@ type TagTemplateInitParameters struct {
 
 type TagTemplateObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The display name for this template.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -226,7 +230,7 @@ type TypeInitParameters struct {
 
 	// Represents primitive types - string, bool etc.
 	// Exactly one of primitive_type or enum_type must be set
-	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP, RICHTEXT.
 	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }
 
@@ -239,7 +243,7 @@ type TypeObservation struct {
 
 	// Represents primitive types - string, bool etc.
 	// Exactly one of primitive_type or enum_type must be set
-	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP, RICHTEXT.
 	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }
 
@@ -253,7 +257,7 @@ type TypeParameters struct {
 
 	// Represents primitive types - string, bool etc.
 	// Exactly one of primitive_type or enum_type must be set
-	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+	// Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP, RICHTEXT.
 	// +kubebuilder:validation:Optional
 	PrimitiveType *string `json:"primitiveType,omitempty" tf:"primitive_type,omitempty"`
 }

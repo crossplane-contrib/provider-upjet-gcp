@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: firewallpolicyrules.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -282,6 +282,11 @@ spec:
                         items:
                           type: string
                         type: array
+                      destNetworkContext:
+                        description: |-
+                          Network context of the traffic destination.
+                          Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+                        type: string
                       destRegionCodes:
                         description: Region codes whose IP addresses will be used
                           to match for destination of traffic. Should be specified
@@ -339,6 +344,102 @@ spec:
                         items:
                           type: string
                         type: array
+                      srcNetworkContext:
+                        description: |-
+                          Network context of the traffic source.
+                          Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+                        type: string
+                      srcNetworks:
+                        description: Networks of the traffic source. It can be either
+                          a full or partial url.
+                        items:
+                          type: string
+                        type: array
+                      srcNetworksRefs:
+                        description: References to Network in compute to populate
+                          srcNetworks.
+                        items:
+                          description: A NamespacedReference to a named object.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            namespace:
+                              description: Namespace of the referenced object
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      srcNetworksSelector:
+                        description: Selector for a list of Network in compute to
+                          populate srcNetworks.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
                       srcRegionCodes:
                         description: Region codes whose IP addresses will be used
                           to match for source of traffic. Should be specified as 2
@@ -811,6 +912,11 @@ spec:
                         items:
                           type: string
                         type: array
+                      destNetworkContext:
+                        description: |-
+                          Network context of the traffic destination.
+                          Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+                        type: string
                       destRegionCodes:
                         description: Region codes whose IP addresses will be used
                           to match for destination of traffic. Should be specified
@@ -868,6 +974,102 @@ spec:
                         items:
                           type: string
                         type: array
+                      srcNetworkContext:
+                        description: |-
+                          Network context of the traffic source.
+                          Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+                        type: string
+                      srcNetworks:
+                        description: Networks of the traffic source. It can be either
+                          a full or partial url.
+                        items:
+                          type: string
+                        type: array
+                      srcNetworksRefs:
+                        description: References to Network in compute to populate
+                          srcNetworks.
+                        items:
+                          description: A NamespacedReference to a named object.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            namespace:
+                              description: Namespace of the referenced object
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      srcNetworksSelector:
+                        description: Selector for a list of Network in compute to
+                          populate srcNetworks.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
                       srcRegionCodes:
                         description: Region codes whose IP addresses will be used
                           to match for source of traffic. Should be specified as 2
@@ -1194,6 +1396,11 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description for this resource.
                     type: string
@@ -1250,6 +1457,11 @@ spec:
                         items:
                           type: string
                         type: array
+                      destNetworkContext:
+                        description: |-
+                          Network context of the traffic destination.
+                          Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+                        type: string
                       destRegionCodes:
                         description: Region codes whose IP addresses will be used
                           to match for destination of traffic. Should be specified
@@ -1304,6 +1516,17 @@ spec:
                       srcIpRanges:
                         description: CIDR IP address range. Maximum number of source
                           CIDR IP ranges allowed is 5000.
+                        items:
+                          type: string
+                        type: array
+                      srcNetworkContext:
+                        description: |-
+                          Network context of the traffic source.
+                          Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+                        type: string
+                      srcNetworks:
+                        description: Networks of the traffic source. It can be either
+                          a full or partial url.
                         items:
                           type: string
                         type: array

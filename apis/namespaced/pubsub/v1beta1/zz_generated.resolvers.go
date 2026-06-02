@@ -200,6 +200,30 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		mg.Spec.ForProvider.DeadLetterPolicy.DeadLetterTopicRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.MessageTransforms); i3++ {
+		if mg.Spec.ForProvider.MessageTransforms[i3].AIInference != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef,
+					Selector:     mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail")
+			}
+			mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Topic", "TopicList")
 		if err != nil {
@@ -285,6 +309,30 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		mg.Spec.InitProvider.DeadLetterPolicy.DeadLetterTopic = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.DeadLetterPolicy.DeadLetterTopicRef = rsp.ResolvedReference
 
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.MessageTransforms); i3++ {
+		if mg.Spec.InitProvider.MessageTransforms[i3].AIInference != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef,
+					Selector:     mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail")
+			}
+			mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
 	}
 	{
 		m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Topic", "TopicList")
@@ -389,12 +437,80 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.ForProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KMSKeyNameRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.MessageTransforms); i3++ {
+		if mg.Spec.ForProvider.MessageTransforms[i3].AIInference != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef,
+					Selector:     mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail")
+			}
+			mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.SchemaSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Schema", "SchemaList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SchemaSettings.FirstRevisionID),
+				Extract:      resource.ExtractParamPath("revision_id", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.SchemaSettings.FirstRevisionIDRef,
+				Selector:     mg.Spec.ForProvider.SchemaSettings.FirstRevisionIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.SchemaSettings.FirstRevisionID")
+		}
+		mg.Spec.ForProvider.SchemaSettings.FirstRevisionID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SchemaSettings.FirstRevisionIDRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.SchemaSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Schema", "SchemaList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SchemaSettings.LastRevisionID),
+				Extract:      resource.ExtractParamPath("revision_id", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.SchemaSettings.LastRevisionIDRef,
+				Selector:     mg.Spec.ForProvider.SchemaSettings.LastRevisionIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.SchemaSettings.LastRevisionID")
+		}
+		mg.Spec.ForProvider.SchemaSettings.LastRevisionID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.SchemaSettings.LastRevisionIDRef = rsp.ResolvedReference
+
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("kms.gcp.m.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
-
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyName),
 			Extract:      resource.ExtractResourceID(),
@@ -409,6 +525,75 @@ func (mg *Topic) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.InitProvider.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.KMSKeyNameRef = rsp.ResolvedReference
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.MessageTransforms); i3++ {
+		if mg.Spec.InitProvider.MessageTransforms[i3].AIInference != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail),
+					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef,
+					Selector:     mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail")
+			}
+			mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.MessageTransforms[i3].AIInference.ServiceAccountEmailRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.SchemaSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Schema", "SchemaList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SchemaSettings.FirstRevisionID),
+				Extract:      resource.ExtractParamPath("revision_id", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.SchemaSettings.FirstRevisionIDRef,
+				Selector:     mg.Spec.InitProvider.SchemaSettings.FirstRevisionIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.SchemaSettings.FirstRevisionID")
+		}
+		mg.Spec.InitProvider.SchemaSettings.FirstRevisionID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SchemaSettings.FirstRevisionIDRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.SchemaSettings != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Schema", "SchemaList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SchemaSettings.LastRevisionID),
+				Extract:      resource.ExtractParamPath("revision_id", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.SchemaSettings.LastRevisionIDRef,
+				Selector:     mg.Spec.InitProvider.SchemaSettings.LastRevisionIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.SchemaSettings.LastRevisionID")
+		}
+		mg.Spec.InitProvider.SchemaSettings.LastRevisionID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.SchemaSettings.LastRevisionIDRef = rsp.ResolvedReference
+
+	}
 
 	return nil
 }

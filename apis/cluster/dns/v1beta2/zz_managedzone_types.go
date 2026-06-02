@@ -312,6 +312,10 @@ type ManagedZoneObservation struct {
 	// Structure is documented below.
 	DNSSECConfig *DNSSECConfigObservation `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -542,14 +546,21 @@ type TargetNameServersInitParameters struct {
 	// Fully qualified domain name for the forwarding target.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
-	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Forwarding path for this TargetNameServer. If unset or default
+	// Cloud DNS will make forwarding decision based on address ranges,
+	// i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always
+	// send queries through VPC for this target.
 	// Possible values are: default, private.
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+
+	// IPv6 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type TargetNameServersObservation struct {
@@ -557,14 +568,21 @@ type TargetNameServersObservation struct {
 	// Fully qualified domain name for the forwarding target.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
-	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Forwarding path for this TargetNameServer. If unset or default
+	// Cloud DNS will make forwarding decision based on address ranges,
+	// i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always
+	// send queries through VPC for this target.
 	// Possible values are: default, private.
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+
+	// IPv6 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type TargetNameServersParameters struct {
@@ -573,16 +591,24 @@ type TargetNameServersParameters struct {
 	// +kubebuilder:validation:Optional
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
-	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Forwarding path for this TargetNameServer. If unset or default
+	// Cloud DNS will make forwarding decision based on address ranges,
+	// i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always
+	// send queries through VPC for this target.
 	// Possible values are: default, private.
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
 	// +kubebuilder:validation:Optional
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+
+	// IPv6 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type TargetNetworkInitParameters struct {

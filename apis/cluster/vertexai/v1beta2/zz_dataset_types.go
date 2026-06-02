@@ -42,6 +42,10 @@ type DatasetObservation struct {
 	// The timestamp of when the dataset was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The user-defined name of the Dataset. The name can be up to 128 characters long and can be consist of any UTF-8 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

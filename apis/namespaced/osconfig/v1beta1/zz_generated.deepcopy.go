@@ -2799,6 +2799,11 @@ func (in *OsPolicyAssignmentObservation) DeepCopyInto(out *OsPolicyAssignmentObs
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -3189,6 +3194,11 @@ func (in *PatchConfigInitParameters) DeepCopyInto(out *PatchConfigInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.SkipUnpatchableVms != nil {
+		in, out := &in.SkipUnpatchableVms, &out.SkipUnpatchableVms
+		*out = new(bool)
+		**out = **in
+	}
 	if in.WindowsUpdate != nil {
 		in, out := &in.WindowsUpdate, &out.WindowsUpdate
 		*out = new(WindowsUpdateInitParameters)
@@ -3249,6 +3259,11 @@ func (in *PatchConfigObservation) DeepCopyInto(out *PatchConfigObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SkipUnpatchableVms != nil {
+		in, out := &in.SkipUnpatchableVms, &out.SkipUnpatchableVms
+		*out = new(bool)
+		**out = **in
+	}
 	if in.WindowsUpdate != nil {
 		in, out := &in.WindowsUpdate, &out.WindowsUpdate
 		*out = new(WindowsUpdateObservation)
@@ -3307,6 +3322,11 @@ func (in *PatchConfigParameters) DeepCopyInto(out *PatchConfigParameters) {
 	if in.RebootConfig != nil {
 		in, out := &in.RebootConfig, &out.RebootConfig
 		*out = new(string)
+		**out = **in
+	}
+	if in.SkipUnpatchableVms != nil {
+		in, out := &in.SkipUnpatchableVms, &out.SkipUnpatchableVms
+		*out = new(bool)
 		**out = **in
 	}
 	if in.WindowsUpdate != nil {
@@ -4007,6 +4027,11 @@ func (in *PatchDeploymentObservation) DeepCopyInto(out *PatchDeploymentObservati
 	*out = *in
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

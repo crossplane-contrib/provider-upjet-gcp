@@ -363,6 +363,10 @@ type AlertPolicyObservation struct {
 	// Structure is documented below.
 	CreationRecord []CreationRecordObservation `json:"creationRecord,omitempty" tf:"creation_record,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A short name or phrase used to identify the policy in
 	// dashboards, notifications, and incidents. To avoid confusion, don't use
 	// the same display name for multiple policies in the same project. The
@@ -1611,14 +1615,19 @@ type ConditionThresholdInitParameters struct {
 	// Structure is documented below.
 	Aggregations []ConditionThresholdAggregationsInitParameters `json:"aggregations,omitempty" tf:"aggregations,omitempty"`
 
-	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
-	// on each time series, with the time series on
-	// the left-hand side and the threshold on the
-	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently.
+	// The comparison to apply between the time series
+	// (indicated by filter and aggregation) and the
+	// threshold (indicated by threshold_value). The
+	// comparison is applied on each time series, with
+	// the time series on the left-hand side and the
+	// threshold on the right-hand side.
+	// The Cloud Monitoring API only supports
+	// COMPARISON_LT and COMPARISON_GT for SQL
+	// row-count thresholds; the other values are kept
+	// in the schema for backward compatibility with
+	// imported state but will be rejected by the API.
+	// See
+	// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies#MetricThreshold.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
 
@@ -1738,14 +1747,19 @@ type ConditionThresholdObservation struct {
 	// Structure is documented below.
 	Aggregations []ConditionThresholdAggregationsObservation `json:"aggregations,omitempty" tf:"aggregations,omitempty"`
 
-	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
-	// on each time series, with the time series on
-	// the left-hand side and the threshold on the
-	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently.
+	// The comparison to apply between the time series
+	// (indicated by filter and aggregation) and the
+	// threshold (indicated by threshold_value). The
+	// comparison is applied on each time series, with
+	// the time series on the left-hand side and the
+	// threshold on the right-hand side.
+	// The Cloud Monitoring API only supports
+	// COMPARISON_LT and COMPARISON_GT for SQL
+	// row-count thresholds; the other values are kept
+	// in the schema for backward compatibility with
+	// imported state but will be rejected by the API.
+	// See
+	// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies#MetricThreshold.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
 
@@ -1866,14 +1880,19 @@ type ConditionThresholdParameters struct {
 	// +kubebuilder:validation:Optional
 	Aggregations []ConditionThresholdAggregationsParameters `json:"aggregations,omitempty" tf:"aggregations,omitempty"`
 
-	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
-	// on each time series, with the time series on
-	// the left-hand side and the threshold on the
-	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently.
+	// The comparison to apply between the time series
+	// (indicated by filter and aggregation) and the
+	// threshold (indicated by threshold_value). The
+	// comparison is applied on each time series, with
+	// the time series on the left-hand side and the
+	// threshold on the right-hand side.
+	// The Cloud Monitoring API only supports
+	// COMPARISON_LT and COMPARISON_GT for SQL
+	// row-count thresholds; the other values are kept
+	// in the schema for backward compatibility with
+	// imported state but will be rejected by the API.
+	// See
+	// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies#MetricThreshold.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	// +kubebuilder:validation:Optional
 	Comparison *string `json:"comparison" tf:"comparison,omitempty"`
@@ -2815,14 +2834,19 @@ type NotificationRateLimitParameters struct {
 
 type RowCountTestInitParameters struct {
 
-	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
-	// on each time series, with the time series on
-	// the left-hand side and the threshold on the
-	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently.
+	// The comparison to apply between the time series
+	// (indicated by filter and aggregation) and the
+	// threshold (indicated by threshold_value). The
+	// comparison is applied on each time series, with
+	// the time series on the left-hand side and the
+	// threshold on the right-hand side.
+	// The Cloud Monitoring API only supports
+	// COMPARISON_LT and COMPARISON_GT for SQL
+	// row-count thresholds; the other values are kept
+	// in the schema for backward compatibility with
+	// imported state but will be rejected by the API.
+	// See
+	// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies#MetricThreshold.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
 
@@ -2832,14 +2856,19 @@ type RowCountTestInitParameters struct {
 
 type RowCountTestObservation struct {
 
-	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
-	// on each time series, with the time series on
-	// the left-hand side and the threshold on the
-	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently.
+	// The comparison to apply between the time series
+	// (indicated by filter and aggregation) and the
+	// threshold (indicated by threshold_value). The
+	// comparison is applied on each time series, with
+	// the time series on the left-hand side and the
+	// threshold on the right-hand side.
+	// The Cloud Monitoring API only supports
+	// COMPARISON_LT and COMPARISON_GT for SQL
+	// row-count thresholds; the other values are kept
+	// in the schema for backward compatibility with
+	// imported state but will be rejected by the API.
+	// See
+	// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies#MetricThreshold.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	Comparison *string `json:"comparison,omitempty" tf:"comparison,omitempty"`
 
@@ -2849,14 +2878,19 @@ type RowCountTestObservation struct {
 
 type RowCountTestParameters struct {
 
-	// The comparison to apply between the time
-	// series (indicated by filter and aggregation)
-	// and the threshold (indicated by
-	// threshold_value). The comparison is applied
-	// on each time series, with the time series on
-	// the left-hand side and the threshold on the
-	// right-hand side. Only COMPARISON_LT and
-	// COMPARISON_GT are supported currently.
+	// The comparison to apply between the time series
+	// (indicated by filter and aggregation) and the
+	// threshold (indicated by threshold_value). The
+	// comparison is applied on each time series, with
+	// the time series on the left-hand side and the
+	// threshold on the right-hand side.
+	// The Cloud Monitoring API only supports
+	// COMPARISON_LT and COMPARISON_GT for SQL
+	// row-count thresholds; the other values are kept
+	// in the schema for backward compatibility with
+	// imported state but will be rejected by the API.
+	// See
+	// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies#MetricThreshold.
 	// Possible values are: COMPARISON_GT, COMPARISON_GE, COMPARISON_LT, COMPARISON_LE, COMPARISON_EQ, COMPARISON_NE.
 	// +kubebuilder:validation:Optional
 	Comparison *string `json:"comparison" tf:"comparison,omitempty"`

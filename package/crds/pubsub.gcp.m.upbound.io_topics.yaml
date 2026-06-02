@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: topics.pubsub.gcp.m.upbound.io
 spec:
   group: pubsub.gcp.m.upbound.io
@@ -379,6 +379,123 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        aiInference:
+                          description: |-
+                            AI Inference. Specifies the Vertex AI endpoint that inference
+                            requests built from the Pub/Sub message data and provided parameters will
+                            be sent to.
+                            Structure is documented below.
+                          properties:
+                            endpoint:
+                              description: |-
+                                The endpoint to a Vertex AI model of the form
+                                projects/{project}/locations/{location}/endpoints/{endpoint} or
+                                projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+                                Vertex AI API requests will be sent to this endpoint.
+                              type: string
+                            serviceAccountEmail:
+                              description: |-
+                                The service account to use to make prediction requests against
+                                endpoints.
+                              type: string
+                            serviceAccountEmailRef:
+                              description: Reference to a ServiceAccount in cloudplatform
+                                to populate serviceAccountEmail.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                namespace:
+                                  description: Namespace of the referenced object
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            serviceAccountEmailSelector:
+                              description: Selector for a ServiceAccount in cloudplatform
+                                to populate serviceAccountEmail.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                namespace:
+                                  description: Namespace for the selector
+                                  type: string
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                            unstructuredInference:
+                              description: |-
+                                Configuration for making inferences using arbitrary JSON payloads.
+                                Structure is documented below.
+                              properties:
+                                parameters:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    A parameters object to be included in each inference request.
+                                    The parameters object is combined with the data field of the Pub/Sub
+                                    message to form the inference request.
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                              type: object
+                          type: object
                         disabled:
                           description: |-
                             Controls whether or not to use this transform. If not set or false,
@@ -418,6 +535,178 @@ spec:
                           Default value is ENCODING_UNSPECIFIED.
                           Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
                         type: string
+                      firstRevisionId:
+                        description: The minimum (inclusive) revision allowed for
+                          validating messages. If empty or not present, allow any
+                          revision to be validated against last_revision or any revision
+                          created before.
+                        type: string
+                      firstRevisionIdRef:
+                        description: Reference to a Schema in pubsub to populate firstRevisionId.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      firstRevisionIdSelector:
+                        description: Selector for a Schema in pubsub to populate firstRevisionId.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      lastRevisionId:
+                        description: The maximum (inclusive) revision allowed for
+                          validating messages. If empty or not present, allow any
+                          revision to be validated against first_revision or any revision
+                          created after.
+                        type: string
+                      lastRevisionIdRef:
+                        description: Reference to a Schema in pubsub to populate lastRevisionId.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      lastRevisionIdSelector:
+                        description: Selector for a Schema in pubsub to populate lastRevisionId.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
                       schema:
                         description: |-
                           The name of the schema that messages published should be
@@ -426,6 +715,20 @@ spec:
                           if the schema has been deleted.
                         type: string
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Input only. Resource manager tags to be bound to the topic. Tag keys and
+                      values have the same definition as resource manager tags. Keys must be in
+                      the format tagKeys/{tag_key_id}, and values are in the format
+                      tagValues/456. The field is ignored when empty. The field is immutable and
+                      causes resource replacement when mutated. This field is only set at create
+                      time and modifying this field after creation will trigger recreation. To
+                      apply tags to an existing resource, see the google_tags_tag_value
+                      resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: |-
@@ -760,6 +1063,123 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        aiInference:
+                          description: |-
+                            AI Inference. Specifies the Vertex AI endpoint that inference
+                            requests built from the Pub/Sub message data and provided parameters will
+                            be sent to.
+                            Structure is documented below.
+                          properties:
+                            endpoint:
+                              description: |-
+                                The endpoint to a Vertex AI model of the form
+                                projects/{project}/locations/{location}/endpoints/{endpoint} or
+                                projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+                                Vertex AI API requests will be sent to this endpoint.
+                              type: string
+                            serviceAccountEmail:
+                              description: |-
+                                The service account to use to make prediction requests against
+                                endpoints.
+                              type: string
+                            serviceAccountEmailRef:
+                              description: Reference to a ServiceAccount in cloudplatform
+                                to populate serviceAccountEmail.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                namespace:
+                                  description: Namespace of the referenced object
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            serviceAccountEmailSelector:
+                              description: Selector for a ServiceAccount in cloudplatform
+                                to populate serviceAccountEmail.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                namespace:
+                                  description: Namespace for the selector
+                                  type: string
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                            unstructuredInference:
+                              description: |-
+                                Configuration for making inferences using arbitrary JSON payloads.
+                                Structure is documented below.
+                              properties:
+                                parameters:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    A parameters object to be included in each inference request.
+                                    The parameters object is combined with the data field of the Pub/Sub
+                                    message to form the inference request.
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                              type: object
+                          type: object
                         disabled:
                           description: |-
                             Controls whether or not to use this transform. If not set or false,
@@ -799,6 +1219,178 @@ spec:
                           Default value is ENCODING_UNSPECIFIED.
                           Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
                         type: string
+                      firstRevisionId:
+                        description: The minimum (inclusive) revision allowed for
+                          validating messages. If empty or not present, allow any
+                          revision to be validated against last_revision or any revision
+                          created before.
+                        type: string
+                      firstRevisionIdRef:
+                        description: Reference to a Schema in pubsub to populate firstRevisionId.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      firstRevisionIdSelector:
+                        description: Selector for a Schema in pubsub to populate firstRevisionId.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      lastRevisionId:
+                        description: The maximum (inclusive) revision allowed for
+                          validating messages. If empty or not present, allow any
+                          revision to be validated against first_revision or any revision
+                          created after.
+                        type: string
+                      lastRevisionIdRef:
+                        description: Reference to a Schema in pubsub to populate lastRevisionId.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          namespace:
+                            description: Namespace of the referenced object
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      lastRevisionIdSelector:
+                        description: Selector for a Schema in pubsub to populate lastRevisionId.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          namespace:
+                            description: Namespace for the selector
+                            type: string
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
                       schema:
                         description: |-
                           The name of the schema that messages published should be
@@ -807,6 +1399,20 @@ spec:
                           if the schema has been deleted.
                         type: string
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Input only. Resource manager tags to be bound to the topic. Tag keys and
+                      values have the same definition as resource manager tags. Keys must be in
+                      the format tagKeys/{tag_key_id}, and values are in the format
+                      tagValues/456. The field is ignored when empty. The field is immutable and
+                      causes resource replacement when mutated. This field is only set at create
+                      time and modifying this field after creation will trigger recreation. To
+                      apply tags to an existing resource, see the google_tags_tag_value
+                      resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -871,6 +1477,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
@@ -1120,6 +1731,41 @@ spec:
                       Structure is documented below.
                     items:
                       properties:
+                        aiInference:
+                          description: |-
+                            AI Inference. Specifies the Vertex AI endpoint that inference
+                            requests built from the Pub/Sub message data and provided parameters will
+                            be sent to.
+                            Structure is documented below.
+                          properties:
+                            endpoint:
+                              description: |-
+                                The endpoint to a Vertex AI model of the form
+                                projects/{project}/locations/{location}/endpoints/{endpoint} or
+                                projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+                                Vertex AI API requests will be sent to this endpoint.
+                              type: string
+                            serviceAccountEmail:
+                              description: |-
+                                The service account to use to make prediction requests against
+                                endpoints.
+                              type: string
+                            unstructuredInference:
+                              description: |-
+                                Configuration for making inferences using arbitrary JSON payloads.
+                                Structure is documented below.
+                              properties:
+                                parameters:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    A parameters object to be included in each inference request.
+                                    The parameters object is combined with the data field of the Pub/Sub
+                                    message to form the inference request.
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                              type: object
+                          type: object
                         disabled:
                           description: |-
                             Controls whether or not to use this transform. If not set or false,
@@ -1159,6 +1805,18 @@ spec:
                           Default value is ENCODING_UNSPECIFIED.
                           Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
                         type: string
+                      firstRevisionId:
+                        description: The minimum (inclusive) revision allowed for
+                          validating messages. If empty or not present, allow any
+                          revision to be validated against last_revision or any revision
+                          created before.
+                        type: string
+                      lastRevisionId:
+                        description: The maximum (inclusive) revision allowed for
+                          validating messages. If empty or not present, allow any
+                          revision to be validated against first_revision or any revision
+                          created after.
+                        type: string
                       schema:
                         description: |-
                           The name of the schema that messages published should be
@@ -1167,6 +1825,20 @@ spec:
                           if the schema has been deleted.
                         type: string
                     type: object
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Input only. Resource manager tags to be bound to the topic. Tag keys and
+                      values have the same definition as resource manager tags. Keys must be in
+                      the format tagKeys/{tag_key_id}, and values are in the format
+                      tagValues/456. The field is ignored when empty. The field is immutable and
+                      causes resource replacement when mutated. This field is only set at create
+                      time and modifying this field after creation will trigger recreation. To
+                      apply tags to an existing resource, see the google_tags_tag_value
+                      resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   terraformLabels:
                     additionalProperties:
                       type: string

@@ -47,7 +47,7 @@ type IntentInitParameters struct {
 
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
-	Parameters []IntentParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -74,6 +74,10 @@ type IntentInitParameters struct {
 }
 
 type IntentObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human readable description for better understanding an intent like its scope, content, result etc. Maximum character limit: 140 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -118,7 +122,7 @@ type IntentObservation struct {
 
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
-	Parameters []IntentParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []ParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -181,7 +185,7 @@ type IntentParameters struct {
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Parameters []IntentParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -210,7 +214,7 @@ type IntentParameters struct {
 	TrainingPhrases []TrainingPhrasesParameters `json:"trainingPhrases,omitempty" tf:"training_phrases,omitempty"`
 }
 
-type IntentParametersInitParameters struct {
+type ParametersInitParameters struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -227,7 +231,7 @@ type IntentParametersInitParameters struct {
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
-type IntentParametersObservation struct {
+type ParametersObservation struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -244,7 +248,7 @@ type IntentParametersObservation struct {
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
-type IntentParametersParameters struct {
+type ParametersParameters struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.

@@ -16,62 +16,190 @@ import (
 
 type RegionSSLPolicyInitParameters struct {
 
+	// A list of features enabled when the selected profile is CUSTOM. The
+	// method returns the set of features that can be specified in this
+	// list. This field must be empty if the profile is not CUSTOM.
+	// See the official documentation
+	// for which ciphers are available to use. Note: this argument
+	// must be present when using the CUSTOM profile. This argument
+	// must not be present when using any other profile.
 	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
+	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The minimum version of SSL protocol that can be used by the clients
+	// to establish a connection with the load balancer. When set to
+	// TLS_1_3, the profile field must be set to RESTRICTED.
+	// Default value is TLS_1_0.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
+	// One of DEFAULT, ENABLED, or DEFERRED. Controls whether the load balancer negotiates
+	// X25519MLKEM768 key exchange when clients advertise support for it.
+	// When set to DEFAULT, or if no SSL Policy is attached to
+	// the target proxy, the load balancer disallows X25519MLKEM768 key
+	// exchange before October 2026, and allows it afterward. When set to
+	// ENABLED, the load balancer allows X25519MLKEM768 key
+	// exchange. When set to DEFERRED, the load balancer
+	// disallows X25519MLKEM768 key exchange until October 2027, and allows
+	// it afterward.
+	// Possible values are: DEFAULT, ENABLED, DEFERRED.
+	PostQuantumKeyExchange *string `json:"postQuantumKeyExchange,omitempty" tf:"post_quantum_key_exchange,omitempty"`
+
+	// Profile specifies the set of SSL features that can be used by the
+	// load balancer when negotiating SSL with clients. If using CUSTOM,
+	// the set of SSL features to enable must be specified in the
+	// customFeatures field.
+	// See the official documentation
+	// for information on what cipher suites each profile provides. If
+	// CUSTOM is used, the custom_features attribute must be set.
+	// If set to FIPS_202205, minTlsVersion must also be set to
+	// TLS_1_2.
+	// Default value is COMPATIBLE.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM, FIPS_202205.
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type RegionSSLPolicyObservation struct {
+
+	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// A list of features enabled when the selected profile is CUSTOM. The
+	// method returns the set of features that can be specified in this
+	// list. This field must be empty if the profile is not CUSTOM.
+	// See the official documentation
+	// for which ciphers are available to use. Note: this argument
+	// must be present when using the CUSTOM profile. This argument
+	// must not be present when using any other profile.
 	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The list of features enabled in the SSL policy.
 	// +listType=set
 	EnabledFeatures []*string `json:"enabledFeatures,omitempty" tf:"enabled_features,omitempty"`
 
+	// Fingerprint of this resource. A hash of the contents stored in this
+	// object. This field is used in optimistic locking.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
+	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/sslPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The minimum version of SSL protocol that can be used by the clients
+	// to establish a connection with the load balancer. When set to
+	// TLS_1_3, the profile field must be set to RESTRICTED.
+	// Default value is TLS_1_0.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
+	// One of DEFAULT, ENABLED, or DEFERRED. Controls whether the load balancer negotiates
+	// X25519MLKEM768 key exchange when clients advertise support for it.
+	// When set to DEFAULT, or if no SSL Policy is attached to
+	// the target proxy, the load balancer disallows X25519MLKEM768 key
+	// exchange before October 2026, and allows it afterward. When set to
+	// ENABLED, the load balancer allows X25519MLKEM768 key
+	// exchange. When set to DEFERRED, the load balancer
+	// disallows X25519MLKEM768 key exchange until October 2027, and allows
+	// it afterward.
+	// Possible values are: DEFAULT, ENABLED, DEFERRED.
+	PostQuantumKeyExchange *string `json:"postQuantumKeyExchange,omitempty" tf:"post_quantum_key_exchange,omitempty"`
+
+	// Profile specifies the set of SSL features that can be used by the
+	// load balancer when negotiating SSL with clients. If using CUSTOM,
+	// the set of SSL features to enable must be specified in the
+	// customFeatures field.
+	// See the official documentation
+	// for information on what cipher suites each profile provides. If
+	// CUSTOM is used, the custom_features attribute must be set.
+	// If set to FIPS_202205, minTlsVersion must also be set to
+	// TLS_1_2.
+	// Default value is COMPATIBLE.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM, FIPS_202205.
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The region where the regional SSL policy resides.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 }
 
 type RegionSSLPolicyParameters struct {
 
+	// A list of features enabled when the selected profile is CUSTOM. The
+	// method returns the set of features that can be specified in this
+	// list. This field must be empty if the profile is not CUSTOM.
+	// See the official documentation
+	// for which ciphers are available to use. Note: this argument
+	// must be present when using the CUSTOM profile. This argument
+	// must not be present when using any other profile.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
+	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The minimum version of SSL protocol that can be used by the clients
+	// to establish a connection with the load balancer. When set to
+	// TLS_1_3, the profile field must be set to RESTRICTED.
+	// Default value is TLS_1_0.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	// +kubebuilder:validation:Optional
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
 
+	// One of DEFAULT, ENABLED, or DEFERRED. Controls whether the load balancer negotiates
+	// X25519MLKEM768 key exchange when clients advertise support for it.
+	// When set to DEFAULT, or if no SSL Policy is attached to
+	// the target proxy, the load balancer disallows X25519MLKEM768 key
+	// exchange before October 2026, and allows it afterward. When set to
+	// ENABLED, the load balancer allows X25519MLKEM768 key
+	// exchange. When set to DEFERRED, the load balancer
+	// disallows X25519MLKEM768 key exchange until October 2027, and allows
+	// it afterward.
+	// Possible values are: DEFAULT, ENABLED, DEFERRED.
+	// +kubebuilder:validation:Optional
+	PostQuantumKeyExchange *string `json:"postQuantumKeyExchange,omitempty" tf:"post_quantum_key_exchange,omitempty"`
+
+	// Profile specifies the set of SSL features that can be used by the
+	// load balancer when negotiating SSL with clients. If using CUSTOM,
+	// the set of SSL features to enable must be specified in the
+	// customFeatures field.
+	// See the official documentation
+	// for information on what cipher suites each profile provides. If
+	// CUSTOM is used, the custom_features attribute must be set.
+	// If set to FIPS_202205, minTlsVersion must also be set to
+	// TLS_1_2.
+	// Default value is COMPATIBLE.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM, FIPS_202205.
 	// +kubebuilder:validation:Optional
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
+	// The ID of the project in which the resource belongs.
+	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The region where the regional SSL policy resides.
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 }
@@ -103,7 +231,7 @@ type RegionSSLPolicyStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// RegionSSLPolicy is the Schema for the RegionSSLPolicys API. <no value>
+// RegionSSLPolicy is the Schema for the RegionSSLPolicys API. Represents a Regional SSL policy.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

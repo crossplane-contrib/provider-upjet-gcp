@@ -25,35 +25,8 @@ func (l *BucketAccessControlList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this BucketIAMMemberList.
-func (l *BucketIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this BucketIAMPolicyList.
 func (l *BucketIAMPolicyList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this BucketList.
-func (l *BucketList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this BucketObjectList.
-func (l *BucketObjectList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

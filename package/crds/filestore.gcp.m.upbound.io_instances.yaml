@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: instances.filestore.gcp.m.upbound.io
 spec:
   group: filestore.gcp.m.upbound.io
@@ -69,6 +69,45 @@ spec:
                   description:
                     description: A description of the instance.
                     type: string
+                  desiredReplicaState:
+                    description: The desired_replica_state field controls the state
+                      of a replica.
+                    type: string
+                  directoryServices:
+                    description: |-
+                      Directory Services configuration.
+                      Should only be set if protocol is "NFS_V4_1".
+                      Structure is documented below.
+                    properties:
+                      ldap:
+                        description: |-
+                          Configuration for LDAP servers.
+                          Structure is documented below.
+                        properties:
+                          domain:
+                            description: The LDAP domain name in the format of my-domain.com.
+                            type: string
+                          groupsOu:
+                            description: |-
+                              The groups Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                          servers:
+                            description: |-
+                              The servers names are used for specifying the LDAP servers names.
+                              The LDAP servers names can come with two formats:
+                            items:
+                              type: string
+                            type: array
+                          usersOu:
+                            description: |-
+                              The users Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                        type: object
+                    type: object
                   fileShares:
                     description: |-
                       File system shares on the instance. For this version, only a
@@ -116,6 +155,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            network:
+                              description: |-
+                                The source VPC network for ip_ranges.
+                                Required for instances using Private Service Connect, optional otherwise.
+                              type: string
                             squashMode:
                               description: |-
                                 Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
@@ -129,6 +173,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object
@@ -277,6 +327,20 @@ spec:
                             The name of the GCE VPC network to which the
                             instance is connected.
                           type: string
+                        pscConfig:
+                          description: |-
+                            Private Service Connect configuration.
+                            Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+                            Structure is documented below.
+                          properties:
+                            endpointProject:
+                              description: |-
+                                Consumer service project in which the Private Service Connect endpoint
+                                would be set up. This is optional, and only relevant in case the network
+                                is a shared VPC. If this is not specified, the endpoint would be set up
+                                in the VPC host project.
+                              type: string
+                          type: object
                         reservedIpRange:
                           description: |-
                             A /29 CIDR block that identifies the range of IP
@@ -380,6 +444,45 @@ spec:
                   description:
                     description: A description of the instance.
                     type: string
+                  desiredReplicaState:
+                    description: The desired_replica_state field controls the state
+                      of a replica.
+                    type: string
+                  directoryServices:
+                    description: |-
+                      Directory Services configuration.
+                      Should only be set if protocol is "NFS_V4_1".
+                      Structure is documented below.
+                    properties:
+                      ldap:
+                        description: |-
+                          Configuration for LDAP servers.
+                          Structure is documented below.
+                        properties:
+                          domain:
+                            description: The LDAP domain name in the format of my-domain.com.
+                            type: string
+                          groupsOu:
+                            description: |-
+                              The groups Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                          servers:
+                            description: |-
+                              The servers names are used for specifying the LDAP servers names.
+                              The LDAP servers names can come with two formats:
+                            items:
+                              type: string
+                            type: array
+                          usersOu:
+                            description: |-
+                              The users Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                        type: object
+                    type: object
                   fileShares:
                     description: |-
                       File system shares on the instance. For this version, only a
@@ -427,6 +530,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            network:
+                              description: |-
+                                The source VPC network for ip_ranges.
+                                Required for instances using Private Service Connect, optional otherwise.
+                              type: string
                             squashMode:
                               description: |-
                                 Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
@@ -440,6 +548,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object
@@ -584,6 +698,20 @@ spec:
                             The name of the GCE VPC network to which the
                             instance is connected.
                           type: string
+                        pscConfig:
+                          description: |-
+                            Private Service Connect configuration.
+                            Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+                            Structure is documented below.
+                          properties:
+                            endpointProject:
+                              description: |-
+                                Consumer service project in which the Private Service Connect endpoint
+                                would be set up. This is optional, and only relevant in case the network
+                                is a shared VPC. If this is not specified, the endpoint would be set up
+                                in the VPC host project.
+                              type: string
+                          type: object
                         reservedIpRange:
                           description: |-
                             A /29 CIDR block that identifies the range of IP
@@ -743,6 +871,11 @@ spec:
                   createTime:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Indicates whether the instance is protected against
                       deletion.
@@ -753,6 +886,45 @@ spec:
                   description:
                     description: A description of the instance.
                     type: string
+                  desiredReplicaState:
+                    description: The desired_replica_state field controls the state
+                      of a replica.
+                    type: string
+                  directoryServices:
+                    description: |-
+                      Directory Services configuration.
+                      Should only be set if protocol is "NFS_V4_1".
+                      Structure is documented below.
+                    properties:
+                      ldap:
+                        description: |-
+                          Configuration for LDAP servers.
+                          Structure is documented below.
+                        properties:
+                          domain:
+                            description: The LDAP domain name in the format of my-domain.com.
+                            type: string
+                          groupsOu:
+                            description: |-
+                              The groups Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                          servers:
+                            description: |-
+                              The servers names are used for specifying the LDAP servers names.
+                              The LDAP servers names can come with two formats:
+                            items:
+                              type: string
+                            type: array
+                          usersOu:
+                            description: |-
+                              The users Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                        type: object
+                    type: object
                   effectiveLabels:
                     additionalProperties:
                       type: string
@@ -854,6 +1026,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            network:
+                              description: |-
+                                The source VPC network for ip_ranges.
+                                Required for instances using Private Service Connect, optional otherwise.
+                              type: string
                             squashMode:
                               description: |-
                                 Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
@@ -867,6 +1044,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object
@@ -945,6 +1128,20 @@ spec:
                             The name of the GCE VPC network to which the
                             instance is connected.
                           type: string
+                        pscConfig:
+                          description: |-
+                            Private Service Connect configuration.
+                            Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+                            Structure is documented below.
+                          properties:
+                            endpointProject:
+                              description: |-
+                                Consumer service project in which the Private Service Connect endpoint
+                                would be set up. This is optional, and only relevant in case the network
+                                is a shared VPC. If this is not specified, the endpoint would be set up
+                                in the VPC host project.
+                              type: string
+                          type: object
                         reservedIpRange:
                           description: |-
                             A /29 CIDR block that identifies the range of IP

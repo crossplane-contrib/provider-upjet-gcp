@@ -59,6 +59,124 @@ type BackendCustomMetricsParameters struct {
 	Name *string `json:"name" tf:"name,omitempty"`
 }
 
+type ConnectionTrackingPolicyInitParameters struct {
+
+	// Specifies connection persistence when backends are unhealthy.
+	// If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+	// unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+	// and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+	// or the Session Affinity is configured for 5-tuple. They do not persist
+	// for UDP.
+	// If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+	// connections on the unhealthy backend are never persisted on the unhealthy
+	// backend. They are always diverted to newly selected healthy backends
+	// (unless all backends are unhealthy).
+	// If set to ALWAYS_PERSIST, existing connections always persist on
+	// unhealthy backends regardless of protocol and session affinity. It is
+	// generally not recommended to use this mode overriding the default.
+	// Default value is DEFAULT_FOR_PROTOCOL.
+	// Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+	ConnectionPersistenceOnUnhealthyBackends *string `json:"connectionPersistenceOnUnhealthyBackends,omitempty" tf:"connection_persistence_on_unhealthy_backends,omitempty"`
+
+	// Enable Strong Session Affinity for Network Load Balancing. This option is not available publicly.
+	EnableStrongAffinity *bool `json:"enableStrongAffinity,omitempty" tf:"enable_strong_affinity,omitempty"`
+
+	// Specifies how long to keep a Connection Tracking entry while there is
+	// no matching traffic (in seconds).
+	// For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+	// For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+	IdleTimeoutSec *float64 `json:"idleTimeoutSec,omitempty" tf:"idle_timeout_sec,omitempty"`
+
+	// Specifies the key used for connection tracking. There are two options:
+	// PER_CONNECTION: The Connection Tracking is performed as per the
+	// Connection Key (default Hash Method) for the specific protocol.
+	// PER_SESSION: The Connection Tracking is performed as per the
+	// configured Session Affinity. It matches the configured Session Affinity.
+	// Default value is PER_CONNECTION.
+	// Possible values are: PER_CONNECTION, PER_SESSION.
+	TrackingMode *string `json:"trackingMode,omitempty" tf:"tracking_mode,omitempty"`
+}
+
+type ConnectionTrackingPolicyObservation struct {
+
+	// Specifies connection persistence when backends are unhealthy.
+	// If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+	// unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+	// and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+	// or the Session Affinity is configured for 5-tuple. They do not persist
+	// for UDP.
+	// If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+	// connections on the unhealthy backend are never persisted on the unhealthy
+	// backend. They are always diverted to newly selected healthy backends
+	// (unless all backends are unhealthy).
+	// If set to ALWAYS_PERSIST, existing connections always persist on
+	// unhealthy backends regardless of protocol and session affinity. It is
+	// generally not recommended to use this mode overriding the default.
+	// Default value is DEFAULT_FOR_PROTOCOL.
+	// Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+	ConnectionPersistenceOnUnhealthyBackends *string `json:"connectionPersistenceOnUnhealthyBackends,omitempty" tf:"connection_persistence_on_unhealthy_backends,omitempty"`
+
+	// Enable Strong Session Affinity for Network Load Balancing. This option is not available publicly.
+	EnableStrongAffinity *bool `json:"enableStrongAffinity,omitempty" tf:"enable_strong_affinity,omitempty"`
+
+	// Specifies how long to keep a Connection Tracking entry while there is
+	// no matching traffic (in seconds).
+	// For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+	// For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+	IdleTimeoutSec *float64 `json:"idleTimeoutSec,omitempty" tf:"idle_timeout_sec,omitempty"`
+
+	// Specifies the key used for connection tracking. There are two options:
+	// PER_CONNECTION: The Connection Tracking is performed as per the
+	// Connection Key (default Hash Method) for the specific protocol.
+	// PER_SESSION: The Connection Tracking is performed as per the
+	// configured Session Affinity. It matches the configured Session Affinity.
+	// Default value is PER_CONNECTION.
+	// Possible values are: PER_CONNECTION, PER_SESSION.
+	TrackingMode *string `json:"trackingMode,omitempty" tf:"tracking_mode,omitempty"`
+}
+
+type ConnectionTrackingPolicyParameters struct {
+
+	// Specifies connection persistence when backends are unhealthy.
+	// If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+	// unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+	// and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+	// or the Session Affinity is configured for 5-tuple. They do not persist
+	// for UDP.
+	// If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+	// connections on the unhealthy backend are never persisted on the unhealthy
+	// backend. They are always diverted to newly selected healthy backends
+	// (unless all backends are unhealthy).
+	// If set to ALWAYS_PERSIST, existing connections always persist on
+	// unhealthy backends regardless of protocol and session affinity. It is
+	// generally not recommended to use this mode overriding the default.
+	// Default value is DEFAULT_FOR_PROTOCOL.
+	// Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+	// +kubebuilder:validation:Optional
+	ConnectionPersistenceOnUnhealthyBackends *string `json:"connectionPersistenceOnUnhealthyBackends,omitempty" tf:"connection_persistence_on_unhealthy_backends,omitempty"`
+
+	// Enable Strong Session Affinity for Network Load Balancing. This option is not available publicly.
+	// +kubebuilder:validation:Optional
+	EnableStrongAffinity *bool `json:"enableStrongAffinity,omitempty" tf:"enable_strong_affinity,omitempty"`
+
+	// Specifies how long to keep a Connection Tracking entry while there is
+	// no matching traffic (in seconds).
+	// For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+	// For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+	// +kubebuilder:validation:Optional
+	IdleTimeoutSec *float64 `json:"idleTimeoutSec,omitempty" tf:"idle_timeout_sec,omitempty"`
+
+	// Specifies the key used for connection tracking. There are two options:
+	// PER_CONNECTION: The Connection Tracking is performed as per the
+	// Connection Key (default Hash Method) for the specific protocol.
+	// PER_SESSION: The Connection Tracking is performed as per the
+	// configured Session Affinity. It matches the configured Session Affinity.
+	// Default value is PER_CONNECTION.
+	// Possible values are: PER_CONNECTION, PER_SESSION.
+	// +kubebuilder:validation:Optional
+	TrackingMode *string `json:"trackingMode,omitempty" tf:"tracking_mode,omitempty"`
+}
+
 type ConsistentHashHTTPCookieInitParameters struct {
 
 	// Name of the cookie.
@@ -230,6 +348,161 @@ type HTTPCookieTTLParameters struct {
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type HaPolicyInitParameters struct {
+
+	// Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+	// Supported values are:
+	FastIPMove *string `json:"fastIpMove,omitempty" tf:"fast_ip_move,omitempty"`
+
+	// Selects one of the network endpoints attached to the backend NEGs of this service as the
+	// active endpoint (the leader) that receives all traffic.
+	// Structure is documented below.
+	Leader *LeaderInitParameters `json:"leader,omitempty" tf:"leader,omitempty"`
+}
+
+type HaPolicyObservation struct {
+
+	// Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+	// Supported values are:
+	FastIPMove *string `json:"fastIpMove,omitempty" tf:"fast_ip_move,omitempty"`
+
+	// Selects one of the network endpoints attached to the backend NEGs of this service as the
+	// active endpoint (the leader) that receives all traffic.
+	// Structure is documented below.
+	Leader *LeaderObservation `json:"leader,omitempty" tf:"leader,omitempty"`
+}
+
+type HaPolicyParameters struct {
+
+	// Specifies whether fast IP move is enabled, and if so, the mechanism to achieve it.
+	// Supported values are:
+	// +kubebuilder:validation:Optional
+	FastIPMove *string `json:"fastIpMove,omitempty" tf:"fast_ip_move,omitempty"`
+
+	// Selects one of the network endpoints attached to the backend NEGs of this service as the
+	// active endpoint (the leader) that receives all traffic.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Leader *LeaderParameters `json:"leader,omitempty" tf:"leader,omitempty"`
+}
+
+type LeaderInitParameters struct {
+
+	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+	// attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.NetworkEndpointGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
+
+	// Reference to a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupRef *v1.NamespacedReference `json:"backendGroupRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupSelector *v1.NamespacedSelector `json:"backendGroupSelector,omitempty" tf:"-"`
+
+	// The network endpoint within the leader.backendGroup that is designated as the leader.
+	// Structure is documented below.
+	NetworkEndpoint *LeaderNetworkEndpointInitParameters `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
+}
+
+type LeaderNetworkEndpointInitParameters struct {
+
+	// The name of the VM instance of the leader network endpoint. The instance must
+	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+}
+
+type LeaderNetworkEndpointObservation struct {
+
+	// The name of the VM instance of the leader network endpoint. The instance must
+	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+}
+
+type LeaderNetworkEndpointParameters struct {
+
+	// The name of the VM instance of the leader network endpoint. The instance must
+	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +kubebuilder:validation:Optional
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+}
+
+type LeaderObservation struct {
+
+	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+	// attached to.
+	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
+
+	// The network endpoint within the leader.backendGroup that is designated as the leader.
+	// Structure is documented below.
+	NetworkEndpoint *LeaderNetworkEndpointObservation `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
+}
+
+type LeaderParameters struct {
+
+	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
+	// attached to.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.NetworkEndpointGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
+
+	// Reference to a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupRef *v1.NamespacedReference `json:"backendGroupRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkEndpointGroup in compute to populate backendGroup.
+	// +kubebuilder:validation:Optional
+	BackendGroupSelector *v1.NamespacedSelector `json:"backendGroupSelector,omitempty" tf:"-"`
+
+	// The network endpoint within the leader.backendGroup that is designated as the leader.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NetworkEndpoint *LeaderNetworkEndpointParameters `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
+}
+
+type NetworkPassThroughLBTrafficPolicyInitParameters struct {
+
+	// When configured, new connections are load balanced across healthy backend endpoints in the local zone.
+	// Structure is documented below.
+	ZonalAffinity *ZonalAffinityInitParameters `json:"zonalAffinity,omitempty" tf:"zonal_affinity,omitempty"`
+}
+
+type NetworkPassThroughLBTrafficPolicyObservation struct {
+
+	// When configured, new connections are load balanced across healthy backend endpoints in the local zone.
+	// Structure is documented below.
+	ZonalAffinity *ZonalAffinityObservation `json:"zonalAffinity,omitempty" tf:"zonal_affinity,omitempty"`
+}
+
+type NetworkPassThroughLBTrafficPolicyParameters struct {
+
+	// When configured, new connections are load balanced across healthy backend endpoints in the local zone.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ZonalAffinity *ZonalAffinityParameters `json:"zonalAffinity,omitempty" tf:"zonal_affinity,omitempty"`
 }
 
 type OutlierDetectionBaseEjectionTimeInitParameters struct {
@@ -1203,6 +1476,12 @@ type RegionBackendServiceInitParameters struct {
 	// connections, but still work to finish started).
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
+	// Connection Tracking configuration for this BackendService.
+	// This is available only for Layer 4 Internal Load Balancing and
+	// Network Load Balancing.
+	// Structure is documented below.
+	ConnectionTrackingPolicy *ConnectionTrackingPolicyInitParameters `json:"connectionTrackingPolicy,omitempty" tf:"connection_tracking_policy,omitempty"`
+
 	// Consistent Hash-based load balancing can be used to provide soft session
 	// affinity based on HTTP headers, cookies or other properties. This load balancing
 	// policy is applicable only for HTTP connections. The affinity to a particular
@@ -1225,6 +1504,17 @@ type RegionBackendServiceInitParameters struct {
 	// Policy for failovers.
 	// Structure is documented below.
 	FailoverPolicy *FailoverPolicyInitParameters `json:"failoverPolicy,omitempty" tf:"failover_policy,omitempty"`
+
+	// Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+	// The backends of this regional backend service must only specify zonal network endpoint groups
+	// (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+	// be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+	// requires customers to be responsible for tracking backend endpoint health and electing a
+	// leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+	// haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+	// Passthrough Network Load Balancers.
+	// Structure is documented below.
+	HaPolicy *HaPolicyInitParameters `json:"haPolicy,omitempty" tf:"ha_policy,omitempty"`
 
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
@@ -1266,14 +1556,34 @@ type RegionBackendServiceInitParameters struct {
 	LogConfig *RegionBackendServiceLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// The URL of the network to which this backend service belongs.
-	// This field can only be specified when the load balancing scheme is set to INTERNAL.
+	// This field must be set for Internal Passthrough Network Load Balancers when the haPolicy is enabled, and for External Passthrough Network Load Balancers when the haPolicy fastIpMove is enabled.
+	// This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
+	// Changes to this field force recreation of the resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Configures traffic steering properties of internal passthrough Network Load Balancers.
+	// Structure is documented below.
+	NetworkPassThroughLBTrafficPolicy *NetworkPassThroughLBTrafficPolicyInitParameters `json:"networkPassThroughLbTrafficPolicy,omitempty" tf:"network_pass_through_lb_traffic_policy,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, HTTP2 or H2C.
 	// Structure is documented below.
 	OutlierDetection *RegionBackendServiceOutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *RegionBackendServiceParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// A named port on a backend instance group representing the port for
 	// communication to the backend VMs in that group. Required when the
@@ -1291,6 +1601,9 @@ type RegionBackendServiceInitParameters struct {
 	// is set to HTTP, HTTPS, HTTP2 or H2C
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
+	// The security policy associated with this backend service.
+	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION, STRONG_COOKIE_AFFINITY.
@@ -1299,6 +1612,10 @@ type RegionBackendServiceInitParameters struct {
 	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
 	// Structure is documented below.
 	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieInitParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
+	// Structure is documented below.
+	TLSSettings *RegionBackendServiceTLSSettingsInitParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1398,6 +1715,12 @@ type RegionBackendServiceObservation struct {
 	// connections, but still work to finish started).
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
+	// Connection Tracking configuration for this BackendService.
+	// This is available only for Layer 4 Internal Load Balancing and
+	// Network Load Balancing.
+	// Structure is documented below.
+	ConnectionTrackingPolicy *ConnectionTrackingPolicyObservation `json:"connectionTrackingPolicy,omitempty" tf:"connection_tracking_policy,omitempty"`
+
 	// Consistent Hash-based load balancing can be used to provide soft session
 	// affinity based on HTTP headers, cookies or other properties. This load balancing
 	// policy is applicable only for HTTP connections. The affinity to a particular
@@ -1413,6 +1736,10 @@ type RegionBackendServiceObservation struct {
 	// List of custom metrics that are used for the WEIGHTED_ROUND_ROBIN locality_lb_policy.
 	// Structure is documented below.
 	CustomMetrics []RegionBackendServiceCustomMetricsObservation `json:"customMetrics,omitempty" tf:"custom_metrics,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1430,6 +1757,17 @@ type RegionBackendServiceObservation struct {
 
 	// The unique identifier for the resource. This identifier is defined by the server.
 	GeneratedID *float64 `json:"generatedId,omitempty" tf:"generated_id,omitempty"`
+
+	// Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+	// The backends of this regional backend service must only specify zonal network endpoint groups
+	// (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+	// be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+	// requires customers to be responsible for tracking backend endpoint health and electing a
+	// leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+	// haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+	// Passthrough Network Load Balancers.
+	// Structure is documented below.
+	HaPolicy *HaPolicyObservation `json:"haPolicy,omitempty" tf:"ha_policy,omitempty"`
 
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
@@ -1464,14 +1802,24 @@ type RegionBackendServiceObservation struct {
 	LogConfig *RegionBackendServiceLogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// The URL of the network to which this backend service belongs.
-	// This field can only be specified when the load balancing scheme is set to INTERNAL.
+	// This field must be set for Internal Passthrough Network Load Balancers when the haPolicy is enabled, and for External Passthrough Network Load Balancers when the haPolicy fastIpMove is enabled.
+	// This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
+	// Changes to this field force recreation of the resource.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Configures traffic steering properties of internal passthrough Network Load Balancers.
+	// Structure is documented below.
+	NetworkPassThroughLBTrafficPolicy *NetworkPassThroughLBTrafficPolicyObservation `json:"networkPassThroughLbTrafficPolicy,omitempty" tf:"network_pass_through_lb_traffic_policy,omitempty"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
 	// to INTERNAL_MANAGED and the protocol is set to HTTP, HTTPS, HTTP2 or H2C.
 	// Structure is documented below.
 	OutlierDetection *RegionBackendServiceOutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *RegionBackendServiceParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// A named port on a backend instance group representing the port for
 	// communication to the backend VMs in that group. Required when the
@@ -1493,6 +1841,9 @@ type RegionBackendServiceObservation struct {
 	// If it is not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// The security policy associated with this backend service.
+	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -1504,6 +1855,10 @@ type RegionBackendServiceObservation struct {
 	// Describes the HTTP cookie used for stateful session affinity. This field is applicable and required if the sessionAffinity is set to STRONG_COOKIE_AFFINITY.
 	// Structure is documented below.
 	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieObservation `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
+
+	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
+	// Structure is documented below.
+	TLSSettings *RegionBackendServiceTLSSettingsObservation `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
 
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
@@ -1747,6 +2102,13 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionDrainingTimeoutSec *float64 `json:"connectionDrainingTimeoutSec,omitempty" tf:"connection_draining_timeout_sec,omitempty"`
 
+	// Connection Tracking configuration for this BackendService.
+	// This is available only for Layer 4 Internal Load Balancing and
+	// Network Load Balancing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConnectionTrackingPolicy *ConnectionTrackingPolicyParameters `json:"connectionTrackingPolicy,omitempty" tf:"connection_tracking_policy,omitempty"`
+
 	// Consistent Hash-based load balancing can be used to provide soft session
 	// affinity based on HTTP headers, cookies or other properties. This load balancing
 	// policy is applicable only for HTTP connections. The affinity to a particular
@@ -1774,6 +2136,18 @@ type RegionBackendServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	FailoverPolicy *FailoverPolicyParameters `json:"failoverPolicy,omitempty" tf:"failover_policy,omitempty"`
+
+	// Configures self-managed High Availability (HA) for External and Internal Protocol Forwarding.
+	// The backends of this regional backend service must only specify zonal network endpoint groups
+	// (NEGs) of type GCE_VM_IP. Note that haPolicy is not for load balancing, and therefore cannot
+	// be specified with sessionAffinity, connectionTrackingPolicy, and failoverPolicy. haPolicy
+	// requires customers to be responsible for tracking backend endpoint health and electing a
+	// leader among the healthy endpoints. Therefore, haPolicy cannot be specified with healthChecks.
+	// haPolicy can only be specified for External Passthrough Network Load Balancers and Internal
+	// Passthrough Network Load Balancers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HaPolicy *HaPolicyParameters `json:"haPolicy,omitempty" tf:"ha_policy,omitempty"`
 
 	// The set of URLs to HealthCheck resources for health checking
 	// this RegionBackendService. Currently at most one health
@@ -1821,9 +2195,26 @@ type RegionBackendServiceParameters struct {
 	LogConfig *RegionBackendServiceLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// The URL of the network to which this backend service belongs.
-	// This field can only be specified when the load balancing scheme is set to INTERNAL.
+	// This field must be set for Internal Passthrough Network Load Balancers when the haPolicy is enabled, and for External Passthrough Network Load Balancers when the haPolicy fastIpMove is enabled.
+	// This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
+	// Changes to this field force recreation of the resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Configures traffic steering properties of internal passthrough Network Load Balancers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NetworkPassThroughLBTrafficPolicy *NetworkPassThroughLBTrafficPolicyParameters `json:"networkPassThroughLbTrafficPolicy,omitempty" tf:"network_pass_through_lb_traffic_policy,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
@@ -1831,6 +2222,11 @@ type RegionBackendServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection *RegionBackendServiceOutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *RegionBackendServiceParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// A named port on a backend instance group representing the port for
 	// communication to the backend VMs in that group. Required when the
@@ -1856,6 +2252,10 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Required
 	Region *string `json:"region" tf:"region,omitempty"`
 
+	// The security policy associated with this backend service.
+	// +kubebuilder:validation:Optional
+	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
 	// Possible values are: NONE, CLIENT_IP, CLIENT_IP_PORT_PROTO, CLIENT_IP_PROTO, GENERATED_COOKIE, HEADER_FIELD, HTTP_COOKIE, CLIENT_IP_NO_DESTINATION, STRONG_COOKIE_AFFINITY.
@@ -1867,12 +2267,45 @@ type RegionBackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	StrongSessionAffinityCookie *RegionBackendServiceStrongSessionAffinityCookieParameters `json:"strongSessionAffinityCookie,omitempty" tf:"strong_session_affinity_cookie,omitempty"`
 
+	// Configuration for Backend Authenticated TLS and mTLS. May only be specified when the backend protocol is SSL, HTTPS or HTTP2.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TLSSettings *RegionBackendServiceTLSSettingsParameters `json:"tlsSettings,omitempty" tf:"tls_settings,omitempty"`
+
 	// The backend service timeout has a different meaning depending on the type of load balancer.
 	// For more information see, Backend service settings.
 	// The default is 30 seconds.
 	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+}
+
+type RegionBackendServiceParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the region backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type RegionBackendServiceParamsObservation struct {
+
+	// Resource manager tags to be bound to the region backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type RegionBackendServiceParamsParameters struct {
+
+	// Resource manager tags to be bound to the region backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type RegionBackendServiceStrongSessionAffinityCookieInitParameters struct {
@@ -1956,6 +2389,151 @@ type RegionBackendServiceStrongSessionAffinityCookieTTLParameters struct {
 	// Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RegionBackendServiceTLSSettingsInitParameters struct {
+
+	// Reference to the BackendAuthenticationConfig resource from the networksecurity.googleapis.com namespace.
+	// Can be used in authenticating TLS connections to the backend, as specified by the authenticationMode field.
+	// Can only be specified if authenticationMode is not NONE.
+	AuthenticationConfig *string `json:"authenticationConfig,omitempty" tf:"authentication_config,omitempty"`
+
+	// Server Name Indication - see RFC3546 section 3.1. If set, the load balancer sends this string as the SNI hostname in the
+	// TLS connection to the backend, and requires that this string match a Subject Alternative Name (SAN) in the backend's
+	// server certificate. With a Regional Internet NEG backend, if the SNI is specified here, the load balancer uses it
+	// regardless of whether the Regional Internet NEG is specified with FQDN or IP address and port.
+	Sni *string `json:"sni,omitempty" tf:"sni,omitempty"`
+
+	// A list of Subject Alternative Names (SANs) that the Load Balancer verifies during a TLS handshake with the backend.
+	// When the server presents its X.509 certificate to the Load Balancer, the Load Balancer inspects the certificate's SAN field,
+	// and requires that at least one SAN match one of the subjectAltNames in the list. This field is limited to 5 entries.
+	// When both sni and subjectAltNames are specified, the load balancer matches the backend certificate's SAN only to
+	// subjectAltNames.
+	// Structure is documented below.
+	SubjectAltNames []TLSSettingsSubjectAltNamesInitParameters `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type RegionBackendServiceTLSSettingsObservation struct {
+
+	// Reference to the BackendAuthenticationConfig resource from the networksecurity.googleapis.com namespace.
+	// Can be used in authenticating TLS connections to the backend, as specified by the authenticationMode field.
+	// Can only be specified if authenticationMode is not NONE.
+	AuthenticationConfig *string `json:"authenticationConfig,omitempty" tf:"authentication_config,omitempty"`
+
+	// Server Name Indication - see RFC3546 section 3.1. If set, the load balancer sends this string as the SNI hostname in the
+	// TLS connection to the backend, and requires that this string match a Subject Alternative Name (SAN) in the backend's
+	// server certificate. With a Regional Internet NEG backend, if the SNI is specified here, the load balancer uses it
+	// regardless of whether the Regional Internet NEG is specified with FQDN or IP address and port.
+	Sni *string `json:"sni,omitempty" tf:"sni,omitempty"`
+
+	// A list of Subject Alternative Names (SANs) that the Load Balancer verifies during a TLS handshake with the backend.
+	// When the server presents its X.509 certificate to the Load Balancer, the Load Balancer inspects the certificate's SAN field,
+	// and requires that at least one SAN match one of the subjectAltNames in the list. This field is limited to 5 entries.
+	// When both sni and subjectAltNames are specified, the load balancer matches the backend certificate's SAN only to
+	// subjectAltNames.
+	// Structure is documented below.
+	SubjectAltNames []TLSSettingsSubjectAltNamesObservation `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type RegionBackendServiceTLSSettingsParameters struct {
+
+	// Reference to the BackendAuthenticationConfig resource from the networksecurity.googleapis.com namespace.
+	// Can be used in authenticating TLS connections to the backend, as specified by the authenticationMode field.
+	// Can only be specified if authenticationMode is not NONE.
+	// +kubebuilder:validation:Optional
+	AuthenticationConfig *string `json:"authenticationConfig,omitempty" tf:"authentication_config,omitempty"`
+
+	// Server Name Indication - see RFC3546 section 3.1. If set, the load balancer sends this string as the SNI hostname in the
+	// TLS connection to the backend, and requires that this string match a Subject Alternative Name (SAN) in the backend's
+	// server certificate. With a Regional Internet NEG backend, if the SNI is specified here, the load balancer uses it
+	// regardless of whether the Regional Internet NEG is specified with FQDN or IP address and port.
+	// +kubebuilder:validation:Optional
+	Sni *string `json:"sni,omitempty" tf:"sni,omitempty"`
+
+	// A list of Subject Alternative Names (SANs) that the Load Balancer verifies during a TLS handshake with the backend.
+	// When the server presents its X.509 certificate to the Load Balancer, the Load Balancer inspects the certificate's SAN field,
+	// and requires that at least one SAN match one of the subjectAltNames in the list. This field is limited to 5 entries.
+	// When both sni and subjectAltNames are specified, the load balancer matches the backend certificate's SAN only to
+	// subjectAltNames.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SubjectAltNames []TLSSettingsSubjectAltNamesParameters `json:"subjectAltNames,omitempty" tf:"subject_alt_names,omitempty"`
+}
+
+type TLSSettingsSubjectAltNamesInitParameters struct {
+
+	// The SAN specified as a DNS Name.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The SAN specified as a URI.
+	UniformResourceIdentifier *string `json:"uniformResourceIdentifier,omitempty" tf:"uniform_resource_identifier,omitempty"`
+}
+
+type TLSSettingsSubjectAltNamesObservation struct {
+
+	// The SAN specified as a DNS Name.
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The SAN specified as a URI.
+	UniformResourceIdentifier *string `json:"uniformResourceIdentifier,omitempty" tf:"uniform_resource_identifier,omitempty"`
+}
+
+type TLSSettingsSubjectAltNamesParameters struct {
+
+	// The SAN specified as a DNS Name.
+	// +kubebuilder:validation:Optional
+	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// The SAN specified as a URI.
+	// +kubebuilder:validation:Optional
+	UniformResourceIdentifier *string `json:"uniformResourceIdentifier,omitempty" tf:"uniform_resource_identifier,omitempty"`
+}
+
+type ZonalAffinityInitParameters struct {
+
+	// This field indicates whether zonal affinity is enabled or not.
+	// Default value is ZONAL_AFFINITY_DISABLED.
+	// Possible values are: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_SPILL_CROSS_ZONE, ZONAL_AFFINITY_STAY_WITHIN_ZONE.
+	Spillover *string `json:"spillover,omitempty" tf:"spillover,omitempty"`
+
+	// The value of the field must be in [0, 1]. When the ratio of the count of healthy backend endpoints in a zone
+	// to the count of backend endpoints in that same zone is equal to or above this threshold, the load balancer
+	// distributes new connections to all healthy endpoints in the local zone only. When the ratio of the count
+	// of healthy backend endpoints in a zone to the count of backend endpoints in that same zone is below this
+	// threshold, the load balancer distributes all new connections to all healthy endpoints across all zones.
+	SpilloverRatio *float64 `json:"spilloverRatio,omitempty" tf:"spillover_ratio,omitempty"`
+}
+
+type ZonalAffinityObservation struct {
+
+	// This field indicates whether zonal affinity is enabled or not.
+	// Default value is ZONAL_AFFINITY_DISABLED.
+	// Possible values are: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_SPILL_CROSS_ZONE, ZONAL_AFFINITY_STAY_WITHIN_ZONE.
+	Spillover *string `json:"spillover,omitempty" tf:"spillover,omitempty"`
+
+	// The value of the field must be in [0, 1]. When the ratio of the count of healthy backend endpoints in a zone
+	// to the count of backend endpoints in that same zone is equal to or above this threshold, the load balancer
+	// distributes new connections to all healthy endpoints in the local zone only. When the ratio of the count
+	// of healthy backend endpoints in a zone to the count of backend endpoints in that same zone is below this
+	// threshold, the load balancer distributes all new connections to all healthy endpoints across all zones.
+	SpilloverRatio *float64 `json:"spilloverRatio,omitempty" tf:"spillover_ratio,omitempty"`
+}
+
+type ZonalAffinityParameters struct {
+
+	// This field indicates whether zonal affinity is enabled or not.
+	// Default value is ZONAL_AFFINITY_DISABLED.
+	// Possible values are: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_SPILL_CROSS_ZONE, ZONAL_AFFINITY_STAY_WITHIN_ZONE.
+	// +kubebuilder:validation:Optional
+	Spillover *string `json:"spillover,omitempty" tf:"spillover,omitempty"`
+
+	// The value of the field must be in [0, 1]. When the ratio of the count of healthy backend endpoints in a zone
+	// to the count of backend endpoints in that same zone is equal to or above this threshold, the load balancer
+	// distributes new connections to all healthy endpoints in the local zone only. When the ratio of the count
+	// of healthy backend endpoints in a zone to the count of backend endpoints in that same zone is below this
+	// threshold, the load balancer distributes all new connections to all healthy endpoints across all zones.
+	// +kubebuilder:validation:Optional
+	SpilloverRatio *float64 `json:"spilloverRatio,omitempty" tf:"spillover_ratio,omitempty"`
 }
 
 // RegionBackendServiceSpec defines the desired state of RegionBackendService

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: tables.bigtable.gcp.m.upbound.io
 spec:
   group: bigtable.gcp.m.upbound.io
@@ -61,20 +61,25 @@ spec:
                 properties:
                   automatedBackupPolicy:
                     description: Defines an automated backup policy for a table, specified
-                      by Retention Period and Frequency. To create a table with automated
-                      backup disabled, either omit the automated_backup_policy argument,
-                      or set both Retention Period and Frequency properties to "0".
-                      To disable automated backup on an existing table that has automated
-                      backup enabled, set both Retention Period and Frequency properties
-                      to "0". When updating an existing table, to modify the Retention
-                      Period or Frequency properties of the resource's automated backup
-                      policy, set the respective property to a non-zero value. If
-                      the automated_backup_policy argument is not provided in the
-                      configuration on update, the resource's automated backup policy
-                      will not be modified.
+                      by retention_period and frequency. To create a table with automated
+                      backup disabled, either omit the automated_backup_policy argument
+                      or set both retention_period and frequency to "0". To disable
+                      automated backup on an existing table that has automated backup
+                      enabled, set both retention_period and frequency to "0". When
+                      updating an existing table, change the retention_period or frequency
+                      by setting the respective property to a non-zero value. The
+                      policy also accepts an optional locations list to specify backup
+                      storage locations; if locations is omitted, the policy defaults
+                      to all clusters in the instance. If the automated_backup_policy
+                      argument is not provided on update, the resource's automated
+                      backup policy will not be modified.
                     properties:
                       frequency:
                         type: string
+                      locations:
+                        items:
+                          type: string
+                        type: array
                       retentionPeriod:
                         type: string
                     type: object
@@ -214,20 +219,25 @@ spec:
                 properties:
                   automatedBackupPolicy:
                     description: Defines an automated backup policy for a table, specified
-                      by Retention Period and Frequency. To create a table with automated
-                      backup disabled, either omit the automated_backup_policy argument,
-                      or set both Retention Period and Frequency properties to "0".
-                      To disable automated backup on an existing table that has automated
-                      backup enabled, set both Retention Period and Frequency properties
-                      to "0". When updating an existing table, to modify the Retention
-                      Period or Frequency properties of the resource's automated backup
-                      policy, set the respective property to a non-zero value. If
-                      the automated_backup_policy argument is not provided in the
-                      configuration on update, the resource's automated backup policy
-                      will not be modified.
+                      by retention_period and frequency. To create a table with automated
+                      backup disabled, either omit the automated_backup_policy argument
+                      or set both retention_period and frequency to "0". To disable
+                      automated backup on an existing table that has automated backup
+                      enabled, set both retention_period and frequency to "0". When
+                      updating an existing table, change the retention_period or frequency
+                      by setting the respective property to a non-zero value. The
+                      policy also accepts an optional locations list to specify backup
+                      storage locations; if locations is omitted, the policy defaults
+                      to all clusters in the instance. If the automated_backup_policy
+                      argument is not provided on update, the resource's automated
+                      backup policy will not be modified.
                     properties:
                       frequency:
                         type: string
+                      locations:
+                        items:
+                          type: string
+                        type: array
                       retentionPeriod:
                         type: string
                     type: object
@@ -334,20 +344,25 @@ spec:
                 properties:
                   automatedBackupPolicy:
                     description: Defines an automated backup policy for a table, specified
-                      by Retention Period and Frequency. To create a table with automated
-                      backup disabled, either omit the automated_backup_policy argument,
-                      or set both Retention Period and Frequency properties to "0".
-                      To disable automated backup on an existing table that has automated
-                      backup enabled, set both Retention Period and Frequency properties
-                      to "0". When updating an existing table, to modify the Retention
-                      Period or Frequency properties of the resource's automated backup
-                      policy, set the respective property to a non-zero value. If
-                      the automated_backup_policy argument is not provided in the
-                      configuration on update, the resource's automated backup policy
-                      will not be modified.
+                      by retention_period and frequency. To create a table with automated
+                      backup disabled, either omit the automated_backup_policy argument
+                      or set both retention_period and frequency to "0". To disable
+                      automated backup on an existing table that has automated backup
+                      enabled, set both retention_period and frequency to "0". When
+                      updating an existing table, change the retention_period or frequency
+                      by setting the respective property to a non-zero value. The
+                      policy also accepts an optional locations list to specify backup
+                      storage locations; if locations is omitted, the policy defaults
+                      to all clusters in the instance. If the automated_backup_policy
+                      argument is not provided on update, the resource's automated
+                      backup policy will not be modified.
                     properties:
                       frequency:
                         type: string
+                      locations:
+                        items:
+                          type: string
+                        type: array
                       retentionPeriod:
                         type: string
                     type: object
@@ -369,6 +384,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: A field to make the table protected against data
                       loss i.e. when set to PROTECTED, deleting the table, the column

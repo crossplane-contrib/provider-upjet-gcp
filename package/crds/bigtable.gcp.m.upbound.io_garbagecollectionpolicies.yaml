@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: garbagecollectionpolicies.bigtable.gcp.m.upbound.io
 spec:
   group: bigtable.gcp.m.upbound.io
@@ -65,8 +65,9 @@ spec:
                     type: string
                   deletionPolicy:
                     description: |-
-                      The deletion policy for the GC policy.
-                      Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+                      The deletion policy for the GC policy. Setting ABANDON allows the resource
+                      to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted
+                      in a replicated instance.
                     type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex
@@ -294,8 +295,9 @@ spec:
                     type: string
                   deletionPolicy:
                     description: |-
-                      The deletion policy for the GC policy.
-                      Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+                      The deletion policy for the GC policy. Setting ABANDON allows the resource
+                      to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted
+                      in a replicated instance.
                     type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex
@@ -579,8 +581,9 @@ spec:
                     type: string
                   deletionPolicy:
                     description: |-
-                      The deletion policy for the GC policy.
-                      Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+                      The deletion policy for the GC policy. Setting ABANDON allows the resource
+                      to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted
+                      in a replicated instance.
                     type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex

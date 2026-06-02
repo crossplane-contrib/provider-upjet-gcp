@@ -319,7 +319,7 @@ type MetricInitParameters struct {
 	// The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects
 	// are supported. The bucket has to be in the same project as the metric.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a ProjectBucketConfig in logging to populate bucketName.
@@ -385,6 +385,10 @@ type MetricObservation struct {
 	// Structure is documented below.
 	BucketOptions *BucketOptionsObservation `json:"bucketOptions,omitempty" tf:"bucket_options,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of this metric, which is used in documentation. The maximum length of the
 	// description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -432,7 +436,7 @@ type MetricParameters struct {
 	// The resource name of the Log Bucket that owns the Log Metric. Only Log Buckets in projects
 	// are supported. The bucket has to be in the same project as the metric.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 

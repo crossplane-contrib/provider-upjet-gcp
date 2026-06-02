@@ -126,6 +126,10 @@ type CryptoKeyVersionObservation struct {
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
 	// Structure is documented below.
 	ExternalProtectionLevelOptions *CryptoKeyVersionExternalProtectionLevelOptionsObservation `json:"externalProtectionLevelOptions,omitempty" tf:"external_protection_level_options,omitempty"`

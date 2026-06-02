@@ -17,7 +17,7 @@ import (
 type ManagedFolderInitParameters struct {
 
 	// The name of the bucket that contains the managed folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -47,6 +47,10 @@ type ManagedFolderObservation struct {
 	// The timestamp at which this managed folder was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects
 	// within the folder will remain in a simulated folder with the
@@ -73,7 +77,7 @@ type ManagedFolderObservation struct {
 type ManagedFolderParameters struct {
 
 	// The name of the bucket that contains the managed folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

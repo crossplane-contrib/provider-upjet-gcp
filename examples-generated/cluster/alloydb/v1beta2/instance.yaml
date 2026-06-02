@@ -33,6 +33,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    deletionProtection: false
     initialUser:
       passwordSecretRef:
         key: example-key

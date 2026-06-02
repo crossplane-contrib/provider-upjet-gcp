@@ -32,10 +32,22 @@ type SSLPolicyInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The minimum version of SSL protocol that can be used by the clients
-	// to establish a connection with the load balancer.
+	// to establish a connection with the load balancer. When set to TLS_1_3, the profile field must be set to RESTRICTED.
 	// Default value is TLS_1_0.
-	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
+
+	// One of DEFAULT, ENABLED, or DEFERRED. Controls whether the load balancer
+	// negotiates X25519MLKEM768 key exchange when clients advertise support for it.
+	// When set to DEFAULT, or if no SSL Policy is attached to
+	// the target proxy, the load balancer disallows X25519MLKEM768 key
+	// exchange before October 2026, and allows it afterward. When set to
+	// ENABLED, the load balancer allows X25519MLKEM768 key
+	// exchange. When set to DEFERRED, the load balancer
+	// disallows X25519MLKEM768 key exchange until October 2027, and allows
+	// it afterward.
+	// Possible values are: DEFAULT, ENABLED, DEFERRED.
+	PostQuantumKeyExchange *string `json:"postQuantumKeyExchange,omitempty" tf:"post_quantum_key_exchange,omitempty"`
 
 	// Profile specifies the set of SSL features that can be used by the
 	// load balancer when negotiating SSL with clients. If using CUSTOM,
@@ -44,8 +56,10 @@ type SSLPolicyInitParameters struct {
 	// See the official documentation
 	// for information on what cipher suites each profile provides. If
 	// CUSTOM is used, the custom_features attribute must be set.
+	// If set to FIPS_202205, minTlsVersion must also be set to
+	// TLS_1_2.
 	// Default value is COMPATIBLE.
-	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM, FIPS_202205.
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -70,6 +84,10 @@ type SSLPolicyObservation struct {
 	// +listType=set
 	CustomFeatures []*string `json:"customFeatures,omitempty" tf:"custom_features,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -85,10 +103,22 @@ type SSLPolicyObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The minimum version of SSL protocol that can be used by the clients
-	// to establish a connection with the load balancer.
+	// to establish a connection with the load balancer. When set to TLS_1_3, the profile field must be set to RESTRICTED.
 	// Default value is TLS_1_0.
-	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
+
+	// One of DEFAULT, ENABLED, or DEFERRED. Controls whether the load balancer
+	// negotiates X25519MLKEM768 key exchange when clients advertise support for it.
+	// When set to DEFAULT, or if no SSL Policy is attached to
+	// the target proxy, the load balancer disallows X25519MLKEM768 key
+	// exchange before October 2026, and allows it afterward. When set to
+	// ENABLED, the load balancer allows X25519MLKEM768 key
+	// exchange. When set to DEFERRED, the load balancer
+	// disallows X25519MLKEM768 key exchange until October 2027, and allows
+	// it afterward.
+	// Possible values are: DEFAULT, ENABLED, DEFERRED.
+	PostQuantumKeyExchange *string `json:"postQuantumKeyExchange,omitempty" tf:"post_quantum_key_exchange,omitempty"`
 
 	// Profile specifies the set of SSL features that can be used by the
 	// load balancer when negotiating SSL with clients. If using CUSTOM,
@@ -97,8 +127,10 @@ type SSLPolicyObservation struct {
 	// See the official documentation
 	// for information on what cipher suites each profile provides. If
 	// CUSTOM is used, the custom_features attribute must be set.
+	// If set to FIPS_202205, minTlsVersion must also be set to
+	// TLS_1_2.
 	// Default value is COMPATIBLE.
-	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM, FIPS_202205.
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -129,11 +161,24 @@ type SSLPolicyParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The minimum version of SSL protocol that can be used by the clients
-	// to establish a connection with the load balancer.
+	// to establish a connection with the load balancer. When set to TLS_1_3, the profile field must be set to RESTRICTED.
 	// Default value is TLS_1_0.
-	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2.
+	// Possible values are: TLS_1_0, TLS_1_1, TLS_1_2, TLS_1_3.
 	// +kubebuilder:validation:Optional
 	MinTLSVersion *string `json:"minTlsVersion,omitempty" tf:"min_tls_version,omitempty"`
+
+	// One of DEFAULT, ENABLED, or DEFERRED. Controls whether the load balancer
+	// negotiates X25519MLKEM768 key exchange when clients advertise support for it.
+	// When set to DEFAULT, or if no SSL Policy is attached to
+	// the target proxy, the load balancer disallows X25519MLKEM768 key
+	// exchange before October 2026, and allows it afterward. When set to
+	// ENABLED, the load balancer allows X25519MLKEM768 key
+	// exchange. When set to DEFERRED, the load balancer
+	// disallows X25519MLKEM768 key exchange until October 2027, and allows
+	// it afterward.
+	// Possible values are: DEFAULT, ENABLED, DEFERRED.
+	// +kubebuilder:validation:Optional
+	PostQuantumKeyExchange *string `json:"postQuantumKeyExchange,omitempty" tf:"post_quantum_key_exchange,omitempty"`
 
 	// Profile specifies the set of SSL features that can be used by the
 	// load balancer when negotiating SSL with clients. If using CUSTOM,
@@ -142,8 +187,10 @@ type SSLPolicyParameters struct {
 	// See the official documentation
 	// for information on what cipher suites each profile provides. If
 	// CUSTOM is used, the custom_features attribute must be set.
+	// If set to FIPS_202205, minTlsVersion must also be set to
+	// TLS_1_2.
 	// Default value is COMPATIBLE.
-	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM.
+	// Possible values are: COMPATIBLE, MODERN, RESTRICTED, CUSTOM, FIPS_202205.
 	// +kubebuilder:validation:Optional
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 

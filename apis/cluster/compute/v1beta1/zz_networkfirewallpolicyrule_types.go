@@ -13,7 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type MatchLayer4ConfigsInitParameters struct {
+type Layer4ConfigsInitParameters struct {
 
 	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
 	// This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
@@ -24,7 +24,7 @@ type MatchLayer4ConfigsInitParameters struct {
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 }
 
-type MatchLayer4ConfigsObservation struct {
+type Layer4ConfigsObservation struct {
 
 	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
 	// This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
@@ -35,7 +35,7 @@ type MatchLayer4ConfigsObservation struct {
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 }
 
-type MatchLayer4ConfigsParameters struct {
+type Layer4ConfigsParameters struct {
 
 	// The IP protocol to which this rule applies. The protocol type is required when creating a firewall rule.
 	// This value can either be one of the following well known protocol strings (tcp, udp, icmp, esp, ah, ipip, sctp), or the IP protocol number.
@@ -48,45 +48,215 @@ type MatchLayer4ConfigsParameters struct {
 	Ports []*string `json:"ports,omitempty" tf:"ports,omitempty"`
 }
 
-type MatchSrcSecureTagsInitParameters struct {
+type MatchInitParameters struct {
 
-	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
+	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
 
-	// Reference to a TagValue in tags to populate name.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
+	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
+
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
+	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
+	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
+	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
+
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
+	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
+
+	// Pairs of IP protocols and ports that the rule should match.
+	// Structure is documented below.
+	Layer4Configs []Layer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
+
+	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
-	// Selector for a TagValue in tags to populate name.
+	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
+	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
+
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// References to Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksRefs []v1.Reference `json:"srcNetworksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksSelector *v1.Selector `json:"srcNetworksSelector,omitempty" tf:"-"`
+
+	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
+	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
+
+	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+	// Structure is documented below.
+	SrcSecureTags []SrcSecureTagsInitParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
+
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
+	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
-type MatchSrcSecureTagsObservation struct {
+type MatchObservation struct {
 
-	// Name of the secure tag, created with TagManager's TagValue API.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
+	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
 
-	// (Output)
-	// State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
-	State *string `json:"state,omitempty" tf:"state,omitempty"`
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
+	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
+
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
+	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
+	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
+	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
+
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
+	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
+
+	// Pairs of IP protocols and ports that the rule should match.
+	// Structure is documented below.
+	Layer4Configs []Layer4ConfigsObservation `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
+
+	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
+	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
+	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
+
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
+	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
+
+	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+	// Structure is documented below.
+	SrcSecureTags []SrcSecureTagsObservation `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
+
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
+	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
-type MatchSrcSecureTagsParameters struct {
+type MatchParameters struct {
 
-	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
+	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
 
-	// Reference to a TagValue in tags to populate name.
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
 
-	// Selector for a TagValue in tags to populate name.
+	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	// +kubebuilder:validation:Optional
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
+	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
+	// +kubebuilder:validation:Optional
+	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
+
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
+	// +kubebuilder:validation:Optional
+	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
+
+	// Pairs of IP protocols and ports that the rule should match.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
+
+	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
+
+	// References to AddressGroup in networksecurity to populate srcAddressGroups.
+	// +kubebuilder:validation:Optional
+	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
+	// +kubebuilder:validation:Optional
+	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+
+	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
+	// +kubebuilder:validation:Optional
+	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
+
+	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
+	// +kubebuilder:validation:Optional
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	// +kubebuilder:validation:Optional
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// References to Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksRefs []v1.Reference `json:"srcNetworksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksSelector *v1.Selector `json:"srcNetworksSelector,omitempty" tf:"-"`
+
+	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
+	// +kubebuilder:validation:Optional
+	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
+
+	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SrcSecureTags []SrcSecureTagsParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
+
+	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
+	// +kubebuilder:validation:Optional
+	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
 }
 
 type NetworkFirewallPolicyRuleInitParameters struct {
@@ -114,7 +284,7 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
-	Match *NetworkFirewallPolicyRuleMatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
+	Match *MatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -132,169 +302,35 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
+	// A list of forwarding rules to which this rule applies.
+	// This field allows you to control which load balancers get this rule.
+	// For example, the following are valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
+
+	// References to ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesRefs []v1.Reference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesSelector *v1.Selector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
 	// Structure is documented below.
-	TargetSecureTags []NetworkFirewallPolicyRuleTargetSecureTagsInitParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
+	TargetSecureTags []TargetSecureTagsInitParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
-}
 
-type NetworkFirewallPolicyRuleMatchInitParameters struct {
-
-	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
-	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
-
-	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
-	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
-
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
-	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
-
-	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
-	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
-
-	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
-	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
-
-	// Pairs of IP protocols and ports that the rule should match.
-	// Structure is documented below.
-	Layer4Configs []MatchLayer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
-
-	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
-	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
-
-	// References to AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
-
-	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
-	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
-
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-
-	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
-	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
-
-	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
-	// Structure is documented below.
-	SrcSecureTags []MatchSrcSecureTagsInitParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
-
-	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
-	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
-}
-
-type NetworkFirewallPolicyRuleMatchObservation struct {
-
-	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
-	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
-
-	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
-	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
-
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
-	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
-
-	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
-	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
-
-	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
-	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
-
-	// Pairs of IP protocols and ports that the rule should match.
-	// Structure is documented below.
-	Layer4Configs []MatchLayer4ConfigsObservation `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
-
-	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
-
-	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
-	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
-
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-
-	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
-	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
-
-	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
-	// Structure is documented below.
-	SrcSecureTags []MatchSrcSecureTagsObservation `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
-
-	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
-	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
-}
-
-type NetworkFirewallPolicyRuleMatchParameters struct {
-
-	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
-	// +kubebuilder:validation:Optional
-	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
-
-	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
-	// +kubebuilder:validation:Optional
-	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
-
-	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
-	// +kubebuilder:validation:Optional
-	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
-
-	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
-	// +kubebuilder:validation:Optional
-	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
-
-	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic destination.
-	// +kubebuilder:validation:Optional
-	DestThreatIntelligences []*string `json:"destThreatIntelligences,omitempty" tf:"dest_threat_intelligences,omitempty"`
-
-	// Pairs of IP protocols and ports that the rule should match.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	Layer4Configs []MatchLayer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
-
-	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
-	// +kubebuilder:validation:Optional
-	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
-
-	// References to AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
-
-	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
-	// +kubebuilder:validation:Optional
-	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
-
-	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
-	// +kubebuilder:validation:Optional
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-
-	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
-	// +kubebuilder:validation:Optional
-	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
-
-	// List of secure tag values, which should be matched at the source of the traffic. For INGRESS rule, if all the srcSecureTag are INEFFECTIVE, and there is no srcIpRange, this rule will be ignored. Maximum number of source tag values allowed is 256.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	SrcSecureTags []MatchSrcSecureTagsParameters `json:"srcSecureTags,omitempty" tf:"src_secure_tags,omitempty"`
-
-	// Names of Network Threat Intelligence lists. The IPs in these lists will be matched against traffic source.
-	// +kubebuilder:validation:Optional
-	SrcThreatIntelligences []*string `json:"srcThreatIntelligences,omitempty" tf:"src_threat_intelligences,omitempty"`
+	// Target types of the firewall policy rule.
+	// Default value is INSTANCES.
+	// When target_type is INTERNAL_MANAGED_LB, target_forwarding_rules must be set
+	// Possible values are: INSTANCES, INTERNAL_MANAGED_LB.
+	TargetType *string `json:"targetType,omitempty" tf:"target_type,omitempty"`
 }
 
 type NetworkFirewallPolicyRuleObservation struct {
@@ -304,6 +340,10 @@ type NetworkFirewallPolicyRuleObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -334,7 +374,7 @@ type NetworkFirewallPolicyRuleObservation struct {
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
-	Match *NetworkFirewallPolicyRuleMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
+	Match *MatchObservation `json:"match,omitempty" tf:"match,omitempty"`
 
 	// An integer indicating the priority of a rule in the list.
 	// The priority must be a positive value between 0 and 2147483647.
@@ -360,14 +400,25 @@ type NetworkFirewallPolicyRuleObservation struct {
 	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
+	// A list of forwarding rules to which this rule applies.
+	// This field allows you to control which load balancers get this rule.
+	// For example, the following are valid values:
+	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
+
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
 	// Structure is documented below.
-	TargetSecureTags []NetworkFirewallPolicyRuleTargetSecureTagsObservation `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
+	TargetSecureTags []TargetSecureTagsObservation `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
+
+	// Target types of the firewall policy rule.
+	// Default value is INSTANCES.
+	// When target_type is INTERNAL_MANAGED_LB, target_forwarding_rules must be set
+	// Possible values are: INSTANCES, INTERNAL_MANAGED_LB.
+	TargetType *string `json:"targetType,omitempty" tf:"target_type,omitempty"`
 }
 
 type NetworkFirewallPolicyRuleParameters struct {
@@ -414,7 +465,7 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Match *NetworkFirewallPolicyRuleMatchParameters `json:"match,omitempty" tf:"match,omitempty"`
+	Match *MatchParameters `json:"match,omitempty" tf:"match,omitempty"`
 
 	// An integer indicating the priority of a rule in the list.
 	// The priority must be a positive value between 0 and 2147483647.
@@ -442,25 +493,57 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
+	// A list of forwarding rules to which this rule applies.
+	// This field allows you to control which load balancers get this rule.
+	// For example, the following are valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
+
+	// References to ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesRefs []v1.Reference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesSelector *v1.Selector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TargetSecureTags []NetworkFirewallPolicyRuleTargetSecureTagsParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
+	TargetSecureTags []TargetSecureTagsParameters `json:"targetSecureTags,omitempty" tf:"target_secure_tags,omitempty"`
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	// +kubebuilder:validation:Optional
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
+
+	// Target types of the firewall policy rule.
+	// Default value is INSTANCES.
+	// When target_type is INTERNAL_MANAGED_LB, target_forwarding_rules must be set
+	// Possible values are: INSTANCES, INTERNAL_MANAGED_LB.
+	// +kubebuilder:validation:Optional
+	TargetType *string `json:"targetType,omitempty" tf:"target_type,omitempty"`
 }
 
-type NetworkFirewallPolicyRuleTargetSecureTagsInitParameters struct {
+type SrcSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
-type NetworkFirewallPolicyRuleTargetSecureTagsObservation struct {
+type SrcSecureTagsObservation struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -470,7 +553,39 @@ type NetworkFirewallPolicyRuleTargetSecureTagsObservation struct {
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
-type NetworkFirewallPolicyRuleTargetSecureTagsParameters struct {
+type SrcSecureTagsParameters struct {
+
+	// Name of the secure tag, created with TagManager's TagValue API.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Reference to a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+
+	// Selector for a TagValue in tags to populate name.
+	// +kubebuilder:validation:Optional
+	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+}
+
+type TargetSecureTagsInitParameters struct {
+
+	// Name of the secure tag, created with TagManager's TagValue API.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type TargetSecureTagsObservation struct {
+
+	// Name of the secure tag, created with TagManager's TagValue API.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Output)
+	// State of the secure tag, either EFFECTIVE or INEFFECTIVE. A secure tag is INEFFECTIVE when it is deleted or its network is deleted.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type TargetSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
 	// +kubebuilder:validation:Optional

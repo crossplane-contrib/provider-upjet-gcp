@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: jobs.dataproc.gcp.m.upbound.io
 spec:
   group: dataproc.gcp.m.upbound.io
@@ -653,6 +653,8 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  waitForCompletion:
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -1261,6 +1263,8 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  waitForCompletion:
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -1330,6 +1334,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   driverControlsFilesUri:
                     description: If present, the location of miscellaneous control
                       files which may be used as part of job setup and handling. If
@@ -1810,6 +1819,8 @@ spec:
                       the resource and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
+                  waitForCompletion:
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

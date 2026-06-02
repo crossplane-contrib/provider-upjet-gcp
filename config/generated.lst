@@ -394,7 +394,6 @@
   "google_tags_tag_binding",
   "google_tags_tag_key",
   "google_tags_tag_value",
-  "google_tpu_node",
   "google_vertex_ai_dataset",
   "google_vertex_ai_featurestore",
   "google_vertex_ai_featurestore_entitytype",

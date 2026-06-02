@@ -65,8 +65,17 @@ type InstancesParameters struct {
 
 type LinkedInterconnectAttachmentsInitParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -88,8 +97,17 @@ type LinkedInterconnectAttachmentsInitParameters struct {
 
 type LinkedInterconnectAttachmentsObservation struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -101,8 +119,20 @@ type LinkedInterconnectAttachmentsObservation struct {
 
 type LinkedInterconnectAttachmentsParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	// +kubebuilder:validation:Optional
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	// +kubebuilder:validation:Optional
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
@@ -218,8 +248,17 @@ type LinkedProducerVPCNetworkParameters struct {
 
 type LinkedRouterApplianceInstancesInitParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
@@ -232,8 +271,17 @@ type LinkedRouterApplianceInstancesInitParameters struct {
 
 type LinkedRouterApplianceInstancesObservation struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
@@ -246,8 +294,20 @@ type LinkedRouterApplianceInstancesObservation struct {
 
 type LinkedRouterApplianceInstancesParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	// +kubebuilder:validation:Optional
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	// +kubebuilder:validation:Optional
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
@@ -322,8 +382,17 @@ type LinkedVPCNetworkParameters struct {
 
 type LinkedVPNTunnelsInitParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -345,8 +414,17 @@ type LinkedVPNTunnelsInitParameters struct {
 
 type LinkedVPNTunnelsObservation struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -358,8 +436,20 @@ type LinkedVPNTunnelsObservation struct {
 
 type LinkedVPNTunnelsParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	// +kubebuilder:validation:Optional
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	// +kubebuilder:validation:Optional
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
@@ -472,6 +562,10 @@ type SpokeObservation struct {
 
 	// Output only. The time the spoke was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

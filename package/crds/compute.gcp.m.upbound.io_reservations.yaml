@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: reservations.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -79,6 +79,21 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the reservation. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -317,6 +332,21 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the reservation. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -585,6 +615,12 @@ spec:
             properties:
               atProvider:
                 properties:
+                  blockNames:
+                    description: List of all reservation block names in the parent
+                      reservation.
+                    items:
+                      type: string
+                    type: array
                   commitment:
                     description: |-
                       Full or partial URL to a parent commitment. This field displays for
@@ -610,17 +646,51 @@ spec:
                       Absolute time in future when the reservation will be auto-deleted by Compute Engine. Timestamp is represented in RFC3339 text format.
                       Cannot be used with delete_after_duration.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/zones/{{zone}}/reservations/{{name}}
                     type: string
+                  kind:
+                    description: Type of the resource. Always compute#reservations
+                      for reservations.
+                    type: string
+                  linkedCommitments:
+                    description: Full or partial URL to parent commitments. This field
+                      displays for reservations that are tied to multiple commitments.
+                    items:
+                      type: string
+                    type: array
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the reservation. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reservationBlockCount:
+                    description: The number of reservation blocks associated with
+                      this reservation.
+                    type: number
                   reservationSharingPolicy:
                     description: |-
                       Sharing policy for reservations with Google Cloud managed services.
@@ -632,6 +702,163 @@ spec:
                           Possible values are: ALLOW_ALL, DISALLOW_ALL.
                         type: string
                     type: object
+                  resourceStatus:
+                    description: |-
+                      Status information for Reservation resource.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        healthInfo:
+                          description: |-
+                            (Output)
+                            Health information for the reservation.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              degradedBlockCount:
+                                description: |-
+                                  (Output)
+                                  The number of reservation blocks that are degraded.
+                                type: number
+                              healthStatus:
+                                description: |-
+                                  (Output)
+                                  The health status of the reservation.
+                                type: string
+                              healthyBlockCount:
+                                description: |-
+                                  (Output)
+                                  The number of reservation blocks that are healthy.
+                                type: number
+                            type: object
+                          type: array
+                        reservationBlockCount:
+                          description: |-
+                            (Output)
+                            The number of reservation blocks associated with this reservation.
+                          type: number
+                        reservationMaintenance:
+                          description: |-
+                            (Output)
+                            Maintenance information for this reservation
+                            Structure is documented below.
+                          items:
+                            properties:
+                              instanceMaintenanceOngoingCount:
+                                description: |-
+                                  (Output)
+                                  Describes number of instances that have ongoing maintenance.
+                                type: number
+                              instanceMaintenancePendingCount:
+                                description: |-
+                                  (Output)
+                                  Describes number of instances that have pending maintenance.
+                                type: number
+                              maintenanceOngoingCount:
+                                description: |-
+                                  (Output)
+                                  Progress for ongoing maintenance for this group of VMs/hosts. Describes number of hosts in the block that have ongoing maintenance.
+                                type: number
+                              maintenancePendingCount:
+                                description: |-
+                                  (Output)
+                                  Progress for ongoing maintenance for this group of VMs/hosts. Describes number of hosts in the block that have pending maintenance.
+                                type: number
+                              schedulingType:
+                                description: |-
+                                  (Output)
+                                  The type of maintenance for the reservation.
+                                type: string
+                              subblockInfraMaintenanceOngoingCount:
+                                description: |-
+                                  (Output)
+                                  Describes number of subblock Infrastructure that has ongoing maintenance. Here, Subblock Infrastructure Maintenance pertains to upstream hardware contained in the Subblock that is necessary for a VM Family(e.g. NVLink Domains). Not all VM Families will support this field.
+                                type: number
+                              subblockInfraMaintenancePendingCount:
+                                description: |-
+                                  (Output)
+                                  Describes number of subblock Infrastructure that has pending maintenance. Here, Subblock Infrastructure Maintenance pertains to upstream hardware contained in the Subblock that is necessary for a VM Family (e.g. NVLink Domains). Not all VM Families will support this field.
+                                type: number
+                              upcomingGroupMaintenance:
+                                description: |-
+                                  (Output)
+                                  Maintenance information on this group of VMs.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    canReschedule:
+                                      description: |-
+                                        (Output)
+                                        Indicates if the maintenance can be customer triggered.
+                                      type: boolean
+                                    latestWindowStartTime:
+                                      description: |-
+                                        (Output)
+                                        The latest time for the planned maintenance window to start. This timestamp value is in RFC3339 text format.
+                                      type: string
+                                    maintenanceOnShutdown:
+                                      description: |-
+                                        (Output)
+                                        Indicates whether the UpcomingMaintenance will be triggered on VM shutdown.
+                                      type: boolean
+                                    maintenanceReasons:
+                                      description: |-
+                                        (Output)
+                                        The reasons for the maintenance. Only valid for vms.
+                                      items:
+                                        type: string
+                                      type: array
+                                    maintenanceStatus:
+                                      description: |-
+                                        (Output)
+                                        Status of the maintenance.
+                                      type: string
+                                    type:
+                                      description: |-
+                                        (Output)
+                                        Defines the type of maintenance.
+                                      type: string
+                                    windowEndTime:
+                                      description: |-
+                                        (Output)
+                                        The time by which the maintenance disruption will be completed. This timestamp value is in RFC3339 text format.
+                                      type: string
+                                    windowStartTime:
+                                      description: |-
+                                        (Output)
+                                        The current start time of the maintenance window. This timestamp value is in RFC3339 text format.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        specificSkuAllocation:
+                          description: |-
+                            (Output)
+                            Allocation Properties of this reservation.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              sourceInstanceTemplateId:
+                                description: |-
+                                  (Output)
+                                  ID of the instance template used to populate reservation properties.
+                                type: string
+                              utilizations:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  (Output)
+                                  Per service utilization breakdown. The Key is the Google Cloud managed service name.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  satisfiesPzs:
+                    description: Reserved for future use.
+                    type: boolean
                   selfLink:
                     description: The URI of the created resource.
                     type: string
@@ -667,6 +894,11 @@ spec:
                       Reservation for instances with specific machine shapes.
                       Structure is documented below.
                     properties:
+                      assuredCount:
+                        description: |-
+                          (Output)
+                          Indicates how many instances are actually usable currently.
+                        type: number
                       count:
                         description: The number of resources that are allocated.
                         type: number
@@ -718,6 +950,11 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          locationHint:
+                            description: |-
+                              (Output)
+                              An opaque location hint used to place the allocation close to other resources. This field is for use by internal tools that use the public API.
+                            type: string
                           machineType:
                             description: The name of the machine type to reserve.
                             type: string

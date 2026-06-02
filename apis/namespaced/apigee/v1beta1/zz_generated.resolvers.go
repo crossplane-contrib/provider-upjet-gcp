@@ -533,6 +533,26 @@ func (mg *KeystoresAliasesKeyCertFile) ResolveReferences(ctx context.Context, c 
 	}
 	mg.Spec.ForProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.OrgIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.m.upbound.io", "v1beta1", "Organization", "OrganizationList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.OrgID),
+			Extract:      resource.ExtractParamPath("name", true),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.OrgIDRef,
+			Selector:     mg.Spec.InitProvider.OrgIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.OrgID")
+	}
+	mg.Spec.InitProvider.OrgID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.OrgIDRef = rsp.ResolvedReference
 
 	return nil
 }

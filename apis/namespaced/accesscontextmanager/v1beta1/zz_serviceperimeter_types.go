@@ -1329,6 +1329,10 @@ type ServicePerimeterObservation struct {
 	// Time the AccessPolicy was created in UTC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the ServicePerimeter and its use. Does not affect
 	// behavior.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

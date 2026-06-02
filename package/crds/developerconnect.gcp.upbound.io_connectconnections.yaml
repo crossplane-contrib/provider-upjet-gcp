@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: connectconnections.developerconnect.gcp.upbound.io
 spec:
   group: developerconnect.gcp.upbound.io
@@ -610,6 +610,57 @@ spec:
                           webhooks.
                         type: string
                     type: object
+                  httpConfig:
+                    description: |-
+                      Configuration for connections to an HTTP service provider.
+                      Structure is documented below.
+                    properties:
+                      basicAuthentication:
+                        description: |-
+                          Basic authentication with username and password.
+                          Structure is documented below.
+                        properties:
+                          passwordSecretVersion:
+                            description: The password SecretManager secret version
+                              to authenticate as.
+                            type: string
+                          username:
+                            description: |-
+                              (Output)
+                              Output only. The username associated with this token.
+                            type: string
+                        type: object
+                      bearerTokenAuthentication:
+                        description: |-
+                          Bearer token authentication with a token.
+                          Structure is documented below.
+                        properties:
+                          tokenSecretVersion:
+                            description: The token SecretManager secret version to
+                              authenticate as.
+                            type: string
+                        type: object
+                      hostUri:
+                        description: The service provider's https endpoint.
+                        type: string
+                      serviceDirectoryConfig:
+                        description: |-
+                          ServiceDirectoryConfig represents Service Directory configuration for a
+                          connection.
+                          Structure is documented below.
+                        properties:
+                          service:
+                            description: |-
+                              Required. The Service Directory service name.
+                              Format:
+                              projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+                            type: string
+                        type: object
+                      sslCaCertificate:
+                        description: The SSL certificate to use for requests to the
+                          HTTP service provider.
+                        type: string
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
@@ -1181,6 +1232,57 @@ spec:
                           webhooks.
                         type: string
                     type: object
+                  httpConfig:
+                    description: |-
+                      Configuration for connections to an HTTP service provider.
+                      Structure is documented below.
+                    properties:
+                      basicAuthentication:
+                        description: |-
+                          Basic authentication with username and password.
+                          Structure is documented below.
+                        properties:
+                          passwordSecretVersion:
+                            description: The password SecretManager secret version
+                              to authenticate as.
+                            type: string
+                          username:
+                            description: |-
+                              (Output)
+                              Output only. The username associated with this token.
+                            type: string
+                        type: object
+                      bearerTokenAuthentication:
+                        description: |-
+                          Bearer token authentication with a token.
+                          Structure is documented below.
+                        properties:
+                          tokenSecretVersion:
+                            description: The token SecretManager secret version to
+                              authenticate as.
+                            type: string
+                        type: object
+                      hostUri:
+                        description: The service provider's https endpoint.
+                        type: string
+                      serviceDirectoryConfig:
+                        description: |-
+                          ServiceDirectoryConfig represents Service Directory configuration for a
+                          connection.
+                          Structure is documented below.
+                        properties:
+                          service:
+                            description: |-
+                              Required. The Service Directory service name.
+                              Format:
+                              projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+                            type: string
+                        type: object
+                      sslCaCertificate:
+                        description: The SSL certificate to use for requests to the
+                          HTTP service provider.
+                        type: string
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
@@ -1442,6 +1544,11 @@ spec:
                   deleteTime:
                     description: Output only. [Output only] Delete timestamp
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disabled:
                     description: |-
                       Optional. If disabled is set to true, functionality is disabled for this connection.
@@ -1687,6 +1794,57 @@ spec:
                           Required. Immutable. SecretManager resource containing the webhook secret of a GitLab project,
                           formatted as projects/*/secrets/*/versions/*. This is used to validate
                           webhooks.
+                        type: string
+                    type: object
+                  httpConfig:
+                    description: |-
+                      Configuration for connections to an HTTP service provider.
+                      Structure is documented below.
+                    properties:
+                      basicAuthentication:
+                        description: |-
+                          Basic authentication with username and password.
+                          Structure is documented below.
+                        properties:
+                          passwordSecretVersion:
+                            description: The password SecretManager secret version
+                              to authenticate as.
+                            type: string
+                          username:
+                            description: |-
+                              (Output)
+                              Output only. The username associated with this token.
+                            type: string
+                        type: object
+                      bearerTokenAuthentication:
+                        description: |-
+                          Bearer token authentication with a token.
+                          Structure is documented below.
+                        properties:
+                          tokenSecretVersion:
+                            description: The token SecretManager secret version to
+                              authenticate as.
+                            type: string
+                        type: object
+                      hostUri:
+                        description: The service provider's https endpoint.
+                        type: string
+                      serviceDirectoryConfig:
+                        description: |-
+                          ServiceDirectoryConfig represents Service Directory configuration for a
+                          connection.
+                          Structure is documented below.
+                        properties:
+                          service:
+                            description: |-
+                              Required. The Service Directory service name.
+                              Format:
+                              projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+                            type: string
+                        type: object
+                      sslCaCertificate:
+                        description: The SSL certificate to use for requests to the
+                          HTTP service provider.
                         type: string
                     type: object
                   id:

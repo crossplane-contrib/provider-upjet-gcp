@@ -16,7 +16,7 @@ import (
 type DefaultObjectACLInitParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -39,6 +39,10 @@ type DefaultObjectACLObservation struct {
 	// The name of the bucket it applies to.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// List of role/entity pairs in the form ROLE:entity.
@@ -51,7 +55,7 @@ type DefaultObjectACLObservation struct {
 type DefaultObjectACLParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

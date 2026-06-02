@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: backupbackupplans.gke.gcp.m.upbound.io
 spec:
   group: gke.gcp.m.upbound.io
@@ -192,6 +192,26 @@ spec:
                                   type: string
                                 namespace:
                                   description: The namespace of a Kubernetes Resource.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      selectedNamespaceLabels:
+                        description: |-
+                          If set, include just the resources in the listed namespace Labels.
+                          Structure is documented below.
+                        properties:
+                          resourceLabels:
+                            description: |-
+                              A list of Kubernetes Namespace labels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                key:
+                                  description: The key of the kubernetes label.
+                                  type: string
+                                value:
+                                  description: The value of the Label.
                                   type: string
                               type: object
                             type: array
@@ -615,6 +635,26 @@ spec:
                               type: object
                             type: array
                         type: object
+                      selectedNamespaceLabels:
+                        description: |-
+                          If set, include just the resources in the listed namespace Labels.
+                          Structure is documented below.
+                        properties:
+                          resourceLabels:
+                            description: |-
+                              A list of Kubernetes Namespace labels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                key:
+                                  description: The key of the kubernetes label.
+                                  type: string
+                                value:
+                                  description: The value of the Label.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       selectedNamespaces:
                         description: |-
                           If set, include just the resources in the listed namespaces.
@@ -997,6 +1037,26 @@ spec:
                               type: object
                             type: array
                         type: object
+                      selectedNamespaceLabels:
+                        description: |-
+                          If set, include just the resources in the listed namespace Labels.
+                          Structure is documented below.
+                        properties:
+                          resourceLabels:
+                            description: |-
+                              A list of Kubernetes Namespace labels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                key:
+                                  description: The key of the kubernetes label.
+                                  type: string
+                                value:
+                                  description: The value of the Label.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       selectedNamespaces:
                         description: |-
                           If set, include just the resources in the listed namespaces.
@@ -1127,6 +1187,11 @@ spec:
                       (except deletes), including the deactivated field itself. It also prevents any new Backups
                       from being created via this BackupPlan (including scheduled Backups).
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: User specified descriptive string for this BackupPlan.
                     type: string
@@ -1165,6 +1230,10 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protectedNamespaceCount:
+                    description: The number of Kubernetes Namespaces backed up in
+                      the last successful Backup created via this BackupPlan.
+                    type: number
                   protectedPodCount:
                     description: The number of Kubernetes Pods backed up in the last
                       successful Backup created via this BackupPlan.

@@ -82,6 +82,10 @@ type RouterInterfaceInitParameters struct {
 
 type RouterInterfaceObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{region}}/{{router}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

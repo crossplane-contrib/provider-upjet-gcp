@@ -67,6 +67,10 @@ type LiteTopicInitParameters struct {
 
 type LiteTopicObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

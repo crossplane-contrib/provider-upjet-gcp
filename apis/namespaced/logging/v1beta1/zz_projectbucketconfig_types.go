@@ -145,6 +145,10 @@ type ProjectBucketConfigObservation struct {
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
 	CmekSettings *ProjectBucketConfigCmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

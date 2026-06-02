@@ -19,6 +19,7 @@ import (
 	v1beta1beyondcorp "github.com/upbound/provider-gcp/v2/apis/namespaced/beyondcorp/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1"
 	v1beta1bigtable "github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1"
+	v1beta2 "github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta2"
 	v1beta1binaryauthorization "github.com/upbound/provider-gcp/v2/apis/namespaced/binaryauthorization/v1beta1"
 	v1beta1certificatemanager "github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1"
 	v1beta1cloud "github.com/upbound/provider-gcp/v2/apis/namespaced/cloud/v1beta1"
@@ -84,9 +85,9 @@ import (
 	v1beta1spanner "github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1"
 	v1beta1sql "github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1"
 	v1beta1storage "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1"
+	v1beta2storage "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2"
 	v1beta1storagetransfer "github.com/upbound/provider-gcp/v2/apis/namespaced/storagetransfer/v1beta1"
 	v1beta1tags "github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1"
-	v1beta1tpu "github.com/upbound/provider-gcp/v2/apis/namespaced/tpu/v1beta1"
 	v1alpha1 "github.com/upbound/provider-gcp/v2/apis/namespaced/v1alpha1"
 	v1beta1namespaced "github.com/upbound/provider-gcp/v2/apis/namespaced/v1beta1"
 	v1beta1vertexai "github.com/upbound/provider-gcp/v2/apis/namespaced/vertexai/v1beta1"
@@ -106,6 +107,7 @@ func init() {
 		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
+		v1beta2.SchemeBuilder.AddToScheme,
 		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,
 		v1beta1certificatemanager.SchemeBuilder.AddToScheme,
 		v1beta1cloud.SchemeBuilder.AddToScheme,
@@ -171,9 +173,9 @@ func init() {
 		v1beta1spanner.SchemeBuilder.AddToScheme,
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta1storage.SchemeBuilder.AddToScheme,
+		v1beta2storage.SchemeBuilder.AddToScheme,
 		v1beta1storagetransfer.SchemeBuilder.AddToScheme,
 		v1beta1tags.SchemeBuilder.AddToScheme,
-		v1beta1tpu.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1beta1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1vertexai.SchemeBuilder.AddToScheme,

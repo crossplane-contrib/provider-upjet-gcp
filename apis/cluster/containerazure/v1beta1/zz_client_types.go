@@ -36,6 +36,10 @@ type ClientObservation struct {
 	// Output only. The time at which this resource was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/azureClients/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

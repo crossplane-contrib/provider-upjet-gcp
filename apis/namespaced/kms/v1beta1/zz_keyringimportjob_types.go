@@ -52,6 +52,10 @@ type KeyRingImportJobObservation struct {
 	// Structure is documented below.
 	Attestation []KeyRingImportJobAttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The time at which this resource is scheduled for expiration and can no longer be used.
 	// This is in RFC3339 text format.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`

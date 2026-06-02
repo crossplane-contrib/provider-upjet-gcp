@@ -79,6 +79,10 @@ type AnalyticsHubListingSubscriptionObservation struct {
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The destination dataset for this subscription.
 	// Structure is documented below.
 	DestinationDataset *DestinationDatasetObservation `json:"destinationDataset,omitempty" tf:"destination_dataset,omitempty"`
@@ -259,6 +263,10 @@ type DestinationDatasetInitParameters struct {
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type DestinationDatasetObservation struct {
@@ -281,6 +289,10 @@ type DestinationDatasetObservation struct {
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type DestinationDatasetParameters struct {
@@ -308,6 +320,11 @@ type DestinationDatasetParameters struct {
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type LinkedDatasetMapInitParameters struct {

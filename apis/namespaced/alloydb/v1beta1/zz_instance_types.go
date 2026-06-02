@@ -65,6 +65,60 @@ type ClientConnectionConfigParameters struct {
 	SSLConfig *SSLConfigParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
 }
 
+type ConnectionPoolConfigInitParameters struct {
+
+	// Whether to enabled Managed Connection Pool.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Flags for configuring managed connection pooling when it is enabled.
+	// These flags will only be set if connection_pool_config.enabled is
+	// true.
+	// Please see
+	// https://cloud.google.com/alloydb/docs/configure-managed-connection-pooling#configuration-options
+	// for a comprehensive list of flags that can be set. For example,
+	// "connection-pooling-pool-mode" would be "pool_mode".
+	// +mapType=granular
+	Flags map[string]*string `json:"flags,omitempty" tf:"flags,omitempty"`
+}
+
+type ConnectionPoolConfigObservation struct {
+
+	// Whether to enabled Managed Connection Pool.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Flags for configuring managed connection pooling when it is enabled.
+	// These flags will only be set if connection_pool_config.enabled is
+	// true.
+	// Please see
+	// https://cloud.google.com/alloydb/docs/configure-managed-connection-pooling#configuration-options
+	// for a comprehensive list of flags that can be set. For example,
+	// "connection-pooling-pool-mode" would be "pool_mode".
+	// +mapType=granular
+	Flags map[string]*string `json:"flags,omitempty" tf:"flags,omitempty"`
+
+	// (Output)
+	// The number of running poolers per instance.
+	PoolerCount *float64 `json:"poolerCount,omitempty" tf:"pooler_count,omitempty"`
+}
+
+type ConnectionPoolConfigParameters struct {
+
+	// Whether to enabled Managed Connection Pool.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+
+	// Flags for configuring managed connection pooling when it is enabled.
+	// These flags will only be set if connection_pool_config.enabled is
+	// true.
+	// Please see
+	// https://cloud.google.com/alloydb/docs/configure-managed-connection-pooling#configuration-options
+	// for a comprehensive list of flags that can be set. For example,
+	// "connection-pooling-pool-mode" would be "pool_mode".
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Flags map[string]*string `json:"flags,omitempty" tf:"flags,omitempty"`
+}
+
 type InstanceInitParameters struct {
 
 	// 'Specifies whether an instance needs to spin up. Once the instance is
@@ -96,6 +150,10 @@ type InstanceInitParameters struct {
 	// Client connection specific configurations.
 	// Structure is documented below.
 	ClientConnectionConfig *ClientConnectionConfigInitParameters `json:"clientConnectionConfig,omitempty" tf:"client_connection_config,omitempty"`
+
+	// Configuration for Managed Connection Pool.
+	// Structure is documented below.
+	ConnectionPoolConfig *ConnectionPoolConfigInitParameters `json:"connectionPoolConfig,omitempty" tf:"connection_pool_config,omitempty"`
 
 	// Database flags. Set at instance level. * They are copied from primary instance on read instance creation. * Read instances can set new or override existing flags that are relevant for reads, e.g. for enabling columnar cache on a read instance. Flags set on read instance may or may not be present on primary.
 	// +mapType=granular
@@ -258,12 +316,20 @@ type InstanceObservation struct {
 	// 'projects/{project}/locations/{location}/clusters/{cluster_id}'
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
+	// Configuration for Managed Connection Pool.
+	// Structure is documented below.
+	ConnectionPoolConfig *ConnectionPoolConfigObservation `json:"connectionPoolConfig,omitempty" tf:"connection_pool_config,omitempty"`
+
 	// Time the Instance was created in UTC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Database flags. Set at instance level. * They are copied from primary instance on read instance creation. * Read instances can set new or override existing flags that are relevant for reads, e.g. for enabling columnar cache on a read instance. Flags set on read instance may or may not be present on primary.
 	// +mapType=granular
 	DatabaseFlags map[string]*string `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-settable and human-readable display name for the Instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -398,6 +464,11 @@ type InstanceParameters struct {
 	// Selector for a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
 	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+
+	// Configuration for Managed Connection Pool.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConnectionPoolConfig *ConnectionPoolConfigParameters `json:"connectionPoolConfig,omitempty" tf:"connection_pool_config,omitempty"`
 
 	// Database flags. Set at instance level. * They are copied from primary instance on read instance creation. * Read instances can set new or override existing flags that are relevant for reads, e.g. for enabling columnar cache on a read instance. Flags set on read instance may or may not be present on primary.
 	// +kubebuilder:validation:Optional

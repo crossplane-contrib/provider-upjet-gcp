@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: jobs.storagetransfer.gcp.m.upbound.io
 spec:
   group: storagetransfer.gcp.m.upbound.io
@@ -492,24 +492,48 @@ spec:
                               delete_objects_from_source_after_transfer are mutually exclusive.
                             type: boolean
                           metadataOptions:
+                            description: Specifies the metadata options for running
+                              a transfer. Structure documented below.
                             properties:
                               acl:
+                                description: Specifies how each object's ACLs should
+                                  be preserved for transfers between Google Cloud
+                                  Storage buckets.
                                 type: string
                               gid:
+                                description: Specifies how each file's POSIX group
+                                  ID (GID) attribute should be handled by the transfer.
                                 type: string
                               kmsKey:
+                                description: Specifies how each object's Cloud KMS
+                                  customer-managed encryption key (CMEK) is preserved
+                                  for transfers between Google Cloud Storage buckets.
                                 type: string
                               mode:
+                                description: Specifies how each file's mode attribute
+                                  should be handled by the transfer.
                                 type: string
                               storageClass:
+                                description: Specifies the storage class to set on
+                                  objects being transferred to Google Cloud Storage
+                                  buckets.
                                 type: string
                               symlink:
+                                description: Specifies how symlinks should be handled
+                                  by the transfer.
                                 type: string
                               temporaryHold:
+                                description: Specifies how each object's temporary
+                                  hold status should be preserved for transfers between
+                                  Google Cloud Storage buckets.
                                 type: string
                               timeCreated:
+                                description: Specifies how each object's timeCreated
+                                  metadata is preserved for transfers.
                                 type: string
                               uid:
+                                description: Specifies how each file's POSIX user
+                                  ID (UID) attribute should be handled by the transfer.
                                 type: string
                             type: object
                           overwriteObjectsAlreadyExistingInSink:
@@ -600,6 +624,12 @@ spec:
                             type: number
                         type: object
                     type: object
+                  serviceAccount:
+                    description: The user-managed service account to run the job.
+                      If this field is specified, the given service account is granted
+                      the necessary permissions to all applicable resources (e.g.
+                      GCS buckets) required by the job.
+                    type: string
                   status:
                     description: 'Status of the job. Default: ENABLED. NOTE: The effect
                       of the new job status takes place during a subsequent job run.
@@ -611,6 +641,51 @@ spec:
                     description: Transfer specification. Structure documented below.
                       One of transfer_spec, or replication_spec can be specified.
                     properties:
+                      awsS3CompatibleDataSource:
+                        description: An AWS S3 Compatible data source. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          endpoint:
+                            description: Endpoint of the storage service.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          region:
+                            description: Specifies the region to sign requests with.
+                              This can be left blank if requests should be signed
+                              with an empty region.
+                            type: string
+                          s3Metadata:
+                            description: S3 compatible metadata. documented below.
+                            properties:
+                              authMethod:
+                                description: Authentication and authorization method
+                                  used by the storage service. When not specified,
+                                  Transfer Service will attempt to determine right
+                                  auth method to use.
+                                type: string
+                              listApi:
+                                description: The Listing API to use for discovering
+                                  objects. When not specified, Transfer Service will
+                                  attempt to determine the right API to use.
+                                type: string
+                              protocol:
+                                description: The network protocol of the agent. When
+                                  not specified, the default value of NetworkProtocol
+                                  NETWORK_PROTOCOL_HTTPS is used.
+                                type: string
+                              requestModel:
+                                description: API request model used to call the storage
+                                  service. When not specified, the default value of
+                                  RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE
+                                  is used.
+                                type: string
+                            type: object
+                        type: object
                       awsS3DataSource:
                         description: An AWS S3 data source. Structure documented below.
                         properties:
@@ -645,6 +720,20 @@ spec:
                           bucketName:
                             description: Google Cloud Storage bucket name.
                             type: string
+                          cloudfrontDomain:
+                            description: 'The CloudFront distribution domain name
+                              pointing to this bucket, to use when fetching. See Transfer
+                              from S3 via CloudFront for more information. Format:
+                              https://{id}.cloudfront.net or any valid custom domain.
+                              Must begin with https://.'
+                            type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
                           managedPrivateNetwork:
                             description: Egress bytes over a Google-managed private
                               network. This network is shared between other users
@@ -668,7 +757,7 @@ spec:
                           documented below.
                         properties:
                           azureCredentials:
-                            description: Credentials used to authenticate API requests
+                            description: ) Credentials used to authenticate API requests
                               to Azure block.
                             properties:
                               sasTokenSecretRef:
@@ -690,6 +779,44 @@ spec:
                             description: The container to transfer from the Azure
                               Storage account.`
                             type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
+                          federatedIdentityConfig:
+                            description: Federated identity config of a user registered
+                              Azure application. Structure documented below.
+                            properties:
+                              clientIdSecretRef:
+                                description: The client (application) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              tenantIdSecretRef:
+                                description: The client (directory) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
                           path:
                             description: Root directory path to the filesystem.
                             type: string
@@ -975,6 +1102,16 @@ spec:
                           the posix data source. When unspecified, the default name
                           is used.
                         type: string
+                      transferManifest:
+                        description: Use a manifest file to limit which object are
+                          transferred. See Storage Transfer Service manifest file
+                          format. Structure documented below.
+                        properties:
+                          location:
+                            description: 'The GCS URI to the manifest file (CSV or
+                              line-delimited). Example: gs://my-bucket/manifest.csv'
+                            type: string
+                        type: object
                       transferOptions:
                         description: Characteristics of how to treat files from datasource
                           and sink during job. If the option delete_objects_unique_in_sink
@@ -994,24 +1131,48 @@ spec:
                               delete_objects_from_source_after_transfer are mutually exclusive.
                             type: boolean
                           metadataOptions:
+                            description: Specifies the metadata options for running
+                              a transfer. Structure documented below.
                             properties:
                               acl:
+                                description: Specifies how each object's ACLs should
+                                  be preserved for transfers between Google Cloud
+                                  Storage buckets.
                                 type: string
                               gid:
+                                description: Specifies how each file's POSIX group
+                                  ID (GID) attribute should be handled by the transfer.
                                 type: string
                               kmsKey:
+                                description: Specifies how each object's Cloud KMS
+                                  customer-managed encryption key (CMEK) is preserved
+                                  for transfers between Google Cloud Storage buckets.
                                 type: string
                               mode:
+                                description: Specifies how each file's mode attribute
+                                  should be handled by the transfer.
                                 type: string
                               storageClass:
+                                description: Specifies the storage class to set on
+                                  objects being transferred to Google Cloud Storage
+                                  buckets.
                                 type: string
                               symlink:
+                                description: Specifies how symlinks should be handled
+                                  by the transfer.
                                 type: string
                               temporaryHold:
+                                description: Specifies how each object's temporary
+                                  hold status should be preserved for transfers between
+                                  Google Cloud Storage buckets.
                                 type: string
                               timeCreated:
+                                description: Specifies how each object's timeCreated
+                                  metadata is preserved for transfers.
                                 type: string
                               uid:
+                                description: Specifies how each file's POSIX user
+                                  ID (UID) attribute should be handled by the transfer.
                                 type: string
                             type: object
                           overwriteObjectsAlreadyExistingInSink:
@@ -1473,24 +1634,48 @@ spec:
                               delete_objects_from_source_after_transfer are mutually exclusive.
                             type: boolean
                           metadataOptions:
+                            description: Specifies the metadata options for running
+                              a transfer. Structure documented below.
                             properties:
                               acl:
+                                description: Specifies how each object's ACLs should
+                                  be preserved for transfers between Google Cloud
+                                  Storage buckets.
                                 type: string
                               gid:
+                                description: Specifies how each file's POSIX group
+                                  ID (GID) attribute should be handled by the transfer.
                                 type: string
                               kmsKey:
+                                description: Specifies how each object's Cloud KMS
+                                  customer-managed encryption key (CMEK) is preserved
+                                  for transfers between Google Cloud Storage buckets.
                                 type: string
                               mode:
+                                description: Specifies how each file's mode attribute
+                                  should be handled by the transfer.
                                 type: string
                               storageClass:
+                                description: Specifies the storage class to set on
+                                  objects being transferred to Google Cloud Storage
+                                  buckets.
                                 type: string
                               symlink:
+                                description: Specifies how symlinks should be handled
+                                  by the transfer.
                                 type: string
                               temporaryHold:
+                                description: Specifies how each object's temporary
+                                  hold status should be preserved for transfers between
+                                  Google Cloud Storage buckets.
                                 type: string
                               timeCreated:
+                                description: Specifies how each object's timeCreated
+                                  metadata is preserved for transfers.
                                 type: string
                               uid:
+                                description: Specifies how each file's POSIX user
+                                  ID (UID) attribute should be handled by the transfer.
                                 type: string
                             type: object
                           overwriteObjectsAlreadyExistingInSink:
@@ -1581,6 +1766,12 @@ spec:
                             type: number
                         type: object
                     type: object
+                  serviceAccount:
+                    description: The user-managed service account to run the job.
+                      If this field is specified, the given service account is granted
+                      the necessary permissions to all applicable resources (e.g.
+                      GCS buckets) required by the job.
+                    type: string
                   status:
                     description: 'Status of the job. Default: ENABLED. NOTE: The effect
                       of the new job status takes place during a subsequent job run.
@@ -1592,6 +1783,51 @@ spec:
                     description: Transfer specification. Structure documented below.
                       One of transfer_spec, or replication_spec can be specified.
                     properties:
+                      awsS3CompatibleDataSource:
+                        description: An AWS S3 Compatible data source. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          endpoint:
+                            description: Endpoint of the storage service.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          region:
+                            description: Specifies the region to sign requests with.
+                              This can be left blank if requests should be signed
+                              with an empty region.
+                            type: string
+                          s3Metadata:
+                            description: S3 compatible metadata. documented below.
+                            properties:
+                              authMethod:
+                                description: Authentication and authorization method
+                                  used by the storage service. When not specified,
+                                  Transfer Service will attempt to determine right
+                                  auth method to use.
+                                type: string
+                              listApi:
+                                description: The Listing API to use for discovering
+                                  objects. When not specified, Transfer Service will
+                                  attempt to determine the right API to use.
+                                type: string
+                              protocol:
+                                description: The network protocol of the agent. When
+                                  not specified, the default value of NetworkProtocol
+                                  NETWORK_PROTOCOL_HTTPS is used.
+                                type: string
+                              requestModel:
+                                description: API request model used to call the storage
+                                  service. When not specified, the default value of
+                                  RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE
+                                  is used.
+                                type: string
+                            type: object
+                        type: object
                       awsS3DataSource:
                         description: An AWS S3 data source. Structure documented below.
                         properties:
@@ -1629,6 +1865,20 @@ spec:
                           bucketName:
                             description: Google Cloud Storage bucket name.
                             type: string
+                          cloudfrontDomain:
+                            description: 'The CloudFront distribution domain name
+                              pointing to this bucket, to use when fetching. See Transfer
+                              from S3 via CloudFront for more information. Format:
+                              https://{id}.cloudfront.net or any valid custom domain.
+                              Must begin with https://.'
+                            type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
                           managedPrivateNetwork:
                             description: Egress bytes over a Google-managed private
                               network. This network is shared between other users
@@ -1652,7 +1902,7 @@ spec:
                           documented below.
                         properties:
                           azureCredentials:
-                            description: Credentials used to authenticate API requests
+                            description: ) Credentials used to authenticate API requests
                               to Azure block.
                             properties:
                               sasTokenSecretRef:
@@ -1676,6 +1926,47 @@ spec:
                             description: The container to transfer from the Azure
                               Storage account.`
                             type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
+                          federatedIdentityConfig:
+                            description: Federated identity config of a user registered
+                              Azure application. Structure documented below.
+                            properties:
+                              clientIdSecretRef:
+                                description: The client (application) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              tenantIdSecretRef:
+                                description: The client (directory) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - clientIdSecretRef
+                            - tenantIdSecretRef
+                            type: object
                           path:
                             description: Root directory path to the filesystem.
                             type: string
@@ -1961,6 +2252,16 @@ spec:
                           the posix data source. When unspecified, the default name
                           is used.
                         type: string
+                      transferManifest:
+                        description: Use a manifest file to limit which object are
+                          transferred. See Storage Transfer Service manifest file
+                          format. Structure documented below.
+                        properties:
+                          location:
+                            description: 'The GCS URI to the manifest file (CSV or
+                              line-delimited). Example: gs://my-bucket/manifest.csv'
+                            type: string
+                        type: object
                       transferOptions:
                         description: Characteristics of how to treat files from datasource
                           and sink during job. If the option delete_objects_unique_in_sink
@@ -1980,24 +2281,48 @@ spec:
                               delete_objects_from_source_after_transfer are mutually exclusive.
                             type: boolean
                           metadataOptions:
+                            description: Specifies the metadata options for running
+                              a transfer. Structure documented below.
                             properties:
                               acl:
+                                description: Specifies how each object's ACLs should
+                                  be preserved for transfers between Google Cloud
+                                  Storage buckets.
                                 type: string
                               gid:
+                                description: Specifies how each file's POSIX group
+                                  ID (GID) attribute should be handled by the transfer.
                                 type: string
                               kmsKey:
+                                description: Specifies how each object's Cloud KMS
+                                  customer-managed encryption key (CMEK) is preserved
+                                  for transfers between Google Cloud Storage buckets.
                                 type: string
                               mode:
+                                description: Specifies how each file's mode attribute
+                                  should be handled by the transfer.
                                 type: string
                               storageClass:
+                                description: Specifies the storage class to set on
+                                  objects being transferred to Google Cloud Storage
+                                  buckets.
                                 type: string
                               symlink:
+                                description: Specifies how symlinks should be handled
+                                  by the transfer.
                                 type: string
                               temporaryHold:
+                                description: Specifies how each object's temporary
+                                  hold status should be preserved for transfers between
+                                  Google Cloud Storage buckets.
                                 type: string
                               timeCreated:
+                                description: Specifies how each object's timeCreated
+                                  metadata is preserved for transfers.
                                 type: string
                               uid:
+                                description: Specifies how each file's POSIX user
+                                  ID (UID) attribute should be handled by the transfer.
                                 type: string
                             type: object
                           overwriteObjectsAlreadyExistingInSink:
@@ -2083,6 +2408,11 @@ spec:
                 properties:
                   creationTime:
                     description: When the Transfer Job was created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionTime:
                     description: When the Transfer Job was deleted.
@@ -2281,24 +2611,48 @@ spec:
                               delete_objects_from_source_after_transfer are mutually exclusive.
                             type: boolean
                           metadataOptions:
+                            description: Specifies the metadata options for running
+                              a transfer. Structure documented below.
                             properties:
                               acl:
+                                description: Specifies how each object's ACLs should
+                                  be preserved for transfers between Google Cloud
+                                  Storage buckets.
                                 type: string
                               gid:
+                                description: Specifies how each file's POSIX group
+                                  ID (GID) attribute should be handled by the transfer.
                                 type: string
                               kmsKey:
+                                description: Specifies how each object's Cloud KMS
+                                  customer-managed encryption key (CMEK) is preserved
+                                  for transfers between Google Cloud Storage buckets.
                                 type: string
                               mode:
+                                description: Specifies how each file's mode attribute
+                                  should be handled by the transfer.
                                 type: string
                               storageClass:
+                                description: Specifies the storage class to set on
+                                  objects being transferred to Google Cloud Storage
+                                  buckets.
                                 type: string
                               symlink:
+                                description: Specifies how symlinks should be handled
+                                  by the transfer.
                                 type: string
                               temporaryHold:
+                                description: Specifies how each object's temporary
+                                  hold status should be preserved for transfers between
+                                  Google Cloud Storage buckets.
                                 type: string
                               timeCreated:
+                                description: Specifies how each object's timeCreated
+                                  metadata is preserved for transfers.
                                 type: string
                               uid:
+                                description: Specifies how each file's POSIX user
+                                  ID (UID) attribute should be handled by the transfer.
                                 type: string
                             type: object
                           overwriteObjectsAlreadyExistingInSink:
@@ -2389,6 +2743,12 @@ spec:
                             type: number
                         type: object
                     type: object
+                  serviceAccount:
+                    description: The user-managed service account to run the job.
+                      If this field is specified, the given service account is granted
+                      the necessary permissions to all applicable resources (e.g.
+                      GCS buckets) required by the job.
+                    type: string
                   status:
                     description: 'Status of the job. Default: ENABLED. NOTE: The effect
                       of the new job status takes place during a subsequent job run.
@@ -2400,6 +2760,51 @@ spec:
                     description: Transfer specification. Structure documented below.
                       One of transfer_spec, or replication_spec can be specified.
                     properties:
+                      awsS3CompatibleDataSource:
+                        description: An AWS S3 Compatible data source. Structure documented
+                          below.
+                        properties:
+                          bucketName:
+                            description: Google Cloud Storage bucket name.
+                            type: string
+                          endpoint:
+                            description: Endpoint of the storage service.
+                            type: string
+                          path:
+                            description: Root directory path to the filesystem.
+                            type: string
+                          region:
+                            description: Specifies the region to sign requests with.
+                              This can be left blank if requests should be signed
+                              with an empty region.
+                            type: string
+                          s3Metadata:
+                            description: S3 compatible metadata. documented below.
+                            properties:
+                              authMethod:
+                                description: Authentication and authorization method
+                                  used by the storage service. When not specified,
+                                  Transfer Service will attempt to determine right
+                                  auth method to use.
+                                type: string
+                              listApi:
+                                description: The Listing API to use for discovering
+                                  objects. When not specified, Transfer Service will
+                                  attempt to determine the right API to use.
+                                type: string
+                              protocol:
+                                description: The network protocol of the agent. When
+                                  not specified, the default value of NetworkProtocol
+                                  NETWORK_PROTOCOL_HTTPS is used.
+                                type: string
+                              requestModel:
+                                description: API request model used to call the storage
+                                  service. When not specified, the default value of
+                                  RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE
+                                  is used.
+                                type: string
+                            type: object
+                        type: object
                       awsS3DataSource:
                         description: An AWS S3 data source. Structure documented below.
                         properties:
@@ -2434,6 +2839,20 @@ spec:
                           bucketName:
                             description: Google Cloud Storage bucket name.
                             type: string
+                          cloudfrontDomain:
+                            description: 'The CloudFront distribution domain name
+                              pointing to this bucket, to use when fetching. See Transfer
+                              from S3 via CloudFront for more information. Format:
+                              https://{id}.cloudfront.net or any valid custom domain.
+                              Must begin with https://.'
+                            type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
                           managedPrivateNetwork:
                             description: Egress bytes over a Google-managed private
                               network. This network is shared between other users
@@ -2457,7 +2876,7 @@ spec:
                           documented below.
                         properties:
                           azureCredentials:
-                            description: Credentials used to authenticate API requests
+                            description: ) Credentials used to authenticate API requests
                               to Azure block.
                             properties:
                               sasTokenSecretRef:
@@ -2479,6 +2898,44 @@ spec:
                             description: The container to transfer from the Azure
                               Storage account.`
                             type: string
+                          credentialsSecret:
+                            description: ) Full Resource name of a secret in Secret
+                              Manager containing SAS Credentials in JSON form. Service
+                              Agent for Storage Transfer must have permissions to
+                              access secret. If credentials_secret is specified, do
+                              not specify azure_credentials.`,
+                            type: string
+                          federatedIdentityConfig:
+                            description: Federated identity config of a user registered
+                              Azure application. Structure documented below.
+                            properties:
+                              clientIdSecretRef:
+                                description: The client (application) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              tenantIdSecretRef:
+                                description: The client (directory) ID of the application
+                                  with federated credentials.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
                           path:
                             description: Root directory path to the filesystem.
                             type: string
@@ -2600,6 +3057,16 @@ spec:
                           the posix data source. When unspecified, the default name
                           is used.
                         type: string
+                      transferManifest:
+                        description: Use a manifest file to limit which object are
+                          transferred. See Storage Transfer Service manifest file
+                          format. Structure documented below.
+                        properties:
+                          location:
+                            description: 'The GCS URI to the manifest file (CSV or
+                              line-delimited). Example: gs://my-bucket/manifest.csv'
+                            type: string
+                        type: object
                       transferOptions:
                         description: Characteristics of how to treat files from datasource
                           and sink during job. If the option delete_objects_unique_in_sink
@@ -2619,24 +3086,48 @@ spec:
                               delete_objects_from_source_after_transfer are mutually exclusive.
                             type: boolean
                           metadataOptions:
+                            description: Specifies the metadata options for running
+                              a transfer. Structure documented below.
                             properties:
                               acl:
+                                description: Specifies how each object's ACLs should
+                                  be preserved for transfers between Google Cloud
+                                  Storage buckets.
                                 type: string
                               gid:
+                                description: Specifies how each file's POSIX group
+                                  ID (GID) attribute should be handled by the transfer.
                                 type: string
                               kmsKey:
+                                description: Specifies how each object's Cloud KMS
+                                  customer-managed encryption key (CMEK) is preserved
+                                  for transfers between Google Cloud Storage buckets.
                                 type: string
                               mode:
+                                description: Specifies how each file's mode attribute
+                                  should be handled by the transfer.
                                 type: string
                               storageClass:
+                                description: Specifies the storage class to set on
+                                  objects being transferred to Google Cloud Storage
+                                  buckets.
                                 type: string
                               symlink:
+                                description: Specifies how symlinks should be handled
+                                  by the transfer.
                                 type: string
                               temporaryHold:
+                                description: Specifies how each object's temporary
+                                  hold status should be preserved for transfers between
+                                  Google Cloud Storage buckets.
                                 type: string
                               timeCreated:
+                                description: Specifies how each object's timeCreated
+                                  metadata is preserved for transfers.
                                 type: string
                               uid:
+                                description: Specifies how each file's POSIX user
+                                  ID (UID) attribute should be handled by the transfer.
                                 type: string
                             type: object
                           overwriteObjectsAlreadyExistingInSink:

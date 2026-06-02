@@ -46,12 +46,12 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.Notification_GroupVersionKind), tjcontroller.WithEventHandler(eventHandler), tjcontroller.WithStatusUpdates(false))
 	opts := []managed.ReconcilerOption{
 		managed.WithExternalConnecter(
-			tjcontroller.NewTerraformPluginSDKAsyncConnector(mgr.GetClient(), o.OperationTrackerStore, o.SetupFn, o.Provider.Resources["google_storage_notification"],
-				tjcontroller.WithTerraformPluginSDKAsyncLogger(o.Logger),
-				tjcontroller.WithTerraformPluginSDKAsyncConnectorEventHandler(eventHandler),
-				tjcontroller.WithTerraformPluginSDKAsyncCallbackProvider(ac),
-				tjcontroller.WithTerraformPluginSDKAsyncMetricRecorder(metrics.NewMetricRecorder(v1beta1.Notification_GroupVersionKind, mgr, o.PollInterval)),
-				tjcontroller.WithTerraformPluginSDKAsyncManagementPolicies(o.Features.Enabled(features.EnableBetaManagementPolicies)),
+			tjcontroller.NewTerraformPluginFrameworkAsyncConnector(mgr.GetClient(), o.OperationTrackerStore, o.SetupFn, o.Provider.Resources["google_storage_notification"],
+				tjcontroller.WithTerraformPluginFrameworkAsyncLogger(o.Logger),
+				tjcontroller.WithTerraformPluginFrameworkAsyncConnectorEventHandler(eventHandler),
+				tjcontroller.WithTerraformPluginFrameworkAsyncCallbackProvider(ac),
+				tjcontroller.WithTerraformPluginFrameworkAsyncMetricRecorder(metrics.NewMetricRecorder(v1beta1.Notification_GroupVersionKind, mgr, o.PollInterval)),
+				tjcontroller.WithTerraformPluginFrameworkAsyncManagementPolicies(o.Features.Enabled(features.EnableBetaManagementPolicies)),
 			),
 		),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),

@@ -13,7 +13,252 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AdditionalTrustBundlesInitParameters struct {
+
+	// List of Trust Anchors to be used while performing validation against a given
+	// TrustStore. The incoming end entity's certificate must be chained up to one of the
+	// trust anchors here.
+	// Structure is documented below.
+	TrustAnchors []TrustAnchorsInitParameters `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+
+	// If set to True, the trust bundle will include the private ca managed identity regional root
+	// public certificates.
+	// ~> Note trust_default_shared_ca is only supported for managed identity trust domain
+	// resource.
+	TrustDefaultSharedCA *bool `json:"trustDefaultSharedCa,omitempty" tf:"trust_default_shared_ca,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	TrustDomain *string `json:"trustDomain,omitempty" tf:"trust_domain,omitempty"`
+}
+
+type AdditionalTrustBundlesObservation struct {
+
+	// List of Trust Anchors to be used while performing validation against a given
+	// TrustStore. The incoming end entity's certificate must be chained up to one of the
+	// trust anchors here.
+	// Structure is documented below.
+	TrustAnchors []TrustAnchorsObservation `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+
+	// If set to True, the trust bundle will include the private ca managed identity regional root
+	// public certificates.
+	// ~> Note trust_default_shared_ca is only supported for managed identity trust domain
+	// resource.
+	TrustDefaultSharedCA *bool `json:"trustDefaultSharedCa,omitempty" tf:"trust_default_shared_ca,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	TrustDomain *string `json:"trustDomain,omitempty" tf:"trust_domain,omitempty"`
+}
+
+type AdditionalTrustBundlesParameters struct {
+
+	// List of Trust Anchors to be used while performing validation against a given
+	// TrustStore. The incoming end entity's certificate must be chained up to one of the
+	// trust anchors here.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TrustAnchors []TrustAnchorsParameters `json:"trustAnchors" tf:"trust_anchors,omitempty"`
+
+	// If set to True, the trust bundle will include the private ca managed identity regional root
+	// public certificates.
+	// ~> Note trust_default_shared_ca is only supported for managed identity trust domain
+	// resource.
+	// +kubebuilder:validation:Optional
+	TrustDefaultSharedCA *bool `json:"trustDefaultSharedCa,omitempty" tf:"trust_default_shared_ca,omitempty"`
+
+	// The identifier for this object. Format specified above.
+	// +kubebuilder:validation:Optional
+	TrustDomain *string `json:"trustDomain" tf:"trust_domain,omitempty"`
+}
+
+type AttestationRulesInitParameters struct {
+
+	// A single workload operating on Google Cloud. For example:
+	// //run.googleapis.com/projects/123/type/Service/*.
+	GoogleCloudResource *string `json:"googleCloudResource,omitempty" tf:"google_cloud_resource,omitempty"`
+}
+
+type AttestationRulesObservation struct {
+
+	// A single workload operating on Google Cloud. For example:
+	// //run.googleapis.com/projects/123/type/Service/*.
+	GoogleCloudResource *string `json:"googleCloudResource,omitempty" tf:"google_cloud_resource,omitempty"`
+}
+
+type AttestationRulesParameters struct {
+
+	// A single workload operating on Google Cloud. For example:
+	// //run.googleapis.com/projects/123/type/Service/*.
+	// +kubebuilder:validation:Optional
+	GoogleCloudResource *string `json:"googleCloudResource" tf:"google_cloud_resource,omitempty"`
+}
+
+type InlineCertificateIssuanceConfigInitParameters struct {
+
+	// A required mapping of a cloud region to the CA pool resource located in that region used
+	// for certificate issuance, adhering to these constraints:
+	// +mapType=granular
+	CAPools map[string]*string `json:"caPools,omitempty" tf:"ca_pools,omitempty"`
+
+	// Key algorithm to use when generating the key pair. This key pair will be used to create
+	// the certificate. If unspecified, this will default to ECDSA_P256.
+	KeyAlgorithm *string `json:"keyAlgorithm,omitempty" tf:"key_algorithm,omitempty"`
+
+	// Lifetime of the workload certificates issued by the CA pool in seconds. Must be between
+	// 86400s (24 hours) to 2592000s (30 days), ends in the suffix "s" (indicating seconds)
+	// and is preceded by the number of seconds. If unspecified, this will be defaulted to
+	// 86400s (24 hours).
+	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
+
+	// Rotation window percentage indicating when certificate rotation should be initiated based
+	// on remaining lifetime. Must be between 50 - 80. If unspecified, this will be defaulted
+	// to 50.
+	RotationWindowPercentage *float64 `json:"rotationWindowPercentage,omitempty" tf:"rotation_window_percentage,omitempty"`
+
+	// If set to true, the trust domain will utilize the GCP-provisioned default CA. A default
+	// CA in the same region as the workload will be selected to issue the certificate. Enabling
+	// this will clear any existing ca_pools configuration to provision the certificates.
+	// ~> Note This field is mutually exclusive with ca_pools. If this flag is enabled,
+	// certificates will be automatically provisioned from the default shared CAs. This flag should
+	// not be set if you want to use your own CA pools to provision the certificates.
+	UseDefaultSharedCA *bool `json:"useDefaultSharedCa,omitempty" tf:"use_default_shared_ca,omitempty"`
+}
+
+type InlineCertificateIssuanceConfigObservation struct {
+
+	// A required mapping of a cloud region to the CA pool resource located in that region used
+	// for certificate issuance, adhering to these constraints:
+	// +mapType=granular
+	CAPools map[string]*string `json:"caPools,omitempty" tf:"ca_pools,omitempty"`
+
+	// Key algorithm to use when generating the key pair. This key pair will be used to create
+	// the certificate. If unspecified, this will default to ECDSA_P256.
+	KeyAlgorithm *string `json:"keyAlgorithm,omitempty" tf:"key_algorithm,omitempty"`
+
+	// Lifetime of the workload certificates issued by the CA pool in seconds. Must be between
+	// 86400s (24 hours) to 2592000s (30 days), ends in the suffix "s" (indicating seconds)
+	// and is preceded by the number of seconds. If unspecified, this will be defaulted to
+	// 86400s (24 hours).
+	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
+
+	// Rotation window percentage indicating when certificate rotation should be initiated based
+	// on remaining lifetime. Must be between 50 - 80. If unspecified, this will be defaulted
+	// to 50.
+	RotationWindowPercentage *float64 `json:"rotationWindowPercentage,omitempty" tf:"rotation_window_percentage,omitempty"`
+
+	// If set to true, the trust domain will utilize the GCP-provisioned default CA. A default
+	// CA in the same region as the workload will be selected to issue the certificate. Enabling
+	// this will clear any existing ca_pools configuration to provision the certificates.
+	// ~> Note This field is mutually exclusive with ca_pools. If this flag is enabled,
+	// certificates will be automatically provisioned from the default shared CAs. This flag should
+	// not be set if you want to use your own CA pools to provision the certificates.
+	UseDefaultSharedCA *bool `json:"useDefaultSharedCa,omitempty" tf:"use_default_shared_ca,omitempty"`
+}
+
+type InlineCertificateIssuanceConfigParameters struct {
+
+	// A required mapping of a cloud region to the CA pool resource located in that region used
+	// for certificate issuance, adhering to these constraints:
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	CAPools map[string]*string `json:"caPools,omitempty" tf:"ca_pools,omitempty"`
+
+	// Key algorithm to use when generating the key pair. This key pair will be used to create
+	// the certificate. If unspecified, this will default to ECDSA_P256.
+	// +kubebuilder:validation:Optional
+	KeyAlgorithm *string `json:"keyAlgorithm,omitempty" tf:"key_algorithm,omitempty"`
+
+	// Lifetime of the workload certificates issued by the CA pool in seconds. Must be between
+	// 86400s (24 hours) to 2592000s (30 days), ends in the suffix "s" (indicating seconds)
+	// and is preceded by the number of seconds. If unspecified, this will be defaulted to
+	// 86400s (24 hours).
+	// +kubebuilder:validation:Optional
+	Lifetime *string `json:"lifetime,omitempty" tf:"lifetime,omitempty"`
+
+	// Rotation window percentage indicating when certificate rotation should be initiated based
+	// on remaining lifetime. Must be between 50 - 80. If unspecified, this will be defaulted
+	// to 50.
+	// +kubebuilder:validation:Optional
+	RotationWindowPercentage *float64 `json:"rotationWindowPercentage,omitempty" tf:"rotation_window_percentage,omitempty"`
+
+	// If set to true, the trust domain will utilize the GCP-provisioned default CA. A default
+	// CA in the same region as the workload will be selected to issue the certificate. Enabling
+	// this will clear any existing ca_pools configuration to provision the certificates.
+	// ~> Note This field is mutually exclusive with ca_pools. If this flag is enabled,
+	// certificates will be automatically provisioned from the default shared CAs. This flag should
+	// not be set if you want to use your own CA pools to provision the certificates.
+	// +kubebuilder:validation:Optional
+	UseDefaultSharedCA *bool `json:"useDefaultSharedCa,omitempty" tf:"use_default_shared_ca,omitempty"`
+}
+
+type InlineTrustConfigInitParameters struct {
+
+	// Maps specific trust domains (e.g., "example.com") to their corresponding TrustStore
+	// objects, which contain the trusted root certificates for that domain. There can be a
+	// maximum of 10 trust domain entries in this map.
+	// Note that a trust domain automatically trusts itself and don't need to be specified here.
+	// If however, this WorkloadIdentityPool's trust domain contains any trust anchors in the
+	// additional_trust_bundles map, those trust anchors will be appended to the Trust Bundle
+	// automatically derived from your InlineCertificateIssuanceConfig's ca_pools.
+	// Structure is documented below.
+	AdditionalTrustBundles []AdditionalTrustBundlesInitParameters `json:"additionalTrustBundles,omitempty" tf:"additional_trust_bundles,omitempty"`
+}
+
+type InlineTrustConfigObservation struct {
+
+	// Maps specific trust domains (e.g., "example.com") to their corresponding TrustStore
+	// objects, which contain the trusted root certificates for that domain. There can be a
+	// maximum of 10 trust domain entries in this map.
+	// Note that a trust domain automatically trusts itself and don't need to be specified here.
+	// If however, this WorkloadIdentityPool's trust domain contains any trust anchors in the
+	// additional_trust_bundles map, those trust anchors will be appended to the Trust Bundle
+	// automatically derived from your InlineCertificateIssuanceConfig's ca_pools.
+	// Structure is documented below.
+	AdditionalTrustBundles []AdditionalTrustBundlesObservation `json:"additionalTrustBundles,omitempty" tf:"additional_trust_bundles,omitempty"`
+}
+
+type InlineTrustConfigParameters struct {
+
+	// Maps specific trust domains (e.g., "example.com") to their corresponding TrustStore
+	// objects, which contain the trusted root certificates for that domain. There can be a
+	// maximum of 10 trust domain entries in this map.
+	// Note that a trust domain automatically trusts itself and don't need to be specified here.
+	// If however, this WorkloadIdentityPool's trust domain contains any trust anchors in the
+	// additional_trust_bundles map, those trust anchors will be appended to the Trust Bundle
+	// automatically derived from your InlineCertificateIssuanceConfig's ca_pools.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdditionalTrustBundles []AdditionalTrustBundlesParameters `json:"additionalTrustBundles,omitempty" tf:"additional_trust_bundles,omitempty"`
+}
+
+type TrustAnchorsInitParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one ca
+	// certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustAnchorsObservation struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one ca
+	// certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustAnchorsParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one ca
+	// certificate(either root or intermediate cert).
+	// +kubebuilder:validation:Optional
+	PemCertificate *string `json:"pemCertificate" tf:"pem_certificate,omitempty"`
+}
+
 type WorkloadIdentityPoolInitParameters struct {
+
+	// Defines which workloads can receive an identity within a pool. When an AttestationRule is
+	// defined under a managed identity, matching workloads may receive that identity. A maximum of
+	// 50 AttestationRules can be set.
+	// Structure is documented below.
+	AttestationRules []AttestationRulesInitParameters `json:"attestationRules,omitempty" tf:"attestation_rules,omitempty"`
 
 	// A description of the pool. Cannot exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -26,12 +271,42 @@ type WorkloadIdentityPoolInitParameters struct {
 	// A display name for the pool. Cannot exceed 32 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// Represents configuration for generating mutual TLS (mTLS) certificates for the identities
+	// within this pool. Defines the Certificate Authority (CA) pool resources and configurations
+	// required for issuance and rotation of mTLS workload certificates.
+	// Structure is documented below.
+	InlineCertificateIssuanceConfig *InlineCertificateIssuanceConfigInitParameters `json:"inlineCertificateIssuanceConfig,omitempty" tf:"inline_certificate_issuance_config,omitempty"`
+
+	// Represents config to add additional trusted trust domains. Defines configuration for extending
+	// trust to additional trust domains. By establishing trust with another domain, the current
+	// domain will recognize and accept certificates issued by entities within the trusted domains.
+	// Note that a trust domain automatically trusts itself, eliminating the need for explicit
+	// configuration.
+	// Structure is documented below.
+	InlineTrustConfig *InlineTrustConfigInitParameters `json:"inlineTrustConfig,omitempty" tf:"inline_trust_config,omitempty"`
+
+	// The mode for the pool is operating in. Pools with an unspecified mode will operate as if they
+	// are in FEDERATION_ONLY mode.
+	// ~> Note This field cannot be changed after the Workload Identity Pool is created.).
+	// To specify a different mode, please create a new Workload Identity Pool resource.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
 type WorkloadIdentityPoolObservation struct {
+
+	// Defines which workloads can receive an identity within a pool. When an AttestationRule is
+	// defined under a managed identity, matching workloads may receive that identity. A maximum of
+	// 50 AttestationRules can be set.
+	// Structure is documented below.
+	AttestationRules []AttestationRulesObservation `json:"attestationRules,omitempty" tf:"attestation_rules,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the pool. Cannot exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -47,6 +322,26 @@ type WorkloadIdentityPoolObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Represents configuration for generating mutual TLS (mTLS) certificates for the identities
+	// within this pool. Defines the Certificate Authority (CA) pool resources and configurations
+	// required for issuance and rotation of mTLS workload certificates.
+	// Structure is documented below.
+	InlineCertificateIssuanceConfig *InlineCertificateIssuanceConfigObservation `json:"inlineCertificateIssuanceConfig,omitempty" tf:"inline_certificate_issuance_config,omitempty"`
+
+	// Represents config to add additional trusted trust domains. Defines configuration for extending
+	// trust to additional trust domains. By establishing trust with another domain, the current
+	// domain will recognize and accept certificates issued by entities within the trusted domains.
+	// Note that a trust domain automatically trusts itself, eliminating the need for explicit
+	// configuration.
+	// Structure is documented below.
+	InlineTrustConfig *InlineTrustConfigObservation `json:"inlineTrustConfig,omitempty" tf:"inline_trust_config,omitempty"`
+
+	// The mode for the pool is operating in. Pools with an unspecified mode will operate as if they
+	// are in FEDERATION_ONLY mode.
+	// ~> Note This field cannot be changed after the Workload Identity Pool is created.).
+	// To specify a different mode, please create a new Workload Identity Pool resource.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
 	// The resource name of the pool as
 	// projects/{project_number}/locations/global/workloadIdentityPools/{workload_identity_pool_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -61,6 +356,13 @@ type WorkloadIdentityPoolObservation struct {
 
 type WorkloadIdentityPoolParameters struct {
 
+	// Defines which workloads can receive an identity within a pool. When an AttestationRule is
+	// defined under a managed identity, matching workloads may receive that identity. A maximum of
+	// 50 AttestationRules can be set.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttestationRules []AttestationRulesParameters `json:"attestationRules,omitempty" tf:"attestation_rules,omitempty"`
+
 	// A description of the pool. Cannot exceed 256 characters.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -74,6 +376,29 @@ type WorkloadIdentityPoolParameters struct {
 	// A display name for the pool. Cannot exceed 32 characters.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Represents configuration for generating mutual TLS (mTLS) certificates for the identities
+	// within this pool. Defines the Certificate Authority (CA) pool resources and configurations
+	// required for issuance and rotation of mTLS workload certificates.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InlineCertificateIssuanceConfig *InlineCertificateIssuanceConfigParameters `json:"inlineCertificateIssuanceConfig,omitempty" tf:"inline_certificate_issuance_config,omitempty"`
+
+	// Represents config to add additional trusted trust domains. Defines configuration for extending
+	// trust to additional trust domains. By establishing trust with another domain, the current
+	// domain will recognize and accept certificates issued by entities within the trusted domains.
+	// Note that a trust domain automatically trusts itself, eliminating the need for explicit
+	// configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InlineTrustConfig *InlineTrustConfigParameters `json:"inlineTrustConfig,omitempty" tf:"inline_trust_config,omitempty"`
+
+	// The mode for the pool is operating in. Pools with an unspecified mode will operate as if they
+	// are in FEDERATION_ONLY mode.
+	// ~> Note This field cannot be changed after the Workload Identity Pool is created.).
+	// To specify a different mode, please create a new Workload Identity Pool resource.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

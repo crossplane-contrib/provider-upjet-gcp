@@ -17,6 +17,7 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/examples/conversion"
 	"github.com/crossplane/upjet/v2/pkg/pipeline"
+	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 
 	"github.com/upbound/provider-gcp/v2/config"
@@ -36,9 +37,10 @@ func main() {
 		panic(fmt.Sprintf("cannot calculate the absolute path with %s", *repoRoot))
 	}
 	sdkProvider := provider.Provider()
-	pc, err := config.GetProvider(context.Background(), sdkProvider, true)
+	fwProvider := fwprovider.New(sdkProvider)
+	pc, err := config.GetProvider(context.Background(), sdkProvider, fwProvider, true)
 	kingpin.FatalIfError(err, "Cannot initialize the cluster-scoped provider configuration")
-	pns, err := config.GetNamespacedProvider(context.Background(), sdkProvider, true)
+	pns, err := config.GetNamespacedProvider(context.Background(), sdkProvider, fwProvider, true)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 	dumpGeneratedResourceList(pc, generatedResourceList)
 	dumpSkippedResourcesCSV(pc, skippedResourcesCSV)

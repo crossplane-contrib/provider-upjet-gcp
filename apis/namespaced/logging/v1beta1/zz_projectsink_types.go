@@ -153,6 +153,10 @@ type ProjectSinkObservation struct {
 	// will automatically be generated.
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

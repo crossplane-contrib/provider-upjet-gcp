@@ -84,6 +84,10 @@ type ServiceObservation struct {
 	// Structure is documented below.
 	BasicService *BasicServiceObservation `json:"basicService,omitempty" tf:"basic_service,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name used for UI elements listing this Service.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

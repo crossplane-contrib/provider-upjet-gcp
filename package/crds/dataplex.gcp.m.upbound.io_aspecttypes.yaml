@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: aspecttypes.dataplex.gcp.m.upbound.io
 spec:
   group: dataplex.gcp.m.upbound.io
@@ -59,6 +59,14 @@ spec:
             properties:
               forProvider:
                 properties:
+                  dataClassification:
+                    description: |-
+                      Classifies the data stored by the aspect.
+                      DATA_CLASSIFICATION_UNSPECIFIED denotes that the aspect contains only metadata
+                      while METADATA_AND_DATA indicates data derived content.
+
+                      Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+                    type: string
                   description:
                     description: Description of the AspectType.
                     type: string
@@ -180,6 +188,14 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  dataClassification:
+                    description: |-
+                      Classifies the data stored by the aspect.
+                      DATA_CLASSIFICATION_UNSPECIFIED denotes that the aspect contains only metadata
+                      while METADATA_AND_DATA indicates data derived content.
+
+                      Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+                    type: string
                   description:
                     description: Description of the AspectType.
                     type: string
@@ -348,6 +364,19 @@ spec:
                 properties:
                   createTime:
                     description: The time when the AspectType was created.
+                    type: string
+                  dataClassification:
+                    description: |-
+                      Classifies the data stored by the aspect.
+                      DATA_CLASSIFICATION_UNSPECIFIED denotes that the aspect contains only metadata
+                      while METADATA_AND_DATA indicates data derived content.
+
+                      Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the AspectType.

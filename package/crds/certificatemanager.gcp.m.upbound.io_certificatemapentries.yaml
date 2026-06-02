@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: certificatemapentries.certificatemanager.gcp.m.upbound.io
 spec:
   group: certificatemanager.gcp.m.upbound.io
@@ -172,7 +172,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   map:
-                    description: A map entry that is inputted into the cetrificate
+                    description: A map entry that is inputted into the certificate
                       map
                     type: string
                   mapRef:
@@ -478,6 +478,11 @@ spec:
                       with nanosecond resolution and up to nine fractional digits.
                       Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A human-readable description of the resource.
                     type: string
@@ -506,7 +511,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   map:
-                    description: A map entry that is inputted into the cetrificate
+                    description: A map entry that is inputted into the certificate
                       map
                     type: string
                   matcher:

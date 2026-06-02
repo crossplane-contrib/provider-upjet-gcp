@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: functions.cloudfunctions.gcp.m.upbound.io
 spec:
   group: cloudfunctions.gcp.m.upbound.io
@@ -160,7 +160,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the function.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                   maxInstances:
                     description: The limit on the maximum number of function instances
@@ -589,7 +589,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the function.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                   maxInstances:
                     description: The limit on the maximum number of function instances
@@ -990,6 +990,11 @@ spec:
                     description: Name of the Cloud Build Custom Worker Pool that should
                       be used to build the function.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the function.
                     type: string
@@ -1075,7 +1080,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the function.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                   maxInstances:
                     description: The limit on the maximum number of function instances

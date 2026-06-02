@@ -146,3 +146,48 @@ func descriptionOverrides() tjconfig.ResourceOption {
 		})
 	}
 }
+
+// resourcesWithPreexistingDeletionPolicy is the set of TF resource names that
+// had a top-level deletion_policy field before the v7.32.0 provider bump.
+// These must be kept to avoid breaking existing CRD APIs.
+var resourcesWithPreexistingDeletionPolicy = map[string]struct{}{
+	"google_alloydb_cluster":                        {},
+	"google_bigtable_gc_policy":                     {},
+	"google_billing_subaccount":                     {},
+	"google_chronicle_data_table":                   {},
+	"google_chronicle_rule":                         {},
+	"google_compute_shared_vpc_service_project":     {},
+	"google_container_attached_cluster":             {},
+	"google_datastream_private_connection":          {},
+	"google_firebase_data_connect_service":          {},
+	"google_firestore_database":                     {},
+	"google_firestore_index":                        {},
+	"google_looker_instance":                        {},
+	"google_netapp_volume":                          {},
+	"google_project":                                {},
+	"google_secret_manager_regional_secret_version": {},
+	"google_secret_manager_secret_version":          {},
+	"google_secure_source_manager_instance":         {},
+	"google_secure_source_manager_repository":       {},
+	"google_service_networking_connection":          {},
+	"google_sql_database":                           {},
+	"google_sql_provision_script":                   {},
+	"google_sql_user":                               {},
+	"google_storage_bucket_object":                  {},
+	"google_vertex_ai_reasoning_engine":             {},
+}
+
+// deletionPolicyOverride move to status the deletion_policy field for
+// resources that gained it in the v7.32.0 provider bump. Resources that
+// already exposed this field before the bump are preserved to avoid breaking
+// existing CRD APIs.
+// Directly removing from the schema causes some runtime issues. So this way
+// was preferred.
+func deletionPolicyOverride() tjconfig.ResourceOption {
+	return func(r *tjconfig.Resource) {
+		if _, keep := resourcesWithPreexistingDeletionPolicy[r.Name]; keep {
+			return
+		}
+		tjconfig.MoveToStatus(r.TerraformResource, "deletion_policy")
+	}
+}

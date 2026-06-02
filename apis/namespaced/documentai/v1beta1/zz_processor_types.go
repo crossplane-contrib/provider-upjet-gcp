@@ -35,6 +35,10 @@ type ProcessorInitParameters struct {
 
 type ProcessorObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The display name. Must be unique.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

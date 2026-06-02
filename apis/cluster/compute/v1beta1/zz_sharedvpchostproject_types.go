@@ -31,6 +31,10 @@ type SharedVPCHostProjectInitParameters struct {
 
 type SharedVPCHostProjectObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{project}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

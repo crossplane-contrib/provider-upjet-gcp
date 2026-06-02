@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: uptimecheckconfigs.monitoring.gcp.m.upbound.io
 spec:
   group: monitoring.gcp.m.upbound.io
@@ -132,8 +132,8 @@ spec:
                         properties:
                           passwordSecretRef:
                             description: |-
-                              A LocalSecretKeySelector is a reference to a secret key
-                              in the same namespace with the referencing object.
+                              The password to authenticate.
+                              Note: This property is sensitive and will not be displayed in the plan.
                             properties:
                               key:
                                 type: string
@@ -145,12 +145,15 @@ spec:
                             - name
                             type: object
                           passwordWo:
+                            description: |-
+                              The password to authenticate.
+                              Note: This property is write-only and will not be read from the API.
                             type: string
                           passwordWoVersion:
+                            description: The password write-only version.
                             type: string
                           username:
-                            description: A unique resource name for this UptimeCheckConfig.
-                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            description: The username to authenticate.
                             type: string
                         type: object
                       body:
@@ -617,8 +620,8 @@ spec:
                         properties:
                           passwordSecretRef:
                             description: |-
-                              A LocalSecretKeySelector is a reference to a secret key
-                              in the same namespace with the referencing object.
+                              The password to authenticate.
+                              Note: This property is sensitive and will not be displayed in the plan.
                             properties:
                               key:
                                 type: string
@@ -630,12 +633,15 @@ spec:
                             - name
                             type: object
                           passwordWo:
+                            description: |-
+                              The password to authenticate.
+                              Note: This property is write-only and will not be read from the API.
                             type: string
                           passwordWoVersion:
+                            description: The password write-only version.
                             type: string
                           username:
-                            description: A unique resource name for this UptimeCheckConfig.
-                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            description: The username to authenticate.
                             type: string
                         type: object
                       body:
@@ -1127,6 +1133,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: A human-friendly name for the uptime check configuration.
                       The display name should be unique within a Stackdriver Workspace
@@ -1160,12 +1171,15 @@ spec:
                           Structure is documented below.
                         properties:
                           passwordWo:
+                            description: |-
+                              The password to authenticate.
+                              Note: This property is write-only and will not be read from the API.
                             type: string
                           passwordWoVersion:
+                            description: The password write-only version.
                             type: string
                           username:
-                            description: A unique resource name for this UptimeCheckConfig.
-                              The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+                            description: The username to authenticate.
                             type: string
                         type: object
                       body:

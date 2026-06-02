@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: managedzones.dns.gcp.m.upbound.io
 spec:
   group: dns.gcp.m.upbound.io
@@ -151,13 +151,22 @@ spec:
                               type: string
                             forwardingPath:
                               description: |-
-                                Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-                                decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-                                to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                Forwarding path for this TargetNameServer. If unset or default
+                                Cloud DNS will make forwarding decision based on address ranges,
+                                i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                to the Internet. When set to private, Cloud DNS will always
+                                send queries through VPC for this target.
                                 Possible values are: default, private.
                               type: string
                             ipv4Address:
-                              description: IPv4 address of a target name server.
+                              description: |-
+                                IPv4 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
+                              type: string
+                            ipv6Address:
+                              description: |-
+                                IPv6 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
                               type: string
                           type: object
                         type: array
@@ -589,13 +598,22 @@ spec:
                               type: string
                             forwardingPath:
                               description: |-
-                                Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-                                decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-                                to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                Forwarding path for this TargetNameServer. If unset or default
+                                Cloud DNS will make forwarding decision based on address ranges,
+                                i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                to the Internet. When set to private, Cloud DNS will always
+                                send queries through VPC for this target.
                                 Possible values are: default, private.
                               type: string
                             ipv4Address:
-                              description: IPv4 address of a target name server.
+                              description: |-
+                                IPv4 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
+                              type: string
+                            ipv6Address:
+                              description: |-
+                                IPv6 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
                               type: string
                           type: object
                         type: array
@@ -1005,6 +1023,11 @@ spec:
                       The time that this resource was created on the server.
                       This is in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A textual description field.
                     type: string
@@ -1093,13 +1116,22 @@ spec:
                               type: string
                             forwardingPath:
                               description: |-
-                                Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-                                decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-                                to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                Forwarding path for this TargetNameServer. If unset or default
+                                Cloud DNS will make forwarding decision based on address ranges,
+                                i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                to the Internet. When set to private, Cloud DNS will always
+                                send queries through VPC for this target.
                                 Possible values are: default, private.
                               type: string
                             ipv4Address:
-                              description: IPv4 address of a target name server.
+                              description: |-
+                                IPv4 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
+                              type: string
+                            ipv6Address:
+                              description: |-
+                                IPv6 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
                               type: string
                           type: object
                         type: array

@@ -16,24 +16,61 @@ import (
 
 type ActiveDirectoryConfigInitParameters struct {
 
-	// The domain name for the active directory (e.g., mydomain.com).
-	// Can only be used with SQL Server.
+	// The secret manager key storing the administrator credential. (e.g., projects/{project}/secrets/{secret}).
+	AdminCredentialSecretName *string `json:"adminCredentialSecretName,omitempty" tf:"admin_credential_secret_name,omitempty"`
+
+	// Domain controller IPv4 addresses used to bootstrap Active Directory.
+	DNSServers []*string `json:"dnsServers,omitempty" tf:"dns_servers,omitempty"`
+
+	// The domain name for the active directory (e.g., mydomain.com). Can only be used with SQL Server.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// The mode of the Active Directory configuration. Can be MANAGED_ACTIVE_DIRECTORY or CUSTOMER_MANAGED_ACTIVE_DIRECTORY.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The organizational unit distinguished name. This is the full hierarchical path to the organizational unit.
+	OrganizationalUnit *string `json:"organizationalUnit,omitempty" tf:"organizational_unit,omitempty"`
 }
 
 type ActiveDirectoryConfigObservation struct {
 
-	// The domain name for the active directory (e.g., mydomain.com).
-	// Can only be used with SQL Server.
+	// The secret manager key storing the administrator credential. (e.g., projects/{project}/secrets/{secret}).
+	AdminCredentialSecretName *string `json:"adminCredentialSecretName,omitempty" tf:"admin_credential_secret_name,omitempty"`
+
+	// Domain controller IPv4 addresses used to bootstrap Active Directory.
+	DNSServers []*string `json:"dnsServers,omitempty" tf:"dns_servers,omitempty"`
+
+	// The domain name for the active directory (e.g., mydomain.com). Can only be used with SQL Server.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// The mode of the Active Directory configuration. Can be MANAGED_ACTIVE_DIRECTORY or CUSTOMER_MANAGED_ACTIVE_DIRECTORY.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The organizational unit distinguished name. This is the full hierarchical path to the organizational unit.
+	OrganizationalUnit *string `json:"organizationalUnit,omitempty" tf:"organizational_unit,omitempty"`
 }
 
 type ActiveDirectoryConfigParameters struct {
 
-	// The domain name for the active directory (e.g., mydomain.com).
-	// Can only be used with SQL Server.
+	// The secret manager key storing the administrator credential. (e.g., projects/{project}/secrets/{secret}).
+	// +kubebuilder:validation:Optional
+	AdminCredentialSecretName *string `json:"adminCredentialSecretName,omitempty" tf:"admin_credential_secret_name,omitempty"`
+
+	// Domain controller IPv4 addresses used to bootstrap Active Directory.
+	// +kubebuilder:validation:Optional
+	DNSServers []*string `json:"dnsServers,omitempty" tf:"dns_servers,omitempty"`
+
+	// The domain name for the active directory (e.g., mydomain.com). Can only be used with SQL Server.
 	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain" tf:"domain,omitempty"`
+
+	// The mode of the Active Directory configuration. Can be MANAGED_ACTIVE_DIRECTORY or CUSTOMER_MANAGED_ACTIVE_DIRECTORY.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The organizational unit distinguished name. This is the full hierarchical path to the organizational unit.
+	// +kubebuilder:validation:Optional
+	OrganizationalUnit *string `json:"organizationalUnit,omitempty" tf:"organizational_unit,omitempty"`
 }
 
 type AdvancedMachineFeaturesInitParameters struct {
@@ -133,6 +170,9 @@ type BackupConfigurationObservation struct {
 
 	// Backup retention settings. The configuration is detailed below.
 	BackupRetentionSettings *BackupRetentionSettingsObservation `json:"backupRetentionSettings,omitempty" tf:"backup_retention_settings,omitempty"`
+
+	// (Computed) The backup tier that manages the backups for the instance.
+	BackupTier *string `json:"backupTier,omitempty" tf:"backup_tier,omitempty"`
 
 	// True if binary logging is enabled.
 	// Can only be used with MySQL.
@@ -234,8 +274,14 @@ type CloneInitParameters struct {
 	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
 	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
+	// The timestamp of when the source instance was deleted for a clone from a deleted instance.
+	SourceInstanceDeletionTime *string `json:"sourceInstanceDeletionTime,omitempty" tf:"source_instance_deletion_time,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
+
+	// Id of source project where source instances exits, required for cross project clone scenario.
+	SourceProject *string `json:"sourceProject,omitempty" tf:"source_project,omitempty"`
 }
 
 type CloneObservation struct {
@@ -252,8 +298,14 @@ type CloneObservation struct {
 	// (Point-in-time recovery for PostgreSQL only) Clone to an instance in the specified zone. If no zone is specified, clone to the same zone as the source instance. clone-unavailable-instance
 	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
+	// The timestamp of when the source instance was deleted for a clone from a deleted instance.
+	SourceInstanceDeletionTime *string `json:"sourceInstanceDeletionTime,omitempty" tf:"source_instance_deletion_time,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
+
+	// Id of source project where source instances exits, required for cross project clone scenario.
+	SourceProject *string `json:"sourceProject,omitempty" tf:"source_project,omitempty"`
 }
 
 type CloneParameters struct {
@@ -274,9 +326,17 @@ type CloneParameters struct {
 	// +kubebuilder:validation:Optional
 	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
+	// The timestamp of when the source instance was deleted for a clone from a deleted instance.
+	// +kubebuilder:validation:Optional
+	SourceInstanceDeletionTime *string `json:"sourceInstanceDeletionTime,omitempty" tf:"source_instance_deletion_time,omitempty"`
+
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
 	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
+
+	// Id of source project where source instances exits, required for cross project clone scenario.
+	// +kubebuilder:validation:Optional
+	SourceProject *string `json:"sourceProject,omitempty" tf:"source_project,omitempty"`
 }
 
 type ConnectionPoolConfigInitParameters struct {
@@ -325,19 +385,19 @@ type DNSNamesParameters struct {
 
 type DataCacheConfigInitParameters struct {
 
-	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
+	// Whether data cache is enabled for the instance. Defaults to true for MYSQL Enterprise Plus and PostgreSQL Enterprise Plus instances only. For SQL Server Enterprise Plus instances it defaults to false.
 	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
 
 type DataCacheConfigObservation struct {
 
-	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
+	// Whether data cache is enabled for the instance. Defaults to true for MYSQL Enterprise Plus and PostgreSQL Enterprise Plus instances only. For SQL Server Enterprise Plus instances it defaults to false.
 	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
 
 type DataCacheConfigParameters struct {
 
-	// Whether data cache is enabled for the instance. Defaults to false. Can be used with MYSQL and PostgreSQL only.
+	// Whether data cache is enabled for the instance. Defaults to true for MYSQL Enterprise Plus and PostgreSQL Enterprise Plus instances only. For SQL Server Enterprise Plus instances it defaults to false.
 	// +kubebuilder:validation:Optional
 	DataCacheEnabled *bool `json:"dataCacheEnabled,omitempty" tf:"data_cache_enabled,omitempty"`
 }
@@ -379,6 +439,10 @@ type DatabaseFlagsParameters struct {
 
 type DatabaseInstanceInitParameters struct {
 
+	// The backupdr_backup needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
+	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	BackupdrBackup *string `json:"backupdrBackup,omitempty" tf:"backupdr_backup,omitempty"`
+
 	// The context needed to create this instance as a clone of another instance. The
 	// configuration is detailed below.
 	Clone *CloneInitParameters `json:"clone,omitempty" tf:"clone,omitempty"`
@@ -386,10 +450,10 @@ type DatabaseInstanceInitParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
-	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
-	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
-	// SQLSERVER_2019_WEB.
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18,
+	// SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2022_EXPRESS,
+	// SQLSERVER_2022_WEB, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE,
+	// SQLSERVER_2025_EXPRESS, SQLSERVER_2025_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
@@ -406,6 +470,9 @@ type DatabaseInstanceInitParameters struct {
 	// key - please see this step.
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
+	// The description of final backup. Only set this field when final_backup_config.enabled is true.
+	FinalBackupDescription *string `json:"finalBackupDescription,omitempty" tf:"final_backup_description,omitempty"`
+
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
 	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
@@ -413,6 +480,13 @@ type DatabaseInstanceInitParameters struct {
 	// act as the master in the replication setup. Note, this requires the master to
 	// have binary_log_enabled set, as well as existing backups.
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
+
+	// For a read pool instance, the number of nodes in the read pool. For read pools with auto scaling enabled, this field is read only.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The point_in_time_restore_context needed for performing a point-in-time recovery of an instance managed by Google Cloud Backup and Disaster Recovery. The configuration is detailed below. Adding or modifying this
+	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	PointInTimeRestoreContext *PointInTimeRestoreContextInitParameters `json:"pointInTimeRestoreContext,omitempty" tf:"point_in_time_restore_context,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -438,6 +512,12 @@ type DatabaseInstanceInitParameters struct {
 	// Initial root password. Can be updated. Required for MS SQL Server.
 	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
+	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
+	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
+
+	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
+	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
+
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
 	Settings *SettingsInitParameters `json:"settings,omitempty" tf:"settings,omitempty"`
@@ -447,6 +527,10 @@ type DatabaseInstanceObservation struct {
 
 	// The list of all maintenance versions applicable on the instance.
 	AvailableMaintenanceVersions []*string `json:"availableMaintenanceVersions,omitempty" tf:"available_maintenance_versions,omitempty"`
+
+	// The backupdr_backup needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
+	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	BackupdrBackup *string `json:"backupdrBackup,omitempty" tf:"backupdr_backup,omitempty"`
 
 	// The context needed to create this instance as a clone of another instance. The
 	// configuration is detailed below.
@@ -465,13 +549,17 @@ type DatabaseInstanceObservation struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
-	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
-	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
-	// SQLSERVER_2019_WEB.
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18,
+	// SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2022_EXPRESS,
+	// SQLSERVER_2022_WEB, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE,
+	// SQLSERVER_2025_EXPRESS, SQLSERVER_2025_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// When the field is set to false, deleting the instance is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -485,15 +573,18 @@ type DatabaseInstanceObservation struct {
 	// key - please see this step.
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
+	// The description of final backup. Only set this field when final_backup_config.enabled is true.
+	FinalBackupDescription *string `json:"finalBackupDescription,omitempty" tf:"final_backup_description,omitempty"`
+
 	// The first IPv4 address of any type assigned.
 	FirstIPAddress *string `json:"firstIpAddress,omitempty" tf:"first_ip_address,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The IPv4 address assigned.
+	// (Output) The IP address of the consumer endpoint.
 	IPAddress []IPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
-	// The type of the instance. The supported values are SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE and READ_REPLICA_INSTANCE.
+	// The type of the instance. See API reference for SqlInstanceType for supported values.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
@@ -503,6 +594,13 @@ type DatabaseInstanceObservation struct {
 	// act as the master in the replication setup. Note, this requires the master to
 	// have binary_log_enabled set, as well as existing backups.
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
+
+	// For a read pool instance, the number of nodes in the read pool. For read pools with auto scaling enabled, this field is read only.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The point_in_time_restore_context needed for performing a point-in-time recovery of an instance managed by Google Cloud Backup and Disaster Recovery. The configuration is detailed below. Adding or modifying this
+	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	PointInTimeRestoreContext *PointInTimeRestoreContextObservation `json:"pointInTimeRestoreContext,omitempty" tf:"point_in_time_restore_context,omitempty"`
 
 	// The first private (PRIVATE) IPv4 address assigned.
 	PrivateIPAddress *string `json:"privateIpAddress,omitempty" tf:"private_ip_address,omitempty"`
@@ -534,6 +632,12 @@ type DatabaseInstanceObservation struct {
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext *RestoreBackupContextObservation `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
+	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
+	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
+
+	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
+	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
+
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -548,6 +652,11 @@ type DatabaseInstanceObservation struct {
 
 type DatabaseInstanceParameters struct {
 
+	// The backupdr_backup needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
+	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	// +kubebuilder:validation:Optional
+	BackupdrBackup *string `json:"backupdrBackup,omitempty" tf:"backupdr_backup,omitempty"`
+
 	// The context needed to create this instance as a clone of another instance. The
 	// configuration is detailed below.
 	// +kubebuilder:validation:Optional
@@ -556,10 +665,10 @@ type DatabaseInstanceParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
-	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
-	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
-	// SQLSERVER_2019_WEB.
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18,
+	// SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2022_EXPRESS,
+	// SQLSERVER_2022_WEB, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE,
+	// SQLSERVER_2025_EXPRESS, SQLSERVER_2025_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	// +kubebuilder:validation:Optional
@@ -579,6 +688,10 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
+	// The description of final backup. Only set this field when final_backup_config.enabled is true.
+	// +kubebuilder:validation:Optional
+	FinalBackupDescription *string `json:"finalBackupDescription,omitempty" tf:"final_backup_description,omitempty"`
+
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
 	// +kubebuilder:validation:Optional
 	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
@@ -588,6 +701,15 @@ type DatabaseInstanceParameters struct {
 	// have binary_log_enabled set, as well as existing backups.
 	// +kubebuilder:validation:Optional
 	MasterInstanceName *string `json:"masterInstanceName,omitempty" tf:"master_instance_name,omitempty"`
+
+	// For a read pool instance, the number of nodes in the read pool. For read pools with auto scaling enabled, this field is read only.
+	// +kubebuilder:validation:Optional
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The point_in_time_restore_context needed for performing a point-in-time recovery of an instance managed by Google Cloud Backup and Disaster Recovery. The configuration is detailed below. Adding or modifying this
+	// block during resource creation/update will trigger the restore action after the resource is created/updated.
+	// +kubebuilder:validation:Optional
+	PointInTimeRestoreContext *PointInTimeRestoreContextParameters `json:"pointInTimeRestoreContext,omitempty" tf:"point_in_time_restore_context,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -619,6 +741,14 @@ type DatabaseInstanceParameters struct {
 	// Initial root password. Can be updated. Required for MS SQL Server.
 	// +kubebuilder:validation:Optional
 	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
+
+	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
+
+	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
 
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
@@ -665,6 +795,64 @@ type DenyMaintenancePeriodParameters struct {
 	Time *string `json:"time" tf:"time,omitempty"`
 }
 
+type EntraidConfigInitParameters struct {
+
+	// The application ID for the Entra ID configuration. This must be paired with a tenant_id to be valid.
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
+	// The tenant ID for the Entra ID configuration. This must be paired with an application_id to be valid.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type EntraidConfigObservation struct {
+
+	// The application ID for the Entra ID configuration. This must be paired with a tenant_id to be valid.
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
+	// The tenant ID for the Entra ID configuration. This must be paired with an application_id to be valid.
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type EntraidConfigParameters struct {
+
+	// The application ID for the Entra ID configuration. This must be paired with a tenant_id to be valid.
+	// +kubebuilder:validation:Optional
+	ApplicationID *string `json:"applicationId,omitempty" tf:"application_id,omitempty"`
+
+	// The tenant ID for the Entra ID configuration. This must be paired with an application_id to be valid.
+	// +kubebuilder:validation:Optional
+	TenantID *string `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+}
+
+type FinalBackupConfigInitParameters struct {
+
+	// True if Read Pool Auto Scale is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The number of days we retain the final backup after instance deletion. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 99 years.
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+}
+
+type FinalBackupConfigObservation struct {
+
+	// True if Read Pool Auto Scale is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The number of days we retain the final backup after instance deletion. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 99 years.
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+}
+
+type FinalBackupConfigParameters struct {
+
+	// True if Read Pool Auto Scale is enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The number of days we retain the final backup after instance deletion. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 99 years.
+	// +kubebuilder:validation:Optional
+	RetentionDays *float64 `json:"retentionDays,omitempty" tf:"retention_days,omitempty"`
+}
+
 type FlagsInitParameters struct {
 
 	// A name for this whitelist entry.
@@ -705,7 +893,7 @@ type IPAddressInitParameters struct {
 
 type IPAddressObservation struct {
 
-	// The IPv4 address assigned.
+	// (Output) The IP address of the consumer endpoint.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The time this IP address will be retired, in RFC
@@ -760,11 +948,14 @@ type IPConfigurationInitParameters struct {
 	// Specify how SSL connection should be enforced in DB connections. Supported values are ALLOW_UNENCRYPTED_AND_ENCRYPTED, ENCRYPTED_ONLY, and TRUSTED_CLIENT_CERTIFICATE_REQUIRED (not supported for SQL Server). See API reference doc for details.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
-	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA and GOOGLE_MANAGED_CAS_CA.
+	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA, GOOGLE_MANAGED_CAS_CA, and CUSTOMER_MANAGED_CAS_CA.
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Controls the automatic server certificate rotation feature. Supported values are NO_AUTOMATIC_ROTATIONand AUTOMATIC_ROTATION_DURING_MAINTENANCE. AUTOMATIC_ROTATION_DURING_MAINTENANCE can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. See API reference doc for details.
+	ServerCertificateRotationMode *string `json:"serverCertificateRotationMode,omitempty" tf:"server_certificate_rotation_mode,omitempty"`
 }
 
 type IPConfigurationObservation struct {
@@ -798,11 +989,14 @@ type IPConfigurationObservation struct {
 	// Specify how SSL connection should be enforced in DB connections. Supported values are ALLOW_UNENCRYPTED_AND_ENCRYPTED, ENCRYPTED_ONLY, and TRUSTED_CLIENT_CERTIFICATE_REQUIRED (not supported for SQL Server). See API reference doc for details.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
-	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA and GOOGLE_MANAGED_CAS_CA.
+	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA, GOOGLE_MANAGED_CAS_CA, and CUSTOMER_MANAGED_CAS_CA.
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Controls the automatic server certificate rotation feature. Supported values are NO_AUTOMATIC_ROTATIONand AUTOMATIC_ROTATION_DURING_MAINTENANCE. AUTOMATIC_ROTATION_DURING_MAINTENANCE can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. See API reference doc for details.
+	ServerCertificateRotationMode *string `json:"serverCertificateRotationMode,omitempty" tf:"server_certificate_rotation_mode,omitempty"`
 }
 
 type IPConfigurationParameters struct {
@@ -854,16 +1048,23 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
-	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA and GOOGLE_MANAGED_CAS_CA.
+	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA, GOOGLE_MANAGED_CAS_CA, and CUSTOMER_MANAGED_CAS_CA.
 	// +kubebuilder:validation:Optional
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
 	// +kubebuilder:validation:Optional
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Controls the automatic server certificate rotation feature. Supported values are NO_AUTOMATIC_ROTATIONand AUTOMATIC_ROTATION_DURING_MAINTENANCE. AUTOMATIC_ROTATION_DURING_MAINTENANCE can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. See API reference doc for details.
+	// +kubebuilder:validation:Optional
+	ServerCertificateRotationMode *string `json:"serverCertificateRotationMode,omitempty" tf:"server_certificate_rotation_mode,omitempty"`
 }
 
 type InsightsConfigInitParameters struct {
+
+	// True if Enhanced Query Insights feature is enabled.
+	EnhancedQueryInsightsEnabled *bool `json:"enhancedQueryInsightsEnabled,omitempty" tf:"enhanced_query_insights_enabled,omitempty"`
 
 	// True if Query Insights feature is enabled.
 	QueryInsightsEnabled *bool `json:"queryInsightsEnabled,omitempty" tf:"query_insights_enabled,omitempty"`
@@ -883,6 +1084,9 @@ type InsightsConfigInitParameters struct {
 
 type InsightsConfigObservation struct {
 
+	// True if Enhanced Query Insights feature is enabled.
+	EnhancedQueryInsightsEnabled *bool `json:"enhancedQueryInsightsEnabled,omitempty" tf:"enhanced_query_insights_enabled,omitempty"`
+
 	// True if Query Insights feature is enabled.
 	QueryInsightsEnabled *bool `json:"queryInsightsEnabled,omitempty" tf:"query_insights_enabled,omitempty"`
 
@@ -900,6 +1104,10 @@ type InsightsConfigObservation struct {
 }
 
 type InsightsConfigParameters struct {
+
+	// True if Enhanced Query Insights feature is enabled.
+	// +kubebuilder:validation:Optional
+	EnhancedQueryInsightsEnabled *bool `json:"enhancedQueryInsightsEnabled,omitempty" tf:"enhanced_query_insights_enabled,omitempty"`
 
 	// True if Query Insights feature is enabled.
 	// +kubebuilder:validation:Optional
@@ -1075,6 +1283,75 @@ type PasswordValidationPolicyParameters struct {
 	ReuseInterval *float64 `json:"reuseInterval,omitempty" tf:"reuse_interval,omitempty"`
 }
 
+type PointInTimeRestoreContextInitParameters struct {
+
+	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The Google Cloud Backup and Disaster Recovery Datasource URI.
+	Datasource *string `json:"datasource,omitempty" tf:"datasource,omitempty"`
+
+	// The timestamp of the point in time that should be restored.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	// Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance.
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
+	// The region of the target instance where the datasource will be restored. For example: "us-central1".
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The name of the target instance.
+	TargetInstance *string `json:"targetInstance,omitempty" tf:"target_instance,omitempty"`
+}
+
+type PointInTimeRestoreContextObservation struct {
+
+	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The Google Cloud Backup and Disaster Recovery Datasource URI.
+	Datasource *string `json:"datasource,omitempty" tf:"datasource,omitempty"`
+
+	// The timestamp of the point in time that should be restored.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	// Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance.
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
+	// The region of the target instance where the datasource will be restored. For example: "us-central1".
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The name of the target instance.
+	TargetInstance *string `json:"targetInstance,omitempty" tf:"target_instance,omitempty"`
+}
+
+type PointInTimeRestoreContextParameters struct {
+
+	// The name of the allocated ip range for the private ip CloudSQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with RFC 1035. Specifically, the name must be 1-63 characters long and match the regular expression a-z?.
+	// +kubebuilder:validation:Optional
+	AllocatedIPRange *string `json:"allocatedIpRange,omitempty" tf:"allocated_ip_range,omitempty"`
+
+	// The Google Cloud Backup and Disaster Recovery Datasource URI.
+	// +kubebuilder:validation:Optional
+	Datasource *string `json:"datasource" tf:"datasource,omitempty"`
+
+	// The timestamp of the point in time that should be restored.
+	// +kubebuilder:validation:Optional
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+
+	// Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance.
+	// +kubebuilder:validation:Optional
+	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
+	// The region of the target instance where the datasource will be restored. For example: "us-central1".
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The name of the target instance.
+	// +kubebuilder:validation:Optional
+	TargetInstance *string `json:"targetInstance,omitempty" tf:"target_instance,omitempty"`
+}
+
 type PscAutoConnectionsInitParameters struct {
 
 	// "The consumer network of this consumer endpoint. This must be a resource path that includes both the host project and the network name. For example, projects/project1/global/networks/network1. The consumer host project of this network might be different from the consumer service project."
@@ -1089,8 +1366,17 @@ type PscAutoConnectionsObservation struct {
 	// "The consumer network of this consumer endpoint. This must be a resource path that includes both the host project and the network name. For example, projects/project1/global/networks/network1. The consumer host project of this network might be different from the consumer service project."
 	ConsumerNetwork *string `json:"consumerNetwork,omitempty" tf:"consumer_network,omitempty"`
 
+	// (Output) The connection policy status of the consumer network.
+	ConsumerNetworkStatus *string `json:"consumerNetworkStatus,omitempty" tf:"consumer_network_status,omitempty"`
+
 	// The project ID of consumer service project of this consumer endpoint.
 	ConsumerServiceProjectID *string `json:"consumerServiceProjectId,omitempty" tf:"consumer_service_project_id,omitempty"`
+
+	// (Output) The IP address of the consumer endpoint.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// (Output) The connection status of the consumer endpoint.
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
 type PscAutoConnectionsParameters struct {
@@ -1110,11 +1396,20 @@ type PscConfigInitParameters struct {
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
+	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
+
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	PscAutoConnections []PscAutoConnectionsInitParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
+	// Whether PSC auto DNS is enabled for this instance.
+	PscAutoDNSEnabled *bool `json:"pscAutoDnsEnabled,omitempty" tf:"psc_auto_dns_enabled,omitempty"`
+
 	// Whether PSC connectivity is enabled for this instance.
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+
+	// Whether PSC write endpoint DNS is enabled for this instance. This is only supported for Enterprise Plus edition instances.
+	PscWriteEndpointDNSEnabled *bool `json:"pscWriteEndpointDnsEnabled,omitempty" tf:"psc_write_endpoint_dns_enabled,omitempty"`
 }
 
 type PscConfigObservation struct {
@@ -1123,11 +1418,20 @@ type PscConfigObservation struct {
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
+	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
+
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	PscAutoConnections []PscAutoConnectionsObservation `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
+	// Whether PSC auto DNS is enabled for this instance.
+	PscAutoDNSEnabled *bool `json:"pscAutoDnsEnabled,omitempty" tf:"psc_auto_dns_enabled,omitempty"`
+
 	// Whether PSC connectivity is enabled for this instance.
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+
+	// Whether PSC write endpoint DNS is enabled for this instance. This is only supported for Enterprise Plus edition instances.
+	PscWriteEndpointDNSEnabled *bool `json:"pscWriteEndpointDnsEnabled,omitempty" tf:"psc_write_endpoint_dns_enabled,omitempty"`
 }
 
 type PscConfigParameters struct {
@@ -1137,13 +1441,104 @@ type PscConfigParameters struct {
 	// +listType=set
 	AllowedConsumerProjects []*string `json:"allowedConsumerProjects,omitempty" tf:"allowed_consumer_projects,omitempty"`
 
+	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
+
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	// +kubebuilder:validation:Optional
 	PscAutoConnections []PscAutoConnectionsParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
+	// Whether PSC auto DNS is enabled for this instance.
+	// +kubebuilder:validation:Optional
+	PscAutoDNSEnabled *bool `json:"pscAutoDnsEnabled,omitempty" tf:"psc_auto_dns_enabled,omitempty"`
+
 	// Whether PSC connectivity is enabled for this instance.
 	// +kubebuilder:validation:Optional
 	PscEnabled *bool `json:"pscEnabled,omitempty" tf:"psc_enabled,omitempty"`
+
+	// Whether PSC write endpoint DNS is enabled for this instance. This is only supported for Enterprise Plus edition instances.
+	// +kubebuilder:validation:Optional
+	PscWriteEndpointDNSEnabled *bool `json:"pscWriteEndpointDnsEnabled,omitempty" tf:"psc_write_endpoint_dns_enabled,omitempty"`
+}
+
+type ReadPoolAutoScaleConfigInitParameters struct {
+
+	// True if auto scale in is disabled.
+	DisableScaleIn *bool `json:"disableScaleIn,omitempty" tf:"disable_scale_in,omitempty"`
+
+	// True if Read Pool Auto Scale is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Maximum number of nodes in the read pool. If set to lower than current node count, node count will be updated.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes in the read pool. If set to higher than current node count, node count will be updated.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+
+	// The cooldown period for scale in operations.
+	ScaleInCooldownSeconds *float64 `json:"scaleInCooldownSeconds,omitempty" tf:"scale_in_cooldown_seconds,omitempty"`
+
+	// The cooldown period for scale out operations.
+	ScaleOutCooldownSeconds *float64 `json:"scaleOutCooldownSeconds,omitempty" tf:"scale_out_cooldown_seconds,omitempty"`
+
+	// Target metrics for Read Pool Auto Scale. Must specify target_metrics.metric and target_metrics.target_value in subblock.
+	TargetMetrics []TargetMetricsInitParameters `json:"targetMetrics,omitempty" tf:"target_metrics,omitempty"`
+}
+
+type ReadPoolAutoScaleConfigObservation struct {
+
+	// True if auto scale in is disabled.
+	DisableScaleIn *bool `json:"disableScaleIn,omitempty" tf:"disable_scale_in,omitempty"`
+
+	// True if Read Pool Auto Scale is enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Maximum number of nodes in the read pool. If set to lower than current node count, node count will be updated.
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes in the read pool. If set to higher than current node count, node count will be updated.
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+
+	// The cooldown period for scale in operations.
+	ScaleInCooldownSeconds *float64 `json:"scaleInCooldownSeconds,omitempty" tf:"scale_in_cooldown_seconds,omitempty"`
+
+	// The cooldown period for scale out operations.
+	ScaleOutCooldownSeconds *float64 `json:"scaleOutCooldownSeconds,omitempty" tf:"scale_out_cooldown_seconds,omitempty"`
+
+	// Target metrics for Read Pool Auto Scale. Must specify target_metrics.metric and target_metrics.target_value in subblock.
+	TargetMetrics []TargetMetricsObservation `json:"targetMetrics,omitempty" tf:"target_metrics,omitempty"`
+}
+
+type ReadPoolAutoScaleConfigParameters struct {
+
+	// True if auto scale in is disabled.
+	// +kubebuilder:validation:Optional
+	DisableScaleIn *bool `json:"disableScaleIn,omitempty" tf:"disable_scale_in,omitempty"`
+
+	// True if Read Pool Auto Scale is enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// Maximum number of nodes in the read pool. If set to lower than current node count, node count will be updated.
+	// +kubebuilder:validation:Optional
+	MaxNodeCount *float64 `json:"maxNodeCount,omitempty" tf:"max_node_count,omitempty"`
+
+	// Minimum number of nodes in the read pool. If set to higher than current node count, node count will be updated.
+	// +kubebuilder:validation:Optional
+	MinNodeCount *float64 `json:"minNodeCount,omitempty" tf:"min_node_count,omitempty"`
+
+	// The cooldown period for scale in operations.
+	// +kubebuilder:validation:Optional
+	ScaleInCooldownSeconds *float64 `json:"scaleInCooldownSeconds,omitempty" tf:"scale_in_cooldown_seconds,omitempty"`
+
+	// The cooldown period for scale out operations.
+	// +kubebuilder:validation:Optional
+	ScaleOutCooldownSeconds *float64 `json:"scaleOutCooldownSeconds,omitempty" tf:"scale_out_cooldown_seconds,omitempty"`
+
+	// Target metrics for Read Pool Auto Scale. Must specify target_metrics.metric and target_metrics.target_value in subblock.
+	// +kubebuilder:validation:Optional
+	TargetMetrics []TargetMetricsParameters `json:"targetMetrics,omitempty" tf:"target_metrics,omitempty"`
 }
 
 type ReplicaConfigurationInitParameters struct {
@@ -1312,6 +1707,9 @@ type ReplicationClusterInitParameters struct {
 
 	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
 	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+
+	// only field which if set, indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted.
+	PsaWriteEndpoint *string `json:"psaWriteEndpoint,omitempty" tf:"psa_write_endpoint,omitempty"`
 }
 
 type ReplicationClusterObservation struct {
@@ -1321,6 +1719,9 @@ type ReplicationClusterObservation struct {
 
 	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
 	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+
+	// only field which if set, indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted.
+	PsaWriteEndpoint *string `json:"psaWriteEndpoint,omitempty" tf:"psa_write_endpoint,omitempty"`
 }
 
 type ReplicationClusterParameters struct {
@@ -1328,6 +1729,10 @@ type ReplicationClusterParameters struct {
 	// project:your-instance". You can also set this field to "your-instance", but cloud SQL backend will convert it to the aforementioned standard format.
 	// +kubebuilder:validation:Optional
 	FailoverDrReplicaName *string `json:"failoverDrReplicaName,omitempty" tf:"failover_dr_replica_name,omitempty"`
+
+	// only field which if set, indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted.
+	// +kubebuilder:validation:Optional
+	PsaWriteEndpoint *string `json:"psaWriteEndpoint,omitempty" tf:"psa_write_endpoint,omitempty"`
 }
 
 type RestoreBackupContextInitParameters struct {
@@ -1446,12 +1851,22 @@ type SettingsInitParameters struct {
 
 	AdvancedMachineFeatures *AdvancedMachineFeaturesInitParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Enables
+	// Automatic Version Upgrade
+	// feature. When this field is set to true, Automatic Upgrade is enabled for
+	// MYSQL_8_0 based minor versions. The database_version must be
+	// MYSQL_8_0_35 or higher. Can be used with MySQL only. Can't be unset or
+	// changed if set to true.
+	AutoUpgradeEnabled *bool `json:"autoUpgradeEnabled,omitempty" tf:"auto_upgrade_enabled,omitempty"`
+
 	// The availability type of the Cloud SQL
-	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// For read pool instances, this field is read-only. The availability type is changed by specifying
+	// the number of nodes (node_count).
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
 	BackupConfiguration *BackupConfigurationInitParameters `json:"backupConfiguration,omitempty" tf:"backup_configuration,omitempty"`
@@ -1464,7 +1879,16 @@ type SettingsInitParameters struct {
 	// Control the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections, can be REQUIRED or NOT_REQUIRED. If enabled, all the direct connections are rejected.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	// Configures ExecuteSql API's access to the instance. connections, can be ALLOW_DATA_API or DISALLOW_DATA_API (default). ALLOW_DATA_API allows using ExecuteSql API to connect to the instance. For private IP instances, this allows authorized users to access the instance from the public internet using ExecuteSql API.
+	DataAPIAccess *string `json:"dataApiAccess,omitempty" tf:"data_api_access,omitempty"`
+
 	DataCacheConfig *DataCacheConfigInitParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
+	// Provisioned number of I/O operations per second for the data disk. This field is only used for HYPERDISK_BALANCED disk types.
+	DataDiskProvisionedIops *float64 `json:"dataDiskProvisionedIops,omitempty" tf:"data_disk_provisioned_iops,omitempty"`
+
+	// Provisioned throughput measured in MiB per second for the data disk. This field is only used for HYPERDISK_BALANCED disk types.
+	DataDiskProvisionedThroughput *float64 `json:"dataDiskProvisionedThroughput,omitempty" tf:"data_disk_provisioned_throughput,omitempty"`
 
 	DatabaseFlags []DatabaseFlagsInitParameters `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
@@ -1482,10 +1906,17 @@ type SettingsInitParameters struct {
 	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
-	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD. HYPERDISK_BALANCED is preview.
+	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
-	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS. If edition
+	// is not set, the Cloud SQL API determines the default based on database_version: instances with
+	// database_version POSTGRES_16 or later default to ENTERPRISE_PLUS, while all others default to
+	// ENTERPRISE. Note that ENTERPRISE_PLUS supports only predefined db-perf-optimized-N-* machine
+	// types (the N2/C4A series); shared-core and custom tiers such as db-g1-small, db-f1-micro, and
+	// db-custom-* require edition = "ENTERPRISE". Omitting edition on a PostgreSQL 16+ instance while
+	// setting a shared-core or custom tier therefore fails at create time with
+	// Invalid Tier (...) for (ENTERPRISE_PLUS) Edition.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
 	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
@@ -1493,6 +1924,10 @@ type SettingsInitParameters struct {
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
+
+	EntraidConfig *EntraidConfigInitParameters `json:"entraidConfig,omitempty" tf:"entraid_config,omitempty"`
+
+	FinalBackupConfig *FinalBackupConfigInitParameters `json:"finalBackupConfig,omitempty" tf:"final_backup_config,omitempty"`
 
 	IPConfiguration *IPConfigurationInitParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
@@ -1507,6 +1942,8 @@ type SettingsInitParameters struct {
 	// Pricing plan for this instance, can only be PER_USE.
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
 
+	ReadPoolAutoScaleConfig *ReadPoolAutoScaleConfigInitParameters `json:"readPoolAutoScaleConfig,omitempty" tf:"read_pool_auto_scale_config,omitempty"`
+
 	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
 	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
@@ -1514,7 +1951,7 @@ type SettingsInitParameters struct {
 
 	// The machine type to use. See tiers
 	// for more details and supported versions. Postgres supports only shared-core machine types,
-	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types.
+	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types. Note that shared-core and custom machine types are valid only under the ENTERPRISE edition; PostgreSQL 16+ instances default to ENTERPRISE_PLUS when edition is unset (see the edition argument below).
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The time_zone to be used by the database engine (supported only for SQL Server), in SQL Server timezone format.
@@ -1535,12 +1972,22 @@ type SettingsObservation struct {
 
 	AdvancedMachineFeatures *AdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Enables
+	// Automatic Version Upgrade
+	// feature. When this field is set to true, Automatic Upgrade is enabled for
+	// MYSQL_8_0 based minor versions. The database_version must be
+	// MYSQL_8_0_35 or higher. Can be used with MySQL only. Can't be unset or
+	// changed if set to true.
+	AutoUpgradeEnabled *bool `json:"autoUpgradeEnabled,omitempty" tf:"auto_upgrade_enabled,omitempty"`
+
 	// The availability type of the Cloud SQL
-	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// For read pool instances, this field is read-only. The availability type is changed by specifying
+	// the number of nodes (node_count).
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
 	BackupConfiguration *BackupConfigurationObservation `json:"backupConfiguration,omitempty" tf:"backup_configuration,omitempty"`
@@ -1553,7 +2000,16 @@ type SettingsObservation struct {
 	// Control the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections, can be REQUIRED or NOT_REQUIRED. If enabled, all the direct connections are rejected.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	// Configures ExecuteSql API's access to the instance. connections, can be ALLOW_DATA_API or DISALLOW_DATA_API (default). ALLOW_DATA_API allows using ExecuteSql API to connect to the instance. For private IP instances, this allows authorized users to access the instance from the public internet using ExecuteSql API.
+	DataAPIAccess *string `json:"dataApiAccess,omitempty" tf:"data_api_access,omitempty"`
+
 	DataCacheConfig *DataCacheConfigObservation `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
+	// Provisioned number of I/O operations per second for the data disk. This field is only used for HYPERDISK_BALANCED disk types.
+	DataDiskProvisionedIops *float64 `json:"dataDiskProvisionedIops,omitempty" tf:"data_disk_provisioned_iops,omitempty"`
+
+	// Provisioned throughput measured in MiB per second for the data disk. This field is only used for HYPERDISK_BALANCED disk types.
+	DataDiskProvisionedThroughput *float64 `json:"dataDiskProvisionedThroughput,omitempty" tf:"data_disk_provisioned_throughput,omitempty"`
 
 	DatabaseFlags []DatabaseFlagsObservation `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
 
@@ -1571,17 +2027,35 @@ type SettingsObservation struct {
 	// The size of data disk, in GB. Size of a running instance cannot be reduced but can be increased. The minimum value is 10GB for PD_SSD, PD_HDD and 20GB for HYPERDISK_BALANCED. Note that this value will override the resizing from disk_autoresize if that feature is enabled. To avoid this, set lifecycle.ignore_changes on this field.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
-	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD. HYPERDISK_BALANCED is preview.
+	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD.
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
-	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS. If edition
+	// is not set, the Cloud SQL API determines the default based on database_version: instances with
+	// database_version POSTGRES_16 or later default to ENTERPRISE_PLUS, while all others default to
+	// ENTERPRISE. Note that ENTERPRISE_PLUS supports only predefined db-perf-optimized-N-* machine
+	// types (the N2/C4A series); shared-core and custom tiers such as db-g1-small, db-f1-micro, and
+	// db-custom-* require edition = "ENTERPRISE". Omitting edition on a PostgreSQL 16+ instance while
+	// setting a shared-core or custom tier therefore fails at create time with
+	// Invalid Tier (...) for (ENTERPRISE_PLUS) Edition.
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
+
+	// (Computed) The availability type of
+	// the Cloud SQL instance, high availability (REGIONAL) or single zone
+	// (ZONAL). This field always contains the value that is reported by the API (for
+	// read pools, settings.0.effective_availability_type may differ from
+	// settings.0.availability_type).
+	EffectiveAvailabilityType *string `json:"effectiveAvailabilityType,omitempty" tf:"effective_availability_type,omitempty"`
 
 	// Enables Cloud SQL instance integration with Dataplex. MySQL, Postgres and SQL Server instances are supported for this feature. Defaults to false.
 	EnableDataplexIntegration *bool `json:"enableDataplexIntegration,omitempty" tf:"enable_dataplex_integration,omitempty"`
 
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
+
+	EntraidConfig *EntraidConfigObservation `json:"entraidConfig,omitempty" tf:"entraid_config,omitempty"`
+
+	FinalBackupConfig *FinalBackupConfigObservation `json:"finalBackupConfig,omitempty" tf:"final_backup_config,omitempty"`
 
 	IPConfiguration *IPConfigurationObservation `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
 
@@ -1596,6 +2070,8 @@ type SettingsObservation struct {
 	// Pricing plan for this instance, can only be PER_USE.
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
 
+	ReadPoolAutoScaleConfig *ReadPoolAutoScaleConfigObservation `json:"readPoolAutoScaleConfig,omitempty" tf:"read_pool_auto_scale_config,omitempty"`
+
 	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
 	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
@@ -1603,7 +2079,7 @@ type SettingsObservation struct {
 
 	// The machine type to use. See tiers
 	// for more details and supported versions. Postgres supports only shared-core machine types,
-	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types.
+	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types. Note that shared-core and custom machine types are valid only under the ENTERPRISE edition; PostgreSQL 16+ instances default to ENTERPRISE_PLUS when edition is unset (see the edition argument below).
 	Tier *string `json:"tier,omitempty" tf:"tier,omitempty"`
 
 	// The time_zone to be used by the database engine (supported only for SQL Server), in SQL Server timezone format.
@@ -1631,12 +2107,23 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvancedMachineFeatures *AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Enables
+	// Automatic Version Upgrade
+	// feature. When this field is set to true, Automatic Upgrade is enabled for
+	// MYSQL_8_0 based minor versions. The database_version must be
+	// MYSQL_8_0_35 or higher. Can be used with MySQL only. Can't be unset or
+	// changed if set to true.
+	// +kubebuilder:validation:Optional
+	AutoUpgradeEnabled *bool `json:"autoUpgradeEnabled,omitempty" tf:"auto_upgrade_enabled,omitempty"`
+
 	// The availability type of the Cloud SQL
-	// instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
 	// For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
 	// For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
 	// is set to true. Defaults to ZONAL.
+	// For read pool instances, this field is read-only. The availability type is changed by specifying
+	// the number of nodes (node_count).
 	// +kubebuilder:validation:Optional
 	AvailabilityType *string `json:"availabilityType,omitempty" tf:"availability_type,omitempty"`
 
@@ -1654,8 +2141,20 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
 
+	// Configures ExecuteSql API's access to the instance. connections, can be ALLOW_DATA_API or DISALLOW_DATA_API (default). ALLOW_DATA_API allows using ExecuteSql API to connect to the instance. For private IP instances, this allows authorized users to access the instance from the public internet using ExecuteSql API.
+	// +kubebuilder:validation:Optional
+	DataAPIAccess *string `json:"dataApiAccess,omitempty" tf:"data_api_access,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	DataCacheConfig *DataCacheConfigParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
+
+	// Provisioned number of I/O operations per second for the data disk. This field is only used for HYPERDISK_BALANCED disk types.
+	// +kubebuilder:validation:Optional
+	DataDiskProvisionedIops *float64 `json:"dataDiskProvisionedIops,omitempty" tf:"data_disk_provisioned_iops,omitempty"`
+
+	// Provisioned throughput measured in MiB per second for the data disk. This field is only used for HYPERDISK_BALANCED disk types.
+	// +kubebuilder:validation:Optional
+	DataDiskProvisionedThroughput *float64 `json:"dataDiskProvisionedThroughput,omitempty" tf:"data_disk_provisioned_throughput,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DatabaseFlags []DatabaseFlagsParameters `json:"databaseFlags,omitempty" tf:"database_flags,omitempty"`
@@ -1679,11 +2178,18 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
-	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD. HYPERDISK_BALANCED is preview.
+	// The type of data disk: PD_SSD, PD_HDD, or HYPERDISK_BALANCED. Defaults to PD_SSD.
 	// +kubebuilder:validation:Optional
 	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
 
-	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS.
+	// The edition of the instance, can be ENTERPRISE or ENTERPRISE_PLUS. If edition
+	// is not set, the Cloud SQL API determines the default based on database_version: instances with
+	// database_version POSTGRES_16 or later default to ENTERPRISE_PLUS, while all others default to
+	// ENTERPRISE. Note that ENTERPRISE_PLUS supports only predefined db-perf-optimized-N-* machine
+	// types (the N2/C4A series); shared-core and custom tiers such as db-g1-small, db-f1-micro, and
+	// db-custom-* require edition = "ENTERPRISE". Omitting edition on a PostgreSQL 16+ instance while
+	// setting a shared-core or custom tier therefore fails at create time with
+	// Invalid Tier (...) for (ENTERPRISE_PLUS) Edition.
 	// +kubebuilder:validation:Optional
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
@@ -1694,6 +2200,12 @@ type SettingsParameters struct {
 	// Enables Cloud SQL instances to connect to Vertex AI and pass requests for real-time predictions and insights. Defaults to false.
 	// +kubebuilder:validation:Optional
 	EnableGoogleMLIntegration *bool `json:"enableGoogleMlIntegration,omitempty" tf:"enable_google_ml_integration,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	EntraidConfig *EntraidConfigParameters `json:"entraidConfig,omitempty" tf:"entraid_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FinalBackupConfig *FinalBackupConfigParameters `json:"finalBackupConfig,omitempty" tf:"final_backup_config,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	IPConfiguration *IPConfigurationParameters `json:"ipConfiguration,omitempty" tf:"ip_configuration,omitempty"`
@@ -1714,6 +2226,9 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ReadPoolAutoScaleConfig *ReadPoolAutoScaleConfigParameters `json:"readPoolAutoScaleConfig,omitempty" tf:"read_pool_auto_scale_config,omitempty"`
+
 	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
 	// +kubebuilder:validation:Optional
 	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
@@ -1723,7 +2238,7 @@ type SettingsParameters struct {
 
 	// The machine type to use. See tiers
 	// for more details and supported versions. Postgres supports only shared-core machine types,
-	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types.
+	// and custom machine types such as db-custom-2-13312. See the Custom Machine Type Documentation to learn about specifying custom machine types. Note that shared-core and custom machine types are valid only under the ENTERPRISE edition; PostgreSQL 16+ instances default to ENTERPRISE_PLUS when edition is unset (see the edition argument below).
 	// +kubebuilder:validation:Optional
 	Tier *string `json:"tier" tf:"tier,omitempty"`
 
@@ -1735,6 +2250,35 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	UserLabels map[string]*string `json:"userLabels,omitempty" tf:"user_labels,omitempty"`
+}
+
+type TargetMetricsInitParameters struct {
+
+	// Metric name for Read Pool Auto Scale.
+	Metric *string `json:"metric,omitempty" tf:"metric,omitempty"`
+
+	// Target value for Read Pool Auto Scale.
+	TargetValue *float64 `json:"targetValue,omitempty" tf:"target_value,omitempty"`
+}
+
+type TargetMetricsObservation struct {
+
+	// Metric name for Read Pool Auto Scale.
+	Metric *string `json:"metric,omitempty" tf:"metric,omitempty"`
+
+	// Target value for Read Pool Auto Scale.
+	TargetValue *float64 `json:"targetValue,omitempty" tf:"target_value,omitempty"`
+}
+
+type TargetMetricsParameters struct {
+
+	// Metric name for Read Pool Auto Scale.
+	// +kubebuilder:validation:Optional
+	Metric *string `json:"metric,omitempty" tf:"metric,omitempty"`
+
+	// Target value for Read Pool Auto Scale.
+	// +kubebuilder:validation:Optional
+	TargetValue *float64 `json:"targetValue,omitempty" tf:"target_value,omitempty"`
 }
 
 // DatabaseInstanceSpec defines the desired state of DatabaseInstance

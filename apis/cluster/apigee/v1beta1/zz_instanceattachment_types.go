@@ -44,6 +44,10 @@ type InstanceAttachmentInitParameters struct {
 
 type InstanceAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The resource ID of the environment.
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 

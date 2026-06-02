@@ -262,6 +262,11 @@ func (in *NoteObservation) DeepCopyInto(out *NoteObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ExpirationTime != nil {
 		in, out := &in.ExpirationTime, &out.ExpirationTime
 		*out = new(string)

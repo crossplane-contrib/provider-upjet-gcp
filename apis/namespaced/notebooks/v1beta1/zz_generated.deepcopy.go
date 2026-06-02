@@ -752,6 +752,11 @@ func (in *EnvironmentObservation) DeepCopyInto(out *EnvironmentObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1670,6 +1675,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.DataDiskType != nil {
 		in, out := &in.DataDiskType, &out.DataDiskType
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -2932,6 +2942,11 @@ func (in *RuntimeObservation) DeepCopyInto(out *RuntimeObservation) {
 		in, out := &in.AccessConfig, &out.AccessConfig
 		*out = new(AccessConfigObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels

@@ -176,6 +176,10 @@ type InstanceInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Configure the maintenance policy for this instance.
+	// Structure is documented below.
+	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
 	// Structure is documented below.
 	NetworkConfig *NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
@@ -183,6 +187,9 @@ type InstanceInitParameters struct {
 	// Map of additional options used to configure the behavior of Data Fusion instance.
 	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
@@ -232,6 +239,10 @@ type InstanceObservation struct {
 	// User-managed service account to set on Dataproc when Cloud Data Fusion creates Dataproc to run data processing pipelines.
 	DataprocServiceAccount *string `json:"dataprocServiceAccount,omitempty" tf:"dataproc_service_account,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -266,6 +277,14 @@ type InstanceObservation struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// The maintenance events for this instance.
+	// Structure is documented below.
+	MaintenanceEvents []MaintenanceEventsObservation `json:"maintenanceEvents,omitempty" tf:"maintenance_events,omitempty"`
+
+	// Configure the maintenance policy for this instance.
+	// Structure is documented below.
+	MaintenancePolicy *MaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
 	// Structure is documented below.
 	NetworkConfig *NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
@@ -276,6 +295,9 @@ type InstanceObservation struct {
 
 	// P4 service account for the customer project.
 	P4ServiceAccount *string `json:"p4ServiceAccount,omitempty" tf:"p4_service_account,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
@@ -376,6 +398,11 @@ type InstanceParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Configure the maintenance policy for this instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// Network configuration options. These are required when a private Data Fusion instance is to be created.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -385,6 +412,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	// +kubebuilder:validation:Optional
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
@@ -421,6 +452,71 @@ type InstanceParameters struct {
 	// Name of the zone in which the Data Fusion instance will be created. Only DEVELOPER instances use this field.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type MaintenanceEventsInitParameters struct {
+}
+
+type MaintenanceEventsObservation struct {
+
+	// (Output)
+	// The end time of the maintenance event provided in RFC 3339 format.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// (Output)
+	// The start time of the maintenance event provided in RFC 3339 format.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+
+	// (Output)
+	// The state of the maintenance event.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type MaintenanceEventsParameters struct {
+}
+
+type MaintenancePolicyInitParameters struct {
+
+	// The maintenance window of the instance.
+	// Structure is documented below.
+	MaintenanceWindow *MaintenanceWindowInitParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+}
+
+type MaintenancePolicyObservation struct {
+
+	// The maintenance window of the instance.
+	// Structure is documented below.
+	MaintenanceWindow *MaintenanceWindowObservation `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+}
+
+type MaintenancePolicyParameters struct {
+
+	// The maintenance window of the instance.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaintenanceWindow *MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
+}
+
+type MaintenanceWindowInitParameters struct {
+
+	// The recurring time window of the maintenance window.
+	// Structure is documented below.
+	RecurringTimeWindow *RecurringTimeWindowInitParameters `json:"recurringTimeWindow,omitempty" tf:"recurring_time_window,omitempty"`
+}
+
+type MaintenanceWindowObservation struct {
+
+	// The recurring time window of the maintenance window.
+	// Structure is documented below.
+	RecurringTimeWindow *RecurringTimeWindowObservation `json:"recurringTimeWindow,omitempty" tf:"recurring_time_window,omitempty"`
+}
+
+type MaintenanceWindowParameters struct {
+
+	// The recurring time window of the maintenance window.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RecurringTimeWindow *RecurringTimeWindowParameters `json:"recurringTimeWindow" tf:"recurring_time_window,omitempty"`
 }
 
 type NetworkConfigInitParameters struct {
@@ -543,6 +639,67 @@ type PrivateServiceConnectConfigParameters struct {
 	// If this value is not provided, the server chooses a non RFC 1918 address range. The format of this field is governed by RFC 4632.
 	// +kubebuilder:validation:Optional
 	UnreachableCidrBlock *string `json:"unreachableCidrBlock,omitempty" tf:"unreachable_cidr_block,omitempty"`
+}
+
+type RecurringTimeWindowInitParameters struct {
+
+	// An RRULE with format RFC-5545 for how this window reccurs. They go on for the span of time between the start and end time. The only supported FREQ value is "WEEKLY". To have something repeat every weekday, use: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR".
+	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+
+	// The window representing the start and end time of recurrences. This field ignores the date components of the provided timestamps. Only the time of day and duration between start and end time are relevant.
+	// Structure is documented below.
+	Window *WindowInitParameters `json:"window,omitempty" tf:"window,omitempty"`
+}
+
+type RecurringTimeWindowObservation struct {
+
+	// An RRULE with format RFC-5545 for how this window reccurs. They go on for the span of time between the start and end time. The only supported FREQ value is "WEEKLY". To have something repeat every weekday, use: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR".
+	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+
+	// The window representing the start and end time of recurrences. This field ignores the date components of the provided timestamps. Only the time of day and duration between start and end time are relevant.
+	// Structure is documented below.
+	Window *WindowObservation `json:"window,omitempty" tf:"window,omitempty"`
+}
+
+type RecurringTimeWindowParameters struct {
+
+	// An RRULE with format RFC-5545 for how this window reccurs. They go on for the span of time between the start and end time. The only supported FREQ value is "WEEKLY". To have something repeat every weekday, use: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR".
+	// +kubebuilder:validation:Optional
+	Recurrence *string `json:"recurrence" tf:"recurrence,omitempty"`
+
+	// The window representing the start and end time of recurrences. This field ignores the date components of the provided timestamps. Only the time of day and duration between start and end time are relevant.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Window *WindowParameters `json:"window" tf:"window,omitempty"`
+}
+
+type WindowInitParameters struct {
+
+	// The end time of the time window provided in RFC 3339 format.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// The start time of the time window provided in RFC 3339 format.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type WindowObservation struct {
+
+	// The end time of the time window provided in RFC 3339 format.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// The start time of the time window provided in RFC 3339 format.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type WindowParameters struct {
+
+	// The end time of the time window provided in RFC 3339 format.
+	// +kubebuilder:validation:Optional
+	EndTime *string `json:"endTime" tf:"end_time,omitempty"`
+
+	// The start time of the time window provided in RFC 3339 format.
+	// +kubebuilder:validation:Optional
+	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

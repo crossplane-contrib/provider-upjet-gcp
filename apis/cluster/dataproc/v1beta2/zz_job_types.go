@@ -233,9 +233,15 @@ type JobInitParameters struct {
 	SparkConfig *SparkConfigInitParameters `json:"sparkConfig,omitempty" tf:"spark_config,omitempty"`
 
 	SparksqlConfig *SparksqlConfigInitParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type JobObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If present, the location of miscellaneous control files which may be used as part of job setup and handling. If not present, control files may be placed in the same location as driver_output_uri.
 	DriverControlsFilesURI *string `json:"driverControlsFilesUri,omitempty" tf:"driver_controls_files_uri,omitempty"`
@@ -292,6 +298,8 @@ type JobObservation struct {
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type JobParameters struct {
@@ -358,6 +366,9 @@ type JobParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SparksqlConfig *SparksqlConfigParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type LoggingConfigInitParameters struct {

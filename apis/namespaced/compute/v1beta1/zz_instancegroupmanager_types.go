@@ -179,6 +179,9 @@ type InstanceGroupManagerInitParameters struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []TargetSizePolicyInitParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
 
@@ -255,6 +258,10 @@ type InstanceGroupManagerObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the instance
 	// group manager.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -323,6 +330,9 @@ type InstanceGroupManagerObservation struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []TargetSizePolicyObservation `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
 
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
@@ -446,6 +456,10 @@ type InstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TargetSizePolicy []TargetSizePolicyParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	// +kubebuilder:validation:Optional
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
@@ -489,6 +503,9 @@ type InstanceLifecyclePolicyInitParameters struct {
 
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+
+	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
+	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
 }
 
 type InstanceLifecyclePolicyObservation struct {
@@ -498,6 +515,9 @@ type InstanceLifecyclePolicyObservation struct {
 
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+
+	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
+	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
 }
 
 type InstanceLifecyclePolicyParameters struct {
@@ -509,6 +529,10 @@ type InstanceLifecyclePolicyParameters struct {
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	// +kubebuilder:validation:Optional
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+
+	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
+	// +kubebuilder:validation:Optional
+	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
 }
 
 type PerInstanceConfigsInitParameters struct {
@@ -762,6 +786,25 @@ type TargetSizeParameters struct {
 	// one of which has a target_size.percent of 60 will create 2 instances of that version.
 	// +kubebuilder:validation:Optional
 	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+}
+
+type TargetSizePolicyInitParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type TargetSizePolicyObservation struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type TargetSizePolicyParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
 type UpdatePolicyInitParameters struct {
