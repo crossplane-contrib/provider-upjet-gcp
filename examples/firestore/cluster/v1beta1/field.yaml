@@ -3,24 +3,24 @@
 # SPDX-License-Identifier: CC0-1.0
 
 apiVersion: firestore.gcp.upbound.io/v1beta1
-kind: Index
+kind: Field
 metadata:
   annotations:
-    meta.upbound.io/example-id: firestore/v1beta1/index
+    meta.upbound.io/example-id: firestore/v1beta1/field
   labels:
-    testing.upbound.io/example-name: my-index
-  name: my-index
+    testing.upbound.io/example-name: basic
+  name: basic
 spec:
   forProvider:
-    collection: atestcollection
+    collection: chatrooms
     databaseSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-database-index
-    fields:
-    - fieldPath: name
-      order: ASCENDING
-    - fieldPath: description
-      order: DESCENDING
+        testing.upbound.io/example-name: example-database-field
+    indexConfig:
+      indexes:
+      - order: ASCENDING
+        queryScope: COLLECTION_GROUP
+      - arrayConfig: CONTAINS
     project: official-provider-testing
 
 ---
@@ -29,10 +29,10 @@ apiVersion: firestore.gcp.upbound.io/v1beta1
 kind: Database
 metadata:
   annotations:
-    meta.upbound.io/example-id: firestore/v1beta1/index
+    meta.upbound.io/example-id: firestore/v1beta1/field
   labels:
-    testing.upbound.io/example-name: example-database-index
-  name: example-database-index
+    testing.upbound.io/example-name: example-database-field
+  name: example-database-field
 spec:
   forProvider:
     deleteProtectionState: DELETE_PROTECTION_DISABLED

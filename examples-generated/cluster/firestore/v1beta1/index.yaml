@@ -15,13 +15,13 @@ spec:
     collection: atestcollection
     databaseSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-database-index
+        testing.upbound.io/example-name: database
     fields:
     - fieldPath: name
       order: ASCENDING
     - fieldPath: description
       order: DESCENDING
-    project: official-provider-testing
+    project: my-project-name
 
 ---
 
@@ -31,12 +31,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: firestore/v1beta1/index
   labels:
-    testing.upbound.io/example-name: example-database-index
-  name: example-database-index
+    testing.upbound.io/example-name: database
+  name: database
 spec:
   forProvider:
     deleteProtectionState: DELETE_PROTECTION_DISABLED
     deletionPolicy: DELETE
-    locationId: us-central1
-    project: official-provider-testing
+    locationId: nam5
+    project: my-project-name
     type: FIRESTORE_NATIVE
