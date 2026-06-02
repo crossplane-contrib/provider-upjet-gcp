@@ -10,4 +10,7 @@ package v1beta1
 func (tr *Database) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *Field) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Index) Hub() {}

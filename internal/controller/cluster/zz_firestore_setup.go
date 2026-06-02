@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	database "github.com/upbound/provider-gcp/v2/internal/controller/cluster/firestore/database"
+	field "github.com/upbound/provider-gcp/v2/internal/controller/cluster/firestore/field"
 	index "github.com/upbound/provider-gcp/v2/internal/controller/cluster/firestore/index"
 )
 
@@ -18,6 +19,7 @@ import (
 func Setup_firestore(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		database.Setup,
+		field.Setup,
 		index.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -32,6 +34,7 @@ func Setup_firestore(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_firestore(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		database.SetupGated,
+		field.SetupGated,
 		index.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

@@ -246,6 +246,7 @@
   "google_firebaserules_release",
   "google_firebaserules_ruleset",
   "google_firestore_database",
+  "google_firestore_field",
   "google_firestore_index",
   "google_folder",
   "google_folder_iam_member",
