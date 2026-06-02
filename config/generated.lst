@@ -245,6 +245,7 @@
   "google_filestore_snapshot",
   "google_firebaserules_release",
   "google_firebaserules_ruleset",
+  "google_firestore_database",
   "google_folder",
   "google_folder_iam_member",
   "google_gemini_code_repository_index",

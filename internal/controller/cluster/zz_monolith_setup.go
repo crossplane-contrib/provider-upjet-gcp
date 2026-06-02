@@ -271,6 +271,7 @@ import (
 	snapshotfilestore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/filestore/snapshot"
 	release "github.com/upbound/provider-gcp/v2/internal/controller/cluster/firebaserules/release"
 	ruleset "github.com/upbound/provider-gcp/v2/internal/controller/cluster/firebaserules/ruleset"
+	database "github.com/upbound/provider-gcp/v2/internal/controller/cluster/firestore/database"
 	coderepositoryindex "github.com/upbound/provider-gcp/v2/internal/controller/cluster/gemini/coderepositoryindex"
 	codetoolssetting "github.com/upbound/provider-gcp/v2/internal/controller/cluster/gemini/codetoolssetting"
 	datasharingwithgooglesetting "github.com/upbound/provider-gcp/v2/internal/controller/cluster/gemini/datasharingwithgooglesetting"
@@ -376,7 +377,7 @@ import (
 	connectionservicenetworking "github.com/upbound/provider-gcp/v2/internal/controller/cluster/servicenetworking/connection"
 	repository "github.com/upbound/provider-gcp/v2/internal/controller/cluster/sourcerepo/repository"
 	repositoryiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/sourcerepo/repositoryiammember"
-	database "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/database"
+	databasespanner "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/database"
 	databaseiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/databaseiammember"
 	instancespanner "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/instance"
 	instanceiammemberspanner "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/instanceiammember"
@@ -680,6 +681,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		snapshotfilestore.Setup,
 		release.Setup,
 		ruleset.Setup,
+		database.Setup,
 		coderepositoryindex.Setup,
 		codetoolssetting.Setup,
 		datasharingwithgooglesetting.Setup,
@@ -785,7 +787,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connectionservicenetworking.Setup,
 		repository.Setup,
 		repositoryiammember.Setup,
-		database.Setup,
+		databasespanner.Setup,
 		databaseiammember.Setup,
 		instancespanner.Setup,
 		instanceiammemberspanner.Setup,
@@ -1095,6 +1097,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		snapshotfilestore.SetupGated,
 		release.SetupGated,
 		ruleset.SetupGated,
+		database.SetupGated,
 		coderepositoryindex.SetupGated,
 		codetoolssetting.SetupGated,
 		datasharingwithgooglesetting.SetupGated,
@@ -1200,7 +1203,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connectionservicenetworking.SetupGated,
 		repository.SetupGated,
 		repositoryiammember.SetupGated,
-		database.SetupGated,
+		databasespanner.SetupGated,
 		databaseiammember.SetupGated,
 		instancespanner.SetupGated,
 		instanceiammemberspanner.SetupGated,

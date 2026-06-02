@@ -518,6 +518,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Requires project level IAM permissions
 	// "google_firestore_index": config.IdentifierFromProvider,
 
+	// Imported by using the following format: {{name}}
+	"google_firestore_database": config.IdentifierFromProvider,
+
+
 	// gameservers
 	//
 	// Note(donovanmuller): All resourcs return this error: Error 404: Method not found
