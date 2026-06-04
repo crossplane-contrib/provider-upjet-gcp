@@ -15,6 +15,10 @@ import (
 
 type AccessPolicyInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
 	// Format: 'organizations/{{organization_id}}'
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
@@ -31,6 +35,10 @@ type AccessPolicyObservation struct {
 
 	// Time the AccessPolicy was created in UTC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format {{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -54,6 +62,11 @@ type AccessPolicyObservation struct {
 }
 
 type AccessPolicyParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The parent of this AccessPolicy in the Cloud Resource Hierarchy.
 	// Format: 'organizations/{{organization_id}}'

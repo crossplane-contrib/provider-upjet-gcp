@@ -246,6 +246,10 @@ type PolicyInitParameters struct {
 	// Structure is documented below.
 	DefaultAdmissionRule *DefaultAdmissionRuleInitParameters `json:"defaultAdmissionRule,omitempty" tf:"default_admission_rule,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A descriptive comment.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -279,6 +283,10 @@ type PolicyObservation struct {
 	// rule.
 	// Structure is documented below.
 	DefaultAdmissionRule *DefaultAdmissionRuleObservation `json:"defaultAdmissionRule,omitempty" tf:"default_admission_rule,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A descriptive comment.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -319,6 +327,11 @@ type PolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DefaultAdmissionRule *DefaultAdmissionRuleParameters `json:"defaultAdmissionRule,omitempty" tf:"default_admission_rule,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A descriptive comment.
 	// +kubebuilder:validation:Optional

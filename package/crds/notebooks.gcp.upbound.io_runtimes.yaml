@@ -1484,6 +1484,11 @@ spec:
                           Currently supports one owner only.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -1826,6 +1831,11 @@ spec:
                           Currently supports one owner only.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -2246,6 +2256,11 @@ spec:
                           Currently supports one owner only.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string

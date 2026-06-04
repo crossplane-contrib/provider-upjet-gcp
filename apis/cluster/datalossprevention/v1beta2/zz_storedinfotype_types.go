@@ -273,6 +273,10 @@ type StoredInfoTypeDictionaryWordListParameters struct {
 
 type StoredInfoTypeInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the info type.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -301,6 +305,10 @@ type StoredInfoTypeInitParameters struct {
 }
 
 type StoredInfoTypeObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the info type.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -336,6 +344,11 @@ type StoredInfoTypeObservation struct {
 }
 
 type StoredInfoTypeParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the info type.
 	// +kubebuilder:validation:Optional

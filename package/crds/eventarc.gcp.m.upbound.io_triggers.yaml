@@ -65,6 +65,11 @@ spec:
                       format. You must provide a channel to receive events from Eventarc
                       SaaS partners.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destination:
                     description: |-
                       Required. Destination specifies where the events should be sent to.
@@ -280,6 +285,18 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  retryPolicy:
+                    description: |-
+                      The retry policy configuration for the Trigger.
+                      Can only be set with Cloud Run destinations.
+                      Structure is documented below.
+                    properties:
+                      maxAttempts:
+                        description: |-
+                          The maximum number of delivery attempts for any message. The only valid
+                          value is 1.
+                        type: number
+                    type: object
                   serviceAccount:
                     description: Optional. The IAM service account email associated
                       with the trigger. The service account represents the identity
@@ -416,6 +433,11 @@ spec:
                       the trigger in projects/{project}/locations/{location}/channels/{channel}
                       format. You must provide a channel to receive events from Eventarc
                       SaaS partners.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   destination:
                     description: |-
@@ -624,6 +646,18 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  retryPolicy:
+                    description: |-
+                      The retry policy configuration for the Trigger.
+                      Can only be set with Cloud Run destinations.
+                      Structure is documented below.
+                    properties:
+                      maxAttempts:
+                        description: |-
+                          The maximum number of delivery attempts for any message. The only valid
+                          value is 1.
+                        type: number
+                    type: object
                   serviceAccount:
                     description: Optional. The IAM service account email associated
                       with the trigger. The service account represents the identity
@@ -828,6 +862,11 @@ spec:
                   createTime:
                     description: Output only. The creation time.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destination:
                     description: |-
                       Required. Destination specifies where the events should be sent to.
@@ -978,6 +1017,18 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  retryPolicy:
+                    description: |-
+                      The retry policy configuration for the Trigger.
+                      Can only be set with Cloud Run destinations.
+                      Structure is documented below.
+                    properties:
+                      maxAttempts:
+                        description: |-
+                          The maximum number of delivery attempts for any message. The only valid
+                          value is 1.
+                        type: number
+                    type: object
                   serviceAccount:
                     description: Optional. The IAM service account email associated
                       with the trigger. The service account represents the identity

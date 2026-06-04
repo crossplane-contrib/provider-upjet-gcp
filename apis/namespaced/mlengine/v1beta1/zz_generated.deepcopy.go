@@ -107,6 +107,11 @@ func (in *ModelInitParameters) DeepCopyInto(out *ModelInitParameters) {
 		*out = new(DefaultVersionInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -210,6 +215,11 @@ func (in *ModelObservation) DeepCopyInto(out *ModelObservation) {
 		in, out := &in.DefaultVersion, &out.DefaultVersion
 		*out = new(DefaultVersionObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -319,6 +329,11 @@ func (in *ModelParameters) DeepCopyInto(out *ModelParameters) {
 		in, out := &in.DefaultVersion, &out.DefaultVersion
 		*out = new(DefaultVersionParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

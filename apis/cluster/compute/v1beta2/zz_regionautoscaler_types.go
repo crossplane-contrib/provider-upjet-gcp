@@ -407,6 +407,13 @@ type RegionAutoscalerAutoscalingPolicyInitParameters struct {
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
 	// Structure is documented below.
 	ScalingSchedules []AutoscalingPolicyScalingSchedulesInitParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type RegionAutoscalerAutoscalingPolicyObservation struct {
@@ -459,6 +466,13 @@ type RegionAutoscalerAutoscalingPolicyObservation struct {
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
 	// Structure is documented below.
 	ScalingSchedules []AutoscalingPolicyScalingSchedulesObservation `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type RegionAutoscalerAutoscalingPolicyParameters struct {
@@ -520,6 +534,14 @@ type RegionAutoscalerAutoscalingPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ScalingSchedules []AutoscalingPolicyScalingSchedulesParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	// +kubebuilder:validation:Optional
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type RegionAutoscalerInitParameters struct {
@@ -531,6 +553,10 @@ type RegionAutoscalerInitParameters struct {
 	// on cpuUtilization to 0.6 or 60%.
 	// Structure is documented below.
 	AutoscalingPolicy *RegionAutoscalerAutoscalingPolicyInitParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -566,6 +592,10 @@ type RegionAutoscalerObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -596,6 +626,11 @@ type RegionAutoscalerParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutoscalingPolicy *RegionAutoscalerAutoscalingPolicyParameters `json:"autoscalingPolicy,omitempty" tf:"autoscaling_policy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional

@@ -86,6 +86,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the group.
                     type: string
@@ -210,6 +215,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the group.
                     type: string
@@ -334,6 +344,11 @@ spec:
                     type: object
                   createTime:
                     description: Output only. The time the hub was created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of the group.

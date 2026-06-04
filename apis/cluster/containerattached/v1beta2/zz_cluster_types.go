@@ -107,7 +107,7 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	BinaryAuthorization *BinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
-	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
+	// Policy to determine what flags to send on delete.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human readable description of this attached cluster. Cannot be longer
@@ -186,7 +186,7 @@ type ClusterObservation struct {
 	// Output only. The time at which this cluster was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
+	// Policy to determine what flags to send on delete.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human readable description of this attached cluster. Cannot be longer
@@ -295,7 +295,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	BinaryAuthorization *BinaryAuthorizationParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
-	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
+	// Policy to determine what flags to send on delete.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 

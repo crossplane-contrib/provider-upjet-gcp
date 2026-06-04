@@ -153,6 +153,11 @@ spec:
                   defaultAcl:
                     description: Configure this ACL to be the default ACL.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   predefinedAcl:
                     description: The canned GCS ACL to apply. Must be set if role_entity
                       is not.
@@ -257,6 +262,11 @@ spec:
                     type: object
                   defaultAcl:
                     description: Configure this ACL to be the default ACL.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   predefinedAcl:
                     description: The canned GCS ACL to apply. Must be set if role_entity
@@ -366,6 +376,11 @@ spec:
                     type: string
                   defaultAcl:
                     description: Configure this ACL to be the default ACL.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     type: string

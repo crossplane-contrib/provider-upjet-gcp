@@ -151,6 +151,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   prefix:
                     description: ':  A prefix for the reports, for instance, the project
                       name.'
@@ -326,6 +331,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   prefix:
                     description: ':  A prefix for the reports, for instance, the project
                       name.'
@@ -505,6 +515,11 @@ spec:
                 properties:
                   bucketName:
                     description: ':  The bucket to store reports in.'
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     type: string

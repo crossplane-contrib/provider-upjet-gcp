@@ -107,6 +107,10 @@ type RepositoryInitParameters struct {
 	// If set to true, skip repository creation if a repository with the same name already exists.
 	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -121,6 +125,10 @@ type RepositoryObservation struct {
 
 	// If set to true, skip repository creation if a repository with the same name already exists.
 	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/repos/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -146,6 +154,11 @@ type RepositoryParameters struct {
 	// If set to true, skip repository creation if a repository with the same name already exists.
 	// +kubebuilder:validation:Optional
 	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

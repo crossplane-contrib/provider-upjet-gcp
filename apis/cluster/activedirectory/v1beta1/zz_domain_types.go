@@ -24,6 +24,10 @@ type DomainInitParameters struct {
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the domain is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -61,6 +65,10 @@ type DomainObservation struct {
 	// If CIDR subnets overlap between networks, domain creation will fail.
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Defaults to true.
 	// When the field is set to false, deleting the domain is allowed.
@@ -119,6 +127,11 @@ type DomainParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AuthorizedNetworks []*string `json:"authorizedNetworks,omitempty" tf:"authorized_networks,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Defaults to true.
 	// When the field is set to false, deleting the domain is allowed.

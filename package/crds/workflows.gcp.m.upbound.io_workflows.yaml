@@ -71,6 +71,11 @@ spec:
                       The KMS key used to encrypt workflow and execution data.
                       Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -248,6 +253,11 @@ spec:
                     description: |-
                       The KMS key used to encrypt workflow and execution data.
                       Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: |-
@@ -481,6 +491,11 @@ spec:
                     description: |-
                       The KMS key used to encrypt workflow and execution data.
                       Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: |-

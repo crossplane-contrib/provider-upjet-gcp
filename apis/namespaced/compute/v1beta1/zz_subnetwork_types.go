@@ -79,16 +79,20 @@ type SecondaryIPRangeParameters struct {
 
 type SubnetworkInitParameters_2 struct {
 
+	// Typically packets destined to IPs within the subnetwork range that do not match
+	// existing resources are dropped and prevented from leaving the VPC.
+	// Setting this field to true will allow these packets to match dynamic routes injected
+	// via BGP even if their destinations match existing subnet ranges.
+	AllowSubnetCidrRoutesOverlap *bool `json:"allowSubnetCidrRoutesOverlap,omitempty" tf:"allow_subnet_cidr_routes_overlap,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
 	// creation time.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
-	// it will not appear in get listings. If not set the default behavior is determined by the
-	// org policy, if there is no org policy specified, then it will default to disabled.
-	// This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
-	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
 
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
@@ -101,9 +105,9 @@ type SubnetworkInitParameters_2 struct {
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
-	// in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
-	// Use one of the following formats to specify a sub-PDP when creating an
-	// IPv6 NetLB forwarding rule using BYOIP:
+	// in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION
+	// mode. Use one of the following formats to specify a sub-PDP when creating
+	// a dual stack or IPv6-only subnetwork using BYOIP:
 	// Full resource URL, as in:
 	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
@@ -112,6 +116,9 @@ type SubnetworkInitParameters_2 struct {
 	// cannot enable direct path.
 	// Possible values are: EXTERNAL, INTERNAL.
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
+
+	// The internal IPv6 address range that is assigned to this subnetwork.
+	InternalIPv6Prefix *string `json:"internalIpv6Prefix,omitempty" tf:"internal_ipv6_prefix,omitempty"`
 
 	// This field denotes the VPC flow logging options for this subnetwork. If
 	// logging is enabled, logs are exported to Cloud Logging. Flow logging
@@ -161,6 +168,10 @@ type SubnetworkInitParameters_2 struct {
 	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
+
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -306,19 +317,23 @@ type SubnetworkLogConfigParameters struct {
 
 type SubnetworkObservation_2 struct {
 
+	// Typically packets destined to IPs within the subnetwork range that do not match
+	// existing resources are dropped and prevented from leaving the VPC.
+	// Setting this field to true will allow these packets to match dynamic routes injected
+	// via BGP even if their destinations match existing subnet ranges.
+	AllowSubnetCidrRoutesOverlap *bool `json:"allowSubnetCidrRoutesOverlap,omitempty" tf:"allow_subnet_cidr_routes_overlap,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
 	// creation time.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
-	// it will not appear in get listings. If not set the default behavior is determined by the
-	// org policy, if there is no org policy specified, then it will default to disabled.
-	// This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
-	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
 
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	ExternalIPv6Prefix *string `json:"externalIpv6Prefix,omitempty" tf:"external_ipv6_prefix,omitempty"`
@@ -340,9 +355,9 @@ type SubnetworkObservation_2 struct {
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
-	// in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
-	// Use one of the following formats to specify a sub-PDP when creating an
-	// IPv6 NetLB forwarding rule using BYOIP:
+	// in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION
+	// mode. Use one of the following formats to specify a sub-PDP when creating
+	// a dual stack or IPv6-only subnetwork using BYOIP:
 	// Full resource URL, as in:
 	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
@@ -404,6 +419,10 @@ type SubnetworkObservation_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
+
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
 	// The value can be set to ACTIVE or BACKUP.
@@ -450,18 +469,23 @@ type SubnetworkObservation_2 struct {
 
 type SubnetworkParameters_2 struct {
 
+	// Typically packets destined to IPs within the subnetwork range that do not match
+	// existing resources are dropped and prevented from leaving the VPC.
+	// Setting this field to true will allow these packets to match dynamic routes injected
+	// via BGP even if their destinations match existing subnet ranges.
+	// +kubebuilder:validation:Optional
+	AllowSubnetCidrRoutesOverlap *bool `json:"allowSubnetCidrRoutesOverlap,omitempty" tf:"allow_subnet_cidr_routes_overlap,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
 	// creation time.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
-	// it will not appear in get listings. If not set the default behavior is determined by the
-	// org policy, if there is no org policy specified, then it will default to disabled.
-	// This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
-	// +kubebuilder:validation:Optional
-	EnableFlowLogs *bool `json:"enableFlowLogs,omitempty" tf:"enable_flow_logs,omitempty"`
 
 	// The range of external IPv6 addresses that are owned by this subnetwork.
 	// +kubebuilder:validation:Optional
@@ -476,9 +500,9 @@ type SubnetworkParameters_2 struct {
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
 	// Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
-	// in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
-	// Use one of the following formats to specify a sub-PDP when creating an
-	// IPv6 NetLB forwarding rule using BYOIP:
+	// in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION
+	// mode. Use one of the following formats to specify a sub-PDP when creating
+	// a dual stack or IPv6-only subnetwork using BYOIP:
 	// Full resource URL, as in:
 	// +kubebuilder:validation:Optional
 	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
@@ -489,6 +513,10 @@ type SubnetworkParameters_2 struct {
 	// Possible values are: EXTERNAL, INTERNAL.
 	// +kubebuilder:validation:Optional
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
+
+	// The internal IPv6 address range that is assigned to this subnetwork.
+	// +kubebuilder:validation:Optional
+	InternalIPv6Prefix *string `json:"internalIpv6Prefix,omitempty" tf:"internal_ipv6_prefix,omitempty"`
 
 	// This field denotes the VPC flow logging options for this subnetwork. If
 	// logging is enabled, logs are exported to Cloud Logging. Flow logging
@@ -550,6 +578,11 @@ type SubnetworkParameters_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	// +kubebuilder:validation:Optional
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
+
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+	// +kubebuilder:validation:Optional
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.

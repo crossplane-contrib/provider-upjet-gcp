@@ -75,6 +75,11 @@ spec:
                           in other words it sets the N in the RANDOM_FIRST_N_AVAILABLE.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -353,6 +358,11 @@ spec:
                           in other words it sets the N in the RANDOM_FIRST_N_AVAILABLE.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -690,6 +700,11 @@ spec:
                           in other words it sets the N in the RANDOM_FIRST_N_AVAILABLE.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string

@@ -13,6 +13,118 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type ApplianceMappingsInitParameters struct {
+
+	// The appliance IP address.
+	ApplianceIPAddress *string `json:"applianceIpAddress,omitempty" tf:"appliance_ip_address,omitempty"`
+
+	// Structure is documented below.
+	InnerVlanToApplianceMappings []InnerVlanToApplianceMappingsInitParameters `json:"innerVlanToApplianceMappings,omitempty" tf:"inner_vlan_to_appliance_mappings,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is created. The
+	// name must be 1-63 characters long, and comply with RFC1035. Specifically, the
+	// name must be 1-63 characters long and match the regular expression
+	// [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a
+	// lowercase letter, and all following characters must be a dash, lowercase
+	// letter, or digit, except the last character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The VLAN tag.
+	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
+}
+
+type ApplianceMappingsObservation struct {
+
+	// The appliance IP address.
+	ApplianceIPAddress *string `json:"applianceIpAddress,omitempty" tf:"appliance_ip_address,omitempty"`
+
+	// Structure is documented below.
+	InnerVlanToApplianceMappings []InnerVlanToApplianceMappingsObservation `json:"innerVlanToApplianceMappings,omitempty" tf:"inner_vlan_to_appliance_mappings,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is created. The
+	// name must be 1-63 characters long, and comply with RFC1035. Specifically, the
+	// name must be 1-63 characters long and match the regular expression
+	// [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a
+	// lowercase letter, and all following characters must be a dash, lowercase
+	// letter, or digit, except the last character, which cannot be a dash.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The VLAN tag.
+	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
+}
+
+type ApplianceMappingsParameters struct {
+
+	// The appliance IP address.
+	// +kubebuilder:validation:Optional
+	ApplianceIPAddress *string `json:"applianceIpAddress,omitempty" tf:"appliance_ip_address,omitempty"`
+
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InnerVlanToApplianceMappings []InnerVlanToApplianceMappingsParameters `json:"innerVlanToApplianceMappings,omitempty" tf:"inner_vlan_to_appliance_mappings,omitempty"`
+
+	// Name of the resource. Provided by the client when the resource is created. The
+	// name must be 1-63 characters long, and comply with RFC1035. Specifically, the
+	// name must be 1-63 characters long and match the regular expression
+	// [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a
+	// lowercase letter, and all following characters must be a dash, lowercase
+	// letter, or digit, except the last character, which cannot be a dash.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The VLAN tag.
+	// +kubebuilder:validation:Optional
+	VlanID *string `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
+}
+
+type GeneveHeaderInitParameters struct {
+
+	// VNI is a 24-bit unique virtual network identifier.
+	Vni *float64 `json:"vni,omitempty" tf:"vni,omitempty"`
+}
+
+type GeneveHeaderObservation struct {
+
+	// VNI is a 24-bit unique virtual network identifier.
+	Vni *float64 `json:"vni,omitempty" tf:"vni,omitempty"`
+}
+
+type GeneveHeaderParameters struct {
+
+	// VNI is a 24-bit unique virtual network identifier.
+	// +kubebuilder:validation:Optional
+	Vni *float64 `json:"vni,omitempty" tf:"vni,omitempty"`
+}
+
+type InnerVlanToApplianceMappingsInitParameters struct {
+
+	// The inner appliance IP address.
+	InnerApplianceIPAddress *string `json:"innerApplianceIpAddress,omitempty" tf:"inner_appliance_ip_address,omitempty"`
+
+	// List of inner VLAN tags.
+	InnerVlanTags []*string `json:"innerVlanTags,omitempty" tf:"inner_vlan_tags,omitempty"`
+}
+
+type InnerVlanToApplianceMappingsObservation struct {
+
+	// The inner appliance IP address.
+	InnerApplianceIPAddress *string `json:"innerApplianceIpAddress,omitempty" tf:"inner_appliance_ip_address,omitempty"`
+
+	// List of inner VLAN tags.
+	InnerVlanTags []*string `json:"innerVlanTags,omitempty" tf:"inner_vlan_tags,omitempty"`
+}
+
+type InnerVlanToApplianceMappingsParameters struct {
+
+	// The inner appliance IP address.
+	// +kubebuilder:validation:Optional
+	InnerApplianceIPAddress *string `json:"innerApplianceIpAddress,omitempty" tf:"inner_appliance_ip_address,omitempty"`
+
+	// List of inner VLAN tags.
+	// +kubebuilder:validation:Optional
+	InnerVlanTags []*string `json:"innerVlanTags,omitempty" tf:"inner_vlan_tags,omitempty"`
+}
+
 type InterconnectAttachmentInitParameters struct {
 
 	// Whether the VLAN attachment is enabled or disabled.  When using
@@ -24,8 +136,24 @@ type InterconnectAttachmentInitParameters struct {
 	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
 	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
 	// Defaults to BPS_10G
-	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G, BPS_100G.
+	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G, BPS_100G, BPS_400G.
 	Bandwidth *string `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// Single IPv4 address + prefix length to be configured on the cloud router interface for this
+	// interconnect attachment. Example: 203.0.113.1/29
+	CandidateCloudRouterIPAddress *string `json:"candidateCloudRouterIpAddress,omitempty" tf:"candidate_cloud_router_ip_address,omitempty"`
+
+	// Single IPv6 address + prefix length to be configured on the cloud router interface for this
+	// interconnect attachment. Example: 2001:db8::1/125
+	CandidateCloudRouterIPv6Address *string `json:"candidateCloudRouterIpv6Address,omitempty" tf:"candidate_cloud_router_ipv6_address,omitempty"`
+
+	// Single IPv4 address + prefix length to be configured on the customer router interface for this
+	// interconnect attachment. Example: 203.0.113.2/29
+	CandidateCustomerRouterIPAddress *string `json:"candidateCustomerRouterIpAddress,omitempty" tf:"candidate_customer_router_ip_address,omitempty"`
+
+	// Single IPv6 address + prefix length to be configured on the customer router interface for this
+	// interconnect attachment. Example: 2001:db8::2/125
+	CandidateCustomerRouterIPv6Address *string `json:"candidateCustomerRouterIpv6Address,omitempty" tf:"candidate_customer_router_ipv6_address,omitempty"`
 
 	// Up to 16 candidate prefixes that can be used to restrict the allocation
 	// of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
@@ -35,6 +163,10 @@ type InterconnectAttachmentInitParameters struct {
 	// fail if all possible /29s are in use on Google's edge. If not supplied,
 	// Google will randomly select an unused /29 from all of link-local space.
 	CandidateSubnets []*string `json:"candidateSubnets,omitempty" tf:"candidate_subnets,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -84,6 +216,10 @@ type InterconnectAttachmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
+	// L2 Interconnect Attachment related configuration.
+	// Structure is documented below.
+	L2Forwarding *L2ForwardingInitParameters `json:"l2Forwarding,omitempty" tf:"l2_forwarding,omitempty"`
+
 	// Labels for this resource. These can only be added or modified by the setLabels
 	// method. Each label key/value pair must comply with RFC1035. Label values may be empty.
 	// +mapType=granular
@@ -92,6 +228,10 @@ type InterconnectAttachmentInitParameters struct {
 	// Maximum Transmission Unit (MTU), in bytes, of packets passing through this interconnect attachment.
 	// Valid values are 1440, 1460, 1500, and 8896. If not specified, the value will default to 1440.
 	Mtu *string `json:"mtu,omitempty" tf:"mtu,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *InterconnectAttachmentParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -130,7 +270,7 @@ type InterconnectAttachmentInitParameters struct {
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
-	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
+	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER, L2_DEDICATED.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
@@ -152,8 +292,24 @@ type InterconnectAttachmentObservation struct {
 	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
 	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
 	// Defaults to BPS_10G
-	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G, BPS_100G.
+	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G, BPS_100G, BPS_400G.
 	Bandwidth *string `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// Single IPv4 address + prefix length to be configured on the cloud router interface for this
+	// interconnect attachment. Example: 203.0.113.1/29
+	CandidateCloudRouterIPAddress *string `json:"candidateCloudRouterIpAddress,omitempty" tf:"candidate_cloud_router_ip_address,omitempty"`
+
+	// Single IPv6 address + prefix length to be configured on the cloud router interface for this
+	// interconnect attachment. Example: 2001:db8::1/125
+	CandidateCloudRouterIPv6Address *string `json:"candidateCloudRouterIpv6Address,omitempty" tf:"candidate_cloud_router_ipv6_address,omitempty"`
+
+	// Single IPv4 address + prefix length to be configured on the customer router interface for this
+	// interconnect attachment. Example: 203.0.113.2/29
+	CandidateCustomerRouterIPAddress *string `json:"candidateCustomerRouterIpAddress,omitempty" tf:"candidate_customer_router_ip_address,omitempty"`
+
+	// Single IPv6 address + prefix length to be configured on the customer router interface for this
+	// interconnect attachment. Example: 2001:db8::2/125
+	CandidateCustomerRouterIPv6Address *string `json:"candidateCustomerRouterIpv6Address,omitempty" tf:"candidate_customer_router_ipv6_address,omitempty"`
 
 	// Up to 16 candidate prefixes that can be used to restrict the allocation
 	// of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
@@ -182,6 +338,10 @@ type InterconnectAttachmentObservation struct {
 	// IPv6 address + prefix length to be configured on the customer
 	// router subinterface for this interconnect attachment.
 	CustomerRouterIPv6Address *string `json:"customerRouterIpv6Address,omitempty" tf:"customer_router_ipv6_address,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -232,6 +392,10 @@ type InterconnectAttachmentObservation struct {
 	// allocated from regional external IP address pool.
 	IpsecInternalAddresses []*string `json:"ipsecInternalAddresses,omitempty" tf:"ipsec_internal_addresses,omitempty"`
 
+	// L2 Interconnect Attachment related configuration.
+	// Structure is documented below.
+	L2Forwarding *L2ForwardingObservation `json:"l2Forwarding,omitempty" tf:"l2_forwarding,omitempty"`
+
 	// A fingerprint for the labels being applied to this Interconnect, which is essentially a hash
 	// of the labels set used for optimistic locking. The fingerprint is initially generated by
 	// Compute Engine and changes after every request to modify or update labels.
@@ -252,6 +416,10 @@ type InterconnectAttachmentObservation struct {
 	// identifier of an PARTNER attachment used to initiate provisioning with
 	// a selected partner. Of the form "XXXXX/region/domain"
 	PairingKey *string `json:"pairingKey,omitempty" tf:"pairing_key,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *InterconnectAttachmentParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// [Output only for type PARTNER. Not present for DEDICATED]. Optional
 	// BGP ASN for the router that should be supplied by a layer 3 Partner if
@@ -304,7 +472,7 @@ type InterconnectAttachmentObservation struct {
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
-	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
+	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER, L2_DEDICATED.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The IEEE 802.1Q VLAN tag for this attachment, in the range 2-4094. When
@@ -324,9 +492,29 @@ type InterconnectAttachmentParameters struct {
 	// For attachments of type PARTNER, the Google Partner that is operating the interconnect must set the bandwidth.
 	// Output only for PARTNER type, mutable for PARTNER_PROVIDER and DEDICATED,
 	// Defaults to BPS_10G
-	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G, BPS_100G.
+	// Possible values are: BPS_50M, BPS_100M, BPS_200M, BPS_300M, BPS_400M, BPS_500M, BPS_1G, BPS_2G, BPS_5G, BPS_10G, BPS_20G, BPS_50G, BPS_100G, BPS_400G.
 	// +kubebuilder:validation:Optional
 	Bandwidth *string `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// Single IPv4 address + prefix length to be configured on the cloud router interface for this
+	// interconnect attachment. Example: 203.0.113.1/29
+	// +kubebuilder:validation:Optional
+	CandidateCloudRouterIPAddress *string `json:"candidateCloudRouterIpAddress,omitempty" tf:"candidate_cloud_router_ip_address,omitempty"`
+
+	// Single IPv6 address + prefix length to be configured on the cloud router interface for this
+	// interconnect attachment. Example: 2001:db8::1/125
+	// +kubebuilder:validation:Optional
+	CandidateCloudRouterIPv6Address *string `json:"candidateCloudRouterIpv6Address,omitempty" tf:"candidate_cloud_router_ipv6_address,omitempty"`
+
+	// Single IPv4 address + prefix length to be configured on the customer router interface for this
+	// interconnect attachment. Example: 203.0.113.2/29
+	// +kubebuilder:validation:Optional
+	CandidateCustomerRouterIPAddress *string `json:"candidateCustomerRouterIpAddress,omitempty" tf:"candidate_customer_router_ip_address,omitempty"`
+
+	// Single IPv6 address + prefix length to be configured on the customer router interface for this
+	// interconnect attachment. Example: 2001:db8::2/125
+	// +kubebuilder:validation:Optional
+	CandidateCustomerRouterIPv6Address *string `json:"candidateCustomerRouterIpv6Address,omitempty" tf:"candidate_customer_router_ipv6_address,omitempty"`
 
 	// Up to 16 candidate prefixes that can be used to restrict the allocation
 	// of cloudRouterIpAddress and customerRouterIpAddress for this attachment.
@@ -337,6 +525,11 @@ type InterconnectAttachmentParameters struct {
 	// Google will randomly select an unused /29 from all of link-local space.
 	// +kubebuilder:validation:Optional
 	CandidateSubnets []*string `json:"candidateSubnets,omitempty" tf:"candidate_subnets,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -391,6 +584,11 @@ type InterconnectAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
+	// L2 Interconnect Attachment related configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	L2Forwarding *L2ForwardingParameters `json:"l2Forwarding,omitempty" tf:"l2_forwarding,omitempty"`
+
 	// Labels for this resource. These can only be added or modified by the setLabels
 	// method. Each label key/value pair must comply with RFC1035. Label values may be empty.
 	// +kubebuilder:validation:Optional
@@ -401,6 +599,11 @@ type InterconnectAttachmentParameters struct {
 	// Valid values are 1440, 1460, 1500, and 8896. If not specified, the value will default to 1440.
 	// +kubebuilder:validation:Optional
 	Mtu *string `json:"mtu,omitempty" tf:"mtu,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *InterconnectAttachmentParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -447,7 +650,7 @@ type InterconnectAttachmentParameters struct {
 
 	// The type of InterconnectAttachment you wish to create. Defaults to
 	// DEDICATED.
-	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER.
+	// Possible values are: DEDICATED, PARTNER, PARTNER_PROVIDER, L2_DEDICATED.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
@@ -455,6 +658,99 @@ type InterconnectAttachmentParameters struct {
 	// using PARTNER type this will be managed upstream.
 	// +kubebuilder:validation:Optional
 	VlanTag8021Q *float64 `json:"vlanTag8021Q,omitempty" tf:"vlan_tag8021q,omitempty"`
+}
+
+type InterconnectAttachmentParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the interconnect attachment. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InterconnectAttachmentParamsObservation struct {
+
+	// Resource manager tags to be bound to the interconnect attachment. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type InterconnectAttachmentParamsParameters struct {
+
+	// Resource manager tags to be bound to the interconnect attachment. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type L2ForwardingInitParameters struct {
+
+	// A map of VLAN tags to appliances and optional inner mapping rules.
+	// Structure is documented below.
+	ApplianceMappings []ApplianceMappingsInitParameters `json:"applianceMappings,omitempty" tf:"appliance_mappings,omitempty"`
+
+	// The default appliance IP address.
+	DefaultApplianceIPAddress *string `json:"defaultApplianceIpAddress,omitempty" tf:"default_appliance_ip_address,omitempty"`
+
+	// GeneveHeader related configurations.
+	// Structure is documented below.
+	GeneveHeader *GeneveHeaderInitParameters `json:"geneveHeader,omitempty" tf:"geneve_header,omitempty"`
+
+	// URL of the network to which this attachment belongs.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The tunnel endpoint IP address.
+	TunnelEndpointIPAddress *string `json:"tunnelEndpointIpAddress,omitempty" tf:"tunnel_endpoint_ip_address,omitempty"`
+}
+
+type L2ForwardingObservation struct {
+
+	// A map of VLAN tags to appliances and optional inner mapping rules.
+	// Structure is documented below.
+	ApplianceMappings []ApplianceMappingsObservation `json:"applianceMappings,omitempty" tf:"appliance_mappings,omitempty"`
+
+	// The default appliance IP address.
+	DefaultApplianceIPAddress *string `json:"defaultApplianceIpAddress,omitempty" tf:"default_appliance_ip_address,omitempty"`
+
+	// GeneveHeader related configurations.
+	// Structure is documented below.
+	GeneveHeader *GeneveHeaderObservation `json:"geneveHeader,omitempty" tf:"geneve_header,omitempty"`
+
+	// URL of the network to which this attachment belongs.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The tunnel endpoint IP address.
+	TunnelEndpointIPAddress *string `json:"tunnelEndpointIpAddress,omitempty" tf:"tunnel_endpoint_ip_address,omitempty"`
+}
+
+type L2ForwardingParameters struct {
+
+	// A map of VLAN tags to appliances and optional inner mapping rules.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ApplianceMappings []ApplianceMappingsParameters `json:"applianceMappings,omitempty" tf:"appliance_mappings,omitempty"`
+
+	// The default appliance IP address.
+	// +kubebuilder:validation:Optional
+	DefaultApplianceIPAddress *string `json:"defaultApplianceIpAddress,omitempty" tf:"default_appliance_ip_address,omitempty"`
+
+	// GeneveHeader related configurations.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GeneveHeader *GeneveHeaderParameters `json:"geneveHeader,omitempty" tf:"geneve_header,omitempty"`
+
+	// URL of the network to which this attachment belongs.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The tunnel endpoint IP address.
+	// +kubebuilder:validation:Optional
+	TunnelEndpointIPAddress *string `json:"tunnelEndpointIpAddress,omitempty" tf:"tunnel_endpoint_ip_address,omitempty"`
 }
 
 type PrivateInterconnectInfoInitParameters struct {

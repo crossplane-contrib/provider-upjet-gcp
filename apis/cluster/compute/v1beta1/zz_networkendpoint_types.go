@@ -15,6 +15,10 @@ import (
 
 type NetworkEndpointInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// IPv4 address of network endpoint. The IP address must belong
 	// to a VM in GCE (either the primary IP or as part of an aliased IP
 	// range).
@@ -61,6 +65,10 @@ type NetworkEndpointInitParameters struct {
 
 type NetworkEndpointObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{zone}}/{{network_endpoint_group}}/{{instance}}/{{ip_address}}/{{port}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -91,6 +99,11 @@ type NetworkEndpointObservation struct {
 }
 
 type NetworkEndpointParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// IPv4 address of network endpoint. The IP address must belong
 	// to a VM in GCE (either the primary IP or as part of an aliased IP

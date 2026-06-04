@@ -16,6 +16,10 @@ import (
 
 type RouterInterfaceInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// IP address and range of the interface. The IP range must be
 	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.
 	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
@@ -82,6 +86,10 @@ type RouterInterfaceInitParameters struct {
 
 type RouterInterfaceObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{region}}/{{router}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -132,6 +140,11 @@ type RouterInterfaceObservation struct {
 }
 
 type RouterInterfaceParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// IP address and range of the interface. The IP range must be
 	// in the RFC3927 link-local IP space. Changing this forces a new interface to be created.

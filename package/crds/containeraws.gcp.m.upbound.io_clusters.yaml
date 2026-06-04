@@ -288,6 +288,11 @@ spec:
                           versions on a given Google Cloud region by calling .
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Optional. A human readable description of this cluster.
                       Cannot be longer than 255 UTF-8 encoded bytes.
@@ -582,6 +587,11 @@ spec:
                           versions on a given Google Cloud region by calling .
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Optional. A human readable description of this cluster.
                       Cannot be longer than 255 UTF-8 encoded bytes.
@@ -944,6 +954,11 @@ spec:
                     type: object
                   createTime:
                     description: Output only. The time at which this cluster was created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Optional. A human readable description of this cluster.

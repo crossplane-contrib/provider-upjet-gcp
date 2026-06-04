@@ -3331,6 +3331,11 @@ func (in *SSLCertInitParameters) DeepCopyInto(out *SSLCertInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Instance != nil {
 		in, out := &in.Instance, &out.Instance
 		*out = new(string)
@@ -3413,6 +3418,11 @@ func (in *SSLCertObservation) DeepCopyInto(out *SSLCertObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ExpirationTime != nil {
 		in, out := &in.ExpirationTime, &out.ExpirationTime
 		*out = new(string)
@@ -3455,6 +3465,11 @@ func (in *SSLCertParameters) DeepCopyInto(out *SSLCertParameters) {
 	*out = *in
 	if in.CommonName != nil {
 		in, out := &in.CommonName, &out.CommonName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -4256,6 +4271,11 @@ func (in *SourceRepresentationInstanceInitParameters) DeepCopyInto(out *SourceRe
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DumpFilePath != nil {
 		in, out := &in.DumpFilePath, &out.DumpFilePath
 		*out = new(string)
@@ -4358,6 +4378,11 @@ func (in *SourceRepresentationInstanceObservation) DeepCopyInto(out *SourceRepre
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DumpFilePath != nil {
 		in, out := &in.DumpFilePath, &out.DumpFilePath
 		*out = new(string)
@@ -4425,6 +4450,11 @@ func (in *SourceRepresentationInstanceParameters) DeepCopyInto(out *SourceRepres
 	}
 	if in.DatabaseVersion != nil {
 		in, out := &in.DatabaseVersion, &out.DatabaseVersion
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

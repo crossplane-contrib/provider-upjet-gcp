@@ -134,6 +134,11 @@ spec:
                       ".
                       Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Name used for UI elements listing this SLO.
                     type: string
@@ -708,6 +713,11 @@ spec:
                       A calendar period, semantically "since the start of the current
                       ".
                       Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   displayName:
                     description: Name used for UI elements listing this SLO.
@@ -1338,6 +1348,11 @@ spec:
                       A calendar period, semantically "since the start of the current
                       ".
                       Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   displayName:
                     description: Name used for UI elements listing this SLO.

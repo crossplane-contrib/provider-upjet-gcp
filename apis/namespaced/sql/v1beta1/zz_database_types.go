@@ -30,10 +30,8 @@ type DatabaseInitParameters struct {
 	// a value of en_US.UTF8 at creation time.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// The deletion policy for the database. Setting ABANDON allows the resource
-	// to be abandoned rather than deleted. This is useful for Postgres, where databases cannot be
-	// deleted from the API if there are users other than cloudsqlsuperuser with access. Possible
-	// values are: "ABANDON", "DELETE". Defaults to "DELETE".
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -57,10 +55,8 @@ type DatabaseObservation struct {
 	// a value of en_US.UTF8 at creation time.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// The deletion policy for the database. Setting ABANDON allows the resource
-	// to be abandoned rather than deleted. This is useful for Postgres, where databases cannot be
-	// deleted from the API if there are users other than cloudsqlsuperuser with access. Possible
-	// values are: "ABANDON", "DELETE". Defaults to "DELETE".
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/instances/{{instance}}/databases/{{name}}
@@ -96,10 +92,8 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// The deletion policy for the database. Setting ABANDON allows the resource
-	// to be abandoned rather than deleted. This is useful for Postgres, where databases cannot be
-	// deleted from the API if there are users other than cloudsqlsuperuser with access. Possible
-	// values are: "ABANDON", "DELETE". Defaults to "DELETE".
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 

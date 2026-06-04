@@ -235,6 +235,11 @@ spec:
                           for options. When unspecified, it defaults to Standard_DS2_v2.'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   location:
                     description: The location for the resource
                     type: string
@@ -374,6 +379,11 @@ spec:
                           for options. When unspecified, it defaults to Standard_DS2_v2.'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   management:
                     description: The Management configuration for this node pool.
                     properties:
@@ -585,6 +595,11 @@ spec:
                   createTime:
                     description: Output only. The time at which this node pool was
                       created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveAnnotations:
                     additionalProperties:

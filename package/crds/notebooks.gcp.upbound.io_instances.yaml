@@ -1125,6 +1125,11 @@ spec:
                       Possible disk types for notebook instances.
                       Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   desiredState:
                     description: Desired state of the Notebook Instance. Set this
                       field to ACTIVE to start the Instance, and STOPPED to stop the
@@ -1373,6 +1378,11 @@ spec:
                     description: |-
                       Possible disk types for notebook instances.
                       Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   desiredState:
                     description: Desired state of the Notebook Instance. Set this
@@ -1703,6 +1713,11 @@ spec:
                     description: |-
                       Possible disk types for notebook instances.
                       Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   desiredState:
                     description: Desired state of the Notebook Instance. Set this

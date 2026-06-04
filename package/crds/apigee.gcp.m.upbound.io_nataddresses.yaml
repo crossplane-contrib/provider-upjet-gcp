@@ -63,6 +63,11 @@ spec:
                     description: Flag that specifies whether the reserved NAT address
                       should be activate.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   instanceId:
                     description: |-
                       The Apigee instance associated with the Apigee environment,
@@ -166,6 +171,11 @@ spec:
                     description: Flag that specifies whether the reserved NAT address
                       should be activate.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -234,6 +244,11 @@ spec:
                     description: Flag that specifies whether the reserved NAT address
                       should be activate.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format {{instance_id}}/natAddresses/{{name}}
                     type: string

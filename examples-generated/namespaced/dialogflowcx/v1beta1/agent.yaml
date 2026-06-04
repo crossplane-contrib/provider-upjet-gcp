@@ -32,10 +32,36 @@ spec:
           name: wrench
         noSpeechTimeout: 3.500s
         useTimeoutBasedEndpointing: true
+    answerFeedbackSettings:
+      enableAnswerFeedback: false
     avatarUri: https://cloud.google.com/_static/images/cloud/icons/favicons/onecloud/super_cloud.png
+    clientCertificateSettings:
+      passphrase: projects/example-proj/secrets/example-secret/versions/example-version
+      privateKey: projects/example-proj/secrets/example-secret/versions/example-version
+      sslCertificate: |
+        -----BEGIN CERTIFICATE-----
+        MIIDdDCCAlygAwIBAgIJANg0gKeB5LKmMA0GCSqGSIb3DQEBCwUAMIGSMQswCQYD
+        VQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5j
+        aXNjbzEZMBcGA1UECgwQR2l0SHViLCBJbmMuMRkwFwYDVQQLDBBHb3Zlcm5tZW50
+        IFRlYW0xGTAXBgNVBAMMEGdvdnN0YWNrLmdpdGh1Yi5pbzAeFw0yMDA1MDUxNzM2
+        MzVaFw0zMDA1MDMxNzM2MzVaMIGSMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2Fs
+        aWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzEZMBcGA1UECgwQR2l0SHVi
+        LCBJbmMuMRkwFwYDVQQLDBBHb3Zlcm5tZW50IFRlYW0xGTAXBgNVBAMMEGdvdnN0
+        YWNrLmdpdGh1Yi5pbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAK5P
+        4d9qWZPjZ2eA4eYV2Q8Z3Zp4g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6AgMBAAGjggEaMIIBFjAdBgNVHQ4EFgQUCneA9H8fC+tC
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6g8e6
+        -----END CERTIFICATE-----
     defaultLanguageCode: en
     description: Example description.
     displayName: dialogflowcx-agent
+    enableMultiLanguageTraining: false
     enableSpellCorrection: true
     enableStackdriverLogging: true
     genAppBuilderSettings:
@@ -51,8 +77,12 @@ spec:
         repositoryUri: https://api.github.com/repos/githubtraining/hellogitworld
         trackingBranch: main
     location: global
+    locked: false
+    personalizationSettings:
+      defaultEndUserMetadata: '{"example-key": "example-value"}'
     speechToTextSettings:
       enableSpeechAdaptation: true
+    startPlaybook: projects/-/locations/-/agents/-/playbooks/00000000-0000-0000-0000-000000000000
     supportedLanguageCodes:
     - fr
     - de

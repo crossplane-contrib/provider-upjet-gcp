@@ -59,6 +59,10 @@ type ServiceInitParameters struct {
 	// Structure is documented below.
 	BasicService *BasicServiceInitParameters `json:"basicService,omitempty" tf:"basic_service,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name used for UI elements listing this Service.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -83,6 +87,10 @@ type ServiceObservation struct {
 	// https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring/api/api-structures#basic-svc-w-basic-sli
 	// Structure is documented below.
 	BasicService *BasicServiceObservation `json:"basicService,omitempty" tf:"basic_service,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name used for UI elements listing this Service.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -120,6 +128,11 @@ type ServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BasicService *BasicServiceParameters `json:"basicService,omitempty" tf:"basic_service,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name used for UI elements listing this Service.
 	// +kubebuilder:validation:Optional

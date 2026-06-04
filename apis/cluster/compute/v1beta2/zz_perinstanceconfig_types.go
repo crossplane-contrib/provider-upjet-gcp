@@ -149,6 +149,10 @@ type InternalIPParameters struct {
 
 type PerInstanceConfigInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The instance group manager this instance config is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.InstanceGroupManager
 	InstanceGroupManager *string `json:"instanceGroupManager,omitempty" tf:"instance_group_manager,omitempty"`
@@ -205,6 +209,10 @@ type PerInstanceConfigInitParameters struct {
 
 type PerInstanceConfigObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{zone}}/{{instance_group_manager}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -244,6 +252,11 @@ type PerInstanceConfigObservation struct {
 }
 
 type PerInstanceConfigParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The instance group manager this instance config is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.InstanceGroupManager

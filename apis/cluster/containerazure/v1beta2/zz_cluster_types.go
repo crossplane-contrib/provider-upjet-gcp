@@ -130,6 +130,10 @@ type ClusterInitParameters struct {
 	// Configuration related to the cluster control plane.
 	ControlPlane *ControlPlaneInitParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -169,6 +173,10 @@ type ClusterObservation struct {
 
 	// Output only. The time at which this cluster was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -242,6 +250,11 @@ type ClusterParameters struct {
 	// Configuration related to the cluster control plane.
 	// +kubebuilder:validation:Optional
 	ControlPlane *ControlPlaneParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. A human readable description of this cluster. Cannot be longer than 255 UTF-8 encoded bytes.
 	// +kubebuilder:validation:Optional

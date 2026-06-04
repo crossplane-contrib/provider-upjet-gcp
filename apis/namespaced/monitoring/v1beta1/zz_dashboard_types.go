@@ -20,6 +20,10 @@ type DashboardInitParameters struct {
 	// The representation of an existing dashboard can be found by using the API Explorer
 	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -30,6 +34,10 @@ type DashboardObservation struct {
 	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
 	// The representation of an existing dashboard can be found by using the API Explorer
 	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{project_id_or_number}/dashboards/{dashboard_id}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -45,6 +53,11 @@ type DashboardParameters struct {
 	// The representation of an existing dashboard can be found by using the API Explorer
 	// +kubebuilder:validation:Optional
 	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

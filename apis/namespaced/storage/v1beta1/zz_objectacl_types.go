@@ -28,6 +28,10 @@ type ObjectACLInitParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the object to apply the acl to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
@@ -54,6 +58,10 @@ type ObjectACLObservation struct {
 
 	// The name of the bucket the object is stored in.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -83,6 +91,11 @@ type ObjectACLParameters struct {
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the object to apply the acl to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject

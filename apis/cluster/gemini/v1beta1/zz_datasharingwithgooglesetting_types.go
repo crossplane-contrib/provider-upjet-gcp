@@ -15,6 +15,10 @@ import (
 
 type DataSharingWithGoogleSettingInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Whether data sharing should be enabled in GA products.
 	EnableDataSharing *bool `json:"enableDataSharing,omitempty" tf:"enable_data_sharing,omitempty"`
 
@@ -36,6 +40,10 @@ type DataSharingWithGoogleSettingObservation struct {
 
 	// Create time stamp.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -76,6 +84,11 @@ type DataSharingWithGoogleSettingObservation struct {
 }
 
 type DataSharingWithGoogleSettingParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Whether data sharing should be enabled in GA products.
 	// +kubebuilder:validation:Optional

@@ -379,6 +379,10 @@ type FlowInitParameters struct {
 	// Structure is documented below.
 	AdvancedSettings *FlowAdvancedSettingsInitParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the flow. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -450,6 +454,10 @@ type FlowObservation struct {
 	// Structure is documented below.
 	AdvancedSettings *FlowAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the flow. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -518,6 +526,11 @@ type FlowParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdvancedSettings *FlowAdvancedSettingsParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the flow. The maximum length is 500 characters. If exceeded, the request is rejected.
 	// +kubebuilder:validation:Optional

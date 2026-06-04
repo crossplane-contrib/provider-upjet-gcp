@@ -5031,6 +5031,23 @@ spec:
                           Requires destinationTable to be set. For standard SQL queries, this flag is ignored and large results are always allowed.
                           However, you must still set destinationTable when result size exceeds the allowed maximum response size.
                         type: boolean
+                      connectionProperties:
+                        description: |-
+                          Connection properties to customize query behavior. Under JDBC, these correspond
+                          directly to connection properties passed to the DriverManager. Under ODBC, these
+                          correspond to properties in the connection string.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            key:
+                              description: 'The key of the property to set. Currently
+                                supported connection properties:'
+                              type: string
+                            value:
+                              description: The value of the property to set.
+                              type: string
+                          type: object
+                        type: array
                       createDisposition:
                         description: |-
                           Specifies whether the job is allowed to create new tables. The following values are supported:
@@ -6491,6 +6508,23 @@ spec:
                           Requires destinationTable to be set. For standard SQL queries, this flag is ignored and large results are always allowed.
                           However, you must still set destinationTable when result size exceeds the allowed maximum response size.
                         type: boolean
+                      connectionProperties:
+                        description: |-
+                          Connection properties to customize query behavior. Under JDBC, these correspond
+                          directly to connection properties passed to the DriverManager. Under ODBC, these
+                          correspond to properties in the connection string.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            key:
+                              description: 'The key of the property to set. Currently
+                                supported connection properties:'
+                              type: string
+                            value:
+                              description: The value of the property to set.
+                              type: string
+                          type: object
+                        type: array
                       createDisposition:
                         description: |-
                           Specifies whether the job is allowed to create new tables. The following values are supported:
@@ -7374,6 +7408,23 @@ spec:
                           Requires destinationTable to be set. For standard SQL queries, this flag is ignored and large results are always allowed.
                           However, you must still set destinationTable when result size exceeds the allowed maximum response size.
                         type: boolean
+                      connectionProperties:
+                        description: |-
+                          Connection properties to customize query behavior. Under JDBC, these correspond
+                          directly to connection properties passed to the DriverManager. Under ODBC, these
+                          correspond to properties in the connection string.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            key:
+                              description: 'The key of the property to set. Currently
+                                supported connection properties:'
+                              type: string
+                            value:
+                              description: The value of the property to set.
+                              type: string
+                          type: object
+                        type: array
                       createDisposition:
                         description: |-
                           Specifies whether the job is allowed to create new tables. The following values are supported:

@@ -39,6 +39,10 @@ type GroupInitParameters struct {
 	// Structure is documented below.
 	AutoAccept *AutoAcceptInitParameters `json:"autoAccept,omitempty" tf:"auto_accept,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of the group.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -61,6 +65,10 @@ type GroupObservation struct {
 
 	// Output only. The time the hub was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of the group.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -108,6 +116,11 @@ type GroupParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutoAccept *AutoAcceptParameters `json:"autoAccept,omitempty" tf:"auto_accept,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of the group.
 	// +kubebuilder:validation:Optional

@@ -2863,6 +2863,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the table
                       is allowed..
@@ -3147,7 +3152,32 @@ spec:
                               that BigQuery will skip when reading the data. At least one of range or
                               skip_leading_rows must be set.
                             type: number
+                          sourceColumnMatch:
+                            description: |-
+                              Specifies how source columns are matched
+                              to the table schema. Valid values are POSITION (columns matched by position,
+                              assuming same ordering as the schema) or NAME (columns matched by name,
+                              reads the header row and reorders columns to align with schema field names).
+                              If not set, a default is chosen based on how the schema is provided: when
+                              autodetect is used, columns are matched by name; otherwise, by position.
+                            type: string
                         type: object
+                      decimalTargetTypes:
+                        description: Defines the list of possible SQL data types to
+                          which the source decimal values are converted. This list
+                          and the precision and the scale parameters of the decimal
+                          field determine the target type. In the order of NUMERIC,
+                          BIGNUMERIC, and STRING, a type is picked if it is in the
+                          specified list and if it supports the precision and the
+                          scale. STRING supports all precision and scale values. If
+                          none of the listed types supports the precision and the
+                          scale, the type supporting the widest range in the specified
+                          list is picked, and if a value exceeds the supported range
+                          when reading the data, an error will be thrown.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       fileSetSpecType:
                         description: |-
                           Specifies how source URIs are interpreted for constructing the file set to load.
@@ -3302,8 +3332,11 @@ spec:
                     type: boolean
                   ignoreSchemaChanges:
                     description: |-
-                      A list of fields which should be ignored for each column in schema.
-                      NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+                      A list of fields which would act non-authoritative for each column in schema.
+                      NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+                      If there is no policy in config for a column but there are in live state, the policy will persist.
+                      If the policy in config is updated, it will override the policy in the live state. Other fields
+                      like description for a column will keep behaving as they are(authoritatively).
                     items:
                       type: string
                     type: array
@@ -3545,7 +3578,10 @@ spec:
                       useLegacySql:
                         description: |-
                           Specifies whether to use BigQuery's legacy SQL for this view.
-                          The default value is true. If set to false, the view will use BigQuery's standard SQL.
+                          If set to false, the view will use BigQuery's standard SQL. If set to
+                          true, the view will use BigQuery's legacy SQL. If unset, the API will
+                          interpret it as a true and assumes the legacy SQL dialect for its query
+                          according to the API documentation.
                           -> Note: Starting in provider version 7.0.0, no default value is
                           provided for this field unless explicitly set in the configuration.
                         type: boolean
@@ -3596,6 +3632,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the table
                       is allowed..
@@ -3880,7 +3921,32 @@ spec:
                               that BigQuery will skip when reading the data. At least one of range or
                               skip_leading_rows must be set.
                             type: number
+                          sourceColumnMatch:
+                            description: |-
+                              Specifies how source columns are matched
+                              to the table schema. Valid values are POSITION (columns matched by position,
+                              assuming same ordering as the schema) or NAME (columns matched by name,
+                              reads the header row and reorders columns to align with schema field names).
+                              If not set, a default is chosen based on how the schema is provided: when
+                              autodetect is used, columns are matched by name; otherwise, by position.
+                            type: string
                         type: object
+                      decimalTargetTypes:
+                        description: Defines the list of possible SQL data types to
+                          which the source decimal values are converted. This list
+                          and the precision and the scale parameters of the decimal
+                          field determine the target type. In the order of NUMERIC,
+                          BIGNUMERIC, and STRING, a type is picked if it is in the
+                          specified list and if it supports the precision and the
+                          scale. STRING supports all precision and scale values. If
+                          none of the listed types supports the precision and the
+                          scale, the type supporting the widest range in the specified
+                          list is picked, and if a value exceeds the supported range
+                          when reading the data, an error will be thrown.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       fileSetSpecType:
                         description: |-
                           Specifies how source URIs are interpreted for constructing the file set to load.
@@ -4035,8 +4101,11 @@ spec:
                     type: boolean
                   ignoreSchemaChanges:
                     description: |-
-                      A list of fields which should be ignored for each column in schema.
-                      NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+                      A list of fields which would act non-authoritative for each column in schema.
+                      NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+                      If there is no policy in config for a column but there are in live state, the policy will persist.
+                      If the policy in config is updated, it will override the policy in the live state. Other fields
+                      like description for a column will keep behaving as they are(authoritatively).
                     items:
                       type: string
                     type: array
@@ -4267,7 +4336,10 @@ spec:
                       useLegacySql:
                         description: |-
                           Specifies whether to use BigQuery's legacy SQL for this view.
-                          The default value is true. If set to false, the view will use BigQuery's standard SQL.
+                          If set to false, the view will use BigQuery's standard SQL. If set to
+                          true, the view will use BigQuery's legacy SQL. If unset, the API will
+                          interpret it as a true and assumes the legacy SQL dialect for its query
+                          according to the API documentation.
                           -> Note: Starting in provider version 7.0.0, no default value is
                           provided for this field unless explicitly set in the configuration.
                         type: boolean
@@ -4404,6 +4476,11 @@ spec:
                     description: |-
                       The dataset ID to create the table in.
                       Changing this forces a new resource to be created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the table
@@ -4701,7 +4778,32 @@ spec:
                               that BigQuery will skip when reading the data. At least one of range or
                               skip_leading_rows must be set.
                             type: number
+                          sourceColumnMatch:
+                            description: |-
+                              Specifies how source columns are matched
+                              to the table schema. Valid values are POSITION (columns matched by position,
+                              assuming same ordering as the schema) or NAME (columns matched by name,
+                              reads the header row and reorders columns to align with schema field names).
+                              If not set, a default is chosen based on how the schema is provided: when
+                              autodetect is used, columns are matched by name; otherwise, by position.
+                            type: string
                         type: object
+                      decimalTargetTypes:
+                        description: Defines the list of possible SQL data types to
+                          which the source decimal values are converted. This list
+                          and the precision and the scale parameters of the decimal
+                          field determine the target type. In the order of NUMERIC,
+                          BIGNUMERIC, and STRING, a type is picked if it is in the
+                          specified list and if it supports the precision and the
+                          scale. STRING supports all precision and scale values. If
+                          none of the listed types supports the precision and the
+                          scale, the type supporting the widest range in the specified
+                          list is picked, and if a value exceeds the supported range
+                          when reading the data, an error will be thrown.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       fileSetSpecType:
                         description: |-
                           Specifies how source URIs are interpreted for constructing the file set to load.
@@ -4861,8 +4963,11 @@ spec:
                     type: boolean
                   ignoreSchemaChanges:
                     description: |-
-                      A list of fields which should be ignored for each column in schema.
-                      NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+                      A list of fields which would act non-authoritative for each column in schema.
+                      NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+                      If there is no policy in config for a column but there are in live state, the policy will persist.
+                      If the policy in config is updated, it will override the policy in the live state. Other fields
+                      like description for a column will keep behaving as they are(authoritatively).
                     items:
                       type: string
                     type: array
@@ -5135,7 +5240,10 @@ spec:
                       useLegacySql:
                         description: |-
                           Specifies whether to use BigQuery's legacy SQL for this view.
-                          The default value is true. If set to false, the view will use BigQuery's standard SQL.
+                          If set to false, the view will use BigQuery's standard SQL. If set to
+                          true, the view will use BigQuery's legacy SQL. If unset, the API will
+                          interpret it as a true and assumes the legacy SQL dialect for its query
+                          according to the API documentation.
                           -> Note: Starting in provider version 7.0.0, no default value is
                           provided for this field unless explicitly set in the configuration.
                         type: boolean

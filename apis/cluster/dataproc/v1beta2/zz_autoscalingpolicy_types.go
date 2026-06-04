@@ -19,6 +19,10 @@ type AutoscalingPolicyInitParameters struct {
 	// Structure is documented below.
 	BasicAlgorithm *BasicAlgorithmInitParameters `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -37,6 +41,10 @@ type AutoscalingPolicyObservation struct {
 	// Basic algorithm for autoscaling.
 	// Structure is documented below.
 	BasicAlgorithm *BasicAlgorithmObservation `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -67,6 +75,11 @@ type AutoscalingPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BasicAlgorithm *BasicAlgorithmParameters `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The  location where the autoscaling policy should reside.
 	// The default value is global.

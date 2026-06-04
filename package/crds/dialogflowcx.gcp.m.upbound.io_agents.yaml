@@ -144,10 +144,42 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  answerFeedbackSettings:
+                    description: |-
+                      Answer feedback collection settings.
+                      Structure is documented below.
+                    properties:
+                      enableAnswerFeedback:
+                        description: |-
+                          If enabled, end users will be able to provide answer feedback
+                          to Dialogflow responses. Feature works only if interaction logging is enabled in the Dialogflow agent.
+                        type: boolean
+                    type: object
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
                       the Dialogflow console and in the self-hosted Web Demo integration.
                     type: string
+                  clientCertificateSettings:
+                    description: |-
+                      Settings for custom client certificates.
+                      Structure is documented below.
+                    properties:
+                      passphrase:
+                        description: 'The name of the SecretManager secret version
+                          resource storing the passphrase. ''passphrase'' should be
+                          left unset if the private key is not encrypted. Format:
+                          projects/{project}/secrets/{secret}/versions/{version}'
+                        type: string
+                      privateKey:
+                        description: 'The name of the SecretManager secret version
+                          resource storing the private key encoded in PEM format.
+                          Format: projects/{project}/secrets/{secret}/versions/{version}'
+                        type: string
+                      sslCertificate:
+                        description: The ssl certificate encoded in PEM format. This
+                          string must include the begin header and end footer lines.
+                        type: string
+                    type: object
                   defaultLanguageCode:
                     description: |-
                       The default language of the agent as a language tag. See Language Support
@@ -156,6 +188,11 @@ spec:
                   deleteChatEngineOnDestroy:
                     description: Otherwise, the chat engine will persist.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -164,6 +201,11 @@ spec:
                     description: The human-readable name of the agent, unique within
                       the location.
                     type: string
+                  enableMultiLanguageTraining:
+                    description: Enable training multi-lingual models for this agent.
+                      These models will be trained on all the languages supported
+                      by the agent.
+                    type: boolean
                   enableSpellCorrection:
                     description: Indicates if automatic spell correction is enabled
                       in detect intent requests.
@@ -234,6 +276,24 @@ spec:
                       This is a one time step but at the moment you can only configure location settings via the Dialogflow CX console.
                       Another options is to use global location so you don't need to manually configure location settings.
                     type: string
+                  locked:
+                    description: Indicates whether the agent is locked for changes.
+                      If the agent is locked, modifications to the agent will be rejected
+                      except for [agents.restore][].
+                    type: boolean
+                  personalizationSettings:
+                    description: |-
+                      Settings for end user personalization.
+                      Structure is documented below.
+                    properties:
+                      defaultEndUserMetadata:
+                        description: |-
+                          Default end user metadata, used when processing DetectIntent requests. Recommended to be filled as a template instead of hard-coded value, for example { "age": "$session.params.age" }.
+                          The data will be merged with the QueryParameters.end_user_metadata
+                          in DetectIntentRequest.query_params during query processing.
+                          This field uses JSON data as a string. The value provided must be a valid JSON representation documented in Struct.
+                        type: string
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -252,6 +312,13 @@ spec:
                         description: Whether to use speech adaptation for speech recognition.
                         type: boolean
                     type: object
+                  startPlaybook:
+                    description: 'Name of the start playbook in this agent. A start
+                      playbook will be automatically created when the agent is created,
+                      and can only be deleted by deleting the agent. Format: projects/.
+                      Currently only the default playbook with id "00000000-0000-0000-0000-000000000000"
+                      is allowed.'
+                    type: string
                   supportedLanguageCodes:
                     description: The list of all languages supported by this agent
                       (except for the default_language_code).
@@ -372,10 +439,42 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  answerFeedbackSettings:
+                    description: |-
+                      Answer feedback collection settings.
+                      Structure is documented below.
+                    properties:
+                      enableAnswerFeedback:
+                        description: |-
+                          If enabled, end users will be able to provide answer feedback
+                          to Dialogflow responses. Feature works only if interaction logging is enabled in the Dialogflow agent.
+                        type: boolean
+                    type: object
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
                       the Dialogflow console and in the self-hosted Web Demo integration.
                     type: string
+                  clientCertificateSettings:
+                    description: |-
+                      Settings for custom client certificates.
+                      Structure is documented below.
+                    properties:
+                      passphrase:
+                        description: 'The name of the SecretManager secret version
+                          resource storing the passphrase. ''passphrase'' should be
+                          left unset if the private key is not encrypted. Format:
+                          projects/{project}/secrets/{secret}/versions/{version}'
+                        type: string
+                      privateKey:
+                        description: 'The name of the SecretManager secret version
+                          resource storing the private key encoded in PEM format.
+                          Format: projects/{project}/secrets/{secret}/versions/{version}'
+                        type: string
+                      sslCertificate:
+                        description: The ssl certificate encoded in PEM format. This
+                          string must include the begin header and end footer lines.
+                        type: string
+                    type: object
                   defaultLanguageCode:
                     description: |-
                       The default language of the agent as a language tag. See Language Support
@@ -384,6 +483,11 @@ spec:
                   deleteChatEngineOnDestroy:
                     description: Otherwise, the chat engine will persist.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -392,6 +496,11 @@ spec:
                     description: The human-readable name of the agent, unique within
                       the location.
                     type: string
+                  enableMultiLanguageTraining:
+                    description: Enable training multi-lingual models for this agent.
+                      These models will be trained on all the languages supported
+                      by the agent.
+                    type: boolean
                   enableSpellCorrection:
                     description: Indicates if automatic spell correction is enabled
                       in detect intent requests.
@@ -462,6 +571,24 @@ spec:
                       This is a one time step but at the moment you can only configure location settings via the Dialogflow CX console.
                       Another options is to use global location so you don't need to manually configure location settings.
                     type: string
+                  locked:
+                    description: Indicates whether the agent is locked for changes.
+                      If the agent is locked, modifications to the agent will be rejected
+                      except for [agents.restore][].
+                    type: boolean
+                  personalizationSettings:
+                    description: |-
+                      Settings for end user personalization.
+                      Structure is documented below.
+                    properties:
+                      defaultEndUserMetadata:
+                        description: |-
+                          Default end user metadata, used when processing DetectIntent requests. Recommended to be filled as a template instead of hard-coded value, for example { "age": "$session.params.age" }.
+                          The data will be merged with the QueryParameters.end_user_metadata
+                          in DetectIntentRequest.query_params during query processing.
+                          This field uses JSON data as a string. The value provided must be a valid JSON representation documented in Struct.
+                        type: string
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -480,6 +607,13 @@ spec:
                         description: Whether to use speech adaptation for speech recognition.
                         type: boolean
                     type: object
+                  startPlaybook:
+                    description: 'Name of the start playbook in this agent. A start
+                      playbook will be automatically created when the agent is created,
+                      and can only be deleted by deleting the agent. Format: projects/.
+                      Currently only the default playbook with id "00000000-0000-0000-0000-000000000000"
+                      is allowed.'
+                    type: string
                   supportedLanguageCodes:
                     description: The list of all languages supported by this agent
                       (except for the default_language_code).
@@ -667,10 +801,42 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  answerFeedbackSettings:
+                    description: |-
+                      Answer feedback collection settings.
+                      Structure is documented below.
+                    properties:
+                      enableAnswerFeedback:
+                        description: |-
+                          If enabled, end users will be able to provide answer feedback
+                          to Dialogflow responses. Feature works only if interaction logging is enabled in the Dialogflow agent.
+                        type: boolean
+                    type: object
                   avatarUri:
                     description: The URI of the agent's avatar. Avatars are used throughout
                       the Dialogflow console and in the self-hosted Web Demo integration.
                     type: string
+                  clientCertificateSettings:
+                    description: |-
+                      Settings for custom client certificates.
+                      Structure is documented below.
+                    properties:
+                      passphrase:
+                        description: 'The name of the SecretManager secret version
+                          resource storing the passphrase. ''passphrase'' should be
+                          left unset if the private key is not encrypted. Format:
+                          projects/{project}/secrets/{secret}/versions/{version}'
+                        type: string
+                      privateKey:
+                        description: 'The name of the SecretManager secret version
+                          resource storing the private key encoded in PEM format.
+                          Format: projects/{project}/secrets/{secret}/versions/{version}'
+                        type: string
+                      sslCertificate:
+                        description: The ssl certificate encoded in PEM format. This
+                          string must include the begin header and end footer lines.
+                        type: string
+                    type: object
                   defaultLanguageCode:
                     description: |-
                       The default language of the agent as a language tag. See Language Support
@@ -679,6 +845,11 @@ spec:
                   deleteChatEngineOnDestroy:
                     description: Otherwise, the chat engine will persist.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -687,6 +858,11 @@ spec:
                     description: The human-readable name of the agent, unique within
                       the location.
                     type: string
+                  enableMultiLanguageTraining:
+                    description: Enable training multi-lingual models for this agent.
+                      These models will be trained on all the languages supported
+                      by the agent.
+                    type: boolean
                   enableSpellCorrection:
                     description: Indicates if automatic spell correction is enabled
                       in detect intent requests.
@@ -746,14 +922,40 @@ spec:
                       This is a one time step but at the moment you can only configure location settings via the Dialogflow CX console.
                       Another options is to use global location so you don't need to manually configure location settings.
                     type: string
+                  locked:
+                    description: Indicates whether the agent is locked for changes.
+                      If the agent is locked, modifications to the agent will be rejected
+                      except for [agents.restore][].
+                    type: boolean
                   name:
                     description: The unique identifier of the agent.
                     type: string
+                  personalizationSettings:
+                    description: |-
+                      Settings for end user personalization.
+                      Structure is documented below.
+                    properties:
+                      defaultEndUserMetadata:
+                        description: |-
+                          Default end user metadata, used when processing DetectIntent requests. Recommended to be filled as a template instead of hard-coded value, for example { "age": "$session.params.age" }.
+                          The data will be merged with the QueryParameters.end_user_metadata
+                          in DetectIntentRequest.query_params during query processing.
+                          This field uses JSON data as a string. The value provided must be a valid JSON representation documented in Struct.
+                        type: string
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  satisfiesPzi:
+                    description: A read only boolean field reflecting Zone Isolation
+                      status of the agent.
+                    type: boolean
+                  satisfiesPzs:
+                    description: A read only boolean field reflecting Zone Separation
+                      status of the agent.
+                    type: boolean
                   securitySettings:
                     description: 'Name of the SecuritySettings reference for the agent.
                       Format: projects//locations//securitySettings/.'
@@ -771,6 +973,13 @@ spec:
                     description: 'Name of the start flow in this agent. A start flow
                       will be automatically created when the agent is created, and
                       can only be deleted by deleting the agent. Format: projects//locations//agents//flows/.'
+                    type: string
+                  startPlaybook:
+                    description: 'Name of the start playbook in this agent. A start
+                      playbook will be automatically created when the agent is created,
+                      and can only be deleted by deleting the agent. Format: projects/.
+                      Currently only the default playbook with id "00000000-0000-0000-0000-000000000000"
+                      is allowed.'
                     type: string
                   supportedLanguageCodes:
                     description: The list of all languages supported by this agent

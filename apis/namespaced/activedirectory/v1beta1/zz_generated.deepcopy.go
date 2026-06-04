@@ -58,6 +58,11 @@ func (in *DomainInitParameters) DeepCopyInto(out *DomainInitParameters) {
 			}
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -167,6 +172,11 @@ func (in *DomainObservation) DeepCopyInto(out *DomainObservation) {
 				**out = **in
 			}
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
@@ -292,6 +302,11 @@ func (in *DomainParameters) DeepCopyInto(out *DomainParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection

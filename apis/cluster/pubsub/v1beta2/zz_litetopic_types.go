@@ -44,6 +44,10 @@ type CapacityParameters struct {
 
 type LiteTopicInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The settings for this topic's partitions.
 	// Structure is documented below.
 	PartitionConfig *PartitionConfigInitParameters `json:"partitionConfig,omitempty" tf:"partition_config,omitempty"`
@@ -65,6 +69,10 @@ type LiteTopicInitParameters struct {
 }
 
 type LiteTopicObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -93,6 +101,11 @@ type LiteTopicObservation struct {
 }
 
 type LiteTopicParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The settings for this topic's partitions.
 	// Structure is documented below.

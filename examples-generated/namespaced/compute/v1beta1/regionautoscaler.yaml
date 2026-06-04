@@ -19,6 +19,7 @@ spec:
         target: 0.5
       maxReplicas: 5
       minReplicas: 1
+      stabilizationPeriod: 300
     region: us-central1
     targetSelector:
       matchLabels:

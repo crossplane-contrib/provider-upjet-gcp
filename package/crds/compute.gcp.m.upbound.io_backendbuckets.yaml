@@ -260,6 +260,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the resource; provided by the
@@ -352,14 +357,32 @@ spec:
                         type: object
                     type: object
                   enableCdn:
-                    description: If true, enable Cloud CDN for this BackendBucket.
+                    description: |-
+                      If true, enable Cloud CDN for this BackendBucket.
+                      Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
                     type: boolean
                   loadBalancingScheme:
                     description: |-
                       The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
                       If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+                      Important: CDN cannot be enabled (enableCdn cannot be set to true) when loadBalancingScheme is set to INTERNAL_MANAGED.
                       Possible values are: INTERNAL_MANAGED.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the backend bucket. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -579,6 +602,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the resource; provided by the
@@ -671,14 +699,32 @@ spec:
                         type: object
                     type: object
                   enableCdn:
-                    description: If true, enable Cloud CDN for this BackendBucket.
+                    description: |-
+                      If true, enable Cloud CDN for this BackendBucket.
+                      Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
                     type: boolean
                   loadBalancingScheme:
                     description: |-
                       The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
                       If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+                      Important: CDN cannot be enabled (enableCdn cannot be set to true) when loadBalancingScheme is set to INTERNAL_MANAGED.
                       Possible values are: INTERNAL_MANAGED.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the backend bucket. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -871,6 +917,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the resource; provided by the
@@ -881,7 +932,9 @@ spec:
                       bucket.
                     type: string
                   enableCdn:
-                    description: If true, enable Cloud CDN for this BackendBucket.
+                    description: |-
+                      If true, enable Cloud CDN for this BackendBucket.
+                      Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
                     type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
@@ -890,8 +943,24 @@ spec:
                     description: |-
                       The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
                       If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+                      Important: CDN cannot be enabled (enableCdn cannot be set to true) when loadBalancingScheme is set to INTERNAL_MANAGED.
                       Possible values are: INTERNAL_MANAGED.
                     type: string
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the backend bucket. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.

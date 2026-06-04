@@ -293,6 +293,10 @@ type AlertPolicyInitParameters struct {
 	// Structure is documented below.
 	Conditions []ConditionsInitParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A short name or phrase used to identify the policy in
 	// dashboards, notifications, and incidents. To avoid confusion, don't use
 	// the same display name for multiple policies in the same project. The
@@ -361,6 +365,10 @@ type AlertPolicyObservation struct {
 	// be ignored.
 	// Structure is documented below.
 	CreationRecord []CreationRecordObservation `json:"creationRecord,omitempty" tf:"creation_record,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A short name or phrase used to identify the policy in
 	// dashboards, notifications, and incidents. To avoid confusion, don't use
@@ -434,6 +442,11 @@ type AlertPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Conditions []ConditionsParameters `json:"conditions,omitempty" tf:"conditions,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A short name or phrase used to identify the policy in
 	// dashboards, notifications, and incidents. To avoid confusion, don't use

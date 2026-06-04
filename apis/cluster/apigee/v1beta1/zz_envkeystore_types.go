@@ -14,10 +14,13 @@ import (
 )
 
 type EnvKeystoreInitParameters struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 }
 
 type EnvKeystoreObservation struct {
 	Aliases []*string `json:"aliases,omitempty" tf:"aliases,omitempty"`
+
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
@@ -25,6 +28,9 @@ type EnvKeystoreObservation struct {
 }
 
 type EnvKeystoreParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta2.Environment
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()

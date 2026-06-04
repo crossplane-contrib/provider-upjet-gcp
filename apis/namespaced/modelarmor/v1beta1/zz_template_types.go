@@ -403,6 +403,7 @@ type TemplateFilterConfigParameters struct {
 }
 
 type TemplateInitParameters struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Filters configuration.
 	// Structure is documented below.
@@ -567,6 +568,8 @@ type TemplateObservation struct {
 	// Create time stamp
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
@@ -607,6 +610,9 @@ type TemplateObservation struct {
 }
 
 type TemplateParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Filters configuration.
 	// Structure is documented below.

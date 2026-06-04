@@ -119,6 +119,10 @@ type AccessLevelConditionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
 	// allowed.
@@ -175,6 +179,10 @@ type AccessLevelConditionObservation struct {
 
 	// The name of the Access Policy this resource belongs to.
 	AccessPolicyID *string `json:"accessPolicyId,omitempty" tf:"access_policy_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
@@ -243,6 +251,11 @@ type AccessLevelConditionParameters struct {
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
 	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are

@@ -87,6 +87,11 @@ spec:
                         description: The AWS account ID.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description for the provider. Cannot exceed 256
                       characters.
@@ -321,6 +326,11 @@ spec:
                         description: The AWS account ID.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description for the provider. Cannot exceed 256
                       characters.
@@ -518,6 +528,11 @@ spec:
                         description: The AWS account ID.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description for the provider. Cannot exceed 256
                       characters.

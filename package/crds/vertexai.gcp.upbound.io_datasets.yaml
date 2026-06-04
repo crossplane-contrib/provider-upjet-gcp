@@ -456,6 +456,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The user-defined name of the Dataset. The name can
                       be up to 128 characters long and can be consist of any UTF-8
@@ -507,6 +512,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The user-defined name of the Dataset. The name can
                       be up to 128 characters long and can be consist of any UTF-8
@@ -649,6 +659,11 @@ spec:
                     description: The timestamp of when the dataset was created in
                       RFC3339 UTC "Zulu" format, with nanosecond resolution and up
                       to nine fractional digits.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   displayName:
                     description: The user-defined name of the Dataset. The name can

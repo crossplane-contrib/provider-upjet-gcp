@@ -63,6 +63,11 @@ spec:
                     description: If set to true, skip repository creation if a repository
                       with the same name already exists.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -273,6 +278,11 @@ spec:
                     description: If set to true, skip repository creation if a repository
                       with the same name already exists.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -533,6 +543,11 @@ spec:
                     description: If set to true, skip repository creation if a repository
                       with the same name already exists.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/repos/{{name}}
                     type: string

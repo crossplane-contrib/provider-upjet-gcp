@@ -51,7 +51,8 @@ type AsymmetricAutoscalingOptionsParameters struct {
 
 type AutoscalingConfigAutoscalingLimitsInitParameters struct {
 
-	// The maximum number of nodes for this specific replica.
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
 	// Specifies maximum number of processing units allocated to the instance.
@@ -59,7 +60,8 @@ type AutoscalingConfigAutoscalingLimitsInitParameters struct {
 	// min_processing_units.
 	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
 
-	// The minimum number of nodes for this specific replica.
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
 
 	// Specifies minimum number of processing units allocated to the instance.
@@ -69,7 +71,8 @@ type AutoscalingConfigAutoscalingLimitsInitParameters struct {
 
 type AutoscalingConfigAutoscalingLimitsObservation struct {
 
-	// The maximum number of nodes for this specific replica.
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
 	// Specifies maximum number of processing units allocated to the instance.
@@ -77,7 +80,8 @@ type AutoscalingConfigAutoscalingLimitsObservation struct {
 	// min_processing_units.
 	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
 
-	// The minimum number of nodes for this specific replica.
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
 
 	// Specifies minimum number of processing units allocated to the instance.
@@ -87,7 +91,8 @@ type AutoscalingConfigAutoscalingLimitsObservation struct {
 
 type AutoscalingConfigAutoscalingLimitsParameters struct {
 
-	// The maximum number of nodes for this specific replica.
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
 	// +kubebuilder:validation:Optional
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
@@ -97,7 +102,8 @@ type AutoscalingConfigAutoscalingLimitsParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
 
-	// The minimum number of nodes for this specific replica.
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
 	// +kubebuilder:validation:Optional
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
 
@@ -175,31 +181,66 @@ type AutoscalingConfigParameters struct {
 
 type AutoscalingLimitsInitParameters struct {
 
-	// The maximum number of nodes for this specific replica.
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
-	// The minimum number of nodes for this specific replica.
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
 }
 
 type AutoscalingLimitsObservation struct {
 
-	// The maximum number of nodes for this specific replica.
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
-	// The minimum number of nodes for this specific replica.
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
 	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
 }
 
 type AutoscalingLimitsParameters struct {
 
-	// The maximum number of nodes for this specific replica.
+	// Specifies maximum number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to min_nodes.
 	// +kubebuilder:validation:Optional
-	MaxNodes *float64 `json:"maxNodes" tf:"max_nodes,omitempty"`
+	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
-	// The minimum number of nodes for this specific replica.
+	// Specifies maximum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000 and be greater than or equal to
+	// min_processing_units.
 	// +kubebuilder:validation:Optional
-	MinNodes *float64 `json:"minNodes" tf:"min_nodes,omitempty"`
+	MaxProcessingUnits *float64 `json:"maxProcessingUnits,omitempty" tf:"max_processing_units,omitempty"`
+
+	// Specifies number of nodes allocated to the instance. If set, this number
+	// should be greater than or equal to 1.
+	// +kubebuilder:validation:Optional
+	MinNodes *float64 `json:"minNodes,omitempty" tf:"min_nodes,omitempty"`
+
+	// Specifies minimum number of processing units allocated to the instance.
+	// If set, this number should be multiples of 1000.
+	// +kubebuilder:validation:Optional
+	MinProcessingUnits *float64 `json:"minProcessingUnits,omitempty" tf:"min_processing_units,omitempty"`
 }
 
 type AutoscalingTargetsInitParameters struct {
@@ -213,6 +254,12 @@ type AutoscalingTargetsInitParameters struct {
 	// should be trying to achieve for the instance.
 	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
 	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 90] inclusive.
+	// If not specified or set to 0, the autoscaler will skip scaling based on total cpu utilization.
+	// The value should be higher than high_priority_cpu_utilization_percent if present.
+	TotalCPUUtilizationPercent *float64 `json:"totalCpuUtilizationPercent,omitempty" tf:"total_cpu_utilization_percent,omitempty"`
 }
 
 type AutoscalingTargetsObservation struct {
@@ -226,6 +273,12 @@ type AutoscalingTargetsObservation struct {
 	// should be trying to achieve for the instance.
 	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
 	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 90] inclusive.
+	// If not specified or set to 0, the autoscaler will skip scaling based on total cpu utilization.
+	// The value should be higher than high_priority_cpu_utilization_percent if present.
+	TotalCPUUtilizationPercent *float64 `json:"totalCpuUtilizationPercent,omitempty" tf:"total_cpu_utilization_percent,omitempty"`
 }
 
 type AutoscalingTargetsParameters struct {
@@ -241,6 +294,13 @@ type AutoscalingTargetsParameters struct {
 	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
 	// +kubebuilder:validation:Optional
 	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 90] inclusive.
+	// If not specified or set to 0, the autoscaler will skip scaling based on total cpu utilization.
+	// The value should be higher than high_priority_cpu_utilization_percent if present.
+	// +kubebuilder:validation:Optional
+	TotalCPUUtilizationPercent *float64 `json:"totalCpuUtilizationPercent,omitempty" tf:"total_cpu_utilization_percent,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -265,6 +325,10 @@ type InstanceInitParameters struct {
 	// if unset or NONE, no default backup schedule will be created for new databases within the instance.
 	// Possible values are: NONE, AUTOMATIC.
 	DefaultBackupScheduleType *string `json:"defaultBackupScheduleType,omitempty" tf:"default_backup_schedule_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
@@ -322,6 +386,10 @@ type InstanceObservation struct {
 	// if unset or NONE, no default backup schedule will be created for new databases within the instance.
 	// Possible values are: NONE, AUTOMATIC.
 	DefaultBackupScheduleType *string `json:"defaultBackupScheduleType,omitempty" tf:"default_backup_schedule_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
@@ -398,6 +466,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultBackupScheduleType *string `json:"defaultBackupScheduleType,omitempty" tf:"default_backup_schedule_type,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The descriptive name for this instance as it appears in UIs. Must be
 	// unique per project and between 4 and 30 characters in length.
 	// +kubebuilder:validation:Optional
@@ -445,6 +518,24 @@ type OverridesInitParameters struct {
 	// A nested object resource.
 	// Structure is documented below.
 	AutoscalingLimits *AutoscalingLimitsInitParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+
+	// The target high priority cpu utilization percentage that the autoscaler
+	// should be trying to achieve for this replica.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	AutoscalingTargetHighPriorityCPUUtilizationPercent *float64 `json:"autoscalingTargetHighPriorityCpuUtilizationPercent,omitempty" tf:"autoscaling_target_high_priority_cpu_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler
+	// should be trying to achieve for this replica.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	AutoscalingTargetTotalCPUUtilizationPercent *float64 `json:"autoscalingTargetTotalCpuUtilizationPercent,omitempty" tf:"autoscaling_target_total_cpu_utilization_percent,omitempty"`
+
+	// If true, disables high priority CPU autoscaling for this replica and ignores
+	// high_priority_cpu_utilization_percent in the top-level autoscaling configuration.
+	DisableHighPriorityCPUAutoscaling *bool `json:"disableHighPriorityCpuAutoscaling,omitempty" tf:"disable_high_priority_cpu_autoscaling,omitempty"`
+
+	// If true, disables total CPU autoscaling for this replica and ignores
+	// total_cpu_utilization_percent in the top-level autoscaling configuration.
+	DisableTotalCPUAutoscaling *bool `json:"disableTotalCpuAutoscaling,omitempty" tf:"disable_total_cpu_autoscaling,omitempty"`
 }
 
 type OverridesObservation struct {
@@ -452,6 +543,24 @@ type OverridesObservation struct {
 	// A nested object resource.
 	// Structure is documented below.
 	AutoscalingLimits *AutoscalingLimitsObservation `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+
+	// The target high priority cpu utilization percentage that the autoscaler
+	// should be trying to achieve for this replica.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	AutoscalingTargetHighPriorityCPUUtilizationPercent *float64 `json:"autoscalingTargetHighPriorityCpuUtilizationPercent,omitempty" tf:"autoscaling_target_high_priority_cpu_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler
+	// should be trying to achieve for this replica.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	AutoscalingTargetTotalCPUUtilizationPercent *float64 `json:"autoscalingTargetTotalCpuUtilizationPercent,omitempty" tf:"autoscaling_target_total_cpu_utilization_percent,omitempty"`
+
+	// If true, disables high priority CPU autoscaling for this replica and ignores
+	// high_priority_cpu_utilization_percent in the top-level autoscaling configuration.
+	DisableHighPriorityCPUAutoscaling *bool `json:"disableHighPriorityCpuAutoscaling,omitempty" tf:"disable_high_priority_cpu_autoscaling,omitempty"`
+
+	// If true, disables total CPU autoscaling for this replica and ignores
+	// total_cpu_utilization_percent in the top-level autoscaling configuration.
+	DisableTotalCPUAutoscaling *bool `json:"disableTotalCpuAutoscaling,omitempty" tf:"disable_total_cpu_autoscaling,omitempty"`
 }
 
 type OverridesParameters struct {
@@ -459,7 +568,29 @@ type OverridesParameters struct {
 	// A nested object resource.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	AutoscalingLimits *AutoscalingLimitsParameters `json:"autoscalingLimits" tf:"autoscaling_limits,omitempty"`
+	AutoscalingLimits *AutoscalingLimitsParameters `json:"autoscalingLimits,omitempty" tf:"autoscaling_limits,omitempty"`
+
+	// The target high priority cpu utilization percentage that the autoscaler
+	// should be trying to achieve for this replica.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	// +kubebuilder:validation:Optional
+	AutoscalingTargetHighPriorityCPUUtilizationPercent *float64 `json:"autoscalingTargetHighPriorityCpuUtilizationPercent,omitempty" tf:"autoscaling_target_high_priority_cpu_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler
+	// should be trying to achieve for this replica.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
+	// +kubebuilder:validation:Optional
+	AutoscalingTargetTotalCPUUtilizationPercent *float64 `json:"autoscalingTargetTotalCpuUtilizationPercent,omitempty" tf:"autoscaling_target_total_cpu_utilization_percent,omitempty"`
+
+	// If true, disables high priority CPU autoscaling for this replica and ignores
+	// high_priority_cpu_utilization_percent in the top-level autoscaling configuration.
+	// +kubebuilder:validation:Optional
+	DisableHighPriorityCPUAutoscaling *bool `json:"disableHighPriorityCpuAutoscaling,omitempty" tf:"disable_high_priority_cpu_autoscaling,omitempty"`
+
+	// If true, disables total CPU autoscaling for this replica and ignores
+	// total_cpu_utilization_percent in the top-level autoscaling configuration.
+	// +kubebuilder:validation:Optional
+	DisableTotalCPUAutoscaling *bool `json:"disableTotalCpuAutoscaling,omitempty" tf:"disable_total_cpu_autoscaling,omitempty"`
 }
 
 type ReplicaSelectionInitParameters struct {

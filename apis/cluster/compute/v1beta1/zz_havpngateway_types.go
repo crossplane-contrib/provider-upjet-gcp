@@ -15,6 +15,10 @@ import (
 
 type HaVPNGatewayInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -41,6 +45,10 @@ type HaVPNGatewayInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *HaVPNGatewayParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -57,6 +65,10 @@ type HaVPNGatewayInitParameters struct {
 }
 
 type HaVPNGatewayObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -88,6 +100,10 @@ type HaVPNGatewayObservation struct {
 	// The network this VPN gateway is accepting traffic for.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *HaVPNGatewayParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -115,6 +131,11 @@ type HaVPNGatewayObservation struct {
 }
 
 type HaVPNGatewayParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -146,6 +167,11 @@ type HaVPNGatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *HaVPNGatewayParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -166,6 +192,34 @@ type HaVPNGatewayParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VPNInterfaces []VPNInterfacesParameters `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
+}
+
+type HaVPNGatewayParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the HaVpnGateway. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type HaVPNGatewayParamsObservation struct {
+
+	// Resource manager tags to be bound to the HaVpnGateway. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type HaVPNGatewayParamsParameters struct {
+
+	// Resource manager tags to be bound to the HaVpnGateway. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type VPNInterfacesInitParameters struct {

@@ -963,6 +963,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   devicePolicy:
                     description: |-
                       Device specific restrictions, all restrictions must hold for
@@ -1190,6 +1195,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   devicePolicy:
                     description: |-
                       Device specific restrictions, all restrictions must hold for
@@ -1423,6 +1433,11 @@ spec:
                   accessPolicyId:
                     description: The name of the Access Policy this resource belongs
                       to.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   devicePolicy:
                     description: |-

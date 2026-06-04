@@ -47,6 +47,11 @@ func (in *AgentPoolInitParameters) DeepCopyInto(out *AgentPoolInitParameters) {
 		*out = new(BandwidthLimitInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -109,6 +114,11 @@ func (in *AgentPoolObservation) DeepCopyInto(out *AgentPoolObservation) {
 		*out = new(BandwidthLimitObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -148,6 +158,11 @@ func (in *AgentPoolParameters) DeepCopyInto(out *AgentPoolParameters) {
 		in, out := &in.BandwidthLimit, &out.BandwidthLimit
 		*out = new(BandwidthLimitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName

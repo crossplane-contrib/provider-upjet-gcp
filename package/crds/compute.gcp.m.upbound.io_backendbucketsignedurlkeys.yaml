@@ -145,6 +145,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   keyValueSecretRef:
                     description: |-
                       128-bit key value used for signing the URL. The key value must be a
@@ -267,6 +272,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   keyValueSecretRef:
                     description: |-
                       128-bit key value used for signing the URL. The key value must be a
@@ -367,6 +377,11 @@ spec:
                 properties:
                   backendBucket:
                     description: The backend bucket this signed URL key belongs.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{backend_bucket}}

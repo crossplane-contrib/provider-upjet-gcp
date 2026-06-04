@@ -61,6 +61,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   minimalAction:
                     description: |-
                       The minimal action to perform on the instance during an update.
@@ -462,6 +467,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   minimalAction:
                     description: |-
                       The minimal action to perform on the instance during an update.
@@ -919,6 +929,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format {{project}}/{{region}}/{{region_instance_group_manager}}/{{name}}
                     type: string

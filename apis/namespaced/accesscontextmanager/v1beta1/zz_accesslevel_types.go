@@ -25,6 +25,10 @@ type AccessLevelInitParameters struct {
 	// Structure is documented below.
 	Custom *CustomInitParameters `json:"custom,omitempty" tf:"custom,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the AccessLevel and its use. Does not affect behavior.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -51,6 +55,10 @@ type AccessLevelObservation struct {
 	// See CEL spec at: https://github.com/google/cel-spec.
 	// Structure is documented below.
 	Custom *CustomObservation `json:"custom,omitempty" tf:"custom,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the AccessLevel and its use. Does not affect behavior.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -83,6 +91,11 @@ type AccessLevelParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Custom *CustomParameters `json:"custom,omitempty" tf:"custom,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the AccessLevel and its use. Does not affect behavior.
 	// +kubebuilder:validation:Optional

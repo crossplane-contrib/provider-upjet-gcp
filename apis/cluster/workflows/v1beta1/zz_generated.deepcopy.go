@@ -53,6 +53,11 @@ func (in *WorkflowInitParameters) DeepCopyInto(out *WorkflowInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -215,6 +220,11 @@ func (in *WorkflowObservation) DeepCopyInto(out *WorkflowObservation) {
 	}
 	if in.CryptoKeyName != nil {
 		in, out := &in.CryptoKeyName, &out.CryptoKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -385,6 +395,11 @@ func (in *WorkflowParameters) DeepCopyInto(out *WorkflowParameters) {
 	}
 	if in.CryptoKeyName != nil {
 		in, out := &in.CryptoKeyName, &out.CryptoKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

@@ -16,11 +16,19 @@ import (
 
 type EnvgroupInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Hostnames of the environment group.
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
 }
 
 type EnvgroupObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Hostnames of the environment group.
 	Hostnames []*string `json:"hostnames,omitempty" tf:"hostnames,omitempty"`
@@ -34,6 +42,11 @@ type EnvgroupObservation struct {
 }
 
 type EnvgroupParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Hostnames of the environment group.
 	// +kubebuilder:validation:Optional

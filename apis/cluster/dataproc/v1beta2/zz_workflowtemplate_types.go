@@ -127,10 +127,10 @@ type ConfigGceClusterConfigInitParameters struct {
 	// Reservation Affinity for consuming Zonal reservation.
 	ReservationAffinity *GceClusterConfigReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
-	// The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
+	// The (https://docs.cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
-	// The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
+	// The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/docs.cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Shielded Instance Config for clusters using Compute Engine Shielded VMs. Structure defined below.
@@ -168,10 +168,10 @@ type ConfigGceClusterConfigObservation struct {
 	// Reservation Affinity for consuming Zonal reservation.
 	ReservationAffinity *GceClusterConfigReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
-	// The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
+	// The (https://docs.cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
-	// The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
+	// The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/docs.cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
 	// Shielded Instance Config for clusters using Compute Engine Shielded VMs. Structure defined below.
@@ -215,11 +215,11 @@ type ConfigGceClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ReservationAffinity *GceClusterConfigReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
-	// The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
+	// The (https://docs.cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used.
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
-	// The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
+	// The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: * https://www.googleapis.com/auth/docs.cloud.useraccounts.readonly * https://www.googleapis.com/auth/devstorage.read_write * https://www.googleapis.com/auth/logging.write If no scopes are specified, the following defaults are also provided: * https://www.googleapis.com/auth/bigquery * https://www.googleapis.com/auth/bigtable.admin.table * https://www.googleapis.com/auth/bigtable.data * https://www.googleapis.com/auth/devstorage.full_control
 	// +kubebuilder:validation:Optional
 	ServiceAccountScopes []*string `json:"serviceAccountScopes,omitempty" tf:"service_account_scopes,omitempty"`
 
@@ -288,7 +288,7 @@ type ConfigMasterConfigAcceleratorsInitParameters struct {
 	// The number of the accelerator cards of this type exposed to this instance.
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -297,7 +297,7 @@ type ConfigMasterConfigAcceleratorsObservation struct {
 	// The number of the accelerator cards of this type exposed to this instance.
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -307,7 +307,7 @@ type ConfigMasterConfigAcceleratorsParameters struct {
 	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
@@ -362,7 +362,7 @@ type ConfigMasterConfigInitParameters struct {
 	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
@@ -392,7 +392,7 @@ type ConfigMasterConfigObservation struct {
 	// Output only. Specifies that this instance group contains preemptible instances.
 	IsPreemptible *bool `json:"isPreemptible,omitempty" tf:"is_preemptible,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
@@ -422,7 +422,7 @@ type ConfigMasterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -450,7 +450,7 @@ type ConfigSecondaryWorkerConfigInitParameters struct {
 	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
@@ -480,7 +480,7 @@ type ConfigSecondaryWorkerConfigObservation struct {
 	// Output only. Specifies that this instance group contains preemptible instances.
 	IsPreemptible *bool `json:"isPreemptible,omitempty" tf:"is_preemptible,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
@@ -510,7 +510,7 @@ type ConfigSecondaryWorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -593,7 +593,7 @@ type ConfigWorkerConfigAcceleratorsInitParameters struct {
 	// The number of the accelerator cards of this type exposed to this instance.
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -602,7 +602,7 @@ type ConfigWorkerConfigAcceleratorsObservation struct {
 	// The number of the accelerator cards of this type exposed to this instance.
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -612,7 +612,7 @@ type ConfigWorkerConfigAcceleratorsParameters struct {
 	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
@@ -667,7 +667,7 @@ type ConfigWorkerConfigInitParameters struct {
 	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
@@ -697,7 +697,7 @@ type ConfigWorkerConfigObservation struct {
 	// Output only. Specifies that this instance group contains preemptible instances.
 	IsPreemptible *bool `json:"isPreemptible,omitempty" tf:"is_preemptible,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
 	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
@@ -727,7 +727,7 @@ type ConfigWorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -1225,7 +1225,7 @@ type ManagedClusterConfigInitParameters struct {
 	// Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset.
 	AutoscalingConfig *ConfigAutoscalingConfigInitParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
-	// Encryption settings for the cluster.
+	// Encryption settings for encrypting workflow template job arguments. Structure is documented below
 	EncryptionConfig *ConfigEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Port/endpoint configuration for this cluster
@@ -1267,7 +1267,7 @@ type ManagedClusterConfigObservation struct {
 	// Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset.
 	AutoscalingConfig *ConfigAutoscalingConfigObservation `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
-	// Encryption settings for the cluster.
+	// Encryption settings for encrypting workflow template job arguments. Structure is documented below
 	EncryptionConfig *ConfigEncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// Port/endpoint configuration for this cluster
@@ -1310,7 +1310,7 @@ type ManagedClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoscalingConfig *ConfigAutoscalingConfigParameters `json:"autoscalingConfig,omitempty" tf:"autoscaling_config,omitempty"`
 
-	// Encryption settings for the cluster.
+	// Encryption settings for encrypting workflow template job arguments. Structure is documented below
 	// +kubebuilder:validation:Optional
 	EncryptionConfig *ConfigEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
@@ -1406,10 +1406,10 @@ type ManagedGroupConfigInitParameters struct {
 
 type ManagedGroupConfigObservation struct {
 
-	// Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
+	// The resource name of the workflow template, as described in https://docs.cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
 	InstanceGroupManagerName *string `json:"instanceGroupManagerName,omitempty" tf:"instance_group_manager_name,omitempty"`
 
-	// Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
+	// The resource name of the workflow template, as described in https://docs.cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
 	InstanceTemplateName *string `json:"instanceTemplateName,omitempty" tf:"instance_template_name,omitempty"`
 }
 
@@ -1871,7 +1871,7 @@ type SecondaryWorkerConfigAcceleratorsInitParameters struct {
 	// The number of the accelerator cards of this type exposed to this instance.
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -1880,7 +1880,7 @@ type SecondaryWorkerConfigAcceleratorsObservation struct {
 	// The number of the accelerator cards of this type exposed to this instance.
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
@@ -1890,7 +1890,7 @@ type SecondaryWorkerConfigAcceleratorsParameters struct {
 	// +kubebuilder:validation:Optional
 	AcceleratorCount *float64 `json:"acceleratorCount,omitempty" tf:"accelerator_count,omitempty"`
 
-	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
+	// Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the accelerator type resource, for example, nvidia-tesla-k80.
 	// +kubebuilder:validation:Optional
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
@@ -1939,10 +1939,10 @@ type SecondaryWorkerConfigManagedGroupConfigInitParameters struct {
 
 type SecondaryWorkerConfigManagedGroupConfigObservation struct {
 
-	// Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
+	// The resource name of the workflow template, as described in https://docs.cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
 	InstanceGroupManagerName *string `json:"instanceGroupManagerName,omitempty" tf:"instance_group_manager_name,omitempty"`
 
-	// Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
+	// The resource name of the workflow template, as described in https://docs.cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
 	InstanceTemplateName *string `json:"instanceTemplateName,omitempty" tf:"instance_template_name,omitempty"`
 }
 
@@ -2485,10 +2485,10 @@ type WorkerConfigManagedGroupConfigInitParameters struct {
 
 type WorkerConfigManagedGroupConfigObservation struct {
 
-	// Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
+	// The resource name of the workflow template, as described in https://docs.cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
 	InstanceGroupManagerName *string `json:"instanceGroupManagerName,omitempty" tf:"instance_group_manager_name,omitempty"`
 
-	// Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
+	// The resource name of the workflow template, as described in https://docs.cloud.google.com/apis/design/resource_names. * For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} * For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}
 	InstanceTemplateName *string `json:"instanceTemplateName,omitempty" tf:"instance_template_name,omitempty"`
 }
 
@@ -2497,19 +2497,19 @@ type WorkerConfigManagedGroupConfigParameters struct {
 
 type WorkflowTemplateEncryptionConfigInitParameters struct {
 
-	// The uri of the KMS key used to encrypt various sensitive files.
+	// The Cloud KMS key name to use for encrypting workflow template job arguments.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 }
 
 type WorkflowTemplateEncryptionConfigObservation struct {
 
-	// The uri of the KMS key used to encrypt various sensitive files.
+	// The Cloud KMS key name to use for encrypting workflow template job arguments.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 }
 
 type WorkflowTemplateEncryptionConfigParameters struct {
 
-	// The uri of the KMS key used to encrypt various sensitive files.
+	// The Cloud KMS key name to use for encrypting workflow template job arguments.
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 }
@@ -2519,10 +2519,14 @@ type WorkflowTemplateInitParameters struct {
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
 
-	// Encryption settings for the cluster.
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// Encryption settings for encrypting workflow template job arguments. Structure is documented below
 	EncryptionConfig *WorkflowTemplateEncryptionConfigInitParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
-	// Required. The Directed Acyclic Graph of Jobs to submit.
+	// The Directed Acyclic Graph of Jobs to submit. Structure is documented below
 	Jobs []JobsInitParameters `json:"jobs,omitempty" tf:"jobs,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
@@ -2532,7 +2536,7 @@ type WorkflowTemplateInitParameters struct {
 	// Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
 	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// Required. WorkflowTemplate scheduling information.
+	// WorkflowTemplate scheduling information.
 	Placement *WorkflowTemplatePlacementInitParameters `json:"placement,omitempty" tf:"placement,omitempty"`
 
 	// The project for the resource
@@ -2550,16 +2554,20 @@ type WorkflowTemplateObservation struct {
 	// (Beta only) Optional. Timeout duration for the DAG of jobs. You can use "s", "m", "h", and "d" suffixes for second, minute, hour, and day duration values, respectively. The timeout duration must be from 10 minutes ("10m") to 24 hours ("24h" or "1d"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster), the cluster is deleted.
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
-	// Encryption settings for the cluster.
+	// Encryption settings for encrypting workflow template job arguments. Structure is documented below
 	EncryptionConfig *WorkflowTemplateEncryptionConfigObservation `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Required. The Directed Acyclic Graph of Jobs to submit.
+	// The Directed Acyclic Graph of Jobs to submit. Structure is documented below
 	Jobs []JobsObservation `json:"jobs,omitempty" tf:"jobs,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
@@ -2572,7 +2580,7 @@ type WorkflowTemplateObservation struct {
 	// Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
 	Parameters []ParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// Required. WorkflowTemplate scheduling information.
+	// WorkflowTemplate scheduling information.
 	Placement *WorkflowTemplatePlacementObservation `json:"placement,omitempty" tf:"placement,omitempty"`
 
 	// The project for the resource
@@ -2594,11 +2602,16 @@ type WorkflowTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	DagTimeout *string `json:"dagTimeout,omitempty" tf:"dag_timeout,omitempty"`
 
-	// Encryption settings for the cluster.
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// Encryption settings for encrypting workflow template job arguments. Structure is documented below
 	// +kubebuilder:validation:Optional
 	EncryptionConfig *WorkflowTemplateEncryptionConfigParameters `json:"encryptionConfig,omitempty" tf:"encryption_config,omitempty"`
 
-	// Required. The Directed Acyclic Graph of Jobs to submit.
+	// The Directed Acyclic Graph of Jobs to submit. Structure is documented below
 	// +kubebuilder:validation:Optional
 	Jobs []JobsParameters `json:"jobs,omitempty" tf:"jobs,omitempty"`
 
@@ -2615,7 +2628,7 @@ type WorkflowTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// Required. WorkflowTemplate scheduling information.
+	// WorkflowTemplate scheduling information.
 	// +kubebuilder:validation:Optional
 	Placement *WorkflowTemplatePlacementParameters `json:"placement,omitempty" tf:"placement,omitempty"`
 

@@ -86,14 +86,17 @@ type BucketInitParameters struct {
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Enables object retention on a storage bucket.
 	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
 
 	// The bucket's encryption configuration. Structure is documented below.
 	Encryption *EncryptionInitParameters `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
-	// When deleting a bucket, this
-	// boolean option will delete all contained objects.
+	// When true, before deleting a bucket, delete all objects within the bucket, or Anywhere Caches caching data for that bucket. Otherwise, buckets with objects/caches will fail. This may result in the objects in the bucket getting destroyed but not the bucket itself if there is a cache in use with the bucket. Force deletion may take a long time to delete buckets with lots of objects or with any Anywhere Caches (80m+).
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
@@ -161,6 +164,10 @@ type BucketObservation struct {
 	// Whether or not to automatically apply an eventBasedHold to new objects added to the bucket.
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A map of key/value label pairs to assign to the bucket.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -171,8 +178,7 @@ type BucketObservation struct {
 	// The bucket's encryption configuration. Structure is documented below.
 	Encryption *EncryptionObservation `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
-	// When deleting a bucket, this
-	// boolean option will delete all contained objects.
+	// When true, before deleting a bucket, delete all objects within the bucket, or Anywhere Caches caching data for that bucket. Otherwise, buckets with objects/caches will fail. This may result in the objects in the bucket getting destroyed but not the bucket itself if there is a cache in use with the bucket. Force deletion may take a long time to delete buckets with lots of objects or with any Anywhere Caches (80m+).
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// The bucket's hierarchical namespace policy, which defines the bucket capability to handle folders in logical structure. Structure is documented below. To use this configuration, uniform_bucket_level_access must be enabled on bucket.
@@ -264,6 +270,11 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultEventBasedHold *bool `json:"defaultEventBasedHold,omitempty" tf:"default_event_based_hold,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Enables object retention on a storage bucket.
 	// +kubebuilder:validation:Optional
 	EnableObjectRetention *bool `json:"enableObjectRetention,omitempty" tf:"enable_object_retention,omitempty"`
@@ -272,8 +283,7 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	Encryption *EncryptionParameters `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
-	// When deleting a bucket, this
-	// boolean option will delete all contained objects.
+	// When true, before deleting a bucket, delete all objects within the bucket, or Anywhere Caches caching data for that bucket. Otherwise, buckets with objects/caches will fail. This may result in the objects in the bucket getting destroyed but not the bucket itself if there is a cache in use with the bucket. Force deletion may take a long time to delete buckets with lots of objects or with any Anywhere Caches (80m+).
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
@@ -574,29 +584,125 @@ type CustomPlacementConfigParameters struct {
 	DataLocations []*string `json:"dataLocations" tf:"data_locations,omitempty"`
 }
 
+type CustomerManagedEncryptionEnforcementConfigInitParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerManagedEncryptionEnforcementConfigObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerManagedEncryptionEnforcementConfigParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	// +kubebuilder:validation:Optional
+	RestrictionMode *string `json:"restrictionMode" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerSuppliedEncryptionEnforcementConfigInitParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerSuppliedEncryptionEnforcementConfigObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerSuppliedEncryptionEnforcementConfigParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	// +kubebuilder:validation:Optional
+	RestrictionMode *string `json:"restrictionMode" tf:"restriction_mode,omitempty"`
+}
+
 type EncryptionInitParameters struct {
 
-	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerManagedEncryptionEnforcementConfig *CustomerManagedEncryptionEnforcementConfigInitParameters `json:"customerManagedEncryptionEnforcementConfig,omitempty" tf:"customer_managed_encryption_enforcement_config,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerSuppliedEncryptionEnforcementConfig *CustomerSuppliedEncryptionEnforcementConfigInitParameters `json:"customerSuppliedEncryptionEnforcementConfig,omitempty" tf:"customer_supplied_encryption_enforcement_config,omitempty"`
+
+	// The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	GoogleManagedEncryptionEnforcementConfig *GoogleManagedEncryptionEnforcementConfigInitParameters `json:"googleManagedEncryptionEnforcementConfig,omitempty" tf:"google_managed_encryption_enforcement_config,omitempty"`
 }
 
 type EncryptionObservation struct {
 
-	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerManagedEncryptionEnforcementConfig *CustomerManagedEncryptionEnforcementConfigObservation `json:"customerManagedEncryptionEnforcementConfig,omitempty" tf:"customer_managed_encryption_enforcement_config,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerSuppliedEncryptionEnforcementConfig *CustomerSuppliedEncryptionEnforcementConfigObservation `json:"customerSuppliedEncryptionEnforcementConfig,omitempty" tf:"customer_supplied_encryption_enforcement_config,omitempty"`
+
+	// The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	GoogleManagedEncryptionEnforcementConfig *GoogleManagedEncryptionEnforcementConfigObservation `json:"googleManagedEncryptionEnforcementConfig,omitempty" tf:"google_managed_encryption_enforcement_config,omitempty"`
 }
 
 type EncryptionParameters struct {
 
-	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	// +kubebuilder:validation:Optional
+	CustomerManagedEncryptionEnforcementConfig *CustomerManagedEncryptionEnforcementConfigParameters `json:"customerManagedEncryptionEnforcementConfig,omitempty" tf:"customer_managed_encryption_enforcement_config,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	// +kubebuilder:validation:Optional
+	CustomerSuppliedEncryptionEnforcementConfig *CustomerSuppliedEncryptionEnforcementConfigParameters `json:"customerSuppliedEncryptionEnforcementConfig,omitempty" tf:"customer_supplied_encryption_enforcement_config,omitempty"`
+
+	// The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	// +kubebuilder:validation:Optional
-	DefaultKMSKeyName *string `json:"defaultKmsKeyName" tf:"default_kms_key_name,omitempty"`
+	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	// +kubebuilder:validation:Optional
+	GoogleManagedEncryptionEnforcementConfig *GoogleManagedEncryptionEnforcementConfigParameters `json:"googleManagedEncryptionEnforcementConfig,omitempty" tf:"google_managed_encryption_enforcement_config,omitempty"`
+}
+
+type GoogleManagedEncryptionEnforcementConfigInitParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type GoogleManagedEncryptionEnforcementConfigObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type GoogleManagedEncryptionEnforcementConfigParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	// +kubebuilder:validation:Optional
+	RestrictionMode *string `json:"restrictionMode" tf:"restriction_mode,omitempty"`
 }
 
 type HierarchicalNamespaceInitParameters struct {
@@ -626,7 +732,7 @@ type IPFilterInitParameters struct {
 	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
 	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
 
-	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
@@ -644,7 +750,7 @@ type IPFilterObservation struct {
 	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
 	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
 
-	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
@@ -664,7 +770,7 @@ type IPFilterParameters struct {
 	// +kubebuilder:validation:Optional
 	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
 
-	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode" tf:"mode,omitempty"`
 
@@ -762,8 +868,8 @@ type RetentionPolicyInitParameters struct {
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
-	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
-	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 3,155,760,000 seconds.
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
 type RetentionPolicyObservation struct {
@@ -771,8 +877,8 @@ type RetentionPolicyObservation struct {
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
-	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
-	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 3,155,760,000 seconds.
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
 type RetentionPolicyParameters struct {
@@ -781,9 +887,9 @@ type RetentionPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
-	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 3,155,760,000 seconds.
 	// +kubebuilder:validation:Optional
-	RetentionPeriod *float64 `json:"retentionPeriod" tf:"retention_period,omitempty"`
+	RetentionPeriod *string `json:"retentionPeriod" tf:"retention_period,omitempty"`
 }
 
 type SoftDeletePolicyInitParameters struct {

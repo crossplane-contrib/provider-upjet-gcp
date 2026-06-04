@@ -16,6 +16,10 @@ import (
 
 type CodeToolsSettingInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Represents the full set of enabled tools.
 	// Structure is documented below.
 	EnabledTool []EnabledToolInitParameters `json:"enabledTool,omitempty" tf:"enabled_tool,omitempty"`
@@ -35,6 +39,10 @@ type CodeToolsSettingObservation struct {
 
 	// Create time stamp.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -73,6 +81,11 @@ type CodeToolsSettingObservation struct {
 }
 
 type CodeToolsSettingParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Represents the full set of enabled tools.
 	// Structure is documented below.

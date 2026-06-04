@@ -39,6 +39,10 @@ type ModelInitParameters struct {
 	// Structure is documented below.
 	DefaultVersion *DefaultVersionInitParameters `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description specified for the model when it was created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -72,6 +76,10 @@ type ModelObservation struct {
 	// prediction requests that do not specify a version.
 	// Structure is documented below.
 	DefaultVersion *DefaultVersionObservation `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description specified for the model when it was created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -118,6 +126,11 @@ type ModelParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DefaultVersion *DefaultVersionParameters `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description specified for the model when it was created.
 	// +kubebuilder:validation:Optional

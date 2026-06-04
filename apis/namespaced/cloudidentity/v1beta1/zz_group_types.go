@@ -43,6 +43,10 @@ type AdditionalGroupKeysParameters struct {
 
 type GroupInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An extended description to help users determine the purpose of a Group.
 	// Must not be longer than 4,096 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -145,6 +149,10 @@ type GroupObservation struct {
 	// The time when the Group was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An extended description to help users determine the purpose of a Group.
 	// Must not be longer than 4,096 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -190,6 +198,11 @@ type GroupObservation struct {
 }
 
 type GroupParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An extended description to help users determine the purpose of a Group.
 	// Must not be longer than 4,096 characters.

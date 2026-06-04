@@ -125,88 +125,6 @@ spec:
                         description: Service account to be used for building the container.
                           The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
                         type: string
-                      serviceAccountRef:
-                        description: Reference to a ServiceAccount in cloudplatform
-                          to populate serviceAccount.
-                        properties:
-                          name:
-                            description: Name of the referenced object.
-                            type: string
-                          namespace:
-                            description: Namespace of the referenced object
-                            type: string
-                          policy:
-                            description: Policies for referencing.
-                            properties:
-                              resolution:
-                                default: Required
-                                description: |-
-                                  Resolution specifies whether resolution of this reference is required.
-                                  The default is 'Required', which means the reconcile will fail if the
-                                  reference cannot be resolved. 'Optional' means this reference will be
-                                  a no-op if it cannot be resolved.
-                                enum:
-                                - Required
-                                - Optional
-                                type: string
-                              resolve:
-                                description: |-
-                                  Resolve specifies when this reference should be resolved. The default
-                                  is 'IfNotPresent', which will attempt to resolve the reference only when
-                                  the corresponding field is not present. Use 'Always' to resolve the
-                                  reference on every reconcile.
-                                enum:
-                                - Always
-                                - IfNotPresent
-                                type: string
-                            type: object
-                        required:
-                        - name
-                        type: object
-                      serviceAccountSelector:
-                        description: Selector for a ServiceAccount in cloudplatform
-                          to populate serviceAccount.
-                        properties:
-                          matchControllerRef:
-                            description: |-
-                              MatchControllerRef ensures an object with the same controller reference
-                              as the selecting object is selected.
-                            type: boolean
-                          matchLabels:
-                            additionalProperties:
-                              type: string
-                            description: MatchLabels ensures an object with matching
-                              labels is selected.
-                            type: object
-                          namespace:
-                            description: Namespace for the selector
-                            type: string
-                          policy:
-                            description: Policies for selection.
-                            properties:
-                              resolution:
-                                default: Required
-                                description: |-
-                                  Resolution specifies whether resolution of this reference is required.
-                                  The default is 'Required', which means the reconcile will fail if the
-                                  reference cannot be resolved. 'Optional' means this reference will be
-                                  a no-op if it cannot be resolved.
-                                enum:
-                                - Required
-                                - Optional
-                                type: string
-                              resolve:
-                                description: |-
-                                  Resolve specifies when this reference should be resolved. The default
-                                  is 'IfNotPresent', which will attempt to resolve the reference only when
-                                  the corresponding field is not present. Use 'Always' to resolve the
-                                  reference on every reconcile.
-                                enum:
-                                - Always
-                                - IfNotPresent
-                                type: string
-                            type: object
-                        type: object
                       sourceLocation:
                         description: The Cloud Storage bucket URI where the function
                           source code is located.
@@ -233,6 +151,15 @@ spec:
                     items:
                       type: string
                     type: array
+                  defaultUriDisabled:
+                    description: Disables public resolution of the default URI of
+                      this service.
+                    type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -242,6 +169,9 @@ spec:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
                     type: string
+                  iapEnabled:
+                    description: Used to enable/disable IAP for the cloud-run service.
+                    type: boolean
                   ingress:
                     description: |-
                       Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
@@ -256,7 +186,7 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with  run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                       All system labels in v1 now have a corresponding field in v2 Service.
                       Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -273,6 +203,18 @@ spec:
                   location:
                     description: The location of the cloud run service
                     type: string
+                  multiRegionSettings:
+                    description: |-
+                      Settings for creating a Multi-Region Service. Make sure to use region = 'global' when using them. For more information, visit https://cloud.google.com/run/docs/multiple-regions#deploy
+                      Structure is documented below.
+                    properties:
+                      regions:
+                        description: The list of regions to deploy the multi-region
+                          Service.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -288,6 +230,11 @@ spec:
                           scaling mode. This number of instances is divided among
                           all revisions with specified traffic based on the percent
                           of traffic they are receiving.
+                        type: number
+                      maxInstanceCount:
+                        description: |-
+                          Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                          a default value based on the project's available container instances quota in the region and specified instance size.
                         type: number
                       minInstanceCount:
                         description: Minimum number of serving instances that this
@@ -589,6 +536,69 @@ spec:
                                   description: Volume's name.
                                   type: string
                               type: object
+                            readinessProbe:
+                              description: |-
+                                Periodic probe of container readiness.
+                                Structure is documented below.
+                              properties:
+                                failureThreshold:
+                                  description: Minimum consecutive failures for the
+                                    probe to be considered failed after having succeeded.
+                                    Defaults to 3. Minimum value is 1.
+                                  type: number
+                                grpc:
+                                  description: |-
+                                    GRPC specifies an action involving a GRPC port.
+                                    Structure is documented below.
+                                  properties:
+                                    port:
+                                      description: |-
+                                        Port number to access on the container. Must be in the range 1 to 65535.
+                                        If not specified, defaults to the exposed port of the container, which
+                                        is the value of container.ports[0].containerPort.
+                                      type: number
+                                    service:
+                                      description: |-
+                                        The name of the service to place in the gRPC HealthCheckRequest
+                                        (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                        If this is not specified, the default behavior is defined by gRPC.
+                                      type: string
+                                  type: object
+                                httpGet:
+                                  description: |-
+                                    HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    port:
+                                      description: |-
+                                        Port number to access on the container. Must be in the range 1 to 65535.
+                                        If not specified, defaults to the exposed port of the container, which
+                                        is the value of container.ports[0].containerPort.
+                                      type: number
+                                  type: object
+                                periodSeconds:
+                                  description: How often (in seconds) to perform the
+                                    probe. Default to 10 seconds. Minimum value is
+                                    1. Maximum value for liveness probe is 3600. Maximum
+                                    value for startup probe is 240. Must be greater
+                                    or equal than timeoutSeconds
+                                  type: number
+                                successThreshold:
+                                  description: |-
+                                    Minimum consecutive successes for the probe to be considered successful after having failed.
+                                    Defaults to 2.
+                                  type: number
+                                timeoutSeconds:
+                                  description: 'Number of seconds after which the
+                                    probe times out. Defaults to 1 second. Minimum
+                                    value is 1. Maximum value is 3600. Must be smaller
+                                    than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                                  type: number
+                              type: object
                             resources:
                               description: |-
                                 Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
@@ -606,9 +616,11 @@ spec:
                                     are supported. Use key cpu for CPU limit, memory
                                     for memory limit, nvidia.com/gpu for gpu limit.
                                     Note: The only supported values for CPU are ''1'',
-                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
-                                    at least 2Gi of memory. The values of the map
-                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                    ''2'', ''4'', ''6'' and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory, setting 6 or more CPU
+                                    requires at least 4Gi of memory. The values of
+                                    the map is string form of the ''quantity'' k8s
+                                    type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -727,6 +739,10 @@ spec:
                                   name:
                                     description: Volume's name.
                                     type: string
+                                  subPath:
+                                    description: Path within the volume from which
+                                      the container's volume should be mounted.
+                                    type: string
                                 type: object
                               type: array
                             workingDir:
@@ -750,12 +766,15 @@ spec:
                         description: True if GPU zonal redundancy is disabled on this
                           revision.
                         type: boolean
+                      healthCheckDisabled:
+                        description: Disables health checking containers during deployment.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
                         description: |-
                           Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
-                          For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                          For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                           Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                           All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                         type: object
@@ -929,7 +948,7 @@ spec:
                                   description: |-
                                     The different types of medium supported for EmptyDir.
                                     Default value is MEMORY.
-                                    Possible values are: MEMORY.
+                                    Possible values are: MEMORY, DISK.
                                   type: string
                                 sizeLimit:
                                   description: 'Limit on the storage usable by this
@@ -949,7 +968,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 bucket:
-                                  description: GCS Bucket name
+                                  description: The Cloud Storage bucket name.
                                   type: string
                                 bucketRef:
                                   description: Reference to a Bucket in storage to
@@ -1033,6 +1052,13 @@ spec:
                                           type: string
                                       type: object
                                   type: object
+                                mountOptions:
+                                  description: |-
+                                    A list of flags to pass to the gcsfuse command for configuring this volume.
+                                    Flags should be passed without leading dashes.
+                                  items:
+                                    type: string
+                                  type: array
                                 readOnly:
                                   description: If true, mount the NFS volume as read
                                     only
@@ -1330,88 +1356,6 @@ spec:
                         description: Service account to be used for building the container.
                           The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
                         type: string
-                      serviceAccountRef:
-                        description: Reference to a ServiceAccount in cloudplatform
-                          to populate serviceAccount.
-                        properties:
-                          name:
-                            description: Name of the referenced object.
-                            type: string
-                          namespace:
-                            description: Namespace of the referenced object
-                            type: string
-                          policy:
-                            description: Policies for referencing.
-                            properties:
-                              resolution:
-                                default: Required
-                                description: |-
-                                  Resolution specifies whether resolution of this reference is required.
-                                  The default is 'Required', which means the reconcile will fail if the
-                                  reference cannot be resolved. 'Optional' means this reference will be
-                                  a no-op if it cannot be resolved.
-                                enum:
-                                - Required
-                                - Optional
-                                type: string
-                              resolve:
-                                description: |-
-                                  Resolve specifies when this reference should be resolved. The default
-                                  is 'IfNotPresent', which will attempt to resolve the reference only when
-                                  the corresponding field is not present. Use 'Always' to resolve the
-                                  reference on every reconcile.
-                                enum:
-                                - Always
-                                - IfNotPresent
-                                type: string
-                            type: object
-                        required:
-                        - name
-                        type: object
-                      serviceAccountSelector:
-                        description: Selector for a ServiceAccount in cloudplatform
-                          to populate serviceAccount.
-                        properties:
-                          matchControllerRef:
-                            description: |-
-                              MatchControllerRef ensures an object with the same controller reference
-                              as the selecting object is selected.
-                            type: boolean
-                          matchLabels:
-                            additionalProperties:
-                              type: string
-                            description: MatchLabels ensures an object with matching
-                              labels is selected.
-                            type: object
-                          namespace:
-                            description: Namespace for the selector
-                            type: string
-                          policy:
-                            description: Policies for selection.
-                            properties:
-                              resolution:
-                                default: Required
-                                description: |-
-                                  Resolution specifies whether resolution of this reference is required.
-                                  The default is 'Required', which means the reconcile will fail if the
-                                  reference cannot be resolved. 'Optional' means this reference will be
-                                  a no-op if it cannot be resolved.
-                                enum:
-                                - Required
-                                - Optional
-                                type: string
-                              resolve:
-                                description: |-
-                                  Resolve specifies when this reference should be resolved. The default
-                                  is 'IfNotPresent', which will attempt to resolve the reference only when
-                                  the corresponding field is not present. Use 'Always' to resolve the
-                                  reference on every reconcile.
-                                enum:
-                                - Always
-                                - IfNotPresent
-                                type: string
-                            type: object
-                        type: object
                       sourceLocation:
                         description: The Cloud Storage bucket URI where the function
                           source code is located.
@@ -1438,6 +1382,15 @@ spec:
                     items:
                       type: string
                     type: array
+                  defaultUriDisabled:
+                    description: Disables public resolution of the default URI of
+                      this service.
+                    type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -1447,6 +1400,9 @@ spec:
                     description: User-provided description of the Service. This field
                       currently has a 512-character limit.
                     type: string
+                  iapEnabled:
+                    description: Used to enable/disable IAP for the cloud-run service.
+                    type: boolean
                   ingress:
                     description: |-
                       Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
@@ -1461,7 +1417,7 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with  run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                       All system labels in v1 now have a corresponding field in v2 Service.
                       Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1475,6 +1431,18 @@ spec:
                       For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
                       Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
                     type: string
+                  multiRegionSettings:
+                    description: |-
+                      Settings for creating a Multi-Region Service. Make sure to use region = 'global' when using them. For more information, visit https://cloud.google.com/run/docs/multiple-regions#deploy
+                      Structure is documented below.
+                    properties:
+                      regions:
+                        description: The list of regions to deploy the multi-region
+                          Service.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -1490,6 +1458,11 @@ spec:
                           scaling mode. This number of instances is divided among
                           all revisions with specified traffic based on the percent
                           of traffic they are receiving.
+                        type: number
+                      maxInstanceCount:
+                        description: |-
+                          Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                          a default value based on the project's available container instances quota in the region and specified instance size.
                         type: number
                       minInstanceCount:
                         description: Minimum number of serving instances that this
@@ -1791,6 +1764,69 @@ spec:
                                   description: Volume's name.
                                   type: string
                               type: object
+                            readinessProbe:
+                              description: |-
+                                Periodic probe of container readiness.
+                                Structure is documented below.
+                              properties:
+                                failureThreshold:
+                                  description: Minimum consecutive failures for the
+                                    probe to be considered failed after having succeeded.
+                                    Defaults to 3. Minimum value is 1.
+                                  type: number
+                                grpc:
+                                  description: |-
+                                    GRPC specifies an action involving a GRPC port.
+                                    Structure is documented below.
+                                  properties:
+                                    port:
+                                      description: |-
+                                        Port number to access on the container. Must be in the range 1 to 65535.
+                                        If not specified, defaults to the exposed port of the container, which
+                                        is the value of container.ports[0].containerPort.
+                                      type: number
+                                    service:
+                                      description: |-
+                                        The name of the service to place in the gRPC HealthCheckRequest
+                                        (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                        If this is not specified, the default behavior is defined by gRPC.
+                                      type: string
+                                  type: object
+                                httpGet:
+                                  description: |-
+                                    HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    port:
+                                      description: |-
+                                        Port number to access on the container. Must be in the range 1 to 65535.
+                                        If not specified, defaults to the exposed port of the container, which
+                                        is the value of container.ports[0].containerPort.
+                                      type: number
+                                  type: object
+                                periodSeconds:
+                                  description: How often (in seconds) to perform the
+                                    probe. Default to 10 seconds. Minimum value is
+                                    1. Maximum value for liveness probe is 3600. Maximum
+                                    value for startup probe is 240. Must be greater
+                                    or equal than timeoutSeconds
+                                  type: number
+                                successThreshold:
+                                  description: |-
+                                    Minimum consecutive successes for the probe to be considered successful after having failed.
+                                    Defaults to 2.
+                                  type: number
+                                timeoutSeconds:
+                                  description: 'Number of seconds after which the
+                                    probe times out. Defaults to 1 second. Minimum
+                                    value is 1. Maximum value is 3600. Must be smaller
+                                    than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                                  type: number
+                              type: object
                             resources:
                               description: |-
                                 Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
@@ -1808,9 +1844,11 @@ spec:
                                     are supported. Use key cpu for CPU limit, memory
                                     for memory limit, nvidia.com/gpu for gpu limit.
                                     Note: The only supported values for CPU are ''1'',
-                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
-                                    at least 2Gi of memory. The values of the map
-                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                    ''2'', ''4'', ''6'' and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory, setting 6 or more CPU
+                                    requires at least 4Gi of memory. The values of
+                                    the map is string form of the ''quantity'' k8s
+                                    type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -1929,6 +1967,10 @@ spec:
                                   name:
                                     description: Volume's name.
                                     type: string
+                                  subPath:
+                                    description: Path within the volume from which
+                                      the container's volume should be mounted.
+                                    type: string
                                 type: object
                               type: array
                             workingDir:
@@ -1952,12 +1994,15 @@ spec:
                         description: True if GPU zonal redundancy is disabled on this
                           revision.
                         type: boolean
+                      healthCheckDisabled:
+                        description: Disables health checking containers during deployment.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
                         description: |-
                           Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
-                          For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                          For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                           Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                           All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                         type: object
@@ -2131,7 +2176,7 @@ spec:
                                   description: |-
                                     The different types of medium supported for EmptyDir.
                                     Default value is MEMORY.
-                                    Possible values are: MEMORY.
+                                    Possible values are: MEMORY, DISK.
                                   type: string
                                 sizeLimit:
                                   description: 'Limit on the storage usable by this
@@ -2151,7 +2196,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 bucket:
-                                  description: GCS Bucket name
+                                  description: The Cloud Storage bucket name.
                                   type: string
                                 bucketRef:
                                   description: Reference to a Bucket in storage to
@@ -2235,6 +2280,13 @@ spec:
                                           type: string
                                       type: object
                                   type: object
+                                mountOptions:
+                                  description: |-
+                                    A list of flags to pass to the gcsfuse command for configuring this volume.
+                                    Flags should be passed without leading dashes.
+                                  items:
+                                    type: string
+                                  type: array
                                 readOnly:
                                   description: If true, mount the NFS volume as read
                                     only
@@ -2671,8 +2723,17 @@ spec:
                     items:
                       type: string
                     type: array
+                  defaultUriDisabled:
+                    description: Disables public resolution of the default URI of
+                      this service.
+                    type: boolean
                   deleteTime:
                     description: The deletion time.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: |-
@@ -2708,6 +2769,9 @@ spec:
                       v1, this is an int64 value. As with most Google APIs, its JSON
                       representation will be a string instead of an integer.
                     type: string
+                  iapEnabled:
+                    description: Used to enable/disable IAP for the cloud-run service.
+                    type: boolean
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/services/{{name}}
                     type: string
@@ -2725,7 +2789,7 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with  run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                       All system labels in v1 now have a corresponding field in v2 Service.
                       Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -2755,6 +2819,23 @@ spec:
                   location:
                     description: The location of the cloud run service
                     type: string
+                  multiRegionSettings:
+                    description: |-
+                      Settings for creating a Multi-Region Service. Make sure to use region = 'global' when using them. For more information, visit https://cloud.google.com/run/docs/multiple-regions#deploy
+                      Structure is documented below.
+                    properties:
+                      multiRegionId:
+                        description: |-
+                          (Output)
+                          System-generated unique id for the multi-region Service.
+                        type: string
+                      regions:
+                        description: The list of regions to deploy the multi-region
+                          Service.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   observedGeneration:
                     description: The generation of this Service currently serving
                       traffic. See comments in reconciling for additional information
@@ -2784,6 +2865,11 @@ spec:
                           scaling mode. This number of instances is divided among
                           all revisions with specified traffic based on the percent
                           of traffic they are receiving.
+                        type: number
+                      maxInstanceCount:
+                        description: |-
+                          Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                          a default value based on the project's available container instances quota in the region and specified instance size.
                         type: number
                       minInstanceCount:
                         description: Minimum number of serving instances that this
@@ -3020,6 +3106,69 @@ spec:
                                   description: Volume's name.
                                   type: string
                               type: object
+                            readinessProbe:
+                              description: |-
+                                Periodic probe of container readiness.
+                                Structure is documented below.
+                              properties:
+                                failureThreshold:
+                                  description: Minimum consecutive failures for the
+                                    probe to be considered failed after having succeeded.
+                                    Defaults to 3. Minimum value is 1.
+                                  type: number
+                                grpc:
+                                  description: |-
+                                    GRPC specifies an action involving a GRPC port.
+                                    Structure is documented below.
+                                  properties:
+                                    port:
+                                      description: |-
+                                        Port number to access on the container. Must be in the range 1 to 65535.
+                                        If not specified, defaults to the exposed port of the container, which
+                                        is the value of container.ports[0].containerPort.
+                                      type: number
+                                    service:
+                                      description: |-
+                                        The name of the service to place in the gRPC HealthCheckRequest
+                                        (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                        If this is not specified, the default behavior is defined by gRPC.
+                                      type: string
+                                  type: object
+                                httpGet:
+                                  description: |-
+                                    HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+                                    Structure is documented below.
+                                  properties:
+                                    path:
+                                      description: Path that is exported by the NFS
+                                        server.
+                                      type: string
+                                    port:
+                                      description: |-
+                                        Port number to access on the container. Must be in the range 1 to 65535.
+                                        If not specified, defaults to the exposed port of the container, which
+                                        is the value of container.ports[0].containerPort.
+                                      type: number
+                                  type: object
+                                periodSeconds:
+                                  description: How often (in seconds) to perform the
+                                    probe. Default to 10 seconds. Minimum value is
+                                    1. Maximum value for liveness probe is 3600. Maximum
+                                    value for startup probe is 240. Must be greater
+                                    or equal than timeoutSeconds
+                                  type: number
+                                successThreshold:
+                                  description: |-
+                                    Minimum consecutive successes for the probe to be considered successful after having failed.
+                                    Defaults to 2.
+                                  type: number
+                                timeoutSeconds:
+                                  description: 'Number of seconds after which the
+                                    probe times out. Defaults to 1 second. Minimum
+                                    value is 1. Maximum value is 3600. Must be smaller
+                                    than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                                  type: number
+                              type: object
                             resources:
                               description: |-
                                 Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
@@ -3037,9 +3186,11 @@ spec:
                                     are supported. Use key cpu for CPU limit, memory
                                     for memory limit, nvidia.com/gpu for gpu limit.
                                     Note: The only supported values for CPU are ''1'',
-                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
-                                    at least 2Gi of memory. The values of the map
-                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                    ''2'', ''4'', ''6'' and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory, setting 6 or more CPU
+                                    requires at least 4Gi of memory. The values of
+                                    the map is string form of the ''quantity'' k8s
+                                    type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -3158,6 +3309,10 @@ spec:
                                   name:
                                     description: Volume's name.
                                     type: string
+                                  subPath:
+                                    description: Path within the volume from which
+                                      the container's volume should be mounted.
+                                    type: string
                                 type: object
                               type: array
                             workingDir:
@@ -3181,12 +3336,15 @@ spec:
                         description: True if GPU zonal redundancy is disabled on this
                           revision.
                         type: boolean
+                      healthCheckDisabled:
+                        description: Disables health checking containers during deployment.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
                         description: |-
                           Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
-                          For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                          For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                           Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                           All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
                         type: object
@@ -3274,7 +3432,7 @@ spec:
                                   description: |-
                                     The different types of medium supported for EmptyDir.
                                     Default value is MEMORY.
-                                    Possible values are: MEMORY.
+                                    Possible values are: MEMORY, DISK.
                                   type: string
                                 sizeLimit:
                                   description: 'Limit on the storage usable by this
@@ -3294,8 +3452,15 @@ spec:
                                 Structure is documented below.
                               properties:
                                 bucket:
-                                  description: GCS Bucket name
+                                  description: The Cloud Storage bucket name.
                                   type: string
+                                mountOptions:
+                                  description: |-
+                                    A list of flags to pass to the gcsfuse command for configuring this volume.
+                                    Flags should be passed without leading dashes.
+                                  items:
+                                    type: string
+                                  type: array
                                 readOnly:
                                   description: If true, mount the NFS volume as read
                                     only

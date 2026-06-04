@@ -16,6 +16,10 @@ import (
 
 type ServiceAccountKeyInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Arbitrary map of values that, when changed, will trigger a new key to be generated.
 	Keepers map[string]string `json:"keepers,omitempty" tf:"keepers,omitempty"`
 
@@ -54,6 +58,10 @@ type ServiceAccountKeyInitParameters struct {
 }
 
 type ServiceAccountKeyObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/serviceAccounts/{{account}}/keys/{{key}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -99,6 +107,11 @@ type ServiceAccountKeyObservation struct {
 }
 
 type ServiceAccountKeyParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Arbitrary map of values that, when changed, will trigger a new key to be generated.
 	// +kubebuilder:validation:Optional

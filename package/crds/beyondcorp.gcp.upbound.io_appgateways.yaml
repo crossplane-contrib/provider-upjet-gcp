@@ -74,6 +74,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: An arbitrary user-provided name for the AppGateway.
                     type: string
@@ -119,6 +124,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: An arbitrary user-provided name for the AppGateway.
                     type: string
@@ -251,6 +261,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: An arbitrary user-provided name for the AppGateway.
                     type: string

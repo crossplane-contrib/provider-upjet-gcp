@@ -68,6 +68,11 @@ spec:
                       example, for chargeback tracking.  When you describe your snapshot
                       resource, this field is visible only if it has a non-empty value.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -139,6 +144,11 @@ spec:
                         - name
                         type: object
                     type: object
+                  snapshotType:
+                    description: |-
+                      Indicates the type of the snapshot.
+                      Possible values are: ARCHIVE, STANDARD.
+                    type: string
                   sourceDisk:
                     description: A reference to the disk used to create this snapshot.
                     type: string
@@ -269,6 +279,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceInstantSnapshot:
+                    description: A reference to the instant snapshot used to create
+                      this snapshot.
+                    type: string
                   storageLocations:
                     description: Cloud Storage bucket storage location of the snapshot
                       (regional or multi-regional).
@@ -301,6 +315,11 @@ spec:
                       example, for chargeback tracking.  When you describe your snapshot
                       resource, this field is visible only if it has a non-empty value.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -372,6 +391,11 @@ spec:
                         - name
                         type: object
                     type: object
+                  snapshotType:
+                    description: |-
+                      Indicates the type of the snapshot.
+                      Possible values are: ARCHIVE, STANDARD.
+                    type: string
                   sourceDisk:
                     description: A reference to the disk used to create this snapshot.
                     type: string
@@ -502,6 +526,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceInstantSnapshot:
+                    description: A reference to the instant snapshot used to create
+                      this snapshot.
+                    type: string
                   storageLocations:
                     description: Cloud Storage bucket storage location of the snapshot
                       (regional or multi-regional).
@@ -587,6 +615,11 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -665,6 +698,11 @@ spec:
                   snapshotId:
                     description: The unique identifier for the resource.
                     type: number
+                  snapshotType:
+                    description: |-
+                      Indicates the type of the snapshot.
+                      Possible values are: ARCHIVE, STANDARD.
+                    type: string
                   sourceDisk:
                     description: A reference to the disk used to create this snapshot.
                     type: string
@@ -685,6 +723,10 @@ spec:
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
                     type: object
+                  sourceInstantSnapshot:
+                    description: A reference to the instant snapshot used to create
+                      this snapshot.
+                    type: string
                   storageBytes:
                     description: |-
                       A size of the storage used by the snapshot. As snapshots share

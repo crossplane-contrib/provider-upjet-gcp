@@ -73,6 +73,10 @@ type TenantInitParameters struct {
 	// Structure is documented below.
 	Client *TenantClientInitParameters `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
 	// are not able to manage its users.
@@ -97,6 +101,10 @@ type TenantObservation struct {
 	// Options related to how clients making requests on behalf of a tenant should be configured.
 	// Structure is documented below.
 	Client *TenantClientObservation `json:"client,omitempty" tf:"client,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
@@ -130,6 +138,11 @@ type TenantParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Client *TenantClientParameters `json:"client,omitempty" tf:"client,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant

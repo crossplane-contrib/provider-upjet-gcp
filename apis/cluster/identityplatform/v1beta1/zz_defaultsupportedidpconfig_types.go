@@ -21,6 +21,10 @@ type DefaultSupportedIdPConfigInitParameters struct {
 	// OAuth client secret
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
@@ -33,6 +37,10 @@ type DefaultSupportedIdPConfigInitParameters struct {
 }
 
 type DefaultSupportedIdPConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -60,6 +68,11 @@ type DefaultSupportedIdPConfigParameters struct {
 	// OAuth client secret
 	// +kubebuilder:validation:Optional
 	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If this IDP allows the user to sign in
 	// +kubebuilder:validation:Optional

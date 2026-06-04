@@ -95,6 +95,10 @@ type ResponsePolicyRuleInitParameters struct {
 	// The DNS name (wildcard or exact) to apply this rule to. Must be unique within the Response Policy Rule.
 	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Answer this query directly with DNS data. These ResourceRecordSets override any other DNS behavior for the matched name;
 	// in particular they override private zones, the public internet, and GCP internal DNS. No SOA nor NS types are allowed.
 	// Structure is documented below.
@@ -109,6 +113,10 @@ type ResponsePolicyRuleObservation struct {
 
 	// The DNS name (wildcard or exact) to apply this rule to. Must be unique within the Response Policy Rule.
 	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/responsePolicies/{{response_policy}}/rules/{{rule_name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -131,6 +139,11 @@ type ResponsePolicyRuleParameters struct {
 	// The DNS name (wildcard or exact) to apply this rule to. Must be unique within the Response Policy Rule.
 	// +kubebuilder:validation:Optional
 	DNSName *string `json:"dnsName,omitempty" tf:"dns_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Answer this query directly with DNS data. These ResourceRecordSets override any other DNS behavior for the matched name;
 	// in particular they override private zones, the public internet, and GCP internal DNS. No SOA nor NS types are allowed.

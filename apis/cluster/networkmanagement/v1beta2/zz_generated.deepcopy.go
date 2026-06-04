@@ -228,6 +228,11 @@ func (in *ConnectivityTestInitParameters) DeepCopyInto(out *ConnectivityTestInit
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -340,6 +345,11 @@ func (in *ConnectivityTestObservation) DeepCopyInto(out *ConnectivityTestObserva
 	if in.BypassFirewallChecks != nil {
 		in, out := &in.BypassFirewallChecks, &out.BypassFirewallChecks
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -459,6 +469,11 @@ func (in *ConnectivityTestParameters) DeepCopyInto(out *ConnectivityTestParamete
 	if in.BypassFirewallChecks != nil {
 		in, out := &in.BypassFirewallChecks, &out.BypassFirewallChecks
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -593,6 +608,11 @@ func (in *DestinationInitParameters) DeepCopyInto(out *DestinationInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.GkePod != nil {
+		in, out := &in.GkePod, &out.GkePod
+		*out = new(string)
+		**out = **in
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -637,6 +657,11 @@ func (in *DestinationInitParameters) DeepCopyInto(out *DestinationInitParameters
 		in, out := &in.NetworkSelector, &out.NetworkSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkType != nil {
+		in, out := &in.NetworkType, &out.NetworkType
+		*out = new(string)
+		**out = **in
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
@@ -703,6 +728,11 @@ func (in *DestinationObservation) DeepCopyInto(out *DestinationObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GkePod != nil {
+		in, out := &in.GkePod, &out.GkePod
+		*out = new(string)
+		**out = **in
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -715,6 +745,11 @@ func (in *DestinationObservation) DeepCopyInto(out *DestinationObservation) {
 	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
+		*out = new(string)
+		**out = **in
+	}
+	if in.NetworkType != nil {
+		in, out := &in.NetworkType, &out.NetworkType
 		*out = new(string)
 		**out = **in
 	}
@@ -773,6 +808,11 @@ func (in *DestinationParameters) DeepCopyInto(out *DestinationParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GkePod != nil {
+		in, out := &in.GkePod, &out.GkePod
+		*out = new(string)
+		**out = **in
+	}
 	if in.IPAddress != nil {
 		in, out := &in.IPAddress, &out.IPAddress
 		*out = new(string)
@@ -817,6 +857,11 @@ func (in *DestinationParameters) DeepCopyInto(out *DestinationParameters) {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkType != nil {
+		in, out := &in.NetworkType, &out.NetworkType
+		*out = new(string)
+		**out = **in
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port

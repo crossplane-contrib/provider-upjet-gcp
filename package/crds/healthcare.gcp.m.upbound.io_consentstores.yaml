@@ -152,6 +152,11 @@ spec:
                       Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
                       A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enableConsentCreateOnUpdate:
                     description: If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent]
                       creates the consent if it does not already exist.
@@ -281,6 +286,11 @@ spec:
                       Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
                       A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enableConsentCreateOnUpdate:
                     description: If true, [consents.patch] [google.cloud.healthcare.v1.consent.UpdateConsent]
                       creates the consent if it does not already exist.
@@ -382,6 +392,11 @@ spec:
                     description: |-
                       Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
                       A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveLabels:
                     additionalProperties:

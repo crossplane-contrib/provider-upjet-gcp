@@ -2229,6 +2229,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the patch deployment. Length of the
                       description is limited to 1024 characters.
@@ -2595,6 +2600,9 @@ spec:
                           Post-patch reboot settings.
                           Possible values are: DEFAULT, ALWAYS, NEVER.
                         type: string
+                      skipUnpatchableVms:
+                        description: 'Enables enhanced reporting for the patch job:'
+                        type: boolean
                       windowsUpdate:
                         description: |-
                           Windows update settings. Use this setting to override the default Windows patch rules.
@@ -2832,6 +2840,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the patch deployment. Length of the
                       description is limited to 1024 characters.
@@ -3198,6 +3211,9 @@ spec:
                           Post-patch reboot settings.
                           Possible values are: DEFAULT, ALWAYS, NEVER.
                         type: string
+                      skipUnpatchableVms:
+                        description: 'Enables enhanced reporting for the patch job:'
+                        type: boolean
                       windowsUpdate:
                         description: |-
                           Windows update settings. Use this setting to override the default Windows patch rules.
@@ -3523,6 +3539,11 @@ spec:
                       Time the patch deployment was created. Timestamp is in RFC3339 text format.
                       A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the patch deployment. Length of the
                       description is limited to 1024 characters.
@@ -3823,6 +3844,9 @@ spec:
                           Post-patch reboot settings.
                           Possible values are: DEFAULT, ALWAYS, NEVER.
                         type: string
+                      skipUnpatchableVms:
+                        description: 'Enables enhanced reporting for the patch job:'
+                        type: boolean
                       windowsUpdate:
                         description: |-
                           Windows update settings. Use this setting to override the default Windows patch rules.

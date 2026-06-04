@@ -29,6 +29,10 @@ type FirewallPolicyAssociationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AttachmentTargetSelector *v1.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
 	// firewall policy with the flag to override the existing attachmentTarget's policy association.
@@ -54,6 +58,10 @@ type FirewallPolicyAssociationObservation struct {
 
 	// The target that the firewall policy is attached to.
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
@@ -87,6 +95,11 @@ type FirewallPolicyAssociationParameters struct {
 	// Selector for a Folder in cloudplatform to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
 	AttachmentTargetSelector *v1.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new

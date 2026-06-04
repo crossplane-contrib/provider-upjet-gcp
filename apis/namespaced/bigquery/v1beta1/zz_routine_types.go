@@ -200,6 +200,10 @@ type RoutineInitParameters_2 struct {
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
 	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the routine if defined.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -273,6 +277,10 @@ type RoutineObservation_2 struct {
 	// The body of the routine. For functions, this is the expression in the AS clause.
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
 	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the routine if defined.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -363,6 +371,11 @@ type RoutineParameters_2 struct {
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
 	// +kubebuilder:validation:Optional
 	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the routine if defined.
 	// +kubebuilder:validation:Optional

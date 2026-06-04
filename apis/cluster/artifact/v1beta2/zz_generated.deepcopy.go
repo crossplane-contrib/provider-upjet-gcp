@@ -1661,6 +1661,11 @@ func (in *RegistryRepositoryInitParameters) DeepCopyInto(out *RegistryRepository
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1791,6 +1796,11 @@ func (in *RegistryRepositoryObservation) DeepCopyInto(out *RegistryRepositoryObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1873,6 +1883,11 @@ func (in *RegistryRepositoryObservation) DeepCopyInto(out *RegistryRepositoryObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.RegistryURI != nil {
+		in, out := &in.RegistryURI, &out.RegistryURI
+		*out = new(string)
+		**out = **in
+	}
 	if in.RemoteRepositoryConfig != nil {
 		in, out := &in.RemoteRepositoryConfig, &out.RemoteRepositoryConfig
 		*out = new(RemoteRepositoryConfigObservation)
@@ -1934,6 +1949,11 @@ func (in *RegistryRepositoryParameters) DeepCopyInto(out *RegistryRepositoryPara
 	if in.CleanupPolicyDryRun != nil {
 		in, out := &in.CleanupPolicyDryRun, &out.CleanupPolicyDryRun
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {

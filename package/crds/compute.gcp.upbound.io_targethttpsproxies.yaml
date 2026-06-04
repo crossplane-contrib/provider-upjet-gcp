@@ -91,6 +91,11 @@ spec:
                       For INTERNAL_MANAGED, use certificate_manager_certificates instead.
                       Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -351,6 +356,11 @@ spec:
                       associated with the given target proxy. This field is only supported for EXTERNAL and EXTERNAL_MANAGED load balancing schemes.
                       For INTERNAL_MANAGED, use certificate_manager_certificates instead.
                       Accepted format is //certificatemanager.googleapis.com/projects/{project}/locations/{location}/certificateMaps/{resourceName}.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of this resource.
@@ -693,6 +703,11 @@ spec:
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of this resource.

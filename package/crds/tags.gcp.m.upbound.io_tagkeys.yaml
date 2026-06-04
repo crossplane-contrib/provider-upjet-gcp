@@ -59,6 +59,16 @@ spec:
             properties:
               forProvider:
                 properties:
+                  allowedValuesRegex:
+                    description: Regular expression constraint for dynamic tag values,
+                      follows RE2 syntax. If present, it implicitly allows dynamic
+                      values (constrained by the regex).
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: User-assigned description of the TagKey. Must not
                       exceed 256 characters.
@@ -71,7 +81,7 @@ spec:
                     description: |-
                       Optional. A purpose cannot be changed once set.
                       A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-                      Possible values are: GCE_FIREWALL.
+                      Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
                     type: string
                   purposeData:
                     additionalProperties:
@@ -100,6 +110,16 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  allowedValuesRegex:
+                    description: Regular expression constraint for dynamic tag values,
+                      follows RE2 syntax. If present, it implicitly allows dynamic
+                      values (constrained by the regex).
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: User-assigned description of the TagKey. Must not
                       exceed 256 characters.
@@ -112,7 +132,7 @@ spec:
                     description: |-
                       Optional. A purpose cannot be changed once set.
                       A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-                      Possible values are: GCE_FIREWALL.
+                      Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
                     type: string
                   purposeData:
                     additionalProperties:
@@ -200,10 +220,20 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allowedValuesRegex:
+                    description: Regular expression constraint for dynamic tag values,
+                      follows RE2 syntax. If present, it implicitly allows dynamic
+                      values (constrained by the regex).
+                    type: string
                   createTime:
                     description: |-
                       Output only. Creation time.
                       A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: User-assigned description of the TagKey. Must not
@@ -226,7 +256,7 @@ spec:
                     description: |-
                       Optional. A purpose cannot be changed once set.
                       A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-                      Possible values are: GCE_FIREWALL.
+                      Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
                     type: string
                   purposeData:
                     additionalProperties:

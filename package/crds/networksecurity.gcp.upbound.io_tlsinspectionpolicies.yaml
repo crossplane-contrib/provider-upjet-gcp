@@ -160,6 +160,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Free-text description of the resource.
                     type: string
@@ -376,6 +381,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Free-text description of the resource.
                     type: string
@@ -596,6 +606,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Free-text description of the resource.
                     type: string

@@ -29,6 +29,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    deletionProtection: false
     location: us-central1
     networkConfig:
       networkSelector:

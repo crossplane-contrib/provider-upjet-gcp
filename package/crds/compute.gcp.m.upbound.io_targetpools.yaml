@@ -64,6 +64,11 @@ spec:
                       URL to the backup target pool. Must also set
                       failover_ratio.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Textual description field.
                     type: string
@@ -208,6 +213,11 @@ spec:
                     description: |-
                       URL to the backup target pool. Must also set
                       failover_ratio.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Textual description field.
@@ -396,6 +406,11 @@ spec:
                     description: |-
                       URL to the backup target pool. Must also set
                       failover_ratio.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Textual description field.

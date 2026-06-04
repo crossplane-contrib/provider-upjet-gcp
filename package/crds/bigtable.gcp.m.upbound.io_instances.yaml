@@ -132,6 +132,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the instance
                       is allowed.
@@ -139,6 +144,11 @@ spec:
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
+                    type: string
+                  edition:
+                    description: The edition of the Bigtable instance. One of "ENTERPRISE"
+                      or "ENTERPRISE_PLUS". Defaults to "ENTERPRISE". Details can
+                      be found at the Cloud Bigtable editions page.
                     type: string
                   forceDestroy:
                     description: Deleting a BigTable instance can be blocked if any
@@ -156,7 +166,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the resource.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
@@ -164,6 +174,13 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to the resource.
+                      Tags must follow the requirements at create and manage tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: |-
@@ -251,6 +268,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the instance
                       is allowed.
@@ -258,6 +280,11 @@ spec:
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
+                    type: string
+                  edition:
+                    description: The edition of the Bigtable instance. One of "ENTERPRISE"
+                      or "ENTERPRISE_PLUS". Defaults to "ENTERPRISE". Details can
+                      be found at the Cloud Bigtable editions page.
                     type: string
                   forceDestroy:
                     description: Deleting a BigTable instance can be blocked if any
@@ -275,7 +302,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the resource.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
@@ -283,6 +310,13 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to the resource.
+                      Tags must follow the requirements at create and manage tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -423,6 +457,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the instance
                       is allowed.
@@ -430,6 +469,11 @@ spec:
                   displayName:
                     description: The human-readable display name of the Bigtable instance.
                       Defaults to the instance name.
+                    type: string
+                  edition:
+                    description: The edition of the Bigtable instance. One of "ENTERPRISE"
+                      or "ENTERPRISE_PLUS". Defaults to "ENTERPRISE". Details can
+                      be found at the Cloud Bigtable editions page.
                     type: string
                   effectiveLabels:
                     additionalProperties:
@@ -455,7 +499,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the resource.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
@@ -463,6 +507,13 @@ spec:
                       The ID of the project in which the resource belongs. If it
                       is not provided, the provider project is used.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A set of key/value label pairs to assign to the resource.
+                      Tags must follow the requirements at create and manage tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   terraformLabels:
                     additionalProperties:
                       type: string

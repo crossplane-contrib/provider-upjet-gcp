@@ -96,6 +96,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: A field to make the table protected against data
                       loss i.e. when set to PROTECTED, deleting the table, the column
@@ -249,6 +254,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: A field to make the table protected against data
                       loss i.e. when set to PROTECTED, deleting the table, the column
@@ -369,6 +379,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: A field to make the table protected against data
                       loss i.e. when set to PROTECTED, deleting the table, the column

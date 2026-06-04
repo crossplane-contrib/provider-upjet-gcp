@@ -1536,6 +1536,11 @@ spec:
                     description: If set to true, the service will be deleted if it
                       is the last version.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployment:
                     description: |-
                       Code and application artifacts that make up this version.
@@ -1935,6 +1940,11 @@ spec:
                     description: If set to true, the service will be deleted if it
                       is the last version.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployment:
                     description: |-
                       Code and application artifacts that make up this version.
@@ -2420,6 +2430,11 @@ spec:
                     description: If set to true, the service will be deleted if it
                       is the last version.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployment:
                     description: |-
                       Code and application artifacts that make up this version.

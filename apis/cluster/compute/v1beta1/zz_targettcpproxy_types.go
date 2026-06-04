@@ -15,7 +15,8 @@ import (
 
 type TargetTCPProxyInitParameters struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is set to INTERNAL_MANAGED.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
@@ -27,6 +28,10 @@ type TargetTCPProxyInitParameters struct {
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -48,11 +53,16 @@ type TargetTCPProxyInitParameters struct {
 
 type TargetTCPProxyObservation struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is set to INTERNAL_MANAGED.
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -83,7 +93,8 @@ type TargetTCPProxyObservation struct {
 
 type TargetTCPProxyParameters struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is set to INTERNAL_MANAGED.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -96,6 +107,11 @@ type TargetTCPProxyParameters struct {
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional

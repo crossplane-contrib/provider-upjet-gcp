@@ -76,6 +76,10 @@ type ConnectivityTestInitParameters struct {
 	// Whether the analysis should skip firewall checking. Default value is false.
 	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -126,6 +130,10 @@ type ConnectivityTestObservation struct {
 
 	// Whether the analysis should skip firewall checking. Default value is false.
 	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
@@ -190,6 +198,11 @@ type ConnectivityTestParameters struct {
 	// Whether the analysis should skip firewall checking. Default value is false.
 	// +kubebuilder:validation:Optional
 	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
@@ -263,6 +276,9 @@ type DestinationInitParameters struct {
 	// A cluster URI for Google Kubernetes Engine cluster control plane.
 	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
+	// A GKE Pod URI.
+	GkePod *string `json:"gkePod,omitempty" tf:"gke_pod,omitempty"`
+
 	// The IP address of the endpoint, which can be an external or internal IP.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
@@ -301,6 +317,10 @@ type DestinationInitParameters struct {
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when protocol is
 	// TCP or UDP.
@@ -346,6 +366,9 @@ type DestinationObservation struct {
 	// A cluster URI for Google Kubernetes Engine cluster control plane.
 	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
+	// A GKE Pod URI.
+	GkePod *string `json:"gkePod,omitempty" tf:"gke_pod,omitempty"`
+
 	// The IP address of the endpoint, which can be an external or internal IP.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
@@ -354,6 +377,10 @@ type DestinationObservation struct {
 
 	// A VPC network URI.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when protocol is
 	// TCP or UDP.
@@ -392,6 +419,10 @@ type DestinationParameters struct {
 	// A cluster URI for Google Kubernetes Engine cluster control plane.
 	// +kubebuilder:validation:Optional
 	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
+
+	// A GKE Pod URI.
+	// +kubebuilder:validation:Optional
+	GkePod *string `json:"gkePod,omitempty" tf:"gke_pod,omitempty"`
 
 	// The IP address of the endpoint, which can be an external or internal IP.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Address
@@ -434,6 +465,11 @@ type DestinationParameters struct {
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+	// +kubebuilder:validation:Optional
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when protocol is
 	// TCP or UDP.

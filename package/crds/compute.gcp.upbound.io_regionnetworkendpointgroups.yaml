@@ -1713,6 +1713,11 @@ spec:
                           and { service="bar2", tag="foo2" } respectively.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -2238,6 +2243,11 @@ spec:
                           and { service="bar2", tag="foo2" } respectively.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -2684,6 +2694,11 @@ spec:
                           and { service="bar2", tag="foo2" } respectively.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when

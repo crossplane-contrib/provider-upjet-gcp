@@ -81,6 +81,11 @@ spec:
                       The default time zone for the database. The default time zone must be a valid name
                       from the tz database. Default value is "America/Los_angeles".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -243,6 +248,11 @@ spec:
                       The default time zone for the database. The default time zone must be a valid name
                       from the tz database. Default value is "America/Los_angeles".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -371,6 +381,11 @@ spec:
                     description: |-
                       The default time zone for the database. The default time zone must be a valid name
                       from the tz database. Default value is "America/Los_angeles".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: |-

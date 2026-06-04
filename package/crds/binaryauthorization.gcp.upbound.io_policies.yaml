@@ -1180,6 +1180,11 @@ spec:
                             type: object
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A descriptive comment.
                     type: string
@@ -1454,6 +1459,11 @@ spec:
                             type: object
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A descriptive comment.
                     type: string
@@ -1653,6 +1663,11 @@ spec:
                         type: array
                         x-kubernetes-list-type: set
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A descriptive comment.
                     type: string

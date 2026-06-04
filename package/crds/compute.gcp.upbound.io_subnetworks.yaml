@@ -1109,22 +1109,31 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  allowSubnetCidrRoutesOverlap:
+                    description: |-
+                      Typically packets destined to IPs within the subnetwork range that do not match
+                      existing resources are dropped and prevented from leaving the VPC.
+                      Setting this field to true will allow these packets to match dynamic routes injected
+                      via BGP even if their destinations match existing subnet ranges.
+                    type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
-                  enableFlowLogs:
-                    description: |-
-                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
-                      it will not appear in get listings. If not set the default behavior is determined by the
-                      org policy, if there is no org policy specified, then it will default to disabled.
-                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
-                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
+                    type: string
+                  internalIpv6Prefix:
+                    description: The internal IPv6 address range that is assigned
+                      to this subnetwork.
                     type: string
                   ipCidrRange:
                     description: |-
@@ -1137,9 +1146,9 @@ spec:
                   ipCollection:
                     description: |-
                       Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
-                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
-                      Use one of the following formats to specify a sub-PDP when creating an
-                      IPv6 NetLB forwarding rule using BYOIP:
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION
+                      mode. Use one of the following formats to specify a sub-PDP when creating
+                      a dual stack or IPv6-only subnetwork using BYOIP:
                       Full resource URL, as in:
                     type: string
                   ipv6AccessType:
@@ -1327,6 +1336,11 @@ spec:
                       The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
                       E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                     type: string
+                  resolveSubnetMask:
+                    description: |-
+                      'Configures subnet mask resolution for this subnetwork.'
+                      Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+                    type: string
                   role:
                     description: |-
                       The role of subnetwork.
@@ -1401,22 +1415,31 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  allowSubnetCidrRoutesOverlap:
+                    description: |-
+                      Typically packets destined to IPs within the subnetwork range that do not match
+                      existing resources are dropped and prevented from leaving the VPC.
+                      Setting this field to true will allow these packets to match dynamic routes injected
+                      via BGP even if their destinations match existing subnet ranges.
+                    type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
-                  enableFlowLogs:
-                    description: |-
-                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
-                      it will not appear in get listings. If not set the default behavior is determined by the
-                      org policy, if there is no org policy specified, then it will default to disabled.
-                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
-                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
+                    type: string
+                  internalIpv6Prefix:
+                    description: The internal IPv6 address range that is assigned
+                      to this subnetwork.
                     type: string
                   ipCidrRange:
                     description: |-
@@ -1429,9 +1452,9 @@ spec:
                   ipCollection:
                     description: |-
                       Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
-                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
-                      Use one of the following formats to specify a sub-PDP when creating an
-                      IPv6 NetLB forwarding rule using BYOIP:
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION
+                      mode. Use one of the following formats to specify a sub-PDP when creating
+                      a dual stack or IPv6-only subnetwork using BYOIP:
                       Full resource URL, as in:
                     type: string
                   ipv6AccessType:
@@ -1615,6 +1638,11 @@ spec:
                     description: |-
                       The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
                       E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+                    type: string
+                  resolveSubnetMask:
+                    description: |-
+                      'Configures subnet mask resolution for this subnetwork.'
+                      Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
                     type: string
                   role:
                     description: |-
@@ -1766,8 +1794,20 @@ spec:
             properties:
               atProvider:
                 properties:
+                  allowSubnetCidrRoutesOverlap:
+                    description: |-
+                      Typically packets destined to IPs within the subnetwork range that do not match
+                      existing resources are dropped and prevented from leaving the VPC.
+                      Setting this field to true will allow these packets to match dynamic routes injected
+                      via BGP even if their destinations match existing subnet ranges.
+                    type: boolean
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: |-
@@ -1775,13 +1815,6 @@ spec:
                       you create the resource. This field can be set only at resource
                       creation time.
                     type: string
-                  enableFlowLogs:
-                    description: |-
-                      Whether to enable flow logging for this subnetwork. If this field is not explicitly set,
-                      it will not appear in get listings. If not set the default behavior is determined by the
-                      org policy, if there is no org policy specified, then it will default to disabled.
-                      This field isn't supported if the subnet purpose field is set to REGIONAL_MANAGED_PROXY.
-                    type: boolean
                   externalIpv6Prefix:
                     description: The range of external IPv6 addresses that are owned
                       by this subnetwork.
@@ -1811,9 +1844,9 @@ spec:
                   ipCollection:
                     description: |-
                       Resource reference of a PublicDelegatedPrefix. The PDP must be a sub-PDP
-                      in EXTERNAL_IPV6_SUBNETWORK_CREATION mode.
-                      Use one of the following formats to specify a sub-PDP when creating an
-                      IPv6 NetLB forwarding rule using BYOIP:
+                      in EXTERNAL_IPV6_SUBNETWORK_CREATION or INTERNAL_IPV6_SUBNETWORK_CREATION
+                      mode. Use one of the following formats to specify a sub-PDP when creating
+                      a dual stack or IPv6-only subnetwork using BYOIP:
                       Full resource URL, as in:
                     type: string
                   ipv6AccessType:
@@ -1934,6 +1967,11 @@ spec:
                     description: |-
                       The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
                       E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+                    type: string
+                  resolveSubnetMask:
+                    description: |-
+                      'Configures subnet mask resolution for this subnetwork.'
+                      Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
                     type: string
                   role:
                     description: |-

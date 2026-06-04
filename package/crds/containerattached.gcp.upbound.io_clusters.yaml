@@ -1012,8 +1012,7 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: 'Policy to determine what flags to send on delete.
-                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
+                    description: Policy to determine what flags to send on delete.
                     type: string
                   description:
                     description: |-
@@ -1199,8 +1198,7 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: 'Policy to determine what flags to send on delete.
-                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
+                    description: Policy to determine what flags to send on delete.
                     type: string
                   description:
                     description: |-
@@ -1485,8 +1483,7 @@ spec:
                     description: Output only. The time at which this cluster was created.
                     type: string
                   deletionPolicy:
-                    description: 'Policy to determine what flags to send on delete.
-                      Possible values: DELETE, DELETE_IGNORE_ERRORS'
+                    description: Policy to determine what flags to send on delete.
                     type: string
                   description:
                     description: |-

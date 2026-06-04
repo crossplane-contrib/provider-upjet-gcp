@@ -24,6 +24,10 @@ type ConnectGitRepositoryLinkInitParameters struct {
 	// Required. Git Clone URI.
 	CloneURI *string `json:"cloneUri,omitempty" tf:"clone_uri,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. This checksum is computed by the server based on the value of other
 	// fields, and may be sent on update and delete requests to ensure the
 	// client has an up-to-date value before proceeding.
@@ -56,6 +60,10 @@ type ConnectGitRepositoryLinkObservation struct {
 
 	// Output only. [Output only] Delete timestamp
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
@@ -119,6 +127,11 @@ type ConnectGitRepositoryLinkParameters struct {
 	// Required. Git Clone URI.
 	// +kubebuilder:validation:Optional
 	CloneURI *string `json:"cloneUri,omitempty" tf:"clone_uri,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. This checksum is computed by the server based on the value of other
 	// fields, and may be sent on update and delete requests to ensure the

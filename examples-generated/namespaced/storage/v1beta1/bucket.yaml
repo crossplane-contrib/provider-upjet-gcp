@@ -25,6 +25,17 @@ spec:
       - http://image-store.com
       responseHeader:
       - '*'
+    - maxAgeSeconds: 0
+      method:
+      - GET
+      - HEAD
+      - PUT
+      - POST
+      - DELETE
+      origin:
+      - http://image-store.com
+      responseHeader:
+      - '*'
     forceDestroy: true
     location: EU
     uniformBucketLevelAccess: true

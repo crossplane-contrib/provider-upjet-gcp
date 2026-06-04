@@ -16,6 +16,10 @@ import (
 
 type DatasetInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A nested object resource.
 	// Structure is documented below.
 	EncryptionSpec *EncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
@@ -37,6 +41,10 @@ type DatasetInitParameters struct {
 }
 
 type DatasetObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A nested object resource.
 	// Structure is documented below.
@@ -65,6 +73,11 @@ type DatasetObservation struct {
 }
 
 type DatasetParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A nested object resource.
 	// Structure is documented below.

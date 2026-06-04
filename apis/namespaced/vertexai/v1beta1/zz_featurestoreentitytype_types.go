@@ -35,6 +35,10 @@ type CategoricalThresholdConfigParameters struct {
 
 type FeaturestoreEntitytypeInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Description of the EntityType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -68,6 +72,10 @@ type FeaturestoreEntitytypeObservation struct {
 
 	// The timestamp of when the featurestore was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the EntityType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -109,6 +117,11 @@ type FeaturestoreEntitytypeObservation struct {
 }
 
 type FeaturestoreEntitytypeParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the EntityType.
 	// +kubebuilder:validation:Optional

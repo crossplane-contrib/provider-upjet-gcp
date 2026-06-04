@@ -597,6 +597,11 @@ func (in *MembershipInitParameters) DeepCopyInto(out *MembershipInitParameters) 
 		*out = new(AuthorityInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Endpoint != nil {
 		in, out := &in.Endpoint, &out.Endpoint
 		*out = new(EndpointInitParameters)
@@ -674,6 +679,11 @@ func (in *MembershipObservation) DeepCopyInto(out *MembershipObservation) {
 		in, out := &in.Authority, &out.Authority
 		*out = new(AuthorityObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
@@ -767,6 +777,11 @@ func (in *MembershipParameters) DeepCopyInto(out *MembershipParameters) {
 		in, out := &in.Authority, &out.Authority
 		*out = new(AuthorityParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Endpoint != nil {
 		in, out := &in.Endpoint, &out.Endpoint

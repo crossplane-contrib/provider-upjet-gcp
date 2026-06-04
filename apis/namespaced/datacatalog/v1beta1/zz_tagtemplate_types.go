@@ -151,6 +151,10 @@ type TagTemplateFieldsParameters struct {
 
 type TagTemplateInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The display name for this template.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -167,6 +171,10 @@ type TagTemplateInitParameters struct {
 }
 
 type TagTemplateObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The display name for this template.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -193,6 +201,11 @@ type TagTemplateObservation struct {
 }
 
 type TagTemplateParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The display name for this template.
 	// +kubebuilder:validation:Optional

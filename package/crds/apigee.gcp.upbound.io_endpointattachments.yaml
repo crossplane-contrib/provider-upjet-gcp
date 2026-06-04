@@ -73,6 +73,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    type: string
                   location:
                     type: string
                   orgId:
@@ -171,6 +173,8 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    type: string
                   location:
                     type: string
                   serviceAttachment:
@@ -349,6 +353,8 @@ spec:
               atProvider:
                 properties:
                   connectionState:
+                    type: string
+                  deletionPolicy:
                     type: string
                   host:
                     type: string

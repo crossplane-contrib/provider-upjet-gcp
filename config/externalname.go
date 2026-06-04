@@ -845,8 +845,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_transfer_agent_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/agentPools/{{ .external_name }}"),
 	// Imported by using the following {{project}}/{{name}}
 	"google_storage_transfer_job": config.IdentifierFromProvider,
-	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
 	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
@@ -961,7 +959,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
 	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
 	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
 
 	// binaryauthorization
 	//
@@ -1139,7 +1136,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 // cliReconciledExternalNameConfigs contains all external name configurations
 // belonging to Terraform resources to be reconciled under the CLI-based
 // architecture for this provider.
-var cliReconciledExternalNameConfigs = map[string]config.ExternalName{}
+var cliReconciledExternalNameConfigs = map[string]config.ExternalName{
+	// Migrated to Terraform Plugin Framework in TF v7.x
+	"google_storage_notification":                       config.IdentifierFromProvider,
+	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+}
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
 // without the name initializer. This allows it to be used in cases where the ID

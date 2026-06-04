@@ -510,6 +510,11 @@ func (in *CryptoKeyInitParameters) DeepCopyInto(out *CryptoKeyInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DestroyScheduledDuration != nil {
 		in, out := &in.DestroyScheduledDuration, &out.DestroyScheduledDuration
 		*out = new(string)
@@ -605,6 +610,11 @@ func (in *CryptoKeyObservation) DeepCopyInto(out *CryptoKeyObservation) {
 	*out = *in
 	if in.CryptoKeyBackend != nil {
 		in, out := &in.CryptoKeyBackend, &out.CryptoKeyBackend
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -720,6 +730,11 @@ func (in *CryptoKeyParameters) DeepCopyInto(out *CryptoKeyParameters) {
 	*out = *in
 	if in.CryptoKeyBackend != nil {
 		in, out := &in.CryptoKeyBackend, &out.CryptoKeyBackend
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -951,6 +966,11 @@ func (in *CryptoKeyVersionInitParameters) DeepCopyInto(out *CryptoKeyVersionInit
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ExternalProtectionLevelOptions != nil {
 		in, out := &in.ExternalProtectionLevelOptions, &out.ExternalProtectionLevelOptions
 		*out = new(CryptoKeyVersionExternalProtectionLevelOptionsInitParameters)
@@ -1025,6 +1045,11 @@ func (in *CryptoKeyVersionObservation) DeepCopyInto(out *CryptoKeyVersionObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ExternalProtectionLevelOptions != nil {
 		in, out := &in.ExternalProtectionLevelOptions, &out.ExternalProtectionLevelOptions
 		*out = new(CryptoKeyVersionExternalProtectionLevelOptionsObservation)
@@ -1084,6 +1109,11 @@ func (in *CryptoKeyVersionParameters) DeepCopyInto(out *CryptoKeyVersionParamete
 		in, out := &in.CryptoKeySelector, &out.CryptoKeySelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.ExternalProtectionLevelOptions != nil {
 		in, out := &in.ExternalProtectionLevelOptions, &out.ExternalProtectionLevelOptions

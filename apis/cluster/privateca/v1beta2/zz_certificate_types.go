@@ -135,6 +135,10 @@ type CertificateInitParameters struct {
 	// Structure is documented below.
 	Config *ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Labels with user-defined metadata to apply to this resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -178,6 +182,10 @@ type CertificateObservation struct {
 	// The time that this resource was created on the server.
 	// This is in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -273,6 +281,11 @@ type CertificateParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Config *ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Labels with user-defined metadata to apply to this resource.
 	// +kubebuilder:validation:Optional

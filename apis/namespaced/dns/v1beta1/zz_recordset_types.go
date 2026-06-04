@@ -577,6 +577,10 @@ type PrimaryParameters struct {
 
 type RecordSetInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the zone in which this record set will
 	// reside.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dns/v1beta1.ManagedZone
@@ -615,6 +619,10 @@ type RecordSetInitParameters struct {
 
 type RecordSetObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/managedZones/{{zone}}/rrsets/{{name}}/{{type}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -646,6 +654,11 @@ type RecordSetObservation struct {
 }
 
 type RecordSetParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the zone in which this record set will
 	// reside.

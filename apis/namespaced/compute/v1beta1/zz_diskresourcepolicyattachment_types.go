@@ -16,6 +16,10 @@ import (
 
 type DiskResourcePolicyAttachmentInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the disk in which the resource policies are attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -51,6 +55,10 @@ type DiskResourcePolicyAttachmentInitParameters struct {
 
 type DiskResourcePolicyAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the disk in which the resource policies are attached to.
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -70,6 +78,11 @@ type DiskResourcePolicyAttachmentObservation struct {
 }
 
 type DiskResourcePolicyAttachmentParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the disk in which the resource policies are attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk

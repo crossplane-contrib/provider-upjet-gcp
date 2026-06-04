@@ -114,6 +114,10 @@ type DryRunSpecParameters struct {
 
 type PolicyInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
 	// Structure is documented below.
 	DryRunSpec *DryRunSpecInitParameters `json:"dryRunSpec,omitempty" tf:"dry_run_spec,omitempty"`
@@ -124,6 +128,10 @@ type PolicyInitParameters struct {
 }
 
 type PolicyObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
 	// Structure is documented below.
@@ -144,6 +152,11 @@ type PolicyObservation struct {
 }
 
 type PolicyParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
 	// Structure is documented below.

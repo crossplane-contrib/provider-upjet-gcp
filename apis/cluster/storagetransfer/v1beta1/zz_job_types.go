@@ -36,6 +36,65 @@ type AwsAccessKeyParameters struct {
 	SecretAccessKeySecretRef v1.SecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
 }
 
+type AwsS3CompatibleDataSourceInitParameters struct {
+
+	// Google Cloud Storage bucket name.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Endpoint of the storage service.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Root directory path to the filesystem.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Specifies the region to sign requests with. This can be left blank if requests should be signed with an empty region.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// S3 compatible metadata. documented below.
+	S3Metadata *S3MetadataInitParameters `json:"s3Metadata,omitempty" tf:"s3_metadata,omitempty"`
+}
+
+type AwsS3CompatibleDataSourceObservation struct {
+
+	// Google Cloud Storage bucket name.
+	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// Endpoint of the storage service.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Root directory path to the filesystem.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Specifies the region to sign requests with. This can be left blank if requests should be signed with an empty region.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// S3 compatible metadata. documented below.
+	S3Metadata *S3MetadataObservation `json:"s3Metadata,omitempty" tf:"s3_metadata,omitempty"`
+}
+
+type AwsS3CompatibleDataSourceParameters struct {
+
+	// Google Cloud Storage bucket name.
+	// +kubebuilder:validation:Optional
+	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
+
+	// Endpoint of the storage service.
+	// +kubebuilder:validation:Optional
+	Endpoint *string `json:"endpoint" tf:"endpoint,omitempty"`
+
+	// Root directory path to the filesystem.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Specifies the region to sign requests with. This can be left blank if requests should be signed with an empty region.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// S3 compatible metadata. documented below.
+	// +kubebuilder:validation:Optional
+	S3Metadata *S3MetadataParameters `json:"s3Metadata,omitempty" tf:"s3_metadata,omitempty"`
+}
+
 type AwsS3DataSourceInitParameters struct {
 
 	// AWS credentials block.
@@ -43,6 +102,12 @@ type AwsS3DataSourceInitParameters struct {
 
 	// Google Cloud Storage bucket name.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// The CloudFront distribution domain name pointing to this bucket, to use when fetching. See Transfer from S3 via CloudFront for more information. Format: https://{id}.cloudfront.net or any valid custom domain. Must begin with https://.
+	CloudfrontDomain *string `json:"cloudfrontDomain,omitempty" tf:"cloudfront_domain,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
 
 	// Egress bytes over a Google-managed private network. This network is shared between other users of Storage Transfer Service.
 	ManagedPrivateNetwork *bool `json:"managedPrivateNetwork,omitempty" tf:"managed_private_network,omitempty"`
@@ -61,6 +126,12 @@ type AwsS3DataSourceObservation struct {
 
 	// Google Cloud Storage bucket name.
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
+
+	// The CloudFront distribution domain name pointing to this bucket, to use when fetching. See Transfer from S3 via CloudFront for more information. Format: https://{id}.cloudfront.net or any valid custom domain. Must begin with https://.
+	CloudfrontDomain *string `json:"cloudfrontDomain,omitempty" tf:"cloudfront_domain,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
 
 	// Egress bytes over a Google-managed private network. This network is shared between other users of Storage Transfer Service.
 	ManagedPrivateNetwork *bool `json:"managedPrivateNetwork,omitempty" tf:"managed_private_network,omitempty"`
@@ -82,6 +153,14 @@ type AwsS3DataSourceParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName" tf:"bucket_name,omitempty"`
 
+	// The CloudFront distribution domain name pointing to this bucket, to use when fetching. See Transfer from S3 via CloudFront for more information. Format: https://{id}.cloudfront.net or any valid custom domain. Must begin with https://.
+	// +kubebuilder:validation:Optional
+	CloudfrontDomain *string `json:"cloudfrontDomain,omitempty" tf:"cloudfront_domain,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	// +kubebuilder:validation:Optional
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
 	// Egress bytes over a Google-managed private network. This network is shared between other users of Storage Transfer Service.
 	// +kubebuilder:validation:Optional
 	ManagedPrivateNetwork *bool `json:"managedPrivateNetwork,omitempty" tf:"managed_private_network,omitempty"`
@@ -97,11 +176,17 @@ type AwsS3DataSourceParameters struct {
 
 type AzureBlobStorageDataSourceInitParameters struct {
 
-	// Credentials used to authenticate API requests to Azure block.
+	// ) Credentials used to authenticate API requests to Azure block.
 	AzureCredentials *AzureCredentialsInitParameters `json:"azureCredentials,omitempty" tf:"azure_credentials,omitempty"`
 
 	// The container to transfer from the Azure Storage account.`
 	Container *string `json:"container,omitempty" tf:"container,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
+	// Federated identity config of a user registered Azure application. Structure documented below.
+	FederatedIdentityConfig *FederatedIdentityConfigInitParameters `json:"federatedIdentityConfig,omitempty" tf:"federated_identity_config,omitempty"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -112,11 +197,17 @@ type AzureBlobStorageDataSourceInitParameters struct {
 
 type AzureBlobStorageDataSourceObservation struct {
 
-	// Credentials used to authenticate API requests to Azure block.
+	// ) Credentials used to authenticate API requests to Azure block.
 	AzureCredentials *AzureCredentialsParameters `json:"azureCredentials,omitempty" tf:"azure_credentials,omitempty"`
 
 	// The container to transfer from the Azure Storage account.`
 	Container *string `json:"container,omitempty" tf:"container,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
+	// Federated identity config of a user registered Azure application. Structure documented below.
+	FederatedIdentityConfig *FederatedIdentityConfigParameters `json:"federatedIdentityConfig,omitempty" tf:"federated_identity_config,omitempty"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -127,13 +218,21 @@ type AzureBlobStorageDataSourceObservation struct {
 
 type AzureBlobStorageDataSourceParameters struct {
 
-	// Credentials used to authenticate API requests to Azure block.
+	// ) Credentials used to authenticate API requests to Azure block.
 	// +kubebuilder:validation:Optional
-	AzureCredentials *AzureCredentialsParameters `json:"azureCredentials" tf:"azure_credentials,omitempty"`
+	AzureCredentials *AzureCredentialsParameters `json:"azureCredentials,omitempty" tf:"azure_credentials,omitempty"`
 
 	// The container to transfer from the Azure Storage account.`
 	// +kubebuilder:validation:Optional
 	Container *string `json:"container" tf:"container,omitempty"`
+
+	// ) Full Resource name of a secret in Secret Manager containing SAS Credentials in JSON form. Service Agent for Storage Transfer must have permissions to access secret. If credentials_secret is specified, do not specify azure_credentials.`,
+	// +kubebuilder:validation:Optional
+	CredentialsSecret *string `json:"credentialsSecret,omitempty" tf:"credentials_secret,omitempty"`
+
+	// Federated identity config of a user registered Azure application. Structure documented below.
+	// +kubebuilder:validation:Optional
+	FederatedIdentityConfig *FederatedIdentityConfigParameters `json:"federatedIdentityConfig,omitempty" tf:"federated_identity_config,omitempty"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -197,6 +296,29 @@ type EventStreamParameters struct {
 	// Specifies a unique name of the resource such as AWS SQS ARN in the form 'arn:aws:sqs:region:account_id:queue_name', or Pub/Sub subscription resource name in the form 'projects/{project}/subscriptions/{sub}'.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type FederatedIdentityConfigInitParameters struct {
+
+	// The client (application) ID of the application with federated credentials.
+	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+
+	// The client (directory) ID of the application with federated credentials.
+	TenantIDSecretRef v1.SecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
+}
+
+type FederatedIdentityConfigObservation struct {
+}
+
+type FederatedIdentityConfigParameters struct {
+
+	// The client (application) ID of the application with federated credentials.
+	// +kubebuilder:validation:Optional
+	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+
+	// The client (directory) ID of the application with federated credentials.
+	// +kubebuilder:validation:Optional
+	TenantIDSecretRef v1.SecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
 }
 
 type GcsDataSinkInitParameters struct {
@@ -333,6 +455,10 @@ type HdfsDataSourceParameters struct {
 
 type JobInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Unique description to identify the Transfer Job.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -358,6 +484,9 @@ type JobInitParameters struct {
 	// Schedule specification defining when the Transfer Job should be scheduled to start, end and what time to run. Structure documented below. Either schedule or event_stream must be set.
 	Schedule *ScheduleInitParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
+	// The user-managed service account to run the job. If this field is specified, the given service account is granted the necessary permissions to all applicable resources (e.g. GCS buckets) required by the job.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
 	// Status of the job. Default: ENABLED. NOTE: The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
@@ -369,6 +498,10 @@ type JobObservation struct {
 
 	// When the Transfer Job was created.
 	CreationTime *string `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// When the Transfer Job was deleted.
 	DeletionTime *string `json:"deletionTime,omitempty" tf:"deletion_time,omitempty"`
@@ -403,6 +536,9 @@ type JobObservation struct {
 	// Schedule specification defining when the Transfer Job should be scheduled to start, end and what time to run. Structure documented below. Either schedule or event_stream must be set.
 	Schedule *ScheduleObservation `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
+	// The user-managed service account to run the job. If this field is specified, the given service account is granted the necessary permissions to all applicable resources (e.g. GCS buckets) required by the job.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
 	// Status of the job. Default: ENABLED. NOTE: The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
@@ -411,6 +547,11 @@ type JobObservation struct {
 }
 
 type JobParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Unique description to identify the Transfer Job.
 	// +kubebuilder:validation:Optional
@@ -444,6 +585,10 @@ type JobParameters struct {
 	// Schedule specification defining when the Transfer Job should be scheduled to start, end and what time to run. Structure documented below. Either schedule or event_stream must be set.
 	// +kubebuilder:validation:Optional
 	Schedule *ScheduleParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
+
+	// The user-managed service account to run the job. If this field is specified, the given service account is granted the necessary permissions to all applicable resources (e.g. GCS buckets) required by the job.
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Status of the job. Default: ENABLED. NOTE: The effect of the new job status takes place during a subsequent job run. For example, if you change the job status from ENABLED to DISABLED, and an operation spawned by the transfer is running, the status change would not affect the current operation.
 	// +kubebuilder:validation:Optional
@@ -495,71 +640,100 @@ type LoggingConfigParameters struct {
 }
 
 type MetadataOptionsInitParameters struct {
+
+	// Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets.
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
+	// Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer.
 	GID *string `json:"gid,omitempty" tf:"gid,omitempty"`
 
+	// Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Specifies how each file's mode attribute should be handled by the transfer.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
+	// Specifies how symlinks should be handled by the transfer.
 	Symlink *string `json:"symlink,omitempty" tf:"symlink,omitempty"`
 
+	// Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets.
 	TemporaryHold *string `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 
+	// Specifies how each object's timeCreated metadata is preserved for transfers.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
 type MetadataOptionsObservation struct {
+
+	// Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets.
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
+	// Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer.
 	GID *string `json:"gid,omitempty" tf:"gid,omitempty"`
 
+	// Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Specifies how each file's mode attribute should be handled by the transfer.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
+	// Specifies how symlinks should be handled by the transfer.
 	Symlink *string `json:"symlink,omitempty" tf:"symlink,omitempty"`
 
+	// Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets.
 	TemporaryHold *string `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 
+	// Specifies how each object's timeCreated metadata is preserved for transfers.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
 type MetadataOptionsParameters struct {
 
+	// Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
+	// Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	GID *string `json:"gid,omitempty" tf:"gid,omitempty"`
 
+	// Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Specifies how each file's mode attribute should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
+	// Specifies how symlinks should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	Symlink *string `json:"symlink,omitempty" tf:"symlink,omitempty"`
 
+	// Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	TemporaryHold *string `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 
+	// Specifies how each object's timeCreated metadata is preserved for transfers.
 	// +kubebuilder:validation:Optional
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
@@ -782,6 +956,55 @@ type ReplicationSpecParameters struct {
 	TransferOptions *TransferOptionsParameters `json:"transferOptions,omitempty" tf:"transfer_options,omitempty"`
 }
 
+type S3MetadataInitParameters struct {
+
+	// Authentication and authorization method used by the storage service. When not specified, Transfer Service will attempt to determine right auth method to use.
+	AuthMethod *string `json:"authMethod,omitempty" tf:"auth_method,omitempty"`
+
+	// The Listing API to use for discovering objects. When not specified, Transfer Service will attempt to determine the right API to use.
+	ListAPI *string `json:"listApi,omitempty" tf:"list_api,omitempty"`
+
+	// The network protocol of the agent. When not specified, the default value of NetworkProtocol NETWORK_PROTOCOL_HTTPS is used.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// API request model used to call the storage service. When not specified, the default value of RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE is used.
+	RequestModel *string `json:"requestModel,omitempty" tf:"request_model,omitempty"`
+}
+
+type S3MetadataObservation struct {
+
+	// Authentication and authorization method used by the storage service. When not specified, Transfer Service will attempt to determine right auth method to use.
+	AuthMethod *string `json:"authMethod,omitempty" tf:"auth_method,omitempty"`
+
+	// The Listing API to use for discovering objects. When not specified, Transfer Service will attempt to determine the right API to use.
+	ListAPI *string `json:"listApi,omitempty" tf:"list_api,omitempty"`
+
+	// The network protocol of the agent. When not specified, the default value of NetworkProtocol NETWORK_PROTOCOL_HTTPS is used.
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// API request model used to call the storage service. When not specified, the default value of RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE is used.
+	RequestModel *string `json:"requestModel,omitempty" tf:"request_model,omitempty"`
+}
+
+type S3MetadataParameters struct {
+
+	// Authentication and authorization method used by the storage service. When not specified, Transfer Service will attempt to determine right auth method to use.
+	// +kubebuilder:validation:Optional
+	AuthMethod *string `json:"authMethod,omitempty" tf:"auth_method,omitempty"`
+
+	// The Listing API to use for discovering objects. When not specified, Transfer Service will attempt to determine the right API to use.
+	// +kubebuilder:validation:Optional
+	ListAPI *string `json:"listApi,omitempty" tf:"list_api,omitempty"`
+
+	// The network protocol of the agent. When not specified, the default value of NetworkProtocol NETWORK_PROTOCOL_HTTPS is used.
+	// +kubebuilder:validation:Optional
+	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
+
+	// API request model used to call the storage service. When not specified, the default value of RequestModel REQUEST_MODEL_VIRTUAL_HOSTED_STYLE is used.
+	// +kubebuilder:validation:Optional
+	RequestModel *string `json:"requestModel,omitempty" tf:"request_model,omitempty"`
+}
+
 type ScheduleEndDateInitParameters struct {
 
 	// Day of month. Must be from 1 to 31 and valid for the year and month.
@@ -958,6 +1181,25 @@ type StartTimeOfDayParameters struct {
 	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
+type TransferManifestInitParameters struct {
+
+	// The GCS URI to the manifest file (CSV or line-delimited). Example: gs://my-bucket/manifest.csv
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+}
+
+type TransferManifestObservation struct {
+
+	// The GCS URI to the manifest file (CSV or line-delimited). Example: gs://my-bucket/manifest.csv
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+}
+
+type TransferManifestParameters struct {
+
+	// The GCS URI to the manifest file (CSV or line-delimited). Example: gs://my-bucket/manifest.csv
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location" tf:"location,omitempty"`
+}
+
 type TransferOptionsInitParameters struct {
 
 	// Whether objects should be deleted from the source after they are transferred to the sink. Note that this option and delete_objects_unique_in_sink are mutually exclusive.
@@ -967,6 +1209,7 @@ type TransferOptionsInitParameters struct {
 	// delete_objects_from_source_after_transfer are mutually exclusive.
 	DeleteObjectsUniqueInSink *bool `json:"deleteObjectsUniqueInSink,omitempty" tf:"delete_objects_unique_in_sink,omitempty"`
 
+	// Specifies the metadata options for running a transfer. Structure documented below.
 	MetadataOptions *MetadataOptionsInitParameters `json:"metadataOptions,omitempty" tf:"metadata_options,omitempty"`
 
 	// Whether overwriting objects that already exist in the sink is allowed.
@@ -977,71 +1220,100 @@ type TransferOptionsInitParameters struct {
 }
 
 type TransferOptionsMetadataOptionsInitParameters struct {
+
+	// Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets.
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
+	// Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer.
 	GID *string `json:"gid,omitempty" tf:"gid,omitempty"`
 
+	// Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Specifies how each file's mode attribute should be handled by the transfer.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
+	// Specifies how symlinks should be handled by the transfer.
 	Symlink *string `json:"symlink,omitempty" tf:"symlink,omitempty"`
 
+	// Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets.
 	TemporaryHold *string `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 
+	// Specifies how each object's timeCreated metadata is preserved for transfers.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
 type TransferOptionsMetadataOptionsObservation struct {
+
+	// Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets.
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
+	// Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer.
 	GID *string `json:"gid,omitempty" tf:"gid,omitempty"`
 
+	// Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Specifies how each file's mode attribute should be handled by the transfer.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
+	// Specifies how symlinks should be handled by the transfer.
 	Symlink *string `json:"symlink,omitempty" tf:"symlink,omitempty"`
 
+	// Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets.
 	TemporaryHold *string `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 
+	// Specifies how each object's timeCreated metadata is preserved for transfers.
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer.
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
 
 type TransferOptionsMetadataOptionsParameters struct {
 
+	// Specifies how each object's ACLs should be preserved for transfers between Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
+	// Specifies how each file's POSIX group ID (GID) attribute should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	GID *string `json:"gid,omitempty" tf:"gid,omitempty"`
 
+	// Specifies how each object's Cloud KMS customer-managed encryption key (CMEK) is preserved for transfers between Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Specifies how each file's mode attribute should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// Specifies the storage class to set on objects being transferred to Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
+	// Specifies how symlinks should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	Symlink *string `json:"symlink,omitempty" tf:"symlink,omitempty"`
 
+	// Specifies how each object's temporary hold status should be preserved for transfers between Google Cloud Storage buckets.
 	// +kubebuilder:validation:Optional
 	TemporaryHold *string `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 
+	// Specifies how each object's timeCreated metadata is preserved for transfers.
 	// +kubebuilder:validation:Optional
 	TimeCreated *string `json:"timeCreated,omitempty" tf:"time_created,omitempty"`
 
+	// Specifies how each file's POSIX user ID (UID) attribute should be handled by the transfer.
 	// +kubebuilder:validation:Optional
 	UID *string `json:"uid,omitempty" tf:"uid,omitempty"`
 }
@@ -1055,6 +1327,7 @@ type TransferOptionsObservation struct {
 	// delete_objects_from_source_after_transfer are mutually exclusive.
 	DeleteObjectsUniqueInSink *bool `json:"deleteObjectsUniqueInSink,omitempty" tf:"delete_objects_unique_in_sink,omitempty"`
 
+	// Specifies the metadata options for running a transfer. Structure documented below.
 	MetadataOptions *MetadataOptionsObservation `json:"metadataOptions,omitempty" tf:"metadata_options,omitempty"`
 
 	// Whether overwriting objects that already exist in the sink is allowed.
@@ -1075,6 +1348,7 @@ type TransferOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteObjectsUniqueInSink *bool `json:"deleteObjectsUniqueInSink,omitempty" tf:"delete_objects_unique_in_sink,omitempty"`
 
+	// Specifies the metadata options for running a transfer. Structure documented below.
 	// +kubebuilder:validation:Optional
 	MetadataOptions *MetadataOptionsParameters `json:"metadataOptions,omitempty" tf:"metadata_options,omitempty"`
 
@@ -1183,6 +1457,9 @@ type TransferSpecGcsDataSourceParameters struct {
 
 type TransferSpecInitParameters struct {
 
+	// An AWS S3 Compatible data source. Structure documented below.
+	AwsS3CompatibleDataSource *AwsS3CompatibleDataSourceInitParameters `json:"awsS3CompatibleDataSource,omitempty" tf:"aws_s3_compatible_data_source,omitempty"`
+
 	// An AWS S3 data source. Structure documented below.
 	AwsS3DataSource *AwsS3DataSourceInitParameters `json:"awsS3DataSource,omitempty" tf:"aws_s3_data_source,omitempty"`
 
@@ -1215,6 +1492,9 @@ type TransferSpecInitParameters struct {
 
 	// Specifies the agent pool name associated with the posix data source. When unspecified, the default name is used.
 	SourceAgentPoolName *string `json:"sourceAgentPoolName,omitempty" tf:"source_agent_pool_name,omitempty"`
+
+	// Use a manifest file to limit which object are transferred. See Storage Transfer Service manifest file format. Structure documented below.
+	TransferManifest *TransferManifestInitParameters `json:"transferManifest,omitempty" tf:"transfer_manifest,omitempty"`
 
 	// Characteristics of how to treat files from datasource and sink during job. If the option delete_objects_unique_in_sink is true, object conditions based on objects' last_modification_time are ignored and do not exclude objects in a data source or a data sink. Structure documented below.
 	TransferOptions *TransferSpecTransferOptionsInitParameters `json:"transferOptions,omitempty" tf:"transfer_options,omitempty"`
@@ -1291,6 +1571,9 @@ type TransferSpecObjectConditionsParameters struct {
 
 type TransferSpecObservation struct {
 
+	// An AWS S3 Compatible data source. Structure documented below.
+	AwsS3CompatibleDataSource *AwsS3CompatibleDataSourceObservation `json:"awsS3CompatibleDataSource,omitempty" tf:"aws_s3_compatible_data_source,omitempty"`
+
 	// An AWS S3 data source. Structure documented below.
 	AwsS3DataSource *AwsS3DataSourceObservation `json:"awsS3DataSource,omitempty" tf:"aws_s3_data_source,omitempty"`
 
@@ -1324,11 +1607,18 @@ type TransferSpecObservation struct {
 	// Specifies the agent pool name associated with the posix data source. When unspecified, the default name is used.
 	SourceAgentPoolName *string `json:"sourceAgentPoolName,omitempty" tf:"source_agent_pool_name,omitempty"`
 
+	// Use a manifest file to limit which object are transferred. See Storage Transfer Service manifest file format. Structure documented below.
+	TransferManifest *TransferManifestObservation `json:"transferManifest,omitempty" tf:"transfer_manifest,omitempty"`
+
 	// Characteristics of how to treat files from datasource and sink during job. If the option delete_objects_unique_in_sink is true, object conditions based on objects' last_modification_time are ignored and do not exclude objects in a data source or a data sink. Structure documented below.
 	TransferOptions *TransferSpecTransferOptionsObservation `json:"transferOptions,omitempty" tf:"transfer_options,omitempty"`
 }
 
 type TransferSpecParameters struct {
+
+	// An AWS S3 Compatible data source. Structure documented below.
+	// +kubebuilder:validation:Optional
+	AwsS3CompatibleDataSource *AwsS3CompatibleDataSourceParameters `json:"awsS3CompatibleDataSource,omitempty" tf:"aws_s3_compatible_data_source,omitempty"`
 
 	// An AWS S3 data source. Structure documented below.
 	// +kubebuilder:validation:Optional
@@ -1374,6 +1664,10 @@ type TransferSpecParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceAgentPoolName *string `json:"sourceAgentPoolName,omitempty" tf:"source_agent_pool_name,omitempty"`
 
+	// Use a manifest file to limit which object are transferred. See Storage Transfer Service manifest file format. Structure documented below.
+	// +kubebuilder:validation:Optional
+	TransferManifest *TransferManifestParameters `json:"transferManifest,omitempty" tf:"transfer_manifest,omitempty"`
+
 	// Characteristics of how to treat files from datasource and sink during job. If the option delete_objects_unique_in_sink is true, object conditions based on objects' last_modification_time are ignored and do not exclude objects in a data source or a data sink. Structure documented below.
 	// +kubebuilder:validation:Optional
 	TransferOptions *TransferSpecTransferOptionsParameters `json:"transferOptions,omitempty" tf:"transfer_options,omitempty"`
@@ -1388,6 +1682,7 @@ type TransferSpecTransferOptionsInitParameters struct {
 	// delete_objects_from_source_after_transfer are mutually exclusive.
 	DeleteObjectsUniqueInSink *bool `json:"deleteObjectsUniqueInSink,omitempty" tf:"delete_objects_unique_in_sink,omitempty"`
 
+	// Specifies the metadata options for running a transfer. Structure documented below.
 	MetadataOptions *TransferOptionsMetadataOptionsInitParameters `json:"metadataOptions,omitempty" tf:"metadata_options,omitempty"`
 
 	// Whether overwriting objects that already exist in the sink is allowed.
@@ -1406,6 +1701,7 @@ type TransferSpecTransferOptionsObservation struct {
 	// delete_objects_from_source_after_transfer are mutually exclusive.
 	DeleteObjectsUniqueInSink *bool `json:"deleteObjectsUniqueInSink,omitempty" tf:"delete_objects_unique_in_sink,omitempty"`
 
+	// Specifies the metadata options for running a transfer. Structure documented below.
 	MetadataOptions *TransferOptionsMetadataOptionsObservation `json:"metadataOptions,omitempty" tf:"metadata_options,omitempty"`
 
 	// Whether overwriting objects that already exist in the sink is allowed.
@@ -1426,6 +1722,7 @@ type TransferSpecTransferOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteObjectsUniqueInSink *bool `json:"deleteObjectsUniqueInSink,omitempty" tf:"delete_objects_unique_in_sink,omitempty"`
 
+	// Specifies the metadata options for running a transfer. Structure documented below.
 	// +kubebuilder:validation:Optional
 	MetadataOptions *TransferOptionsMetadataOptionsParameters `json:"metadataOptions,omitempty" tf:"metadata_options,omitempty"`
 

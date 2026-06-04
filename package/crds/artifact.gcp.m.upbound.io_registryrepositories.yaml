@@ -136,6 +136,11 @@ spec:
                       If true, the cleanup pipeline is prevented from deleting versions in this
                       repository.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -755,6 +760,11 @@ spec:
                       If true, the cleanup pipeline is prevented from deleting versions in this
                       repository.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -1423,6 +1433,11 @@ spec:
                   createTime:
                     description: The time when the repository was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -1514,6 +1529,9 @@ spec:
                     description: |-
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
+                    type: string
+                  registryUri:
+                    description: 'The repository endpoint, for example: us-docker.pkg.dev/my-proj/my-repo.'
                     type: string
                   remoteRepositoryConfig:
                     description: |-

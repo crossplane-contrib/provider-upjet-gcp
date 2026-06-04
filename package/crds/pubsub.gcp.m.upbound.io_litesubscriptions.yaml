@@ -60,6 +60,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deliveryConfig:
                     description: |-
                       The settings for this subscription's message delivery.
@@ -181,6 +186,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deliveryConfig:
                     description: |-
                       The settings for this subscription's message delivery.
@@ -347,6 +357,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deliveryConfig:
                     description: |-
                       The settings for this subscription's message delivery.

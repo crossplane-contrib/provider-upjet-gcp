@@ -2044,6 +2044,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   forceDelete:
                     description: |-
                       By default, you can only delete inactive jobs within
@@ -2626,6 +2631,8 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  waitForCompletion:
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -2640,6 +2647,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   forceDelete:
                     description: |-
                       By default, you can only delete inactive jobs within
@@ -3222,6 +3234,8 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  waitForCompletion:
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -3319,6 +3333,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   driverControlsFilesUri:
                     description: If present, the location of miscellaneous control
                       files which may be used as part of job setup and handling. If
@@ -3799,6 +3818,8 @@ spec:
                       the resource and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
+                  waitForCompletion:
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

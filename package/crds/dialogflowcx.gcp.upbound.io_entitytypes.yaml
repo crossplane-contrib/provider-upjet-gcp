@@ -77,6 +77,11 @@ spec:
                   autoExpansionMode:
                     description: Represents kinds of entities.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The human-readable name of the entity type, unique
                       within the agent.
@@ -232,6 +237,11 @@ spec:
                 properties:
                   autoExpansionMode:
                     description: Represents kinds of entities.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   displayName:
                     description: The human-readable name of the entity type, unique
@@ -479,6 +489,11 @@ spec:
                 properties:
                   autoExpansionMode:
                     description: Represents kinds of entities.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   displayName:
                     description: The human-readable name of the entity type, unique

@@ -20,6 +20,10 @@ type JobInitParameters struct {
 	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.
 	EnableStreamingEngine *bool `json:"enableStreamingEngine,omitempty" tf:"enable_streaming_engine,omitempty"`
 
@@ -87,6 +91,10 @@ type JobObservation struct {
 	// List of experiments that should be used by the job. An example value is ["enable_stackdriver_agent_metrics"].
 	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -174,6 +182,11 @@ type JobParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AdditionalExperiments []*string `json:"additionalExperiments,omitempty" tf:"additional_experiments,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Enable/disable the use of Streaming Engine for the job. Note that Streaming Engine is enabled by default for pipelines developed against the Beam SDK for Python v2.21.0 or later when using Python 3.
 	// +kubebuilder:validation:Optional

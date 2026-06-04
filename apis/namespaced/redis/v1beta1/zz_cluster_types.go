@@ -86,12 +86,6 @@ type CACertsParameters struct {
 
 type ClusterInitParameters struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -103,6 +97,10 @@ type ClusterInitParameters struct {
 
 	// field to the configuration file to match the latest value in the state.
 	CrossClusterReplicationConfig *CrossClusterReplicationConfigInitParameters `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Indicates if the cluster is deletion protected or not.
 	// If the value if set to true, any delete cluster operation will fail.
@@ -116,9 +114,19 @@ type ClusterInitParameters struct {
 	// The KMS key used to encrypt the at-rest data of the cluster.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -126,7 +134,7 @@ type ClusterInitParameters struct {
 
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
-	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
+	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHCPU_MEDIUM, REDIS_STANDARD_LARGE, REDIS_HIGHMEM_XLARGE, REDIS_HIGHMEM_2XLARGE, REDIS_STANDARD_SMALL.
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
 	// Persistence config (RDB, AOF) for the cluster.
@@ -152,6 +160,26 @@ type ClusterInitParameters struct {
 	// Optional. The number of replica nodes per shard.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
+	// The serverCaMode for the TLS enabled Redis cluster.
+	// If not provided, SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA, SERVER_CA_MODE_GOOGLE_MANAGED_SHARED_CA, SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+
 	// Required. Number of shards for the Redis cluster.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
@@ -168,12 +196,6 @@ type ClusterInitParameters struct {
 
 type ClusterObservation struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -182,6 +204,9 @@ type ClusterObservation struct {
 	// The automated backup config for a instance.
 	// Structure is documented below.
 	AutomatedBackupConfig *AutomatedBackupConfigObservation `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
+
+	// This field is used to determine the available maintenance versions for the self service update.
+	AvailableMaintenanceVersions []*string `json:"availableMaintenanceVersions,omitempty" tf:"available_maintenance_versions,omitempty"`
 
 	// The backup collection full resource name.
 	// Example: projects/{project}/locations/{location}/backupCollections/{collection}
@@ -195,6 +220,10 @@ type ClusterObservation struct {
 	// field to the configuration file to match the latest value in the state.
 	CrossClusterReplicationConfig *CrossClusterReplicationConfigObservation `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Indicates if the cluster is deletion protected or not.
 	// If the value if set to true, any delete cluster operation will fail.
 	// Default value is true.
@@ -206,6 +235,12 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	DiscoveryEndpoints []DiscoveryEndpointsObservation `json:"discoveryEndpoints,omitempty" tf:"discovery_endpoints,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// This field represents the actual maintenance version of the cluster.
+	EffectiveMaintenanceVersion *string `json:"effectiveMaintenanceVersion,omitempty" tf:"effective_maintenance_version,omitempty"`
+
 	// Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
 	// Structure is documented below.
 	GcsSource *GcsSourceObservation `json:"gcsSource,omitempty" tf:"gcs_source,omitempty"`
@@ -216,6 +251,12 @@ type ClusterObservation struct {
 	// The KMS key used to encrypt the at-rest data of the cluster.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
@@ -223,6 +264,10 @@ type ClusterObservation struct {
 	// Upcoming maintenance schedule.
 	// Structure is documented below.
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -234,7 +279,7 @@ type ClusterObservation struct {
 
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
-	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
+	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHCPU_MEDIUM, REDIS_STANDARD_LARGE, REDIS_HIGHMEM_XLARGE, REDIS_HIGHMEM_2XLARGE, REDIS_STANDARD_SMALL.
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
 	// Persistence config (RDB, AOF) for the cluster.
@@ -274,6 +319,16 @@ type ClusterObservation struct {
 	// Optional. The number of replica nodes per shard.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
+	// The serverCaMode for the TLS enabled Redis cluster.
+	// If not provided, SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA, SERVER_CA_MODE_GOOGLE_MANAGED_SHARED_CA, SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
 	// Required. Number of shards for the Redis cluster.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
@@ -286,6 +341,11 @@ type ClusterObservation struct {
 	// Output only. Additional information about the current state of the cluster.
 	// Structure is documented below.
 	StateInfo []StateInfoObservation `json:"stateInfo,omitempty" tf:"state_info,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
 	// Optional. The in-transit encryption for the Redis cluster.
 	// If not provided, encryption is disabled for the cluster.
@@ -303,13 +363,6 @@ type ClusterObservation struct {
 
 type ClusterParameters struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	// +kubebuilder:validation:Optional
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -324,6 +377,11 @@ type ClusterParameters struct {
 	// field to the configuration file to match the latest value in the state.
 	// +kubebuilder:validation:Optional
 	CrossClusterReplicationConfig *CrossClusterReplicationConfigParameters `json:"crossClusterReplicationConfig,omitempty" tf:"cross_cluster_replication_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Indicates if the cluster is deletion protected or not.
 	// If the value if set to true, any delete cluster operation will fail.
@@ -340,10 +398,22 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	// +kubebuilder:validation:Optional
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -352,7 +422,7 @@ type ClusterParameters struct {
 
 	// The nodeType for the Redis cluster.
 	// If not provided, REDIS_HIGHMEM_MEDIUM will be used as default
-	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHMEM_XLARGE, REDIS_STANDARD_SMALL.
+	// Possible values are: REDIS_SHARED_CORE_NANO, REDIS_HIGHMEM_MEDIUM, REDIS_HIGHCPU_MEDIUM, REDIS_STANDARD_LARGE, REDIS_HIGHMEM_XLARGE, REDIS_HIGHMEM_2XLARGE, REDIS_STANDARD_SMALL.
 	// +kubebuilder:validation:Optional
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
@@ -387,6 +457,28 @@ type ClusterParameters struct {
 	// Optional. The number of replica nodes per shard.
 	// +kubebuilder:validation:Optional
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
+	// The serverCaMode for the TLS enabled Redis cluster.
+	// If not provided, SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA, SERVER_CA_MODE_GOOGLE_MANAGED_SHARED_CA, SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	// +kubebuilder:validation:Optional
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the Redis cluster.
 	// +kubebuilder:validation:Optional

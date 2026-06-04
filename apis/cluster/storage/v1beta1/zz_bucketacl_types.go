@@ -30,6 +30,10 @@ type BucketACLInitParameters struct {
 	// Configure this ACL to be the default ACL.
 	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The canned GCS ACL to apply. Must be set if role_entity is not.
 	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
 
@@ -44,6 +48,10 @@ type BucketACLObservation struct {
 
 	// Configure this ACL to be the default ACL.
 	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -72,6 +80,11 @@ type BucketACLParameters struct {
 	// Configure this ACL to be the default ACL.
 	// +kubebuilder:validation:Optional
 	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The canned GCS ACL to apply. Must be set if role_entity is not.
 	// +kubebuilder:validation:Optional

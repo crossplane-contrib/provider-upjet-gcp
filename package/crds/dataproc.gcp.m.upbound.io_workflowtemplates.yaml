@@ -70,16 +70,23 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   encryptionConfig:
-                    description: Encryption settings for the cluster.
+                    description: Encryption settings for encrypting workflow template
+                      job arguments. Structure is documented below
                     properties:
                       kmsKey:
-                        description: The uri of the KMS key used to encrypt various
-                          sensitive files.
+                        description: The Cloud KMS key name to use for encrypting
+                          workflow template job arguments.
                         type: string
                     type: object
                   jobs:
-                    description: Required. The Directed Acyclic Graph of Jobs to submit.
+                    description: The Directed Acyclic Graph of Jobs to submit. Structure
+                      is documented below
                     items:
                       properties:
                         hadoopJob:
@@ -673,7 +680,7 @@ spec:
                       type: object
                     type: array
                   placement:
-                    description: Required. WorkflowTemplate scheduling information.
+                    description: WorkflowTemplate scheduling information.
                     properties:
                       clusterSelector:
                         description: A selector that chooses target cluster for jobs
@@ -727,7 +734,9 @@ spec:
                                     type: string
                                 type: object
                               encryptionConfig:
-                                description: Encryption settings for the cluster.
+                                description: Encryption settings for encrypting workflow
+                                  template job arguments. Structure is documented
+                                  below
                                 properties:
                                   gcePdKmsKeyName:
                                     description: The Cloud KMS key name to use for
@@ -810,14 +819,14 @@ spec:
                                         type: array
                                     type: object
                                   serviceAccount:
-                                    description: The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account)
+                                    description: The (https://docs.cloud.google.com/compute/docs/access/service-accounts#default_service_account)
                                       is used.
                                     type: string
                                   serviceAccountScopes:
                                     description: 'The URIs of service account scopes
                                       to be included in Compute Engine instances.
                                       The following base set of scopes is always included:
-                                      * https://www.googleapis.com/auth/cloud.useraccounts.readonly
+                                      * https://www.googleapis.com/auth/docs.cloud.useraccounts.readonly
                                       * https://www.googleapis.com/auth/devstorage.read_write
                                       * https://www.googleapis.com/auth/logging.write
                                       If no scopes are specified, the following defaults
@@ -940,7 +949,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -983,7 +992,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -1021,7 +1030,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -1064,7 +1073,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -1247,7 +1256,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -1290,7 +1299,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -1366,16 +1375,23 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   encryptionConfig:
-                    description: Encryption settings for the cluster.
+                    description: Encryption settings for encrypting workflow template
+                      job arguments. Structure is documented below
                     properties:
                       kmsKey:
-                        description: The uri of the KMS key used to encrypt various
-                          sensitive files.
+                        description: The Cloud KMS key name to use for encrypting
+                          workflow template job arguments.
                         type: string
                     type: object
                   jobs:
-                    description: Required. The Directed Acyclic Graph of Jobs to submit.
+                    description: The Directed Acyclic Graph of Jobs to submit. Structure
+                      is documented below
                     items:
                       properties:
                         hadoopJob:
@@ -1966,7 +1982,7 @@ spec:
                       type: object
                     type: array
                   placement:
-                    description: Required. WorkflowTemplate scheduling information.
+                    description: WorkflowTemplate scheduling information.
                     properties:
                       clusterSelector:
                         description: A selector that chooses target cluster for jobs
@@ -2020,7 +2036,9 @@ spec:
                                     type: string
                                 type: object
                               encryptionConfig:
-                                description: Encryption settings for the cluster.
+                                description: Encryption settings for encrypting workflow
+                                  template job arguments. Structure is documented
+                                  below
                                 properties:
                                   gcePdKmsKeyName:
                                     description: The Cloud KMS key name to use for
@@ -2103,14 +2121,14 @@ spec:
                                         type: array
                                     type: object
                                   serviceAccount:
-                                    description: The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account)
+                                    description: The (https://docs.cloud.google.com/compute/docs/access/service-accounts#default_service_account)
                                       is used.
                                     type: string
                                   serviceAccountScopes:
                                     description: 'The URIs of service account scopes
                                       to be included in Compute Engine instances.
                                       The following base set of scopes is always included:
-                                      * https://www.googleapis.com/auth/cloud.useraccounts.readonly
+                                      * https://www.googleapis.com/auth/docs.cloud.useraccounts.readonly
                                       * https://www.googleapis.com/auth/devstorage.read_write
                                       * https://www.googleapis.com/auth/logging.write
                                       If no scopes are specified, the following defaults
@@ -2233,7 +2251,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -2276,7 +2294,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -2314,7 +2332,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -2357,7 +2375,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -2540,7 +2558,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -2583,7 +2601,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -2719,24 +2737,31 @@ spec:
                       if the workflow was running on a (/dataproc/docs/concepts/workflows/using-workflows#configuring_or_selecting_a_cluster),
                       the cluster is deleted.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
                   encryptionConfig:
-                    description: Encryption settings for the cluster.
+                    description: Encryption settings for encrypting workflow template
+                      job arguments. Structure is documented below
                     properties:
                       kmsKey:
-                        description: The uri of the KMS key used to encrypt various
-                          sensitive files.
+                        description: The Cloud KMS key name to use for encrypting
+                          workflow template job arguments.
                         type: string
                     type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/workflowTemplates/{{name}}
                     type: string
                   jobs:
-                    description: Required. The Directed Acyclic Graph of Jobs to submit.
+                    description: The Directed Acyclic Graph of Jobs to submit. Structure
+                      is documented below
                     items:
                       properties:
                         hadoopJob:
@@ -3330,7 +3355,7 @@ spec:
                       type: object
                     type: array
                   placement:
-                    description: Required. WorkflowTemplate scheduling information.
+                    description: WorkflowTemplate scheduling information.
                     properties:
                       clusterSelector:
                         description: A selector that chooses target cluster for jobs
@@ -3384,7 +3409,9 @@ spec:
                                     type: string
                                 type: object
                               encryptionConfig:
-                                description: Encryption settings for the cluster.
+                                description: Encryption settings for encrypting workflow
+                                  template job arguments. Structure is documented
+                                  below
                                 properties:
                                   gcePdKmsKeyName:
                                     description: The Cloud KMS key name to use for
@@ -3475,14 +3502,14 @@ spec:
                                         type: array
                                     type: object
                                   serviceAccount:
-                                    description: The (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account)
+                                    description: The (https://docs.cloud.google.com/compute/docs/access/service-accounts#default_service_account)
                                       is used.
                                     type: string
                                   serviceAccountScopes:
                                     description: 'The URIs of service account scopes
                                       to be included in Compute Engine instances.
                                       The following base set of scopes is always included:
-                                      * https://www.googleapis.com/auth/cloud.useraccounts.readonly
+                                      * https://www.googleapis.com/auth/docs.cloud.useraccounts.readonly
                                       * https://www.googleapis.com/auth/devstorage.read_write
                                       * https://www.googleapis.com/auth/logging.write
                                       If no scopes are specified, the following defaults
@@ -3612,7 +3639,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -3666,7 +3693,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -3678,9 +3705,8 @@ spec:
                                     items:
                                       properties:
                                         instanceGroupManagerName:
-                                          description: 'Output only. The resource
-                                            name of the workflow template, as described
-                                            in https://cloud.google.com/apis/design/resource_names.
+                                          description: 'The resource name of the workflow
+                                            template, as described in https://docs.cloud.google.com/apis/design/resource_names.
                                             * For projects.regions.workflowTemplates,
                                             the resource name of the template has
                                             the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id}
@@ -3689,9 +3715,8 @@ spec:
                                             the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}'
                                           type: string
                                         instanceTemplateName:
-                                          description: 'Output only. The resource
-                                            name of the workflow template, as described
-                                            in https://cloud.google.com/apis/design/resource_names.
+                                          description: 'The resource name of the workflow
+                                            template, as described in https://docs.cloud.google.com/apis/design/resource_names.
                                             * For projects.regions.workflowTemplates,
                                             the resource name of the template has
                                             the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id}
@@ -3735,7 +3760,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -3789,7 +3814,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -3801,9 +3826,8 @@ spec:
                                     items:
                                       properties:
                                         instanceGroupManagerName:
-                                          description: 'Output only. The resource
-                                            name of the workflow template, as described
-                                            in https://cloud.google.com/apis/design/resource_names.
+                                          description: 'The resource name of the workflow
+                                            template, as described in https://docs.cloud.google.com/apis/design/resource_names.
                                             * For projects.regions.workflowTemplates,
                                             the resource name of the template has
                                             the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id}
@@ -3812,9 +3836,8 @@ spec:
                                             the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}'
                                           type: string
                                         instanceTemplateName:
-                                          description: 'Output only. The resource
-                                            name of the workflow template, as described
-                                            in https://cloud.google.com/apis/design/resource_names.
+                                          description: 'The resource name of the workflow
+                                            template, as described in https://docs.cloud.google.com/apis/design/resource_names.
                                             * For projects.regions.workflowTemplates,
                                             the resource name of the template has
                                             the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id}
@@ -4003,7 +4026,7 @@ spec:
                                         acceleratorType:
                                           description: Full URL, partial URI, or short
                                             name of the accelerator type resource
-                                            to expose to this instance. See (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                            to expose to this instance. See (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                             feature, you must use the short name of
                                             the accelerator type resource, for example,
                                             nvidia-tesla-k80.
@@ -4057,7 +4080,7 @@ spec:
                                   machineType:
                                     description: 'The Compute Engine machine type
                                       used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
+                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
                                       feature, you must use the short name of the
                                       machine type resource, for example, n1-standard-2`.'
                                     type: string
@@ -4069,9 +4092,8 @@ spec:
                                     items:
                                       properties:
                                         instanceGroupManagerName:
-                                          description: 'Output only. The resource
-                                            name of the workflow template, as described
-                                            in https://cloud.google.com/apis/design/resource_names.
+                                          description: 'The resource name of the workflow
+                                            template, as described in https://docs.cloud.google.com/apis/design/resource_names.
                                             * For projects.regions.workflowTemplates,
                                             the resource name of the template has
                                             the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id}
@@ -4080,9 +4102,8 @@ spec:
                                             the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id}'
                                           type: string
                                         instanceTemplateName:
-                                          description: 'Output only. The resource
-                                            name of the workflow template, as described
-                                            in https://cloud.google.com/apis/design/resource_names.
+                                          description: 'The resource name of the workflow
+                                            template, as described in https://docs.cloud.google.com/apis/design/resource_names.
                                             * For projects.regions.workflowTemplates,
                                             the resource name of the template has
                                             the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id}

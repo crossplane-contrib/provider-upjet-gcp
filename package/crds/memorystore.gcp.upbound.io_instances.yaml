@@ -215,6 +215,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Optional. If set to true deletion of the instance
                       will fail.
@@ -314,8 +319,6 @@ spec:
                       type: object
                     type: array
                   desiredPscAutoConnections:
-                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
-                      instead.
                     items:
                       properties:
                         network:
@@ -417,6 +420,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Managed backup source for the instance.
@@ -439,9 +447,15 @@ spec:
                       Optional. Machine type for individual nodes of the instance.
                       Possible values:
                       SHARED_CORE_NANO
+                      CUSTOM_PICO
+                      CUSTOM_MICRO
+                      CUSTOM_MINI
                       HIGHMEM_MEDIUM
+                      HIGHCPU_MEDIUM
                       HIGHMEM_XLARGE
                       STANDARD_SMALL
+                      STANDARD_LARGE
+                      HIGHMEM_2XLARGE
                     type: string
                   persistenceConfig:
                     description: |-
@@ -502,6 +516,92 @@ spec:
                     description: Optional. Number of replica nodes per shard. If omitted
                       the default is 0 replicas.
                     type: number
+                  serverCaMode:
+                    description: |-
+                      The serverCaMode for the TLS enabled Memorystore instance.
+                      If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+                      Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+                    type: string
+                  serverCaPool:
+                    description: |-
+                      The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+                      as the server_ca_mode.
+                      Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+                    type: string
+                  serverCaPoolRef:
+                    description: Reference to a CAPool in privateca to populate serverCaPool.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  serverCaPoolSelector:
+                    description: Selector for a CAPool in privateca to populate serverCaPool.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   shardCount:
                     description: Required. Number of shards for the instance.
                     type: number
@@ -689,6 +789,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Optional. If set to true deletion of the instance
                       will fail.
@@ -788,8 +893,6 @@ spec:
                       type: object
                     type: array
                   desiredPscAutoConnections:
-                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
-                      instead.
                     items:
                       properties:
                         network:
@@ -886,6 +989,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Managed backup source for the instance.
@@ -908,9 +1016,15 @@ spec:
                       Optional. Machine type for individual nodes of the instance.
                       Possible values:
                       SHARED_CORE_NANO
+                      CUSTOM_PICO
+                      CUSTOM_MICRO
+                      CUSTOM_MINI
                       HIGHMEM_MEDIUM
+                      HIGHCPU_MEDIUM
                       HIGHMEM_XLARGE
                       STANDARD_SMALL
+                      STANDARD_LARGE
+                      HIGHMEM_2XLARGE
                     type: string
                   persistenceConfig:
                     description: |-
@@ -971,6 +1085,92 @@ spec:
                     description: Optional. Number of replica nodes per shard. If omitted
                       the default is 0 replicas.
                     type: number
+                  serverCaMode:
+                    description: |-
+                      The serverCaMode for the TLS enabled Memorystore instance.
+                      If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+                      Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+                    type: string
+                  serverCaPool:
+                    description: |-
+                      The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+                      as the server_ca_mode.
+                      Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+                    type: string
+                  serverCaPoolRef:
+                    description: Reference to a CAPool in privateca to populate serverCaPool.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  serverCaPoolSelector:
+                    description: Selector for a CAPool in privateca to populate serverCaPool.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   shardCount:
                     description: Required. Number of shards for the instance.
                     type: number
@@ -1132,6 +1332,12 @@ spec:
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s". The default_value is "3024000s"
                         type: string
                     type: object
+                  availableMaintenanceVersions:
+                    description: This field is used to determine the available maintenance
+                      versions for the self service update.
+                    items:
+                      type: string
+                    type: array
                   backupCollection:
                     description: |-
                       The backup collection full resource name.
@@ -1227,6 +1433,11 @@ spec:
                           The last time cross instance replication config was updated.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Optional. If set to true deletion of the instance
                       will fail.
@@ -1250,8 +1461,6 @@ spec:
                       type: object
                     type: array
                   desiredPscAutoConnections:
-                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
-                      instead.
                     items:
                       properties:
                         network:
@@ -1298,6 +1507,10 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  effectiveMaintenanceVersion:
+                    description: This field represents the actual maintenance version
+                      of the cluster.
+                    type: string
                   endpoints:
                     description: |-
                       Endpoints for the instance.
@@ -1509,6 +1722,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Managed backup source for the instance.
@@ -1573,9 +1791,15 @@ spec:
                       Optional. Machine type for individual nodes of the instance.
                       Possible values:
                       SHARED_CORE_NANO
+                      CUSTOM_PICO
+                      CUSTOM_MICRO
+                      CUSTOM_MINI
                       HIGHMEM_MEDIUM
+                      HIGHCPU_MEDIUM
                       HIGHMEM_XLARGE
                       STANDARD_SMALL
+                      STANDARD_LARGE
+                      HIGHMEM_2XLARGE
                     type: string
                   persistenceConfig:
                     description: |-
@@ -1719,6 +1943,18 @@ spec:
                     description: Optional. Number of replica nodes per shard. If omitted
                       the default is 0 replicas.
                     type: number
+                  serverCaMode:
+                    description: |-
+                      The serverCaMode for the TLS enabled Memorystore instance.
+                      If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+                      Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+                    type: string
+                  serverCaPool:
+                    description: |-
+                      The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+                      as the server_ca_mode.
+                      Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+                    type: string
                   shardCount:
                     description: Required. Number of shards for the instance.
                     type: number

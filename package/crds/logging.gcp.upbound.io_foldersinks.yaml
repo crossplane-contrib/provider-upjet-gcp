@@ -626,6 +626,11 @@ spec:
                           has to be used instead. In both cases, tables are sharded based on UTC timezone.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
@@ -791,6 +796,11 @@ spec:
                           has to be used instead. In both cases, tables are sharded based on UTC timezone.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
@@ -958,6 +968,11 @@ spec:
                           has to be used instead. In both cases, tables are sharded based on UTC timezone.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.

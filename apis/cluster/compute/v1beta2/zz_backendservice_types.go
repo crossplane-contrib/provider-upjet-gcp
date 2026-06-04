@@ -75,7 +75,7 @@ type BackendInitParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS, IN_FLIGHT.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -180,7 +180,7 @@ type BackendObservation struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS, IN_FLIGHT.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -275,7 +275,7 @@ type BackendParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS, IN_FLIGHT.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -665,6 +665,10 @@ type BackendServiceInitParameters struct {
 	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -764,6 +768,10 @@ type BackendServiceInitParameters struct {
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *BackendServiceParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Name of backend port. The same name should appear in the instance
 	// groups referenced by this service. Required when the load balancing
@@ -874,6 +882,10 @@ type BackendServiceObservation struct {
 	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -973,6 +985,10 @@ type BackendServiceObservation struct {
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *BackendServiceParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Name of backend port. The same name should appear in the instance
 	// groups referenced by this service. Required when the load balancing
@@ -1093,6 +1109,11 @@ type BackendServiceParameters struct {
 	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1207,6 +1228,11 @@ type BackendServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	OutlierDetection *OutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *BackendServiceParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// Name of backend port. The same name should appear in the instance
 	// groups referenced by this service. Required when the load balancing
 	// scheme is EXTERNAL.
@@ -1266,6 +1292,34 @@ type BackendServiceParameters struct {
 	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+}
+
+type BackendServiceParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type BackendServiceParamsObservation struct {
+
+	// Resource manager tags to be bound to the backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type BackendServiceParamsParameters struct {
+
+	// Resource manager tags to be bound to the backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type BaseEjectionTimeInitParameters struct {

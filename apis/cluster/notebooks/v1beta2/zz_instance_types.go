@@ -112,6 +112,10 @@ type InstanceInitParameters struct {
 	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Desired state of the Notebook Instance. Set this field to ACTIVE to start the Instance, and STOPPED to stop the Instance.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
@@ -243,6 +247,10 @@ type InstanceObservation struct {
 	// Possible disk types for notebook instances.
 	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Desired state of the Notebook Instance. Set this field to ACTIVE to start the Instance, and STOPPED to stop the Instance.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
@@ -404,6 +412,11 @@ type InstanceParameters struct {
 	// Possible values are: DISK_TYPE_UNSPECIFIED, PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
 	// +kubebuilder:validation:Optional
 	DataDiskType *string `json:"dataDiskType,omitempty" tf:"data_disk_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Desired state of the Notebook Instance. Set this field to ACTIVE to start the Instance, and STOPPED to stop the Instance.
 	// +kubebuilder:validation:Optional

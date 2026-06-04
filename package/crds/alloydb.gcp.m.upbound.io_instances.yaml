@@ -196,6 +196,28 @@ spec:
                             type: string
                         type: object
                     type: object
+                  connectionPoolConfig:
+                    description: |-
+                      Configuration for Managed Connection Pool.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Whether to enabled Managed Connection Pool.
+                        type: boolean
+                      flags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Flags for configuring managed connection pooling when it is enabled.
+                          These flags will only be set if connection_pool_config.enabled is
+                          true.
+                          Please see
+                          https://cloud.google.com/alloydb/docs/configure-managed-connection-pooling#configuration-options
+                          for a comprehensive list of flags that can be set. For example,
+                          "connection-pooling-pool-mode" would be "pool_mode".
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   databaseFlags:
                     additionalProperties:
                       type: string
@@ -206,6 +228,11 @@ spec:
                       Flags set on read instance may or may not be present on primary.
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-settable and human-readable display name for
                       the Instance.
@@ -516,6 +543,28 @@ spec:
                             type: string
                         type: object
                     type: object
+                  connectionPoolConfig:
+                    description: |-
+                      Configuration for Managed Connection Pool.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Whether to enabled Managed Connection Pool.
+                        type: boolean
+                      flags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Flags for configuring managed connection pooling when it is enabled.
+                          These flags will only be set if connection_pool_config.enabled is
+                          true.
+                          Please see
+                          https://cloud.google.com/alloydb/docs/configure-managed-connection-pooling#configuration-options
+                          for a comprehensive list of flags that can be set. For example,
+                          "connection-pooling-pool-mode" would be "pool_mode".
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   databaseFlags:
                     additionalProperties:
                       type: string
@@ -526,6 +575,11 @@ spec:
                       Flags set on read instance may or may not be present on primary.
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-settable and human-readable display name for
                       the Instance.
@@ -891,6 +945,33 @@ spec:
                       Identifies the alloydb cluster. Must be in the format
                       'projects/{project}/locations/{location}/clusters/{cluster_id}'
                     type: string
+                  connectionPoolConfig:
+                    description: |-
+                      Configuration for Managed Connection Pool.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Whether to enabled Managed Connection Pool.
+                        type: boolean
+                      flags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Flags for configuring managed connection pooling when it is enabled.
+                          These flags will only be set if connection_pool_config.enabled is
+                          true.
+                          Please see
+                          https://cloud.google.com/alloydb/docs/configure-managed-connection-pooling#configuration-options
+                          for a comprehensive list of flags that can be set. For example,
+                          "connection-pooling-pool-mode" would be "pool_mode".
+                        type: object
+                        x-kubernetes-map-type: granular
+                      poolerCount:
+                        description: |-
+                          (Output)
+                          The number of running poolers per instance.
+                        type: number
+                    type: object
                   createTime:
                     description: Time the Instance was created in UTC.
                     type: string
@@ -904,6 +985,11 @@ spec:
                       Flags set on read instance may or may not be present on primary.
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-settable and human-readable display name for
                       the Instance.

@@ -81,6 +81,15 @@ spec:
                           By default, the task is sent to the version which is the default version when the task is attempted.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
+                  desiredState:
+                    description: The desired state of the queue. Use this to pause
+                      and resume the queue.
+                    type: string
                   httpTarget:
                     description: |-
                       Modifies HTTP target for HTTP tasks.
@@ -582,6 +591,15 @@ spec:
                           By default, the task is sent to the version which is the default version when the task is attempted.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
+                  desiredState:
+                    description: The desired state of the queue. Use this to pause
+                      and resume the queue.
+                    type: string
                   httpTarget:
                     description: |-
                       Modifies HTTP target for HTTP tasks.
@@ -1133,6 +1151,15 @@ spec:
                           By default, the task is sent to the version which is the default version when the task is attempted.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
+                  desiredState:
+                    description: The desired state of the queue. Use this to pause
+                      and resume the queue.
+                    type: string
                   httpTarget:
                     description: |-
                       Modifies HTTP target for HTTP tasks.
@@ -1362,6 +1389,9 @@ spec:
                           default and means that no operations are logged.
                         type: number
                     type: object
+                  state:
+                    description: The current state of the queue.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

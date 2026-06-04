@@ -962,6 +962,10 @@ type InspectConfigParameters struct {
 
 type InspectTemplateInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the inspect template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -982,6 +986,10 @@ type InspectTemplateInitParameters struct {
 }
 
 type InspectTemplateObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the inspect template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1009,6 +1017,11 @@ type InspectTemplateObservation struct {
 }
 
 type InspectTemplateParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the inspect template.
 	// +kubebuilder:validation:Optional

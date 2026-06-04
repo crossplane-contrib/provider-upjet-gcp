@@ -103,21 +103,21 @@ type RegionDiskDiskEncryptionKeyParameters struct {
 type RegionDiskGuestOsFeaturesInitParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RegionDiskGuestOsFeaturesObservation struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RegionDiskGuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -140,6 +140,10 @@ type RegionDiskInitParameters struct {
 	// This will set a custom name prefix for the snapshot that's created when the disk is deleted.
 	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -160,6 +164,17 @@ type RegionDiskInitParameters struct {
 	// Applicable only for bootable disks.
 	// Structure is documented below.
 	GuestOsFeatures []RegionDiskGuestOsFeaturesInitParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
+	// The image from which to initialize this disk. This can be
+	// one of: the image's self_link, projects/{project}/global/images/{image},
+	// projects/{project}/global/images/family/{family}, global/images/{image},
+	// global/images/family/{family}, family/{family}, {project}/{family},
+	// {project}/{image}, {family}, or {image}. If referred by family, the
+	// images names must include the family name. If they don't, use the
+	// google_compute_image data source.
+	// For instance, the image centos-6-v20180104 includes its family name centos-6.
+	// These images can be referred by family name here.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
 	// +mapType=granular
@@ -219,6 +234,11 @@ type RegionDiskInitParameters struct {
 	// For example, the following are valid values:
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceImageEncryptionKey *RegionDiskSourceImageEncryptionKeyInitParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
@@ -251,6 +271,10 @@ type RegionDiskObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -281,6 +305,17 @@ type RegionDiskObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/disks/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The image from which to initialize this disk. This can be
+	// one of: the image's self_link, projects/{project}/global/images/{image},
+	// projects/{project}/global/images/family/{family}, global/images/{image},
+	// global/images/family/{family}, family/{family}, {project}/{family},
+	// {project}/{image}, {family}, or {image}. If referred by family, the
+	// images names must include the family name. If they don't, use the
+	// google_compute_image data source.
+	// For instance, the image centos-6-v20180104 includes its family name centos-6.
+	// These images can be referred by family name here.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// The fingerprint used for optimistic locking of this resource.  Used
 	// internally during updates.
@@ -351,6 +386,18 @@ type RegionDiskObservation struct {
 	// or a previous instance of a given disk name.
 	SourceDiskID *string `json:"sourceDiskId,omitempty" tf:"source_disk_id,omitempty"`
 
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	SourceImageEncryptionKey *RegionDiskSourceImageEncryptionKeyObservation `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
+	// The ID value of the image used to create this disk. This value
+	// identifies the exact image that was used to create this persistent
+	// disk. For example, if you created the persistent disk from an image
+	// that was later deleted and recreated under the same name, the source
+	// image ID would identify the exact version of the image that was used.
+	SourceImageID *string `json:"sourceImageId,omitempty" tf:"source_image_id,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
@@ -401,6 +448,11 @@ type RegionDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -424,6 +476,18 @@ type RegionDiskParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GuestOsFeatures []RegionDiskGuestOsFeaturesParameters `json:"guestOsFeatures,omitempty" tf:"guest_os_features,omitempty"`
+
+	// The image from which to initialize this disk. This can be
+	// one of: the image's self_link, projects/{project}/global/images/{image},
+	// projects/{project}/global/images/family/{family}, global/images/{image},
+	// global/images/family/{family}, family/{family}, {project}/{family},
+	// {project}/{image}, {family}, or {image}. If referred by family, the
+	// images names must include the family name. If they don't, use the
+	// google_compute_image data source.
+	// For instance, the image centos-6-v20180104 includes its family name centos-6.
+	// These images can be referred by family name here.
+	// +kubebuilder:validation:Optional
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Labels to apply to this disk.  A list of key->value pairs.
 	// +kubebuilder:validation:Optional
@@ -497,6 +561,12 @@ type RegionDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
+	// The customer-supplied encryption key of the source image. Required if
+	// the source image is protected by a customer-supplied encryption key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceImageEncryptionKey *RegionDiskSourceImageEncryptionKeyParameters `json:"sourceImageEncryptionKey,omitempty" tf:"source_image_encryption_key,omitempty"`
+
 	// The customer-supplied encryption key of the source snapshot. Required
 	// if the source snapshot is protected by a customer-supplied encryption
 	// key.
@@ -510,18 +580,76 @@ type RegionDiskParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
+type RegionDiskSourceImageEncryptionKeyInitParameters struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
+type RegionDiskSourceImageEncryptionKeyObservation struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// (Output)
+	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+	// encryption key that protects this resource.
+	Sha256 *string `json:"sha256,omitempty" tf:"sha256,omitempty"`
+}
+
+type RegionDiskSourceImageEncryptionKeyParameters struct {
+
+	// The name of the encryption key that is stored in Google Cloud KMS.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+
+	// The service account used for the encryption request for the given KMS key.
+	// If absent, the Compute Engine Service Agent service account is used.
+	// +kubebuilder:validation:Optional
+	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
+
+	// Specifies a 256-bit customer-supplied encryption key, encoded in
+	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+
+	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+	// customer-supplied encryption key to either encrypt or decrypt
+	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+}
+
 type RegionDiskSourceSnapshotEncryptionKeyInitParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyObservation struct {
-
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
 	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
@@ -533,8 +661,9 @@ type RegionDiskSourceSnapshotEncryptionKeyParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 // RegionDiskSpec defines the desired state of RegionDisk

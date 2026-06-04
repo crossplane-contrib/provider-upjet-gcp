@@ -33,6 +33,10 @@ type AppConnectionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectorsSelector *v1.NamespacedSelector `json:"connectorsSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -68,6 +72,10 @@ type AppConnectionObservation struct {
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -128,6 +136,11 @@ type AppConnectionParameters struct {
 	// Selector for a list of AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
 	ConnectorsSelector *v1.NamespacedSelector `json:"connectorsSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	// +kubebuilder:validation:Optional

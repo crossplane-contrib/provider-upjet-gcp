@@ -40,7 +40,7 @@ spec:
       shell: node ./app.js
     envVariables:
       port: "8080"
-    runtime: nodejs20
+    runtime: nodejs22
     service: internalapp
 
 ---

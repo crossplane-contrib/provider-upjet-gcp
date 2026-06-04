@@ -73,6 +73,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   forceDestroy:
                     description: If set to true, will allow deletion of the CodeRepositoryIndex
                       even if there are existing RepositoryGroups for the resource.
@@ -117,6 +122,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   forceDestroy:
                     description: If set to true, will allow deletion of the CodeRepositoryIndex
                       even if there are existing RepositoryGroups for the resource.
@@ -235,6 +245,11 @@ spec:
                 properties:
                   createTime:
                     description: Output only. Create time stamp.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveLabels:
                     additionalProperties:

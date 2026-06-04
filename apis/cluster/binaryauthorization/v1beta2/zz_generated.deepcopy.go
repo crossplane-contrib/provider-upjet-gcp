@@ -214,6 +214,11 @@ func (in *AttestorInitParameters) DeepCopyInto(out *AttestorInitParameters) {
 		*out = new(AttestationAuthorityNoteInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -276,6 +281,11 @@ func (in *AttestorObservation) DeepCopyInto(out *AttestorObservation) {
 		*out = new(AttestationAuthorityNoteObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -310,6 +320,11 @@ func (in *AttestorParameters) DeepCopyInto(out *AttestorParameters) {
 		in, out := &in.AttestationAuthorityNote, &out.AttestationAuthorityNote
 		*out = new(AttestationAuthorityNoteParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -771,6 +786,11 @@ func (in *PolicyInitParameters) DeepCopyInto(out *PolicyInitParameters) {
 		*out = new(DefaultAdmissionRuleInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -852,6 +872,11 @@ func (in *PolicyObservation) DeepCopyInto(out *PolicyObservation) {
 		*out = new(DefaultAdmissionRuleObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -905,6 +930,11 @@ func (in *PolicyParameters) DeepCopyInto(out *PolicyParameters) {
 		in, out := &in.DefaultAdmissionRule, &out.DefaultAdmissionRule
 		*out = new(DefaultAdmissionRuleParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

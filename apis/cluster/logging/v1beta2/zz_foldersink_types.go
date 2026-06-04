@@ -98,6 +98,10 @@ type FolderSinkInitParameters struct {
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
 	BigqueryOptions *BigqueryOptionsInitParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -128,6 +132,10 @@ type FolderSinkObservation struct {
 
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
 	BigqueryOptions *BigqueryOptionsObservation `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -171,6 +179,11 @@ type FolderSinkParameters struct {
 	// Options that affect sinks exporting data to BigQuery. Structure documented below.
 	// +kubebuilder:validation:Optional
 	BigqueryOptions *BigqueryOptionsParameters `json:"bigqueryOptions,omitempty" tf:"bigquery_options,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	// +kubebuilder:validation:Optional

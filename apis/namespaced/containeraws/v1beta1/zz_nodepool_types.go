@@ -422,6 +422,10 @@ type NodePoolInitParameters struct {
 	// The configuration of the node pool.
 	Config *ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The kubelet configuration for the node pool.
 	KubeletConfig *KubeletConfigInitParameters `json:"kubeletConfig,omitempty" tf:"kubelet_config,omitempty"`
 
@@ -461,6 +465,10 @@ type NodePoolObservation struct {
 
 	// Output only. The time at which this node pool was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
@@ -535,6 +543,11 @@ type NodePoolParameters struct {
 	// The configuration of the node pool.
 	// +kubebuilder:validation:Optional
 	Config *ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The kubelet configuration for the node pool.
 	// +kubebuilder:validation:Optional

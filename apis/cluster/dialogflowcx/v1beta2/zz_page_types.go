@@ -1940,6 +1940,10 @@ type PageInitParameters struct {
 	// Structure is documented below.
 	AdvancedSettings *PageAdvancedSettingsInitParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The human-readable name of the page, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -2236,6 +2240,10 @@ type PageObservation struct {
 	// Structure is documented below.
 	AdvancedSettings *PageAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The human-readable name of the page, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -2305,6 +2313,11 @@ type PageParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdvancedSettings *PageAdvancedSettingsParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The human-readable name of the page, unique within the agent.
 	// +kubebuilder:validation:Optional

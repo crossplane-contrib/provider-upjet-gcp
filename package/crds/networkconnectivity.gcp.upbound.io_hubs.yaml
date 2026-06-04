@@ -73,6 +73,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the hub.
                     type: string
@@ -103,7 +108,7 @@ spec:
                   presetTopology:
                     description: |-
                       Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-                      Possible values are: MESH, STAR.
+                      Possible values are: MESH, STAR, HYBRID_INSPECTION.
                     type: string
                   project:
                     description: |-
@@ -124,6 +129,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the hub.
                     type: string
@@ -154,7 +164,7 @@ spec:
                   presetTopology:
                     description: |-
                       Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-                      Possible values are: MESH, STAR.
+                      Possible values are: MESH, STAR, HYBRID_INSPECTION.
                     type: string
                   project:
                     description: |-
@@ -256,6 +266,11 @@ spec:
                   createTime:
                     description: Output only. The time the hub was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the hub.
                     type: string
@@ -294,7 +309,7 @@ spec:
                   presetTopology:
                     description: |-
                       Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-                      Possible values are: MESH, STAR.
+                      Possible values are: MESH, STAR, HYBRID_INSPECTION.
                     type: string
                   project:
                     description: |-

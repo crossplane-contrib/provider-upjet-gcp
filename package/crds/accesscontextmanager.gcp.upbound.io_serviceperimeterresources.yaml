@@ -75,6 +75,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   perimeterName:
                     description: The name of the Service Perimeter to add this resource
                       to.
@@ -175,6 +180,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   perimeterName:
                     description: The name of the Service Perimeter to add this resource
                       to.
@@ -362,6 +372,11 @@ spec:
                   accessPolicyId:
                     description: The name of the Access Policy this resource belongs
                       to.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   etag:
                     description: The perimeter etag is internally used to prevent

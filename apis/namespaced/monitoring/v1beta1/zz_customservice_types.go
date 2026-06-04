@@ -16,6 +16,10 @@ import (
 
 type CustomServiceInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name used for UI elements listing this Service.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -42,6 +46,10 @@ type CustomServiceInitParameters struct {
 }
 
 type CustomServiceObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name used for UI elements listing this Service.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -76,6 +84,11 @@ type CustomServiceObservation struct {
 }
 
 type CustomServiceParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name used for UI elements listing this Service.
 	// +kubebuilder:validation:Optional

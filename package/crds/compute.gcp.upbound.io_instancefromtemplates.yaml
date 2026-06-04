@@ -2477,6 +2477,10 @@ spec:
                             type: number
                           provisionedThroughput:
                             type: number
+                          replicaZones:
+                            items:
+                              type: string
+                            type: array
                           resourceManagerTags:
                             additionalProperties:
                               type: string
@@ -2599,6 +2603,8 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    type: string
                   deletionProtection:
                     type: boolean
                   description:
@@ -2679,6 +2685,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -2872,6 +2880,8 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -3242,6 +3252,10 @@ spec:
                             type: number
                           provisionedThroughput:
                             type: number
+                          replicaZones:
+                            items:
+                              type: string
+                            type: array
                           resourceManagerTags:
                             additionalProperties:
                               type: string
@@ -3364,6 +3378,8 @@ spec:
                       enableConfidentialCompute:
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    type: string
                   deletionProtection:
                     type: boolean
                   description:
@@ -3444,6 +3460,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -3637,6 +3655,8 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -4023,6 +4043,10 @@ spec:
                             type: number
                           provisionedThroughput:
                             type: number
+                          replicaZones:
+                            items:
+                              type: string
+                            type: array
                           resourceManagerTags:
                             additionalProperties:
                               type: string
@@ -4082,6 +4106,8 @@ spec:
                   creationTimestamp:
                     type: string
                   currentStatus:
+                    type: string
+                  deletionPolicy:
                     type: string
                   deletionProtection:
                     type: boolean
@@ -4178,6 +4204,8 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -4218,6 +4246,11 @@ spec:
                           type: string
                         nicType:
                           type: string
+                        parentNicName:
+                          description: |-
+                            A unique name for the resource, required by GCE.
+                            Changing this forces a new resource to be created.
+                          type: string
                         queueCount:
                           type: number
                         stackType:
@@ -4226,6 +4259,8 @@ spec:
                           type: string
                         subnetworkProject:
                           type: string
+                        vlan:
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:

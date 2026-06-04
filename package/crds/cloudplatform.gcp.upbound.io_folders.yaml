@@ -73,6 +73,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the folder
                       is allowed. Default value is true.
@@ -190,6 +195,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the folder
                       is allowed. Default value is true.
@@ -390,10 +400,20 @@ spec:
             properties:
               atProvider:
                 properties:
+                  configuredCapabilities:
+                    description: Optional capabilities configured for this folder.
+                    items:
+                      type: string
+                    type: array
                   createTime:
                     description: |-
                       Timestamp when the Folder was created. Assigned by the server.
                       A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the folder
@@ -412,6 +432,10 @@ spec:
                   lifecycleState:
                     description: The lifecycle state of the folder such as ACTIVE
                       or DELETE_REQUESTED.
+                    type: string
+                  managementProject:
+                    description: Management Project associated with this folder (if
+                      capability is enabled).
                     type: string
                   name:
                     description: The resource name of the Folder. Its format is folders/{folder_id}.

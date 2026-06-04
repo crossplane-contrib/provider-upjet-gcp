@@ -15,6 +15,8 @@ import (
 )
 
 type EndpointAttachmentInitParameters struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
@@ -33,6 +35,8 @@ type EndpointAttachmentInitParameters struct {
 type EndpointAttachmentObservation struct {
 	ConnectionState *string `json:"connectionState,omitempty" tf:"connection_state,omitempty"`
 
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -47,6 +51,9 @@ type EndpointAttachmentObservation struct {
 }
 
 type EndpointAttachmentParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`

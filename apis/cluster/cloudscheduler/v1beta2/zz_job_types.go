@@ -263,6 +263,10 @@ type JobInitParameters struct {
 	// The allowed duration for this deadline is:
 	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description for the job.
 	// This string must not contain more than 500 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -313,6 +317,10 @@ type JobObservation struct {
 	// execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
 	// The allowed duration for this deadline is:
 	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description for the job.
 	// This string must not contain more than 500 characters.
@@ -375,6 +383,11 @@ type JobParameters struct {
 	// The allowed duration for this deadline is:
 	// +kubebuilder:validation:Optional
 	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description for the job.
 	// This string must not contain more than 500 characters.

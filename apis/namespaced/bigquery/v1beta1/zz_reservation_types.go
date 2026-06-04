@@ -89,6 +89,10 @@ type ReservationInitParameters struct {
 	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
 	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
@@ -96,6 +100,9 @@ type ReservationInitParameters struct {
 	// the same admin project. If true, a query using this reservation will execute with the slot
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
+
+	// The reservation group that this reservation belongs to.
+	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
 
 	// The current location of the reservation's secondary replica. This field is only set for
 	// reservations using the managed disaster recovery feature. Users can set this in create
@@ -116,6 +123,10 @@ type ReservationObservation struct {
 
 	// Maximum number of queries that are allowed to run concurrently in this reservation. This is a soft limit due to asynchronous nature of the system and various optimizations for small queries. Default value is 0 which means that concurrency will be automatically set based on the reservation size.
 	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
@@ -154,6 +165,9 @@ type ReservationObservation struct {
 	// Structure is documented below.
 	ReplicationStatus []ReplicationStatusObservation `json:"replicationStatus,omitempty" tf:"replication_status,omitempty"`
 
+	// The reservation group that this reservation belongs to.
+	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
+
 	// The current location of the reservation's secondary replica. This field is only set for
 	// reservations using the managed disaster recovery feature. Users can set this in create
 	// reservation calls to create a failover reservation or in update reservation calls to convert
@@ -176,6 +190,11 @@ type ReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	Concurrency *float64 `json:"concurrency,omitempty" tf:"concurrency,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
 	// +kubebuilder:validation:Optional
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
@@ -195,6 +214,10 @@ type ReservationParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The reservation group that this reservation belongs to.
+	// +kubebuilder:validation:Optional
+	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
 
 	// The current location of the reservation's secondary replica. This field is only set for
 	// reservations using the managed disaster recovery feature. Users can set this in create

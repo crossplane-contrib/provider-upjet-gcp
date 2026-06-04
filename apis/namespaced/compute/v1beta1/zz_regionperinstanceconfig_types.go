@@ -150,6 +150,10 @@ type PreservedStateInternalIPParameters struct {
 
 type RegionPerInstanceConfigInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:
 	MinimalAction *string `json:"minimalAction,omitempty" tf:"minimal_action,omitempty"`
@@ -207,6 +211,10 @@ type RegionPerInstanceConfigInitParameters struct {
 
 type RegionPerInstanceConfigObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{project}}/{{region}}/{{region_instance_group_manager}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -246,6 +254,11 @@ type RegionPerInstanceConfigObservation struct {
 }
 
 type RegionPerInstanceConfigParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:

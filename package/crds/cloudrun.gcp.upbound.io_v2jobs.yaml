@@ -2858,6 +2858,11 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -2868,7 +2873,7 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                       All system labels in v1 now have a corresponding field in v2 Job.
                       Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -2910,7 +2915,7 @@ spec:
                           type: string
                         description: |-
                           Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-                          or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+                          or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
                           https://cloud.google.com/run/docs/configuring/labels.
                           Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                           All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -3122,10 +3127,12 @@ spec:
                                         are supported. Use key cpu for CPU limit,
                                         memory for memory limit, nvidia.com/gpu for
                                         gpu limit. Note: The only supported values
-                                        for CPU are ''1'', ''2'', ''4'', and ''8''.
-                                        Setting 4 CPU requires at least 2Gi of memory.
-                                        The values of the map is string form of the
-                                        ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                        for CPU are ''1'', ''2'', ''4'', ''6'', and
+                                        ''8''. Setting 4 CPU requires at least 2Gi
+                                        of memory, setting 6 or more CPU requires
+                                        at least 4Gi of memory. The values of the
+                                        map is string form of the ''quantity'' k8s
+                                        type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
@@ -3234,6 +3241,10 @@ spec:
                                         type: string
                                       name:
                                         description: Volume's name.
+                                        type: string
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
                                         type: string
                                     type: object
                                   type: array
@@ -3396,7 +3407,7 @@ spec:
                                       description: |-
                                         The different types of medium supported for EmptyDir.
                                         Default value is MEMORY.
-                                        Possible values are: MEMORY.
+                                        Possible values are: MEMORY, DISK.
                                       type: string
                                     sizeLimit:
                                       description: 'Limit on the storage usable by
@@ -3421,6 +3432,13 @@ spec:
                                         to back the volume. The resource service account
                                         must have permission to access the bucket.
                                       type: string
+                                    mountOptions:
+                                      description: |-
+                                        A list of flags to pass to the gcsfuse command for configuring this volume.
+                                        Flags should be passed without leading dashes.
+                                      items:
+                                        type: string
+                                      type: array
                                     readOnly:
                                       description: If true, mount this volume as read-only
                                         in all mounts.
@@ -3664,6 +3682,11 @@ spec:
                   clientVersion:
                     description: Arbitrary version identifier for the API client.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -3674,7 +3697,7 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                       All system labels in v1 now have a corresponding field in v2 Job.
                       Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -3713,7 +3736,7 @@ spec:
                           type: string
                         description: |-
                           Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-                          or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+                          or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
                           https://cloud.google.com/run/docs/configuring/labels.
                           Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                           All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -3925,10 +3948,12 @@ spec:
                                         are supported. Use key cpu for CPU limit,
                                         memory for memory limit, nvidia.com/gpu for
                                         gpu limit. Note: The only supported values
-                                        for CPU are ''1'', ''2'', ''4'', and ''8''.
-                                        Setting 4 CPU requires at least 2Gi of memory.
-                                        The values of the map is string form of the
-                                        ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                        for CPU are ''1'', ''2'', ''4'', ''6'', and
+                                        ''8''. Setting 4 CPU requires at least 2Gi
+                                        of memory, setting 6 or more CPU requires
+                                        at least 4Gi of memory. The values of the
+                                        map is string form of the ''quantity'' k8s
+                                        type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
@@ -4037,6 +4062,10 @@ spec:
                                         type: string
                                       name:
                                         description: Volume's name.
+                                        type: string
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
                                         type: string
                                     type: object
                                   type: array
@@ -4199,7 +4228,7 @@ spec:
                                       description: |-
                                         The different types of medium supported for EmptyDir.
                                         Default value is MEMORY.
-                                        Possible values are: MEMORY.
+                                        Possible values are: MEMORY, DISK.
                                       type: string
                                     sizeLimit:
                                       description: 'Limit on the storage usable by
@@ -4224,6 +4253,13 @@ spec:
                                         to back the volume. The resource service account
                                         must have permission to access the bucket.
                                       type: string
+                                    mountOptions:
+                                      description: |-
+                                        A list of flags to pass to the gcsfuse command for configuring this volume.
+                                        Flags should be passed without leading dashes.
+                                      items:
+                                        type: string
+                                      type: array
                                     readOnly:
                                       description: If true, mount this volume as read-only
                                         in all mounts.
@@ -4606,6 +4642,11 @@ spec:
                   deleteTime:
                     description: The deletion time.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -4645,7 +4686,7 @@ spec:
                       type: string
                     description: |-
                       Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-                      environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+                      environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
                       Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                       All system labels in v1 now have a corresponding field in v2 Job.
                       Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -4727,7 +4768,7 @@ spec:
                           type: string
                         description: |-
                           Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-                          or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+                          or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
                           https://cloud.google.com/run/docs/configuring/labels.
                           Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
                           All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -4861,10 +4902,12 @@ spec:
                                         are supported. Use key cpu for CPU limit,
                                         memory for memory limit, nvidia.com/gpu for
                                         gpu limit. Note: The only supported values
-                                        for CPU are ''1'', ''2'', ''4'', and ''8''.
-                                        Setting 4 CPU requires at least 2Gi of memory.
-                                        The values of the map is string form of the
-                                        ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                        for CPU are ''1'', ''2'', ''4'', ''6'', and
+                                        ''8''. Setting 4 CPU requires at least 2Gi
+                                        of memory, setting 6 or more CPU requires
+                                        at least 4Gi of memory. The values of the
+                                        map is string form of the ''quantity'' k8s
+                                        type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
@@ -4974,6 +5017,10 @@ spec:
                                       name:
                                         description: Volume's name.
                                         type: string
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
+                                        type: string
                                     type: object
                                   type: array
                                 workingDir:
@@ -5056,7 +5103,7 @@ spec:
                                       description: |-
                                         The different types of medium supported for EmptyDir.
                                         Default value is MEMORY.
-                                        Possible values are: MEMORY.
+                                        Possible values are: MEMORY, DISK.
                                       type: string
                                     sizeLimit:
                                       description: 'Limit on the storage usable by
@@ -5081,6 +5128,13 @@ spec:
                                         to back the volume. The resource service account
                                         must have permission to access the bucket.
                                       type: string
+                                    mountOptions:
+                                      description: |-
+                                        A list of flags to pass to the gcsfuse command for configuring this volume.
+                                        Flags should be passed without leading dashes.
+                                      items:
+                                        type: string
+                                      type: array
                                     readOnly:
                                       description: If true, mount this volume as read-only
                                         in all mounts.

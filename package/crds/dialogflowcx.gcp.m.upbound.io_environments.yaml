@@ -59,6 +59,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The human-readable description of the environment.
                       The maximum length is 500 characters. If exceeded, the request
@@ -262,6 +267,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The human-readable description of the environment.
                       The maximum length is 500 characters. If exceeded, the request
@@ -524,6 +534,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The human-readable description of the environment.
                       The maximum length is 500 characters. If exceeded, the request

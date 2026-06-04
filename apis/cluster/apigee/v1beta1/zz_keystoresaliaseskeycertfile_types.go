@@ -13,108 +13,38 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type CertInfoInitParameters struct {
-	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
-
-	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
-
-	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
-
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
-
-	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
-
-	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
-
-	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
-
-	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
-
-	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
-
-	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
-}
-
-type CertInfoObservation struct {
-	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
-
-	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
-
-	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
-
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
-
-	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
-
-	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
-
-	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
-
-	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
-
-	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
-
-	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
-}
-
-type CertInfoParameters struct {
-
-	// +kubebuilder:validation:Optional
-	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
-}
-
 type CertsInfoInitParameters struct {
-	CertInfo []CertInfoInitParameters `json:"certInfo,omitempty" tf:"cert_info,omitempty"`
 }
 
 type CertsInfoObservation struct {
-	CertInfo []CertInfoObservation `json:"certInfo,omitempty" tf:"cert_info,omitempty"`
+	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
+
+	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
+
+	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
+
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
+
+	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
+
+	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
+
+	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
+
+	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
+
+	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
+
+	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
+
+	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type CertsInfoParameters struct {
-
-	// +kubebuilder:validation:Optional
-	CertInfo []CertInfoParameters `json:"certInfo,omitempty" tf:"cert_info,omitempty"`
 }
 
 type KeystoresAliasesKeyCertFileInitParameters struct {
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
-
-	CertsInfo *CertsInfoInitParameters `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
 
 	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
@@ -124,7 +54,7 @@ type KeystoresAliasesKeyCertFileInitParameters struct {
 type KeystoresAliasesKeyCertFileObservation struct {
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	CertsInfo *CertsInfoObservation `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
+	CertsInfo []CertsInfoObservation `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
 
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
@@ -141,9 +71,6 @@ type KeystoresAliasesKeyCertFileParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	CertsInfo *CertsInfoParameters `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Environment *string `json:"environment" tf:"environment,omitempty"`

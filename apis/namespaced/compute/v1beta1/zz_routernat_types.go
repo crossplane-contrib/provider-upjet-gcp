@@ -169,6 +169,10 @@ type RouterNATInitParameters struct {
 	// Possible values are: PREMIUM, STANDARD.
 	AutoNetworkTier *string `json:"autoNetworkTier,omitempty" tf:"auto_network_tier,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
 	// +listType=set
@@ -338,6 +342,10 @@ type RouterNATObservation struct {
 	// Possible values are: PREMIUM, STANDARD.
 	AutoNetworkTier *string `json:"autoNetworkTier,omitempty" tf:"auto_network_tier,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.
 	// +listType=set
@@ -474,6 +482,11 @@ type RouterNATParameters struct {
 	// Possible values are: PREMIUM, STANDARD.
 	// +kubebuilder:validation:Optional
 	AutoNetworkTier *string `json:"autoNetworkTier,omitempty" tf:"auto_network_tier,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A list of URLs of the IP resources to be drained. These IPs must be
 	// valid static external IPs that have been assigned to the NAT.

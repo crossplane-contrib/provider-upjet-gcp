@@ -44,6 +44,9 @@ type AdvancedOptionsConfigInitParameters struct {
 	// Log level to use. Defaults to NORMAL.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
+	// The maximum request size chosen by the customer with Waf enabled. Values supported are "8KB", "16KB, "32KB", "48KB" and "64KB". Values are case insensitive.
+	RequestBodyInspectionSize *string `json:"requestBodyInspectionSize,omitempty" tf:"request_body_inspection_size,omitempty"`
+
 	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
 	// +listType=set
 	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
@@ -60,6 +63,9 @@ type AdvancedOptionsConfigObservation struct {
 
 	// Log level to use. Defaults to NORMAL.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// The maximum request size chosen by the customer with Waf enabled. Values supported are "8KB", "16KB, "32KB", "48KB" and "64KB". Values are case insensitive.
+	RequestBodyInspectionSize *string `json:"requestBodyInspectionSize,omitempty" tf:"request_body_inspection_size,omitempty"`
 
 	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
 	// +listType=set
@@ -80,6 +86,10 @@ type AdvancedOptionsConfigParameters struct {
 	// Log level to use. Defaults to NORMAL.
 	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// The maximum request size chosen by the customer with Waf enabled. Values supported are "8KB", "16KB, "32KB", "48KB" and "64KB". Values are case insensitive.
+	// +kubebuilder:validation:Optional
+	RequestBodyInspectionSize *string `json:"requestBodyInspectionSize,omitempty" tf:"request_body_inspection_size,omitempty"`
 
 	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
 	// +kubebuilder:validation:Optional
@@ -972,8 +982,18 @@ type SecurityPolicyInitParameters struct {
 	// Structure is documented below.
 	AdvancedOptionsConfig *AdvancedOptionsConfigInitParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this security policy. Max size is 2048.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Labels to apply to this address. A list of key->value pairs.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1000,14 +1020,30 @@ type SecurityPolicyObservation struct {
 	// Structure is documented below.
 	AdvancedOptionsConfig *AdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this security policy. Max size is 2048.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Fingerprint of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/securityPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The unique fingerprint of the labels.
+	LabelFingerprint *string `json:"labelFingerprint,omitempty" tf:"label_fingerprint,omitempty"`
+
+	// Labels to apply to this address. A list of key->value pairs.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -1024,6 +1060,10 @@ type SecurityPolicyObservation struct {
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
+	// The combination of labels configured directly on the resource and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The type indicates the intended use of the security policy. This field can be set only at resource creation time.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
@@ -1039,9 +1079,21 @@ type SecurityPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvancedOptionsConfig *AdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this security policy. Max size is 2048.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Labels to apply to this address. A list of key->value pairs.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The project in which the resource belongs. If it
 	// is not provided, the provider project is used.

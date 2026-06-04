@@ -127,6 +127,10 @@ type FirewallInitParameters struct {
 	// Structure is documented below.
 	Allow []AllowInitParameters `json:"allow,omitempty" tf:"allow,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The list of DENY rules specified by this firewall. Each rule specifies
 	// a protocol and port-range tuple that describes a denied connection.
 	// Structure is documented below.
@@ -282,6 +286,10 @@ type FirewallObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The list of DENY rules specified by this firewall. Each rule specifies
 	// a protocol and port-range tuple that describes a denied connection.
 	// Structure is documented below.
@@ -408,6 +416,11 @@ type FirewallParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Allow []AllowParameters `json:"allow,omitempty" tf:"allow,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The list of DENY rules specified by this firewall. Each rule specifies
 	// a protocol and port-range tuple that describes a denied connection.

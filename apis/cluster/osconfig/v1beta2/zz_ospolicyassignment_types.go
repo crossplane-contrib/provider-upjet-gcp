@@ -1058,6 +1058,10 @@ type OsPoliciesParameters struct {
 
 type OsPolicyAssignmentInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Policy description. Length of the description is
 	// limited to 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1097,6 +1101,10 @@ type OsPolicyAssignmentObservation struct {
 	// Output only. Indicates that this revision deletes the OS policy
 	// assignment.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Policy description. Length of the description is
 	// limited to 1024 characters.
@@ -1157,6 +1165,11 @@ type OsPolicyAssignmentObservation struct {
 }
 
 type OsPolicyAssignmentParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Policy description. Length of the description is
 	// limited to 1024 characters.

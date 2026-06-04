@@ -59,6 +59,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of the job trigger.
                     type: string
@@ -332,6 +337,10 @@ spec:
                             publishFindingsToCloudDataCatalog:
                               description: Publish findings of a DlpJob to Data Catalog.
                               type: object
+                            publishFindingsToDataplexCatalog:
+                              description: Publish findings of a DlpJob as an aspect
+                                to Dataplex Universal Catalog.
+                              type: object
                             publishSummaryToCscc:
                               description: Publish the result summary of a DlpJob
                                 to the Cloud Security Command Center.
@@ -360,6 +369,21 @@ spec:
                                         Only for use with external storage.
                                         Possible values are: BASIC_COLUMNS, GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS, ALL_COLUMNS.
                                       type: string
+                                    storagePath:
+                                      description: |-
+                                        Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number
+                                        as the filename, and will contain findings in textproto format as SaveToGcsFindingsOutput. The file name will use
+                                        the naming convention <job_id>-<shard_number>, for example: my-job-id-2.
+                                        Supported for InspectJobs. The bucket must not be the same as the bucket being inspected. If storing findings to
+                                        Cloud Storage, the output schema field should not be set. If set, it will be ignored.
+                                        Structure is documented below.
+                                      properties:
+                                        path:
+                                          description: |-
+                                            A URL representing a file or path (no wildcards) in Cloud Storage.
+                                            Example: gs://[BUCKET_NAME]/dictionary.txt
+                                          type: string
+                                      type: object
                                     table:
                                       description: |-
                                         The BigQuery table in which to store the output.
@@ -406,9 +430,9 @@ spec:
                                         Structure is documented below.
                                       properties:
                                         path:
-                                          description: 'A url representing a file
-                                            or path (no wildcards) in Cloud Storage.
-                                            Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                          description: |-
+                                            A URL representing a file or path (no wildcards) in Cloud Storage.
+                                            Example: gs://[BUCKET_NAME]/dictionary.txt
                                           type: string
                                       type: object
                                     wordList:
@@ -687,9 +711,9 @@ spec:
                                                   Structure is documented below.
                                                 properties:
                                                   path:
-                                                    description: 'A url representing
-                                                      a file or path (no wildcards)
-                                                      in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                    description: |-
+                                                      A URL representing a file or path (no wildcards) in Cloud Storage.
+                                                      Example: gs://[BUCKET_NAME]/dictionary.txt
                                                     type: string
                                                 type: object
                                               wordList:
@@ -1259,6 +1283,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of the job trigger.
                     type: string
@@ -1532,6 +1561,10 @@ spec:
                             publishFindingsToCloudDataCatalog:
                               description: Publish findings of a DlpJob to Data Catalog.
                               type: object
+                            publishFindingsToDataplexCatalog:
+                              description: Publish findings of a DlpJob as an aspect
+                                to Dataplex Universal Catalog.
+                              type: object
                             publishSummaryToCscc:
                               description: Publish the result summary of a DlpJob
                                 to the Cloud Security Command Center.
@@ -1560,6 +1593,21 @@ spec:
                                         Only for use with external storage.
                                         Possible values are: BASIC_COLUMNS, GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS, ALL_COLUMNS.
                                       type: string
+                                    storagePath:
+                                      description: |-
+                                        Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number
+                                        as the filename, and will contain findings in textproto format as SaveToGcsFindingsOutput. The file name will use
+                                        the naming convention <job_id>-<shard_number>, for example: my-job-id-2.
+                                        Supported for InspectJobs. The bucket must not be the same as the bucket being inspected. If storing findings to
+                                        Cloud Storage, the output schema field should not be set. If set, it will be ignored.
+                                        Structure is documented below.
+                                      properties:
+                                        path:
+                                          description: |-
+                                            A URL representing a file or path (no wildcards) in Cloud Storage.
+                                            Example: gs://[BUCKET_NAME]/dictionary.txt
+                                          type: string
+                                      type: object
                                     table:
                                       description: |-
                                         The BigQuery table in which to store the output.
@@ -1606,9 +1654,9 @@ spec:
                                         Structure is documented below.
                                       properties:
                                         path:
-                                          description: 'A url representing a file
-                                            or path (no wildcards) in Cloud Storage.
-                                            Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                          description: |-
+                                            A URL representing a file or path (no wildcards) in Cloud Storage.
+                                            Example: gs://[BUCKET_NAME]/dictionary.txt
                                           type: string
                                       type: object
                                     wordList:
@@ -1887,9 +1935,9 @@ spec:
                                                   Structure is documented below.
                                                 properties:
                                                   path:
-                                                    description: 'A url representing
-                                                      a file or path (no wildcards)
-                                                      in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                    description: |-
+                                                      A URL representing a file or path (no wildcards) in Cloud Storage.
+                                                      Example: gs://[BUCKET_NAME]/dictionary.txt
                                                     type: string
                                                 type: object
                                               wordList:
@@ -2522,6 +2570,11 @@ spec:
                     description: The creation timestamp of an inspectTemplate. Set
                       by the server.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of the job trigger.
                     type: string
@@ -2630,6 +2683,10 @@ spec:
                             publishFindingsToCloudDataCatalog:
                               description: Publish findings of a DlpJob to Data Catalog.
                               type: object
+                            publishFindingsToDataplexCatalog:
+                              description: Publish findings of a DlpJob as an aspect
+                                to Dataplex Universal Catalog.
+                              type: object
                             publishSummaryToCscc:
                               description: Publish the result summary of a DlpJob
                                 to the Cloud Security Command Center.
@@ -2658,6 +2715,21 @@ spec:
                                         Only for use with external storage.
                                         Possible values are: BASIC_COLUMNS, GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS, ALL_COLUMNS.
                                       type: string
+                                    storagePath:
+                                      description: |-
+                                        Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number
+                                        as the filename, and will contain findings in textproto format as SaveToGcsFindingsOutput. The file name will use
+                                        the naming convention <job_id>-<shard_number>, for example: my-job-id-2.
+                                        Supported for InspectJobs. The bucket must not be the same as the bucket being inspected. If storing findings to
+                                        Cloud Storage, the output schema field should not be set. If set, it will be ignored.
+                                        Structure is documented below.
+                                      properties:
+                                        path:
+                                          description: |-
+                                            A URL representing a file or path (no wildcards) in Cloud Storage.
+                                            Example: gs://[BUCKET_NAME]/dictionary.txt
+                                          type: string
+                                      type: object
                                     table:
                                       description: |-
                                         The BigQuery table in which to store the output.
@@ -2704,9 +2776,9 @@ spec:
                                         Structure is documented below.
                                       properties:
                                         path:
-                                          description: 'A url representing a file
-                                            or path (no wildcards) in Cloud Storage.
-                                            Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                          description: |-
+                                            A URL representing a file or path (no wildcards) in Cloud Storage.
+                                            Example: gs://[BUCKET_NAME]/dictionary.txt
                                           type: string
                                       type: object
                                     wordList:
@@ -2990,9 +3062,9 @@ spec:
                                                   Structure is documented below.
                                                 properties:
                                                   path:
-                                                    description: 'A url representing
-                                                      a file or path (no wildcards)
-                                                      in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt'
+                                                    description: |-
+                                                      A URL representing a file or path (no wildcards) in Cloud Storage.
+                                                      Example: gs://[BUCKET_NAME]/dictionary.txt
                                                     type: string
                                                 type: object
                                               wordList:

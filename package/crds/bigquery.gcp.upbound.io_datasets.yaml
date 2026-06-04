@@ -2751,6 +2751,11 @@ spec:
                       dataset when destroying the resource; otherwise,
                       destroying the resource will fail if tables are present.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A user-friendly description of the dataset
                     type: string
@@ -3511,6 +3516,11 @@ spec:
                       dataset when destroying the resource; otherwise,
                       destroying the resource will fail if tables are present.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A user-friendly description of the dataset
                     type: string
@@ -3895,6 +3905,11 @@ spec:
                       dataset when destroying the resource; otherwise,
                       destroying the resource will fail if tables are present.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A user-friendly description of the dataset
                     type: string

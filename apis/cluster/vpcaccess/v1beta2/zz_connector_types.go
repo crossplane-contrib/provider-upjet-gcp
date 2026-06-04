@@ -15,6 +15,10 @@ import (
 
 type ConnectorInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The range of internal addresses that follows RFC 4632 notation. Example: 10.132.0.0/28.
 	IPCidrRange *string `json:"ipCidrRange,omitempty" tf:"ip_cidr_range,omitempty"`
 
@@ -65,6 +69,10 @@ type ConnectorObservation struct {
 	// List of projects using the connector.
 	ConnectedProjects []*string `json:"connectedProjects,omitempty" tf:"connected_projects,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/connectors/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -114,6 +122,11 @@ type ConnectorObservation struct {
 }
 
 type ConnectorParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The range of internal addresses that follows RFC 4632 notation. Example: 10.132.0.0/28.
 	// +kubebuilder:validation:Optional

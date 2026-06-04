@@ -15,6 +15,10 @@ import (
 
 type ProjectMetadataItemInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The metadata key to set.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
@@ -27,6 +31,10 @@ type ProjectMetadataItemInitParameters struct {
 }
 
 type ProjectMetadataItemObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format `{{key}}`
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -43,6 +51,11 @@ type ProjectMetadataItemObservation struct {
 }
 
 type ProjectMetadataItemParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The metadata key to set.
 	// +kubebuilder:validation:Optional

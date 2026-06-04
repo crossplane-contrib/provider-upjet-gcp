@@ -47,37 +47,52 @@ type AcceptedResponseStatusCodesParameters struct {
 }
 
 type AuthInfoInitParameters struct {
+
+	// The password to authenticate.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// The password to authenticate.
+	// Note: This property is write-only and will not be read from the API.
 	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
+	// The password write-only version.
 	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
-	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthInfoObservation struct {
+
+	// The password to authenticate.
+	// Note: This property is write-only and will not be read from the API.
 	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
+	// The password write-only version.
 	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
-	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthInfoParameters struct {
 
+	// The password to authenticate.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// The password to authenticate.
+	// Note: This property is write-only and will not be read from the API.
 	// +kubebuilder:validation:Optional
 	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
+	// The password write-only version.
 	// +kubebuilder:validation:Optional
 	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
-	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+	// The username to authenticate.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username" tf:"username,omitempty"`
 }
@@ -585,6 +600,10 @@ type UptimeCheckConfigInitParameters struct {
 	// Structure is documented below.
 	ContentMatchers []ContentMatchersInitParameters `json:"contentMatchers,omitempty" tf:"content_matchers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-friendly name for the uptime check configuration. The display name should be unique within a Stackdriver Workspace in order to make it easier to identify; however, uniqueness is not enforced.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -640,6 +659,10 @@ type UptimeCheckConfigObservation struct {
 	// The expected content on the page the check is run against. Currently, only the first entry in the list is supported, and other entries will be ignored. The server will look for an exact match of the string in the page response's content. This field is optional and should only be specified if a content match is required.
 	// Structure is documented below.
 	ContentMatchers []ContentMatchersObservation `json:"contentMatchers,omitempty" tf:"content_matchers,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-friendly name for the uptime check configuration. The display name should be unique within a Stackdriver Workspace in order to make it easier to identify; however, uniqueness is not enforced.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -707,6 +730,11 @@ type UptimeCheckConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ContentMatchers []ContentMatchersParameters `json:"contentMatchers,omitempty" tf:"content_matchers,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-friendly name for the uptime check configuration. The display name should be unique within a Stackdriver Workspace in order to make it easier to identify; however, uniqueness is not enforced.
 	// +kubebuilder:validation:Optional

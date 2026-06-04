@@ -46,6 +46,10 @@ type EnvironmentInitParameters struct {
 	// Structure is documented below.
 	ClientIPResolutionConfig *ClientIPResolutionConfigInitParameters `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
 	// deployment, you will be prevented from performing a subset of actions within the
@@ -91,6 +95,10 @@ type EnvironmentObservation struct {
 	// The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
 	// Structure is documented below.
 	ClientIPResolutionConfig *ClientIPResolutionConfigObservation `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
@@ -146,6 +154,11 @@ type EnvironmentParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ClientIPResolutionConfig *ClientIPResolutionConfigParameters `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive

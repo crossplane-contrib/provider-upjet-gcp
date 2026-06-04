@@ -90,6 +90,10 @@ type MetadataParameters struct {
 
 type MetricDescriptorInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A detailed description of the metric, which can be used in documentation.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -144,6 +148,10 @@ type MetricDescriptorInitParameters struct {
 }
 
 type MetricDescriptorObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A detailed description of the metric, which can be used in documentation.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -209,6 +217,11 @@ type MetricDescriptorObservation struct {
 }
 
 type MetricDescriptorParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A detailed description of the metric, which can be used in documentation.
 	// +kubebuilder:validation:Optional

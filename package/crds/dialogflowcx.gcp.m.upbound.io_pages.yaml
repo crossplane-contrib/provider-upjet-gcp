@@ -88,6 +88,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The human-readable name of the page, unique within
                       the agent.
@@ -1872,6 +1877,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The human-readable name of the page, unique within
                       the agent.
@@ -3711,6 +3721,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The human-readable name of the page, unique within
                       the agent.

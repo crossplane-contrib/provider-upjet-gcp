@@ -49,6 +49,10 @@ type OrganizationInitParameters struct {
 	// Only used for the data residency region "US" or "EU".
 	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -130,6 +134,10 @@ type OrganizationObservation struct {
 	// Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
 	// Only used for the data residency region "US" or "EU".
 	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -221,6 +229,11 @@ type OrganizationParameters struct {
 	// Only used for the data residency region "US" or "EU".
 	// +kubebuilder:validation:Optional
 	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the Apigee organization.
 	// +kubebuilder:validation:Optional

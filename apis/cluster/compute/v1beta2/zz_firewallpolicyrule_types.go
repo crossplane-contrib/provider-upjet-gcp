@@ -18,6 +18,10 @@ type FirewallPolicyRuleInitParameters struct {
 	// The Action to perform when the client connection triggers the rule. Valid actions are "allow", "deny", "goto_next" and "apply_security_profile_group".
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -90,6 +94,10 @@ type FirewallPolicyRuleObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -158,6 +166,11 @@ type FirewallPolicyRuleParameters struct {
 	// The Action to perform when the client connection triggers the rule. Valid actions are "allow", "deny", "goto_next" and "apply_security_profile_group".
 	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description for this resource.
 	// +kubebuilder:validation:Optional
@@ -288,6 +301,10 @@ type MatchInitParameters struct {
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
 	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
 
@@ -306,6 +323,23 @@ type MatchInitParameters struct {
 
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// References to Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksRefs []v1.Reference `json:"srcNetworksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksSelector *v1.Selector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
@@ -329,6 +363,10 @@ type MatchObservation struct {
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
 	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
 
@@ -347,6 +385,13 @@ type MatchObservation struct {
 
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
@@ -383,6 +428,11 @@ type MatchParameters struct {
 	// +kubebuilder:validation:Optional
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	// +kubebuilder:validation:Optional
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
 	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
@@ -407,6 +457,25 @@ type MatchParameters struct {
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	// +kubebuilder:validation:Optional
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	// +kubebuilder:validation:Optional
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// References to Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksRefs []v1.Reference `json:"srcNetworksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksSelector *v1.Selector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	// +kubebuilder:validation:Optional

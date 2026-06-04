@@ -114,6 +114,10 @@ type MembershipInitParameters struct {
 	// Structure is documented below.
 	Authority *AuthorityInitParameters `json:"authority,omitempty" tf:"authority,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
 	// Structure is documented below.
 	Endpoint *EndpointInitParameters `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
@@ -134,6 +138,10 @@ type MembershipObservation struct {
 	// https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
 	// Structure is documented below.
 	Authority *AuthorityObservation `json:"authority,omitempty" tf:"authority,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -175,6 +183,11 @@ type MembershipParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Authority *AuthorityParameters `json:"authority,omitempty" tf:"authority,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
 	// Structure is documented below.

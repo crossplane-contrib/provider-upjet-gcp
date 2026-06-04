@@ -68,6 +68,11 @@ spec:
                   applicationId:
                     description: The Azure Active Directory Application ID.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   location:
                     description: The location for the resource
                     type: string
@@ -95,6 +100,11 @@ spec:
                 properties:
                   applicationId:
                     description: The Azure Active Directory Application ID.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   project:
                     description: The project for the resource
@@ -184,6 +194,11 @@ spec:
                   createTime:
                     description: Output only. The time at which this resource was
                       created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/azureClients/{{name}}

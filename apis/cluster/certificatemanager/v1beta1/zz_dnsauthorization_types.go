@@ -15,6 +15,10 @@ import (
 
 type DNSAuthorizationInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -50,6 +54,10 @@ type DNSAuthorizationObservation struct {
 	// certificate.
 	// Structure is documented below.
 	DNSResourceRecord []DNSResourceRecordObservation `json:"dnsResourceRecord,omitempty" tf:"dns_resource_record,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -94,6 +102,11 @@ type DNSAuthorizationObservation struct {
 }
 
 type DNSAuthorizationParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of the resource.
 	// +kubebuilder:validation:Optional
