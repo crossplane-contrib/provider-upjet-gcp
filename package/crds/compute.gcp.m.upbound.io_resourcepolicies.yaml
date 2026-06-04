@@ -60,6 +60,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -275,7 +280,7 @@ spec:
                       maxTopologyDistance:
                         description: |-
                           The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
-                          and cannot be set if accelerator topology is set.
+                          and cannot be set if accelerator topology or accelerator topology mode is set.
                           Possible values are: BLOCK, CLUSTER, SUBBLOCK.
                         type: string
                       type:
@@ -300,6 +305,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -512,7 +522,7 @@ spec:
                       maxTopologyDistance:
                         description: |-
                           The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
-                          and cannot be set if accelerator topology is set.
+                          and cannot be set if accelerator topology or accelerator topology mode is set.
                           Possible values are: BLOCK, CLUSTER, SUBBLOCK.
                         type: string
                       type:
@@ -585,6 +595,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -806,7 +821,7 @@ spec:
                       maxTopologyDistance:
                         description: |-
                           The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
-                          and cannot be set if accelerator topology is set.
+                          and cannot be set if accelerator topology or accelerator topology mode is set.
                           Possible values are: BLOCK, CLUSTER, SUBBLOCK.
                         type: string
                       type:

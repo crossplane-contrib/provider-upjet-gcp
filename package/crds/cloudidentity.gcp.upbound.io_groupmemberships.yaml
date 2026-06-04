@@ -78,6 +78,11 @@ spec:
                     description: If set to true, skip group member creation if a membership
                       with the same name already exists. Defaults to false.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   group:
                     description: The name of the Group to create this membership in.
                     type: string
@@ -227,6 +232,11 @@ spec:
                     description: If set to true, skip group member creation if a membership
                       with the same name already exists. Defaults to false.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   group:
                     description: The name of the Group to create this membership in.
                     type: string
@@ -461,6 +471,11 @@ spec:
                     type: boolean
                   createTime:
                     description: The time when the Membership was created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   group:
                     description: The name of the Group to create this membership in.

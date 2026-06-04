@@ -1491,6 +1491,11 @@ spec:
                     description: This will set a custom name prefix for the snapshot
                       that's created when the disk is deleted.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1690,11 +1695,26 @@ spec:
                           The service account used for the encryption request for the given KMS key.
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
-                      rawKey:
+                      rawKeySecretRef:
                         description: |-
                           Specifies a 256-bit customer-supplied encryption key, encoded in
                           RFC 4648 base64 to either encrypt or decrypt this resource.
-                        type: string
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   sourceInstantSnapshot:
                     description: |-
@@ -1721,11 +1741,26 @@ spec:
                           The service account used for the encryption request for the given KMS key.
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
-                      rawKey:
+                      rawKeySecretRef:
                         description: |-
                           Specifies a 256-bit customer-supplied encryption key, encoded in
                           RFC 4648 base64 to either encrypt or decrypt this resource.
-                        type: string
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   sourceStorageObject:
                     description: |-
@@ -1866,6 +1901,11 @@ spec:
                     description: This will set a custom name prefix for the snapshot
                       that's created when the disk is deleted.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -2065,11 +2105,26 @@ spec:
                           The service account used for the encryption request for the given KMS key.
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
-                      rawKey:
+                      rawKeySecretRef:
                         description: |-
                           Specifies a 256-bit customer-supplied encryption key, encoded in
                           RFC 4648 base64 to either encrypt or decrypt this resource.
-                        type: string
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   sourceInstantSnapshot:
                     description: |-
@@ -2096,11 +2151,26 @@ spec:
                           The service account used for the encryption request for the given KMS key.
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
-                      rawKey:
+                      rawKeySecretRef:
                         description: |-
                           Specifies a 256-bit customer-supplied encryption key, encoded in
                           RFC 4648 base64 to either encrypt or decrypt this resource.
-                        type: string
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   sourceStorageObject:
                     description: |-
@@ -2242,6 +2312,11 @@ spec:
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: |-
@@ -2440,11 +2515,6 @@ spec:
                           The service account used for the encryption request for the given KMS key.
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
-                      rawKey:
-                        description: |-
-                          Specifies a 256-bit customer-supplied encryption key, encoded in
-                          RFC 4648 base64 to either encrypt or decrypt this resource.
-                        type: string
                       sha256:
                         description: |-
                           (Output)
@@ -2492,11 +2562,6 @@ spec:
                         description: |-
                           The service account used for the encryption request for the given KMS key.
                           If absent, the Compute Engine Service Agent service account is used.
-                        type: string
-                      rawKey:
-                        description: |-
-                          Specifies a 256-bit customer-supplied encryption key, encoded in
-                          RFC 4648 base64 to either encrypt or decrypt this resource.
                         type: string
                       sha256:
                         description: |-

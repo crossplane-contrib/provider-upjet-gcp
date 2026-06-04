@@ -64,6 +64,11 @@ spec:
                       The common name to be used in the certificate to identify the
                       client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   instance:
                     description: |-
                       The name of the Cloud SQL instance. Changing this
@@ -174,6 +179,11 @@ spec:
                     description: |-
                       The common name to be used in the certificate to identify the
                       client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   instance:
                     description: |-
@@ -349,6 +359,11 @@ spec:
                     description: |-
                       The time when the certificate was created in RFC 3339 format,
                       for example 2012-11-15T16:19:00.094Z.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   expirationTime:
                     description: |-

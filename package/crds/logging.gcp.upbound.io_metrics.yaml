@@ -1083,6 +1083,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A description of this metric, which is used in documentation. The maximum length of the
@@ -1326,6 +1331,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A description of this metric, which is used in documentation. The maximum length of the
@@ -1576,6 +1586,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A description of this metric, which is used in documentation. The maximum length of the

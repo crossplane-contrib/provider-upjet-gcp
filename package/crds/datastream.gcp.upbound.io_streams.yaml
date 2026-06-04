@@ -78,6 +78,45 @@ spec:
                       Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded.
                       Structure is documented below.
                     properties:
+                      mongodbExcludedObjects:
+                        description: |-
+                          MongoDB data source objects to avoid backfilling.
+                          Structure is documented below.
+                        properties:
+                          databases:
+                            description: |-
+                              MongoDB databases in the cluster.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                collections:
+                                  description: |-
+                                    Collections in the database.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      collection:
+                                        description: The MongoDB collection name.
+                                        type: string
+                                      fields:
+                                        description: |-
+                                          Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            field:
+                                              description: Field name.
+                                              type: string
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                                database:
+                                  description: The database name.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       mysqlExcludedObjects:
                         description: |-
                           MySQL data source objects to avoid backfilling.
@@ -90,7 +129,7 @@ spec:
                             items:
                               properties:
                                 database:
-                                  description: Database name.
+                                  description: The database name.
                                   type: string
                                 mysqlTables:
                                   description: |-
@@ -108,7 +147,7 @@ spec:
                                               description: Column collation.
                                               type: string
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -161,7 +200,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -176,7 +215,7 @@ spec:
                                     type: object
                                   type: array
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                               type: object
                             type: array
@@ -205,7 +244,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -232,7 +271,7 @@ spec:
                                     type: object
                                   type: array
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                               type: object
                             type: array
@@ -260,8 +299,47 @@ spec:
                                     type: object
                                   type: array
                                 objectName:
-                                  description: Name of object in Salesforce Org.
+                                  description: The Salesforce object name.
                                   type: string
+                              type: object
+                            type: array
+                        type: object
+                      spannerExcludedObjects:
+                        description: |-
+                          Spanner objects to avoid backfilling.
+                          Structure is documented below.
+                        properties:
+                          schemas:
+                            description: |-
+                              SQL Server schemas/databases in the database server
+                              Structure is documented below.
+                            items:
+                              properties:
+                                schema:
+                                  description: The schema name.
+                                  type: string
+                                tables:
+                                  description: |-
+                                    Tables in the database.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      columns:
+                                        description: |-
+                                          SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            column:
+                                              description: The partitioning column.
+                                              type: string
+                                          type: object
+                                        type: array
+                                      table:
+                                        description: Table name.
+                                        type: string
+                                    type: object
+                                  type: array
                               type: object
                             type: array
                         type: object
@@ -277,7 +355,7 @@ spec:
                             items:
                               properties:
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                                 tables:
                                   description: |-
@@ -292,7 +370,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -321,6 +399,11 @@ spec:
                     description: |-
                       A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data
                       will be encrypted using an internal Stream-specific encryption key provisioned through KMS.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   desiredState:
                     description: |-
@@ -566,12 +649,92 @@ spec:
                                       See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information.
                                     type: string
                                   location:
-                                    description: |-
-                                      The geographic location where the dataset should reside.
-                                      See https://cloud.google.com/bigquery/docs/locations for supported locations.
+                                    description: The name of the location this stream
+                                      is located in.
                                     type: string
                                 required:
                                 - location
+                                type: object
+                              projectId:
+                                description: Optional. The project id of the BigQuery
+                                  dataset. If not specified, the project will be inferred
+                                  from the stream resource.
+                                type: string
+                              projectIdRef:
+                                description: Reference to a Project in cloudplatform
+                                  to populate projectId.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              projectIdSelector:
+                                description: Selector for a Project in cloudplatform
+                                  to populate projectId.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
                                 type: object
                             type: object
                         type: object
@@ -666,7 +829,8 @@ spec:
                           fileRotationInterval:
                             description: |-
                               The maximum duration for which new events are added before a file is closed and a new file is created.
-                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+                              Values within the range of 15-60 seconds are allowed.
+                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
                             type: string
                           fileRotationMb:
                             description: The maximum file size to be saved in the
@@ -714,11 +878,276 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  ruleSets:
+                    description: |-
+                      Rule sets to apply to the stream.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        customizationRules:
+                          description: |-
+                            List of customization rules to apply.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              bigqueryClustering:
+                                description: |-
+                                  BigQuery clustering rule.
+                                  Structure is documented below.
+                                properties:
+                                  columns:
+                                    description: |-
+                                      SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                      Structure is documented below.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              bigqueryPartitioning:
+                                description: |-
+                                  BigQuery partitioning rule.
+                                  Structure is documented below.
+                                properties:
+                                  ingestionTimePartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      partitioningTimeGranularity:
+                                        description: |-
+                                          Partition granularity.
+                                          Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+                                        type: string
+                                    type: object
+                                  integerRangePartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      column:
+                                        description: The partitioning column.
+                                        type: string
+                                      end:
+                                        description: The ending value for range partitioning
+                                          (exclusive).
+                                        type: number
+                                      interval:
+                                        description: The interval of each range within
+                                          the partition.
+                                        type: number
+                                      start:
+                                        description: The starting value for range
+                                          partitioning (inclusive).
+                                        type: number
+                                    type: object
+                                  requirePartitionFilter:
+                                    description: If true, queries over the table require
+                                      a partition filter.
+                                    type: boolean
+                                  timeUnitPartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      column:
+                                        description: The partitioning column.
+                                        type: string
+                                      partitioningTimeGranularity:
+                                        description: |-
+                                          Partition granularity.
+                                          Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                        objectFilter:
+                          description: |-
+                            Object filter to apply the customization rules to.
+                            Structure is documented below.
+                          properties:
+                            sourceObjectIdentifier:
+                              description: |-
+                                Specific source object identifier.
+                                Structure is documented below.
+                              properties:
+                                mongodbIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    collection:
+                                      description: The MongoDB collection name.
+                                      type: string
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                mysqlIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                oracleIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                postgresqlIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                salesforceIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    objectName:
+                                      description: The Salesforce object name.
+                                      type: string
+                                  type: object
+                                spannerIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                sqlServerIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   sourceConfig:
                     description: |-
                       Source connection profile configuration.
                       Structure is documented below.
                     properties:
+                      mongodbSourceConfig:
+                        description: |-
+                          MongoDB source configuration.
+                          Structure is documented below.
+                        properties:
+                          excludeObjects:
+                            description: |-
+                              SQL Server objects to exclude from the stream.
+                              Structure is documented below.
+                            properties:
+                              databases:
+                                description: |-
+                                  MongoDB databases in the cluster.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    collections:
+                                      description: |-
+                                        Collections in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          collection:
+                                            description: The MongoDB collection name.
+                                            type: string
+                                          fields:
+                                            description: |-
+                                              Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                field:
+                                                  description: Field name.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          includeObjects:
+                            description: |-
+                              SQL Server objects to retrieve from the source.
+                              Structure is documented below.
+                            properties:
+                              databases:
+                                description: |-
+                                  MongoDB databases in the cluster.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    collections:
+                                      description: |-
+                                        Collections in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          collection:
+                                            description: The MongoDB collection name.
+                                            type: string
+                                          fields:
+                                            description: |-
+                                              Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                field:
+                                                  description: Field name.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          maxConcurrentBackfillTasks:
+                            description: Max concurrent backfill tasks.
+                            type: number
+                        type: object
                       mysqlSourceConfig:
                         description: |-
                           MySQL data source configuration.
@@ -740,7 +1169,7 @@ spec:
                                 items:
                                   properties:
                                     database:
-                                      description: Database name.
+                                      description: The database name.
                                       type: string
                                     mysqlTables:
                                       description: |-
@@ -758,7 +1187,7 @@ spec:
                                                   description: Column collation.
                                                   type: string
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -802,7 +1231,7 @@ spec:
                                 items:
                                   properties:
                                     database:
-                                      description: Database name.
+                                      description: The database name.
                                       type: string
                                     mysqlTables:
                                       description: |-
@@ -820,7 +1249,7 @@ spec:
                                                   description: Column collation.
                                                   type: string
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -888,7 +1317,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -903,7 +1332,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -932,7 +1361,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -947,7 +1376,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -991,7 +1420,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -1018,7 +1447,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -1047,7 +1476,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -1074,7 +1503,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -1121,7 +1550,7 @@ spec:
                                         type: object
                                       type: array
                                     objectName:
-                                      description: Name of object in Salesforce Org.
+                                      description: The Salesforce object name.
                                       type: string
                                   type: object
                                 type: array
@@ -1149,7 +1578,7 @@ spec:
                                         type: object
                                       type: array
                                     objectName:
-                                      description: Name of object in Salesforce Org.
+                                      description: The Salesforce object name.
                                       type: string
                                   type: object
                                 type: array
@@ -1241,6 +1670,110 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      spannerSourceConfig:
+                        description: |-
+                          Spanner data source configuration.
+                          Structure is documented below.
+                        properties:
+                          backfillDataBoostEnabled:
+                            description: Whether to use DataBoost for backfill queries.
+                            type: boolean
+                          changeStreamName:
+                            description: The Spanner change stream name to use.
+                            type: string
+                          excludeObjects:
+                            description: |-
+                              SQL Server objects to exclude from the stream.
+                              Structure is documented below.
+                            properties:
+                              schemas:
+                                description: |-
+                                  SQL Server schemas/databases in the database server
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    tables:
+                                      description: |-
+                                        Tables in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          columns:
+                                            description: |-
+                                              SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                column:
+                                                  description: The partitioning column.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          table:
+                                            description: Table name.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          fgacRole:
+                            description: The FGAC role to use for Spanner queries.
+                            type: string
+                          includeObjects:
+                            description: |-
+                              SQL Server objects to retrieve from the source.
+                              Structure is documented below.
+                            properties:
+                              schemas:
+                                description: |-
+                                  SQL Server schemas/databases in the database server
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    tables:
+                                      description: |-
+                                        Tables in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          columns:
+                                            description: |-
+                                              SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                column:
+                                                  description: The partitioning column.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          table:
+                                            description: Table name.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          maxConcurrentBackfillTasks:
+                            description: Max concurrent backfill tasks.
+                            type: number
+                          maxConcurrentCdcTasks:
+                            description: Max concurrent CDC tasks.
+                            type: number
+                          spannerRpcPriority:
+                            description: |-
+                              The RPC priority to use for Spanner queries.
+                              Possible values are: LOW, MEDIUM, HIGH.
+                            type: string
+                        type: object
                       sqlServerSourceConfig:
                         description: |-
                           SQL Server data source configuration.
@@ -1261,7 +1794,7 @@ spec:
                                 items:
                                   properties:
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                     tables:
                                       description: |-
@@ -1276,7 +1809,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -1305,7 +1838,7 @@ spec:
                                 items:
                                   properties:
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                     tables:
                                       description: |-
@@ -1320,7 +1853,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -1369,6 +1902,45 @@ spec:
                       Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded.
                       Structure is documented below.
                     properties:
+                      mongodbExcludedObjects:
+                        description: |-
+                          MongoDB data source objects to avoid backfilling.
+                          Structure is documented below.
+                        properties:
+                          databases:
+                            description: |-
+                              MongoDB databases in the cluster.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                collections:
+                                  description: |-
+                                    Collections in the database.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      collection:
+                                        description: The MongoDB collection name.
+                                        type: string
+                                      fields:
+                                        description: |-
+                                          Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            field:
+                                              description: Field name.
+                                              type: string
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                                database:
+                                  description: The database name.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       mysqlExcludedObjects:
                         description: |-
                           MySQL data source objects to avoid backfilling.
@@ -1381,7 +1953,7 @@ spec:
                             items:
                               properties:
                                 database:
-                                  description: Database name.
+                                  description: The database name.
                                   type: string
                                 mysqlTables:
                                   description: |-
@@ -1399,7 +1971,7 @@ spec:
                                               description: Column collation.
                                               type: string
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -1452,7 +2024,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -1467,7 +2039,7 @@ spec:
                                     type: object
                                   type: array
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                               type: object
                             type: array
@@ -1496,7 +2068,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -1523,7 +2095,7 @@ spec:
                                     type: object
                                   type: array
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                               type: object
                             type: array
@@ -1551,8 +2123,47 @@ spec:
                                     type: object
                                   type: array
                                 objectName:
-                                  description: Name of object in Salesforce Org.
+                                  description: The Salesforce object name.
                                   type: string
+                              type: object
+                            type: array
+                        type: object
+                      spannerExcludedObjects:
+                        description: |-
+                          Spanner objects to avoid backfilling.
+                          Structure is documented below.
+                        properties:
+                          schemas:
+                            description: |-
+                              SQL Server schemas/databases in the database server
+                              Structure is documented below.
+                            items:
+                              properties:
+                                schema:
+                                  description: The schema name.
+                                  type: string
+                                tables:
+                                  description: |-
+                                    Tables in the database.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      columns:
+                                        description: |-
+                                          SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            column:
+                                              description: The partitioning column.
+                                              type: string
+                                          type: object
+                                        type: array
+                                      table:
+                                        description: Table name.
+                                        type: string
+                                    type: object
+                                  type: array
                               type: object
                             type: array
                         type: object
@@ -1568,7 +2179,7 @@ spec:
                             items:
                               properties:
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                                 tables:
                                   description: |-
@@ -1583,7 +2194,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -1612,6 +2223,11 @@ spec:
                     description: |-
                       A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data
                       will be encrypted using an internal Stream-specific encryption key provisioned through KMS.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   desiredState:
                     description: |-
@@ -1857,6 +2473,87 @@ spec:
                                       See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information.
                                     type: string
                                 type: object
+                              projectId:
+                                description: Optional. The project id of the BigQuery
+                                  dataset. If not specified, the project will be inferred
+                                  from the stream resource.
+                                type: string
+                              projectIdRef:
+                                description: Reference to a Project in cloudplatform
+                                  to populate projectId.
+                                properties:
+                                  name:
+                                    description: Name of the referenced object.
+                                    type: string
+                                  policy:
+                                    description: Policies for referencing.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                required:
+                                - name
+                                type: object
+                              projectIdSelector:
+                                description: Selector for a Project in cloudplatform
+                                  to populate projectId.
+                                properties:
+                                  matchControllerRef:
+                                    description: |-
+                                      MatchControllerRef ensures an object with the same controller reference
+                                      as the selecting object is selected.
+                                    type: boolean
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: MatchLabels ensures an object with
+                                      matching labels is selected.
+                                    type: object
+                                  policy:
+                                    description: Policies for selection.
+                                    properties:
+                                      resolution:
+                                        default: Required
+                                        description: |-
+                                          Resolution specifies whether resolution of this reference is required.
+                                          The default is 'Required', which means the reconcile will fail if the
+                                          reference cannot be resolved. 'Optional' means this reference will be
+                                          a no-op if it cannot be resolved.
+                                        enum:
+                                        - Required
+                                        - Optional
+                                        type: string
+                                      resolve:
+                                        description: |-
+                                          Resolve specifies when this reference should be resolved. The default
+                                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                                          the corresponding field is not present. Use 'Always' to resolve the
+                                          reference on every reconcile.
+                                        enum:
+                                        - Always
+                                        - IfNotPresent
+                                        type: string
+                                    type: object
+                                type: object
                             type: object
                         type: object
                       destinationConnectionProfile:
@@ -1950,7 +2647,8 @@ spec:
                           fileRotationInterval:
                             description: |-
                               The maximum duration for which new events are added before a file is closed and a new file is created.
-                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+                              Values within the range of 15-60 seconds are allowed.
+                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
                             type: string
                           fileRotationMb:
                             description: The maximum file size to be saved in the
@@ -1995,11 +2693,276 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  ruleSets:
+                    description: |-
+                      Rule sets to apply to the stream.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        customizationRules:
+                          description: |-
+                            List of customization rules to apply.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              bigqueryClustering:
+                                description: |-
+                                  BigQuery clustering rule.
+                                  Structure is documented below.
+                                properties:
+                                  columns:
+                                    description: |-
+                                      SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                      Structure is documented below.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              bigqueryPartitioning:
+                                description: |-
+                                  BigQuery partitioning rule.
+                                  Structure is documented below.
+                                properties:
+                                  ingestionTimePartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      partitioningTimeGranularity:
+                                        description: |-
+                                          Partition granularity.
+                                          Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+                                        type: string
+                                    type: object
+                                  integerRangePartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      column:
+                                        description: The partitioning column.
+                                        type: string
+                                      end:
+                                        description: The ending value for range partitioning
+                                          (exclusive).
+                                        type: number
+                                      interval:
+                                        description: The interval of each range within
+                                          the partition.
+                                        type: number
+                                      start:
+                                        description: The starting value for range
+                                          partitioning (inclusive).
+                                        type: number
+                                    type: object
+                                  requirePartitionFilter:
+                                    description: If true, queries over the table require
+                                      a partition filter.
+                                    type: boolean
+                                  timeUnitPartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      column:
+                                        description: The partitioning column.
+                                        type: string
+                                      partitioningTimeGranularity:
+                                        description: |-
+                                          Partition granularity.
+                                          Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                        objectFilter:
+                          description: |-
+                            Object filter to apply the customization rules to.
+                            Structure is documented below.
+                          properties:
+                            sourceObjectIdentifier:
+                              description: |-
+                                Specific source object identifier.
+                                Structure is documented below.
+                              properties:
+                                mongodbIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    collection:
+                                      description: The MongoDB collection name.
+                                      type: string
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                mysqlIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                oracleIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                postgresqlIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                salesforceIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    objectName:
+                                      description: The Salesforce object name.
+                                      type: string
+                                  type: object
+                                spannerIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                sqlServerIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   sourceConfig:
                     description: |-
                       Source connection profile configuration.
                       Structure is documented below.
                     properties:
+                      mongodbSourceConfig:
+                        description: |-
+                          MongoDB source configuration.
+                          Structure is documented below.
+                        properties:
+                          excludeObjects:
+                            description: |-
+                              SQL Server objects to exclude from the stream.
+                              Structure is documented below.
+                            properties:
+                              databases:
+                                description: |-
+                                  MongoDB databases in the cluster.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    collections:
+                                      description: |-
+                                        Collections in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          collection:
+                                            description: The MongoDB collection name.
+                                            type: string
+                                          fields:
+                                            description: |-
+                                              Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                field:
+                                                  description: Field name.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          includeObjects:
+                            description: |-
+                              SQL Server objects to retrieve from the source.
+                              Structure is documented below.
+                            properties:
+                              databases:
+                                description: |-
+                                  MongoDB databases in the cluster.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    collections:
+                                      description: |-
+                                        Collections in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          collection:
+                                            description: The MongoDB collection name.
+                                            type: string
+                                          fields:
+                                            description: |-
+                                              Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                field:
+                                                  description: Field name.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          maxConcurrentBackfillTasks:
+                            description: Max concurrent backfill tasks.
+                            type: number
+                        type: object
                       mysqlSourceConfig:
                         description: |-
                           MySQL data source configuration.
@@ -2021,7 +2984,7 @@ spec:
                                 items:
                                   properties:
                                     database:
-                                      description: Database name.
+                                      description: The database name.
                                       type: string
                                     mysqlTables:
                                       description: |-
@@ -2039,7 +3002,7 @@ spec:
                                                   description: Column collation.
                                                   type: string
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2083,7 +3046,7 @@ spec:
                                 items:
                                   properties:
                                     database:
-                                      description: Database name.
+                                      description: The database name.
                                       type: string
                                     mysqlTables:
                                       description: |-
@@ -2101,7 +3064,7 @@ spec:
                                                   description: Column collation.
                                                   type: string
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2169,7 +3132,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2184,7 +3147,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -2213,7 +3176,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2228,7 +3191,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -2272,7 +3235,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2299,7 +3262,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -2328,7 +3291,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2355,7 +3318,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -2402,7 +3365,7 @@ spec:
                                         type: object
                                       type: array
                                     objectName:
-                                      description: Name of object in Salesforce Org.
+                                      description: The Salesforce object name.
                                       type: string
                                   type: object
                                 type: array
@@ -2430,7 +3393,7 @@ spec:
                                         type: object
                                       type: array
                                     objectName:
-                                      description: Name of object in Salesforce Org.
+                                      description: The Salesforce object name.
                                       type: string
                                   type: object
                                 type: array
@@ -2522,6 +3485,110 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      spannerSourceConfig:
+                        description: |-
+                          Spanner data source configuration.
+                          Structure is documented below.
+                        properties:
+                          backfillDataBoostEnabled:
+                            description: Whether to use DataBoost for backfill queries.
+                            type: boolean
+                          changeStreamName:
+                            description: The Spanner change stream name to use.
+                            type: string
+                          excludeObjects:
+                            description: |-
+                              SQL Server objects to exclude from the stream.
+                              Structure is documented below.
+                            properties:
+                              schemas:
+                                description: |-
+                                  SQL Server schemas/databases in the database server
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    tables:
+                                      description: |-
+                                        Tables in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          columns:
+                                            description: |-
+                                              SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                column:
+                                                  description: The partitioning column.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          table:
+                                            description: Table name.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          fgacRole:
+                            description: The FGAC role to use for Spanner queries.
+                            type: string
+                          includeObjects:
+                            description: |-
+                              SQL Server objects to retrieve from the source.
+                              Structure is documented below.
+                            properties:
+                              schemas:
+                                description: |-
+                                  SQL Server schemas/databases in the database server
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    tables:
+                                      description: |-
+                                        Tables in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          columns:
+                                            description: |-
+                                              SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                column:
+                                                  description: The partitioning column.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          table:
+                                            description: Table name.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          maxConcurrentBackfillTasks:
+                            description: Max concurrent backfill tasks.
+                            type: number
+                          maxConcurrentCdcTasks:
+                            description: Max concurrent CDC tasks.
+                            type: number
+                          spannerRpcPriority:
+                            description: |-
+                              The RPC priority to use for Spanner queries.
+                              Possible values are: LOW, MEDIUM, HIGH.
+                            type: string
+                        type: object
                       sqlServerSourceConfig:
                         description: |-
                           SQL Server data source configuration.
@@ -2542,7 +3609,7 @@ spec:
                                 items:
                                   properties:
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                     tables:
                                       description: |-
@@ -2557,7 +3624,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2586,7 +3653,7 @@ spec:
                                 items:
                                   properties:
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                     tables:
                                       description: |-
@@ -2601,7 +3668,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -2739,6 +3806,45 @@ spec:
                       Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded.
                       Structure is documented below.
                     properties:
+                      mongodbExcludedObjects:
+                        description: |-
+                          MongoDB data source objects to avoid backfilling.
+                          Structure is documented below.
+                        properties:
+                          databases:
+                            description: |-
+                              MongoDB databases in the cluster.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                collections:
+                                  description: |-
+                                    Collections in the database.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      collection:
+                                        description: The MongoDB collection name.
+                                        type: string
+                                      fields:
+                                        description: |-
+                                          Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            field:
+                                              description: Field name.
+                                              type: string
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                                database:
+                                  description: The database name.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       mysqlExcludedObjects:
                         description: |-
                           MySQL data source objects to avoid backfilling.
@@ -2751,7 +3857,7 @@ spec:
                             items:
                               properties:
                                 database:
-                                  description: Database name.
+                                  description: The database name.
                                   type: string
                                 mysqlTables:
                                   description: |-
@@ -2769,7 +3875,7 @@ spec:
                                               description: Column collation.
                                               type: string
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -2827,7 +3933,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -2874,7 +3980,7 @@ spec:
                                     type: object
                                   type: array
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                               type: object
                             type: array
@@ -2903,7 +4009,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -2945,7 +4051,7 @@ spec:
                                     type: object
                                   type: array
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                               type: object
                             type: array
@@ -2973,8 +4079,61 @@ spec:
                                     type: object
                                   type: array
                                 objectName:
-                                  description: Name of object in Salesforce Org.
+                                  description: The Salesforce object name.
                                   type: string
+                              type: object
+                            type: array
+                        type: object
+                      spannerExcludedObjects:
+                        description: |-
+                          Spanner objects to avoid backfilling.
+                          Structure is documented below.
+                        properties:
+                          schemas:
+                            description: |-
+                              SQL Server schemas/databases in the database server
+                              Structure is documented below.
+                            items:
+                              properties:
+                                schema:
+                                  description: The schema name.
+                                  type: string
+                                tables:
+                                  description: |-
+                                    Tables in the database.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      columns:
+                                        description: |-
+                                          SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            column:
+                                              description: The partitioning column.
+                                              type: string
+                                            dataType:
+                                              description: |-
+                                                The PostgreSQL data type. Full data types list can be found here:
+                                                https://www.postgresql.org/docs/current/datatype.html
+                                              type: string
+                                            isPrimaryKey:
+                                              description: |-
+                                                (Output)
+                                                Whether or not the column is a primary key.
+                                              type: boolean
+                                            ordinalPosition:
+                                              description: The ordinal position of
+                                                the column in the table.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      table:
+                                        description: Table name.
+                                        type: string
+                                    type: object
+                                  type: array
                               type: object
                             type: array
                         type: object
@@ -2990,7 +4149,7 @@ spec:
                             items:
                               properties:
                                 schema:
-                                  description: Schema name.
+                                  description: The schema name.
                                   type: string
                                 tables:
                                   description: |-
@@ -3005,7 +4164,7 @@ spec:
                                         items:
                                           properties:
                                             column:
-                                              description: Column name.
+                                              description: The partitioning column.
                                               type: string
                                             dataType:
                                               description: |-
@@ -3061,6 +4220,11 @@ spec:
                     description: |-
                       A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data
                       will be encrypted using an internal Stream-specific encryption key provisioned through KMS.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   desiredState:
                     description: |-
@@ -3154,11 +4318,15 @@ spec:
                                       See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information.
                                     type: string
                                   location:
-                                    description: |-
-                                      The geographic location where the dataset should reside.
-                                      See https://cloud.google.com/bigquery/docs/locations for supported locations.
+                                    description: The name of the location this stream
+                                      is located in.
                                     type: string
                                 type: object
+                              projectId:
+                                description: Optional. The project id of the BigQuery
+                                  dataset. If not specified, the project will be inferred
+                                  from the stream resource.
+                                type: string
                             type: object
                         type: object
                       destinationConnectionProfile:
@@ -3176,7 +4344,8 @@ spec:
                           fileRotationInterval:
                             description: |-
                               The maximum duration for which new events are added before a file is closed and a new file is created.
-                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+                              Values within the range of 15-60 seconds are allowed.
+                              A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
                             type: string
                           fileRotationMb:
                             description: The maximum file size to be saved in the
@@ -3235,11 +4404,276 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  ruleSets:
+                    description: |-
+                      Rule sets to apply to the stream.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        customizationRules:
+                          description: |-
+                            List of customization rules to apply.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              bigqueryClustering:
+                                description: |-
+                                  BigQuery clustering rule.
+                                  Structure is documented below.
+                                properties:
+                                  columns:
+                                    description: |-
+                                      SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                      Structure is documented below.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              bigqueryPartitioning:
+                                description: |-
+                                  BigQuery partitioning rule.
+                                  Structure is documented below.
+                                properties:
+                                  ingestionTimePartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      partitioningTimeGranularity:
+                                        description: |-
+                                          Partition granularity.
+                                          Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+                                        type: string
+                                    type: object
+                                  integerRangePartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      column:
+                                        description: The partitioning column.
+                                        type: string
+                                      end:
+                                        description: The ending value for range partitioning
+                                          (exclusive).
+                                        type: number
+                                      interval:
+                                        description: The interval of each range within
+                                          the partition.
+                                        type: number
+                                      start:
+                                        description: The starting value for range
+                                          partitioning (inclusive).
+                                        type: number
+                                    type: object
+                                  requirePartitionFilter:
+                                    description: If true, queries over the table require
+                                      a partition filter.
+                                    type: boolean
+                                  timeUnitPartition:
+                                    description: |-
+                                      A nested object resource.
+                                      Structure is documented below.
+                                    properties:
+                                      column:
+                                        description: The partitioning column.
+                                        type: string
+                                      partitioningTimeGranularity:
+                                        description: |-
+                                          Partition granularity.
+                                          Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+                                        type: string
+                                    type: object
+                                type: object
+                            type: object
+                          type: array
+                        objectFilter:
+                          description: |-
+                            Object filter to apply the customization rules to.
+                            Structure is documented below.
+                          properties:
+                            sourceObjectIdentifier:
+                              description: |-
+                                Specific source object identifier.
+                                Structure is documented below.
+                              properties:
+                                mongodbIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    collection:
+                                      description: The MongoDB collection name.
+                                      type: string
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                mysqlIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                oracleIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                postgresqlIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                salesforceIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    objectName:
+                                      description: The Salesforce object name.
+                                      type: string
+                                  type: object
+                                spannerIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                                sqlServerIdentifier:
+                                  description: |-
+                                    A nested object resource.
+                                    Structure is documented below.
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    table:
+                                      description: Table name.
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                      type: object
+                    type: array
                   sourceConfig:
                     description: |-
                       Source connection profile configuration.
                       Structure is documented below.
                     properties:
+                      mongodbSourceConfig:
+                        description: |-
+                          MongoDB source configuration.
+                          Structure is documented below.
+                        properties:
+                          excludeObjects:
+                            description: |-
+                              SQL Server objects to exclude from the stream.
+                              Structure is documented below.
+                            properties:
+                              databases:
+                                description: |-
+                                  MongoDB databases in the cluster.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    collections:
+                                      description: |-
+                                        Collections in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          collection:
+                                            description: The MongoDB collection name.
+                                            type: string
+                                          fields:
+                                            description: |-
+                                              Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                field:
+                                                  description: Field name.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          includeObjects:
+                            description: |-
+                              SQL Server objects to retrieve from the source.
+                              Structure is documented below.
+                            properties:
+                              databases:
+                                description: |-
+                                  MongoDB databases in the cluster.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    collections:
+                                      description: |-
+                                        Collections in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          collection:
+                                            description: The MongoDB collection name.
+                                            type: string
+                                          fields:
+                                            description: |-
+                                              Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                field:
+                                                  description: Field name.
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    database:
+                                      description: The database name.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          maxConcurrentBackfillTasks:
+                            description: Max concurrent backfill tasks.
+                            type: number
+                        type: object
                       mysqlSourceConfig:
                         description: |-
                           MySQL data source configuration.
@@ -3261,7 +4695,7 @@ spec:
                                 items:
                                   properties:
                                     database:
-                                      description: Database name.
+                                      description: The database name.
                                       type: string
                                     mysqlTables:
                                       description: |-
@@ -3279,7 +4713,7 @@ spec:
                                                   description: Column collation.
                                                   type: string
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3328,7 +4762,7 @@ spec:
                                 items:
                                   properties:
                                     database:
-                                      description: Database name.
+                                      description: The database name.
                                       type: string
                                     mysqlTables:
                                       description: |-
@@ -3346,7 +4780,7 @@ spec:
                                                   description: Column collation.
                                                   type: string
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3419,7 +4853,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3466,7 +4900,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -3495,7 +4929,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3542,7 +4976,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -3586,7 +5020,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3628,7 +5062,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -3657,7 +5091,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3699,7 +5133,7 @@ spec:
                                         type: object
                                       type: array
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                   type: object
                                 type: array
@@ -3746,7 +5180,7 @@ spec:
                                         type: object
                                       type: array
                                     objectName:
-                                      description: Name of object in Salesforce Org.
+                                      description: The Salesforce object name.
                                       type: string
                                   type: object
                                 type: array
@@ -3774,7 +5208,7 @@ spec:
                                         type: object
                                       type: array
                                     objectName:
-                                      description: Name of object in Salesforce Org.
+                                      description: The Salesforce object name.
                                       type: string
                                   type: object
                                 type: array
@@ -3790,6 +5224,138 @@ spec:
                         description: 'Source connection profile resource. Format:
                           projects/{project}/locations/{location}/connectionProfiles/{name}'
                         type: string
+                      spannerSourceConfig:
+                        description: |-
+                          Spanner data source configuration.
+                          Structure is documented below.
+                        properties:
+                          backfillDataBoostEnabled:
+                            description: Whether to use DataBoost for backfill queries.
+                            type: boolean
+                          changeStreamName:
+                            description: The Spanner change stream name to use.
+                            type: string
+                          excludeObjects:
+                            description: |-
+                              SQL Server objects to exclude from the stream.
+                              Structure is documented below.
+                            properties:
+                              schemas:
+                                description: |-
+                                  SQL Server schemas/databases in the database server
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    tables:
+                                      description: |-
+                                        Tables in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          columns:
+                                            description: |-
+                                              SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                column:
+                                                  description: The partitioning column.
+                                                  type: string
+                                                dataType:
+                                                  description: |-
+                                                    The PostgreSQL data type. Full data types list can be found here:
+                                                    https://www.postgresql.org/docs/current/datatype.html
+                                                  type: string
+                                                isPrimaryKey:
+                                                  description: |-
+                                                    (Output)
+                                                    Whether or not the column is a primary key.
+                                                  type: boolean
+                                                ordinalPosition:
+                                                  description: The ordinal position
+                                                    of the column in the table.
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          table:
+                                            description: Table name.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          fgacRole:
+                            description: The FGAC role to use for Spanner queries.
+                            type: string
+                          includeObjects:
+                            description: |-
+                              SQL Server objects to retrieve from the source.
+                              Structure is documented below.
+                            properties:
+                              schemas:
+                                description: |-
+                                  SQL Server schemas/databases in the database server
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    schema:
+                                      description: The schema name.
+                                      type: string
+                                    tables:
+                                      description: |-
+                                        Tables in the database.
+                                        Structure is documented below.
+                                      items:
+                                        properties:
+                                          columns:
+                                            description: |-
+                                              SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                column:
+                                                  description: The partitioning column.
+                                                  type: string
+                                                dataType:
+                                                  description: |-
+                                                    The PostgreSQL data type. Full data types list can be found here:
+                                                    https://www.postgresql.org/docs/current/datatype.html
+                                                  type: string
+                                                isPrimaryKey:
+                                                  description: |-
+                                                    (Output)
+                                                    Whether or not the column is a primary key.
+                                                  type: boolean
+                                                ordinalPosition:
+                                                  description: The ordinal position
+                                                    of the column in the table.
+                                                  type: number
+                                              type: object
+                                            type: array
+                                          table:
+                                            description: Table name.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                            type: object
+                          maxConcurrentBackfillTasks:
+                            description: Max concurrent backfill tasks.
+                            type: number
+                          maxConcurrentCdcTasks:
+                            description: Max concurrent CDC tasks.
+                            type: number
+                          spannerRpcPriority:
+                            description: |-
+                              The RPC priority to use for Spanner queries.
+                              Possible values are: LOW, MEDIUM, HIGH.
+                            type: string
+                        type: object
                       sqlServerSourceConfig:
                         description: |-
                           SQL Server data source configuration.
@@ -3810,7 +5376,7 @@ spec:
                                 items:
                                   properties:
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                     tables:
                                       description: |-
@@ -3825,7 +5391,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-
@@ -3881,7 +5447,7 @@ spec:
                                 items:
                                   properties:
                                     schema:
-                                      description: Schema name.
+                                      description: The schema name.
                                       type: string
                                     tables:
                                       description: |-
@@ -3896,7 +5462,7 @@ spec:
                                             items:
                                               properties:
                                                 column:
-                                                  description: Column name.
+                                                  description: The partitioning column.
                                                   type: string
                                                 dataType:
                                                   description: |-

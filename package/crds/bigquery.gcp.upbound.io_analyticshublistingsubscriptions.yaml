@@ -155,6 +155,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destinationDataset:
                     description: |-
                       The destination dataset for this subscription.
@@ -270,6 +275,13 @@ spec:
                           The geographic location where the dataset should reside.
                           See https://cloud.google.com/bigquery/docs/locations for supported locations.
                         type: string
+                      replicaLocations:
+                        description: List of regions where the subscriber wants dataset
+                          replicas.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                     type: object
                   listingId:
                     description: The ID of the listing. Must contain only Unicode
@@ -456,6 +468,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destinationDataset:
                     description: |-
                       The destination dataset for this subscription.
@@ -571,6 +588,13 @@ spec:
                           The geographic location where the dataset should reside.
                           See https://cloud.google.com/bigquery/docs/locations for supported locations.
                         type: string
+                      replicaLocations:
+                        description: List of regions where the subscriber wants dataset
+                          replicas.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                     type: object
                   listingId:
                     description: The ID of the listing. Must contain only Unicode
@@ -794,6 +818,11 @@ spec:
                       letters, numbers (0-9), underscores (_). Should not use characters
                       that require URL-escaping, or characters outside of ASCII, spaces.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destinationDataset:
                     description: |-
                       The destination dataset for this subscription.
@@ -833,6 +862,13 @@ spec:
                           The geographic location where the dataset should reside.
                           See https://cloud.google.com/bigquery/docs/locations for supported locations.
                         type: string
+                      replicaLocations:
+                        description: List of regions where the subscriber wants dataset
+                          replicas.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                     type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/subscriptions/{{subscription_id}}

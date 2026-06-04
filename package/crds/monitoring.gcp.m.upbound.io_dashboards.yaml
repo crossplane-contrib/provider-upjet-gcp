@@ -64,6 +64,11 @@ spec:
                       The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
                       The representation of an existing dashboard can be found by using the API Explorer
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -87,6 +92,11 @@ spec:
                     description: |-
                       The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
                       The representation of an existing dashboard can be found by using the API Explorer
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   project:
                     description: |-
@@ -166,6 +176,11 @@ spec:
                     description: |-
                       The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
                       The representation of an existing dashboard can be found by using the API Explorer
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{project_id_or_number}/dashboards/{dashboard_id}

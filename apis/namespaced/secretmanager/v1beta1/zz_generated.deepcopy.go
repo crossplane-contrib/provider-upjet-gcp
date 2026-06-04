@@ -798,6 +798,11 @@ func (in *SecretInitParameters) DeepCopyInto(out *SecretInitParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -953,6 +958,11 @@ func (in *SecretObservation) DeepCopyInto(out *SecretObservation) {
 	}
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -1134,6 +1144,11 @@ func (in *SecretParameters) DeepCopyInto(out *SecretParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
@@ -1317,6 +1332,11 @@ func (in *SecretVersionInitParameters) DeepCopyInto(out *SecretVersionInitParame
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Project != nil {
+		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
 	if in.Secret != nil {
 		in, out := &in.Secret, &out.Secret
 		*out = new(string)
@@ -1429,6 +1449,11 @@ func (in *SecretVersionObservation) DeepCopyInto(out *SecretVersionObservation) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.Project != nil {
+		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
 	if in.Secret != nil {
 		in, out := &in.Secret, &out.Secret
 		*out = new(string)
@@ -1477,6 +1502,11 @@ func (in *SecretVersionParameters) DeepCopyInto(out *SecretVersionParameters) {
 	if in.IsSecretDataBase64 != nil {
 		in, out := &in.IsSecretDataBase64, &out.IsSecretDataBase64
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Project != nil {
+		in, out := &in.Project, &out.Project
+		*out = new(string)
 		**out = **in
 	}
 	if in.Secret != nil {

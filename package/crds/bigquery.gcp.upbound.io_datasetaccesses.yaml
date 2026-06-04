@@ -2173,6 +2173,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   domain:
                     description: |-
                       A domain to grant access to. Any users signed in with the
@@ -2931,6 +2936,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   domain:
                     description: |-
                       A domain to grant access to. Any users signed in with the
@@ -3618,6 +3628,11 @@ spec:
                       A unique ID for this dataset, without the project name. The ID
                       must contain only letters (a-z, A-Z), numbers (0-9), or
                       underscores (_). The maximum length is 1,024 characters.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   domain:
                     description: |-

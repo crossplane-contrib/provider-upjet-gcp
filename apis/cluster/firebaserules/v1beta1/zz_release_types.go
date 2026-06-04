@@ -15,6 +15,10 @@ import (
 
 type ReleaseInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The project for the resource
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -36,6 +40,10 @@ type ReleaseObservation struct {
 	// Output only. Time the release was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Disable the release to keep it from being served. The response code of NOT_FOUND will be given for executables generated from this Release.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
@@ -53,6 +61,11 @@ type ReleaseObservation struct {
 }
 
 type ReleaseParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The project for the resource
 	// +kubebuilder:validation:Optional

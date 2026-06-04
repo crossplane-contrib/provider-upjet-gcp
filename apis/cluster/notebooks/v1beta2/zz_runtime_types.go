@@ -416,6 +416,10 @@ type RuntimeInitParameters struct {
 	// Structure is documented below.
 	AccessConfig *AccessConfigInitParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The labels to associate with this runtime. Label keys must
 	// contain 1 to 63 characters, and must conform to [RFC 1035]
 	// (https://www.ietf.org/rfc/rfc1035.txt). Label values may be
@@ -443,6 +447,10 @@ type RuntimeObservation struct {
 	// The config settings for accessing runtime.
 	// Structure is documented below.
 	AccessConfig *AccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -499,6 +507,11 @@ type RuntimeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AccessConfig *AccessConfigParameters `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The labels to associate with this runtime. Label keys must
 	// contain 1 to 63 characters, and must conform to [RFC 1035]

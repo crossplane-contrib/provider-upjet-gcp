@@ -60,6 +60,10 @@ type ResponsePolicyGkeClustersParameters struct {
 
 type ResponsePolicyInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the response policy, such as My new response policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -123,6 +127,10 @@ type ResponsePolicyNetworksParameters struct {
 
 type ResponsePolicyObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the response policy, such as My new response policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -143,6 +151,11 @@ type ResponsePolicyObservation struct {
 }
 
 type ResponsePolicyParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the response policy, such as My new response policy.
 	// +kubebuilder:validation:Optional

@@ -77,6 +77,11 @@ spec:
                     description: The resource which will use the reservation. E.g.
                       projects/myproject, folders/123, organizations/456.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   jobType:
                     description: 'Types of job, which could be specified when using
                       the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE,
@@ -186,6 +191,11 @@ spec:
                   assignee:
                     description: The resource which will use the reservation. E.g.
                       projects/myproject, folders/123, organizations/456.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   jobType:
                     description: 'Types of job, which could be specified when using
@@ -305,6 +315,11 @@ spec:
                   assignee:
                     description: The resource which will use the reservation. E.g.
                       projects/myproject, folders/123, organizations/456.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}

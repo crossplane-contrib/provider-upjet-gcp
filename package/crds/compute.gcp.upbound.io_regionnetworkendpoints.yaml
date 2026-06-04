@@ -74,11 +74,99 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  clientDestinationPort:
+                    description: Client destination port for the GCE_VM_IP_PORTMAP
+                      NEG.
+                    type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   fqdn:
                     description: |-
                       Fully qualified domain name of network endpoint.
                       This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
                     type: string
+                  instance:
+                    description: |-
+                      The name for a specific VM instance that the IP address belongs to.
+                      This is required for network endpoints of type GCE_VM_IP_PORTMAP.
+                    type: string
+                  instanceRef:
+                    description: Reference to a Instance in compute to populate instance.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceSelector:
+                    description: Selector for a Instance in compute to populate instance.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   ipAddress:
                     description: |-
                       IPv4 address external endpoint.
@@ -190,11 +278,99 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  clientDestinationPort:
+                    description: Client destination port for the GCE_VM_IP_PORTMAP
+                      NEG.
+                    type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   fqdn:
                     description: |-
                       Fully qualified domain name of network endpoint.
                       This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
                     type: string
+                  instance:
+                    description: |-
+                      The name for a specific VM instance that the IP address belongs to.
+                      This is required for network endpoints of type GCE_VM_IP_PORTMAP.
+                    type: string
+                  instanceRef:
+                    description: Reference to a Instance in compute to populate instance.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceSelector:
+                    description: Selector for a Instance in compute to populate instance.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   ipAddress:
                     description: |-
                       IPv4 address external endpoint.
@@ -390,6 +566,15 @@ spec:
             properties:
               atProvider:
                 properties:
+                  clientDestinationPort:
+                    description: Client destination port for the GCE_VM_IP_PORTMAP
+                      NEG.
+                    type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   fqdn:
                     description: |-
                       Fully qualified domain name of network endpoint.
@@ -397,6 +582,11 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format {{project}}/{{region}}/{{region_network_endpoint_group}}/{{ip_address}}/{{fqdn}}/{{port}}
+                    type: string
+                  instance:
+                    description: |-
+                      The name for a specific VM instance that the IP address belongs to.
+                      This is required for network endpoints of type GCE_VM_IP_PORTMAP.
                     type: string
                   ipAddress:
                     description: |-

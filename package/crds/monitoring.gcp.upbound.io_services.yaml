@@ -472,6 +472,11 @@ spec:
                           APP_ENGINE service type
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Name used for UI elements listing this Service.
                     type: string
@@ -527,6 +532,11 @@ spec:
                           APP_ENGINE service type
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Name used for UI elements listing this Service.
                     type: string
@@ -660,6 +670,11 @@ spec:
                           APP_ENGINE service type
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Name used for UI elements listing this Service.
                     type: string

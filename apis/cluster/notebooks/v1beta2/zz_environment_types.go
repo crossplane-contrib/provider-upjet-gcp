@@ -51,6 +51,10 @@ type EnvironmentInitParameters struct {
 	// Structure is documented below.
 	ContainerImage *ContainerImageInitParameters `json:"containerImage,omitempty" tf:"container_image,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A brief description of this environment.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -78,6 +82,10 @@ type EnvironmentObservation struct {
 
 	// Instance creation time
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A brief description of this environment.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -110,6 +118,11 @@ type EnvironmentParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ContainerImage *ContainerImageParameters `json:"containerImage,omitempty" tf:"container_image,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A brief description of this environment.
 	// +kubebuilder:validation:Optional

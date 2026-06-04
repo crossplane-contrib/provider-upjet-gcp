@@ -74,9 +74,9 @@ spec:
               forProvider:
                 properties:
                   deletionPolicy:
-                    description: The deletion policy for the service networking connection.
-                      Setting to ABANDON allows the resource to be abandoned rather
-                      than deleted. Use with care as it can lead to dangling resources.
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE" or any other value, deleting the resource is allowed.
                     type: string
                   network:
                     description: Name of VPC network connected with service producers
@@ -269,9 +269,9 @@ spec:
                   autoscaler.
                 properties:
                   deletionPolicy:
-                    description: The deletion policy for the service networking connection.
-                      Setting to ABANDON allows the resource to be abandoned rather
-                      than deleted. Use with care as it can lead to dangling resources.
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE" or any other value, deleting the resource is allowed.
                     type: string
                   network:
                     description: Name of VPC network connected with service producers
@@ -547,9 +547,9 @@ spec:
               atProvider:
                 properties:
                   deletionPolicy:
-                    description: The deletion policy for the service networking connection.
-                      Setting to ABANDON allows the resource to be abandoned rather
-                      than deleted. Use with care as it can lead to dangling resources.
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE" or any other value, deleting the resource is allowed.
                     type: string
                   id:
                     type: string

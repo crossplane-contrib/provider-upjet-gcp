@@ -73,6 +73,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   exportCustomRoutes:
                     description: Whether to export the custom routes to the peer network.
                       Defaults to false.
@@ -255,6 +260,12 @@ spec:
                       to be imported or exported between peer networks. The default
                       value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].'
                     type: string
+                  updateStrategy:
+                    description: 'The update strategy determines the semantics for
+                      updates and deletes to the peering connection configuration.
+                      The default value is INDEPENDENT. Possible values: ["INDEPENDENT",
+                      "CONSENSUS"]'
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -269,6 +280,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   exportCustomRoutes:
                     description: Whether to export the custom routes to the peer network.
                       Defaults to false.
@@ -374,6 +390,12 @@ spec:
                       to be imported or exported between peer networks. The default
                       value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].'
                     type: string
+                  updateStrategy:
+                    description: 'The update strategy determines the semantics for
+                      updates and deletes to the peering connection configuration.
+                      The default value is INDEPENDENT. Possible values: ["INDEPENDENT",
+                      "CONSENSUS"]'
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -466,6 +488,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   exportCustomRoutes:
                     description: Whether to export the custom routes to the peer network.
                       Defaults to false.
@@ -510,6 +537,12 @@ spec:
                     type: string
                   stateDetails:
                     description: Details about the current state of the peering.
+                    type: string
+                  updateStrategy:
+                    description: 'The update strategy determines the semantics for
+                      updates and deletes to the peering connection configuration.
+                      The default value is INDEPENDENT. Possible values: ["INDEPENDENT",
+                      "CONSENSUS"]'
                     type: string
                 type: object
               conditions:

@@ -615,6 +615,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -1297,6 +1302,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -2256,6 +2266,11 @@ spec:
                     description: |-
                       The time that this resource was created on the server.
                       This is in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveLabels:
                     additionalProperties:

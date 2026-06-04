@@ -79,6 +79,11 @@ spec:
                       The action to take if this rule matches.
                       Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional string description of this rule.
                     type: string
@@ -193,6 +198,11 @@ spec:
                     description: |-
                       The action to take if this rule matches.
                       Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional string description of this rule.
@@ -395,6 +405,11 @@ spec:
                     description: |-
                       The action to take if this rule matches.
                       Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional string description of this rule.

@@ -66,6 +66,11 @@ spec:
                       project-level default tier is used.
                       Possible values are: PREMIUM, STANDARD.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   drainNatIps:
                     description: |-
                       A list of URLs of the IP resources to be drained. These IPs must be
@@ -767,6 +772,11 @@ spec:
                       project-level default tier is used.
                       Possible values are: PREMIUM, STANDARD.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   drainNatIps:
                     description: |-
                       A list of URLs of the IP resources to be drained. These IPs must be
@@ -1434,6 +1444,11 @@ spec:
                       Must be one of: PREMIUM, STANDARD. If not specified, then the current
                       project-level default tier is used.
                       Possible values are: PREMIUM, STANDARD.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   drainNatIps:
                     description: |-

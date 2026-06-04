@@ -234,6 +234,10 @@ type WorkloadIdentityPoolProviderInitParameters struct {
 	// Structure is documented below.
 	Aws *AwsInitParameters `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description for the provider. Cannot exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -281,6 +285,10 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
 	// Structure is documented below.
 	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description for the provider. Cannot exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -347,6 +355,11 @@ type WorkloadIdentityPoolProviderParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Aws *AwsParameters `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description for the provider. Cannot exceed 256 characters.
 	// +kubebuilder:validation:Optional

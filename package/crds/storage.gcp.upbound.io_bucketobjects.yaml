@@ -945,6 +945,29 @@ spec:
                     description: Content-Type of the object data. Defaults to "application/octet-stream"
                       or "text/plain; charset=utf-8".
                     type: string
+                  contexts:
+                    description: Contexts attached to an object, in key-value pairs.
+                      For more information about object contexts, see Object contexts
+                      overview. Structure is documented below.
+                    properties:
+                      custom:
+                        description: User-provided object contexts. Structure is documented
+                          below.
+                        items:
+                          properties:
+                            key:
+                              description: An individual object context. Context keys
+                                and their corresponding values must start with an
+                                alphanumeric character.
+                              type: string
+                            value:
+                              description: The value associated with this context.
+                                This field holds the primary information for the given
+                                context key.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   customerEncryption:
                     description: |-
                       Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
@@ -972,8 +995,9 @@ spec:
                         type: object
                     type: object
                   deletionPolicy:
-                    description: When set to ABANDON, the object won't be deleted
-                      from storage bucket.
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This
@@ -1154,6 +1178,29 @@ spec:
                     description: Content-Type of the object data. Defaults to "application/octet-stream"
                       or "text/plain; charset=utf-8".
                     type: string
+                  contexts:
+                    description: Contexts attached to an object, in key-value pairs.
+                      For more information about object contexts, see Object contexts
+                      overview. Structure is documented below.
+                    properties:
+                      custom:
+                        description: User-provided object contexts. Structure is documented
+                          below.
+                        items:
+                          properties:
+                            key:
+                              description: An individual object context. Context keys
+                                and their corresponding values must start with an
+                                alphanumeric character.
+                              type: string
+                            value:
+                              description: The value associated with this context.
+                                This field holds the primary information for the given
+                                context key.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   customerEncryption:
                     description: |-
                       Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
@@ -1183,8 +1230,9 @@ spec:
                     - encryptionKeySecretRef
                     type: object
                   deletionPolicy:
-                    description: When set to ABANDON, the object won't be deleted
-                      from storage bucket.
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This
@@ -1374,6 +1422,37 @@ spec:
                     description: Content-Type of the object data. Defaults to "application/octet-stream"
                       or "text/plain; charset=utf-8".
                     type: string
+                  contexts:
+                    description: Contexts attached to an object, in key-value pairs.
+                      For more information about object contexts, see Object contexts
+                      overview. Structure is documented below.
+                    properties:
+                      custom:
+                        description: User-provided object contexts. Structure is documented
+                          below.
+                        items:
+                          properties:
+                            createTime:
+                              description: (Computed) The time when context was first
+                                added to the storage object in RFC 3399 format.
+                              type: string
+                            key:
+                              description: An individual object context. Context keys
+                                and their corresponding values must start with an
+                                alphanumeric character.
+                              type: string
+                            updateTime:
+                              description: (Computed) The time when context was last
+                                updated in RFC 3399 format.
+                              type: string
+                            value:
+                              description: The value associated with this context.
+                                This field holds the primary information for the given
+                                context key.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   crc32c:
                     description: (Computed) Base 64 CRC32 hash of the uploaded data.
                     type: string
@@ -1387,8 +1466,9 @@ spec:
                         type: string
                     type: object
                   deletionPolicy:
-                    description: When set to ABANDON, the object won't be deleted
-                      from storage bucket.
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   detectMd5Hash:
                     description: 'MD5 hash of the data, encoded using base64. This

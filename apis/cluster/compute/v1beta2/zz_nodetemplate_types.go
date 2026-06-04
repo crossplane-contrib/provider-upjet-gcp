@@ -99,6 +99,10 @@ type NodeTemplateInitParameters struct {
 	// Possible values are: ENABLED, NONE.
 	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -147,6 +151,10 @@ type NodeTemplateObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -205,6 +213,11 @@ type NodeTemplateParameters struct {
 	// Possible values are: ENABLED, NONE.
 	// +kubebuilder:validation:Optional
 	CPUOvercommitType *string `json:"cpuOvercommitType,omitempty" tf:"cpu_overcommit_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the resource.
 	// +kubebuilder:validation:Optional

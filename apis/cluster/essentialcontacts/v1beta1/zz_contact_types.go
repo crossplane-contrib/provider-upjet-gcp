@@ -15,6 +15,10 @@ import (
 
 type ContactInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The email address to send notifications to. This does not need to be a Google account.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -29,6 +33,10 @@ type ContactInitParameters struct {
 }
 
 type ContactObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The email address to send notifications to. This does not need to be a Google account.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
@@ -50,6 +58,11 @@ type ContactObservation struct {
 }
 
 type ContactParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The email address to send notifications to. This does not need to be a Google account.
 	// +kubebuilder:validation:Optional

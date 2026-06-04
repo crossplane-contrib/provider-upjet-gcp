@@ -427,6 +427,11 @@ func (in *EnvironmentInitParameters) DeepCopyInto(out *EnvironmentInitParameters
 		*out = new(ClientIPResolutionConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeploymentType != nil {
 		in, out := &in.DeploymentType, &out.DeploymentType
 		*out = new(string)
@@ -519,6 +524,11 @@ func (in *EnvironmentObservation) DeepCopyInto(out *EnvironmentObservation) {
 		*out = new(ClientIPResolutionConfigObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeploymentType != nil {
 		in, out := &in.DeploymentType, &out.DeploymentType
 		*out = new(string)
@@ -588,6 +598,11 @@ func (in *EnvironmentParameters) DeepCopyInto(out *EnvironmentParameters) {
 		in, out := &in.ClientIPResolutionConfig, &out.ClientIPResolutionConfig
 		*out = new(ClientIPResolutionConfigParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeploymentType != nil {
 		in, out := &in.DeploymentType, &out.DeploymentType
@@ -911,6 +926,11 @@ func (in *OrganizationInitParameters) DeepCopyInto(out *OrganizationInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1048,6 +1068,11 @@ func (in *OrganizationObservation) DeepCopyInto(out *OrganizationObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1155,6 +1180,11 @@ func (in *OrganizationParameters) DeepCopyInto(out *OrganizationParameters) {
 	}
 	if in.ControlPlaneEncryptionKeyName != nil {
 		in, out := &in.ControlPlaneEncryptionKeyName, &out.ControlPlaneEncryptionKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

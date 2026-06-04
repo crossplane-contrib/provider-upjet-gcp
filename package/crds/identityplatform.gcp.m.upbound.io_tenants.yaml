@@ -84,6 +84,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableAuth:
                     description: |-
                       Whether authentication is disabled for the tenant. If true, the users under
@@ -140,6 +145,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableAuth:
                     description: |-
                       Whether authentication is disabled for the tenant. If true, the users under
@@ -251,6 +261,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableAuth:
                     description: |-
                       Whether authentication is disabled for the tenant. If true, the users under

@@ -19,6 +19,10 @@ type ServiceNetworkingPeeredDNSDomainInitParameters struct {
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The producer project number. If not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
@@ -27,6 +31,10 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -49,6 +57,11 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
 	// +kubebuilder:validation:Optional
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The network in the consumer project.
 	// +kubebuilder:validation:Required

@@ -44,6 +44,10 @@ type CmekSettingsParameters struct {
 type FolderBucketConfigInitParameters struct {
 	CmekSettings *CmekSettingsInitParameters `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -60,6 +64,10 @@ type FolderBucketConfigObservation struct {
 	BucketID *string `json:"bucketId,omitempty" tf:"bucket_id,omitempty"`
 
 	CmekSettings *CmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -94,6 +102,11 @@ type FolderBucketConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CmekSettings *CmekSettingsParameters `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Describes this bucket.
 	// +kubebuilder:validation:Optional

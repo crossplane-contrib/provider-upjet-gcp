@@ -84,6 +84,27 @@ type GuestAcceleratorsParameters struct {
 	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 }
 
+type HealthInfoInitParameters struct {
+}
+
+type HealthInfoObservation struct {
+
+	// (Output)
+	// The number of reservation blocks that are degraded.
+	DegradedBlockCount *float64 `json:"degradedBlockCount,omitempty" tf:"degraded_block_count,omitempty"`
+
+	// (Output)
+	// The health status of the reservation.
+	HealthStatus *string `json:"healthStatus,omitempty" tf:"health_status,omitempty"`
+
+	// (Output)
+	// The number of reservation blocks that are healthy.
+	HealthyBlockCount *float64 `json:"healthyBlockCount,omitempty" tf:"healthy_block_count,omitempty"`
+}
+
+type HealthInfoParameters struct {
+}
+
 type InstancePropertiesInitParameters struct {
 
 	// Guest accelerator type and count.
@@ -115,6 +136,10 @@ type InstancePropertiesObservation struct {
 	// reserves disks of type local-ssd.
 	// Structure is documented below.
 	LocalSsds []LocalSsdsObservation `json:"localSsds,omitempty" tf:"local_ssds,omitempty"`
+
+	// (Output)
+	// An opaque location hint used to place the allocation close to other resources. This field is for use by internal tools that use the public API.
+	LocationHint *string `json:"locationHint,omitempty" tf:"location_hint,omitempty"`
 
 	// The name of the machine type to reserve.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -196,6 +221,10 @@ type ReservationInitParameters struct {
 	// Cannot be used with delete_after_duration.
 	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -221,7 +250,52 @@ type ReservationInitParameters struct {
 	SpecificReservationRequired *bool `json:"specificReservationRequired,omitempty" tf:"specific_reservation_required,omitempty"`
 }
 
+type ReservationMaintenanceInitParameters struct {
+}
+
+type ReservationMaintenanceObservation struct {
+
+	// (Output)
+	// Describes number of instances that have ongoing maintenance.
+	InstanceMaintenanceOngoingCount *float64 `json:"instanceMaintenanceOngoingCount,omitempty" tf:"instance_maintenance_ongoing_count,omitempty"`
+
+	// (Output)
+	// Describes number of instances that have pending maintenance.
+	InstanceMaintenancePendingCount *float64 `json:"instanceMaintenancePendingCount,omitempty" tf:"instance_maintenance_pending_count,omitempty"`
+
+	// (Output)
+	// Progress for ongoing maintenance for this group of VMs/hosts. Describes number of hosts in the block that have ongoing maintenance.
+	MaintenanceOngoingCount *float64 `json:"maintenanceOngoingCount,omitempty" tf:"maintenance_ongoing_count,omitempty"`
+
+	// (Output)
+	// Progress for ongoing maintenance for this group of VMs/hosts. Describes number of hosts in the block that have pending maintenance.
+	MaintenancePendingCount *float64 `json:"maintenancePendingCount,omitempty" tf:"maintenance_pending_count,omitempty"`
+
+	// (Output)
+	// The type of maintenance for the reservation.
+	SchedulingType *string `json:"schedulingType,omitempty" tf:"scheduling_type,omitempty"`
+
+	// (Output)
+	// Describes number of subblock Infrastructure that has ongoing maintenance. Here, Subblock Infrastructure Maintenance pertains to upstream hardware contained in the Subblock that is necessary for a VM Family(e.g. NVLink Domains). Not all VM Families will support this field.
+	SubblockInfraMaintenanceOngoingCount *float64 `json:"subblockInfraMaintenanceOngoingCount,omitempty" tf:"subblock_infra_maintenance_ongoing_count,omitempty"`
+
+	// (Output)
+	// Describes number of subblock Infrastructure that has pending maintenance. Here, Subblock Infrastructure Maintenance pertains to upstream hardware contained in the Subblock that is necessary for a VM Family (e.g. NVLink Domains). Not all VM Families will support this field.
+	SubblockInfraMaintenancePendingCount *float64 `json:"subblockInfraMaintenancePendingCount,omitempty" tf:"subblock_infra_maintenance_pending_count,omitempty"`
+
+	// (Output)
+	// Maintenance information on this group of VMs.
+	// Structure is documented below.
+	UpcomingGroupMaintenance []UpcomingGroupMaintenanceObservation `json:"upcomingGroupMaintenance,omitempty" tf:"upcoming_group_maintenance,omitempty"`
+}
+
+type ReservationMaintenanceParameters struct {
+}
+
 type ReservationObservation struct {
+
+	// List of all reservation block names in the parent reservation.
+	BlockNames []*string `json:"blockNames,omitempty" tf:"block_names,omitempty"`
 
 	// Full or partial URL to a parent commitment. This field displays for
 	// reservations that are tied to a commitment.
@@ -238,19 +312,39 @@ type ReservationObservation struct {
 	// Cannot be used with delete_after_duration.
 	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/zones/{{zone}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Type of the resource. Always compute#reservations for reservations.
+	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
+
+	// Full or partial URL to parent commitments. This field displays for reservations that are tied to multiple commitments.
+	LinkedCommitments []*string `json:"linkedCommitments,omitempty" tf:"linked_commitments,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The number of reservation blocks associated with this reservation.
+	ReservationBlockCount *float64 `json:"reservationBlockCount,omitempty" tf:"reservation_block_count,omitempty"`
+
 	// Sharing policy for reservations with Google Cloud managed services.
 	// Structure is documented below.
 	ReservationSharingPolicy *ReservationSharingPolicyObservation `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`
+
+	// Status information for Reservation resource.
+	// Structure is documented below.
+	ResourceStatus []ResourceStatusObservation `json:"resourceStatus,omitempty" tf:"resource_status,omitempty"`
+
+	// Reserved for future use.
+	SatisfiesPzs *bool `json:"satisfiesPzs,omitempty" tf:"satisfies_pzs,omitempty"`
 
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -286,6 +380,11 @@ type ReservationParameters struct {
 	// Cannot be used with delete_after_duration.
 	// +kubebuilder:validation:Optional
 	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -405,6 +504,10 @@ type ReservationSpecificReservationInitParameters struct {
 
 type ReservationSpecificReservationObservation struct {
 
+	// (Output)
+	// Indicates how many instances are actually usable currently.
+	AssuredCount *float64 `json:"assuredCount,omitempty" tf:"assured_count,omitempty"`
+
 	// The number of resources that are allocated.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
 
@@ -448,6 +551,34 @@ type ReservationSpecificReservationParameters struct {
 	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
+type ResourceStatusInitParameters struct {
+}
+
+type ResourceStatusObservation struct {
+
+	// (Output)
+	// Health information for the reservation.
+	// Structure is documented below.
+	HealthInfo []HealthInfoObservation `json:"healthInfo,omitempty" tf:"health_info,omitempty"`
+
+	// (Output)
+	// The number of reservation blocks associated with this reservation.
+	ReservationBlockCount *float64 `json:"reservationBlockCount,omitempty" tf:"reservation_block_count,omitempty"`
+
+	// (Output)
+	// Maintenance information for this reservation
+	// Structure is documented below.
+	ReservationMaintenance []ReservationMaintenanceObservation `json:"reservationMaintenance,omitempty" tf:"reservation_maintenance,omitempty"`
+
+	// (Output)
+	// Allocation Properties of this reservation.
+	// Structure is documented below.
+	SpecificSkuAllocation []SpecificSkuAllocationObservation `json:"specificSkuAllocation,omitempty" tf:"specific_sku_allocation,omitempty"`
+}
+
+type ResourceStatusParameters struct {
+}
+
 type ShareSettingsProjectMapInitParameters struct {
 
 	// The identifier for this object. Format specified above.
@@ -475,6 +606,65 @@ type ShareSettingsProjectMapParameters struct {
 	// The project id/number, should be same as the key of this project config in the project map.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type SpecificSkuAllocationInitParameters struct {
+}
+
+type SpecificSkuAllocationObservation struct {
+
+	// (Output)
+	// ID of the instance template used to populate reservation properties.
+	SourceInstanceTemplateID *string `json:"sourceInstanceTemplateId,omitempty" tf:"source_instance_template_id,omitempty"`
+
+	// (Output)
+	// Per service utilization breakdown. The Key is the Google Cloud managed service name.
+	// +mapType=granular
+	Utilizations map[string]*string `json:"utilizations,omitempty" tf:"utilizations,omitempty"`
+}
+
+type SpecificSkuAllocationParameters struct {
+}
+
+type UpcomingGroupMaintenanceInitParameters struct {
+}
+
+type UpcomingGroupMaintenanceObservation struct {
+
+	// (Output)
+	// Indicates if the maintenance can be customer triggered.
+	CanReschedule *bool `json:"canReschedule,omitempty" tf:"can_reschedule,omitempty"`
+
+	// (Output)
+	// The latest time for the planned maintenance window to start. This timestamp value is in RFC3339 text format.
+	LatestWindowStartTime *string `json:"latestWindowStartTime,omitempty" tf:"latest_window_start_time,omitempty"`
+
+	// (Output)
+	// Indicates whether the UpcomingMaintenance will be triggered on VM shutdown.
+	MaintenanceOnShutdown *bool `json:"maintenanceOnShutdown,omitempty" tf:"maintenance_on_shutdown,omitempty"`
+
+	// (Output)
+	// The reasons for the maintenance. Only valid for vms.
+	MaintenanceReasons []*string `json:"maintenanceReasons,omitempty" tf:"maintenance_reasons,omitempty"`
+
+	// (Output)
+	// Status of the maintenance.
+	MaintenanceStatus *string `json:"maintenanceStatus,omitempty" tf:"maintenance_status,omitempty"`
+
+	// (Output)
+	// Defines the type of maintenance.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
+	// (Output)
+	// The time by which the maintenance disruption will be completed. This timestamp value is in RFC3339 text format.
+	WindowEndTime *string `json:"windowEndTime,omitempty" tf:"window_end_time,omitempty"`
+
+	// (Output)
+	// The current start time of the maintenance window. This timestamp value is in RFC3339 text format.
+	WindowStartTime *string `json:"windowStartTime,omitempty" tf:"window_start_time,omitempty"`
+}
+
+type UpcomingGroupMaintenanceParameters struct {
 }
 
 // ReservationSpec defines the desired state of Reservation

@@ -71,6 +71,11 @@ spec:
                     description: The data source id. Cannot be changed once the transfer
                       config is created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destinationDatasetId:
                     description: The BigQuery target dataset id.
                     type: string
@@ -341,8 +346,8 @@ spec:
                     properties:
                       secretAccessKeySecretRef:
                         description: |-
-                          A LocalSecretKeySelector is a reference to a secret key
-                          in the same namespace with the referencing object.
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is sensitive and will not be displayed in the plan.
                         properties:
                           key:
                             type: string
@@ -359,6 +364,9 @@ spec:
                           Note: This property is write-only and will not be read from the API.
                         type: string
                       secretAccessKeyWoVersion:
+                        description: The version of the sensitive params - used to
+                          trigger updates of the write-only params. For more info
+                          see updating write-only arguments
                         type: number
                     type: object
                   serviceAccountName:
@@ -393,6 +401,11 @@ spec:
                     description: The data source id. Cannot be changed once the transfer
                       config is created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   destinationDatasetId:
                     description: The BigQuery target dataset id.
                     type: string
@@ -663,8 +676,8 @@ spec:
                     properties:
                       secretAccessKeySecretRef:
                         description: |-
-                          A LocalSecretKeySelector is a reference to a secret key
-                          in the same namespace with the referencing object.
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is sensitive and will not be displayed in the plan.
                         properties:
                           key:
                             type: string
@@ -681,6 +694,9 @@ spec:
                           Note: This property is write-only and will not be read from the API.
                         type: string
                       secretAccessKeyWoVersion:
+                        description: The version of the sensitive params - used to
+                          trigger updates of the write-only params. For more info
+                          see updating write-only arguments
                         type: number
                     type: object
                   serviceAccountName:
@@ -777,6 +793,11 @@ spec:
                   dataSourceId:
                     description: The data source id. Cannot be changed once the transfer
                       config is created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   destinationDatasetId:
                     description: The BigQuery target dataset id.
@@ -903,6 +924,9 @@ spec:
                           Note: This property is write-only and will not be read from the API.
                         type: string
                       secretAccessKeyWoVersion:
+                        description: The version of the sensitive params - used to
+                          trigger updates of the write-only params. For more info
+                          see updating write-only arguments
                         type: number
                     type: object
                   serviceAccountName:

@@ -31,6 +31,10 @@ type AllocatedConnectionsParameters struct {
 
 type AppGatewayInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An arbitrary user-provided name for the AppGateway.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -58,6 +62,10 @@ type AppGatewayObservation struct {
 	// A list of connections allocated for the Gateway.
 	// Structure is documented below.
 	AllocatedConnections []AllocatedConnectionsObservation `json:"allocatedConnections,omitempty" tf:"allocated_connections,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppGateway.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -103,6 +111,11 @@ type AppGatewayObservation struct {
 }
 
 type AppGatewayParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppGateway.
 	// +kubebuilder:validation:Optional

@@ -25,6 +25,10 @@ type DataTransferConfigInitParameters struct {
 	// The data source id. Cannot be changed once the transfer config is created.
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The BigQuery target dataset id.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
 	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
@@ -112,6 +116,10 @@ type DataTransferConfigObservation struct {
 
 	// The data source id. Cannot be changed once the transfer config is created.
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The BigQuery target dataset id.
 	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
@@ -203,6 +211,11 @@ type DataTransferConfigParameters struct {
 	// The data source id. Cannot be changed once the transfer config is created.
 	// +kubebuilder:validation:Optional
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The BigQuery target dataset id.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
@@ -424,12 +437,16 @@ type ScheduleOptionsParameters struct {
 }
 
 type SensitiveParamsInitParameters struct {
+
+	// The Secret Access Key of the AWS account transferring data from.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 
 	// The Secret Access Key of the AWS account transferring data from.
 	// Note: This property is write-only and will not be read from the API.
 	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
 
+	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
 	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
@@ -439,11 +456,14 @@ type SensitiveParamsObservation struct {
 	// Note: This property is write-only and will not be read from the API.
 	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
 
+	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
 	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
 type SensitiveParamsParameters struct {
 
+	// The Secret Access Key of the AWS account transferring data from.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 
@@ -452,6 +472,7 @@ type SensitiveParamsParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
 
+	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional
 	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }

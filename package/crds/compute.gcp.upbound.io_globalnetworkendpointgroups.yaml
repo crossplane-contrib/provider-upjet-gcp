@@ -80,6 +80,11 @@ spec:
                       The default port used if the port number is not specified in the
                       network endpoint.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -114,6 +119,11 @@ spec:
                       The default port used if the port number is not specified in the
                       network endpoint.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -232,6 +242,11 @@ spec:
                       The default port used if the port number is not specified in the
                       network endpoint.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when

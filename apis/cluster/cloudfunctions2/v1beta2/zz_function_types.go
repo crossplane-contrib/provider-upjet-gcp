@@ -213,6 +213,45 @@ type BuildConfigParameters struct {
 	WorkerPoolSelector *v1.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
+type DirectVPCNetworkInterfaceInitParameters struct {
+
+	// The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Network tags applied to this Cloud Function resource.
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
+type DirectVPCNetworkInterfaceObservation struct {
+
+	// The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Network tags applied to this Cloud Function resource.
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
+type DirectVPCNetworkInterfaceParameters struct {
+
+	// The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used.
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Network tags applied to this Cloud Function resource.
+	// +kubebuilder:validation:Optional
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
 type EventFiltersInitParameters struct {
 
 	// 'Required. The name of a CloudEvents attribute.
@@ -384,7 +423,7 @@ type EventTriggerParameters struct {
 
 	// Required. The type of event to observe.
 	// +kubebuilder:validation:Optional
-	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
+	EventType *string `json:"eventType" tf:"event_type,omitempty"`
 
 	// The name of a Pub/Sub topic in the same project that will be used
 	// as the transport topic for the event delivery.
@@ -438,6 +477,10 @@ type FunctionInitParameters struct {
 	// Structure is documented below.
 	BuildConfig *BuildConfigInitParameters `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-provided description of a function.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -469,6 +512,10 @@ type FunctionObservation struct {
 	// from the given source.
 	// Structure is documented below.
 	BuildConfig *BuildConfigObservation `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-provided description of a function.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -529,6 +576,11 @@ type FunctionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BuildConfig *BuildConfigParameters `json:"buildConfig,omitempty" tf:"build_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-provided description of a function.
 	// +kubebuilder:validation:Optional
@@ -799,7 +851,7 @@ type SecretVolumesParameters struct {
 
 type ServiceConfigInitParameters struct {
 
-	// Whether 100% of traffic is routed to the latest revision. Defaults to true.
+	// Whether 100% of traffic is routed to the latest revision. Defaults to true. When false, GCF honors the existing traffic configuration of the underlying Cloud Run service. If that configuration is set to route to LATEST (the default), the new deployment will become LATEST and intercept the traffic. To prevent traffic from shifting, you must manually pin the existing service to a specific revision name in Cloud Run before deploying.
 	AllTrafficOnLatestRevision *bool `json:"allTrafficOnLatestRevision,omitempty" tf:"all_traffic_on_latest_revision,omitempty"`
 
 	// The number of CPUs used in a single container instance. Default value is calculated from available memory.
@@ -812,6 +864,14 @@ type ServiceConfigInitParameters struct {
 
 	// The binary authorization policy to be checked when deploying the Cloud Run service.
 	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
+
+	// Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// Possible values are: VPC_EGRESS_ALL_TRAFFIC, VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	DirectVPCEgress *string `json:"directVpcEgress,omitempty" tf:"direct_vpc_egress,omitempty"`
+
+	// The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported.
+	// Structure is documented below.
+	DirectVPCNetworkInterface []DirectVPCNetworkInterfaceInitParameters `json:"directVpcNetworkInterface,omitempty" tf:"direct_vpc_network_interface,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +mapType=granular
@@ -841,9 +901,6 @@ type ServiceConfigInitParameters struct {
 	// Structure is documented below.
 	SecretVolumes []SecretVolumesInitParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
 
-	// Name of the service associated with a Function.
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
-
 	// The email of the service account for this function.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
@@ -872,7 +929,7 @@ type ServiceConfigInitParameters struct {
 
 type ServiceConfigObservation struct {
 
-	// Whether 100% of traffic is routed to the latest revision. Defaults to true.
+	// Whether 100% of traffic is routed to the latest revision. Defaults to true. When false, GCF honors the existing traffic configuration of the underlying Cloud Run service. If that configuration is set to route to LATEST (the default), the new deployment will become LATEST and intercept the traffic. To prevent traffic from shifting, you must manually pin the existing service to a specific revision name in Cloud Run before deploying.
 	AllTrafficOnLatestRevision *bool `json:"allTrafficOnLatestRevision,omitempty" tf:"all_traffic_on_latest_revision,omitempty"`
 
 	// The number of CPUs used in a single container instance. Default value is calculated from available memory.
@@ -885,6 +942,14 @@ type ServiceConfigObservation struct {
 
 	// The binary authorization policy to be checked when deploying the Cloud Run service.
 	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
+
+	// Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// Possible values are: VPC_EGRESS_ALL_TRAFFIC, VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	DirectVPCEgress *string `json:"directVpcEgress,omitempty" tf:"direct_vpc_egress,omitempty"`
+
+	// The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported.
+	// Structure is documented below.
+	DirectVPCNetworkInterface []DirectVPCNetworkInterfaceObservation `json:"directVpcNetworkInterface,omitempty" tf:"direct_vpc_network_interface,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +mapType=granular
@@ -918,6 +983,7 @@ type ServiceConfigObservation struct {
 	// Structure is documented below.
 	SecretVolumes []SecretVolumesObservation `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
 
+	// (Output)
 	// Name of the service associated with a Function.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
@@ -943,7 +1009,7 @@ type ServiceConfigObservation struct {
 
 type ServiceConfigParameters struct {
 
-	// Whether 100% of traffic is routed to the latest revision. Defaults to true.
+	// Whether 100% of traffic is routed to the latest revision. Defaults to true. When false, GCF honors the existing traffic configuration of the underlying Cloud Run service. If that configuration is set to route to LATEST (the default), the new deployment will become LATEST and intercept the traffic. To prevent traffic from shifting, you must manually pin the existing service to a specific revision name in Cloud Run before deploying.
 	// +kubebuilder:validation:Optional
 	AllTrafficOnLatestRevision *bool `json:"allTrafficOnLatestRevision,omitempty" tf:"all_traffic_on_latest_revision,omitempty"`
 
@@ -960,6 +1026,16 @@ type ServiceConfigParameters struct {
 	// The binary authorization policy to be checked when deploying the Cloud Run service.
 	// +kubebuilder:validation:Optional
 	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
+
+	// Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// Possible values are: VPC_EGRESS_ALL_TRAFFIC, VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// +kubebuilder:validation:Optional
+	DirectVPCEgress *string `json:"directVpcEgress,omitempty" tf:"direct_vpc_egress,omitempty"`
+
+	// The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DirectVPCNetworkInterface []DirectVPCNetworkInterfaceParameters `json:"directVpcNetworkInterface,omitempty" tf:"direct_vpc_network_interface,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +kubebuilder:validation:Optional
@@ -995,10 +1071,6 @@ type ServiceConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecretVolumes []SecretVolumesParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
-
-	// Name of the service associated with a Function.
-	// +kubebuilder:validation:Optional
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// The email of the service account for this function.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount

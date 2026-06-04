@@ -31,6 +31,10 @@ type TLSInspectionPolicyInitParameters struct {
 	// List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field.
 	CustomTLSFeatures []*string `json:"customTlsFeatures,omitempty" tf:"custom_tls_features,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Free-text description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -75,6 +79,10 @@ type TLSInspectionPolicyObservation struct {
 
 	// List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field.
 	CustomTLSFeatures []*string `json:"customTlsFeatures,omitempty" tf:"custom_tls_features,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Free-text description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -128,6 +136,11 @@ type TLSInspectionPolicyParameters struct {
 	// List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field.
 	// +kubebuilder:validation:Optional
 	CustomTLSFeatures []*string `json:"customTlsFeatures,omitempty" tf:"custom_tls_features,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Free-text description of the resource.
 	// +kubebuilder:validation:Optional

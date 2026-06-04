@@ -151,6 +151,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   forceDestroy:
                     description: |-
                       Allows the deletion of a managed folder even if contains
@@ -255,6 +260,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   forceDestroy:
                     description: |-
                       Allows the deletion of a managed folder even if contains
@@ -370,6 +380,11 @@ spec:
                     type: string
                   createTime:
                     description: The timestamp at which this managed folder was created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   forceDestroy:
                     description: |-

@@ -799,6 +799,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
@@ -967,6 +972,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of this sink. The maximum length of
                       the description is 8000 characters.
@@ -1141,6 +1151,11 @@ spec:
                       the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
                       routing logs to a destination outside this sink's project. If not specified, a Logging service account
                       will automatically be generated.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A description of this sink. The maximum length of

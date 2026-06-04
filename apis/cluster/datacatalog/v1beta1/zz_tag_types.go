@@ -100,6 +100,10 @@ type TagInitParameters struct {
 	// outer_column.inner_column
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// This maps the ID of a tag field to the value of and additional information about that field.
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
 	// Structure is documented below.
@@ -143,6 +147,10 @@ type TagObservation struct {
 	// outer_column.inner_column
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// This maps the ID of a tag field to the value of and additional information about that field.
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.
 	// Structure is documented below.
@@ -178,6 +186,11 @@ type TagParameters struct {
 	// outer_column.inner_column
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// This maps the ID of a tag field to the value of and additional information about that field.
 	// Valid field IDs are defined by the tag's template. A tag must have at least 1 field and at most 500 fields.

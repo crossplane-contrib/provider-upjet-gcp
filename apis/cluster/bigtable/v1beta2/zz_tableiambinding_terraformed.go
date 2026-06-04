@@ -125,5 +125,5 @@ func (tr *TableIAMBinding) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *TableIAMBinding) GetTerraformSchemaVersion() int {
-	return 0
+	return 1
 }

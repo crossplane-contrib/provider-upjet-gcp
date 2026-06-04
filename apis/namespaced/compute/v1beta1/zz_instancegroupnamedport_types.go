@@ -16,6 +16,10 @@ import (
 
 type InstanceGroupNamedPortInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the instance group.
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -35,6 +39,10 @@ type InstanceGroupNamedPortInitParameters struct {
 }
 
 type InstanceGroupNamedPortObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the instance group.
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
@@ -58,6 +66,11 @@ type InstanceGroupNamedPortObservation struct {
 }
 
 type InstanceGroupNamedPortParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the instance group.
 	// +kubebuilder:validation:Optional

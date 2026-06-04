@@ -15,6 +15,10 @@ import (
 
 type TagValueInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-assigned description of the TagValue. Must not exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -42,6 +46,10 @@ type TagValueObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-assigned description of the TagValue. Must not exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -67,6 +75,11 @@ type TagValueObservation struct {
 }
 
 type TagValueParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-assigned description of the TagValue. Must not exceed 256 characters.
 	// +kubebuilder:validation:Optional

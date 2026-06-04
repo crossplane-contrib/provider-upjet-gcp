@@ -322,6 +322,28 @@ type PubsubParameters struct {
 	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
+type RetryPolicyInitParameters struct {
+
+	// The maximum number of delivery attempts for any message. The only valid
+	// value is 1.
+	MaxAttempts *float64 `json:"maxAttempts,omitempty" tf:"max_attempts,omitempty"`
+}
+
+type RetryPolicyObservation struct {
+
+	// The maximum number of delivery attempts for any message. The only valid
+	// value is 1.
+	MaxAttempts *float64 `json:"maxAttempts,omitempty" tf:"max_attempts,omitempty"`
+}
+
+type RetryPolicyParameters struct {
+
+	// The maximum number of delivery attempts for any message. The only valid
+	// value is 1.
+	// +kubebuilder:validation:Optional
+	MaxAttempts *float64 `json:"maxAttempts,omitempty" tf:"max_attempts,omitempty"`
+}
+
 type TransportInitParameters struct {
 
 	// The Pub/Sub topic and subscription used by Eventarc as delivery intermediary.
@@ -349,6 +371,10 @@ type TriggerInitParameters struct {
 	// Optional. The name of the channel associated with the trigger in projects/{project}/locations/{location}/channels/{channel} format. You must provide a channel to receive events from Eventarc SaaS partners.
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Required. Destination specifies where the events should be sent to.
 	// Structure is documented below.
 	Destination *DestinationInitParameters `json:"destination,omitempty" tf:"destination,omitempty"`
@@ -370,6 +396,11 @@ type TriggerInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The retry policy configuration for the Trigger.
+	// Can only be set with Cloud Run destinations.
+	// Structure is documented below.
+	RetryPolicy *RetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -389,6 +420,10 @@ type TriggerObservation struct {
 
 	// Output only. The creation time.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
 	// Structure is documented below.
@@ -423,6 +458,11 @@ type TriggerObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The retry policy configuration for the Trigger.
+	// Can only be set with Cloud Run destinations.
+	// Structure is documented below.
+	RetryPolicy *RetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -447,6 +487,11 @@ type TriggerParameters struct {
 	// Optional. The name of the channel associated with the trigger in projects/{project}/locations/{location}/channels/{channel} format. You must provide a channel to receive events from Eventarc SaaS partners.
 	// +kubebuilder:validation:Optional
 	Channel *string `json:"channel,omitempty" tf:"channel,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Required. Destination specifies where the events should be sent to.
 	// Structure is documented below.
@@ -477,6 +522,12 @@ type TriggerParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The retry policy configuration for the Trigger.
+	// Can only be set with Cloud Run destinations.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RetryPolicy *RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
 	// Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts#sa_common for more information. For Cloud Run destinations, this service account is used to generate identity tokens when invoking the service. See https://cloud.google.com/run/docs/triggering/pubsub-push#create-service-account for information on how to invoke authenticated Cloud Run services. In order to create Audit Log triggers, the service account should also have roles/eventarc.eventReceiver IAM role.
 	// +kubebuilder:validation:Optional

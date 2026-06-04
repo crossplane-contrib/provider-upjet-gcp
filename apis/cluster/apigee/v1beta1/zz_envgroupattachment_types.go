@@ -15,6 +15,10 @@ import (
 
 type EnvgroupAttachmentInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta1.Envgroup
@@ -44,6 +48,10 @@ type EnvgroupAttachmentInitParameters struct {
 
 type EnvgroupAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
@@ -59,6 +67,11 @@ type EnvgroupAttachmentObservation struct {
 }
 
 type EnvgroupAttachmentParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.

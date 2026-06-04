@@ -34,6 +34,10 @@ type AvroFileFormatParameters struct {
 
 type BackfillAllInitParameters struct {
 
+	// MongoDB data source objects to avoid backfilling.
+	// Structure is documented below.
+	MongodbExcludedObjects *MongodbExcludedObjectsInitParameters `json:"mongodbExcludedObjects,omitempty" tf:"mongodb_excluded_objects,omitempty"`
+
 	// MySQL data source objects to avoid backfilling.
 	// Structure is documented below.
 	MySQLExcludedObjects *MySQLExcludedObjectsInitParameters `json:"mysqlExcludedObjects,omitempty" tf:"mysql_excluded_objects,omitempty"`
@@ -53,9 +57,17 @@ type BackfillAllInitParameters struct {
 	// Salesforce objects to avoid backfilling.
 	// Structure is documented below.
 	SalesforceExcludedObjects *SalesforceExcludedObjectsInitParameters `json:"salesforceExcludedObjects,omitempty" tf:"salesforce_excluded_objects,omitempty"`
+
+	// Spanner objects to avoid backfilling.
+	// Structure is documented below.
+	SpannerExcludedObjects *SpannerExcludedObjectsInitParameters `json:"spannerExcludedObjects,omitempty" tf:"spanner_excluded_objects,omitempty"`
 }
 
 type BackfillAllObservation struct {
+
+	// MongoDB data source objects to avoid backfilling.
+	// Structure is documented below.
+	MongodbExcludedObjects *MongodbExcludedObjectsObservation `json:"mongodbExcludedObjects,omitempty" tf:"mongodb_excluded_objects,omitempty"`
 
 	// MySQL data source objects to avoid backfilling.
 	// Structure is documented below.
@@ -76,9 +88,18 @@ type BackfillAllObservation struct {
 	// Salesforce objects to avoid backfilling.
 	// Structure is documented below.
 	SalesforceExcludedObjects *SalesforceExcludedObjectsObservation `json:"salesforceExcludedObjects,omitempty" tf:"salesforce_excluded_objects,omitempty"`
+
+	// Spanner objects to avoid backfilling.
+	// Structure is documented below.
+	SpannerExcludedObjects *SpannerExcludedObjectsObservation `json:"spannerExcludedObjects,omitempty" tf:"spanner_excluded_objects,omitempty"`
 }
 
 type BackfillAllParameters struct {
+
+	// MongoDB data source objects to avoid backfilling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MongodbExcludedObjects *MongodbExcludedObjectsParameters `json:"mongodbExcludedObjects,omitempty" tf:"mongodb_excluded_objects,omitempty"`
 
 	// MySQL data source objects to avoid backfilling.
 	// Structure is documented below.
@@ -104,6 +125,11 @@ type BackfillAllParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SalesforceExcludedObjects *SalesforceExcludedObjectsParameters `json:"salesforceExcludedObjects,omitempty" tf:"salesforce_excluded_objects,omitempty"`
+
+	// Spanner objects to avoid backfilling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SpannerExcludedObjects *SpannerExcludedObjectsParameters `json:"spannerExcludedObjects,omitempty" tf:"spanner_excluded_objects,omitempty"`
 }
 
 type BackfillNoneInitParameters struct {
@@ -113,6 +139,28 @@ type BackfillNoneObservation struct {
 }
 
 type BackfillNoneParameters struct {
+}
+
+type BigqueryClusteringInitParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type BigqueryClusteringObservation struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []*string `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type BigqueryClusteringParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Columns []*string `json:"columns" tf:"columns,omitempty"`
 }
 
 type BigqueryDestinationConfigInitParameters struct {
@@ -214,6 +262,64 @@ type BigqueryDestinationConfigParameters struct {
 	SourceHierarchyDatasets *SourceHierarchyDatasetsParameters `json:"sourceHierarchyDatasets,omitempty" tf:"source_hierarchy_datasets,omitempty"`
 }
 
+type BigqueryPartitioningInitParameters struct {
+
+	// A nested object resource.
+	// Structure is documented below.
+	IngestionTimePartition *IngestionTimePartitionInitParameters `json:"ingestionTimePartition,omitempty" tf:"ingestion_time_partition,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	IntegerRangePartition *IntegerRangePartitionInitParameters `json:"integerRangePartition,omitempty" tf:"integer_range_partition,omitempty"`
+
+	// If true, queries over the table require a partition filter.
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	TimeUnitPartition *TimeUnitPartitionInitParameters `json:"timeUnitPartition,omitempty" tf:"time_unit_partition,omitempty"`
+}
+
+type BigqueryPartitioningObservation struct {
+
+	// A nested object resource.
+	// Structure is documented below.
+	IngestionTimePartition *IngestionTimePartitionObservation `json:"ingestionTimePartition,omitempty" tf:"ingestion_time_partition,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	IntegerRangePartition *IntegerRangePartitionObservation `json:"integerRangePartition,omitempty" tf:"integer_range_partition,omitempty"`
+
+	// If true, queries over the table require a partition filter.
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	TimeUnitPartition *TimeUnitPartitionObservation `json:"timeUnitPartition,omitempty" tf:"time_unit_partition,omitempty"`
+}
+
+type BigqueryPartitioningParameters struct {
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IngestionTimePartition *IngestionTimePartitionParameters `json:"ingestionTimePartition,omitempty" tf:"ingestion_time_partition,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IntegerRangePartition *IntegerRangePartitionParameters `json:"integerRangePartition,omitempty" tf:"integer_range_partition,omitempty"`
+
+	// If true, queries over the table require a partition filter.
+	// +kubebuilder:validation:Optional
+	RequirePartitionFilter *bool `json:"requirePartitionFilter,omitempty" tf:"require_partition_filter,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TimeUnitPartition *TimeUnitPartitionParameters `json:"timeUnitPartition,omitempty" tf:"time_unit_partition,omitempty"`
+}
+
 type BinaryLogPositionInitParameters struct {
 }
 
@@ -309,19 +415,66 @@ type ChangeTablesObservation struct {
 type ChangeTablesParameters struct {
 }
 
+type CollectionsFieldsInitParameters struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type CollectionsFieldsObservation struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type CollectionsFieldsParameters struct {
+
+	// Field name.
+	// +kubebuilder:validation:Optional
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type CollectionsInitParameters struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type CollectionsObservation struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []FieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type CollectionsParameters struct {
+
+	// The MongoDB collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
 type ColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
-
-	// The PostgreSQL data type. Full data types list can be found here:
-	// https://www.postgresql.org/docs/current/datatype.html
-	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 }
 
 type ColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -329,37 +482,136 @@ type ColumnsObservation struct {
 	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 
 	// (Output)
-	// Column length.
-	Length *float64 `json:"length,omitempty" tf:"length,omitempty"`
-
-	// Whether or not the column can accept a null value.
-	Nullable *bool `json:"nullable,omitempty" tf:"nullable,omitempty"`
+	// Whether or not the column is a primary key.
+	IsPrimaryKey *bool `json:"isPrimaryKey,omitempty" tf:"is_primary_key,omitempty"`
 
 	// The ordinal position of the column in the table.
 	OrdinalPosition *float64 `json:"ordinalPosition,omitempty" tf:"ordinal_position,omitempty"`
-
-	// (Output)
-	// Column precision.
-	Precision *float64 `json:"precision,omitempty" tf:"precision,omitempty"`
-
-	// Whether or not the column represents a primary key.
-	PrimaryKey *bool `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
-
-	// (Output)
-	// Column scale.
-	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
 }
 
 type ColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
-	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+	Column *string `json:"column" tf:"column,omitempty"`
+}
 
-	// The PostgreSQL data type. Full data types list can be found here:
-	// https://www.postgresql.org/docs/current/datatype.html
+type CustomizationRulesInitParameters struct {
+
+	// BigQuery clustering rule.
+	// Structure is documented below.
+	BigqueryClustering *BigqueryClusteringInitParameters `json:"bigqueryClustering,omitempty" tf:"bigquery_clustering,omitempty"`
+
+	// BigQuery partitioning rule.
+	// Structure is documented below.
+	BigqueryPartitioning *BigqueryPartitioningInitParameters `json:"bigqueryPartitioning,omitempty" tf:"bigquery_partitioning,omitempty"`
+}
+
+type CustomizationRulesObservation struct {
+
+	// BigQuery clustering rule.
+	// Structure is documented below.
+	BigqueryClustering *BigqueryClusteringObservation `json:"bigqueryClustering,omitempty" tf:"bigquery_clustering,omitempty"`
+
+	// BigQuery partitioning rule.
+	// Structure is documented below.
+	BigqueryPartitioning *BigqueryPartitioningObservation `json:"bigqueryPartitioning,omitempty" tf:"bigquery_partitioning,omitempty"`
+}
+
+type CustomizationRulesParameters struct {
+
+	// BigQuery clustering rule.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+	BigqueryClustering *BigqueryClusteringParameters `json:"bigqueryClustering,omitempty" tf:"bigquery_clustering,omitempty"`
+
+	// BigQuery partitioning rule.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BigqueryPartitioning *BigqueryPartitioningParameters `json:"bigqueryPartitioning,omitempty" tf:"bigquery_partitioning,omitempty"`
+}
+
+type DatabasesCollectionsFieldsInitParameters struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type DatabasesCollectionsFieldsObservation struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type DatabasesCollectionsFieldsParameters struct {
+
+	// Field name.
+	// +kubebuilder:validation:Optional
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type DatabasesCollectionsInitParameters struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []CollectionsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type DatabasesCollectionsObservation struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []CollectionsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type DatabasesCollectionsParameters struct {
+
+	// The MongoDB collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Fields []CollectionsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type DatabasesInitParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []CollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type DatabasesObservation struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type DatabasesParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Collections []CollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database" tf:"database,omitempty"`
 }
 
 type DatasetTemplateInitParameters struct {
@@ -387,8 +639,7 @@ type DatasetTemplateObservation struct {
 	// See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The geographic location where the dataset should reside.
-	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
+	// The name of the location this stream is located in.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 }
 
@@ -406,8 +657,7 @@ type DatasetTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The geographic location where the dataset should reside.
-	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
+	// The name of the location this stream is located in.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 }
@@ -486,16 +736,48 @@ type DropLargeObjectsObservation struct {
 type DropLargeObjectsParameters struct {
 }
 
+type ExcludeObjectsDatabasesInitParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []DatabasesCollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type ExcludeObjectsDatabasesObservation struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []DatabasesCollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type ExcludeObjectsDatabasesParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Collections []DatabasesCollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
 type ExcludeObjectsInitParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []ExcludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []ExcludeObjectsDatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type ExcludeObjectsMySQLDatabasesInitParameters struct {
 
-	// Database name.
+	// The database name.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Tables in the database.
@@ -505,7 +787,7 @@ type ExcludeObjectsMySQLDatabasesInitParameters struct {
 
 type ExcludeObjectsMySQLDatabasesObservation struct {
 
-	// Database name.
+	// The database name.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Tables in the database.
@@ -515,7 +797,7 @@ type ExcludeObjectsMySQLDatabasesObservation struct {
 
 type ExcludeObjectsMySQLDatabasesParameters struct {
 
-	// Database name.
+	// The database name.
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database" tf:"database,omitempty"`
 
@@ -525,13 +807,32 @@ type ExcludeObjectsMySQLDatabasesParameters struct {
 	MySQLTables []MySQLDatabasesMySQLTablesParameters `json:"mysqlTables,omitempty" tf:"mysql_tables,omitempty"`
 }
 
+type ExcludeObjectsObjectsFieldsInitParameters struct {
+
+	// The stream's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ExcludeObjectsObjectsFieldsObservation struct {
+
+	// The stream's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ExcludeObjectsObjectsFieldsParameters struct {
+
+	// The stream's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type ExcludeObjectsObjectsInitParameters struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []ObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ExcludeObjectsObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
@@ -539,9 +840,9 @@ type ExcludeObjectsObjectsObservation struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []ObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ExcludeObjectsObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
@@ -550,18 +851,18 @@ type ExcludeObjectsObjectsParameters struct {
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Fields []ObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ExcludeObjectsObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	// +kubebuilder:validation:Optional
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
 type ExcludeObjectsObservation struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []ExcludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []ExcludeObjectsDatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type ExcludeObjectsOracleSchemasInitParameters struct {
@@ -570,7 +871,7 @@ type ExcludeObjectsOracleSchemasInitParameters struct {
 	// Structure is documented below.
 	OracleTables []OracleSchemasOracleTablesInitParameters `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -580,7 +881,7 @@ type ExcludeObjectsOracleSchemasObservation struct {
 	// Structure is documented below.
 	OracleTables []OracleSchemasOracleTablesObservation `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -591,17 +892,17 @@ type ExcludeObjectsOracleSchemasParameters struct {
 	// +kubebuilder:validation:Optional
 	OracleTables []OracleSchemasOracleTablesParameters `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
 type ExcludeObjectsParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MySQLDatabases []ExcludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+	Databases []ExcludeObjectsDatabasesParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type ExcludeObjectsPostgresqlSchemasInitParameters struct {
@@ -610,7 +911,7 @@ type ExcludeObjectsPostgresqlSchemasInitParameters struct {
 	// Structure is documented below.
 	PostgresqlTables []PostgresqlSchemasPostgresqlTablesInitParameters `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -620,7 +921,7 @@ type ExcludeObjectsPostgresqlSchemasObservation struct {
 	// Structure is documented below.
 	PostgresqlTables []PostgresqlSchemasPostgresqlTablesObservation `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -631,60 +932,145 @@ type ExcludeObjectsPostgresqlSchemasParameters struct {
 	// +kubebuilder:validation:Optional
 	PostgresqlTables []PostgresqlSchemasPostgresqlTablesParameters `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
 type ExcludeObjectsSchemasInitParameters struct {
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// Tables in the database.
 	// Structure is documented below.
-	Tables []SchemasTablesInitParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+	Tables []ExcludeObjectsSchemasTablesInitParameters `json:"tables,omitempty" tf:"tables,omitempty"`
 }
 
 type ExcludeObjectsSchemasObservation struct {
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// Tables in the database.
 	// Structure is documented below.
-	Tables []SchemasTablesObservation `json:"tables,omitempty" tf:"tables,omitempty"`
+	Tables []ExcludeObjectsSchemasTablesObservation `json:"tables,omitempty" tf:"tables,omitempty"`
 }
 
 type ExcludeObjectsSchemasParameters struct {
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 
 	// Tables in the database.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Tables []SchemasTablesParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+	Tables []ExcludeObjectsSchemasTablesParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type ExcludeObjectsSchemasTablesColumnsInitParameters struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+}
+
+type ExcludeObjectsSchemasTablesColumnsObservation struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+
+	// (Output)
+	// Column length.
+	Length *float64 `json:"length,omitempty" tf:"length,omitempty"`
+
+	// Whether or not the column can accept a null value.
+	Nullable *bool `json:"nullable,omitempty" tf:"nullable,omitempty"`
+
+	// The ordinal position of the column in the table.
+	OrdinalPosition *float64 `json:"ordinalPosition,omitempty" tf:"ordinal_position,omitempty"`
+
+	// (Output)
+	// Column precision.
+	Precision *float64 `json:"precision,omitempty" tf:"precision,omitempty"`
+
+	// Whether or not the column represents a primary key.
+	PrimaryKey *bool `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+
+	// (Output)
+	// Column scale.
+	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
+}
+
+type ExcludeObjectsSchemasTablesColumnsParameters struct {
+
+	// The partitioning column.
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	// +kubebuilder:validation:Optional
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+}
+
+type ExcludeObjectsSchemasTablesInitParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []SchemasTablesColumnsInitParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type ExcludeObjectsSchemasTablesObservation struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []SchemasTablesColumnsObservation `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type ExcludeObjectsSchemasTablesParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Columns []SchemasTablesColumnsParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
 }
 
 type FieldsInitParameters struct {
 
-	// The stream's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 }
 
 type FieldsObservation struct {
 
-	// The stream's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 }
 
 type FieldsParameters struct {
 
-	// The stream's name.
+	// Field name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 }
 
 type GcsDestinationConfigInitParameters struct {
@@ -693,7 +1079,8 @@ type GcsDestinationConfigInitParameters struct {
 	AvroFileFormat *AvroFileFormatInitParameters `json:"avroFileFormat,omitempty" tf:"avro_file_format,omitempty"`
 
 	// The maximum duration for which new events are added before a file is closed and a new file is created.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	// Values within the range of 15-60 seconds are allowed.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	FileRotationInterval *string `json:"fileRotationInterval,omitempty" tf:"file_rotation_interval,omitempty"`
 
 	// The maximum file size to be saved in the bucket.
@@ -713,7 +1100,8 @@ type GcsDestinationConfigObservation struct {
 	AvroFileFormat *AvroFileFormatParameters `json:"avroFileFormat,omitempty" tf:"avro_file_format,omitempty"`
 
 	// The maximum duration for which new events are added before a file is closed and a new file is created.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	// Values within the range of 15-60 seconds are allowed.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	FileRotationInterval *string `json:"fileRotationInterval,omitempty" tf:"file_rotation_interval,omitempty"`
 
 	// The maximum file size to be saved in the bucket.
@@ -734,7 +1122,8 @@ type GcsDestinationConfigParameters struct {
 	AvroFileFormat *AvroFileFormatParameters `json:"avroFileFormat,omitempty" tf:"avro_file_format,omitempty"`
 
 	// The maximum duration for which new events are added before a file is closed and a new file is created.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	// Values within the range of 15-60 seconds are allowed.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	FileRotationInterval *string `json:"fileRotationInterval,omitempty" tf:"file_rotation_interval,omitempty"`
 
@@ -761,16 +1150,80 @@ type GtidObservation struct {
 type GtidParameters struct {
 }
 
+type IncludeObjectsDatabasesCollectionsInitParameters struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []DatabasesCollectionsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type IncludeObjectsDatabasesCollectionsObservation struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []DatabasesCollectionsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type IncludeObjectsDatabasesCollectionsParameters struct {
+
+	// The MongoDB collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Fields []DatabasesCollectionsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type IncludeObjectsDatabasesInitParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []IncludeObjectsDatabasesCollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type IncludeObjectsDatabasesObservation struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []IncludeObjectsDatabasesCollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type IncludeObjectsDatabasesParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Collections []IncludeObjectsDatabasesCollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// The database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
 type IncludeObjectsInitParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []IncludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []IncludeObjectsDatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type IncludeObjectsMySQLDatabasesInitParameters struct {
 
-	// Database name.
+	// The database name.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Tables in the database.
@@ -812,7 +1265,7 @@ type IncludeObjectsMySQLDatabasesMySQLTablesParameters struct {
 
 type IncludeObjectsMySQLDatabasesObservation struct {
 
-	// Database name.
+	// The database name.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Tables in the database.
@@ -822,7 +1275,7 @@ type IncludeObjectsMySQLDatabasesObservation struct {
 
 type IncludeObjectsMySQLDatabasesParameters struct {
 
-	// Database name.
+	// The database name.
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database" tf:"database,omitempty"`
 
@@ -857,7 +1310,7 @@ type IncludeObjectsObjectsInitParameters struct {
 	// Structure is documented below.
 	Fields []IncludeObjectsObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
@@ -867,7 +1320,7 @@ type IncludeObjectsObjectsObservation struct {
 	// Structure is documented below.
 	Fields []IncludeObjectsObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
@@ -878,16 +1331,16 @@ type IncludeObjectsObjectsParameters struct {
 	// +kubebuilder:validation:Optional
 	Fields []IncludeObjectsObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	// +kubebuilder:validation:Optional
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
 type IncludeObjectsObservation struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []IncludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []IncludeObjectsDatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type IncludeObjectsOracleSchemasInitParameters struct {
@@ -896,7 +1349,7 @@ type IncludeObjectsOracleSchemasInitParameters struct {
 	// Structure is documented below.
 	OracleTables []IncludeObjectsOracleSchemasOracleTablesInitParameters `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -906,7 +1359,7 @@ type IncludeObjectsOracleSchemasObservation struct {
 	// Structure is documented below.
 	OracleTables []IncludeObjectsOracleSchemasOracleTablesObservation `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -949,17 +1402,17 @@ type IncludeObjectsOracleSchemasParameters struct {
 	// +kubebuilder:validation:Optional
 	OracleTables []IncludeObjectsOracleSchemasOracleTablesParameters `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
 
 type IncludeObjectsParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MySQLDatabases []IncludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+	Databases []IncludeObjectsDatabasesParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type IncludeObjectsPostgresqlSchemasInitParameters struct {
@@ -968,7 +1421,7 @@ type IncludeObjectsPostgresqlSchemasInitParameters struct {
 	// Structure is documented below.
 	PostgresqlTables []IncludeObjectsPostgresqlSchemasPostgresqlTablesInitParameters `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -978,7 +1431,7 @@ type IncludeObjectsPostgresqlSchemasObservation struct {
 	// Structure is documented below.
 	PostgresqlTables []IncludeObjectsPostgresqlSchemasPostgresqlTablesObservation `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -989,7 +1442,7 @@ type IncludeObjectsPostgresqlSchemasParameters struct {
 	// +kubebuilder:validation:Optional
 	PostgresqlTables []IncludeObjectsPostgresqlSchemasPostgresqlTablesParameters `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
@@ -1028,7 +1481,7 @@ type IncludeObjectsPostgresqlSchemasPostgresqlTablesParameters struct {
 
 type IncludeObjectsSchemasInitParameters struct {
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// Tables in the database.
@@ -1038,7 +1491,7 @@ type IncludeObjectsSchemasInitParameters struct {
 
 type IncludeObjectsSchemasObservation struct {
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// Tables in the database.
@@ -1048,7 +1501,7 @@ type IncludeObjectsSchemasObservation struct {
 
 type IncludeObjectsSchemasParameters struct {
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 
@@ -1058,11 +1511,41 @@ type IncludeObjectsSchemasParameters struct {
 	Tables []IncludeObjectsSchemasTablesParameters `json:"tables,omitempty" tf:"tables,omitempty"`
 }
 
+type IncludeObjectsSchemasTablesColumnsInitParameters struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+}
+
+type IncludeObjectsSchemasTablesColumnsObservation struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+
+	// (Output)
+	// Whether or not the column is a primary key.
+	IsPrimaryKey *bool `json:"isPrimaryKey,omitempty" tf:"is_primary_key,omitempty"`
+
+	// The ordinal position of the column in the table.
+	OrdinalPosition *float64 `json:"ordinalPosition,omitempty" tf:"ordinal_position,omitempty"`
+}
+
+type IncludeObjectsSchemasTablesColumnsParameters struct {
+
+	// The partitioning column.
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+}
+
 type IncludeObjectsSchemasTablesInitParameters struct {
 
 	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
 	// Structure is documented below.
-	Columns []SchemasTablesColumnsInitParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+	Columns []IncludeObjectsSchemasTablesColumnsInitParameters `json:"columns,omitempty" tf:"columns,omitempty"`
 
 	// Table name.
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
@@ -1072,7 +1555,7 @@ type IncludeObjectsSchemasTablesObservation struct {
 
 	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
 	// Structure is documented below.
-	Columns []SchemasTablesColumnsObservation `json:"columns,omitempty" tf:"columns,omitempty"`
+	Columns []IncludeObjectsSchemasTablesColumnsObservation `json:"columns,omitempty" tf:"columns,omitempty"`
 
 	// Table name.
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
@@ -1083,11 +1566,82 @@ type IncludeObjectsSchemasTablesParameters struct {
 	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Columns []SchemasTablesColumnsParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+	Columns []IncludeObjectsSchemasTablesColumnsParameters `json:"columns,omitempty" tf:"columns,omitempty"`
 
 	// Table name.
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table" tf:"table,omitempty"`
+}
+
+type IngestionTimePartitionInitParameters struct {
+
+	// Partition granularity.
+	// Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+	PartitioningTimeGranularity *string `json:"partitioningTimeGranularity,omitempty" tf:"partitioning_time_granularity,omitempty"`
+}
+
+type IngestionTimePartitionObservation struct {
+
+	// Partition granularity.
+	// Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+	PartitioningTimeGranularity *string `json:"partitioningTimeGranularity,omitempty" tf:"partitioning_time_granularity,omitempty"`
+}
+
+type IngestionTimePartitionParameters struct {
+
+	// Partition granularity.
+	// Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+	// +kubebuilder:validation:Optional
+	PartitioningTimeGranularity *string `json:"partitioningTimeGranularity,omitempty" tf:"partitioning_time_granularity,omitempty"`
+}
+
+type IntegerRangePartitionInitParameters struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The ending value for range partitioning (exclusive).
+	End *float64 `json:"end,omitempty" tf:"end,omitempty"`
+
+	// The interval of each range within the partition.
+	Interval *float64 `json:"interval,omitempty" tf:"interval,omitempty"`
+
+	// The starting value for range partitioning (inclusive).
+	Start *float64 `json:"start,omitempty" tf:"start,omitempty"`
+}
+
+type IntegerRangePartitionObservation struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The ending value for range partitioning (exclusive).
+	End *float64 `json:"end,omitempty" tf:"end,omitempty"`
+
+	// The interval of each range within the partition.
+	Interval *float64 `json:"interval,omitempty" tf:"interval,omitempty"`
+
+	// The starting value for range partitioning (inclusive).
+	Start *float64 `json:"start,omitempty" tf:"start,omitempty"`
+}
+
+type IntegerRangePartitionParameters struct {
+
+	// The partitioning column.
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column" tf:"column,omitempty"`
+
+	// The ending value for range partitioning (exclusive).
+	// +kubebuilder:validation:Optional
+	End *float64 `json:"end" tf:"end,omitempty"`
+
+	// The interval of each range within the partition.
+	// +kubebuilder:validation:Optional
+	Interval *float64 `json:"interval" tf:"interval,omitempty"`
+
+	// The starting value for range partitioning (inclusive).
+	// +kubebuilder:validation:Optional
+	Start *float64 `json:"start" tf:"start,omitempty"`
 }
 
 type JSONFileFormatInitParameters struct {
@@ -1134,12 +1688,108 @@ type MergeObservation struct {
 type MergeParameters struct {
 }
 
+type MongodbExcludedObjectsInitParameters struct {
+
+	// MongoDB databases in the cluster.
+	// Structure is documented below.
+	Databases []DatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
+}
+
+type MongodbExcludedObjectsObservation struct {
+
+	// MongoDB databases in the cluster.
+	// Structure is documented below.
+	Databases []DatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
+}
+
+type MongodbExcludedObjectsParameters struct {
+
+	// MongoDB databases in the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Databases []DatabasesParameters `json:"databases" tf:"databases,omitempty"`
+}
+
+type MongodbIdentifierInitParameters struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type MongodbIdentifierObservation struct {
+
+	// The MongoDB collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type MongodbIdentifierParameters struct {
+
+	// The MongoDB collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection" tf:"collection,omitempty"`
+
+	// The database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database" tf:"database,omitempty"`
+}
+
+type MongodbSourceConfigInitParameters struct {
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	ExcludeObjects *ExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	IncludeObjects *IncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+}
+
+type MongodbSourceConfigObservation struct {
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	ExcludeObjects *ExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	IncludeObjects *IncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+}
+
+type MongodbSourceConfigParameters struct {
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExcludeObjects *ExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IncludeObjects *IncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	// +kubebuilder:validation:Optional
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+}
+
 type MySQLColumnsInitParameters struct {
 
 	// Column collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1161,7 +1811,7 @@ type MySQLColumnsObservation struct {
 	// Column collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1188,7 +1838,7 @@ type MySQLColumnsParameters struct {
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -1212,7 +1862,7 @@ type MySQLColumnsParameters struct {
 
 type MySQLDatabasesInitParameters struct {
 
-	// Database name.
+	// The database name.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Tables in the database.
@@ -1235,7 +1885,7 @@ type MySQLDatabasesMySQLTablesMySQLColumnsInitParameters struct {
 	// Column collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1257,7 +1907,7 @@ type MySQLDatabasesMySQLTablesMySQLColumnsObservation struct {
 	// Column collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1284,7 +1934,7 @@ type MySQLDatabasesMySQLTablesMySQLColumnsParameters struct {
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -1330,7 +1980,7 @@ type MySQLDatabasesMySQLTablesParameters struct {
 
 type MySQLDatabasesObservation struct {
 
-	// Database name.
+	// The database name.
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Tables in the database.
@@ -1340,7 +1990,7 @@ type MySQLDatabasesObservation struct {
 
 type MySQLDatabasesParameters struct {
 
-	// Database name.
+	// The database name.
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database" tf:"database,omitempty"`
 
@@ -1372,6 +2022,79 @@ type MySQLExcludedObjectsParameters struct {
 	MySQLDatabases []MySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
 }
 
+type MySQLIdentifierInitParameters struct {
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type MySQLIdentifierObservation struct {
+
+	// The database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type MySQLIdentifierParameters struct {
+
+	// The database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database" tf:"database,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
+}
+
+type MySQLSourceConfigExcludeObjectsInitParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []ExcludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigExcludeObjectsObservation struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []ExcludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigExcludeObjectsParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MySQLDatabases []ExcludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigIncludeObjectsInitParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []IncludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigIncludeObjectsObservation struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []IncludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigIncludeObjectsParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MySQLDatabases []IncludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+}
+
 type MySQLSourceConfigInitParameters struct {
 
 	// CDC reader reads from binary logs replication cdc method.
@@ -1379,14 +2102,14 @@ type MySQLSourceConfigInitParameters struct {
 
 	// SQL Server objects to exclude from the stream.
 	// Structure is documented below.
-	ExcludeObjects *ExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+	ExcludeObjects *MySQLSourceConfigExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
 
 	// CDC reader reads from gtid based replication.
 	Gtid *GtidInitParameters `json:"gtid,omitempty" tf:"gtid,omitempty"`
 
 	// SQL Server objects to retrieve from the source.
 	// Structure is documented below.
-	IncludeObjects *IncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+	IncludeObjects *MySQLSourceConfigIncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
 
 	// Max concurrent backfill tasks.
 	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
@@ -1402,14 +2125,14 @@ type MySQLSourceConfigObservation struct {
 
 	// SQL Server objects to exclude from the stream.
 	// Structure is documented below.
-	ExcludeObjects *ExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+	ExcludeObjects *MySQLSourceConfigExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
 
 	// CDC reader reads from gtid based replication.
 	Gtid *GtidParameters `json:"gtid,omitempty" tf:"gtid,omitempty"`
 
 	// SQL Server objects to retrieve from the source.
 	// Structure is documented below.
-	IncludeObjects *IncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+	IncludeObjects *MySQLSourceConfigIncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
 
 	// Max concurrent backfill tasks.
 	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
@@ -1427,7 +2150,7 @@ type MySQLSourceConfigParameters struct {
 	// SQL Server objects to exclude from the stream.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExcludeObjects *ExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+	ExcludeObjects *MySQLSourceConfigExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
 
 	// CDC reader reads from gtid based replication.
 	// +kubebuilder:validation:Optional
@@ -1436,7 +2159,7 @@ type MySQLSourceConfigParameters struct {
 	// SQL Server objects to retrieve from the source.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	IncludeObjects *IncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+	IncludeObjects *MySQLSourceConfigIncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
 
 	// Max concurrent backfill tasks.
 	// +kubebuilder:validation:Optional
@@ -1462,7 +2185,7 @@ type MySQLTablesMySQLColumnsInitParameters struct {
 	// Column collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1484,7 +2207,7 @@ type MySQLTablesMySQLColumnsObservation struct {
 	// Column collation.
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1511,7 +2234,7 @@ type MySQLTablesMySQLColumnsParameters struct {
 	// +kubebuilder:validation:Optional
 	Collation *string `json:"collation,omitempty" tf:"collation,omitempty"`
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -1555,6 +2278,28 @@ type MySQLTablesParameters struct {
 	Table *string `json:"table" tf:"table,omitempty"`
 }
 
+type ObjectFilterInitParameters struct {
+
+	// Specific source object identifier.
+	// Structure is documented below.
+	SourceObjectIdentifier *SourceObjectIdentifierInitParameters `json:"sourceObjectIdentifier,omitempty" tf:"source_object_identifier,omitempty"`
+}
+
+type ObjectFilterObservation struct {
+
+	// Specific source object identifier.
+	// Structure is documented below.
+	SourceObjectIdentifier *SourceObjectIdentifierObservation `json:"sourceObjectIdentifier,omitempty" tf:"source_object_identifier,omitempty"`
+}
+
+type ObjectFilterParameters struct {
+
+	// Specific source object identifier.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SourceObjectIdentifier *SourceObjectIdentifierParameters `json:"sourceObjectIdentifier,omitempty" tf:"source_object_identifier,omitempty"`
+}
+
 type ObjectsFieldsInitParameters struct {
 
 	// The stream's name.
@@ -1578,9 +2323,9 @@ type ObjectsInitParameters struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
@@ -1588,9 +2333,9 @@ type ObjectsObservation struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []FieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
@@ -1599,16 +2344,16 @@ type ObjectsParameters struct {
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
-	// Name of object in Salesforce Org.
+	// The Salesforce object name.
 	// +kubebuilder:validation:Optional
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
 }
 
 type OracleColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1618,7 +2363,7 @@ type OracleColumnsInitParameters struct {
 
 type OracleColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1653,7 +2398,7 @@ type OracleColumnsObservation struct {
 
 type OracleColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -1685,13 +2430,42 @@ type OracleExcludedObjectsParameters struct {
 	OracleSchemas []OracleSchemasParameters `json:"oracleSchemas" tf:"oracle_schemas,omitempty"`
 }
 
+type OracleIdentifierInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type OracleIdentifierObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type OracleIdentifierParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema" tf:"schema,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
+}
+
 type OracleSchemasInitParameters struct {
 
 	// Tables in the database.
 	// Structure is documented below.
 	OracleTables []OracleTablesInitParameters `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -1701,7 +2475,7 @@ type OracleSchemasObservation struct {
 	// Structure is documented below.
 	OracleTables []OracleTablesObservation `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -1727,7 +2501,7 @@ type OracleSchemasOracleTablesObservation struct {
 
 type OracleSchemasOracleTablesOracleColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1737,7 +2511,7 @@ type OracleSchemasOracleTablesOracleColumnsInitParameters struct {
 
 type OracleSchemasOracleTablesOracleColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1772,7 +2546,7 @@ type OracleSchemasOracleTablesOracleColumnsObservation struct {
 
 type OracleSchemasOracleTablesOracleColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -1801,7 +2575,7 @@ type OracleSchemasParameters struct {
 	// +kubebuilder:validation:Optional
 	OracleTables []OracleTablesParameters `json:"oracleTables,omitempty" tf:"oracle_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
@@ -1947,7 +2721,7 @@ type OracleTablesObservation struct {
 
 type OracleTablesOracleColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1957,7 +2731,7 @@ type OracleTablesOracleColumnsInitParameters struct {
 
 type OracleTablesOracleColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -1992,7 +2766,7 @@ type OracleTablesOracleColumnsObservation struct {
 
 type OracleTablesOracleColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -2016,7 +2790,7 @@ type OracleTablesParameters struct {
 
 type PostgresqlColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2035,7 +2809,7 @@ type PostgresqlColumnsInitParameters struct {
 
 type PostgresqlColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2066,7 +2840,7 @@ type PostgresqlColumnsObservation struct {
 
 type PostgresqlColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -2110,13 +2884,42 @@ type PostgresqlExcludedObjectsParameters struct {
 	PostgresqlSchemas []PostgresqlSchemasParameters `json:"postgresqlSchemas" tf:"postgresql_schemas,omitempty"`
 }
 
+type PostgresqlIdentifierInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type PostgresqlIdentifierObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type PostgresqlIdentifierParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema" tf:"schema,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
+}
+
 type PostgresqlSchemasInitParameters struct {
 
 	// Tables in the schema.
 	// Structure is documented below.
 	PostgresqlTables []PostgresqlTablesInitParameters `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -2126,7 +2929,7 @@ type PostgresqlSchemasObservation struct {
 	// Structure is documented below.
 	PostgresqlTables []PostgresqlTablesObservation `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 }
 
@@ -2137,7 +2940,7 @@ type PostgresqlSchemasParameters struct {
 	// +kubebuilder:validation:Optional
 	PostgresqlTables []PostgresqlTablesParameters `json:"postgresqlTables,omitempty" tf:"postgresql_tables,omitempty"`
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 }
@@ -2176,7 +2979,7 @@ type PostgresqlSchemasPostgresqlTablesParameters struct {
 
 type PostgresqlSchemasPostgresqlTablesPostgresqlColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2195,7 +2998,7 @@ type PostgresqlSchemasPostgresqlTablesPostgresqlColumnsInitParameters struct {
 
 type PostgresqlSchemasPostgresqlTablesPostgresqlColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2226,7 +3029,7 @@ type PostgresqlSchemasPostgresqlTablesPostgresqlColumnsObservation struct {
 
 type PostgresqlSchemasPostgresqlTablesPostgresqlColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -2397,7 +3200,7 @@ type PostgresqlTablesParameters struct {
 
 type PostgresqlTablesPostgresqlColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2416,7 +3219,7 @@ type PostgresqlTablesPostgresqlColumnsInitParameters struct {
 
 type PostgresqlTablesPostgresqlColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2447,7 +3250,7 @@ type PostgresqlTablesPostgresqlColumnsObservation struct {
 
 type PostgresqlTablesPostgresqlColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -2469,18 +3272,53 @@ type PostgresqlTablesPostgresqlColumnsParameters struct {
 	PrimaryKey *bool `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
 }
 
+type RuleSetsInitParameters struct {
+
+	// List of customization rules to apply.
+	// Structure is documented below.
+	CustomizationRules []CustomizationRulesInitParameters `json:"customizationRules,omitempty" tf:"customization_rules,omitempty"`
+
+	// Object filter to apply the customization rules to.
+	// Structure is documented below.
+	ObjectFilter *ObjectFilterInitParameters `json:"objectFilter,omitempty" tf:"object_filter,omitempty"`
+}
+
+type RuleSetsObservation struct {
+
+	// List of customization rules to apply.
+	// Structure is documented below.
+	CustomizationRules []CustomizationRulesObservation `json:"customizationRules,omitempty" tf:"customization_rules,omitempty"`
+
+	// Object filter to apply the customization rules to.
+	// Structure is documented below.
+	ObjectFilter *ObjectFilterObservation `json:"objectFilter,omitempty" tf:"object_filter,omitempty"`
+}
+
+type RuleSetsParameters struct {
+
+	// List of customization rules to apply.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomizationRules []CustomizationRulesParameters `json:"customizationRules" tf:"customization_rules,omitempty"`
+
+	// Object filter to apply the customization rules to.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ObjectFilter *ObjectFilterParameters `json:"objectFilter" tf:"object_filter,omitempty"`
+}
+
 type SQLServerExcludedObjectsInitParameters struct {
 
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
-	Schemas []SchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
+	Schemas []SQLServerExcludedObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
 }
 
 type SQLServerExcludedObjectsObservation struct {
 
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
-	Schemas []SchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
+	Schemas []SQLServerExcludedObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
 }
 
 type SQLServerExcludedObjectsParameters struct {
@@ -2488,21 +3326,82 @@ type SQLServerExcludedObjectsParameters struct {
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Schemas []SchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+	Schemas []SQLServerExcludedObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+}
+
+type SQLServerExcludedObjectsSchemasInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	Tables []SchemasTablesInitParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerExcludedObjectsSchemasObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	Tables []SchemasTablesObservation `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerExcludedObjectsSchemasParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Tables []SchemasTablesParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerIdentifierInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SQLServerIdentifierObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SQLServerIdentifierParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema" tf:"schema,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
 }
 
 type SQLServerSourceConfigExcludeObjectsInitParameters struct {
 
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
-	Schemas []ExcludeObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
+	Schemas []SQLServerSourceConfigExcludeObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
 }
 
 type SQLServerSourceConfigExcludeObjectsObservation struct {
 
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
-	Schemas []ExcludeObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
+	Schemas []SQLServerSourceConfigExcludeObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
 }
 
 type SQLServerSourceConfigExcludeObjectsParameters struct {
@@ -2510,21 +3409,85 @@ type SQLServerSourceConfigExcludeObjectsParameters struct {
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Schemas []ExcludeObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+	Schemas []SQLServerSourceConfigExcludeObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+}
+
+type SQLServerSourceConfigExcludeObjectsSchemasInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	Tables []SQLServerSourceConfigExcludeObjectsSchemasTablesInitParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerSourceConfigExcludeObjectsSchemasObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	Tables []SQLServerSourceConfigExcludeObjectsSchemasTablesObservation `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerSourceConfigExcludeObjectsSchemasParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Tables []SQLServerSourceConfigExcludeObjectsSchemasTablesParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerSourceConfigExcludeObjectsSchemasTablesInitParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []ExcludeObjectsSchemasTablesColumnsInitParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SQLServerSourceConfigExcludeObjectsSchemasTablesObservation struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []ExcludeObjectsSchemasTablesColumnsObservation `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SQLServerSourceConfigExcludeObjectsSchemasTablesParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Columns []ExcludeObjectsSchemasTablesColumnsParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
 }
 
 type SQLServerSourceConfigIncludeObjectsInitParameters struct {
 
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
-	Schemas []IncludeObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
+	Schemas []SQLServerSourceConfigIncludeObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
 }
 
 type SQLServerSourceConfigIncludeObjectsObservation struct {
 
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
-	Schemas []IncludeObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
+	Schemas []SQLServerSourceConfigIncludeObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
 }
 
 type SQLServerSourceConfigIncludeObjectsParameters struct {
@@ -2532,7 +3495,124 @@ type SQLServerSourceConfigIncludeObjectsParameters struct {
 	// SQL Server schemas/databases in the database server
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Schemas []IncludeObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+	Schemas []SQLServerSourceConfigIncludeObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	Tables []SQLServerSourceConfigIncludeObjectsSchemasTablesInitParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	Tables []SQLServerSourceConfigIncludeObjectsSchemasTablesObservation `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema" tf:"schema,omitempty"`
+
+	// Tables in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Tables []SQLServerSourceConfigIncludeObjectsSchemasTablesParameters `json:"tables,omitempty" tf:"tables,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasTablesColumnsInitParameters struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasTablesColumnsObservation struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+
+	// (Output)
+	// Column length.
+	Length *float64 `json:"length,omitempty" tf:"length,omitempty"`
+
+	// Whether or not the column can accept a null value.
+	Nullable *bool `json:"nullable,omitempty" tf:"nullable,omitempty"`
+
+	// The ordinal position of the column in the table.
+	OrdinalPosition *float64 `json:"ordinalPosition,omitempty" tf:"ordinal_position,omitempty"`
+
+	// (Output)
+	// Column precision.
+	Precision *float64 `json:"precision,omitempty" tf:"precision,omitempty"`
+
+	// Whether or not the column represents a primary key.
+	PrimaryKey *bool `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
+
+	// (Output)
+	// Column scale.
+	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasTablesColumnsParameters struct {
+
+	// The partitioning column.
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// The PostgreSQL data type. Full data types list can be found here:
+	// https://www.postgresql.org/docs/current/datatype.html
+	// +kubebuilder:validation:Optional
+	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasTablesInitParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []SQLServerSourceConfigIncludeObjectsSchemasTablesColumnsInitParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasTablesObservation struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	Columns []SQLServerSourceConfigIncludeObjectsSchemasTablesColumnsObservation `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SQLServerSourceConfigIncludeObjectsSchemasTablesParameters struct {
+
+	// SQL Server columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Columns []SQLServerSourceConfigIncludeObjectsSchemasTablesColumnsParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
 }
 
 type SQLServerSourceConfigInitParameters struct {
@@ -2632,6 +3712,25 @@ type SalesforceExcludedObjectsParameters struct {
 	Objects []ObjectsParameters `json:"objects" tf:"objects,omitempty"`
 }
 
+type SalesforceIdentifierInitParameters struct {
+
+	// The Salesforce object name.
+	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
+}
+
+type SalesforceIdentifierObservation struct {
+
+	// The Salesforce object name.
+	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
+}
+
+type SalesforceIdentifierParameters struct {
+
+	// The Salesforce object name.
+	// +kubebuilder:validation:Optional
+	ObjectName *string `json:"objectName" tf:"object_name,omitempty"`
+}
+
 type SalesforceSourceConfigExcludeObjectsInitParameters struct {
 
 	// Salesforce objects in Salesforce Org.
@@ -2723,7 +3822,7 @@ type SalesforceSourceConfigParameters struct {
 
 type SchemasInitParameters struct {
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// Tables in the database.
@@ -2733,7 +3832,7 @@ type SchemasInitParameters struct {
 
 type SchemasObservation struct {
 
-	// Schema name.
+	// The schema name.
 	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
 
 	// Tables in the database.
@@ -2743,7 +3842,7 @@ type SchemasObservation struct {
 
 type SchemasParameters struct {
 
-	// Schema name.
+	// The schema name.
 	// +kubebuilder:validation:Optional
 	Schema *string `json:"schema" tf:"schema,omitempty"`
 
@@ -2755,17 +3854,13 @@ type SchemasParameters struct {
 
 type SchemasTablesColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
-
-	// The PostgreSQL data type. Full data types list can be found here:
-	// https://www.postgresql.org/docs/current/datatype.html
-	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 }
 
 type SchemasTablesColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -2773,37 +3868,18 @@ type SchemasTablesColumnsObservation struct {
 	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 
 	// (Output)
-	// Column length.
-	Length *float64 `json:"length,omitempty" tf:"length,omitempty"`
-
-	// Whether or not the column can accept a null value.
-	Nullable *bool `json:"nullable,omitempty" tf:"nullable,omitempty"`
+	// Whether or not the column is a primary key.
+	IsPrimaryKey *bool `json:"isPrimaryKey,omitempty" tf:"is_primary_key,omitempty"`
 
 	// The ordinal position of the column in the table.
 	OrdinalPosition *float64 `json:"ordinalPosition,omitempty" tf:"ordinal_position,omitempty"`
-
-	// (Output)
-	// Column precision.
-	Precision *float64 `json:"precision,omitempty" tf:"precision,omitempty"`
-
-	// Whether or not the column represents a primary key.
-	PrimaryKey *bool `json:"primaryKey,omitempty" tf:"primary_key,omitempty"`
-
-	// (Output)
-	// Column scale.
-	Scale *float64 `json:"scale,omitempty" tf:"scale,omitempty"`
 }
 
 type SchemasTablesColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
-
-	// The PostgreSQL data type. Full data types list can be found here:
-	// https://www.postgresql.org/docs/current/datatype.html
-	// +kubebuilder:validation:Optional
-	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 }
 
 type SchemasTablesInitParameters struct {
@@ -2882,6 +3958,10 @@ type SingleTargetDatasetParameters struct {
 
 type SourceConfigInitParameters struct {
 
+	// MongoDB source configuration.
+	// Structure is documented below.
+	MongodbSourceConfig *MongodbSourceConfigInitParameters `json:"mongodbSourceConfig,omitempty" tf:"mongodb_source_config,omitempty"`
+
 	// MySQL data source configuration.
 	// Structure is documented below.
 	MySQLSourceConfig *MySQLSourceConfigInitParameters `json:"mysqlSourceConfig,omitempty" tf:"mysql_source_config,omitempty"`
@@ -2914,9 +3994,17 @@ type SourceConfigInitParameters struct {
 	// Selector for a ConnectionProfile in datastream to populate sourceConnectionProfile.
 	// +kubebuilder:validation:Optional
 	SourceConnectionProfileSelector *v1.NamespacedSelector `json:"sourceConnectionProfileSelector,omitempty" tf:"-"`
+
+	// Spanner data source configuration.
+	// Structure is documented below.
+	SpannerSourceConfig *SpannerSourceConfigInitParameters `json:"spannerSourceConfig,omitempty" tf:"spanner_source_config,omitempty"`
 }
 
 type SourceConfigObservation struct {
+
+	// MongoDB source configuration.
+	// Structure is documented below.
+	MongodbSourceConfig *MongodbSourceConfigObservation `json:"mongodbSourceConfig,omitempty" tf:"mongodb_source_config,omitempty"`
 
 	// MySQL data source configuration.
 	// Structure is documented below.
@@ -2940,9 +4028,18 @@ type SourceConfigObservation struct {
 
 	// Source connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
 	SourceConnectionProfile *string `json:"sourceConnectionProfile,omitempty" tf:"source_connection_profile,omitempty"`
+
+	// Spanner data source configuration.
+	// Structure is documented below.
+	SpannerSourceConfig *SpannerSourceConfigObservation `json:"spannerSourceConfig,omitempty" tf:"spanner_source_config,omitempty"`
 }
 
 type SourceConfigParameters struct {
+
+	// MongoDB source configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MongodbSourceConfig *MongodbSourceConfigParameters `json:"mongodbSourceConfig,omitempty" tf:"mongodb_source_config,omitempty"`
 
 	// MySQL data source configuration.
 	// Structure is documented below.
@@ -2982,6 +4079,11 @@ type SourceConfigParameters struct {
 	// Selector for a ConnectionProfile in datastream to populate sourceConnectionProfile.
 	// +kubebuilder:validation:Optional
 	SourceConnectionProfileSelector *v1.NamespacedSelector `json:"sourceConnectionProfileSelector,omitempty" tf:"-"`
+
+	// Spanner data source configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SpannerSourceConfig *SpannerSourceConfigParameters `json:"spannerSourceConfig,omitempty" tf:"spanner_source_config,omitempty"`
 }
 
 type SourceHierarchyDatasetsInitParameters struct {
@@ -2989,6 +4091,19 @@ type SourceHierarchyDatasetsInitParameters struct {
 	// Dataset template used for dynamic dataset creation.
 	// Structure is documented below.
 	DatasetTemplate *DatasetTemplateInitParameters `json:"datasetTemplate,omitempty" tf:"dataset_template,omitempty"`
+
+	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type SourceHierarchyDatasetsObservation struct {
@@ -2996,6 +4111,9 @@ type SourceHierarchyDatasetsObservation struct {
 	// Dataset template used for dynamic dataset creation.
 	// Structure is documented below.
 	DatasetTemplate *DatasetTemplateObservation `json:"datasetTemplate,omitempty" tf:"dataset_template,omitempty"`
+
+	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type SourceHierarchyDatasetsParameters struct {
@@ -3004,6 +4122,313 @@ type SourceHierarchyDatasetsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DatasetTemplate *DatasetTemplateParameters `json:"datasetTemplate" tf:"dataset_template,omitempty"`
+
+	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+}
+
+type SourceObjectIdentifierInitParameters struct {
+
+	// A nested object resource.
+	// Structure is documented below.
+	MongodbIdentifier *MongodbIdentifierInitParameters `json:"mongodbIdentifier,omitempty" tf:"mongodb_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	MySQLIdentifier *MySQLIdentifierInitParameters `json:"mysqlIdentifier,omitempty" tf:"mysql_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	OracleIdentifier *OracleIdentifierInitParameters `json:"oracleIdentifier,omitempty" tf:"oracle_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	PostgresqlIdentifier *PostgresqlIdentifierInitParameters `json:"postgresqlIdentifier,omitempty" tf:"postgresql_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	SQLServerIdentifier *SQLServerIdentifierInitParameters `json:"sqlServerIdentifier,omitempty" tf:"sql_server_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	SalesforceIdentifier *SalesforceIdentifierInitParameters `json:"salesforceIdentifier,omitempty" tf:"salesforce_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	SpannerIdentifier *SpannerIdentifierInitParameters `json:"spannerIdentifier,omitempty" tf:"spanner_identifier,omitempty"`
+}
+
+type SourceObjectIdentifierObservation struct {
+
+	// A nested object resource.
+	// Structure is documented below.
+	MongodbIdentifier *MongodbIdentifierObservation `json:"mongodbIdentifier,omitempty" tf:"mongodb_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	MySQLIdentifier *MySQLIdentifierObservation `json:"mysqlIdentifier,omitempty" tf:"mysql_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	OracleIdentifier *OracleIdentifierObservation `json:"oracleIdentifier,omitempty" tf:"oracle_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	PostgresqlIdentifier *PostgresqlIdentifierObservation `json:"postgresqlIdentifier,omitempty" tf:"postgresql_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	SQLServerIdentifier *SQLServerIdentifierObservation `json:"sqlServerIdentifier,omitempty" tf:"sql_server_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	SalesforceIdentifier *SalesforceIdentifierObservation `json:"salesforceIdentifier,omitempty" tf:"salesforce_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	SpannerIdentifier *SpannerIdentifierObservation `json:"spannerIdentifier,omitempty" tf:"spanner_identifier,omitempty"`
+}
+
+type SourceObjectIdentifierParameters struct {
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MongodbIdentifier *MongodbIdentifierParameters `json:"mongodbIdentifier,omitempty" tf:"mongodb_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MySQLIdentifier *MySQLIdentifierParameters `json:"mysqlIdentifier,omitempty" tf:"mysql_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OracleIdentifier *OracleIdentifierParameters `json:"oracleIdentifier,omitempty" tf:"oracle_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PostgresqlIdentifier *PostgresqlIdentifierParameters `json:"postgresqlIdentifier,omitempty" tf:"postgresql_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SQLServerIdentifier *SQLServerIdentifierParameters `json:"sqlServerIdentifier,omitempty" tf:"sql_server_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SalesforceIdentifier *SalesforceIdentifierParameters `json:"salesforceIdentifier,omitempty" tf:"salesforce_identifier,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SpannerIdentifier *SpannerIdentifierParameters `json:"spannerIdentifier,omitempty" tf:"spanner_identifier,omitempty"`
+}
+
+type SpannerExcludedObjectsInitParameters struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	Schemas []SchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
+}
+
+type SpannerExcludedObjectsObservation struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	Schemas []SchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
+}
+
+type SpannerExcludedObjectsParameters struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Schemas []SchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+}
+
+type SpannerIdentifierInitParameters struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SpannerIdentifierObservation struct {
+
+	// The schema name.
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	Table *string `json:"table,omitempty" tf:"table,omitempty"`
+}
+
+type SpannerIdentifierParameters struct {
+
+	// The schema name.
+	// +kubebuilder:validation:Optional
+	Schema *string `json:"schema,omitempty" tf:"schema,omitempty"`
+
+	// Table name.
+	// +kubebuilder:validation:Optional
+	Table *string `json:"table" tf:"table,omitempty"`
+}
+
+type SpannerSourceConfigExcludeObjectsInitParameters struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	Schemas []ExcludeObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
+}
+
+type SpannerSourceConfigExcludeObjectsObservation struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	Schemas []ExcludeObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
+}
+
+type SpannerSourceConfigExcludeObjectsParameters struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Schemas []ExcludeObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+}
+
+type SpannerSourceConfigIncludeObjectsInitParameters struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	Schemas []IncludeObjectsSchemasInitParameters `json:"schemas,omitempty" tf:"schemas,omitempty"`
+}
+
+type SpannerSourceConfigIncludeObjectsObservation struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	Schemas []IncludeObjectsSchemasObservation `json:"schemas,omitempty" tf:"schemas,omitempty"`
+}
+
+type SpannerSourceConfigIncludeObjectsParameters struct {
+
+	// SQL Server schemas/databases in the database server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Schemas []IncludeObjectsSchemasParameters `json:"schemas" tf:"schemas,omitempty"`
+}
+
+type SpannerSourceConfigInitParameters struct {
+
+	// Whether to use DataBoost for backfill queries.
+	BackfillDataBoostEnabled *bool `json:"backfillDataBoostEnabled,omitempty" tf:"backfill_data_boost_enabled,omitempty"`
+
+	// The Spanner change stream name to use.
+	ChangeStreamName *string `json:"changeStreamName,omitempty" tf:"change_stream_name,omitempty"`
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	ExcludeObjects *SpannerSourceConfigExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// The FGAC role to use for Spanner queries.
+	FgacRole *string `json:"fgacRole,omitempty" tf:"fgac_role,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	IncludeObjects *SpannerSourceConfigIncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+
+	// Max concurrent CDC tasks.
+	MaxConcurrentCdcTasks *float64 `json:"maxConcurrentCdcTasks,omitempty" tf:"max_concurrent_cdc_tasks,omitempty"`
+
+	// The RPC priority to use for Spanner queries.
+	// Possible values are: LOW, MEDIUM, HIGH.
+	SpannerRPCPriority *string `json:"spannerRpcPriority,omitempty" tf:"spanner_rpc_priority,omitempty"`
+}
+
+type SpannerSourceConfigObservation struct {
+
+	// Whether to use DataBoost for backfill queries.
+	BackfillDataBoostEnabled *bool `json:"backfillDataBoostEnabled,omitempty" tf:"backfill_data_boost_enabled,omitempty"`
+
+	// The Spanner change stream name to use.
+	ChangeStreamName *string `json:"changeStreamName,omitempty" tf:"change_stream_name,omitempty"`
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	ExcludeObjects *SpannerSourceConfigExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// The FGAC role to use for Spanner queries.
+	FgacRole *string `json:"fgacRole,omitempty" tf:"fgac_role,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	IncludeObjects *SpannerSourceConfigIncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+
+	// Max concurrent CDC tasks.
+	MaxConcurrentCdcTasks *float64 `json:"maxConcurrentCdcTasks,omitempty" tf:"max_concurrent_cdc_tasks,omitempty"`
+
+	// The RPC priority to use for Spanner queries.
+	// Possible values are: LOW, MEDIUM, HIGH.
+	SpannerRPCPriority *string `json:"spannerRpcPriority,omitempty" tf:"spanner_rpc_priority,omitempty"`
+}
+
+type SpannerSourceConfigParameters struct {
+
+	// Whether to use DataBoost for backfill queries.
+	// +kubebuilder:validation:Optional
+	BackfillDataBoostEnabled *bool `json:"backfillDataBoostEnabled,omitempty" tf:"backfill_data_boost_enabled,omitempty"`
+
+	// The Spanner change stream name to use.
+	// +kubebuilder:validation:Optional
+	ChangeStreamName *string `json:"changeStreamName,omitempty" tf:"change_stream_name,omitempty"`
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExcludeObjects *SpannerSourceConfigExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// The FGAC role to use for Spanner queries.
+	// +kubebuilder:validation:Optional
+	FgacRole *string `json:"fgacRole,omitempty" tf:"fgac_role,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IncludeObjects *SpannerSourceConfigIncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	// +kubebuilder:validation:Optional
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+
+	// Max concurrent CDC tasks.
+	// +kubebuilder:validation:Optional
+	MaxConcurrentCdcTasks *float64 `json:"maxConcurrentCdcTasks,omitempty" tf:"max_concurrent_cdc_tasks,omitempty"`
+
+	// The RPC priority to use for Spanner queries.
+	// Possible values are: LOW, MEDIUM, HIGH.
+	// +kubebuilder:validation:Optional
+	SpannerRPCPriority *string `json:"spannerRpcPriority,omitempty" tf:"spanner_rpc_priority,omitempty"`
 }
 
 type StreamInitParameters struct {
@@ -3021,6 +4446,10 @@ type StreamInitParameters struct {
 	// A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data
 	// will be encrypted using an internal Stream-specific encryption key provisioned through KMS.
 	CustomerManagedEncryptionKey *string `json:"customerManagedEncryptionKey,omitempty" tf:"customer_managed_encryption_key,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Desired state of the Stream. Set this field to RUNNING to start the stream,
 	// NOT_STARTED to create the stream without starting and PAUSED to pause
@@ -3044,6 +4473,10 @@ type StreamInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Rule sets to apply to the stream.
+	// Structure is documented below.
+	RuleSets []RuleSetsInitParameters `json:"ruleSets,omitempty" tf:"rule_sets,omitempty"`
 
 	// Source connection profile configuration.
 	// Structure is documented below.
@@ -3074,6 +4507,10 @@ type StreamObservation struct {
 	// A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data
 	// will be encrypted using an internal Stream-specific encryption key provisioned through KMS.
 	CustomerManagedEncryptionKey *string `json:"customerManagedEncryptionKey,omitempty" tf:"customer_managed_encryption_key,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Desired state of the Stream. Set this field to RUNNING to start the stream,
 	// NOT_STARTED to create the stream without starting and PAUSED to pause
@@ -3110,6 +4547,10 @@ type StreamObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Rule sets to apply to the stream.
+	// Structure is documented below.
+	RuleSets []RuleSetsObservation `json:"ruleSets,omitempty" tf:"rule_sets,omitempty"`
+
 	// Source connection profile configuration.
 	// Structure is documented below.
 	SourceConfig *SourceConfigObservation `json:"sourceConfig,omitempty" tf:"source_config,omitempty"`
@@ -3143,6 +4584,11 @@ type StreamParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomerManagedEncryptionKey *string `json:"customerManagedEncryptionKey,omitempty" tf:"customer_managed_encryption_key,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Desired state of the Stream. Set this field to RUNNING to start the stream,
 	// NOT_STARTED to create the stream without starting and PAUSED to pause
 	// the stream from a RUNNING state.
@@ -3175,6 +4621,11 @@ type StreamParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Rule sets to apply to the stream.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RuleSets []RuleSetsParameters `json:"ruleSets,omitempty" tf:"rule_sets,omitempty"`
+
 	// Source connection profile configuration.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -3183,7 +4634,7 @@ type StreamParameters struct {
 
 type TablesColumnsInitParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -3193,7 +4644,7 @@ type TablesColumnsInitParameters struct {
 
 type TablesColumnsObservation struct {
 
-	// Column name.
+	// The partitioning column.
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
 	// The PostgreSQL data type. Full data types list can be found here:
@@ -3224,7 +4675,7 @@ type TablesColumnsObservation struct {
 
 type TablesColumnsParameters struct {
 
-	// Column name.
+	// The partitioning column.
 	// +kubebuilder:validation:Optional
 	Column *string `json:"column,omitempty" tf:"column,omitempty"`
 
@@ -3264,6 +4715,38 @@ type TablesParameters struct {
 	// Table name.
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table" tf:"table,omitempty"`
+}
+
+type TimeUnitPartitionInitParameters struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// Partition granularity.
+	// Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+	PartitioningTimeGranularity *string `json:"partitioningTimeGranularity,omitempty" tf:"partitioning_time_granularity,omitempty"`
+}
+
+type TimeUnitPartitionObservation struct {
+
+	// The partitioning column.
+	Column *string `json:"column,omitempty" tf:"column,omitempty"`
+
+	// Partition granularity.
+	// Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+	PartitioningTimeGranularity *string `json:"partitioningTimeGranularity,omitempty" tf:"partitioning_time_granularity,omitempty"`
+}
+
+type TimeUnitPartitionParameters struct {
+
+	// The partitioning column.
+	// +kubebuilder:validation:Optional
+	Column *string `json:"column" tf:"column,omitempty"`
+
+	// Partition granularity.
+	// Possible values are: PARTITIONING_TIME_GRANULARITY_UNSPECIFIED, PARTITIONING_TIME_GRANULARITY_HOUR, PARTITIONING_TIME_GRANULARITY_DAY, PARTITIONING_TIME_GRANULARITY_MONTH, PARTITIONING_TIME_GRANULARITY_YEAR.
+	// +kubebuilder:validation:Optional
+	PartitioningTimeGranularity *string `json:"partitioningTimeGranularity,omitempty" tf:"partitioning_time_granularity,omitempty"`
 }
 
 type TransactionLogsInitParameters struct {

@@ -15,6 +15,10 @@ import (
 
 type SnapshotInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -31,6 +35,10 @@ type SnapshotObservation struct {
 
 	// The time when the snapshot was created in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -69,6 +77,11 @@ type SnapshotObservation struct {
 }
 
 type SnapshotParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the snapshot with 2048 characters or less. Requests with longer descriptions will be rejected.
 	// +kubebuilder:validation:Optional

@@ -309,6 +309,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   kubeletConfig:
                     description: The kubelet configuration for the node pool.
                     properties:
@@ -562,6 +567,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   kubeletConfig:
                     description: The kubelet configuration for the node pool.
                     properties:
@@ -887,6 +897,11 @@ spec:
                   createTime:
                     description: Output only. The time at which this node pool was
                       created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveAnnotations:
                     additionalProperties:

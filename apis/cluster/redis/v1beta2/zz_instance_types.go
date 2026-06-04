@@ -60,6 +60,13 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomerManagedKeySelector *v1.Selector `json:"customerManagedKeySelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the instance is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// An arbitrary and optional user-provided name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -172,6 +179,13 @@ type InstanceObservation struct {
 	// Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
 	// instance. If this is provided, CMEK is enabled.
 	CustomerManagedKey *string `json:"customerManagedKey,omitempty" tf:"customer_managed_key,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the instance is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// An arbitrary and optional user-provided name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -354,6 +368,15 @@ type InstanceParameters struct {
 	// Selector for a CryptoKey in kms to populate customerManagedKey.
 	// +kubebuilder:validation:Optional
 	CustomerManagedKeySelector *v1.Selector `json:"customerManagedKeySelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the instance is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// An arbitrary and optional user-provided name for the instance.
 	// +kubebuilder:validation:Optional

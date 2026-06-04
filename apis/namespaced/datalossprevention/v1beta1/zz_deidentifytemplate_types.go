@@ -2817,6 +2817,10 @@ type DeidentifyTemplateInitParameters struct {
 	// Structure is documented below.
 	DeidentifyConfig *DeidentifyConfigInitParameters `json:"deidentifyConfig,omitempty" tf:"deidentify_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -2840,6 +2844,10 @@ type DeidentifyTemplateObservation struct {
 	// Configuration of the deidentify template
 	// Structure is documented below.
 	DeidentifyConfig *DeidentifyConfigObservation `json:"deidentifyConfig,omitempty" tf:"deidentify_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -2871,6 +2879,11 @@ type DeidentifyTemplateParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DeidentifyConfig *DeidentifyConfigParameters `json:"deidentifyConfig,omitempty" tf:"deidentify_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the template.
 	// +kubebuilder:validation:Optional

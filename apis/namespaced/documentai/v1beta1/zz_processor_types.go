@@ -16,6 +16,10 @@ import (
 
 type ProcessorInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The display name. Must be unique.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -34,6 +38,10 @@ type ProcessorInitParameters struct {
 }
 
 type ProcessorObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The display name. Must be unique.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -59,6 +67,11 @@ type ProcessorObservation struct {
 }
 
 type ProcessorParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The display name. Must be unique.
 	// +kubebuilder:validation:Optional

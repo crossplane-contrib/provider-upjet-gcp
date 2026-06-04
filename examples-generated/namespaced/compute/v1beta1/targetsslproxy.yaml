@@ -16,8 +16,24 @@ spec:
     backendServiceSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    certificateMap: //certificatemanager.googleapis.com/${google_certificate_manager_certificate_map.default.id}
     sslCertificatesRefs:
     - name: default
+
+---
+
+apiVersion: certificatemanager.gcp.m.upbound.io/v1beta1
+kind: CertificateMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/targetsslproxy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: My acceptance test certificate map
 
 ---
 

@@ -117,6 +117,10 @@ type AddonsConfigInitParameters struct {
 	// Structure is documented below.
 	AddonsConfig *AddonsConfigAddonsConfigInitParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name of the Apigee organization.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
@@ -137,6 +141,10 @@ type AddonsConfigObservation struct {
 	// Structure is documented below.
 	AddonsConfig *AddonsConfigAddonsConfigObservation `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format organizations/{{org}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -150,6 +158,11 @@ type AddonsConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AddonsConfig *AddonsConfigAddonsConfigParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of the Apigee organization.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization

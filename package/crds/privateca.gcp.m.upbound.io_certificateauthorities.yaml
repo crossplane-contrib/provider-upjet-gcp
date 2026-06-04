@@ -399,6 +399,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the CertificateAuthority
                       is allowed.
@@ -1053,6 +1058,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the CertificateAuthority
                       is allowed.
@@ -1703,6 +1713,11 @@ spec:
                       The time at which this CertificateAuthority was created.
                       A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
                       fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the CertificateAuthority

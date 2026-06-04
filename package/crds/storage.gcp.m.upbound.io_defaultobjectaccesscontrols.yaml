@@ -145,6 +145,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   entity:
                     description: 'The entity holding the permission, in one of the
                       following forms:'
@@ -254,6 +259,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   entity:
                     description: 'The entity holding the permission, in one of the
                       following forms:'
@@ -342,6 +352,11 @@ spec:
                 properties:
                   bucket:
                     description: The name of the bucket.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   domain:
                     description: The domain associated with the entity.

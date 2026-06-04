@@ -258,6 +258,11 @@ func (in *AutoscalingPolicyInitParameters) DeepCopyInto(out *AutoscalingPolicyIn
 		*out = new(BasicAlgorithmInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -325,6 +330,11 @@ func (in *AutoscalingPolicyObservation) DeepCopyInto(out *AutoscalingPolicyObser
 		*out = new(BasicAlgorithmObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -374,6 +384,11 @@ func (in *AutoscalingPolicyParameters) DeepCopyInto(out *AutoscalingPolicyParame
 		in, out := &in.BasicAlgorithm, &out.BasicAlgorithm
 		*out = new(BasicAlgorithmParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
@@ -903,6 +918,11 @@ func (in *ClusterConfigInitParameters) DeepCopyInto(out *ClusterConfigInitParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterType != nil {
+		in, out := &in.ClusterType, &out.ClusterType
+		*out = new(string)
+		**out = **in
+	}
 	if in.DataprocMetricConfig != nil {
 		in, out := &in.DataprocMetricConfig, &out.DataprocMetricConfig
 		*out = new(DataprocMetricConfigInitParameters)
@@ -917,6 +937,11 @@ func (in *ClusterConfigInitParameters) DeepCopyInto(out *ClusterConfigInitParame
 		in, out := &in.EndpointConfig, &out.EndpointConfig
 		*out = new(EndpointConfigInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Engine != nil {
+		in, out := &in.Engine, &out.Engine
+		*out = new(string)
+		**out = **in
 	}
 	if in.GceClusterConfig != nil {
 		in, out := &in.GceClusterConfig, &out.GceClusterConfig
@@ -1012,6 +1037,11 @@ func (in *ClusterConfigObservation) DeepCopyInto(out *ClusterConfigObservation) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterType != nil {
+		in, out := &in.ClusterType, &out.ClusterType
+		*out = new(string)
+		**out = **in
+	}
 	if in.DataprocMetricConfig != nil {
 		in, out := &in.DataprocMetricConfig, &out.DataprocMetricConfig
 		*out = new(DataprocMetricConfigObservation)
@@ -1026,6 +1056,11 @@ func (in *ClusterConfigObservation) DeepCopyInto(out *ClusterConfigObservation) 
 		in, out := &in.EndpointConfig, &out.EndpointConfig
 		*out = new(EndpointConfigObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Engine != nil {
+		in, out := &in.Engine, &out.Engine
+		*out = new(string)
+		**out = **in
 	}
 	if in.GceClusterConfig != nil {
 		in, out := &in.GceClusterConfig, &out.GceClusterConfig
@@ -1116,6 +1151,11 @@ func (in *ClusterConfigParameters) DeepCopyInto(out *ClusterConfigParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ClusterType != nil {
+		in, out := &in.ClusterType, &out.ClusterType
+		*out = new(string)
+		**out = **in
+	}
 	if in.DataprocMetricConfig != nil {
 		in, out := &in.DataprocMetricConfig, &out.DataprocMetricConfig
 		*out = new(DataprocMetricConfigParameters)
@@ -1130,6 +1170,11 @@ func (in *ClusterConfigParameters) DeepCopyInto(out *ClusterConfigParameters) {
 		in, out := &in.EndpointConfig, &out.EndpointConfig
 		*out = new(EndpointConfigParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Engine != nil {
+		in, out := &in.Engine, &out.Engine
+		*out = new(string)
+		**out = **in
 	}
 	if in.GceClusterConfig != nil {
 		in, out := &in.GceClusterConfig, &out.GceClusterConfig
@@ -1220,6 +1265,11 @@ func (in *ClusterConfigWorkerConfigInitParameters) DeepCopyInto(out *ClusterConf
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceFlexibilityPolicy != nil {
+		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
+		*out = new(WorkerConfigInstanceFlexibilityPolicyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType
 		*out = new(string)
@@ -1271,6 +1321,11 @@ func (in *ClusterConfigWorkerConfigObservation) DeepCopyInto(out *ClusterConfigW
 		in, out := &in.ImageURI, &out.ImageURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.InstanceFlexibilityPolicy != nil {
+		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
+		*out = new(WorkerConfigInstanceFlexibilityPolicyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNames != nil {
 		in, out := &in.InstanceNames, &out.InstanceNames
@@ -1335,6 +1390,11 @@ func (in *ClusterConfigWorkerConfigParameters) DeepCopyInto(out *ClusterConfigWo
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceFlexibilityPolicy != nil {
+		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
+		*out = new(WorkerConfigInstanceFlexibilityPolicyParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType
 		*out = new(string)
@@ -1374,6 +1434,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		in, out := &in.ClusterConfig, &out.ClusterConfig
 		*out = new(ClusterConfigInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.GracefulDecommissionTimeout != nil {
 		in, out := &in.GracefulDecommissionTimeout, &out.GracefulDecommissionTimeout
@@ -1467,6 +1532,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		in, out := &in.ClusterConfig, &out.ClusterConfig
 		*out = new(ClusterConfigObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
@@ -1565,6 +1635,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.ClusterConfig, &out.ClusterConfig
 		*out = new(ClusterConfigParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.GracefulDecommissionTimeout != nil {
 		in, out := &in.GracefulDecommissionTimeout, &out.GracefulDecommissionTimeout
@@ -3809,6 +3884,16 @@ func (in *DataprocMetricConfigParameters) DeepCopy() *DataprocMetricConfigParame
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskConfigInitParameters) DeepCopyInto(out *DiskConfigInitParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -3844,6 +3929,16 @@ func (in *DiskConfigInitParameters) DeepCopy() *DiskConfigInitParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskConfigObservation) DeepCopyInto(out *DiskConfigObservation) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -3879,6 +3974,16 @@ func (in *DiskConfigObservation) DeepCopy() *DiskConfigObservation {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskConfigParameters) DeepCopyInto(out *DiskConfigParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -4091,6 +4196,22 @@ func (in *GceClusterConfigInitParameters) DeepCopyInto(out *GceClusterConfigInit
 		*out = new(ReservationAffinityInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -4259,6 +4380,22 @@ func (in *GceClusterConfigObservation) DeepCopyInto(out *GceClusterConfigObserva
 		*out = new(ReservationAffinityObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -4356,6 +4493,22 @@ func (in *GceClusterConfigParameters) DeepCopyInto(out *GceClusterConfigParamete
 		in, out := &in.ReservationAffinity, &out.ReservationAffinity
 		*out = new(ReservationAffinityParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
@@ -6291,11 +6444,6 @@ func (in *InstanceFlexibilityPolicyInitParameters) DeepCopyInto(out *InstanceFle
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.ProvisioningModelMix != nil {
-		in, out := &in.ProvisioningModelMix, &out.ProvisioningModelMix
-		*out = new(ProvisioningModelMixInitParameters)
-		(*in).DeepCopyInto(*out)
-	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInitParameters.
@@ -6304,6 +6452,154 @@ func (in *InstanceFlexibilityPolicyInitParameters) DeepCopy() *InstanceFlexibili
 		return nil
 	}
 	out := new(InstanceFlexibilityPolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFlexibilityPolicyInstanceSelectionListInitParameters) DeepCopyInto(out *InstanceFlexibilityPolicyInstanceSelectionListInitParameters) {
+	*out = *in
+	if in.MachineTypes != nil {
+		in, out := &in.MachineTypes, &out.MachineTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Rank != nil {
+		in, out := &in.Rank, &out.Rank
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInstanceSelectionListInitParameters.
+func (in *InstanceFlexibilityPolicyInstanceSelectionListInitParameters) DeepCopy() *InstanceFlexibilityPolicyInstanceSelectionListInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFlexibilityPolicyInstanceSelectionListInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFlexibilityPolicyInstanceSelectionListObservation) DeepCopyInto(out *InstanceFlexibilityPolicyInstanceSelectionListObservation) {
+	*out = *in
+	if in.MachineTypes != nil {
+		in, out := &in.MachineTypes, &out.MachineTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Rank != nil {
+		in, out := &in.Rank, &out.Rank
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInstanceSelectionListObservation.
+func (in *InstanceFlexibilityPolicyInstanceSelectionListObservation) DeepCopy() *InstanceFlexibilityPolicyInstanceSelectionListObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFlexibilityPolicyInstanceSelectionListObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFlexibilityPolicyInstanceSelectionListParameters) DeepCopyInto(out *InstanceFlexibilityPolicyInstanceSelectionListParameters) {
+	*out = *in
+	if in.MachineTypes != nil {
+		in, out := &in.MachineTypes, &out.MachineTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Rank != nil {
+		in, out := &in.Rank, &out.Rank
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInstanceSelectionListParameters.
+func (in *InstanceFlexibilityPolicyInstanceSelectionListParameters) DeepCopy() *InstanceFlexibilityPolicyInstanceSelectionListParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFlexibilityPolicyInstanceSelectionListParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters) DeepCopyInto(out *InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters.
+func (in *InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters) DeepCopy() *InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFlexibilityPolicyInstanceSelectionResultsObservation) DeepCopyInto(out *InstanceFlexibilityPolicyInstanceSelectionResultsObservation) {
+	*out = *in
+	if in.MachineType != nil {
+		in, out := &in.MachineType, &out.MachineType
+		*out = new(string)
+		**out = **in
+	}
+	if in.VMCount != nil {
+		in, out := &in.VMCount, &out.VMCount
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInstanceSelectionResultsObservation.
+func (in *InstanceFlexibilityPolicyInstanceSelectionResultsObservation) DeepCopy() *InstanceFlexibilityPolicyInstanceSelectionResultsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFlexibilityPolicyInstanceSelectionResultsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFlexibilityPolicyInstanceSelectionResultsParameters) DeepCopyInto(out *InstanceFlexibilityPolicyInstanceSelectionResultsParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFlexibilityPolicyInstanceSelectionResultsParameters.
+func (in *InstanceFlexibilityPolicyInstanceSelectionResultsParameters) DeepCopy() *InstanceFlexibilityPolicyInstanceSelectionResultsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFlexibilityPolicyInstanceSelectionResultsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -6324,11 +6620,6 @@ func (in *InstanceFlexibilityPolicyObservation) DeepCopyInto(out *InstanceFlexib
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.ProvisioningModelMix != nil {
-		in, out := &in.ProvisioningModelMix, &out.ProvisioningModelMix
-		*out = new(ProvisioningModelMixObservation)
-		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -6351,11 +6642,6 @@ func (in *InstanceFlexibilityPolicyParameters) DeepCopyInto(out *InstanceFlexibi
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.ProvisioningModelMix != nil {
-		in, out := &in.ProvisioningModelMix, &out.ProvisioningModelMix
-		*out = new(ProvisioningModelMixParameters)
-		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -6547,6 +6833,11 @@ func (in *Job) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *JobInitParameters) DeepCopyInto(out *JobInitParameters) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ForceDelete != nil {
 		in, out := &in.ForceDelete, &out.ForceDelete
 		*out = new(bool)
@@ -6638,6 +6929,11 @@ func (in *JobInitParameters) DeepCopyInto(out *JobInitParameters) {
 		*out = new(SparksqlConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.WaitForCompletion != nil {
+		in, out := &in.WaitForCompletion, &out.WaitForCompletion
+		*out = new(bool)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JobInitParameters.
@@ -6685,6 +6981,11 @@ func (in *JobList) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DriverControlsFilesURI != nil {
 		in, out := &in.DriverControlsFilesURI, &out.DriverControlsFilesURI
 		*out = new(string)
@@ -6820,6 +7121,11 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.WaitForCompletion != nil {
+		in, out := &in.WaitForCompletion, &out.WaitForCompletion
+		*out = new(bool)
+		**out = **in
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JobObservation.
@@ -6835,6 +7141,11 @@ func (in *JobObservation) DeepCopy() *JobObservation {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *JobParameters) DeepCopyInto(out *JobParameters) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ForceDelete != nil {
 		in, out := &in.ForceDelete, &out.ForceDelete
 		*out = new(bool)
@@ -6925,6 +7236,11 @@ func (in *JobParameters) DeepCopyInto(out *JobParameters) {
 		in, out := &in.SparksqlConfig, &out.SparksqlConfig
 		*out = new(SparksqlConfigParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.WaitForCompletion != nil {
+		in, out := &in.WaitForCompletion, &out.WaitForCompletion
+		*out = new(bool)
+		**out = **in
 	}
 }
 
@@ -7893,8 +8209,18 @@ func (in *LifecycleConfigInitParameters) DeepCopyInto(out *LifecycleConfigInitPa
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoStopTime != nil {
+		in, out := &in.AutoStopTime, &out.AutoStopTime
+		*out = new(string)
+		**out = **in
+	}
 	if in.IdleDeleteTTL != nil {
 		in, out := &in.IdleDeleteTTL, &out.IdleDeleteTTL
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdleStopTTL != nil {
+		in, out := &in.IdleStopTTL, &out.IdleStopTTL
 		*out = new(string)
 		**out = **in
 	}
@@ -7918,6 +8244,11 @@ func (in *LifecycleConfigObservation) DeepCopyInto(out *LifecycleConfigObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoStopTime != nil {
+		in, out := &in.AutoStopTime, &out.AutoStopTime
+		*out = new(string)
+		**out = **in
+	}
 	if in.IdleDeleteTTL != nil {
 		in, out := &in.IdleDeleteTTL, &out.IdleDeleteTTL
 		*out = new(string)
@@ -7925,6 +8256,11 @@ func (in *LifecycleConfigObservation) DeepCopyInto(out *LifecycleConfigObservati
 	}
 	if in.IdleStartTime != nil {
 		in, out := &in.IdleStartTime, &out.IdleStartTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdleStopTTL != nil {
+		in, out := &in.IdleStopTTL, &out.IdleStopTTL
 		*out = new(string)
 		**out = **in
 	}
@@ -7948,8 +8284,18 @@ func (in *LifecycleConfigParameters) DeepCopyInto(out *LifecycleConfigParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoStopTime != nil {
+		in, out := &in.AutoStopTime, &out.AutoStopTime
+		*out = new(string)
+		**out = **in
+	}
 	if in.IdleDeleteTTL != nil {
 		in, out := &in.IdleDeleteTTL, &out.IdleDeleteTTL
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdleStopTTL != nil {
+		in, out := &in.IdleStopTTL, &out.IdleStopTTL
 		*out = new(string)
 		**out = **in
 	}
@@ -8710,6 +9056,16 @@ func (in *MasterConfigAcceleratorsParameters) DeepCopy() *MasterConfigAccelerato
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MasterConfigDiskConfigInitParameters) DeepCopyInto(out *MasterConfigDiskConfigInitParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -8745,6 +9101,16 @@ func (in *MasterConfigDiskConfigInitParameters) DeepCopy() *MasterConfigDiskConf
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MasterConfigDiskConfigObservation) DeepCopyInto(out *MasterConfigDiskConfigObservation) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -8780,6 +9146,16 @@ func (in *MasterConfigDiskConfigObservation) DeepCopy() *MasterConfigDiskConfigO
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MasterConfigDiskConfigParameters) DeepCopyInto(out *MasterConfigDiskConfigParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -8832,6 +9208,11 @@ func (in *MasterConfigInitParameters) DeepCopyInto(out *MasterConfigInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceFlexibilityPolicy != nil {
+		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
+		*out = new(InstanceFlexibilityPolicyInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType
 		*out = new(string)
@@ -8878,6 +9259,11 @@ func (in *MasterConfigObservation) DeepCopyInto(out *MasterConfigObservation) {
 		in, out := &in.ImageURI, &out.ImageURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.InstanceFlexibilityPolicy != nil {
+		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
+		*out = new(InstanceFlexibilityPolicyObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNames != nil {
 		in, out := &in.InstanceNames, &out.InstanceNames
@@ -8936,6 +9322,11 @@ func (in *MasterConfigParameters) DeepCopyInto(out *MasterConfigParameters) {
 		in, out := &in.ImageURI, &out.ImageURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.InstanceFlexibilityPolicy != nil {
+		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
+		*out = new(InstanceFlexibilityPolicyParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineType != nil {
 		in, out := &in.MachineType, &out.MachineType
@@ -9199,6 +9590,11 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -9275,6 +9671,22 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 		*out = new(ScheduledBackupInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
 		*out = new(TelemetryConfigInitParameters)
@@ -9344,6 +9756,11 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 	}
 	if in.DatabaseType != nil {
 		in, out := &in.DatabaseType, &out.DatabaseType
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -9469,6 +9886,22 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
 		*out = new(TelemetryConfigObservation)
@@ -9522,6 +9955,11 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 	*out = *in
 	if in.DatabaseType != nil {
 		in, out := &in.DatabaseType, &out.DatabaseType
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -9605,6 +10043,22 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 		in, out := &in.ScheduledBackup, &out.ScheduledBackup
 		*out = new(ScheduledBackupParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
@@ -11294,6 +11748,16 @@ func (in *PlacementParameters) DeepCopy() *PlacementParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PreemptibleWorkerConfigDiskConfigInitParameters) DeepCopyInto(out *PreemptibleWorkerConfigDiskConfigInitParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -11329,6 +11793,16 @@ func (in *PreemptibleWorkerConfigDiskConfigInitParameters) DeepCopy() *Preemptib
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PreemptibleWorkerConfigDiskConfigObservation) DeepCopyInto(out *PreemptibleWorkerConfigDiskConfigObservation) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -11364,6 +11838,16 @@ func (in *PreemptibleWorkerConfigDiskConfigObservation) DeepCopy() *PreemptibleW
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PreemptibleWorkerConfigDiskConfigParameters) DeepCopyInto(out *PreemptibleWorkerConfigDiskConfigParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -11406,7 +11890,7 @@ func (in *PreemptibleWorkerConfigInitParameters) DeepCopyInto(out *PreemptibleWo
 	}
 	if in.InstanceFlexibilityPolicy != nil {
 		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
-		*out = new(InstanceFlexibilityPolicyInitParameters)
+		*out = new(PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumInstances != nil {
@@ -11432,6 +11916,94 @@ func (in *PreemptibleWorkerConfigInitParameters) DeepCopy() *PreemptibleWorkerCo
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters) DeepCopyInto(out *PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters) {
+	*out = *in
+	if in.InstanceSelectionList != nil {
+		in, out := &in.InstanceSelectionList, &out.InstanceSelectionList
+		*out = make([]InstanceFlexibilityPolicyInstanceSelectionListInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ProvisioningModelMix != nil {
+		in, out := &in.ProvisioningModelMix, &out.ProvisioningModelMix
+		*out = new(ProvisioningModelMixInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters.
+func (in *PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters) DeepCopy() *PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation) DeepCopyInto(out *PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation) {
+	*out = *in
+	if in.InstanceSelectionList != nil {
+		in, out := &in.InstanceSelectionList, &out.InstanceSelectionList
+		*out = make([]InstanceFlexibilityPolicyInstanceSelectionListObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstanceSelectionResults != nil {
+		in, out := &in.InstanceSelectionResults, &out.InstanceSelectionResults
+		*out = make([]InstanceFlexibilityPolicyInstanceSelectionResultsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ProvisioningModelMix != nil {
+		in, out := &in.ProvisioningModelMix, &out.ProvisioningModelMix
+		*out = new(ProvisioningModelMixObservation)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation.
+func (in *PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation) DeepCopy() *PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters) DeepCopyInto(out *PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters) {
+	*out = *in
+	if in.InstanceSelectionList != nil {
+		in, out := &in.InstanceSelectionList, &out.InstanceSelectionList
+		*out = make([]InstanceFlexibilityPolicyInstanceSelectionListParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ProvisioningModelMix != nil {
+		in, out := &in.ProvisioningModelMix, &out.ProvisioningModelMix
+		*out = new(ProvisioningModelMixParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters.
+func (in *PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters) DeepCopy() *PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PreemptibleWorkerConfigObservation) DeepCopyInto(out *PreemptibleWorkerConfigObservation) {
 	*out = *in
 	if in.DiskConfig != nil {
@@ -11441,7 +12013,7 @@ func (in *PreemptibleWorkerConfigObservation) DeepCopyInto(out *PreemptibleWorke
 	}
 	if in.InstanceFlexibilityPolicy != nil {
 		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
-		*out = new(InstanceFlexibilityPolicyObservation)
+		*out = new(PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNames != nil {
@@ -11487,7 +12059,7 @@ func (in *PreemptibleWorkerConfigParameters) DeepCopyInto(out *PreemptibleWorker
 	}
 	if in.InstanceFlexibilityPolicy != nil {
 		in, out := &in.InstanceFlexibilityPolicy, &out.InstanceFlexibilityPolicy
-		*out = new(InstanceFlexibilityPolicyParameters)
+		*out = new(PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumInstances != nil {
@@ -16867,6 +17439,16 @@ func (in *WorkerConfigAcceleratorsParameters) DeepCopy() *WorkerConfigAccelerato
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WorkerConfigDiskConfigInitParameters) DeepCopyInto(out *WorkerConfigDiskConfigInitParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -16902,6 +17484,16 @@ func (in *WorkerConfigDiskConfigInitParameters) DeepCopy() *WorkerConfigDiskConf
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WorkerConfigDiskConfigObservation) DeepCopyInto(out *WorkerConfigDiskConfigObservation) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -16937,6 +17529,16 @@ func (in *WorkerConfigDiskConfigObservation) DeepCopy() *WorkerConfigDiskConfigO
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WorkerConfigDiskConfigParameters) DeepCopyInto(out *WorkerConfigDiskConfigParameters) {
 	*out = *in
+	if in.BootDiskProvisionedIops != nil {
+		in, out := &in.BootDiskProvisionedIops, &out.BootDiskProvisionedIops
+		*out = new(float64)
+		**out = **in
+	}
+	if in.BootDiskProvisionedThroughput != nil {
+		in, out := &in.BootDiskProvisionedThroughput, &out.BootDiskProvisionedThroughput
+		*out = new(float64)
+		**out = **in
+	}
 	if in.BootDiskSizeGb != nil {
 		in, out := &in.BootDiskSizeGb, &out.BootDiskSizeGb
 		*out = new(float64)
@@ -16995,6 +17597,227 @@ func (in *WorkerConfigInitParameters) DeepCopy() *WorkerConfigInitParameters {
 		return nil
 	}
 	out := new(WorkerConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInitParameters) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInitParameters) {
+	*out = *in
+	if in.InstanceSelectionList != nil {
+		in, out := &in.InstanceSelectionList, &out.InstanceSelectionList
+		*out = make([]WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInitParameters.
+func (in *WorkerConfigInstanceFlexibilityPolicyInitParameters) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters) {
+	*out = *in
+	if in.MachineTypes != nil {
+		in, out := &in.MachineTypes, &out.MachineTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Rank != nil {
+		in, out := &in.Rank, &out.Rank
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation) {
+	*out = *in
+	if in.MachineTypes != nil {
+		in, out := &in.MachineTypes, &out.MachineTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Rank != nil {
+		in, out := &in.Rank, &out.Rank
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters) {
+	*out = *in
+	if in.MachineTypes != nil {
+		in, out := &in.MachineTypes, &out.MachineTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Rank != nil {
+		in, out := &in.Rank, &out.Rank
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation) {
+	*out = *in
+	if in.MachineType != nil {
+		in, out := &in.MachineType, &out.MachineType
+		*out = new(string)
+		**out = **in
+	}
+	if in.VMCount != nil {
+		in, out := &in.VMCount, &out.VMCount
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters.
+func (in *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyObservation) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyObservation) {
+	*out = *in
+	if in.InstanceSelectionList != nil {
+		in, out := &in.InstanceSelectionList, &out.InstanceSelectionList
+		*out = make([]WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InstanceSelectionResults != nil {
+		in, out := &in.InstanceSelectionResults, &out.InstanceSelectionResults
+		*out = make([]WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyObservation.
+func (in *WorkerConfigInstanceFlexibilityPolicyObservation) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkerConfigInstanceFlexibilityPolicyParameters) DeepCopyInto(out *WorkerConfigInstanceFlexibilityPolicyParameters) {
+	*out = *in
+	if in.InstanceSelectionList != nil {
+		in, out := &in.InstanceSelectionList, &out.InstanceSelectionList
+		*out = make([]WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkerConfigInstanceFlexibilityPolicyParameters.
+func (in *WorkerConfigInstanceFlexibilityPolicyParameters) DeepCopy() *WorkerConfigInstanceFlexibilityPolicyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkerConfigInstanceFlexibilityPolicyParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -17209,6 +18032,11 @@ func (in *WorkflowTemplateInitParameters) DeepCopyInto(out *WorkflowTemplateInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EncryptionConfig != nil {
 		in, out := &in.EncryptionConfig, &out.EncryptionConfig
 		*out = new(WorkflowTemplateEncryptionConfigInitParameters)
@@ -17313,6 +18141,11 @@ func (in *WorkflowTemplateObservation) DeepCopyInto(out *WorkflowTemplateObserva
 	}
 	if in.DagTimeout != nil {
 		in, out := &in.DagTimeout, &out.DagTimeout
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -17430,6 +18263,11 @@ func (in *WorkflowTemplateParameters) DeepCopyInto(out *WorkflowTemplateParamete
 	*out = *in
 	if in.DagTimeout != nil {
 		in, out := &in.DagTimeout, &out.DagTimeout
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

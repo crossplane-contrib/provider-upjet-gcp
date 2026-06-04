@@ -16,6 +16,10 @@ import (
 
 type InstanceGroupInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the instance
 	// group.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -62,6 +66,10 @@ type InstanceGroupInitParameters struct {
 
 type InstanceGroupObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the instance
 	// group.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -99,6 +107,11 @@ type InstanceGroupObservation struct {
 }
 
 type InstanceGroupParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the instance
 	// group.

@@ -16,6 +16,10 @@ import (
 
 type PolicyTagInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of this policy tag. It must: contain only unicode characters, tabs,
 	// newlines, carriage returns and page breaks; and be at most 2000 bytes long when
 	// encoded in UTF-8. If not set, defaults to an empty description.
@@ -61,6 +65,10 @@ type PolicyTagObservation struct {
 	// Resource names of child policy tags of this policy tag.
 	ChildPolicyTags []*string `json:"childPolicyTags,omitempty" tf:"child_policy_tags,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of this policy tag. It must: contain only unicode characters, tabs,
 	// newlines, carriage returns and page breaks; and be at most 2000 bytes long when
 	// encoded in UTF-8. If not set, defaults to an empty description.
@@ -89,6 +97,11 @@ type PolicyTagObservation struct {
 }
 
 type PolicyTagParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of this policy tag. It must: contain only unicode characters, tabs,
 	// newlines, carriage returns and page breaks; and be at most 2000 bytes long when

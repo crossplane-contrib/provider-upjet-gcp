@@ -60,6 +60,10 @@ type DesiredUserCreatedEndpointsParameters struct {
 
 type InstanceDesiredUserCreatedEndpointsInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A list of desired user endpoints
 	// Structure is documented below.
 	DesiredUserCreatedEndpoints []DesiredUserCreatedEndpointsInitParameters `json:"desiredUserCreatedEndpoints,omitempty" tf:"desired_user_created_endpoints,omitempty"`
@@ -70,6 +74,10 @@ type InstanceDesiredUserCreatedEndpointsInitParameters struct {
 }
 
 type InstanceDesiredUserCreatedEndpointsObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A list of desired user endpoints
 	// Structure is documented below.
@@ -87,6 +95,11 @@ type InstanceDesiredUserCreatedEndpointsObservation struct {
 }
 
 type InstanceDesiredUserCreatedEndpointsParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A list of desired user endpoints
 	// Structure is documented below.

@@ -80,6 +80,11 @@ spec:
                       For attaching a tag to a nested column, use . to separate the column names. Example:
                       outer_column.inner_column
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   fields:
                     description: |-
                       This maps the ID of a tag field to the value of and additional information about that field.
@@ -295,6 +300,11 @@ spec:
                       individual column based on that schema.
                       For attaching a tag to a nested column, use . to separate the column names. Example:
                       outer_column.inner_column
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   fields:
                     description: |-
@@ -594,6 +604,11 @@ spec:
                       individual column based on that schema.
                       For attaching a tag to a nested column, use . to separate the column names. Example:
                       outer_column.inner_column
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   fields:
                     description: |-

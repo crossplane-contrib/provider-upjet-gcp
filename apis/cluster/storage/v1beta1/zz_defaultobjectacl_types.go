@@ -27,6 +27,10 @@ type DefaultObjectACLInitParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
 	// Omitting the field is the same as providing an empty list.
@@ -38,6 +42,10 @@ type DefaultObjectACLObservation struct {
 
 	// The name of the bucket it applies to.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -62,6 +70,11 @@ type DefaultObjectACLParameters struct {
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.

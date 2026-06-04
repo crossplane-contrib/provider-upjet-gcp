@@ -53,6 +53,11 @@ func (in *JobInitParameters) DeepCopyInto(out *JobInitParameters) {
 			}
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EnableStreamingEngine != nil {
 		in, out := &in.EnableStreamingEngine, &out.EnableStreamingEngine
 		*out = new(bool)
@@ -211,6 +216,11 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 				**out = **in
 			}
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
@@ -390,6 +400,11 @@ func (in *JobParameters) DeepCopyInto(out *JobParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.EnableStreamingEngine != nil {
 		in, out := &in.EnableStreamingEngine, &out.EnableStreamingEngine

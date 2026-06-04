@@ -150,6 +150,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   object:
                     description: The name of the object to apply the acl to.
                     type: string
@@ -332,6 +337,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   object:
                     description: The name of the object to apply the acl to.
                     type: string
@@ -517,6 +527,11 @@ spec:
                 properties:
                   bucket:
                     description: The name of the bucket the object is stored in.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     type: string

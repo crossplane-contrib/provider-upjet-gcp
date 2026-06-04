@@ -156,6 +156,10 @@ type SSlInfoParameters struct {
 
 type TargetServerInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of this TargetServer.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -178,6 +182,10 @@ type TargetServerInitParameters struct {
 }
 
 type TargetServerObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of this TargetServer.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -208,6 +216,11 @@ type TargetServerObservation struct {
 }
 
 type TargetServerParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of this TargetServer.
 	// +kubebuilder:validation:Optional

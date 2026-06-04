@@ -64,6 +64,10 @@ type InstanceInitParameters struct {
 	// project associated with the Apigee organization will be included to the list.
 	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -113,6 +117,10 @@ type InstanceObservation struct {
 	// which the customers can provide during the instance creation. By default, the customer
 	// project associated with the Apigee organization will be included to the list.
 	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -173,6 +181,11 @@ type InstanceParameters struct {
 	// project associated with the Apigee organization will be included to the list.
 	// +kubebuilder:validation:Optional
 	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the instance.
 	// +kubebuilder:validation:Optional

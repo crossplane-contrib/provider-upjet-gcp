@@ -33,6 +33,10 @@ type KeyRingImportJobAttestationParameters struct {
 
 type KeyRingImportJobInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The wrapping method to be used for incoming key material.
 	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256, RSA_OAEP_3072_SHA256_AES_256, RSA_OAEP_4096_SHA256_AES_256, RSA_OAEP_3072_SHA256, RSA_OAEP_4096_SHA256.
 	ImportMethod *string `json:"importMethod,omitempty" tf:"import_method,omitempty"`
@@ -50,6 +54,10 @@ type KeyRingImportJobObservation struct {
 	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	// Structure is documented below.
 	Attestation []KeyRingImportJobAttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The time at which this resource is scheduled for expiration and can no longer be used.
 	// This is in RFC3339 text format.
@@ -83,6 +91,11 @@ type KeyRingImportJobObservation struct {
 }
 
 type KeyRingImportJobParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The wrapping method to be used for incoming key material.
 	// Possible values are: RSA_OAEP_3072_SHA1_AES_256, RSA_OAEP_4096_SHA1_AES_256, RSA_OAEP_3072_SHA256_AES_256, RSA_OAEP_4096_SHA256_AES_256, RSA_OAEP_3072_SHA256, RSA_OAEP_4096_SHA256.

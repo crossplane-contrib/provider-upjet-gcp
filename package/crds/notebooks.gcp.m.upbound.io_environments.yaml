@@ -74,6 +74,11 @@ spec:
                           this defaults to the latest tag.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A brief description of this environment.
                     type: string
@@ -142,6 +147,11 @@ spec:
                           this defaults to the latest tag.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A brief description of this environment.
                     type: string
@@ -257,6 +267,11 @@ spec:
                     type: object
                   createTime:
                     description: Instance creation time
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A brief description of this environment.

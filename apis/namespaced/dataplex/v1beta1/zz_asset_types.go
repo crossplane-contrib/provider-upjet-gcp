@@ -16,6 +16,10 @@ import (
 
 type AssetInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Description of the asset.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -43,6 +47,10 @@ type AssetObservation struct {
 
 	// The zone for the resource
 	DataplexZone *string `json:"dataplexZone,omitempty" tf:"dataplex_zone,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the asset.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -112,6 +120,11 @@ type AssetParameters struct {
 	// Selector for a Zone in dataplex to populate dataplexZone.
 	// +kubebuilder:validation:Optional
 	DataplexZoneSelector *v1.NamespacedSelector `json:"dataplexZoneSelector,omitempty" tf:"-"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the asset.
 	// +kubebuilder:validation:Optional

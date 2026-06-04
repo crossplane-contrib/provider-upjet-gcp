@@ -62,6 +62,10 @@ type BigqueryTableSpecParameters struct {
 
 type EntryInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Entry description, which can consist of several sentences or paragraphs that describe entry contents.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -132,6 +136,10 @@ type EntryObservation struct {
 	// Structure is documented below.
 	BigqueryTableSpec []BigqueryTableSpecObservation `json:"bigqueryTableSpec,omitempty" tf:"bigquery_table_spec,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Entry description, which can consist of several sentences or paragraphs that describe entry contents.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -193,6 +201,11 @@ type EntryObservation struct {
 }
 
 type EntryParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Entry description, which can consist of several sentences or paragraphs that describe entry contents.
 	// +kubebuilder:validation:Optional

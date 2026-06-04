@@ -151,6 +151,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   roleEntity:
                     description: |-
                       List of role/entity pairs in the form ROLE:entity.
@@ -251,6 +256,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   roleEntity:
                     description: |-
                       List of role/entity pairs in the form ROLE:entity.
@@ -354,6 +364,11 @@ spec:
                 properties:
                   bucket:
                     description: The name of the bucket it applies to.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     type: string

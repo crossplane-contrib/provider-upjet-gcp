@@ -182,6 +182,8 @@ type ClusterConfigInitParameters struct {
 	// The tier of the cluster.
 	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
 
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	DataprocMetricConfig *DataprocMetricConfigInitParameters `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
@@ -193,6 +195,9 @@ type ClusterConfigInitParameters struct {
 	// The config settings for port access on the cluster.
 	// Structure defined below.
 	EndpointConfig *EndpointConfigInitParameters `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
+
+	// The cluster engine.
+	Engine *string `json:"engine,omitempty" tf:"engine,omitempty"`
 
 	// Common config settings for resources of Google Compute Engine cluster
 	// instances, applicable to all instances in the cluster. Structure defined below.
@@ -264,6 +269,8 @@ type ClusterConfigObservation struct {
 	// The tier of the cluster.
 	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
 
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	DataprocMetricConfig *DataprocMetricConfigObservation `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
@@ -275,6 +282,9 @@ type ClusterConfigObservation struct {
 	// The config settings for port access on the cluster.
 	// Structure defined below.
 	EndpointConfig *EndpointConfigObservation `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
+
+	// The cluster engine.
+	Engine *string `json:"engine,omitempty" tf:"engine,omitempty"`
 
 	// Common config settings for resources of Google Compute Engine cluster
 	// instances, applicable to all instances in the cluster. Structure defined below.
@@ -344,6 +354,9 @@ type ClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	// +kubebuilder:validation:Optional
@@ -358,6 +371,10 @@ type ClusterConfigParameters struct {
 	// Structure defined below.
 	// +kubebuilder:validation:Optional
 	EndpointConfig *EndpointConfigParameters `json:"endpointConfig,omitempty" tf:"endpoint_config,omitempty"`
+
+	// The cluster engine.
+	// +kubebuilder:validation:Optional
+	Engine *string `json:"engine,omitempty" tf:"engine,omitempty"`
 
 	// Common config settings for resources of Google Compute Engine cluster
 	// instances, applicable to all instances in the cluster. Structure defined below.
@@ -432,6 +449,9 @@ type ClusterConfigWorkerConfigInitParameters struct {
 	// for more information.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
+	// Instance flexibility Policy allowing a mixture of VM shapes.
+	InstanceFlexibilityPolicy *WorkerConfigInstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
 	// The name of a Google Compute Engine machine type
 	// to create for the worker nodes. If not specified, GCP will default to a predetermined
 	// computed value (currently n1-standard-4).
@@ -467,6 +487,9 @@ type ClusterConfigWorkerConfigObservation struct {
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Instance flexibility Policy allowing a mixture of VM shapes.
+	InstanceFlexibilityPolicy *WorkerConfigInstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// List of worker instance names which have been assigned
 	// to the cluster.
@@ -511,6 +534,10 @@ type ClusterConfigWorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
+	// Instance flexibility Policy allowing a mixture of VM shapes.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy *WorkerConfigInstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
 	// The name of a Google Compute Engine machine type
 	// to create for the worker nodes. If not specified, GCP will default to a predetermined
 	// computed value (currently n1-standard-4).
@@ -544,6 +571,10 @@ type ClusterInitParameters struct {
 	// Allows you to configure various aspects of the cluster.
 	// Structure defined below.
 	ClusterConfig *ClusterConfigInitParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Does not affect auto scaling decomissioning from an autoscaling policy.
 	// Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress.
@@ -580,6 +611,10 @@ type ClusterObservation struct {
 	// Allows you to configure various aspects of the cluster.
 	// Structure defined below.
 	ClusterConfig *ClusterConfigObservation `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// (Computed) The list of labels (key/value pairs) to be applied to
 	// instances in the cluster. GCP generates some itself including goog-dataproc-cluster-name
@@ -629,6 +664,11 @@ type ClusterParameters struct {
 	// Structure defined below.
 	// +kubebuilder:validation:Optional
 	ClusterConfig *ClusterConfigParameters `json:"clusterConfig,omitempty" tf:"cluster_config,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Does not affect auto scaling decomissioning from an autoscaling policy.
 	// Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress.
@@ -780,6 +820,12 @@ type DataprocMetricConfigParameters struct {
 
 type DiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -804,6 +850,12 @@ type DiskConfigInitParameters struct {
 
 type DiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -827,6 +879,14 @@ type DiskConfigObservation struct {
 }
 
 type DiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -931,6 +991,12 @@ type GceClusterConfigInitParameters struct {
 	// Reservation Affinity for consuming zonal reservation.
 	ReservationAffinity *ReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// A map of resource manager tags to add to all instances.
+	// Keys must be in the format tagKeys/{tag_key_id} and values in the format tagValues/{tag_value_id}
+	// (see Secure tags).
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
@@ -1003,6 +1069,12 @@ type GceClusterConfigObservation struct {
 	// Reservation Affinity for consuming zonal reservation.
 	ReservationAffinity *ReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// A map of resource manager tags to add to all instances.
+	// Keys must be in the format tagKeys/{tag_key_id} and values in the format tagValues/{tag_value_id}
+	// (see Secure tags).
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1070,6 +1142,13 @@ type GceClusterConfigParameters struct {
 	// Reservation Affinity for consuming zonal reservation.
 	// +kubebuilder:validation:Optional
 	ReservationAffinity *ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+
+	// A map of resource manager tags to add to all instances.
+	// Keys must be in the format tagKeys/{tag_key_id} and values in the format tagValues/{tag_value_id}
+	// (see Secure tags).
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
@@ -1226,9 +1305,49 @@ type InstanceFlexibilityPolicyInitParameters struct {
 
 	// List of instance selection options that the group will use when creating new VMs.
 	InstanceSelectionList []InstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+}
 
-	// Defines how the Group selects the provisioning model to ensure required reliability.
-	ProvisioningModelMix *ProvisioningModelMixInitParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
+type InstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListObservation struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	// +kubebuilder:validation:Optional
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionResultsInitParameters struct {
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionResultsObservation struct {
+
+	// The name of a Compute Engine machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionResultsParameters struct {
 }
 
 type InstanceFlexibilityPolicyObservation struct {
@@ -1237,9 +1356,6 @@ type InstanceFlexibilityPolicyObservation struct {
 	InstanceSelectionList []InstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 
 	InstanceSelectionResults []InstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
-
-	// Defines how the Group selects the provisioning model to ensure required reliability.
-	ProvisioningModelMix *ProvisioningModelMixObservation `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
 }
 
 type InstanceFlexibilityPolicyParameters struct {
@@ -1247,10 +1363,6 @@ type InstanceFlexibilityPolicyParameters struct {
 	// List of instance selection options that the group will use when creating new VMs.
 	// +kubebuilder:validation:Optional
 	InstanceSelectionList []InstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
-
-	// Defines how the Group selects the provisioning model to ensure required reliability.
-	// +kubebuilder:validation:Optional
-	ProvisioningModelMix *ProvisioningModelMixParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
 }
 
 type InstanceSelectionListInitParameters struct {
@@ -1599,9 +1711,18 @@ type LifecycleConfigInitParameters struct {
 	// Example: "2014-10-02T15:01:23.045123456Z".
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
+	// The time when cluster will be auto-stopped.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
+	// Example: "2014-10-02T15:01:23.045123456Z".
+	AutoStopTime *string `json:"autoStopTime,omitempty" tf:"auto_stop_time,omitempty"`
+
 	// The duration to keep the cluster alive while idling
-	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [10m, 14d].
+	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [300s, 1209600s].
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
+
+	// The duration to keep the cluster alive while idling
+	// (no jobs running). After this TTL, the cluster will be stopped. Valid range: [10m, 14d].
+	IdleStopTTL *string `json:"idleStopTtl,omitempty" tf:"idle_stop_ttl,omitempty"`
 }
 
 type LifecycleConfigObservation struct {
@@ -1611,13 +1732,22 @@ type LifecycleConfigObservation struct {
 	// Example: "2014-10-02T15:01:23.045123456Z".
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
+	// The time when cluster will be auto-stopped.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
+	// Example: "2014-10-02T15:01:23.045123456Z".
+	AutoStopTime *string `json:"autoStopTime,omitempty" tf:"auto_stop_time,omitempty"`
+
 	// The duration to keep the cluster alive while idling
-	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [10m, 14d].
+	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [300s, 1209600s].
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
 
 	// Time when the cluster became idle
 	// (most recent job finished) and became eligible for deletion due to idleness.
 	IdleStartTime *string `json:"idleStartTime,omitempty" tf:"idle_start_time,omitempty"`
+
+	// The duration to keep the cluster alive while idling
+	// (no jobs running). After this TTL, the cluster will be stopped. Valid range: [10m, 14d].
+	IdleStopTTL *string `json:"idleStopTtl,omitempty" tf:"idle_stop_ttl,omitempty"`
 }
 
 type LifecycleConfigParameters struct {
@@ -1628,10 +1758,21 @@ type LifecycleConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoDeleteTime *string `json:"autoDeleteTime,omitempty" tf:"auto_delete_time,omitempty"`
 
+	// The time when cluster will be auto-stopped.
+	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds.
+	// Example: "2014-10-02T15:01:23.045123456Z".
+	// +kubebuilder:validation:Optional
+	AutoStopTime *string `json:"autoStopTime,omitempty" tf:"auto_stop_time,omitempty"`
+
 	// The duration to keep the cluster alive while idling
-	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [10m, 14d].
+	// (no jobs running). After this TTL, the cluster will be deleted. Valid range: [300s, 1209600s].
 	// +kubebuilder:validation:Optional
 	IdleDeleteTTL *string `json:"idleDeleteTtl,omitempty" tf:"idle_delete_ttl,omitempty"`
+
+	// The duration to keep the cluster alive while idling
+	// (no jobs running). After this TTL, the cluster will be stopped. Valid range: [10m, 14d].
+	// +kubebuilder:validation:Optional
+	IdleStopTTL *string `json:"idleStopTtl,omitempty" tf:"idle_stop_ttl,omitempty"`
 }
 
 type MasterConfigAcceleratorsInitParameters struct {
@@ -1665,6 +1806,12 @@ type MasterConfigAcceleratorsParameters struct {
 
 type MasterConfigDiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -1689,6 +1836,12 @@ type MasterConfigDiskConfigInitParameters struct {
 
 type MasterConfigDiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -1712,6 +1865,14 @@ type MasterConfigDiskConfigObservation struct {
 }
 
 type MasterConfigDiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -1751,6 +1912,9 @@ type MasterConfigInitParameters struct {
 	// for more information.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
+	// Instance flexibility Policy allowing a mixture of VM shapes.
+	InstanceFlexibilityPolicy *InstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
 	// The name of a Google Compute Engine machine type
 	// to create for the master. If not specified, GCP will default to a predetermined
 	// computed value (currently n1-standard-4).
@@ -1778,6 +1942,9 @@ type MasterConfigObservation struct {
 	// The URI for the image to use for this worker.  See the guide
 	// for more information.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Instance flexibility Policy allowing a mixture of VM shapes.
+	InstanceFlexibilityPolicy *InstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// List of worker instance names which have been assigned
 	// to the cluster.
@@ -1813,6 +1980,10 @@ type MasterConfigParameters struct {
 	// for more information.
 	// +kubebuilder:validation:Optional
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Instance flexibility Policy allowing a mixture of VM shapes.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy *InstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// The name of a Google Compute Engine machine type
 	// to create for the master. If not specified, GCP will default to a predetermined
@@ -2115,6 +2286,12 @@ type NodePoolTargetParameters struct {
 
 type PreemptibleWorkerConfigDiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2139,6 +2316,12 @@ type PreemptibleWorkerConfigDiskConfigInitParameters struct {
 
 type PreemptibleWorkerConfigDiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2162,6 +2345,14 @@ type PreemptibleWorkerConfigDiskConfigObservation struct {
 }
 
 type PreemptibleWorkerConfigDiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -2195,7 +2386,7 @@ type PreemptibleWorkerConfigInitParameters struct {
 	DiskConfig *PreemptibleWorkerConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Instance flexibility Policy allowing a mixture of VM shapes and provisioning models.
-	InstanceFlexibilityPolicy *InstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+	InstanceFlexibilityPolicy *PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// Specifies the number of preemptible nodes to create.
 	// Defaults to 0.
@@ -2206,13 +2397,44 @@ type PreemptibleWorkerConfigInitParameters struct {
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
+type PreemptibleWorkerConfigInstanceFlexibilityPolicyInitParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	InstanceSelectionList []InstanceFlexibilityPolicyInstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Defines how the Group selects the provisioning model to ensure required reliability.
+	ProvisioningModelMix *ProvisioningModelMixInitParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
+}
+
+type PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	InstanceSelectionList []InstanceFlexibilityPolicyInstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	InstanceSelectionResults []InstanceFlexibilityPolicyInstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+
+	// Defines how the Group selects the provisioning model to ensure required reliability.
+	ProvisioningModelMix *ProvisioningModelMixObservation `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
+}
+
+type PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	// +kubebuilder:validation:Optional
+	InstanceSelectionList []InstanceFlexibilityPolicyInstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Defines how the Group selects the provisioning model to ensure required reliability.
+	// +kubebuilder:validation:Optional
+	ProvisioningModelMix *ProvisioningModelMixParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
+}
+
 type PreemptibleWorkerConfigObservation struct {
 
 	// Disk Config
 	DiskConfig *PreemptibleWorkerConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Instance flexibility Policy allowing a mixture of VM shapes and provisioning models.
-	InstanceFlexibilityPolicy *InstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+	InstanceFlexibilityPolicy *PreemptibleWorkerConfigInstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// List of worker instance names which have been assigned
 	// to the cluster.
@@ -2235,7 +2457,7 @@ type PreemptibleWorkerConfigParameters struct {
 
 	// Instance flexibility Policy allowing a mixture of VM shapes and provisioning models.
 	// +kubebuilder:validation:Optional
-	InstanceFlexibilityPolicy *InstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+	InstanceFlexibilityPolicy *PreemptibleWorkerConfigInstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
 
 	// Specifies the number of preemptible nodes to create.
 	// Defaults to 0.
@@ -2576,6 +2798,12 @@ type WorkerConfigAcceleratorsParameters struct {
 
 type WorkerConfigDiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2599,6 +2827,12 @@ type WorkerConfigDiskConfigInitParameters struct {
 }
 
 type WorkerConfigDiskConfigObservation struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -2624,6 +2858,14 @@ type WorkerConfigDiskConfigObservation struct {
 
 type WorkerConfigDiskConfigParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2648,6 +2890,70 @@ type WorkerConfigDiskConfigParameters struct {
 	// attached to each master cluster node. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInitParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	InstanceSelectionList []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Full machine-type names, e.g. "n1-standard-16".
+	// +kubebuilder:validation:Optional
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. A lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters struct {
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation struct {
+
+	// The name of a Compute Engine machine type.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters struct {
+}
+
+type WorkerConfigInstanceFlexibilityPolicyObservation struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	InstanceSelectionList []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	InstanceSelectionResults []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs.
+	// +kubebuilder:validation:Optional
+	InstanceSelectionList []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 }
 
 // ClusterSpec defines the desired state of Cluster

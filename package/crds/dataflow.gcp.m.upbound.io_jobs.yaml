@@ -70,6 +70,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enableStreamingEngine:
                     description: Enable/disable the use of Streaming Engine for the
                       job. Note that Streaming Engine is enabled by default for pipelines
@@ -178,6 +183,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enableStreamingEngine:
                     description: Enable/disable the use of Streaming Engine for the
                       job. Note that Streaming Engine is enabled by default for pipelines
@@ -349,6 +359,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string

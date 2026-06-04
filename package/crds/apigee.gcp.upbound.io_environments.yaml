@@ -740,6 +740,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -933,6 +938,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be
@@ -1123,6 +1133,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deploymentType:
                     description: |-
                       Optional. Deployment type supported by the environment. The deployment type can be

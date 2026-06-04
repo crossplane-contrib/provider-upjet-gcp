@@ -1250,6 +1250,11 @@ spec:
                       How often (in seconds) to send a health check. The default value is 5
                       seconds.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1276,6 +1281,27 @@ spec:
                           Port name as defined in InstanceGroup#NamedPort#name. If both port and
                           port_name are defined, port takes precedence.
                         type: string
+                      portSpecification:
+                        description: |-
+                          Specifies how port is selected for health checking, can be one of the
+                          following values:
+                        type: string
+                    type: object
+                  grpcTlsHealthCheck:
+                    description: |-
+                      A nested object resource.
+                      Structure is documented below.
+                    properties:
+                      grpcServiceName:
+                        description: |-
+                          The gRPC service name for the health check.
+                          The value of grpcServiceName has the following meanings by convention:
+                        type: string
+                      port:
+                        description: |-
+                          The port number for the health check request.
+                          Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+                        type: number
                       portSpecification:
                         description: |-
                           Specifies how port is selected for health checking, can be one of the
@@ -1561,6 +1587,11 @@ spec:
                       How often (in seconds) to send a health check. The default value is 5
                       seconds.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1587,6 +1618,27 @@ spec:
                           Port name as defined in InstanceGroup#NamedPort#name. If both port and
                           port_name are defined, port takes precedence.
                         type: string
+                      portSpecification:
+                        description: |-
+                          Specifies how port is selected for health checking, can be one of the
+                          following values:
+                        type: string
+                    type: object
+                  grpcTlsHealthCheck:
+                    description: |-
+                      A nested object resource.
+                      Structure is documented below.
+                    properties:
+                      grpcServiceName:
+                        description: |-
+                          The gRPC service name for the health check.
+                          The value of grpcServiceName has the following meanings by convention:
+                        type: string
+                      port:
+                        description: |-
+                          The port number for the health check request.
+                          Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+                        type: number
                       portSpecification:
                         description: |-
                           Specifies how port is selected for health checking, can be one of the
@@ -1953,6 +2005,11 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -1979,6 +2036,27 @@ spec:
                           Port name as defined in InstanceGroup#NamedPort#name. If both port and
                           port_name are defined, port takes precedence.
                         type: string
+                      portSpecification:
+                        description: |-
+                          Specifies how port is selected for health checking, can be one of the
+                          following values:
+                        type: string
+                    type: object
+                  grpcTlsHealthCheck:
+                    description: |-
+                      A nested object resource.
+                      Structure is documented below.
+                    properties:
+                      grpcServiceName:
+                        description: |-
+                          The gRPC service name for the health check.
+                          The value of grpcServiceName has the following meanings by convention:
+                        type: string
+                      port:
+                        description: |-
+                          The port number for the health check request.
+                          Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+                        type: number
                       portSpecification:
                         description: |-
                           Specifies how port is selected for health checking, can be one of the

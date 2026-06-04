@@ -604,6 +604,11 @@ spec:
                           Possible values are: HOST_PAYS.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Long form description of the use case for this app
                       profile.
@@ -758,6 +763,11 @@ spec:
                           Possible values are: HOST_PAYS.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Long form description of the use case for this app
                       profile.
@@ -912,6 +922,11 @@ spec:
                           Possible values are: HOST_PAYS.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Long form description of the use case for this app
                       profile.

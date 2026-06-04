@@ -19,6 +19,10 @@ type SSLCertInitParameters struct {
 	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
@@ -50,6 +54,10 @@ type SSLCertObservation struct {
 	// for example 2012-11-15T16:19:00.094Z.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The time when the certificate expires in RFC 3339 format,
 	// for example 2012-11-15T16:19:00.094Z.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
@@ -74,6 +82,11 @@ type SSLCertParameters struct {
 	// client. Constrained to [a-zA-Z.-_ ]+. Changing this forces a new resource to be created.
 	// +kubebuilder:validation:Optional
 	CommonName *string `json:"commonName,omitempty" tf:"common_name,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.

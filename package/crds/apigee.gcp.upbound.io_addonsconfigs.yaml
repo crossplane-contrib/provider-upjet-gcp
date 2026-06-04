@@ -129,6 +129,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   org:
                     description: Name of the Apigee organization.
                     type: string
@@ -278,6 +283,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   org:
                     description: Name of the Apigee organization.
                     type: string
@@ -515,6 +525,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format organizations/{{org}}
                     type: string

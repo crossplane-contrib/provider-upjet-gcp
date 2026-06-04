@@ -109,6 +109,11 @@ spec:
                     - name
                     - namespace
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enabled:
                     description: If this IDP allows the user to sign in
                     type: boolean
@@ -168,6 +173,11 @@ spec:
                     - name
                     - namespace
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enabled:
                     description: If this IDP allows the user to sign in
                     type: boolean
@@ -286,6 +296,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enabled:
                     description: If this IDP allows the user to sign in
                     type: boolean

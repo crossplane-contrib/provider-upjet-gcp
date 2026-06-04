@@ -54,6 +54,10 @@ type InternalRangeInitParameters struct {
 	// Structure is documented below.
 	AllocationOptions *AllocationOptionsInitParameters `json:"allocationOptions,omitempty" tf:"allocation_options,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -122,6 +126,10 @@ type InternalRangeObservation struct {
 	// Options for automatically allocating a free range with a size given by prefixLength.
 	// Structure is documented below.
 	AllocationOptions *AllocationOptionsObservation `json:"allocationOptions,omitempty" tf:"allocation_options,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -199,6 +207,11 @@ type InternalRangeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AllocationOptions *AllocationOptionsParameters `json:"allocationOptions,omitempty" tf:"allocation_options,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional

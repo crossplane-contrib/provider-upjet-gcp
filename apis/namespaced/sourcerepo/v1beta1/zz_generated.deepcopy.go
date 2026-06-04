@@ -512,6 +512,11 @@ func (in *RepositoryInitParameters) DeepCopyInto(out *RepositoryInitParameters) 
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -576,6 +581,11 @@ func (in *RepositoryObservation) DeepCopyInto(out *RepositoryObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -621,6 +631,11 @@ func (in *RepositoryParameters) DeepCopyInto(out *RepositoryParameters) {
 	if in.CreateIgnoreAlreadyExists != nil {
 		in, out := &in.CreateIgnoreAlreadyExists, &out.CreateIgnoreAlreadyExists
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Project != nil {

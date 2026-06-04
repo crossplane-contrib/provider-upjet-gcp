@@ -405,7 +405,6 @@ import (
 	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagvalue"
-	node "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestoreentitytype"
@@ -814,7 +813,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
-		node.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
@@ -1229,7 +1227,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
-		node.SetupGated,
 		datasetvertexai.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,

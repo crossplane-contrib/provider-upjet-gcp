@@ -24,6 +24,10 @@ type SchemaInitParameters struct {
 	// deleting old revisions.
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -44,6 +48,10 @@ type SchemaObservation struct {
 	// error indicating that the limit has been reached require manually
 	// deleting old revisions.
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/schemas/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -69,6 +77,11 @@ type SchemaParameters struct {
 	// deleting old revisions.
 	// +kubebuilder:validation:Optional
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

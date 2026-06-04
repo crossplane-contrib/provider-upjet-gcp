@@ -19,6 +19,10 @@ type GlobalNetworkEndpointGroupInitParameters struct {
 	// network endpoint.
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -37,6 +41,10 @@ type GlobalNetworkEndpointGroupObservation struct {
 	// The default port used if the port number is not specified in the
 	// network endpoint.
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -63,6 +71,11 @@ type GlobalNetworkEndpointGroupParameters struct {
 	// network endpoint.
 	// +kubebuilder:validation:Optional
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.

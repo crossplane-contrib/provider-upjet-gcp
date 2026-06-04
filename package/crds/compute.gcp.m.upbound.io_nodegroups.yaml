@@ -80,6 +80,11 @@ spec:
                         description: 'The autoscaling mode. Set to one of the following:'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional textual description of the resource.
                     type: string
@@ -427,6 +432,11 @@ spec:
                         description: 'The autoscaling mode. Set to one of the following:'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional textual description of the resource.
                     type: string
@@ -821,6 +831,11 @@ spec:
                     type: object
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional textual description of the resource.

@@ -798,6 +798,11 @@ func (in *SecretInitParameters) DeepCopyInto(out *SecretInitParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -953,6 +958,11 @@ func (in *SecretObservation) DeepCopyInto(out *SecretObservation) {
 	}
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -1134,6 +1144,11 @@ func (in *SecretParameters) DeepCopyInto(out *SecretParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection

@@ -118,6 +118,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   location:
                     description: |-
                       The  location where the autoscaling policy should reside.
@@ -260,6 +265,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -447,6 +457,11 @@ spec:
                             type: number
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
                     type: string

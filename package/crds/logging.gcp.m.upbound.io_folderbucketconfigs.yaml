@@ -70,6 +70,11 @@ spec:
                           "folders/my-folder-id/locations/my-location/buckets/my-bucket-id"'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Describes this bucket.
                     type: string
@@ -210,6 +215,11 @@ spec:
                           "folders/my-folder-id/locations/my-location/buckets/my-bucket-id"'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Describes this bucket.
                     type: string
@@ -324,6 +334,11 @@ spec:
                         description: an identifier for the resource with format folders/{{folder}}/locations/{{location}}/buckets/{{bucket_id}}
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Describes this bucket.
                     type: string

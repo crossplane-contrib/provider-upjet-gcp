@@ -79,6 +79,11 @@ spec:
                       letters, numbers (0-9), underscores (_). Should not use characters
                       that require URL-escaping, or characters outside of ASCII, spaces.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the data exchange.
                     type: string
@@ -150,6 +155,11 @@ spec:
                     description: The ID of the data exchange. Must contain only Unicode
                       letters, numbers (0-9), underscores (_). Should not use characters
                       that require URL-escaping, or characters outside of ASCII, spaces.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the data exchange.
@@ -314,6 +324,11 @@ spec:
                     description: The ID of the data exchange. Must contain only Unicode
                       letters, numbers (0-9), underscores (_). Should not use characters
                       that require URL-escaping, or characters outside of ASCII, spaces.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the data exchange.

@@ -146,6 +146,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   firewallPolicy:
                     description: |-
                       The firewall policy of the resource.
@@ -338,6 +343,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   firewallPolicy:
                     description: |-
                       The firewall policy of the resource.
@@ -503,6 +513,11 @@ spec:
                 properties:
                   attachmentTarget:
                     description: The target that the firewall policy is attached to.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   firewallPolicy:
                     description: |-

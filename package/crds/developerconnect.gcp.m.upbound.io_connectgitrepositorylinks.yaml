@@ -72,6 +72,11 @@ spec:
                   cloneUri:
                     description: Required. Git Clone URI.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   etag:
                     description: |-
                       Optional. This checksum is computed by the server based on the value of other
@@ -212,6 +217,11 @@ spec:
                   cloneUri:
                     description: Required. Git Clone URI.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   etag:
                     description: |-
                       Optional. This checksum is computed by the server based on the value of other
@@ -319,6 +329,11 @@ spec:
                     type: string
                   deleteTime:
                     description: Output only. [Output only] Delete timestamp
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveAnnotations:
                     additionalProperties:

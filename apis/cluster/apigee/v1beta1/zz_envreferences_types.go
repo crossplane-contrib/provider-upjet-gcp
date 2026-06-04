@@ -14,6 +14,8 @@ import (
 )
 
 type EnvReferencesInitParameters struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Refers *string `json:"refers,omitempty" tf:"refers,omitempty"`
@@ -22,6 +24,8 @@ type EnvReferencesInitParameters struct {
 }
 
 type EnvReferencesObservation struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
@@ -34,6 +38,9 @@ type EnvReferencesObservation struct {
 }
 
 type EnvReferencesParameters struct {
+
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

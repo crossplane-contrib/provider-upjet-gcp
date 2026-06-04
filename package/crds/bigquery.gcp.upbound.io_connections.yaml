@@ -1626,8 +1626,8 @@ spec:
                         properties:
                           passwordSecretRef:
                             description: |-
-                              Password for database.
-                              Note: This property is sensitive and will not be displayed in the plan.
+                              Password configuration for the connector.
+                              Structure is documented below.
                             properties:
                               key:
                                 description: The key to select.
@@ -1644,7 +1644,7 @@ spec:
                             - namespace
                             type: object
                           username:
-                            description: Username for database.
+                            description: Username for the connector.
                             type: string
                           usernameRef:
                             description: Reference to a User in sql to populate username.
@@ -1883,9 +1883,109 @@ spec:
                           Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
                         type: string
                     type: object
+                  configuration:
+                    description: |-
+                      Connector configuration. This is a generic configuration that is used to connect to
+                      external data sources such as AlloyDB, MySQL, and PostgreSQL using the BigQuery
+                      Connector framework.
+                      Structure is documented below.
+                    properties:
+                      asset:
+                        description: |-
+                          Asset configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          database:
+                            description: Database name.
+                            type: string
+                          googleCloudResource:
+                            description: |-
+                              The full resource name of the Google Cloud resource.
+                              For AlloyDB, this is in the format of
+                              //alloydb.googleapis.com/projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}.
+                            type: string
+                        type: object
+                      authentication:
+                        description: |-
+                          Authentication configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          usernamePassword:
+                            description: |-
+                              Username/password authentication configuration.
+                              Structure is documented below.
+                            properties:
+                              password:
+                                description: |-
+                                  Password configuration for the connector.
+                                  Structure is documented below.
+                                properties:
+                                  plaintextSecretRef:
+                                    description: |-
+                                      The plaintext password.
+                                      Note: This property is sensitive and will not be displayed in the plan.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: Name of the secret.
+                                        type: string
+                                      namespace:
+                                        description: Namespace of the secret.
+                                        type: string
+                                    required:
+                                    - key
+                                    - name
+                                    - namespace
+                                    type: object
+                                type: object
+                              username:
+                                description: Username for the connector.
+                                type: string
+                            type: object
+                        type: object
+                      connectorId:
+                        description: |-
+                          The ID of the connector. Possible values include google-alloydb, google-cloudsql-mysql,
+                          google-cloudsql-postgres, and other connector IDs supported by the BigQuery Connector framework.
+                        type: string
+                      endpoint:
+                        description: |-
+                          Endpoint configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          hostPort:
+                            description: Host and port in the format of host:port
+                              for the connector endpoint.
+                            type: string
+                        type: object
+                      network:
+                        description: |-
+                          Network configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          privateServiceConnect:
+                            description: |-
+                              Private Service Connect configuration for the connector.
+                              Structure is documented below.
+                            properties:
+                              networkAttachment:
+                                description: |-
+                                  The resource name of a network attachment in the format of
+                                  projects/{project}/regions/{region}/networkAttachments/{networkAttachment}.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   connectionId:
                     description: Optional connection id that should be assigned to
                       the created connection.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A descriptive description for the connection
@@ -2116,8 +2216,8 @@ spec:
                         properties:
                           passwordSecretRef:
                             description: |-
-                              Password for database.
-                              Note: This property is sensitive and will not be displayed in the plan.
+                              Password configuration for the connector.
+                              Structure is documented below.
                             properties:
                               key:
                                 description: The key to select.
@@ -2134,7 +2234,7 @@ spec:
                             - namespace
                             type: object
                           username:
-                            description: Username for database.
+                            description: Username for the connector.
                             type: string
                           usernameRef:
                             description: Reference to a User in sql to populate username.
@@ -2375,9 +2475,111 @@ spec:
                           Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
                         type: string
                     type: object
+                  configuration:
+                    description: |-
+                      Connector configuration. This is a generic configuration that is used to connect to
+                      external data sources such as AlloyDB, MySQL, and PostgreSQL using the BigQuery
+                      Connector framework.
+                      Structure is documented below.
+                    properties:
+                      asset:
+                        description: |-
+                          Asset configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          database:
+                            description: Database name.
+                            type: string
+                          googleCloudResource:
+                            description: |-
+                              The full resource name of the Google Cloud resource.
+                              For AlloyDB, this is in the format of
+                              //alloydb.googleapis.com/projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}.
+                            type: string
+                        type: object
+                      authentication:
+                        description: |-
+                          Authentication configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          usernamePassword:
+                            description: |-
+                              Username/password authentication configuration.
+                              Structure is documented below.
+                            properties:
+                              password:
+                                description: |-
+                                  Password configuration for the connector.
+                                  Structure is documented below.
+                                properties:
+                                  plaintextSecretRef:
+                                    description: |-
+                                      The plaintext password.
+                                      Note: This property is sensitive and will not be displayed in the plan.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: Name of the secret.
+                                        type: string
+                                      namespace:
+                                        description: Namespace of the secret.
+                                        type: string
+                                    required:
+                                    - key
+                                    - name
+                                    - namespace
+                                    type: object
+                                required:
+                                - plaintextSecretRef
+                                type: object
+                              username:
+                                description: Username for the connector.
+                                type: string
+                            type: object
+                        type: object
+                      connectorId:
+                        description: |-
+                          The ID of the connector. Possible values include google-alloydb, google-cloudsql-mysql,
+                          google-cloudsql-postgres, and other connector IDs supported by the BigQuery Connector framework.
+                        type: string
+                      endpoint:
+                        description: |-
+                          Endpoint configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          hostPort:
+                            description: Host and port in the format of host:port
+                              for the connector endpoint.
+                            type: string
+                        type: object
+                      network:
+                        description: |-
+                          Network configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          privateServiceConnect:
+                            description: |-
+                              Private Service Connect configuration for the connector.
+                              Structure is documented below.
+                            properties:
+                              networkAttachment:
+                                description: |-
+                                  The resource name of a network attachment in the format of
+                                  projects/{project}/regions/{region}/networkAttachments/{networkAttachment}.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   connectionId:
                     description: Optional connection id that should be assigned to
                       the created connection.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A descriptive description for the connection
@@ -2721,7 +2923,7 @@ spec:
                           Structure is documented below.
                         properties:
                           username:
-                            description: Username for database.
+                            description: Username for the connector.
                             type: string
                         type: object
                       database:
@@ -2741,9 +2943,100 @@ spec:
                           Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
                         type: string
                     type: object
+                  configuration:
+                    description: |-
+                      Connector configuration. This is a generic configuration that is used to connect to
+                      external data sources such as AlloyDB, MySQL, and PostgreSQL using the BigQuery
+                      Connector framework.
+                      Structure is documented below.
+                    properties:
+                      asset:
+                        description: |-
+                          Asset configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          database:
+                            description: Database name.
+                            type: string
+                          googleCloudResource:
+                            description: |-
+                              The full resource name of the Google Cloud resource.
+                              For AlloyDB, this is in the format of
+                              //alloydb.googleapis.com/projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}.
+                            type: string
+                        type: object
+                      authentication:
+                        description: |-
+                          Authentication configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              (Output)
+                              Output only. The service account used for authenticating with the connector.
+                            type: string
+                          usernamePassword:
+                            description: |-
+                              Username/password authentication configuration.
+                              Structure is documented below.
+                            properties:
+                              password:
+                                description: |-
+                                  Password configuration for the connector.
+                                  Structure is documented below.
+                                properties:
+                                  secretType:
+                                    description: |-
+                                      (Output)
+                                      Output only. The type of the secret.
+                                    type: string
+                                type: object
+                              username:
+                                description: Username for the connector.
+                                type: string
+                            type: object
+                        type: object
+                      connectorId:
+                        description: |-
+                          The ID of the connector. Possible values include google-alloydb, google-cloudsql-mysql,
+                          google-cloudsql-postgres, and other connector IDs supported by the BigQuery Connector framework.
+                        type: string
+                      endpoint:
+                        description: |-
+                          Endpoint configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          hostPort:
+                            description: Host and port in the format of host:port
+                              for the connector endpoint.
+                            type: string
+                        type: object
+                      network:
+                        description: |-
+                          Network configuration for the connector.
+                          Structure is documented below.
+                        properties:
+                          privateServiceConnect:
+                            description: |-
+                              Private Service Connect configuration for the connector.
+                              Structure is documented below.
+                            properties:
+                              networkAttachment:
+                                description: |-
+                                  The resource name of a network attachment in the format of
+                                  projects/{project}/regions/{region}/networkAttachments/{networkAttachment}.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   connectionId:
                     description: Optional connection id that should be assigned to
                       the created connection.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A descriptive description for the connection

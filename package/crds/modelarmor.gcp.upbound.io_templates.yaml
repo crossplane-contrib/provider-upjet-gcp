@@ -74,6 +74,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    type: string
                   filterConfig:
                     description: |-
                       Filters configuration.
@@ -429,6 +431,8 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    type: string
                   filterConfig:
                     description: |-
                       Filters configuration.
@@ -863,6 +867,8 @@ spec:
                 properties:
                   createTime:
                     description: Create time stamp
+                    type: string
+                  deletionPolicy:
                     type: string
                   effectiveLabels:
                     additionalProperties:

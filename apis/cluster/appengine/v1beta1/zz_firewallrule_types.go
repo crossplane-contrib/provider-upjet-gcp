@@ -19,6 +19,10 @@ type FirewallRuleInitParameters struct {
 	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional string description of this rule.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -53,6 +57,10 @@ type FirewallRuleObservation struct {
 	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional string description of this rule.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -80,6 +88,11 @@ type FirewallRuleParameters struct {
 	// Possible values are: UNSPECIFIED_ACTION, ALLOW, DENY.
 	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional string description of this rule.
 	// +kubebuilder:validation:Optional

@@ -72,6 +72,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -135,6 +140,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -261,6 +271,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: |-
                       Defaults to true.

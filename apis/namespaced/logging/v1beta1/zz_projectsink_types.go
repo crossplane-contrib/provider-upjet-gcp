@@ -115,6 +115,10 @@ type ProjectSinkInitParameters struct {
 	// +kubebuilder:validation:Optional
 	CustomWriterIdentitySelector *v1.NamespacedSelector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -152,6 +156,10 @@ type ProjectSinkObservation struct {
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -209,6 +217,11 @@ type ProjectSinkParameters struct {
 	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
 	CustomWriterIdentitySelector *v1.NamespacedSelector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	// +kubebuilder:validation:Optional

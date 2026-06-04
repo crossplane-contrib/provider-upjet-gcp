@@ -108,6 +108,11 @@ spec:
                     - name
                     - namespace
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Human friendly display name.
                     type: string
@@ -190,6 +195,11 @@ spec:
                     - name
                     - namespace
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Human friendly display name.
                     type: string
@@ -329,6 +339,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Human friendly display name.
                     type: string

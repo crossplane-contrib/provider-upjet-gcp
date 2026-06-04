@@ -65,6 +65,11 @@ spec:
                     description: Whether the analysis should skip firewall checking.
                       Default value is false.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       The user-supplied description of the Connectivity Test.
@@ -97,6 +102,9 @@ spec:
                       gkeMasterCluster:
                         description: A cluster URI for Google Kubernetes Engine cluster
                           control plane.
+                        type: string
+                      gkePod:
+                        description: A GKE Pod URI.
                         type: string
                       instance:
                         description: A Compute Engine instance URI.
@@ -354,6 +362,11 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      networkType:
+                        description: |-
+                          For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+                          Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+                        type: string
                       port:
                         description: |-
                           The IP protocol port of the endpoint. Only applicable when protocol is
@@ -904,6 +917,11 @@ spec:
                     description: Whether the analysis should skip firewall checking.
                       Default value is false.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       The user-supplied description of the Connectivity Test.
@@ -936,6 +954,9 @@ spec:
                       gkeMasterCluster:
                         description: A cluster URI for Google Kubernetes Engine cluster
                           control plane.
+                        type: string
+                      gkePod:
+                        description: A GKE Pod URI.
                         type: string
                       instance:
                         description: A Compute Engine instance URI.
@@ -1193,6 +1214,11 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      networkType:
+                        description: |-
+                          For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+                          Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+                        type: string
                       port:
                         description: |-
                           The IP protocol port of the endpoint. Only applicable when protocol is
@@ -1806,6 +1832,11 @@ spec:
                     description: Whether the analysis should skip firewall checking.
                       Default value is false.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       The user-supplied description of the Connectivity Test.
@@ -1839,6 +1870,9 @@ spec:
                         description: A cluster URI for Google Kubernetes Engine cluster
                           control plane.
                         type: string
+                      gkePod:
+                        description: A GKE Pod URI.
+                        type: string
                       instance:
                         description: A Compute Engine instance URI.
                         type: string
@@ -1848,6 +1882,11 @@ spec:
                         type: string
                       network:
                         description: A VPC network URI.
+                        type: string
+                      networkType:
+                        description: |-
+                          For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+                          Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
                         type: string
                       port:
                         description: |-

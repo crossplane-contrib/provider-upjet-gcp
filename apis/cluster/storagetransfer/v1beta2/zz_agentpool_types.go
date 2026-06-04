@@ -19,6 +19,10 @@ type AgentPoolInitParameters struct {
 	// Structure is documented below.
 	BandwidthLimit *BandwidthLimitInitParameters `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Specifies the client-specified AgentPool description.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -32,6 +36,10 @@ type AgentPoolObservation struct {
 	// Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'.
 	// Structure is documented below.
 	BandwidthLimit *BandwidthLimitObservation `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Specifies the client-specified AgentPool description.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -53,6 +61,11 @@ type AgentPoolParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BandwidthLimit *BandwidthLimitParameters `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Specifies the client-specified AgentPool description.
 	// +kubebuilder:validation:Optional

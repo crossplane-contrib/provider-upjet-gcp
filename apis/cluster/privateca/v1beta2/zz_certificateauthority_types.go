@@ -105,6 +105,10 @@ type CertificateAuthorityInitParameters struct {
 	// Structure is documented below.
 	Config *CertificateAuthorityConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// When the field is set to false, deleting the CertificateAuthority is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -185,6 +189,10 @@ type CertificateAuthorityObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
 	// fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// When the field is set to false, deleting the CertificateAuthority is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -295,6 +303,11 @@ type CertificateAuthorityParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Config *CertificateAuthorityConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// When the field is set to false, deleting the CertificateAuthority is allowed.
 	// +kubebuilder:validation:Optional

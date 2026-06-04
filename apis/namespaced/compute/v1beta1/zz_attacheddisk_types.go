@@ -16,6 +16,10 @@ import (
 
 type AttachedDiskInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Specifies a unique device name of your choice that is
 	// reflected into the /dev/disk/by-id/google-* tree of a Linux operating
 	// system running within the instance. This name can be used to
@@ -71,6 +75,10 @@ type AttachedDiskInitParameters struct {
 
 type AttachedDiskObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Specifies a unique device name of your choice that is
 	// reflected into the /dev/disk/by-id/google-* tree of a Linux operating
 	// system running within the instance. This name can be used to
@@ -108,6 +116,11 @@ type AttachedDiskObservation struct {
 }
 
 type AttachedDiskParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Specifies a unique device name of your choice that is
 	// reflected into the /dev/disk/by-id/google-* tree of a Linux operating

@@ -2071,6 +2071,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the spoke.
                     type: string
@@ -2248,10 +2253,28 @@ spec:
                       A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -2529,10 +2552,28 @@ spec:
                       The URIs of linked Router appliance resources
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -2733,10 +2774,28 @@ spec:
                       The URIs of linked VPN tunnel resources
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -2856,6 +2915,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the spoke.
                     type: string
@@ -3033,10 +3097,28 @@ spec:
                       A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -3314,10 +3396,28 @@ spec:
                       The URIs of linked Router appliance resources
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -3518,10 +3618,28 @@ spec:
                       The URIs of linked VPN tunnel resources
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -3731,6 +3849,11 @@ spec:
                   createTime:
                     description: Output only. The time the spoke was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the spoke.
                     type: string
@@ -3764,10 +3887,28 @@ spec:
                       A collection of VLAN attachment resources. These resources should be redundant attachments that all advertise the same prefixes to Google Cloud. Alternatively, in active/passive configurations, all attachments should be capable of advertising the same prefixes.
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -3819,10 +3960,28 @@ spec:
                       The URIs of linked Router appliance resources
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array
@@ -3871,10 +4030,28 @@ spec:
                       The URIs of linked VPN tunnel resources
                       Structure is documented below.
                     properties:
+                      excludeExportRanges:
+                        description: Dynamic routes overlapped/encompassed by exclude
+                          export ranges are excluded during export to hub.
+                        items:
+                          type: string
+                        type: array
+                      excludeImportRanges:
+                        description: Hub routes overlapped/encompassed by exclude
+                          import ranges are excluded during import from hub.
+                        items:
+                          type: string
+                        type: array
+                      includeExportRanges:
+                        description: Dynamic routes fully encompassed by include export
+                          ranges are included during export to hub.
+                        items:
+                          type: string
+                        type: array
                       includeImportRanges:
                         description: |-
-                          IP ranges allowed to be included during import from hub (does not control transit connectivity).
-                          The only allowed value for now is "ALL_IPV4_RANGES".
+                          Hub routes fully encompassed by include import ranges are included during import from hub.
+                          "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
                         items:
                           type: string
                         type: array

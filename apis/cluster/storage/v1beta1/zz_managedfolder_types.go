@@ -27,6 +27,10 @@ type ManagedFolderInitParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects
 	// within the folder will remain in a simulated folder with the
@@ -45,6 +49,10 @@ type ManagedFolderObservation struct {
 
 	// The timestamp at which this managed folder was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects
@@ -83,6 +91,11 @@ type ManagedFolderParameters struct {
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects

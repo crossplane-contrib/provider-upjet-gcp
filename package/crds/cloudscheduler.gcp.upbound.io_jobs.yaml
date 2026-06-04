@@ -1216,6 +1216,11 @@ spec:
                       execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
                       The allowed duration for this deadline is:
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A human-readable description for the job.
@@ -1523,6 +1528,11 @@ spec:
                       cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in
                       execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
                       The allowed duration for this deadline is:
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: |-
@@ -1904,6 +1914,11 @@ spec:
                       cancelled and the attempt is marked as a DEADLINE_EXCEEDED failure. The failed attempt can be viewed in
                       execution logs. Cloud Scheduler will retry the job according to the RetryConfig.
                       The allowed duration for this deadline is:
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: |-

@@ -40,6 +40,10 @@ type ConditionsParameters struct {
 
 type DomainMappingInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The location of the cloud run instance. eg us-central1
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -60,6 +64,10 @@ type DomainMappingInitParameters struct {
 }
 
 type DomainMappingObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -88,6 +96,11 @@ type DomainMappingObservation struct {
 }
 
 type DomainMappingParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The location of the cloud run instance. eg us-central1
 	// +kubebuilder:validation:Optional

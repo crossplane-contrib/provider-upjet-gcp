@@ -546,6 +546,11 @@ func (in *FolderBucketConfigInitParameters) DeepCopyInto(out *FolderBucketConfig
 		*out = new(CmekSettingsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -620,6 +625,11 @@ func (in *FolderBucketConfigObservation) DeepCopyInto(out *FolderBucketConfigObs
 		*out = new(CmekSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -686,6 +696,11 @@ func (in *FolderBucketConfigParameters) DeepCopyInto(out *FolderBucketConfigPara
 		in, out := &in.CmekSettings, &out.CmekSettings
 		*out = new(CmekSettingsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -806,6 +821,11 @@ func (in *FolderSinkInitParameters) DeepCopyInto(out *FolderSinkInitParameters) 
 		*out = new(BigqueryOptionsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -895,6 +915,11 @@ func (in *FolderSinkObservation) DeepCopyInto(out *FolderSinkObservation) {
 		*out = new(BigqueryOptionsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -966,6 +991,11 @@ func (in *FolderSinkParameters) DeepCopyInto(out *FolderSinkParameters) {
 		in, out := &in.BigqueryOptions, &out.BigqueryOptions
 		*out = new(BigqueryOptionsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -1497,6 +1527,11 @@ func (in *MetricInitParameters) DeepCopyInto(out *MetricInitParameters) {
 		*out = new(BucketOptionsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1600,6 +1635,11 @@ func (in *MetricObservation) DeepCopyInto(out *MetricObservation) {
 		*out = new(BucketOptionsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1685,6 +1725,11 @@ func (in *MetricParameters) DeepCopyInto(out *MetricParameters) {
 		in, out := &in.BucketOptions, &out.BucketOptions
 		*out = new(BucketOptionsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -1984,6 +2029,11 @@ func (in *ProjectBucketConfigInitParameters) DeepCopyInto(out *ProjectBucketConf
 		*out = new(ProjectBucketConfigCmekSettingsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2068,6 +2118,11 @@ func (in *ProjectBucketConfigObservation) DeepCopyInto(out *ProjectBucketConfigO
 		*out = new(ProjectBucketConfigCmekSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2144,6 +2199,11 @@ func (in *ProjectBucketConfigParameters) DeepCopyInto(out *ProjectBucketConfigPa
 		in, out := &in.CmekSettings, &out.CmekSettings
 		*out = new(ProjectBucketConfigCmekSettingsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -2454,6 +2514,11 @@ func (in *ProjectSinkInitParameters) DeepCopyInto(out *ProjectSinkInitParameters
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2548,6 +2613,11 @@ func (in *ProjectSinkObservation) DeepCopyInto(out *ProjectSinkObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2629,6 +2699,11 @@ func (in *ProjectSinkParameters) DeepCopyInto(out *ProjectSinkParameters) {
 		in, out := &in.CustomWriterIdentitySelector, &out.CustomWriterIdentitySelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

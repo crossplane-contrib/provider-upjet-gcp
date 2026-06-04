@@ -48,6 +48,11 @@ func (in *AppProfileInitParameters) DeepCopyInto(out *AppProfileInitParameters) 
 		*out = new(DataBoostIsolationReadOnlyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -146,6 +151,11 @@ func (in *AppProfileObservation) DeepCopyInto(out *AppProfileObservation) {
 		*out = new(DataBoostIsolationReadOnlyObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -226,6 +236,11 @@ func (in *AppProfileParameters) DeepCopyInto(out *AppProfileParameters) {
 		in, out := &in.DataBoostIsolationReadOnly, &out.DataBoostIsolationReadOnly
 		*out = new(DataBoostIsolationReadOnlyParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -1992,6 +2007,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -1999,6 +2019,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
+		*out = new(string)
+		**out = **in
+	}
+	if in.Edition != nil {
+		in, out := &in.Edition, &out.Edition
 		*out = new(string)
 		**out = **in
 	}
@@ -2032,6 +2057,22 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -2087,6 +2128,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -2094,6 +2140,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
+		*out = new(string)
+		**out = **in
+	}
+	if in.Edition != nil {
+		in, out := &in.Edition, &out.Edition
 		*out = new(string)
 		**out = **in
 	}
@@ -2149,6 +2200,22 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TerraformLabels != nil {
 		in, out := &in.TerraformLabels, &out.TerraformLabels
 		*out = make(map[string]*string, len(*in))
@@ -2187,6 +2254,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -2194,6 +2266,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
+		*out = new(string)
+		**out = **in
+	}
+	if in.Edition != nil {
+		in, out := &in.Edition, &out.Edition
 		*out = new(string)
 		**out = **in
 	}
@@ -2227,6 +2304,22 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 }
 
@@ -2697,8 +2790,8 @@ func (in *TableIAMBindingInitParameters) DeepCopyInto(out *TableIAMBindingInitPa
 		*out = new(TableIAMBindingConditionInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2780,8 +2873,8 @@ func (in *TableIAMBindingObservation) DeepCopyInto(out *TableIAMBindingObservati
 		*out = new(string)
 		**out = **in
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2831,8 +2924,8 @@ func (in *TableIAMBindingParameters) DeepCopyInto(out *TableIAMBindingParameters
 		*out = new(TableIAMBindingConditionParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3034,8 +3127,8 @@ func (in *TableIAMMemberInitParameters) DeepCopyInto(out *TableIAMMemberInitPara
 		*out = new(TableIAMMemberConditionInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3106,8 +3199,8 @@ func (in *TableIAMMemberObservation) DeepCopyInto(out *TableIAMMemberObservation
 		*out = new(string)
 		**out = **in
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3151,8 +3244,8 @@ func (in *TableIAMMemberParameters) DeepCopyInto(out *TableIAMMemberParameters) 
 		*out = new(TableIAMMemberConditionParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3253,8 +3346,8 @@ func (in *TableIAMPolicy) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *TableIAMPolicyInitParameters) DeepCopyInto(out *TableIAMPolicyInitParameters) {
 	*out = *in
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3325,8 +3418,8 @@ func (in *TableIAMPolicyObservation) DeepCopyInto(out *TableIAMPolicyObservation
 		*out = new(string)
 		**out = **in
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3360,8 +3453,8 @@ func (in *TableIAMPolicyObservation) DeepCopy() *TableIAMPolicyObservation {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *TableIAMPolicyParameters) DeepCopyInto(out *TableIAMPolicyParameters) {
 	*out = *in
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -3446,6 +3539,11 @@ func (in *TableInitParameters) DeepCopyInto(out *TableInitParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
@@ -3537,6 +3635,11 @@ func (in *TableObservation) DeepCopyInto(out *TableObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(string)
@@ -3604,6 +3707,11 @@ func (in *TableParameters) DeepCopyInto(out *TableParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection

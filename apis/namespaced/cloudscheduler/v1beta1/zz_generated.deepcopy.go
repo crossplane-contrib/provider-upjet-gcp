@@ -464,6 +464,11 @@ func (in *JobInitParameters) DeepCopyInto(out *JobInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -561,6 +566,11 @@ func (in *JobObservation) DeepCopyInto(out *JobObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -638,6 +648,11 @@ func (in *JobParameters) DeepCopyInto(out *JobParameters) {
 	}
 	if in.AttemptDeadline != nil {
 		in, out := &in.AttemptDeadline, &out.AttemptDeadline
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

@@ -27,6 +27,10 @@ type ObjectAccessControlInitParameters struct {
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The entity holding the permission, in one of the following forms:
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
@@ -52,6 +56,10 @@ type ObjectAccessControlObservation struct {
 
 	// The name of the bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The domain associated with the entity.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
@@ -97,6 +105,11 @@ type ObjectAccessControlParameters struct {
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The entity holding the permission, in one of the following forms:
 	// +kubebuilder:validation:Optional

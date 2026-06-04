@@ -1418,12 +1418,99 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      replicaLocations:
+                        description: A list of regions where the publisher has created
+                          shared dataset replicas.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       selectedResources:
                         description: |-
                           Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
                           Structure is documented below.
                         items:
                           properties:
+                            routine:
+                              description: 'Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId}
+                                Example:"projects/test_project/datasets/test_dataset/routines/test_routine"'
+                              type: string
+                            routineRef:
+                              description: Reference to a Routine in bigquery to populate
+                                routine.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            routineSelector:
+                              description: Selector for a Routine in bigquery to populate
+                                routine.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
                             table:
                               description: 'Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId}
                                 Example:"projects/test_project/datasets/test_dataset/tables/test_table"'
@@ -1611,6 +1698,11 @@ spec:
                       be set to true, otherwise a failure is thrown. This acts as
                       a safety guard to avoid deleting commercial listings accidentally.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Short description of the listing. The description
                       must not contain Unicode non-characters and C0 and C1 control
@@ -1878,12 +1970,99 @@ spec:
                                 type: string
                             type: object
                         type: object
+                      replicaLocations:
+                        description: A list of regions where the publisher has created
+                          shared dataset replicas.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       selectedResources:
                         description: |-
                           Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
                           Structure is documented below.
                         items:
                           properties:
+                            routine:
+                              description: 'Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId}
+                                Example:"projects/test_project/datasets/test_dataset/routines/test_routine"'
+                              type: string
+                            routineRef:
+                              description: Reference to a Routine in bigquery to populate
+                                routine.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            routineSelector:
+                              description: Selector for a Routine in bigquery to populate
+                                routine.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
                             table:
                               description: 'Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId}
                                 Example:"projects/test_project/datasets/test_dataset/tables/test_table"'
@@ -1990,6 +2169,11 @@ spec:
                       be set to true, otherwise a failure is thrown. This acts as
                       a safety guard to avoid deleting commercial listings accidentally.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Short description of the listing. The description
                       must not contain Unicode non-characters and C0 and C1 control
@@ -2259,12 +2443,49 @@ spec:
                         description: Resource name of the dataset source for this
                           listing. e.g. projects/myproject/datasets/123
                         type: string
+                      effectiveReplicas:
+                        description: |-
+                          (Output)
+                          Server owned effective state of replicas. Contains both primary and secondary replicas.
+                          Each replica includes a system-computed (output-only) state and primary designation.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            location:
+                              description: The name of the location this data exchange
+                                listing.
+                              type: string
+                            primaryState:
+                              description: |-
+                                (Output)
+                                Output-only. Indicates that this replica is the primary replica.
+                                Possible values: PRIMARY_STATE_UNSPECIFIED, PRIMARY_REPLICA
+                              type: string
+                            replicaState:
+                              description: |-
+                                (Output)
+                                Output-only. Assigned by Analytics Hub based on real BigQuery replication state.
+                                Possible values: REPLICA_STATE_UNSPECIFIED, READY_TO_USE, UNAVAILABLE
+                              type: string
+                          type: object
+                        type: array
+                      replicaLocations:
+                        description: A list of regions where the publisher has created
+                          shared dataset replicas.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       selectedResources:
                         description: |-
                           Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
                           Structure is documented below.
                         items:
                           properties:
+                            routine:
+                              description: 'Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId}
+                                Example:"projects/test_project/datasets/test_dataset/routines/test_routine"'
+                              type: string
                             table:
                               description: 'Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId}
                                 Example:"projects/test_project/datasets/test_dataset/tables/test_table"'
@@ -2328,6 +2549,11 @@ spec:
                       be set to true, otherwise a failure is thrown. This acts as
                       a safety guard to avoid deleting commercial listings accidentally.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Short description of the listing. The description
                       must not contain Unicode non-characters and C0 and C1 control

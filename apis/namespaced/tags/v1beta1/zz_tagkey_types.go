@@ -16,6 +16,13 @@ import (
 
 type TagKeyInitParameters struct {
 
+	// Regular expression constraint for dynamic tag values, follows RE2 syntax. If present, it implicitly allows dynamic values (constrained by the regex).
+	AllowedValuesRegex *string `json:"allowedValuesRegex,omitempty" tf:"allowed_values_regex,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-assigned description of the TagKey. Must not exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -24,7 +31,7 @@ type TagKeyInitParameters struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Optional. Purpose data cannot be changed once set.
@@ -39,9 +46,16 @@ type TagKeyInitParameters struct {
 
 type TagKeyObservation struct {
 
+	// Regular expression constraint for dynamic tag values, follows RE2 syntax. If present, it implicitly allows dynamic values (constrained by the regex).
+	AllowedValuesRegex *string `json:"allowedValuesRegex,omitempty" tf:"allowed_values_regex,omitempty"`
+
 	// Output only. Creation time.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-assigned description of the TagKey. Must not exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -60,7 +74,7 @@ type TagKeyObservation struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Optional. Purpose data cannot be changed once set.
@@ -79,6 +93,15 @@ type TagKeyObservation struct {
 
 type TagKeyParameters struct {
 
+	// Regular expression constraint for dynamic tag values, follows RE2 syntax. If present, it implicitly allows dynamic values (constrained by the regex).
+	// +kubebuilder:validation:Optional
+	AllowedValuesRegex *string `json:"allowedValuesRegex,omitempty" tf:"allowed_values_regex,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-assigned description of the TagKey. Must not exceed 256 characters.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -89,7 +112,7 @@ type TagKeyParameters struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 

@@ -72,6 +72,11 @@ spec:
                           with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster.googleapis.com/v1/${google_container_cluster.my-cluster.id}".
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   endpoint:
                     description: |-
                       If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
@@ -216,6 +221,11 @@ spec:
                           with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster.googleapis.com/v1/${google_container_cluster.my-cluster.id}".
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   endpoint:
                     description: |-
                       If this Membership is a Kubernetes API server hosted on GKE, this is a self link to its GCP resource.
@@ -405,6 +415,11 @@ spec:
                           with length <2000 characters. For example: https://container.googleapis.com/v1/projects/my-project/locations/us-west1/clusters/my-cluster.googleapis.com/v1/${google_container_cluster.my-cluster.id}".
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string

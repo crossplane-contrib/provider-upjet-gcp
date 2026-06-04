@@ -59,7 +59,7 @@ spec:
             properties:
               forProvider:
                 properties:
-                  instance:
+                  instanceName:
                     description: The name or relative resource id of the instance
                       that owns the table.
                     type: string
@@ -90,7 +90,7 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  instance:
+                  instanceName:
                     description: The name or relative resource id of the instance
                       that owns the table.
                     type: string
@@ -161,10 +161,10 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.instance is a required parameter
+            - message: spec.forProvider.instanceName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.instance)
-                || (has(self.initProvider) && has(self.initProvider.instance))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceName)
+                || (has(self.initProvider) && has(self.initProvider.instanceName))'
             - message: spec.forProvider.policyData is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.policyData)
@@ -179,7 +179,7 @@ spec:
                     type: string
                   id:
                     type: string
-                  instance:
+                  instanceName:
                     description: The name or relative resource id of the instance
                       that owns the table.
                     type: string

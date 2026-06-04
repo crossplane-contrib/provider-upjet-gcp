@@ -15,6 +15,10 @@ import (
 
 type OrganizationIAMCustomRoleInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description for the role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -41,6 +45,10 @@ type OrganizationIAMCustomRoleObservation struct {
 
 	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description for the role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -71,6 +79,11 @@ type OrganizationIAMCustomRoleObservation struct {
 }
 
 type OrganizationIAMCustomRoleParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description for the role.
 	// +kubebuilder:validation:Optional

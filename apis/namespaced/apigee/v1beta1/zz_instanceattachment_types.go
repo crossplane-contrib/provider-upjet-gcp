@@ -16,6 +16,10 @@ import (
 
 type InstanceAttachmentInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The resource ID of the environment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
@@ -45,6 +49,10 @@ type InstanceAttachmentInitParameters struct {
 
 type InstanceAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The resource ID of the environment.
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
@@ -60,6 +68,11 @@ type InstanceAttachmentObservation struct {
 }
 
 type InstanceAttachmentParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The resource ID of the environment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment

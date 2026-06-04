@@ -30,6 +30,10 @@ type CertificateMapEntryInitParameters struct {
 	// +kubebuilder:validation:Optional
 	CertificatesSelector *v1.Selector `json:"certificatesSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -64,6 +68,10 @@ type CertificateMapEntryObservation struct {
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -85,7 +93,7 @@ type CertificateMapEntryObservation struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// A map entry that is inputted into the cetrificate map
+	// A map entry that is inputted into the certificate map
 	Map *string `json:"map,omitempty" tf:"map,omitempty"`
 
 	// A predefined matcher for particular cases, other than SNI selection
@@ -127,6 +135,11 @@ type CertificateMapEntryParameters struct {
 	// +kubebuilder:validation:Optional
 	CertificatesSelector *v1.Selector `json:"certificatesSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -144,7 +157,7 @@ type CertificateMapEntryParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// A map entry that is inputted into the cetrificate map
+	// A map entry that is inputted into the certificate map
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta1.CertificateMap
 	// +kubebuilder:validation:Optional
 	Map *string `json:"map,omitempty" tf:"map,omitempty"`

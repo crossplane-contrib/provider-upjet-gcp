@@ -2294,6 +2294,11 @@ spec:
                     description: Create the connection profile without validating
                       it.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Display name.
                     type: string
@@ -2375,6 +2380,163 @@ spec:
                     description: The name of the location this connection profile
                       is located in.
                     type: string
+                  mongodbProfile:
+                    description: |-
+                      Configuration for connecting to a MongoDB database.
+                      Structure is documented below.
+                    properties:
+                      hostAddresses:
+                        description: |-
+                          List of host addresses for a MongoDB cluster.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            hostname:
+                              description: Hostname for the SQL Server connection.
+                              type: string
+                            port:
+                              description: Port for the SQL Server connection.
+                              type: number
+                          type: object
+                        type: array
+                      passwordSecretRef:
+                        description: |-
+                          Password for the MongoDB connection. Mutually exclusive with
+                          secretManagerStoredPassword.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      replicaSet:
+                        description: Name of the replica set.
+                        type: string
+                      secretManagerStoredPassword:
+                        description: |-
+                          A reference to a Secret Manager resource name storing the MongoDB
+                          connection password. Mutually exclusive with password.
+                        type: string
+                      srvConnectionFormat:
+                        description: |-
+                          Srv connection format. Mutually exclusive with
+                          standard_connection_Format.
+                        type: object
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the MongoDB connection.
+                          Structure is documented below.
+                        properties:
+                          caCertificateSecretRef:
+                            description: |-
+                              PEM-encoded certificate of the CA that signed the source database
+                              server's certificate.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          clientCertificateSecretRef:
+                            description: |-
+                              PEM-encoded certificate that will be used by the replica to
+                              authenticate against the source database server. If this field
+                              is used then the 'clientKey' and the 'caCertificate' fields are
+                              mandatory.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          clientKeySecretRef:
+                            description: |-
+                              PEM-encoded private key associated with the Client Certificate.
+                              If this field is used then the 'client_certificate' and the
+                              'ca_certificate' fields are mandatory.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          secretManagerStoredClientKeySecretRef:
+                            description: |-
+                              A reference to a Secret Manager resource name storing the
+                              PEM-encoded private key. Mutually exclusive with clientKey.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                        type: object
+                      standardConnectionFormat:
+                        description: |-
+                          Standard connection format. Mutually exclusive with
+                          srv_connection_format.
+                          Structure is documented below.
+                        properties:
+                          directConnection:
+                            description: |-
+                              Specifies whether the client connects directly to the
+                              host[:port] in the connection URI.
+                            type: boolean
+                        type: object
+                      username:
+                        description: Username for the MongoDB connection.
+                        type: string
+                    type: object
                   mysqlProfile:
                     description: |-
                       MySQL database profile.
@@ -2716,6 +2878,109 @@ spec:
                         description: A reference to a Secret Manager resource name
                           storing the user's password.
                         type: string
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the PostgreSQL connection.
+                          Structure is documented below.
+                        properties:
+                          serverAndClientVerification:
+                            description: |-
+                              If this field is set, the communication will be encrypted with TLS encryption
+                              and both the server identity and the client identity will be authenticated.
+                              Structure is documented below.
+                            properties:
+                              caCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate of the CA that signed the source database
+                                  server's certificate.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              clientCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate that will be used by the replica to
+                                  authenticate against the source database server. If this field
+                                  is used then the 'clientKey' and the 'caCertificate' fields are
+                                  mandatory.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              clientKeySecretRef:
+                                description: |-
+                                  PEM-encoded private key associated with the Client Certificate.
+                                  If this field is used then the 'client_certificate' and the
+                                  'ca_certificate' fields are mandatory.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          serverVerification:
+                            description: |-
+                              If this field is set, the communication will be encrypted with TLS encryption
+                              and the server identity will be authenticated.
+                              Structure is documented below.
+                            properties:
+                              caCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate of the CA that signed the source database
+                                  server's certificate.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                        type: object
                       username:
                         description: Username for the PostgreSQL connection.
                         type: string
@@ -3173,6 +3438,11 @@ spec:
                     description: Create the connection profile without validating
                       it.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Display name.
                     type: string
@@ -3250,6 +3520,163 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  mongodbProfile:
+                    description: |-
+                      Configuration for connecting to a MongoDB database.
+                      Structure is documented below.
+                    properties:
+                      hostAddresses:
+                        description: |-
+                          List of host addresses for a MongoDB cluster.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            hostname:
+                              description: Hostname for the SQL Server connection.
+                              type: string
+                            port:
+                              description: Port for the SQL Server connection.
+                              type: number
+                          type: object
+                        type: array
+                      passwordSecretRef:
+                        description: |-
+                          Password for the MongoDB connection. Mutually exclusive with
+                          secretManagerStoredPassword.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      replicaSet:
+                        description: Name of the replica set.
+                        type: string
+                      secretManagerStoredPassword:
+                        description: |-
+                          A reference to a Secret Manager resource name storing the MongoDB
+                          connection password. Mutually exclusive with password.
+                        type: string
+                      srvConnectionFormat:
+                        description: |-
+                          Srv connection format. Mutually exclusive with
+                          standard_connection_Format.
+                        type: object
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the MongoDB connection.
+                          Structure is documented below.
+                        properties:
+                          caCertificateSecretRef:
+                            description: |-
+                              PEM-encoded certificate of the CA that signed the source database
+                              server's certificate.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          clientCertificateSecretRef:
+                            description: |-
+                              PEM-encoded certificate that will be used by the replica to
+                              authenticate against the source database server. If this field
+                              is used then the 'clientKey' and the 'caCertificate' fields are
+                              mandatory.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          clientKeySecretRef:
+                            description: |-
+                              PEM-encoded private key associated with the Client Certificate.
+                              If this field is used then the 'client_certificate' and the
+                              'ca_certificate' fields are mandatory.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          secretManagerStoredClientKeySecretRef:
+                            description: |-
+                              A reference to a Secret Manager resource name storing the
+                              PEM-encoded private key. Mutually exclusive with clientKey.
+                              Note: This property is sensitive and will not be displayed in the plan.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                        type: object
+                      standardConnectionFormat:
+                        description: |-
+                          Standard connection format. Mutually exclusive with
+                          srv_connection_format.
+                          Structure is documented below.
+                        properties:
+                          directConnection:
+                            description: |-
+                              Specifies whether the client connects directly to the
+                              host[:port] in the connection URI.
+                            type: boolean
+                        type: object
+                      username:
+                        description: Username for the MongoDB connection.
+                        type: string
+                    type: object
                   mysqlProfile:
                     description: |-
                       MySQL database profile.
@@ -3591,6 +4018,115 @@ spec:
                         description: A reference to a Secret Manager resource name
                           storing the user's password.
                         type: string
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the PostgreSQL connection.
+                          Structure is documented below.
+                        properties:
+                          serverAndClientVerification:
+                            description: |-
+                              If this field is set, the communication will be encrypted with TLS encryption
+                              and both the server identity and the client identity will be authenticated.
+                              Structure is documented below.
+                            properties:
+                              caCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate of the CA that signed the source database
+                                  server's certificate.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              clientCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate that will be used by the replica to
+                                  authenticate against the source database server. If this field
+                                  is used then the 'clientKey' and the 'caCertificate' fields are
+                                  mandatory.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              clientKeySecretRef:
+                                description: |-
+                                  PEM-encoded private key associated with the Client Certificate.
+                                  If this field is used then the 'client_certificate' and the
+                                  'ca_certificate' fields are mandatory.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            required:
+                            - caCertificateSecretRef
+                            - clientCertificateSecretRef
+                            - clientKeySecretRef
+                            type: object
+                          serverVerification:
+                            description: |-
+                              If this field is set, the communication will be encrypted with TLS encryption
+                              and the server identity will be authenticated.
+                              Structure is documented below.
+                            properties:
+                              caCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate of the CA that signed the source database
+                                  server's certificate.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            required:
+                            - caCertificateSecretRef
+                            type: object
+                        type: object
                       username:
                         description: Username for the PostgreSQL connection.
                         type: string
@@ -4129,6 +4665,11 @@ spec:
                     description: Create the connection profile without validating
                       it.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Display name.
                     type: string
@@ -4180,6 +4721,75 @@ spec:
                     description: The name of the location this connection profile
                       is located in.
                     type: string
+                  mongodbProfile:
+                    description: |-
+                      Configuration for connecting to a MongoDB database.
+                      Structure is documented below.
+                    properties:
+                      hostAddresses:
+                        description: |-
+                          List of host addresses for a MongoDB cluster.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            hostname:
+                              description: Hostname for the SQL Server connection.
+                              type: string
+                            port:
+                              description: Port for the SQL Server connection.
+                              type: number
+                          type: object
+                        type: array
+                      replicaSet:
+                        description: Name of the replica set.
+                        type: string
+                      secretManagerStoredPassword:
+                        description: |-
+                          A reference to a Secret Manager resource name storing the MongoDB
+                          connection password. Mutually exclusive with password.
+                        type: string
+                      srvConnectionFormat:
+                        description: |-
+                          Srv connection format. Mutually exclusive with
+                          standard_connection_Format.
+                        type: object
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the MongoDB connection.
+                          Structure is documented below.
+                        properties:
+                          caCertificateSet:
+                            description: |-
+                              (Output)
+                              Indicates whether the clientKey field is set.
+                            type: boolean
+                          clientCertificateSet:
+                            description: |-
+                              (Output)
+                              Indicates whether the clientCertificate field is set.
+                            type: boolean
+                          clientKeySet:
+                            description: |-
+                              (Output)
+                              Indicates whether the clientKey field is set.
+                            type: boolean
+                        type: object
+                      standardConnectionFormat:
+                        description: |-
+                          Standard connection format. Mutually exclusive with
+                          srv_connection_format.
+                          Structure is documented below.
+                        properties:
+                          directConnection:
+                            description: |-
+                              Specifies whether the client connects directly to the
+                              host[:port] in the connection URI.
+                            type: boolean
+                        type: object
+                      username:
+                        description: Username for the MongoDB connection.
+                        type: string
+                    type: object
                   mysqlProfile:
                     description: |-
                       MySQL database profile.
@@ -4269,6 +4879,109 @@ spec:
                         description: A reference to a Secret Manager resource name
                           storing the user's password.
                         type: string
+                      sslConfig:
+                        description: |-
+                          SSL configuration for the PostgreSQL connection.
+                          Structure is documented below.
+                        properties:
+                          serverAndClientVerification:
+                            description: |-
+                              If this field is set, the communication will be encrypted with TLS encryption
+                              and both the server identity and the client identity will be authenticated.
+                              Structure is documented below.
+                            properties:
+                              caCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate of the CA that signed the source database
+                                  server's certificate.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              clientCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate that will be used by the replica to
+                                  authenticate against the source database server. If this field
+                                  is used then the 'clientKey' and the 'caCertificate' fields are
+                                  mandatory.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                              clientKeySecretRef:
+                                description: |-
+                                  PEM-encoded private key associated with the Client Certificate.
+                                  If this field is used then the 'client_certificate' and the
+                                  'ca_certificate' fields are mandatory.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                          serverVerification:
+                            description: |-
+                              If this field is set, the communication will be encrypted with TLS encryption
+                              and the server identity will be authenticated.
+                              Structure is documented below.
+                            properties:
+                              caCertificateSecretRef:
+                                description: |-
+                                  PEM-encoded certificate of the CA that signed the source database
+                                  server's certificate.
+                                  Note: This property is sensitive and will not be displayed in the plan.
+                                properties:
+                                  key:
+                                    description: The key to select.
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                  namespace:
+                                    description: Namespace of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                - namespace
+                                type: object
+                            type: object
+                        type: object
                       username:
                         description: Username for the PostgreSQL connection.
                         type: string

@@ -93,6 +93,10 @@ type NoteInitParameters struct {
 	// Structure is documented below.
 	AttestationAuthority *AttestationAuthorityInitParameters `json:"attestationAuthority,omitempty" tf:"attestation_authority,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Time of expiration for this note. Leave empty if note does not expire.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
@@ -131,6 +135,10 @@ type NoteObservation struct {
 
 	// The time this note was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Time of expiration for this note. Leave empty if note does not expire.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
@@ -177,6 +185,11 @@ type NoteParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AttestationAuthority *AttestationAuthorityParameters `json:"attestationAuthority,omitempty" tf:"attestation_authority,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Time of expiration for this note. Leave empty if note does not expire.
 	// +kubebuilder:validation:Optional

@@ -20,6 +20,10 @@ type TargetPoolInitParameters struct {
 	// failover_ratio.
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -60,6 +64,10 @@ type TargetPoolObservation struct {
 	// URL to the backup target pool. Must also set
 	// failover_ratio.
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -103,6 +111,11 @@ type TargetPoolParameters struct {
 	// failover_ratio.
 	// +kubebuilder:validation:Optional
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Textual description field.
 	// +kubebuilder:validation:Optional

@@ -15,6 +15,10 @@ import (
 
 type LogViewInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Describes this view.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -29,6 +33,10 @@ type LogViewObservation struct {
 
 	// Output only. The creation timestamp of the view.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Describes this view.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -64,6 +72,11 @@ type LogViewParameters struct {
 	// Selector for a ProjectBucketConfig in logging to populate bucket.
 	// +kubebuilder:validation:Optional
 	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Describes this view.
 	// +kubebuilder:validation:Optional

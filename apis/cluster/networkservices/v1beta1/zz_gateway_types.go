@@ -21,6 +21,12 @@ type GatewayInitParameters struct {
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta2.Certificate
@@ -38,6 +44,10 @@ type GatewayInitParameters struct {
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
 	DeleteSwgAutogenRouterOnDestroy *bool `json:"deleteSwgAutogenRouterOnDestroy,omitempty" tf:"delete_swg_autogen_router_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -87,7 +97,7 @@ type GatewayInitParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -96,7 +106,7 @@ type GatewayInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
@@ -135,6 +145,12 @@ type GatewayObservation struct {
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
@@ -145,6 +161,10 @@ type GatewayObservation struct {
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
 	DeleteSwgAutogenRouterOnDestroy *bool `json:"deleteSwgAutogenRouterOnDestroy,omitempty" tf:"delete_swg_autogen_router_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -185,7 +205,7 @@ type GatewayObservation struct {
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -194,7 +214,7 @@ type GatewayObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
@@ -235,6 +255,13 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	// +kubebuilder:validation:Optional
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta2.Certificate
@@ -254,6 +281,11 @@ type GatewayParameters struct {
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
 	// +kubebuilder:validation:Optional
 	DeleteSwgAutogenRouterOnDestroy *bool `json:"deleteSwgAutogenRouterOnDestroy,omitempty" tf:"delete_swg_autogen_router_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A free-text description of the resource. Max length 1024 characters.
 	// +kubebuilder:validation:Optional
@@ -314,7 +346,7 @@ type GatewayParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	// +kubebuilder:validation:Optional
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
@@ -325,7 +357,7 @@ type GatewayParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	// +kubebuilder:validation:Optional
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
@@ -397,7 +429,6 @@ type GatewayStatus struct {
 type Gateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ports) || (has(self.initProvider) && has(self.initProvider.ports))",message="spec.forProvider.ports is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
 	Spec   GatewaySpec   `json:"spec"`
 	Status GatewayStatus `json:"status,omitempty"`

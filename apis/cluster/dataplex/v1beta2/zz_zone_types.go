@@ -177,6 +177,10 @@ type ZoneDiscoverySpecParameters struct {
 
 type ZoneInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Description of the zone.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -207,6 +211,10 @@ type ZoneObservation struct {
 
 	// Output only. The time when the zone was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the zone.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -257,6 +265,11 @@ type ZoneObservation struct {
 }
 
 type ZoneParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the zone.
 	// +kubebuilder:validation:Optional

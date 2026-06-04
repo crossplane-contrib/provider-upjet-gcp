@@ -845,6 +845,11 @@ spec:
                             type: object
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Describes this bucket.
                     type: string
@@ -1073,6 +1078,11 @@ spec:
                             type: object
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Describes this bucket.
                     type: string
@@ -1242,6 +1252,11 @@ spec:
                           See Enabling CMEK for Logging Buckets for more information.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Describes this bucket.
                     type: string

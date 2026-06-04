@@ -83,6 +83,11 @@ func (in *ApplicationInitParameters) DeepCopyInto(out *ApplicationInitParameters
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SSLPolicy != nil {
+		in, out := &in.SSLPolicy, &out.SSLPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServingStatus != nil {
 		in, out := &in.ServingStatus, &out.ServingStatus
 		*out = new(string)
@@ -200,6 +205,11 @@ func (in *ApplicationObservation) DeepCopyInto(out *ApplicationObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SSLPolicy != nil {
+		in, out := &in.SSLPolicy, &out.SSLPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServingStatus != nil {
 		in, out := &in.ServingStatus, &out.ServingStatus
 		*out = new(string)
@@ -266,6 +276,11 @@ func (in *ApplicationParameters) DeepCopyInto(out *ApplicationParameters) {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.SSLPolicy != nil {
+		in, out := &in.SSLPolicy, &out.SSLPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.ServingStatus != nil {
 		in, out := &in.ServingStatus, &out.ServingStatus
@@ -1561,6 +1576,11 @@ func (in *StandardAppVersionInitParameters) DeepCopyInto(out *StandardAppVersion
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Deployment != nil {
 		in, out := &in.Deployment, &out.Deployment
 		*out = new(DeploymentInitParameters)
@@ -1734,6 +1754,11 @@ func (in *StandardAppVersionObservation) DeepCopyInto(out *StandardAppVersionObs
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Deployment != nil {
 		in, out := &in.Deployment, &out.Deployment
 		*out = new(DeploymentObservation)
@@ -1878,6 +1903,11 @@ func (in *StandardAppVersionParameters) DeepCopyInto(out *StandardAppVersionPara
 	if in.DeleteServiceOnDestroy != nil {
 		in, out := &in.DeleteServiceOnDestroy, &out.DeleteServiceOnDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Deployment != nil {

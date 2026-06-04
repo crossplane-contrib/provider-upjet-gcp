@@ -15,6 +15,10 @@ import (
 
 type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the regional disk in which the resource policies are attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionDisk
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -50,6 +54,10 @@ type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
 type RegionDiskResourcePolicyAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the regional disk in which the resource policies are attached to.
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -69,6 +77,11 @@ type RegionDiskResourcePolicyAttachmentObservation struct {
 }
 
 type RegionDiskResourcePolicyAttachmentParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the regional disk in which the resource policies are attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionDisk

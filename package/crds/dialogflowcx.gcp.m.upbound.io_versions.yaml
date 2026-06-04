@@ -59,6 +59,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the version. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -168,6 +173,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the version. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -336,6 +346,11 @@ spec:
                     description: 'A timestamp in RFC3339 UTC "Zulu" format, with nanosecond
                       resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z"
                       and "2014-10-02T15:01:23.045123456Z".'
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: The description of the version. The maximum length

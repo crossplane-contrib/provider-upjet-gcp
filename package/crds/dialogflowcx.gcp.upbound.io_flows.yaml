@@ -3542,6 +3542,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the flow. The maximum length is
                       500 characters. If exceeded, the request is rejected.
@@ -4600,6 +4605,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the flow. The maximum length is
                       500 characters. If exceeded, the request is rejected.
@@ -5741,6 +5751,11 @@ spec:
                             type: boolean
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the flow. The maximum length is
                       500 characters. If exceeded, the request is rejected.

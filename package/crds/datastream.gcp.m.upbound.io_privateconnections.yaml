@@ -63,6 +63,12 @@ spec:
                   createWithoutValidation:
                     description: If set to true, will skip validations.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      The deletion policy for the private connection. Setting FORCE will also delete any child
+                      routes that belong to this private connection. Setting DEFAULT will fail the delete if
+                      child routes exist. Defaults to FORCE for backwards compatibility.
+                    type: string
                   displayName:
                     description: Display name.
                     type: string
@@ -216,6 +222,12 @@ spec:
                   createWithoutValidation:
                     description: If set to true, will skip validations.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      The deletion policy for the private connection. Setting FORCE will also delete any child
+                      routes that belong to this private connection. Setting DEFAULT will fail the delete if
+                      child routes exist. Defaults to FORCE for backwards compatibility.
+                    type: string
                   displayName:
                     description: Display name.
                     type: string
@@ -418,6 +430,12 @@ spec:
                   createWithoutValidation:
                     description: If set to true, will skip validations.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      The deletion policy for the private connection. Setting FORCE will also delete any child
+                      routes that belong to this private connection. Setting DEFAULT will fail the delete if
+                      child routes exist. Defaults to FORCE for backwards compatibility.
+                    type: string
                   displayName:
                     description: Display name.
                     type: string

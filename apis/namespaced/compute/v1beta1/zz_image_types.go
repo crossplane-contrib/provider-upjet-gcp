@@ -141,26 +141,30 @@ type ImageEncryptionKeyParameters struct {
 type ImageGuestOsFeaturesInitParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ImageGuestOsFeaturesObservation struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ImageGuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type ImageInitParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -196,6 +200,10 @@ type ImageInitParameters struct {
 
 	// Any applicable license URI.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload.
+	// Structure is documented below.
+	Params *ImageParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -262,6 +270,10 @@ type ImageObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -306,6 +318,10 @@ type ImageObservation struct {
 
 	// Any applicable license URI.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload.
+	// Structure is documented below.
+	Params *ImageParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -363,6 +379,11 @@ type ImageObservation struct {
 
 type ImageParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -404,6 +425,11 @@ type ImageParameters struct {
 	// Any applicable license URI.
 	// +kubebuilder:validation:Optional
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *ImageParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -469,6 +495,46 @@ type ImageParameters struct {
 	// Reference link: https://cloud.google.com/compute/docs/reference/rest/v1/images
 	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
+}
+
+type ImageParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the image. Tag keys and values have the
+	// same definition as resource manager tags. Keys and values can be either in numeric format,
+	// such as tagKeys/{tag_key_id} and tagValues/{tag_value_id} or in namespaced format such as
+	// {org_id|projectId}/{tag_key_short_name} and {tag_value_short_name}. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ImageParamsObservation struct {
+
+	// Resource manager tags to be bound to the image. Tag keys and values have the
+	// same definition as resource manager tags. Keys and values can be either in numeric format,
+	// such as tagKeys/{tag_key_id} and tagValues/{tag_value_id} or in namespaced format such as
+	// {org_id|projectId}/{tag_key_short_name} and {tag_value_short_name}. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ImageParamsParameters struct {
+
+	// Resource manager tags to be bound to the image. Tag keys and values have the
+	// same definition as resource manager tags. Keys and values can be either in numeric format,
+	// such as tagKeys/{tag_key_id} and tagValues/{tag_value_id} or in namespaced format such as
+	// {org_id|projectId}/{tag_key_short_name} and {tag_value_short_name}. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type ImageSourceImageEncryptionKeyInitParameters struct {

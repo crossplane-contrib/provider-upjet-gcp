@@ -64,6 +64,11 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -195,6 +200,11 @@ spec:
                           See diskSizeGb. Specify a value of up to 1000. If 0 is specified,
                           Cloud Build will use a standard disk size.
                         type: number
+                      enableNestedVirtualization:
+                        description: Enable nested virtualization on the worker, if
+                          supported by the machine type. See Worker pool config file.
+                          If left blank, Cloud Build will set this to false.
+                        type: boolean
                       machineType:
                         description: Machine type of a worker, such as n1-standard-1.
                           See machineType. If left blank, Cloud Build will use n1-standard-1.
@@ -225,6 +235,11 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -353,6 +368,11 @@ spec:
                           See diskSizeGb. Specify a value of up to 1000. If 0 is specified,
                           Cloud Build will use a standard disk size.
                         type: number
+                      enableNestedVirtualization:
+                        description: Enable nested virtualization on the worker, if
+                          supported by the machine type. See Worker pool config file.
+                          If left blank, Cloud Build will set this to false.
+                        type: boolean
                       machineType:
                         description: Machine type of a worker, such as n1-standard-1.
                           See machineType. If left blank, Cloud Build will use n1-standard-1.
@@ -439,6 +459,11 @@ spec:
                     description: Output only. Time at which the request to delete
                       the WorkerPool was received.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -507,6 +532,11 @@ spec:
                           See diskSizeGb. Specify a value of up to 1000. If 0 is specified,
                           Cloud Build will use a standard disk size.
                         type: number
+                      enableNestedVirtualization:
+                        description: Enable nested virtualization on the worker, if
+                          supported by the machine type. See Worker pool config file.
+                          If left blank, Cloud Build will set this to false.
+                        type: boolean
                       machineType:
                         description: Machine type of a worker, such as n1-standard-1.
                           See machineType. If left blank, Cloud Build will use n1-standard-1.

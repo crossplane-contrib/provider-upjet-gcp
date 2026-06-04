@@ -398,13 +398,16 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	CrossInstanceReplicationConfig *CrossInstanceReplicationConfigInitParameters `json:"crossInstanceReplicationConfig,omitempty" tf:"cross_instance_replication_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. If set to true deletion of the instance will fail.
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
 	// Immutable. User inputs for the auto-created endpoints connections.
 	DesiredAutoCreatedEndpoints []DesiredAutoCreatedEndpointsInitParameters `json:"desiredAutoCreatedEndpoints,omitempty" tf:"desired_auto_created_endpoints,omitempty"`
 
-	// desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints instead.
 	DesiredPscAutoConnections []DesiredPscAutoConnectionsInitParameters `json:"desiredPscAutoConnections,omitempty" tf:"desired_psc_auto_connections,omitempty"`
 
 	// Optional. User-provided engine configurations for the instance.
@@ -431,6 +434,10 @@ type InstanceInitParameters struct {
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
+
 	// Managed backup source for the instance.
 	// Structure is documented below.
 	ManagedBackupSource *ManagedBackupSourceInitParameters `json:"managedBackupSource,omitempty" tf:"managed_backup_source,omitempty"`
@@ -445,9 +452,15 @@ type InstanceInitParameters struct {
 	// Optional. Machine type for individual nodes of the instance.
 	// Possible values:
 	// SHARED_CORE_NANO
+	// CUSTOM_PICO
+	// CUSTOM_MICRO
+	// CUSTOM_MINI
 	// HIGHMEM_MEDIUM
+	// HIGHCPU_MEDIUM
 	// HIGHMEM_XLARGE
 	// STANDARD_SMALL
+	// STANDARD_LARGE
+	// HIGHMEM_2XLARGE
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
 	// Represents persistence configuration for a instance.
@@ -460,6 +473,26 @@ type InstanceInitParameters struct {
 
 	// Optional. Number of replica nodes per shard. If omitted the default is 0 replicas.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
+	// The serverCaMode for the TLS enabled Memorystore instance.
+	// If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
@@ -486,6 +519,9 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	AutomatedBackupConfig *AutomatedBackupConfigObservation `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
 
+	// This field is used to determine the available maintenance versions for the self service update.
+	AvailableMaintenanceVersions []*string `json:"availableMaintenanceVersions,omitempty" tf:"available_maintenance_versions,omitempty"`
+
 	// The backup collection full resource name.
 	// Example: projects/{project}/locations/{location}/backupCollections/{collection}
 	BackupCollection *string `json:"backupCollection,omitempty" tf:"backup_collection,omitempty"`
@@ -497,13 +533,16 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	CrossInstanceReplicationConfig *CrossInstanceReplicationConfigObservation `json:"crossInstanceReplicationConfig,omitempty" tf:"cross_instance_replication_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. If set to true deletion of the instance will fail.
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
 	// Immutable. User inputs for the auto-created endpoints connections.
 	DesiredAutoCreatedEndpoints []DesiredAutoCreatedEndpointsObservation `json:"desiredAutoCreatedEndpoints,omitempty" tf:"desired_auto_created_endpoints,omitempty"`
 
-	// desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints instead.
 	DesiredPscAutoConnections []DesiredPscAutoConnectionsObservation `json:"desiredPscAutoConnections,omitempty" tf:"desired_psc_auto_connections,omitempty"`
 
 	// (Deprecated)
@@ -513,6 +552,9 @@ type InstanceObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// This field represents the actual maintenance version of the cluster.
+	EffectiveMaintenanceVersion *string `json:"effectiveMaintenanceVersion,omitempty" tf:"effective_maintenance_version,omitempty"`
 
 	// Endpoints for the instance.
 	// Structure is documented below.
@@ -552,6 +594,10 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
 
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
+
 	// Managed backup source for the instance.
 	// Structure is documented below.
 	ManagedBackupSource *ManagedBackupSourceObservation `json:"managedBackupSource,omitempty" tf:"managed_backup_source,omitempty"`
@@ -578,9 +624,15 @@ type InstanceObservation struct {
 	// Optional. Machine type for individual nodes of the instance.
 	// Possible values:
 	// SHARED_CORE_NANO
+	// CUSTOM_PICO
+	// CUSTOM_MICRO
+	// CUSTOM_MINI
 	// HIGHMEM_MEDIUM
+	// HIGHCPU_MEDIUM
 	// HIGHMEM_XLARGE
 	// STANDARD_SMALL
+	// STANDARD_LARGE
+	// HIGHMEM_2XLARGE
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
 	// Represents persistence configuration for a instance.
@@ -602,6 +654,16 @@ type InstanceObservation struct {
 
 	// Optional. Number of replica nodes per shard. If omitted the default is 0 replicas.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
+	// The serverCaMode for the TLS enabled Memorystore instance.
+	// If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
 
 	// Required. Number of shards for the instance.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
@@ -658,6 +720,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	CrossInstanceReplicationConfig *CrossInstanceReplicationConfigParameters `json:"crossInstanceReplicationConfig,omitempty" tf:"cross_instance_replication_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. If set to true deletion of the instance will fail.
 	// +kubebuilder:validation:Optional
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
@@ -666,7 +733,6 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DesiredAutoCreatedEndpoints []DesiredAutoCreatedEndpointsParameters `json:"desiredAutoCreatedEndpoints,omitempty" tf:"desired_auto_created_endpoints,omitempty"`
 
-	// desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints instead.
 	// +kubebuilder:validation:Optional
 	DesiredPscAutoConnections []DesiredPscAutoConnectionsParameters `json:"desiredPscAutoConnections,omitempty" tf:"desired_psc_auto_connections,omitempty"`
 
@@ -704,6 +770,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	// +kubebuilder:validation:Optional
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
+
 	// Managed backup source for the instance.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -720,9 +791,15 @@ type InstanceParameters struct {
 	// Optional. Machine type for individual nodes of the instance.
 	// Possible values:
 	// SHARED_CORE_NANO
+	// CUSTOM_PICO
+	// CUSTOM_MICRO
+	// CUSTOM_MINI
 	// HIGHMEM_MEDIUM
+	// HIGHCPU_MEDIUM
 	// HIGHMEM_XLARGE
 	// STANDARD_SMALL
+	// STANDARD_LARGE
+	// HIGHMEM_2XLARGE
 	// +kubebuilder:validation:Optional
 	NodeType *string `json:"nodeType,omitempty" tf:"node_type,omitempty"`
 
@@ -739,6 +816,28 @@ type InstanceParameters struct {
 	// Optional. Number of replica nodes per shard. If omitted the default is 0 replicas.
 	// +kubebuilder:validation:Optional
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
+	// The serverCaMode for the TLS enabled Memorystore instance.
+	// If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	// +kubebuilder:validation:Optional
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	// +kubebuilder:validation:Optional

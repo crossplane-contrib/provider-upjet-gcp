@@ -272,6 +272,10 @@ type InstanceSchedulePolicyParameters struct {
 
 type ResourcePolicyInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -301,6 +305,10 @@ type ResourcePolicyInitParameters struct {
 }
 
 type ResourcePolicyObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -340,6 +348,11 @@ type ResourcePolicyObservation struct {
 }
 
 type ResourcePolicyParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
@@ -645,7 +658,7 @@ type WorkloadPolicyInitParameters struct {
 	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
 
 	// The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
-	// and cannot be set if accelerator topology is set.
+	// and cannot be set if accelerator topology or accelerator topology mode is set.
 	// Possible values are: BLOCK, CLUSTER, SUBBLOCK.
 	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
 
@@ -661,7 +674,7 @@ type WorkloadPolicyObservation struct {
 	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
 
 	// The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
-	// and cannot be set if accelerator topology is set.
+	// and cannot be set if accelerator topology or accelerator topology mode is set.
 	// Possible values are: BLOCK, CLUSTER, SUBBLOCK.
 	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`
 
@@ -678,7 +691,7 @@ type WorkloadPolicyParameters struct {
 	AcceleratorTopology *string `json:"acceleratorTopology,omitempty" tf:"accelerator_topology,omitempty"`
 
 	// The maximum topology distance. This field can be set only when the workload policy type is HIGH_THROUGHPUT
-	// and cannot be set if accelerator topology is set.
+	// and cannot be set if accelerator topology or accelerator topology mode is set.
 	// Possible values are: BLOCK, CLUSTER, SUBBLOCK.
 	// +kubebuilder:validation:Optional
 	MaxTopologyDistance *string `json:"maxTopologyDistance,omitempty" tf:"max_topology_distance,omitempty"`

@@ -16,6 +16,10 @@ import (
 
 type EntryGroupInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -35,6 +39,10 @@ type EntryGroupInitParameters struct {
 }
 
 type EntryGroupObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -61,6 +69,11 @@ type EntryGroupObservation struct {
 }
 
 type EntryGroupParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
 	// +kubebuilder:validation:Optional

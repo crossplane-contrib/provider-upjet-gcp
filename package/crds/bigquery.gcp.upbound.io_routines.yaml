@@ -1428,6 +1428,11 @@ spec:
                       The body of the routine. For functions, this is the expression in the AS clause.
                       If language=SQL, it is the substring inside (but excluding) the parentheses.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the routine if defined.
                     type: string
@@ -1789,6 +1794,11 @@ spec:
                     description: |-
                       The body of the routine. For functions, this is the expression in the AS clause.
                       If language=SQL, it is the substring inside (but excluding) the parentheses.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: The description of the routine if defined.
@@ -2246,6 +2256,11 @@ spec:
                     description: |-
                       The body of the routine. For functions, this is the expression in the AS clause.
                       If language=SQL, it is the substring inside (but excluding) the parentheses.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: The description of the routine if defined.

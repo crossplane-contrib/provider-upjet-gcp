@@ -1739,6 +1739,11 @@ spec:
                       You can choose a value from 0 to 65335. If you don't provide a value,
                       Google Cloud assigns a priority of 100 to the ranges.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session
@@ -2354,6 +2359,11 @@ spec:
                       You can choose a value from 0 to 65335. If you don't provide a value,
                       Google Cloud assigns a priority of 100 to the ranges.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session
@@ -2976,6 +2986,11 @@ spec:
                       You can choose a value from 0 to 65335. If you don't provide a value,
                       Google Cloud assigns a priority of 100 to the ranges.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enable:
                     description: |-
                       The status of the BGP peer connection. If set to false, any active session

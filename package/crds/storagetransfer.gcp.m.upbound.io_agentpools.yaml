@@ -69,6 +69,11 @@ spec:
                           across all the agents in the pool.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Specifies the client-specified AgentPool description.
                     type: string
@@ -101,6 +106,11 @@ spec:
                           across all the agents in the pool.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Specifies the client-specified AgentPool description.
                     type: string
@@ -183,6 +193,11 @@ spec:
                           across all the agents in the pool.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Specifies the client-specified AgentPool description.
                     type: string

@@ -16,6 +16,10 @@ import (
 
 type GlobalNetworkEndpointInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
@@ -45,6 +49,10 @@ type GlobalNetworkEndpointInitParameters struct {
 
 type GlobalNetworkEndpointObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
@@ -67,6 +75,11 @@ type GlobalNetworkEndpointObservation struct {
 }
 
 type GlobalNetworkEndpointParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.

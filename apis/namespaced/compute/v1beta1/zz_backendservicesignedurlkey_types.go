@@ -28,6 +28,10 @@ type BackendServiceSignedURLKeyInitParameters struct {
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -45,6 +49,10 @@ type BackendServiceSignedURLKeyObservation struct {
 
 	// The backend service this signed URL key belongs.
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{backend_service}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -71,6 +79,11 @@ type BackendServiceSignedURLKeyParameters struct {
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
 	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.

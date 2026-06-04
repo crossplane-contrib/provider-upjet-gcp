@@ -13,6 +13,724 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type CachePolicyCacheKeyPolicyInitParameters struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type CachePolicyCacheKeyPolicyObservation struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type CachePolicyCacheKeyPolicyParameters struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	// +kubebuilder:validation:Optional
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	// +kubebuilder:validation:Optional
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	// +kubebuilder:validation:Optional
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type CachePolicyClientTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyClientTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyClientTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type CachePolicyDefaultTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyDefaultTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyDefaultTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type CachePolicyInitParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *CachePolicyCacheKeyPolicyInitParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *ClientTTLInitParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *DefaultTTLInitParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *MaxTTLInitParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []CachePolicyNegativeCachingPolicyInitParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *ServeWhileStaleInitParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type CachePolicyMaxTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyMaxTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyMaxTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type CachePolicyNegativeCachingPolicyInitParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *NegativeCachingPolicyTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type CachePolicyNegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *NegativeCachingPolicyTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type CachePolicyNegativeCachingPolicyParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL *NegativeCachingPolicyTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type CachePolicyNegativeCachingPolicyTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyNegativeCachingPolicyTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyNegativeCachingPolicyTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type CachePolicyObservation struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *CachePolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *ClientTTLObservation `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *DefaultTTLObservation `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *MaxTTLObservation `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []CachePolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *ServeWhileStaleObservation `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type CachePolicyParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	// +kubebuilder:validation:Optional
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CacheKeyPolicy *CachePolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	// +kubebuilder:validation:Optional
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientTTL *ClientTTLParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DefaultTTL *DefaultTTLParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxTTL *MaxTTLParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	// +kubebuilder:validation:Optional
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NegativeCachingPolicy []CachePolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	// +kubebuilder:validation:Optional
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServeWhileStale *ServeWhileStaleParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type CachePolicyServeWhileStaleInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyServeWhileStaleObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type CachePolicyServeWhileStaleParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type ClientTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ClientTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type ClientTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type CustomErrorResponsePolicyErrorResponseRuleInitParameters struct {
 
 	// Valid values include:
@@ -249,6 +967,550 @@ type DefaultCustomErrorResponsePolicyParameters struct {
 	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
+type DefaultRouteActionCachePolicyCacheKeyPolicyInitParameters struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyCacheKeyPolicyObservation struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyCacheKeyPolicyParameters struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	// +kubebuilder:validation:Optional
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	// +kubebuilder:validation:Optional
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	// +kubebuilder:validation:Optional
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyInitParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *DefaultRouteActionCachePolicyCacheKeyPolicyInitParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *CachePolicyClientTTLInitParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *CachePolicyDefaultTTLInitParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *CachePolicyMaxTTLInitParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []DefaultRouteActionCachePolicyNegativeCachingPolicyInitParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *CachePolicyServeWhileStaleInitParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyNegativeCachingPolicyInitParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *CachePolicyNegativeCachingPolicyTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyNegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *CachePolicyNegativeCachingPolicyTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyNegativeCachingPolicyParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL *CachePolicyNegativeCachingPolicyTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyObservation struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *DefaultRouteActionCachePolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *CachePolicyClientTTLObservation `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *CachePolicyDefaultTTLObservation `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *CachePolicyMaxTTLObservation `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []DefaultRouteActionCachePolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *CachePolicyServeWhileStaleObservation `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type DefaultRouteActionCachePolicyParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	// +kubebuilder:validation:Optional
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CacheKeyPolicy *DefaultRouteActionCachePolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	// +kubebuilder:validation:Optional
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientTTL *CachePolicyClientTTLParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DefaultTTL *CachePolicyDefaultTTLParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxTTL *CachePolicyMaxTTLParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	// +kubebuilder:validation:Optional
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NegativeCachingPolicy []DefaultRouteActionCachePolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	// +kubebuilder:validation:Optional
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServeWhileStale *CachePolicyServeWhileStaleParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
 type DefaultRouteActionFaultInjectionPolicyAbortInitParameters struct {
 
 	// The HTTP status code used to abort the request. The value must be between 200
@@ -289,38 +1551,29 @@ type DefaultRouteActionFaultInjectionPolicyAbortParameters struct {
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -365,38 +1618,29 @@ type DefaultRouteActionFaultInjectionPolicyDelayParameters struct {
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -553,6 +1797,35 @@ type DefaultRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddPa
 	// were set for that header.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type DefaultTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type DefaultTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type ErrorResponseRuleInitParameters struct {
@@ -912,6 +2185,64 @@ type MatchRulesQueryParameterMatchesParameters struct {
 	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 }
 
+type MaxTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type MaxTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type MaxTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type NegativeCachingPolicyTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type NegativeCachingPolicyTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type NegativeCachingPolicyTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type PathMatcherDefaultCustomErrorResponsePolicyInitParameters struct {
 
 	// Specifies rules for returning error responses.
@@ -1135,38 +2466,29 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyAbortParameters struct {
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -1252,38 +2574,29 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyParameters struct {
 
 type PathMatcherDefaultRouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -1377,76 +2690,58 @@ type PathMatcherDefaultRouteActionRetryPolicyParameters struct {
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -1713,160 +3008,6 @@ type PathMatcherDefaultRouteActionWeightedBackendServicesParameters struct {
 	// The value must be between 0 and 1000
 	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
-}
-
-type PathMatcherHeaderActionInitParameters struct {
-
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
-	// Structure is documented below.
-	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
-	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
-
-	// Headers to add the response prior to sending the response back to the client.
-	// Structure is documented below.
-	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
-	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
-}
-
-type PathMatcherHeaderActionObservation struct {
-
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
-	// Structure is documented below.
-	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
-	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
-
-	// Headers to add the response prior to sending the response back to the client.
-	// Structure is documented below.
-	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
-	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
-}
-
-type PathMatcherHeaderActionParameters struct {
-
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
-	// +kubebuilder:validation:Optional
-	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
-
-	// Headers to add the response prior to sending the response back to the client.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
-	// +kubebuilder:validation:Optional
-	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
-}
-
-type PathMatcherHeaderActionRequestHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionRequestHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionRequestHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionResponseHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionResponseHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionResponseHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
 
 type PathMatcherPathRuleInitParameters struct {
@@ -2547,6 +3688,13 @@ type PathMatcherRouteRulesRouteActionFaultInjectionPolicyParameters struct {
 
 type PathMatcherRouteRulesRouteActionInitParameters struct {
 
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *RouteRulesRouteActionCachePolicyInitParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
+
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
 	// Structure is documented below.
@@ -2607,6 +3755,13 @@ type PathMatcherRouteRulesRouteActionInitParameters struct {
 
 type PathMatcherRouteRulesRouteActionObservation struct {
 
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *RouteRulesRouteActionCachePolicyObservation `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
+
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
 	// Structure is documented below.
@@ -2666,6 +3821,14 @@ type PathMatcherRouteRulesRouteActionObservation struct {
 }
 
 type PathMatcherRouteRulesRouteActionParameters struct {
+
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CachePolicy *RouteRulesRouteActionCachePolicyParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
 
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
@@ -2802,76 +3965,58 @@ type PathMatcherRouteRulesRouteActionRetryPolicyParameters struct {
 
 type PathMatcherRouteRulesRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -2962,7 +4107,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionInitPara
 	// Headers to add to a matching request prior to forwarding the request to the
 	// backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the request
 	// prior to forwarding the request to the backendService.
@@ -2970,7 +4115,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionInitPara
 
 	// Headers to add the response prior to sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the response
 	// prior to sending the response back to the client.
@@ -2982,7 +4127,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionObservat
 	// Headers to add to a matching request prior to forwarding the request to the
 	// backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the request
 	// prior to forwarding the request to the backendService.
@@ -2990,7 +4135,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionObservat
 
 	// Headers to add the response prior to sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the response
 	// prior to sending the response back to the client.
@@ -3003,7 +4148,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionParamete
 	// backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the request
 	// prior to forwarding the request to the backendService.
@@ -3013,12 +4158,102 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionParamete
 	// Headers to add the response prior to sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the response
 	// prior to sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionWeightedBackendServicesInitParameters struct {
@@ -3360,38 +4595,29 @@ type PathRuleRouteActionFaultInjectionPolicyAbortParameters struct {
 
 type PathRuleRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -3477,6 +4703,13 @@ type PathRuleRouteActionFaultInjectionPolicyParameters struct {
 
 type PathRuleRouteActionInitParameters struct {
 
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *RouteActionCachePolicyInitParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
+
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
 	// Structure is documented below.
@@ -3537,6 +4770,13 @@ type PathRuleRouteActionInitParameters struct {
 
 type PathRuleRouteActionObservation struct {
 
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *RouteActionCachePolicyObservation `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
+
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
 	// Structure is documented below.
@@ -3596,6 +4836,14 @@ type PathRuleRouteActionObservation struct {
 }
 
 type PathRuleRouteActionParameters struct {
+
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CachePolicy *RouteActionCachePolicyParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
 
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
@@ -3752,76 +5000,58 @@ type PathRuleRouteActionRetryPolicyParameters struct {
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -4233,40 +5463,720 @@ type PathRuleURLRedirectParameters struct {
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
 
-type RouteActionMaxStreamDurationInitParameters struct {
+type RouteActionCachePolicyCacheKeyPolicyInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type RouteActionCachePolicyCacheKeyPolicyObservation struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type RouteActionCachePolicyCacheKeyPolicyParameters struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	// +kubebuilder:validation:Optional
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	// +kubebuilder:validation:Optional
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	// +kubebuilder:validation:Optional
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type RouteActionCachePolicyClientTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyClientTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyClientTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyDefaultTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyDefaultTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyDefaultTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyInitParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *RouteActionCachePolicyCacheKeyPolicyInitParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *RouteActionCachePolicyClientTTLInitParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *RouteActionCachePolicyDefaultTTLInitParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *RouteActionCachePolicyMaxTTLInitParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []RouteActionCachePolicyNegativeCachingPolicyInitParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *RouteActionCachePolicyServeWhileStaleInitParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type RouteActionCachePolicyMaxTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyMaxTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyMaxTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyNegativeCachingPolicyInitParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *RouteActionCachePolicyNegativeCachingPolicyTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RouteActionCachePolicyNegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *RouteActionCachePolicyNegativeCachingPolicyTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RouteActionCachePolicyNegativeCachingPolicyParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL *RouteActionCachePolicyNegativeCachingPolicyTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RouteActionCachePolicyNegativeCachingPolicyTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyNegativeCachingPolicyTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyNegativeCachingPolicyTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyObservation struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *RouteActionCachePolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *RouteActionCachePolicyClientTTLObservation `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *RouteActionCachePolicyDefaultTTLObservation `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *RouteActionCachePolicyMaxTTLObservation `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []RouteActionCachePolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *RouteActionCachePolicyServeWhileStaleObservation `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type RouteActionCachePolicyParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	// +kubebuilder:validation:Optional
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CacheKeyPolicy *RouteActionCachePolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	// +kubebuilder:validation:Optional
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientTTL *RouteActionCachePolicyClientTTLParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DefaultTTL *RouteActionCachePolicyDefaultTTLParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxTTL *RouteActionCachePolicyMaxTTLParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	// +kubebuilder:validation:Optional
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NegativeCachingPolicy []RouteActionCachePolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	// +kubebuilder:validation:Optional
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServeWhileStale *RouteActionCachePolicyServeWhileStaleParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type RouteActionCachePolicyServeWhileStaleInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyServeWhileStaleObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteActionCachePolicyServeWhileStaleParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteActionMaxStreamDurationInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -4598,170 +6508,780 @@ type RouteRulesMatchRulesParameters struct {
 	RegexMatch *string `json:"regexMatch,omitempty" tf:"regex_match,omitempty"`
 }
 
-type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
+type RouteRulesRouteActionCachePolicyCacheKeyPolicyInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyCacheKeyPolicyObservation struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyCacheKeyPolicyParameters struct {
+
+	// Names of query string parameters to exclude in cache keys. All other
+	// parameters will be included. Either specify excludedQueryParameters
+	// or includedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters. Note: This field applies to
+	// routes that use backend services. Attempting to set it on a route that
+	// points exclusively to Backend Buckets will result in a configuration
+	// error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	ExcludedQueryParameters []*string `json:"excludedQueryParameters,omitempty" tf:"excluded_query_parameters,omitempty"`
+
+	// If true, requests to different hosts will be cached separately. Note:
+	// This setting is only applicable to routes that use a Backend Service.
+	// It does not affect requests served by a Backend Bucket, as the host is
+	// never included in a Backend Bucket's cache key. Attempting to set it on
+	// a route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeHost *bool `json:"includeHost,omitempty" tf:"include_host,omitempty"`
+
+	// If true, http and https requests will be cached separately. Note: This
+	// setting is only applicable to routes that use a Backend Service. It
+	// does not affect requests served by a Backend Bucket, as the protocol is
+	// never included in a Backend Bucket's cache key. Attempting to set on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error.
+	// +kubebuilder:validation:Optional
+	IncludeProtocol *bool `json:"includeProtocol,omitempty" tf:"include_protocol,omitempty"`
+
+	// If true, include query string parameters in the cache key according to
+	// includedQueryParameters and excludedQueryParameters. If neither is
+	// set, the entire query string will be included. If false, the query
+	// string will be excluded from the cache key entirely. Note: This field
+	// applies to routes that use backend services. Attempting to set it on a
+	// route that points exclusively to Backend Buckets will result in a
+	// configuration error. For routes that point to a Backend Bucket, use
+	// includedQueryParameters to define which parameters should be part of
+	// the cache key.
+	// +kubebuilder:validation:Optional
+	IncludeQueryString *bool `json:"includeQueryString,omitempty" tf:"include_query_string,omitempty"`
+
+	// Allows HTTP cookies (by name) to be used in the cache key. The
+	// name=value pair will be used in the cache key Cloud CDN generates.
+	// Note: This setting is only applicable to routes that use a Backend
+	// Service. It does not affect requests served by a Backend Bucket.
+	// Attempting to set it on a route that points exclusively to Backend
+	// Buckets will result in a configuration error. Up to 5 cookie names can
+	// be specified.
+	// +kubebuilder:validation:Optional
+	IncludedCookieNames []*string `json:"includedCookieNames,omitempty" tf:"included_cookie_names,omitempty"`
+
+	// Allows HTTP request headers (by name) to be used in the cache key.
+	// +kubebuilder:validation:Optional
+	IncludedHeaderNames []*string `json:"includedHeaderNames,omitempty" tf:"included_header_names,omitempty"`
+
+	// Names of query string parameters to include in cache keys. All other
+	// parameters will be excluded. Either specify includedQueryParameters
+	// or excludedQueryParameters, not both. '&' and '=' will be percent
+	// encoded and not treated as delimiters.
+	// +kubebuilder:validation:Optional
+	IncludedQueryParameters []*string `json:"includedQueryParameters,omitempty" tf:"included_query_parameters,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyClientTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyClientTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyClientTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyDefaultTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyDefaultTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyDefaultTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyInitParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *RouteRulesRouteActionCachePolicyCacheKeyPolicyInitParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *RouteRulesRouteActionCachePolicyClientTTLInitParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *RouteRulesRouteActionCachePolicyDefaultTTLInitParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *RouteRulesRouteActionCachePolicyMaxTTLInitParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []RouteRulesRouteActionCachePolicyNegativeCachingPolicyInitParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *RouteRulesRouteActionCachePolicyServeWhileStaleInitParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyMaxTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyMaxTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyMaxTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyNegativeCachingPolicyInitParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *RouteRulesRouteActionCachePolicyNegativeCachingPolicyTTLInitParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyNegativeCachingPolicyObservation struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	TTL *RouteRulesRouteActionCachePolicyNegativeCachingPolicyTTLObservation `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyNegativeCachingPolicyParameters struct {
+
+	// The HTTP status code to define a TTL against. Only HTTP status codes
+	// 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 can be
+	// specified as values, and you cannot specify a status code more than
+	// once.
+	// +kubebuilder:validation:Optional
+	Code *float64 `json:"code,omitempty" tf:"code,omitempty"`
+
+	// The TTL (in seconds) for which to cache responses with the
+	// corresponding status code. The maximum allowed value is 1800s (30
+	// minutes). Infrequently accessed objects may be evicted from the cache
+	// before the defined TTL.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTL *RouteRulesRouteActionCachePolicyNegativeCachingPolicyTTLParameters `json:"ttl,omitempty" tf:"ttl,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyNegativeCachingPolicyTTLInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyNegativeCachingPolicyTTLObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyNegativeCachingPolicyTTLParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyObservation struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	CacheKeyPolicy *RouteRulesRouteActionCachePolicyCacheKeyPolicyObservation `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	ClientTTL *RouteRulesRouteActionCachePolicyClientTTLObservation `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	DefaultTTL *RouteRulesRouteActionCachePolicyDefaultTTLObservation `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	MaxTTL *RouteRulesRouteActionCachePolicyMaxTTLObservation `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	NegativeCachingPolicy []RouteRulesRouteActionCachePolicyNegativeCachingPolicyObservation `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	ServeWhileStale *RouteRulesRouteActionCachePolicyServeWhileStaleObservation `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyParameters struct {
+
+	// Bypass the cache when the specified request headers are matched by name,
+	// e.g. Pragma or Authorization headers. Values are case-insensitive. Up to 5
+	// header names can be specified. The cache is bypassed for all cacheMode
+	// values.
+	// +kubebuilder:validation:Optional
+	CacheBypassRequestHeaderNames []*string `json:"cacheBypassRequestHeaderNames,omitempty" tf:"cache_bypass_request_header_names,omitempty"`
+
+	// The cache key configuration. If not specified, the default behavior depends
+	// on the backend type: for Backend Services, the complete request URI is
+	// used; for Backend Buckets, the request URI is used without the protocol or
+	// host, and only query parameters known to Cloud Storage are included.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CacheKeyPolicy *RouteRulesRouteActionCachePolicyCacheKeyPolicyParameters `json:"cacheKeyPolicy,omitempty" tf:"cache_key_policy,omitempty"`
+
+	// Specifies the cache setting for all responses from this route. If not
+	// specified, Cloud CDN uses CACHE_ALL_STATIC mode.
+	// Possible values are: USE_ORIGIN_HEADERS, FORCE_CACHE_ALL, CACHE_ALL_STATIC.
+	// +kubebuilder:validation:Optional
+	CacheMode *string `json:"cacheMode,omitempty" tf:"cache_mode,omitempty"`
+
+	// Specifies a separate client (e.g. browser client) maximum TTL for cached
+	// content. This is used to clamp the max-age (or Expires) value sent to the
+	// client. With FORCE_CACHE_ALL, the lesser of clientTtl and defaultTtl
+	// is used for the response max-age directive, along with a "public"
+	// directive. For cacheable content in CACHE_ALL_STATIC mode, clientTtl
+	// clamps the max-age from the origin (if specified), or else sets the
+	// response max-age directive to the lesser of the clientTtl and defaultTtl,
+	// and also ensures a "public" cache-control directive is present. The maximum
+	// allowed value is 31,622,400s (1 year). If not specified, Cloud CDN uses
+	// 3600s (1 hour) for CACHE_ALL_STATIC mode. Cannot exceed maxTtl.
+	// Cannot be specified when cacheMode is USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientTTL *RouteRulesRouteActionCachePolicyClientTTLParameters `json:"clientTtl,omitempty" tf:"client_ttl,omitempty"`
+
+	// Specifies the default TTL for cached content for responses that do not have
+	// an existing valid TTL (max-age or s-maxage). Setting a TTL of "0" means
+	// "always revalidate". The value of defaultTtl cannot be set to a value
+	// greater than that of maxTtl. When the cacheMode is set to
+	// FORCE_CACHE_ALL, the defaultTtl will overwrite the TTL set in all
+	// responses. The maximum allowed value is 31,622,400s (1 year). Infrequently
+	// accessed objects may be evicted from the cache before the defined TTL. If
+	// not specified, Cloud CDN uses 3600s (1 hour) for CACHE_ALL_STATIC and
+	// FORCE_CACHE_ALL modes. Cannot be specified when cacheMode is
+	// USE_ORIGIN_HEADERS.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DefaultTTL *RouteRulesRouteActionCachePolicyDefaultTTLParameters `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// Specifies the maximum allowed TTL for cached content. Cache directives that
+	// attempt to set a max-age or s-maxage higher than this, or an Expires header
+	// more than maxTtl seconds in the future will be capped at the value of
+	// maxTtl, as if it were the value of an s-maxage Cache-Control directive.
+	// Headers sent to the client will not be modified. Setting a TTL of "0" means
+	// "always revalidate". The maximum allowed value is 31,622,400s (1 year).
+	// Infrequently accessed objects may be evicted from the cache before the
+	// defined TTL. If not specified, Cloud CDN uses 86400s (1 day) for
+	// CACHE_ALL_STATIC mode. Can be specified only for CACHE_ALL_STATIC cache
+	// mode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaxTTL *RouteRulesRouteActionCachePolicyMaxTTLParameters `json:"maxTtl,omitempty" tf:"max_ttl,omitempty"`
+
+	// Negative caching allows per-status code TTLs to be set, in order to apply
+	// fine-grained caching for common errors or redirects. This can reduce the
+	// load on your origin and improve end-user experience by reducing response
+	// latency. When the cacheMode is set to CACHE_ALL_STATIC or
+	// USE_ORIGIN_HEADERS, negative caching applies to responses with the
+	// specified response code that lack any Cache-Control, Expires, or
+	// Pragma: no-cache directives. When the cacheMode is set to
+	// FORCE_CACHE_ALL, negative caching applies to all responses with the
+	// specified response code, and overrides any caching headers. By default,
+	// Cloud CDN applies the following TTLs to these HTTP status codes:
+	// +kubebuilder:validation:Optional
+	NegativeCaching *bool `json:"negativeCaching,omitempty" tf:"negative_caching,omitempty"`
+
+	// Sets a cache TTL for the specified HTTP status code. negativeCaching
+	// must be enabled to configure negativeCachingPolicy. Omitting the policy
+	// and leaving negativeCaching enabled will use Cloud CDN's default cache
+	// TTLs. Note that when specifying an explicit negativeCachingPolicy, you
+	// should take care to specify a cache TTL for all response codes that you
+	// wish to cache. Cloud CDN will not apply any default negative caching when
+	// a policy exists.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NegativeCachingPolicy []RouteRulesRouteActionCachePolicyNegativeCachingPolicyParameters `json:"negativeCachingPolicy,omitempty" tf:"negative_caching_policy,omitempty"`
+
+	// If true then Cloud CDN will combine multiple concurrent cache fill
+	// requests into a small number of requests to the origin. If not specified,
+	// Cloud CDN applies request coalescing by default.
+	// +kubebuilder:validation:Optional
+	RequestCoalescing *bool `json:"requestCoalescing,omitempty" tf:"request_coalescing,omitempty"`
+
+	// Serve existing content from the cache (if available) when revalidating
+	// content with the origin, or when an error is encountered when refreshing
+	// the cache. This setting defines the default "max-stale" duration for any
+	// cached responses that do not specify a max-stale directive. Stale
+	// responses that exceed the TTL configured here will not be served. The
+	// default limit (max-stale) is 86400s (1 day), which will allow stale
+	// content to be served up to this limit beyond the max-age (or s-maxage) of
+	// a cached response. The maximum allowed value is 604800 (1 week). Set this
+	// to zero (0) to disable serve-while-stale.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServeWhileStale *RouteRulesRouteActionCachePolicyServeWhileStaleParameters `json:"serveWhileStale,omitempty" tf:"serve_while_stale,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyServeWhileStaleInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyServeWhileStaleObservation struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionCachePolicyServeWhileStaleParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	// +kubebuilder:validation:Optional
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	// +kubebuilder:validation:Optional
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
+}
+
+type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
+
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
+
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
+type ServeWhileStaleInitParameters struct {
 
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+type ServeWhileStaleObservation struct {
 
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+	// Span of time that's a fraction of a second at nanosecond resolution.
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
+	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
+type ServeWhileStaleParameters struct {
 
-	// The name of the header.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// The value of the header to add.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
+	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionCorsPolicyInitParameters struct {
@@ -4914,6 +7434,13 @@ type URLMapDefaultRouteActionFaultInjectionPolicyParameters struct {
 
 type URLMapDefaultRouteActionInitParameters struct {
 
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *CachePolicyInitParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
+
 	// The specification for allowing client side cross-origin requests. Please see
 	// W3C Recommendation for Cross Origin Resource Sharing
 	// Structure is documented below.
@@ -4968,43 +7495,41 @@ type URLMapDefaultRouteActionInitParameters struct {
 
 type URLMapDefaultRouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionObservation struct {
+
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *CachePolicyObservation `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
 
 	// The specification for allowing client side cross-origin requests. Please see
 	// W3C Recommendation for Cross Origin Resource Sharing
@@ -5059,6 +7584,14 @@ type URLMapDefaultRouteActionObservation struct {
 }
 
 type URLMapDefaultRouteActionParameters struct {
+
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CachePolicy *CachePolicyParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
 
 	// The specification for allowing client side cross-origin requests. Please see
 	// W3C Recommendation for Cross Origin Resource Sharing
@@ -5209,38 +7742,29 @@ type URLMapDefaultRouteActionRetryPolicyParameters struct {
 
 type URLMapDefaultRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -5717,6 +8241,10 @@ type URLMapInitParameters struct {
 	// Structure is documented below.
 	DefaultURLRedirect *URLMapDefaultURLRedirectInitParameters `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create
 	// the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -5778,6 +8306,10 @@ type URLMapObservation struct {
 	// defaultRouteAction must not be set.
 	// Structure is documented below.
 	DefaultURLRedirect *URLMapDefaultURLRedirectObservation `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create
 	// the resource.
@@ -5865,6 +8397,11 @@ type URLMapParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultURLRedirect *URLMapDefaultURLRedirectParameters `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create
 	// the resource.
 	// +kubebuilder:validation:Optional
@@ -5901,6 +8438,13 @@ type URLMapParameters struct {
 }
 
 type URLMapPathMatcherDefaultRouteActionInitParameters struct {
+
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *DefaultRouteActionCachePolicyInitParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
 
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
@@ -5962,6 +8506,13 @@ type URLMapPathMatcherDefaultRouteActionInitParameters struct {
 
 type URLMapPathMatcherDefaultRouteActionObservation struct {
 
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	CachePolicy *DefaultRouteActionCachePolicyObservation `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
+
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
 	// Structure is documented below.
@@ -6021,6 +8572,14 @@ type URLMapPathMatcherDefaultRouteActionObservation struct {
 }
 
 type URLMapPathMatcherDefaultRouteActionParameters struct {
+
+	// Specifies the cache policy configuration for matched traffic. Available
+	// only for Global EXTERNAL_MANAGED load balancer schemes. At least one
+	// property must be specified. This policy cannot be specified if any target
+	// backend has Identity-Aware Proxy enabled.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CachePolicy *DefaultRouteActionCachePolicyParameters `json:"cachePolicy,omitempty" tf:"cache_policy,omitempty"`
 
 	// The specification for allowing client side cross-origin requests. Please see W3C
 	// Recommendation for Cross Origin Resource Sharing
@@ -6211,6 +8770,160 @@ type URLMapPathMatcherDefaultURLRedirectParameters struct {
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
 
+type URLMapPathMatcherHeaderActionInitParameters struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []URLMapPathMatcherHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []URLMapPathMatcherHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []URLMapPathMatcherHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []URLMapPathMatcherHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionParameters struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToAdd []URLMapPathMatcherHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToAdd []URLMapPathMatcherHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
 type URLMapPathMatcherInitParameters struct {
 
 	// defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
@@ -6259,7 +8972,7 @@ type URLMapPathMatcherInitParameters struct {
 	// the selected backendService. HeaderAction specified here are applied after the
 	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
 	// Structure is documented below.
-	HeaderAction *PathMatcherHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *URLMapPathMatcherHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -6321,7 +9034,7 @@ type URLMapPathMatcherObservation struct {
 	// the selected backendService. HeaderAction specified here are applied after the
 	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
 	// Structure is documented below.
-	HeaderAction *PathMatcherHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *URLMapPathMatcherHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -6399,7 +9112,7 @@ type URLMapPathMatcherParameters struct {
 	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	HeaderAction *PathMatcherHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *URLMapPathMatcherHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	// +kubebuilder:validation:Optional

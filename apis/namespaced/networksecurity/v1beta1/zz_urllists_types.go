@@ -16,6 +16,10 @@ import (
 
 type URLListsInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Free-text description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -33,6 +37,10 @@ type URLListsObservation struct {
 	// A timestamp in RFC3339 UTC 'Zulu' format, with nanosecond resolution and up to nine fractional digits.
 	// Examples: '2014-10-02T15:01:23Z' and '2014-10-02T15:01:23.045123456Z'
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Free-text description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -57,6 +65,11 @@ type URLListsObservation struct {
 }
 
 type URLListsParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Free-text description of the resource.
 	// +kubebuilder:validation:Optional

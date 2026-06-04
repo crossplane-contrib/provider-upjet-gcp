@@ -72,6 +72,8 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    type: string
                   description:
                     type: string
                   envId:
@@ -170,6 +172,8 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    type: string
                   description:
                     type: string
                   refers:
@@ -277,6 +281,8 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    type: string
                   description:
                     type: string
                   envId:

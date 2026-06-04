@@ -120,6 +120,10 @@ type InstanceGroupManagerInitParameters struct {
 	// name.
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the instance
 	// group manager.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -178,6 +182,9 @@ type InstanceGroupManagerInitParameters struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []TargetSizePolicyInitParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
 
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
@@ -255,6 +262,10 @@ type InstanceGroupManagerObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the instance
 	// group manager.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -324,6 +335,9 @@ type InstanceGroupManagerObservation struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []TargetSizePolicyObservation `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
 
@@ -374,6 +388,11 @@ type InstanceGroupManagerParameters struct {
 	// name.
 	// +kubebuilder:validation:Optional
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the instance
 	// group manager.
@@ -445,6 +464,10 @@ type InstanceGroupManagerParameters struct {
 	// lifecycle. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TargetSizePolicy []TargetSizePolicyParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
 
 	// The target number of stopped instances for this managed instance group.
 	// +kubebuilder:validation:Optional
@@ -762,6 +785,25 @@ type TargetSizeParameters struct {
 	// one of which has a target_size.percent of 60 will create 2 instances of that version.
 	// +kubebuilder:validation:Optional
 	Percent *float64 `json:"percent,omitempty" tf:"percent,omitempty"`
+}
+
+type TargetSizePolicyInitParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type TargetSizePolicyObservation struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type TargetSizePolicyParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
 type UpdatePolicyInitParameters struct {

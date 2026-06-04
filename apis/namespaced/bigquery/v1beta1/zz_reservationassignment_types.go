@@ -19,6 +19,10 @@ type ReservationAssignmentInitParameters struct {
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY, CONTINUOUS
 	JobType *string `json:"jobType,omitempty" tf:"job_type,omitempty"`
 
@@ -34,6 +38,10 @@ type ReservationAssignmentObservation struct {
 
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -64,6 +72,11 @@ type ReservationAssignmentParameters struct {
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
 	// +kubebuilder:validation:Optional
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Types of job, which could be specified when using the reservation. Possible values: JOB_TYPE_UNSPECIFIED, PIPELINE, QUERY, CONTINUOUS
 	// +kubebuilder:validation:Optional

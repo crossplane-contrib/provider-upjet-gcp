@@ -15,6 +15,10 @@ import (
 
 type IdsEndpointInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of the endpoint.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -54,6 +58,10 @@ type IdsEndpointObservation struct {
 	// Creation timestamp in RFC 3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of the endpoint.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -91,6 +99,11 @@ type IdsEndpointObservation struct {
 }
 
 type IdsEndpointParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of the endpoint.
 	// +kubebuilder:validation:Optional

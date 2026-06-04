@@ -83,6 +83,10 @@ type ContainersInitParameters struct {
 	// Structure is documented below.
 	Ports []PortsInitParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
+	// Periodic probe of container readiness.
+	// Structure is documented below.
+	ReadinessProbe *ReadinessProbeInitParameters `json:"readinessProbe,omitempty" tf:"readiness_probe,omitempty"`
+
 	// Compute Resources required by this container. Used to set values such as max memory
 	// Structure is documented below.
 	Resources *ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
@@ -140,6 +144,10 @@ type ContainersObservation struct {
 	// List of open ports in the container.
 	// Structure is documented below.
 	Ports []PortsObservation `json:"ports,omitempty" tf:"ports,omitempty"`
+
+	// Periodic probe of container readiness.
+	// Structure is documented below.
+	ReadinessProbe *ReadinessProbeObservation `json:"readinessProbe,omitempty" tf:"readiness_probe,omitempty"`
 
 	// Compute Resources required by this container. Used to set values such as max memory
 	// Structure is documented below.
@@ -206,6 +214,11 @@ type ContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Ports []PortsParameters `json:"ports,omitempty" tf:"ports,omitempty"`
+
+	// Periodic probe of container readiness.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ReadinessProbe *ReadinessProbeParameters `json:"readinessProbe,omitempty" tf:"readiness_probe,omitempty"`
 
 	// Compute Resources required by this container. Used to set values such as max memory
 	// Structure is documented below.
@@ -772,11 +785,170 @@ type PortsParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 }
 
+type ReadinessProbeGRPCInitParameters struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ReadinessProbeGRPCObservation struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ReadinessProbeGRPCParameters struct {
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ReadinessProbeHTTPGetInitParameters struct {
+
+	// Path exported by the NFS server
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ReadinessProbeHTTPGetObservation struct {
+
+	// Path exported by the NFS server
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ReadinessProbeHTTPGetParameters struct {
+
+	// Path exported by the NFS server
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Number must be in the range 1 to 65535.
+	// If not specified, defaults to the same value as container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ReadinessProbeInitParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC *ReadinessProbeGRPCInitParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	HTTPGet *ReadinessProbeHTTPGetInitParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Defaults to 2.
+	SuccessThreshold *float64 `json:"successThreshold,omitempty" tf:"success_threshold,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ReadinessProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC *ReadinessProbeGRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	HTTPGet *ReadinessProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Defaults to 2.
+	SuccessThreshold *float64 `json:"successThreshold,omitempty" tf:"success_threshold,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ReadinessProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after
+	// having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC *ReadinessProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HttpGet specifies the http request to perform.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet *ReadinessProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// How often (in seconds) to perform the probe.
+	// Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Defaults to 2.
+	// +kubebuilder:validation:Optional
+	SuccessThreshold *float64 `json:"successThreshold,omitempty" tf:"success_threshold,omitempty"`
+
+	// Number of seconds after which the probe times out.
+	// Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+	// Must be smaller than periodSeconds.
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
 type ResourcesInitParameters struct {
 
 	// Limits describes the maximum amount of compute resources allowed.
-	// The values of the map is string form of the 'quantity' k8s type:
-	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// CPU Limit details:
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
@@ -792,8 +964,7 @@ type ResourcesInitParameters struct {
 type ResourcesObservation struct {
 
 	// Limits describes the maximum amount of compute resources allowed.
-	// The values of the map is string form of the 'quantity' k8s type:
-	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// CPU Limit details:
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 
@@ -809,8 +980,7 @@ type ResourcesObservation struct {
 type ResourcesParameters struct {
 
 	// Limits describes the maximum amount of compute resources allowed.
-	// The values of the map is string form of the 'quantity' k8s type:
-	// https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// CPU Limit details:
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
@@ -1040,6 +1210,10 @@ type ServiceInitParameters struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Metadata associated with this Service, including name, namespace, labels,
 	// and annotations.
 	// Structure is documented below.
@@ -1193,6 +1367,10 @@ type ServiceObservation struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/services/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -1239,6 +1417,11 @@ type ServiceParameters struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	// +kubebuilder:validation:Optional
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The location of the cloud run instance. eg us-central1
 	// +kubebuilder:validation:Required
@@ -1939,6 +2122,9 @@ type VolumeMountsInitParameters struct {
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
 }
 
 type VolumeMountsObservation struct {
@@ -1949,6 +2135,9 @@ type VolumeMountsObservation struct {
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
 }
 
 type VolumeMountsParameters struct {
@@ -1961,6 +2150,10 @@ type VolumeMountsParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	// +kubebuilder:validation:Optional
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
 }
 
 type VolumesInitParameters struct {

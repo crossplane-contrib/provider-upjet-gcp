@@ -15,6 +15,10 @@ import (
 
 type GroupInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A user-assigned name for this group, used only for display
 	// purposes.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -50,6 +54,10 @@ type GroupInitParameters struct {
 
 type GroupObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A user-assigned name for this group, used only for display
 	// purposes.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -81,6 +89,11 @@ type GroupObservation struct {
 }
 
 type GroupParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A user-assigned name for this group, used only for display
 	// purposes.

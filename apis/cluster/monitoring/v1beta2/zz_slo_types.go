@@ -1098,6 +1098,10 @@ type SLOInitParameters struct {
 	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name used for UI elements listing this SLO.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -1175,6 +1179,10 @@ type SLOObservation struct {
 	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name used for UI elements listing this SLO.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -1250,6 +1258,11 @@ type SLOParameters struct {
 	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	// +kubebuilder:validation:Optional
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name used for UI elements listing this SLO.
 	// +kubebuilder:validation:Optional

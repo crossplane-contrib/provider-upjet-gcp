@@ -88,6 +88,9 @@ type WorkerConfigInitParameters struct {
 	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// Enable nested virtualization on the worker, if supported by the machine type. See Worker pool config file. If left blank, Cloud Build will set this to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -99,6 +102,9 @@ type WorkerConfigObservation struct {
 
 	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Enable nested virtualization on the worker, if supported by the machine type. See Worker pool config file. If left blank, Cloud Build will set this to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -113,6 +119,10 @@ type WorkerConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// Enable nested virtualization on the worker, if supported by the machine type. See Worker pool config file. If left blank, Cloud Build will set this to false.
+	// +kubebuilder:validation:Optional
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -126,6 +136,10 @@ type WorkerPoolInitParameters struct {
 
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined name of the WorkerPool.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -152,6 +166,10 @@ type WorkerPoolObservation struct {
 
 	// Output only. Time at which the request to delete the WorkerPool was received.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined name of the WorkerPool.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -191,6 +209,11 @@ type WorkerPoolParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined name of the WorkerPool.
 	// +kubebuilder:validation:Optional

@@ -14,6 +14,35 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type ConnectionPropertiesInitParameters struct {
+
+	// The key of the property to set. Currently supported connection properties:
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the property to set.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ConnectionPropertiesObservation struct {
+
+	// The key of the property to set. Currently supported connection properties:
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the property to set.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ConnectionPropertiesParameters struct {
+
+	// The key of the property to set. Currently supported connection properties:
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of the property to set.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
 type CopyInitParameters struct {
 
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
@@ -1207,6 +1236,12 @@ type QueryInitParameters struct {
 	// However, you must still set destinationTable when result size exceeds the allowed maximum response size.
 	AllowLargeResults *bool `json:"allowLargeResults,omitempty" tf:"allow_large_results,omitempty"`
 
+	// Connection properties to customize query behavior. Under JDBC, these correspond
+	// directly to connection properties passed to the DriverManager. Under ODBC, these
+	// correspond to properties in the connection string.
+	// Structure is documented below.
+	ConnectionProperties []ConnectionPropertiesInitParameters `json:"connectionProperties,omitempty" tf:"connection_properties,omitempty"`
+
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
 	// CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table.
 	// CREATE_NEVER: The table must already exist. If it does not, a 'notFound' error is returned in the job result.
@@ -1297,6 +1332,12 @@ type QueryObservation struct {
 	// Requires destinationTable to be set. For standard SQL queries, this flag is ignored and large results are always allowed.
 	// However, you must still set destinationTable when result size exceeds the allowed maximum response size.
 	AllowLargeResults *bool `json:"allowLargeResults,omitempty" tf:"allow_large_results,omitempty"`
+
+	// Connection properties to customize query behavior. Under JDBC, these correspond
+	// directly to connection properties passed to the DriverManager. Under ODBC, these
+	// correspond to properties in the connection string.
+	// Structure is documented below.
+	ConnectionProperties []ConnectionPropertiesObservation `json:"connectionProperties,omitempty" tf:"connection_properties,omitempty"`
 
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
 	// CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table.
@@ -1389,6 +1430,13 @@ type QueryParameters struct {
 	// However, you must still set destinationTable when result size exceeds the allowed maximum response size.
 	// +kubebuilder:validation:Optional
 	AllowLargeResults *bool `json:"allowLargeResults,omitempty" tf:"allow_large_results,omitempty"`
+
+	// Connection properties to customize query behavior. Under JDBC, these correspond
+	// directly to connection properties passed to the DriverManager. Under ODBC, these
+	// correspond to properties in the connection string.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConnectionProperties []ConnectionPropertiesParameters `json:"connectionProperties,omitempty" tf:"connection_properties,omitempty"`
 
 	// Specifies whether the job is allowed to create new tables. The following values are supported:
 	// CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the table.
