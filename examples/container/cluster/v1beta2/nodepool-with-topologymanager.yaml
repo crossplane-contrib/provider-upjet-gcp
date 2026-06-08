@@ -8,6 +8,7 @@ metadata:
   annotations:
     meta.upbound.io/example-id: container/v1beta2/nodepool
     uptest.upbound.io/disable-import: "true"
+    uptest.upbound.io/timeout: "3600"
   labels:
     testing.upbound.io/example-name: nodepool
   name: gke-low-profile-pool
