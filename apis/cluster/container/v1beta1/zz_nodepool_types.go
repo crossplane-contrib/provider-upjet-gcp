@@ -942,11 +942,11 @@ type NodePoolNodeConfigKubeletConfigInitParameters struct {
 
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
-	MemoryManager *NodeConfigKubeletConfigMemoryManagerInitParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []NodeConfigKubeletConfigMemoryManagerInitParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
-	TopologyManager *NodeConfigKubeletConfigTopologyManagerInitParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []NodeConfigKubeletConfigTopologyManagerInitParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigObservation struct {
@@ -972,11 +972,11 @@ type NodePoolNodeConfigKubeletConfigObservation struct {
 
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
-	MemoryManager *NodeConfigKubeletConfigMemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []NodeConfigKubeletConfigMemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
-	TopologyManager *NodeConfigKubeletConfigTopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []NodeConfigKubeletConfigTopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigParameters struct {
@@ -1015,13 +1015,13 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	MemoryManager *NodeConfigKubeletConfigMemoryManagerParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []NodeConfigKubeletConfigMemoryManagerParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	TopologyManager *NodeConfigKubeletConfigTopologyManagerParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []NodeConfigKubeletConfigTopologyManagerParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {

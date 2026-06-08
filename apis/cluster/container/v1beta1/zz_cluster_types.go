@@ -3172,12 +3172,12 @@ type KubeletConfigInitParameters struct {
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
-	MemoryManager *MemoryManagerInitParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []MemoryManagerInitParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
-	TopologyManager *TopologyManagerInitParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []TopologyManagerInitParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type KubeletConfigMemoryManagerInitParameters struct {
@@ -3237,12 +3237,12 @@ type KubeletConfigObservation struct {
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
-	MemoryManager *MemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []MemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
-	TopologyManager *TopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []TopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type KubeletConfigParameters struct {
@@ -3304,14 +3304,14 @@ type KubeletConfigParameters struct {
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	MemoryManager *MemoryManagerParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []MemoryManagerParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	// +kubebuilder:validation:Optional
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	TopologyManager *TopologyManagerParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []TopologyManagerParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type KubeletConfigTopologyManagerInitParameters struct {
@@ -4476,12 +4476,12 @@ type NodeConfigKubeletConfigObservation struct {
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
-	MemoryManager *KubeletConfigMemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+	MemoryManager []KubeletConfigMemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
 
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
-	TopologyManager *KubeletConfigTopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+	TopologyManager []KubeletConfigTopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodeConfigKubeletConfigParameters struct {

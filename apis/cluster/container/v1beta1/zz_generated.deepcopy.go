@@ -6690,8 +6690,10 @@ func (in *KubeletConfigInitParameters) DeepCopyInto(out *KubeletConfigInitParame
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(MemoryManagerInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MemoryManagerInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -6700,8 +6702,10 @@ func (in *KubeletConfigInitParameters) DeepCopyInto(out *KubeletConfigInitParame
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(TopologyManagerInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]TopologyManagerInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -6831,8 +6835,10 @@ func (in *KubeletConfigObservation) DeepCopyInto(out *KubeletConfigObservation) 
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(MemoryManagerObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MemoryManagerObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -6841,8 +6847,10 @@ func (in *KubeletConfigObservation) DeepCopyInto(out *KubeletConfigObservation) 
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(TopologyManagerObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]TopologyManagerObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -6922,8 +6930,10 @@ func (in *KubeletConfigParameters) DeepCopyInto(out *KubeletConfigParameters) {
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(MemoryManagerParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]MemoryManagerParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -6932,8 +6942,10 @@ func (in *KubeletConfigParameters) DeepCopyInto(out *KubeletConfigParameters) {
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(TopologyManagerParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]TopologyManagerParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -10658,8 +10670,10 @@ func (in *NodeConfigKubeletConfigObservation) DeepCopyInto(out *NodeConfigKubele
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(KubeletConfigMemoryManagerObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]KubeletConfigMemoryManagerObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -10668,8 +10682,10 @@ func (in *NodeConfigKubeletConfigObservation) DeepCopyInto(out *NodeConfigKubele
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(KubeletConfigTopologyManagerObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]KubeletConfigTopologyManagerObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -14418,8 +14434,10 @@ func (in *NodePoolNodeConfigKubeletConfigInitParameters) DeepCopyInto(out *NodeP
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(NodeConfigKubeletConfigMemoryManagerInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigKubeletConfigMemoryManagerInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -14428,8 +14446,10 @@ func (in *NodePoolNodeConfigKubeletConfigInitParameters) DeepCopyInto(out *NodeP
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(NodeConfigKubeletConfigTopologyManagerInitParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigKubeletConfigTopologyManagerInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -14509,8 +14529,10 @@ func (in *NodePoolNodeConfigKubeletConfigObservation) DeepCopyInto(out *NodePool
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(NodeConfigKubeletConfigMemoryManagerObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigKubeletConfigMemoryManagerObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -14519,8 +14541,10 @@ func (in *NodePoolNodeConfigKubeletConfigObservation) DeepCopyInto(out *NodePool
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(NodeConfigKubeletConfigTopologyManagerObservation)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigKubeletConfigTopologyManagerObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 
@@ -14600,8 +14624,10 @@ func (in *NodePoolNodeConfigKubeletConfigParameters) DeepCopyInto(out *NodePoolN
 	}
 	if in.MemoryManager != nil {
 		in, out := &in.MemoryManager, &out.MemoryManager
-		*out = new(NodeConfigKubeletConfigMemoryManagerParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigKubeletConfigMemoryManagerParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.PodPidsLimit != nil {
 		in, out := &in.PodPidsLimit, &out.PodPidsLimit
@@ -14610,8 +14636,10 @@ func (in *NodePoolNodeConfigKubeletConfigParameters) DeepCopyInto(out *NodePoolN
 	}
 	if in.TopologyManager != nil {
 		in, out := &in.TopologyManager, &out.TopologyManager
-		*out = new(NodeConfigKubeletConfigTopologyManagerParameters)
-		(*in).DeepCopyInto(*out)
+		*out = make([]NodeConfigKubeletConfigTopologyManagerParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 }
 

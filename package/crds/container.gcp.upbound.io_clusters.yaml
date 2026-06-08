@@ -1584,24 +1584,28 @@ spec:
                                   to set this to FALSE. Possible values: TRUE, FALSE.'
                                 type: string
                               memoryManager:
-                                properties:
-                                  policy:
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    policy:
+                                      type: string
+                                  type: object
+                                type: array
                               podPidsLimit:
                                 description: Controls the maximum number of processes
                                   allowed to run in a pod. The value must be greater
                                   than or equal to 1024 and less than 4194304.
                                 type: number
                               topologyManager:
-                                properties:
-                                  policy:
-                                    type: string
-                                  scope:
-                                    description: 'Whether or not to enable GKE Auto-Monitoring.
-                                      Supported values include: ALL, NONE.'
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    policy:
+                                      type: string
+                                    scope:
+                                      description: 'Whether or not to enable GKE Auto-Monitoring.
+                                        Supported values include: ALL, NONE.'
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         labels:
@@ -4097,24 +4101,28 @@ spec:
                                   to set this to FALSE. Possible values: TRUE, FALSE.'
                                 type: string
                               memoryManager:
-                                properties:
-                                  policy:
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    policy:
+                                      type: string
+                                  type: object
+                                type: array
                               podPidsLimit:
                                 description: Controls the maximum number of processes
                                   allowed to run in a pod. The value must be greater
                                   than or equal to 1024 and less than 4194304.
                                 type: number
                               topologyManager:
-                                properties:
-                                  policy:
-                                    type: string
-                                  scope:
-                                    description: 'Whether or not to enable GKE Auto-Monitoring.
-                                      Supported values include: ALL, NONE.'
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    policy:
+                                      type: string
+                                    scope:
+                                      description: 'Whether or not to enable GKE Auto-Monitoring.
+                                        Supported values include: ALL, NONE.'
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         labels:
@@ -6706,24 +6714,28 @@ spec:
                                   to set this to FALSE. Possible values: TRUE, FALSE.'
                                 type: string
                               memoryManager:
-                                properties:
-                                  policy:
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    policy:
+                                      type: string
+                                  type: object
+                                type: array
                               podPidsLimit:
                                 description: Controls the maximum number of processes
                                   allowed to run in a pod. The value must be greater
                                   than or equal to 1024 and less than 4194304.
                                 type: number
                               topologyManager:
-                                properties:
-                                  policy:
-                                    type: string
-                                  scope:
-                                    description: 'Whether or not to enable GKE Auto-Monitoring.
-                                      Supported values include: ALL, NONE.'
-                                    type: string
-                                type: object
+                                items:
+                                  properties:
+                                    policy:
+                                      type: string
+                                    scope:
+                                      description: 'Whether or not to enable GKE Auto-Monitoring.
+                                        Supported values include: ALL, NONE.'
+                                      type: string
+                                  type: object
+                                type: array
                             type: object
                           type: array
                         labels:
@@ -7505,10 +7517,12 @@ spec:
                                         values: TRUE, FALSE.'
                                       type: string
                                     memoryManager:
-                                      properties:
-                                        policy:
-                                          type: string
-                                      type: object
+                                      items:
+                                        properties:
+                                          policy:
+                                            type: string
+                                        type: object
+                                      type: array
                                     podPidsLimit:
                                       description: Controls the maximum number of
                                         processes allowed to run in a pod. The value
@@ -7516,15 +7530,17 @@ spec:
                                         less than 4194304.
                                       type: number
                                     topologyManager:
-                                      properties:
-                                        policy:
-                                          type: string
-                                        scope:
-                                          description: 'Whether or not to enable GKE
-                                            Auto-Monitoring. Supported values include:
-                                            ALL, NONE.'
-                                          type: string
-                                      type: object
+                                      items:
+                                        properties:
+                                          policy:
+                                            type: string
+                                          scope:
+                                            description: 'Whether or not to enable
+                                              GKE Auto-Monitoring. Supported values
+                                              include: ALL, NONE.'
+                                            type: string
+                                        type: object
+                                      type: array
                                   type: object
                                 type: array
                               labels:

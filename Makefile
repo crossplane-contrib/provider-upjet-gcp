@@ -247,7 +247,7 @@ local-deploy.%: controlplane.up $(YQ)
 		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
 	done || $(FAIL)
 
-local-deploy: build-provider.monolith local-deploy.monolith
+local-deploy: build-provider.config local-deploy.config
 
 # This target requires the following environment variables to be set:
 # - UPTEST_CLOUD_CREDENTIALS, cloud credentials for the provider being tested, e.g. export UPTEST_CLOUD_CREDENTIALS=$(cat ~/gcp-sa.json)
