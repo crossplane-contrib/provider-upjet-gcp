@@ -27,7 +27,7 @@ require (
 	sigs.k8s.io/controller-tools v0.18.0
 )
 
-replace github.com/hashicorp/terraform-provider-google => ../../hashicorp/terraform-provider-google
+replace github.com/hashicorp/terraform-provider-google => github.com/upbound/terraform-provider-google v0.0.0-20260608073033-afc3a47f3ef3
 
 require (
 	bitbucket.org/creachadair/stringset v0.0.8 // indirect

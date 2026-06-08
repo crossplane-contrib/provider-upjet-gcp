@@ -504,8 +504,20 @@ spec:
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
                                 type: string
+                              memoryManager:
+                                properties:
+                                  policy:
+                                    type: string
+                                type: object
                               podPidsLimit:
                                 type: number
+                              topologyManager:
+                                properties:
+                                  policy:
+                                    type: string
+                                  scope:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         labels:
@@ -1235,8 +1247,20 @@ spec:
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
                                 type: string
+                              memoryManager:
+                                properties:
+                                  policy:
+                                    type: string
+                                type: object
                               podPidsLimit:
                                 type: number
+                              topologyManager:
+                                properties:
+                                  policy:
+                                    type: string
+                                  scope:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         labels:
@@ -2086,8 +2110,20 @@ spec:
                                 type: string
                               insecureKubeletReadonlyPortEnabled:
                                 type: string
+                              memoryManager:
+                                properties:
+                                  policy:
+                                    type: string
+                                type: object
                               podPidsLimit:
                                 type: number
+                              topologyManager:
+                                properties:
+                                  policy:
+                                    type: string
+                                  scope:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         labels:

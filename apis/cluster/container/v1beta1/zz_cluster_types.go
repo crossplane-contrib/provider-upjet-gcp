@@ -3172,8 +3172,22 @@ type KubeletConfigInitParameters struct {
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
+	MemoryManager *MemoryManagerInitParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+
+	TopologyManager *TopologyManagerInitParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+}
+
+type KubeletConfigMemoryManagerInitParameters struct {
+}
+
+type KubeletConfigMemoryManagerObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type KubeletConfigMemoryManagerParameters struct {
 }
 
 type KubeletConfigObservation struct {
@@ -3223,8 +3237,12 @@ type KubeletConfigObservation struct {
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
+	MemoryManager *MemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+
+	TopologyManager *TopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type KubeletConfigParameters struct {
@@ -3285,9 +3303,28 @@ type KubeletConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	MemoryManager *MemoryManagerParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	// +kubebuilder:validation:Optional
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TopologyManager *TopologyManagerParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
+}
+
+type KubeletConfigTopologyManagerInitParameters struct {
+}
+
+type KubeletConfigTopologyManagerObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type KubeletConfigTopologyManagerParameters struct {
 }
 
 type LinuxNodeConfigHugepagesConfigInitParameters struct {
@@ -3663,6 +3700,20 @@ type MasterGlobalAccessConfigParameters struct {
 	// not.
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type MemoryManagerInitParameters struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type MemoryManagerObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type MemoryManagerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type MeshCertificatesInitParameters struct {
@@ -4425,8 +4476,12 @@ type NodeConfigKubeletConfigObservation struct {
 	// only port is enabled for newly created node pools in the cluster. It is strongly recommended to set this to FALSE. Possible values: TRUE, FALSE.
 	InsecureKubeletReadonlyPortEnabled *string `json:"insecureKubeletReadonlyPortEnabled,omitempty" tf:"insecure_kubelet_readonly_port_enabled,omitempty"`
 
+	MemoryManager *KubeletConfigMemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
 	// Controls the maximum number of processes allowed to run in a pod. The value must be greater than or equal to 1024 and less than 4194304.
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
+
+	TopologyManager *KubeletConfigTopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodeConfigKubeletConfigParameters struct {
@@ -6292,6 +6347,30 @@ type TaintParameters struct {
 	// Value for taint.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type TopologyManagerInitParameters struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type TopologyManagerObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type TopologyManagerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	// Whether or not to enable GKE Auto-Monitoring. Supported values include: ALL, NONE.
+	// +kubebuilder:validation:Optional
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
 }
 
 type UpgradeOptionsInitParameters struct {
