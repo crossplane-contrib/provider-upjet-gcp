@@ -48,6 +48,7 @@ fi
 # config/provider.go -> configprovider || register || config || all
 "${TAGGER}" --parent-dir "${REPO_ROOT}"/config/cluster/provider.go --tag-format "(configprovider || all) && !linter_run" --mode file ${EXTRA_BUILDTAGGER_ARGS}
 "${TAGGER}" --parent-dir "${REPO_ROOT}"/config/namespaced/provider.go --tag-format "(configprovider || all) && !linter_run" --mode file ${EXTRA_BUILDTAGGER_ARGS}
+"${TAGGER}" --parent-dir "${REPO_ROOT}"/config/test/roundtrip/roundtrip_test.go --tag-format "(configprovider || all) && !linter_run" --mode file ${EXTRA_BUILDTAGGER_ARGS}
 
 # config/overrides.go -> configprovider || register || config || all
 "${TAGGER}" --parent-dir "${REPO_ROOT}"/config/overrides.go --tag-format "configprovider || all" --mode file ${EXTRA_BUILDTAGGER_ARGS}
