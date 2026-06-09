@@ -8,6 +8,8 @@ import (
 	"encoding/base64"
 	"net/url"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
@@ -135,6 +137,14 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		}
 
 		r.MarkAsRequired("location")
+
+		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
+			Schema["state"].ValidateFunc = validation.StringInSlice([]string{"ENCRYPTED", "ALL_OBJECTS_ENCRYPTION_ENABLED", "DECRYPTED"}, false)
+		r.MetaResource.ArgumentDocs["database_encryption.state"] = ""
+		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
+			Schema["state"].Description = `ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.`
+		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
+			Schema["state"].DiffSuppressFunc = DatabaseEncryptionSuppress
 	})
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {
@@ -173,4 +183,16 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			return diff, nil
 		}
 	})
+}
+
+func DatabaseEncryptionSuppress(k, old, new string, d *schema.ResourceData) bool {
+	// The API sometimes returns ALL_OBJECTS_ENCRYPTION_ENABLED when the user sets ENCRYPTED
+	// and vice versa (depending on the cluster version and underlying resource storage).
+	if old == "ALL_OBJECTS_ENCRYPTION_ENABLED" && new == "ENCRYPTED" {
+		return true
+	}
+	if old == "ENCRYPTED" && new == "ALL_OBJECTS_ENCRYPTION_ENABLED" {
+		return true
+	}
+	return false
 }
