@@ -2350,7 +2350,6 @@ type DatabaseEncryptionInitParameters struct {
 	// the key to use to encrypt/decrypt secrets.  See the DatabaseEncryption definition for more information.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// ENCRYPTED or DECRYPTED
 	// ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -2360,7 +2359,6 @@ type DatabaseEncryptionObservation struct {
 	// the key to use to encrypt/decrypt secrets.  See the DatabaseEncryption definition for more information.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// ENCRYPTED or DECRYPTED
 	// ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
@@ -2371,7 +2369,6 @@ type DatabaseEncryptionParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// ENCRYPTED or DECRYPTED
 	// ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.
 	// +kubebuilder:validation:Optional
 	State *string `json:"state" tf:"state,omitempty"`

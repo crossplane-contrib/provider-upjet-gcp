@@ -8963,9 +8963,8 @@ spec:
                           the DatabaseEncryption definition for more information.
                         type: string
                       state:
-                        description: |-
-                          ENCRYPTED or DECRYPTED
-                          ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.
+                        description: ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or
+                          DECRYPTED.
                         type: string
                     type: object
                   datapathProvider:
@@ -11249,9 +11248,8 @@ spec:
                           the DatabaseEncryption definition for more information.
                         type: string
                       state:
-                        description: |-
-                          ENCRYPTED or DECRYPTED
-                          ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.
+                        description: ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or
+                          DECRYPTED.
                         type: string
                     type: object
                   datapathProvider:
@@ -13614,9 +13612,8 @@ spec:
                           the DatabaseEncryption definition for more information.
                         type: string
                       state:
-                        description: |-
-                          ENCRYPTED or DECRYPTED
-                          ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.
+                        description: ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or
+                          DECRYPTED.
                         type: string
                     type: object
                   datapathProvider:

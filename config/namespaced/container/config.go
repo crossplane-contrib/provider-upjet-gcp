@@ -140,6 +140,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 
 		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
 			Schema["state"].ValidateFunc = validation.StringInSlice([]string{"ENCRYPTED", "ALL_OBJECTS_ENCRYPTION_ENABLED", "DECRYPTED"}, false)
+		r.MetaResource.ArgumentDocs["database_encryption.state"] = ""
 		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
 			Schema["state"].Description = `ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.`
 		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
