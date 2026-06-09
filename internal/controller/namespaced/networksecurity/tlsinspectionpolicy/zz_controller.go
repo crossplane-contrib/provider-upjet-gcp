@@ -70,8 +70,7 @@ func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	// register webhooks for the kind v1beta1.TLSInspectionPolicy
 	// if they're enabled.
 	if o.StartWebhooks {
-		if err := ctrl.NewWebhookManagedBy(mgr).
-			For(&v1beta1.TLSInspectionPolicy{}).
+		if err := ctrl.NewWebhookManagedBy(mgr, &v1beta1.TLSInspectionPolicy{}).
 			Complete(); err != nil {
 			return errors.Wrap(err, "cannot register webhook for the kind v1beta1.TLSInspectionPolicy")
 		}
