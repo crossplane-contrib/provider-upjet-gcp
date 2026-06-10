@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/v2/config/namespaced"
+	"github.com/upbound/provider-gcp/v2/config/templates"
 	"github.com/upbound/provider-gcp/v2/hack"
 )
 
@@ -53,6 +54,7 @@ func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, gene
 		ujconfig.WithMainTemplate(hack.MainTemplate),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
+		ujconfig.WithControllerTemplate(templates.ControllerTemplate),
 	)
 
 	registerTerraformConversions(pc)

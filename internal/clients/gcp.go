@@ -13,6 +13,7 @@ import (
 	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/apis/configuration/v1alpha1"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -260,4 +261,12 @@ func resolveV2(ctx context.Context, crClient client.Client, mg resource.ModernMa
 		return nil, errors.Wrap(err, errTrackUsage)
 	}
 	return &pcSpec, nil
+}
+
+func ReconciliationPolicy(ctx context.Context, client client.Client, mg resource.Managed) (*v1alpha1.ReconciliationPolicy, error) {
+	spec, err := resolveProviderConfig(ctx, client, mg)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot resolve the referenced ProviderConfig")
+	}
+	return spec.ReconciliationPolicy, nil
 }
