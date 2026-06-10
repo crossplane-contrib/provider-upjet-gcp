@@ -45317,13 +45317,9 @@ func (in *PathMatcherDefaultRouteActionObservation) DeepCopyInto(out *PathMatche
 	}
 	if in.RetryPolicy != nil {
 		in, out := &in.RetryPolicy, &out.RetryPolicy
-		*out = new([]DefaultRouteActionRetryPolicyObservation)
-		if **in != nil {
-			in, out := *in, *out
-			*out = make([]DefaultRouteActionRetryPolicyObservation, len(*in))
-			for i := range *in {
-				(*in)[i].DeepCopyInto(&(*out)[i])
-			}
+		*out = make([]DefaultRouteActionRetryPolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.Timeout != nil {
