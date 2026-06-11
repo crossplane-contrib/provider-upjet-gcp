@@ -510,13 +510,19 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// firestore
 	//
 	// Imported by using the following format: {{name}}
+	"google_firestore_database": config.IdentifierFromProvider,
+	// Imported by using the following format: {{name}}
 	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
 	// The Cloud Firestore API is not available for Datastore Mode projects
 	// "google_firestore_document": config.IdentifierFromProvider,
 	// Imported by using the following format: {{name}}
-	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
+	// This resource creates a Firestore Index on a project that already has Firestore enabled
 	// Requires project level IAM permissions
-	// "google_firestore_index": config.IdentifierFromProvider,
+	"google_firestore_index": config.IdentifierFromProvider,
+	// Imported by using the following format: {{name}}
+	// This resource creates a Firestore Field on a project that already has Firestore enabled
+	// Requires project level IAM permissions
+	"google_firestore_field": config.IdentifierFromProvider,
 
 	// gameservers
 	//

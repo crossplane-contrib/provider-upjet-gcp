@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-apiVersion: firestore.gcp.upbound.io/v1beta1
+apiVersion: firestore.gcp.m.upbound.io/v1beta1
 kind: Index
 metadata:
   annotations:
@@ -10,6 +10,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: my-index
   name: my-index
+  namespace: upbound-system
 spec:
   forProvider:
     collection: atestcollection
@@ -21,11 +22,11 @@ spec:
       order: ASCENDING
     - fieldPath: description
       order: DESCENDING
-    project: official-provider-testing
+    project: my-project-name
 
 ---
 
-apiVersion: firestore.gcp.upbound.io/v1beta1
+apiVersion: firestore.gcp.m.upbound.io/v1beta1
 kind: Database
 metadata:
   annotations:
@@ -33,11 +34,12 @@ metadata:
   labels:
     testing.upbound.io/example-name: database
   name: database
+  namespace: upbound-system
 spec:
   forProvider:
     deleteProtectionState: DELETE_PROTECTION_DISABLED
     deletionPolicy: DELETE
-    locationId: us-central1
-    name: example-database-index
-    project: official-provider-testing
+    locationId: nam5
+    name: database-id
+    project: my-project-name
     type: FIRESTORE_NATIVE
