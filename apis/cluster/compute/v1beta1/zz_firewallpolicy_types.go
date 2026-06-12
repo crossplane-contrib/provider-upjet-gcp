@@ -44,9 +44,6 @@ type FirewallPolicyObservation struct {
 	// an identifier for the resource with format locations/global/firewallPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Name of the resource. It is a numeric ID allocated by GCP which uniquely identifies the Firewall Policy.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
 	// The parent of the firewall policy.
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 

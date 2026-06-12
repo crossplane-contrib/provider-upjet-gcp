@@ -233,10 +233,6 @@ spec:
                   id:
                     description: an identifier for the resource with format locations/global/firewallPolicies/{{name}}
                     type: string
-                  name:
-                    description: Name of the resource. It is a numeric ID allocated
-                      by GCP which uniquely identifies the Firewall Policy.
-                    type: string
                   parent:
                     description: The parent of the firewall policy.
                     type: string
