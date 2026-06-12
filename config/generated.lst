@@ -383,6 +383,7 @@
   "google_storage_default_object_access_control",
   "google_storage_default_object_acl",
   "google_storage_hmac_key",
+  "google_storage_insights_report_config",
   "google_storage_managed_folder",
   "google_storage_managed_folder_iam_member",
   "google_storage_notification",
