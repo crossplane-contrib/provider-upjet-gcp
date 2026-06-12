@@ -39,4 +39,11 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_kms_secret_ciphertext", func(r *config.Resource) {
 		r.TerraformResource.Schema["plaintext"].Sensitive = false
 	})
+
+	p.AddResourceConfigurator("google_kms_key_handle", func(r *config.Resource) {
+		// kms_key is computed-only — the CryptoKey path assigned by GCP.
+		// Move to status so it is available at status.atProvider.kmsKey
+		// for cross-resource references via ExtractParamPath("kms_key", true).
+		config.MoveToStatus(r.TerraformResource, "kms_key")
+	})
 }
