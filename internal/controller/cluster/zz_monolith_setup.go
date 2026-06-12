@@ -327,6 +327,7 @@ import (
 	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/dashboard"
 	groupmonitoring "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/group"
 	metricdescriptor "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/metricdescriptor"
+	monitoredproject "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/monitoredproject"
 	notificationchannel "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/notificationchannel"
 	servicemonitoring "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/service"
 	slo "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/slo"
@@ -736,6 +737,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		dashboard.Setup,
 		groupmonitoring.Setup,
 		metricdescriptor.Setup,
+		monitoredproject.Setup,
 		notificationchannel.Setup,
 		servicemonitoring.Setup,
 		slo.Setup,
@@ -1151,6 +1153,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		dashboard.SetupGated,
 		groupmonitoring.SetupGated,
 		metricdescriptor.SetupGated,
+		monitoredproject.SetupGated,
 		notificationchannel.SetupGated,
 		servicemonitoring.SetupGated,
 		slo.SetupGated,
