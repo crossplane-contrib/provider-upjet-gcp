@@ -10,6 +10,24 @@ package v1beta1
 func (tr *AddonsConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *API) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *APIProduct) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AppGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ControlPlaneAccess) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Developer) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DNSZone) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *EndpointAttachment) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -22,13 +40,31 @@ func (tr *EnvgroupAttachment) Hub() {}
 func (tr *Environment) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *EnvironmentAddonsConfig) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EnvironmentIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *EnvironmentIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EnvironmentIAMPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EnvironmentKeyvaluemaps) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EnvironmentKeyvaluemapsEntries) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *EnvKeystore) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *EnvReferences) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Flowhook) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Instance) Hub() {}
@@ -40,10 +76,31 @@ func (tr *InstanceAttachment) Hub() {}
 func (tr *KeystoresAliasesKeyCertFile) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *KeystoresAliasesPkcs12) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *KeystoresAliasesSelfSignedCert) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *NATAddress) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Organization) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SecurityAction) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SecurityMonitoringCondition) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SecurityProfileV2) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Sharedflow) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SharedflowDeployment) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SyncAuthorization) Hub() {}
