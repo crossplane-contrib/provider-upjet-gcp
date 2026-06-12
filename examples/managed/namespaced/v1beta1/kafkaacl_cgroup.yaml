@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managed.gcp.m.upbound.io/v1beta1
+kind: KafkaACL
+metadata:
+  annotations:
+    crossplane.io/external-name: "consumerGroup/example1cg"
+  name: example1cg
+  namespace: default
+spec:
+  forProvider:
+    cluster: my-cluster
+    aclId: "consumerGroup/example1cg"
+    aclEntries:
+    - host: '*'
+      operation: READ
+      permissionType: ALLOW
+      principal: User:sa
+    location: europe-north1
+  providerConfigRef:
+    name: default
+    kind: ProviderConfig

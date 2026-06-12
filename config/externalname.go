@@ -1120,7 +1120,16 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_memorystore_instance_desired_user_created_endpoints": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 
-	// cloudidentity
+	// google managedkafka
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
+	"google_managed_kafka_cluster": config.TemplatedStringAsIdentifier("cluster_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/topics/{{topic_id}}
+	"google_managed_kafka_topic": config.TemplatedStringAsIdentifier("topic_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/topics/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/acls/{{acl_id}}
+	"google_managed_kafka_acl": config.IdentifierFromProvider,
+	
+  // cloudidentity
 	//
 	// Imported by using the following: groups/<group_id>
 	// Please see the cloudIdentity function for details.
