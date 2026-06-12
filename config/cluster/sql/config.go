@@ -118,6 +118,13 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			TerraformName: "google_sql_database_instance",
 		}
 
+		// The 'type' field is write-only and not returned by the GCP API.
+		// We need to ignore it during late initialization to prevent it from
+		// being reset to empty (which would create a BUILT_IN user instead of IAM user).
+		r.LateInitializer = config.LateInitializer{
+			IgnoredFields: []string{"type"},
+		}
+
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
 			conn := map[string][]byte{}
 			if a, ok := attr["password"].(string); ok {
