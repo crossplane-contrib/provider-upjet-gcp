@@ -76,7 +76,7 @@ func init() {
 	}
 }
 
-func main() {
+func main() { //nolint:gocyclo // easier to follow as a unit
 	var (
 		app                     = kingpin.New(filepath.Base(os.Args[0]), "Terraform based Crossplane provider for GCP").DefaultEnvars()
 		debug                   = app.Flag("debug", "Run with debug logging.").Short('d').Bool()
