@@ -79,3 +79,29 @@ func SetupGated_apigee(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_apigee registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_apigee(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		addonsconfig.SetupWebhookWithManager,
+		endpointattachment.SetupWebhookWithManager,
+		envgroup.SetupWebhookWithManager,
+		envgroupattachment.SetupWebhookWithManager,
+		environment.SetupWebhookWithManager,
+		environmentiammember.SetupWebhookWithManager,
+		envkeystore.SetupWebhookWithManager,
+		envreferences.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		instanceattachment.SetupWebhookWithManager,
+		keystoresaliaseskeycertfile.SetupWebhookWithManager,
+		nataddress.SetupWebhookWithManager,
+		organization.SetupWebhookWithManager,
+		syncauthorization.SetupWebhookWithManager,
+		targetserver.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

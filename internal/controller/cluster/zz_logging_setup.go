@@ -58,3 +58,22 @@ func SetupGated_logging(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_logging registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_logging(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		folderbucketconfig.SetupWebhookWithManager,
+		folderexclusion.SetupWebhookWithManager,
+		foldersink.SetupWebhookWithManager,
+		logview.SetupWebhookWithManager,
+		metric.SetupWebhookWithManager,
+		projectbucketconfig.SetupWebhookWithManager,
+		projectexclusion.SetupWebhookWithManager,
+		projectsink.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

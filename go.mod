@@ -30,6 +30,8 @@ require (
 
 replace github.com/hashicorp/terraform-provider-google => github.com/upbound/terraform-provider-google v0.0.0-20260608073033-afc3a47f3ef3
 
+replace github.com/crossplane/upjet/v2 => github.com/sergenyalcin/upjet/v2 v2.0.0-20260617100606-391acbdcbfe0
+
 require (
 	bitbucket.org/creachadair/stringset v0.0.8 // indirect
 	cel.dev/expr v0.25.1 // indirect

@@ -37,3 +37,15 @@ func SetupGated_mlengine(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_mlengine registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_mlengine(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		model.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}
