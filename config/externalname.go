@@ -114,6 +114,12 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
 	"google_cloud_run_v2_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{name}} roles/viewer user:jane@example.com
+	"google_cloud_run_v2_job_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{name}} roles/viewer
+	"google_cloud_run_v2_job_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{name}}
+	"google_cloud_run_v2_job_iam_policy": config.IdentifierFromProvider,
 
 	// cloudscheduler
 	//
