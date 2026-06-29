@@ -52,3 +52,20 @@ func SetupGated_datacatalog(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_datacatalog registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_datacatalog(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		entry.SetupWebhookWithManager,
+		entrygroup.SetupWebhookWithManager,
+		policytag.SetupWebhookWithManager,
+		tag.SetupWebhookWithManager,
+		tagtemplate.SetupWebhookWithManager,
+		taxonomy.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}
