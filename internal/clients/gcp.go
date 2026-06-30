@@ -8,15 +8,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
 	"time"
 
 	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/apis/configuration/v1alpha1"
+	upjetmetrics "github.com/crossplane/upjet/v2/pkg/metrics"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	transporttpg "github.com/hashicorp/terraform-provider-google/google/transport"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -81,6 +86,39 @@ func constructFederatedCredentials(providerID, serviceAccount string) ([]byte, e
 			File: upboundProviderIdentityTokenFile,
 		},
 	})
+}
+
+// metricsRoundTripper increments the upjet ExternalAPICalls metric for every
+// Google API response it observes. It sits at the outermost layer of the GCP
+// provider's transport chain, so it counts logical API calls rather than
+// individual retry attempts.
+type metricsRoundTripper struct {
+	base http.RoundTripper
+}
+
+func (m *metricsRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	resp, err := m.base.RoundTrip(req)
+	if err == nil && resp != nil {
+		upjetmetrics.ExternalAPICalls.WithLabelValues(serviceFromURL(req.URL), req.Method).Inc()
+	}
+	return resp, err
+}
+
+// serviceFromURL extracts a short service label from a Google API request URL.
+//
+// GCP URL patterns:
+//   - compute.googleapis.com/compute/v1/...  → "compute"
+//   - storage.googleapis.com/...             → "storage"
+//   - www.googleapis.com/storage/v1/...      → "storage" (generic host → path fallback)
+func serviceFromURL(u *url.URL) string {
+	host := u.Hostname()
+	if label, _, _ := strings.Cut(host, "."); label != "" && label != "www" {
+		return label
+	}
+	if seg, _, _ := strings.Cut(strings.TrimPrefix(u.Path, "/"), "/"); seg != "" {
+		return seg
+	}
+	return "unknown"
 }
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -175,6 +213,13 @@ func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
 		return errors.Errorf("failed to configure the provider: %v", diag)
 	}
 	ps.Meta = p.Meta()
+	if config, ok := ps.Meta.(*transporttpg.Config); ok && config.Client != nil {
+		base := config.Client.Transport
+		if base == nil {
+			base = http.DefaultTransport
+		}
+		config.Client.Transport = &metricsRoundTripper{base: base}
+	}
 	return nil
 }
 
