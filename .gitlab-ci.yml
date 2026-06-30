@@ -1,0 +1,77 @@
+default:
+  tags: ["docker-in-docker:amd64"]
+  image: registry.ddbuild.io/images/nydus:v2.3.7
+
+variables:
+  BASE_IMAGE: "registry.ddbuild.io/images/base/gbi-distroless-nossl-root-fips:release"
+
+before_script:
+  - git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+
+stages:
+  - build
+
+build_fips:
+  stage: build
+  variables:
+    KUBERNETES_CPU_REQUEST: "8"
+    KUBERNETES_CPU_LIMIT: "16"
+    KUBERNETES_MEMORY_REQUEST: "24Gi"
+    KUBERNETES_MEMORY_LIMIT: "32Gi"
+  id_tokens:
+    DDSIGN_ID_TOKEN:
+      aud: image-integrity
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    - apt-get update && apt-get install -y make git wget
+    - wget https://go.dev/dl/go1.25.11.linux-amd64.tar.gz
+    - tar -C /usr/local -xzf go1.25.11.linux-amd64.tar.gz
+    - export PATH=$PATH:/usr/local/go/bin
+    - go version
+    - git submodule update --init --recursive
+  script:
+    - |
+      set -euxo pipefail
+      export PATH=$PATH:/usr/local/go/bin
+      VERSION="$CI_COMMIT_TAG"
+      REG="registry.ddbuild.io"
+      SUBPACKAGES="config storage iam"
+
+      echo "Building provider-upjet-gcp:${VERSION}"
+      echo "Registry: ${REG}"
+      echo "Base image: ${BASE_IMAGE}"
+
+      # Create custom Dockerfile with FIPS support
+      cat > /tmp/Dockerfile.fips << EOF
+      FROM ${BASE_IMAGE}
+
+      ARG TARGETOS
+      ARG TARGETARCH
+      ARG CROSSPLANE_PROVIDER_VERSION
+
+      ENV USER_ID=65532
+
+      USER \${USER_ID}
+      EXPOSE 8080
+
+      ENTRYPOINT ["provider"]
+      EOF
+
+      # Build using existing make system with FIPS
+      BUILD_ARGS="--load --build-arg GOFIPS140=v1.0.0 --file /tmp/Dockerfile.fips" \
+      XPKG_REG_ORGS_NO_PROMOTE="" \
+      XPKG_REG_ORGS="$REG" \
+      VERSION="$VERSION" \
+      make build.all publish BRANCH_NAME=main SUBPACKAGES="${SUBPACKAGES}"
+
+      # Sign each published image
+      for SUBPKG in ${SUBPACKAGES}; do
+        if [ "$SUBPKG" = "config" ]; then
+          IMAGE_NAME="provider-family-gcp"
+        else
+          IMAGE_NAME="provider-gcp-${SUBPKG}"
+        fi
+        DIGEST=$(crane digest ${REG}/${IMAGE_NAME}:${VERSION})
+        ddsign sign ${REG}/${IMAGE_NAME}:${VERSION}@${DIGEST}
+      done
