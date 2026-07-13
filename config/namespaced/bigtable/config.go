@@ -22,7 +22,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1beta2"
 		r.PreviousVersions = []string{"v1beta1"}
 		r.SetCRDStorageVersion("v1beta1")
-		r.ControllerReconcileVersion = "v1beta1"
+		r.ControllerReconcileVersion = "v1beta1" //nolint:staticcheck // still handling the deprecated behavior
 		r.Conversions = append(r.Conversions,
 			conversion.NewFieldRenameConversion("v1beta1", "spec.forProvider.instance", "v1beta2", "spec.forProvider.instanceName"),
 			conversion.NewFieldRenameConversion("v1beta1", "spec.initProvider.instance", "v1beta2", "spec.initProvider.instanceName"),
@@ -38,7 +38,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1beta2"
 		r.PreviousVersions = []string{"v1beta1"}
 		r.SetCRDStorageVersion("v1beta1")
-		r.ControllerReconcileVersion = "v1beta1"
+		r.ControllerReconcileVersion = "v1beta1" //nolint:staticcheck // still handling the deprecated behavior
 		r.Conversions = append(r.Conversions,
 			conversion.NewFieldRenameConversion("v1beta1", "spec.forProvider.instance", "v1beta2", "spec.forProvider.instanceName"),
 			conversion.NewFieldRenameConversion("v1beta1", "spec.initProvider.instance", "v1beta2", "spec.initProvider.instanceName"),
@@ -54,7 +54,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1beta2"
 		r.PreviousVersions = []string{"v1beta1"}
 		r.SetCRDStorageVersion("v1beta1")
-		r.ControllerReconcileVersion = "v1beta1"
+		r.ControllerReconcileVersion = "v1beta1" //nolint:staticcheck // still handling the deprecated behavior
 		r.Conversions = append(r.Conversions,
 			conversion.NewFieldRenameConversion("v1beta1", "spec.forProvider.instance", "v1beta2", "spec.forProvider.instanceName"),
 			conversion.NewFieldRenameConversion("v1beta1", "spec.initProvider.instance", "v1beta2", "spec.initProvider.instanceName"),
@@ -73,7 +73,7 @@ func newInstanceNameConverter() config.TerraformConversion {
 	return instanceNameConverter{}
 }
 
-func (s instanceNameConverter) Convert(params map[string]any, r *config.Resource, mode config.Mode) (map[string]any, error) {
+func (s instanceNameConverter) Convert(params map[string]any, r *config.Resource, mode config.Mode) (map[string]any, error) { //nolint:gocyclo // easier to follow as a unit
 	pv := fieldpath.Pave(params)
 	switch mode {
 	case config.ToTerraform:

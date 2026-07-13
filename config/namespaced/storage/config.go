@@ -33,7 +33,7 @@ func Configure(p *config.Provider) {
 		r.Version = "v1beta2"
 		r.PreviousVersions = []string{"v1beta1"}
 		r.SetCRDStorageVersion("v1beta1")
-		r.ControllerReconcileVersion = "v1beta2"
+		r.ControllerReconcileVersion = "v1beta2" //nolint:staticcheck // still handling the deprecated behavior
 		r.Conversions = []conversion.Conversion{
 			conversion.NewIdentityConversionExpandPaths("*", "*", conversion.DefaultPathPrefixes(), "retentionPolicy.retentionPeriod"),
 			conversion.NewIdentityConversionExpandPaths("*", "*", conversion.DefaultPathPrefixes(), "retentionPolicy.retentionPeriod"),

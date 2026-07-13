@@ -90,7 +90,7 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 		if _, ok := oldSLAPIs[n]; ok {
 			r.Version = "v1beta2"
 			r.SetCRDStorageVersion(r.Version)
-			r.ControllerReconcileVersion = r.Version //nolint:staticcheck
+			r.ControllerReconcileVersion = r.Version //nolint:staticcheck // still handling the deprecated behavior
 		}
 		r.TerraformConversions = []ujconfig.TerraformConversion{
 			ujconfig.NewTFSingletonConversion(),

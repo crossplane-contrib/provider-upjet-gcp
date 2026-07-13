@@ -9,9 +9,13 @@ import (
 	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/utils/ptr"
+	"sigs.k8s.io/randfill"
 
 	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
+	storageclusterv1beta3 "github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3"
 	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
+	storagensv1beta2 "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2"
 	"github.com/upbound/provider-gcp/v2/config"
 )
 
@@ -63,5 +67,39 @@ func TestRoundTrip(t *testing.T) {
 	t.Run("TestConversionRoundtrip", func(t *testing.T) {
 		rt.TestConversionRoundtrip(t)
 	})
+}
 
+var gcpCustomFuzzers = []roundtrip.FuzzFunc{
+	fuzzClusterStorageBucketV1Beta3,
+	fuzzNamespacedStorageBucketV1Beta2,
+}
+
+// fuzzClusterStorageBucketV1Beta3 ensures retentionPolicy.retentionPeriod is a
+// valid numeric string so that StringToFloat conversion to the v1beta2 spoke succeeds.
+func fuzzClusterStorageBucketV1Beta3(s *storageclusterv1beta3.Bucket, c randfill.Continue) {
+	c.Fill(s)
+	if s.Spec.ForProvider.RetentionPolicy != nil && s.Spec.ForProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.ForProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Spec.InitProvider.RetentionPolicy != nil && s.Spec.InitProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.InitProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Status.AtProvider.RetentionPolicy != nil && s.Status.AtProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Status.AtProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+}
+
+// fuzzNamespacedStorageBucketV1Beta2 ensures retentionPolicy.retentionPeriod is a
+// valid numeric string so that StringToFloat conversion to the v1beta1 spoke succeeds.
+func fuzzNamespacedStorageBucketV1Beta2(s *storagensv1beta2.Bucket, c randfill.Continue) {
+	c.Fill(s)
+	if s.Spec.ForProvider.RetentionPolicy != nil && s.Spec.ForProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.ForProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Spec.InitProvider.RetentionPolicy != nil && s.Spec.InitProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.InitProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Status.AtProvider.RetentionPolicy != nil && s.Status.AtProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Status.AtProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
 }
