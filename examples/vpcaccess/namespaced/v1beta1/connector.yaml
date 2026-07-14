@@ -9,6 +9,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
+    region: us-central1
     ipCidrRange: 10.8.0.0/28
     networkSelector:
       matchLabels:
