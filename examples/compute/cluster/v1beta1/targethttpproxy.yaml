@@ -16,9 +16,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: target-http-proxy
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: URLMap
 metadata:
   annotations:
@@ -48,9 +49,10 @@ spec:
             testing.upbound.io/example-name: target-http-proxy
 
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: BackendBucket
 metadata:
   annotations:
@@ -64,9 +66,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: target-http-proxy
 
+
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta3
 kind: Bucket
 metadata:
   annotations:

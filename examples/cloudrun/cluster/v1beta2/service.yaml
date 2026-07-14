@@ -12,6 +12,7 @@ metadata:
   name: cloudrun-service
 spec:
   forProvider:
+    deletionProtection: false
     location: us-central1
     template:
       spec:

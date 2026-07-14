@@ -19,9 +19,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: target-ssl-proxy
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: BackendService
 metadata:
   annotations:
@@ -35,9 +36,10 @@ spec:
     - name: target-ssl-proxy
     protocol: SSL
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: HealthCheck
 metadata:
   annotations:
@@ -51,6 +53,7 @@ spec:
     tcpHealthCheck:
     - port: 443
     timeoutSec: 1
+
 
 ---
 
@@ -73,6 +76,7 @@ spec:
       key: upbound.key
       name: target-ssl-proxy
       namespace: upbound-system
+
 
 ---
 

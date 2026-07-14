@@ -19,9 +19,10 @@ spec:
     description: A logging view configured with Terraform
     filter: SOURCE("projects/myproject") AND resource.type = "gce_instance" AND LOG_ID("stdout")
 
+
 ---
 
-apiVersion: logging.gcp.upbound.io/v1beta1
+apiVersion: logging.gcp.upbound.io/v1beta2
 kind: ProjectBucketConfig
 metadata:
   annotations:

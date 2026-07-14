@@ -18,9 +18,10 @@ spec:
         testing.upbound.io/example-name: instance
     location: us-central1
 
+
 ---
 
-apiVersion: filestore.gcp.upbound.io/v1beta1
+apiVersion: filestore.gcp.upbound.io/v1beta2
 kind: Instance
 metadata:
   annotations:

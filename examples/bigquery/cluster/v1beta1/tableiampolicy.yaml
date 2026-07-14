@@ -30,9 +30,10 @@ spec:
           }]
       }
 
+
 ---
 
-apiVersion: bigquery.gcp.upbound.io/v1beta1
+apiVersion: bigquery.gcp.upbound.io/v1beta2
 kind: Table
 metadata:
   annotations:
@@ -67,9 +68,10 @@ spec:
     timePartitioning:
       - type: DAY
 
+
 ---
 
-apiVersion: bigquery.gcp.upbound.io/v1beta1
+apiVersion: bigquery.gcp.upbound.io/v1beta2
 kind: Dataset
 metadata:
   annotations:

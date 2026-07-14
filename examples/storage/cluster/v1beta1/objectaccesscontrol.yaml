@@ -22,9 +22,10 @@ spec:
         testing.upbound.io/example-name: object
     role: READER
 
+
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta2
 kind: BucketObject
 metadata:
   annotations:
@@ -41,9 +42,10 @@ spec:
     content: "Upbound!"
     contentType: text/plain
 
+
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta3
 kind: Bucket
 metadata:
   annotations:

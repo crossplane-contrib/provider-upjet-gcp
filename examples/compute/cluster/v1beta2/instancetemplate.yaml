@@ -47,6 +47,7 @@ spec:
     - foo
     - bar
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta2
@@ -64,9 +65,10 @@ spec:
     type: pd-ssd
     zone: us-central1-a
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: ResourcePolicy
 metadata:
   annotations:
@@ -82,6 +84,7 @@ spec:
       - dailySchedule:
         - daysInCycle: 1
           startTime: "04:00"
+
 
 ---
 

@@ -23,9 +23,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: game-server-cluster
 
+
 ---
 
-apiVersion: container.gcp.upbound.io/v1beta1
+apiVersion: container.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
   annotations:
@@ -38,6 +39,7 @@ spec:
   forProvider:
     location: us-central1-a
     initialNodeCount: 1
+
 
 ---
 
