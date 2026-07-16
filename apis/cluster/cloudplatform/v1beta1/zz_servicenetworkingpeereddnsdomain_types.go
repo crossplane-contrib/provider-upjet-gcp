@@ -27,6 +27,10 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

@@ -22,9 +22,8 @@ type ProjectServiceInitParameters struct {
 	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -46,15 +45,18 @@ type ProjectServiceInitParameters struct {
 
 type ProjectServiceObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be returned if any enabled
 	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{service}}
@@ -77,9 +79,8 @@ type ProjectServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 

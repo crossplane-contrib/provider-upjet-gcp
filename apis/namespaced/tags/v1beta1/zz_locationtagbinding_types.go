@@ -22,7 +22,7 @@ type LocationTagBindingInitParameters struct {
 	// The full resource name of the resource the TagValue is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// The TagValue of the TagBinding. Must be either in id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagValue
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
@@ -38,19 +38,23 @@ type LocationTagBindingInitParameters struct {
 
 type LocationTagBindingObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{location}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Location of the target resource.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// The generated id for the TagBinding. This is a string of the form: tagBindings/{parent}/{tag-value-name}
+	// The generated id for the TagBinding. This is a string of the form tagBindings/{full-resource-name}/{tag-value-name} or tagBindings/{full-resource-name}/{tag-key-name}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The full resource name of the resource the TagValue is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// The TagValue of the TagBinding. Must be either in id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
 }
 
@@ -64,7 +68,7 @@ type LocationTagBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// The TagValue of the TagBinding. Must be either in id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagValue
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional

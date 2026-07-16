@@ -38,6 +38,10 @@ type AutoscalingPolicyObservation struct {
 	// Structure is documented below.
 	BasicAlgorithm *BasicAlgorithmObservation `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

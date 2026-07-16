@@ -125,6 +125,11 @@ func (in *CodeRepositoryIndexObservation) DeepCopyInto(out *CodeRepositoryIndexO
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
 		*out = make(map[string]*string, len(*in))
@@ -418,6 +423,11 @@ func (in *CodeToolsSettingObservation) DeepCopyInto(out *CodeToolsSettingObserva
 	*out = *in
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -781,6 +791,11 @@ func (in *DataSharingWithGoogleSettingObservation) DeepCopyInto(out *DataSharing
 	*out = *in
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -1209,6 +1224,11 @@ func (in *GeminiGCPEnablementSettingObservation) DeepCopyInto(out *GeminiGCPEnab
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisableWebGrounding != nil {
 		in, out := &in.DisableWebGrounding, &out.DisableWebGrounding
 		*out = new(bool)
@@ -1513,6 +1533,11 @@ func (in *LoggingSettingObservation) DeepCopyInto(out *LoggingSettingObservation
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
 		*out = make(map[string]*string, len(*in))
@@ -1799,6 +1824,11 @@ func (in *ReleaseChannelSettingObservation) DeepCopyInto(out *ReleaseChannelSett
 	*out = *in
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -2160,6 +2190,11 @@ func (in *RepositoryGroupObservation) DeepCopyInto(out *RepositoryGroupObservati
 	}
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

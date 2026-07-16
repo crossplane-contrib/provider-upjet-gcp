@@ -1175,64 +1175,55 @@ type FixedDelayParameters struct {
 
 type HeaderActionInitParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	RequestHeadersToAdd []RequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	ResponseHeadersToAdd []ResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type HeaderActionObservation struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	RequestHeadersToAdd []RequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	ResponseHeadersToAdd []ResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type HeaderActionParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToAdd []RequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToAdd []ResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -1245,9 +1236,8 @@ type HeaderActionRequestHeadersToAddInitParameters struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -1259,9 +1249,8 @@ type HeaderActionRequestHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -1275,9 +1264,8 @@ type HeaderActionRequestHeadersToAddParameters struct {
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
@@ -1290,9 +1278,8 @@ type HeaderActionResponseHeadersToAddInitParameters struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -1304,9 +1291,8 @@ type HeaderActionResponseHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -1320,9 +1306,8 @@ type HeaderActionResponseHeadersToAddParameters struct {
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
@@ -2093,6 +2078,145 @@ type PathMatcherDefaultURLRedirectParameters struct {
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
 
+type PathMatcherHeaderActionInitParameters struct {
+
+	// Headers to add to a matching request before forwarding the request to the backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response before sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type PathMatcherHeaderActionObservation struct {
+
+	// Headers to add to a matching request before forwarding the request to the backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response before sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type PathMatcherHeaderActionParameters struct {
+
+	// Headers to add to a matching request before forwarding the request to the backendService.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response before sending the response back to the client.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type PathMatcherHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
 type PathMatcherInitParameters struct {
 
 	// defaultRouteAction takes effect when none of the pathRules or routeRules match. The load balancer performs
@@ -2126,6 +2250,13 @@ type PathMatcherInitParameters struct {
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for the selected backendService.
+	// headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL.
+	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Structure is documented below.
+	HeaderAction *PathMatcherHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -2172,6 +2303,13 @@ type PathMatcherObservation struct {
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for the selected backendService.
+	// headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL.
+	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Structure is documented below.
+	HeaderAction *PathMatcherHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -2232,6 +2370,14 @@ type PathMatcherParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for the selected backendService.
+	// headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL.
+	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HeaderAction *PathMatcherHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	// +kubebuilder:validation:Optional
@@ -2506,6 +2652,61 @@ type RangeMatchParameters struct {
 	RangeStart *float64 `json:"rangeStart" tf:"range_start,omitempty"`
 }
 
+type RegionURLMapHeaderActionInitParameters struct {
+
+	// Headers to add to a matching request before forwarding the request to the backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []HeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response before sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type RegionURLMapHeaderActionObservation struct {
+
+	// Headers to add to a matching request before forwarding the request to the backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []HeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response before sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type RegionURLMapHeaderActionParameters struct {
+
+	// Headers to add to a matching request before forwarding the request to the backendService.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToAdd []HeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response before sending the response back to the client.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
 type RegionURLMapInitParameters struct {
 
 	// defaultRouteAction takes effect when none of the hostRules match. The load balancer performs advanced routing actions, such as URL rewrites and header transformations, before forwarding the request to the selected backend. If defaultRouteAction specifies any weightedBackendServices, defaultService must not be set. Conversely if defaultService is set, defaultRouteAction cannot contain any weightedBackendServices.
@@ -2543,6 +2744,13 @@ type RegionURLMapInitParameters struct {
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for the selected backendService.
+	// headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL.
+	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Structure is documented below.
+	HeaderAction *RegionURLMapHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The list of HostRules to use against the URL.
 	// Structure is documented below.
@@ -2589,6 +2797,10 @@ type RegionURLMapObservation struct {
 	// Structure is documented below.
 	DefaultURLRedirect *DefaultURLRedirectObservation `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -2596,6 +2808,13 @@ type RegionURLMapObservation struct {
 	// Fingerprint of this resource. This field is used internally during
 	// updates of this resource.
 	Fingerprint *string `json:"fingerprint,omitempty" tf:"fingerprint,omitempty"`
+
+	// Specifies changes to request and response headers that need to take effect for the selected backendService.
+	// headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL.
+	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Structure is documented below.
+	HeaderAction *RegionURLMapHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The list of HostRules to use against the URL.
 	// Structure is documented below.
@@ -2670,6 +2889,14 @@ type RegionURLMapParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies changes to request and response headers that need to take effect for the selected backendService.
+	// headerAction specified here take effect before headerAction in the enclosing HttpRouteRule, PathMatcher and UrlMap.
+	// headerAction is not supported for load balancers that have their loadBalancingScheme set to EXTERNAL.
+	// Not supported when the URL map is bound to a target gRPC proxy that has validateForProxyless field set to true.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HeaderAction *RegionURLMapHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+
 	// The list of HostRules to use against the URL.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -2705,9 +2932,8 @@ type RequestHeadersToAddInitParameters struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -2719,9 +2945,8 @@ type RequestHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -2735,9 +2960,8 @@ type RequestHeadersToAddParameters struct {
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
@@ -2795,9 +3019,8 @@ type ResponseHeadersToAddInitParameters struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -2809,9 +3032,8 @@ type ResponseHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -2825,9 +3047,8 @@ type ResponseHeadersToAddParameters struct {
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
@@ -3546,64 +3767,55 @@ type RouteActionURLRewriteParameters struct {
 
 type RouteActionWeightedBackendServicesHeaderActionInitParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteActionWeightedBackendServicesHeaderActionObservation struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteActionWeightedBackendServicesHeaderActionParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -3616,9 +3828,8 @@ type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParame
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3630,9 +3841,8 @@ type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservatio
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3646,9 +3856,8 @@ type RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -3661,9 +3870,8 @@ type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParam
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3675,9 +3883,8 @@ type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservati
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3691,9 +3898,8 @@ type RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameter
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -3789,64 +3995,55 @@ type RouteActionWeightedBackendServicesParameters struct {
 
 type RouteRulesHeaderActionInitParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	RequestHeadersToAdd []RouteRulesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	ResponseHeadersToAdd []RouteRulesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteRulesHeaderActionObservation struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	RequestHeadersToAdd []RouteRulesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	ResponseHeadersToAdd []RouteRulesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteRulesHeaderActionParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToAdd []RouteRulesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToAdd []RouteRulesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -3859,9 +4056,8 @@ type RouteRulesHeaderActionRequestHeadersToAddInitParameters struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3873,9 +4069,8 @@ type RouteRulesHeaderActionRequestHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3889,9 +4084,8 @@ type RouteRulesHeaderActionRequestHeadersToAddParameters struct {
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -3904,9 +4098,8 @@ type RouteRulesHeaderActionResponseHeadersToAddInitParameters struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3918,9 +4111,8 @@ type RouteRulesHeaderActionResponseHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -3934,9 +4126,8 @@ type RouteRulesHeaderActionResponseHeadersToAddParameters struct {
 	// +kubebuilder:validation:Optional
 	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
 	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
@@ -4721,66 +4912,141 @@ type RouteRulesRouteActionURLRewriteParameters struct {
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionInitParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionObservation struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesHeaderActionParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []RouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
 
 type RouteRulesRouteActionWeightedBackendServicesInitParameters struct {
@@ -5242,64 +5508,55 @@ type URLRewriteParameters struct {
 
 type WeightedBackendServicesHeaderActionInitParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []HeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type WeightedBackendServicesHeaderActionObservation struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []HeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
 
 type WeightedBackendServicesHeaderActionParameters struct {
 
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
+	// Headers to add to a matching request before forwarding the request to the backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []HeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []WeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
+	// A list of header names for headers that need to be removed from the request before forwarding the request to the backendService.
 	// +kubebuilder:validation:Optional
 	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
 
-	// Headers to add the response prior to sending the response back to the client.
+	// Headers to add the response before sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []HeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []WeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
+	// A list of header names for headers that need to be removed from the response before sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
 }
@@ -5312,9 +5569,8 @@ type WeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -5326,9 +5582,8 @@ type WeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -5336,17 +5591,16 @@ type WeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
 
 	// The name of the header.
 	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 
 	// The value of the header to add.
 	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type WeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
@@ -5357,9 +5611,8 @@ type WeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struc
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -5371,9 +5624,8 @@ type WeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
 	// The value of the header to add.
 	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
@@ -5381,17 +5633,16 @@ type WeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
 
 	// The name of the header.
 	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 
 	// The value of the header to add.
 	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
 
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
+	// If false, headerValue is appended to any values that already exist for the header. If true, headerValue is set for the header, discarding any values that were set for that header.
+	// The default value is false.
 	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
 }
 
 type WeightedBackendServicesInitParameters struct {

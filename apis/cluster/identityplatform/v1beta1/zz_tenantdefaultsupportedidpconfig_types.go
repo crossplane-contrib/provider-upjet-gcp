@@ -47,6 +47,10 @@ type TenantDefaultSupportedIdPConfigInitParameters struct {
 
 type TenantDefaultSupportedIdPConfigObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 

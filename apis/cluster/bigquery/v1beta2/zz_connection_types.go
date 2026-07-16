@@ -36,6 +36,67 @@ type AccessRoleParameters struct {
 	IAMRoleID *string `json:"iamRoleId" tf:"iam_role_id,omitempty"`
 }
 
+type AssetInitParameters struct {
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// The full resource name of the Google Cloud resource.
+	// For AlloyDB, this is in the format of
+	// //alloydb.googleapis.com/projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}.
+	GoogleCloudResource *string `json:"googleCloudResource,omitempty" tf:"google_cloud_resource,omitempty"`
+}
+
+type AssetObservation struct {
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// The full resource name of the Google Cloud resource.
+	// For AlloyDB, this is in the format of
+	// //alloydb.googleapis.com/projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}.
+	GoogleCloudResource *string `json:"googleCloudResource,omitempty" tf:"google_cloud_resource,omitempty"`
+}
+
+type AssetParameters struct {
+
+	// Database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+
+	// The full resource name of the Google Cloud resource.
+	// For AlloyDB, this is in the format of
+	// //alloydb.googleapis.com/projects/{project}/locations/{region}/clusters/{cluster}/instances/{instance}.
+	// +kubebuilder:validation:Optional
+	GoogleCloudResource *string `json:"googleCloudResource,omitempty" tf:"google_cloud_resource,omitempty"`
+}
+
+type AuthenticationInitParameters struct {
+
+	// Username/password authentication configuration.
+	// Structure is documented below.
+	UsernamePassword *UsernamePasswordInitParameters `json:"usernamePassword,omitempty" tf:"username_password,omitempty"`
+}
+
+type AuthenticationObservation struct {
+
+	// (Output)
+	// Output only. The service account used for authenticating with the connector.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Username/password authentication configuration.
+	// Structure is documented below.
+	UsernamePassword *UsernamePasswordObservation `json:"usernamePassword,omitempty" tf:"username_password,omitempty"`
+}
+
+type AuthenticationParameters struct {
+
+	// Username/password authentication configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UsernamePassword *UsernamePasswordParameters `json:"usernamePassword,omitempty" tf:"username_password,omitempty"`
+}
+
 type AwsInitParameters struct {
 
 	// Authentication using Google owned service account to assume into customer's AWS IAM Role.
@@ -286,6 +347,80 @@ type CloudSpannerParameters struct {
 	UseServerlessAnalytics *bool `json:"useServerlessAnalytics,omitempty" tf:"use_serverless_analytics,omitempty"`
 }
 
+type ConfigurationInitParameters struct {
+
+	// Asset configuration for the connector.
+	// Structure is documented below.
+	Asset *AssetInitParameters `json:"asset,omitempty" tf:"asset,omitempty"`
+
+	// Authentication configuration for the connector.
+	// Structure is documented below.
+	Authentication *AuthenticationInitParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+
+	// The ID of the connector. Possible values include google-alloydb, google-cloudsql-mysql,
+	// google-cloudsql-postgres, and other connector IDs supported by the BigQuery Connector framework.
+	ConnectorID *string `json:"connectorId,omitempty" tf:"connector_id,omitempty"`
+
+	// Endpoint configuration for the connector.
+	// Structure is documented below.
+	Endpoint *EndpointInitParameters `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Network configuration for the connector.
+	// Structure is documented below.
+	Network *NetworkInitParameters `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type ConfigurationObservation struct {
+
+	// Asset configuration for the connector.
+	// Structure is documented below.
+	Asset *AssetObservation `json:"asset,omitempty" tf:"asset,omitempty"`
+
+	// Authentication configuration for the connector.
+	// Structure is documented below.
+	Authentication *AuthenticationObservation `json:"authentication,omitempty" tf:"authentication,omitempty"`
+
+	// The ID of the connector. Possible values include google-alloydb, google-cloudsql-mysql,
+	// google-cloudsql-postgres, and other connector IDs supported by the BigQuery Connector framework.
+	ConnectorID *string `json:"connectorId,omitempty" tf:"connector_id,omitempty"`
+
+	// Endpoint configuration for the connector.
+	// Structure is documented below.
+	Endpoint *EndpointObservation `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Network configuration for the connector.
+	// Structure is documented below.
+	Network *NetworkObservation `json:"network,omitempty" tf:"network,omitempty"`
+}
+
+type ConfigurationParameters struct {
+
+	// Asset configuration for the connector.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Asset *AssetParameters `json:"asset" tf:"asset,omitempty"`
+
+	// Authentication configuration for the connector.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Authentication *AuthenticationParameters `json:"authentication,omitempty" tf:"authentication,omitempty"`
+
+	// The ID of the connector. Possible values include google-alloydb, google-cloudsql-mysql,
+	// google-cloudsql-postgres, and other connector IDs supported by the BigQuery Connector framework.
+	// +kubebuilder:validation:Optional
+	ConnectorID *string `json:"connectorId" tf:"connector_id,omitempty"`
+
+	// Endpoint configuration for the connector.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Endpoint *EndpointParameters `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Network configuration for the connector.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Network *NetworkParameters `json:"network,omitempty" tf:"network,omitempty"`
+}
+
 type ConnectionInitParameters struct {
 
 	// Connection properties specific to Amazon Web Services.
@@ -307,6 +442,12 @@ type ConnectionInitParameters struct {
 	// Connection properties specific to Cloud Spanner
 	// Structure is documented below.
 	CloudSpanner *CloudSpannerInitParameters `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
+
+	// Connector configuration. This is a generic configuration that is used to connect to
+	// external data sources such as AlloyDB, MySQL, and PostgreSQL using the BigQuery
+	// Connector framework.
+	// Structure is documented below.
+	Configuration *ConfigurationInitParameters `json:"configuration,omitempty" tf:"configuration,omitempty"`
 
 	// Optional connection id that should be assigned to the created connection.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
@@ -361,8 +502,18 @@ type ConnectionObservation struct {
 	// Structure is documented below.
 	CloudSpanner *CloudSpannerObservation `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
 
+	// Connector configuration. This is a generic configuration that is used to connect to
+	// external data sources such as AlloyDB, MySQL, and PostgreSQL using the BigQuery
+	// Connector framework.
+	// Structure is documented below.
+	Configuration *ConfigurationObservation `json:"configuration,omitempty" tf:"configuration,omitempty"`
+
 	// Optional connection id that should be assigned to the created connection.
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A descriptive description for the connection
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -429,6 +580,13 @@ type ConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	CloudSpanner *CloudSpannerParameters `json:"cloudSpanner,omitempty" tf:"cloud_spanner,omitempty"`
 
+	// Connector configuration. This is a generic configuration that is used to connect to
+	// external data sources such as AlloyDB, MySQL, and PostgreSQL using the BigQuery
+	// Connector framework.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Configuration *ConfigurationParameters `json:"configuration,omitempty" tf:"configuration,omitempty"`
+
 	// Optional connection id that should be assigned to the created connection.
 	// +kubebuilder:validation:Optional
 	ConnectionID *string `json:"connectionId,omitempty" tf:"connection_id,omitempty"`
@@ -469,11 +627,11 @@ type ConnectionParameters struct {
 
 type CredentialInitParameters struct {
 
-	// Password for database.
-	// Note: This property is sensitive and will not be displayed in the plan.
+	// Password configuration for the connector.
+	// Structure is documented below.
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
-	// Username for database.
+	// Username for the connector.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.User
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
@@ -488,18 +646,18 @@ type CredentialInitParameters struct {
 
 type CredentialObservation struct {
 
-	// Username for database.
+	// Username for the connector.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type CredentialParameters struct {
 
-	// Password for database.
-	// Note: This property is sensitive and will not be displayed in the plan.
+	// Password configuration for the connector.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
-	// Username for database.
+	// Username for the connector.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.User
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -511,6 +669,25 @@ type CredentialParameters struct {
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
 	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+}
+
+type EndpointInitParameters struct {
+
+	// Host and port in the format of host:port for the connector endpoint.
+	HostPort *string `json:"hostPort,omitempty" tf:"host_port,omitempty"`
+}
+
+type EndpointObservation struct {
+
+	// Host and port in the format of host:port for the connector endpoint.
+	HostPort *string `json:"hostPort,omitempty" tf:"host_port,omitempty"`
+}
+
+type EndpointParameters struct {
+
+	// Host and port in the format of host:port for the connector endpoint.
+	// +kubebuilder:validation:Optional
+	HostPort *string `json:"hostPort,omitempty" tf:"host_port,omitempty"`
 }
 
 type MetastoreServiceConfigInitParameters struct {
@@ -530,6 +707,72 @@ type MetastoreServiceConfigParameters struct {
 	// Resource name of an existing Dataproc Metastore service in the form of projects/[projectId]/locations/[region]/services/[serviceId].
 	// +kubebuilder:validation:Optional
 	MetastoreService *string `json:"metastoreService,omitempty" tf:"metastore_service,omitempty"`
+}
+
+type NetworkInitParameters struct {
+
+	// Private Service Connect configuration for the connector.
+	// Structure is documented below.
+	PrivateServiceConnect *PrivateServiceConnectInitParameters `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
+}
+
+type NetworkObservation struct {
+
+	// Private Service Connect configuration for the connector.
+	// Structure is documented below.
+	PrivateServiceConnect *PrivateServiceConnectObservation `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
+}
+
+type NetworkParameters struct {
+
+	// Private Service Connect configuration for the connector.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PrivateServiceConnect *PrivateServiceConnectParameters `json:"privateServiceConnect,omitempty" tf:"private_service_connect,omitempty"`
+}
+
+type PasswordInitParameters struct {
+
+	// The plaintext password.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PlaintextSecretRef v1.SecretKeySelector `json:"plaintextSecretRef" tf:"-"`
+}
+
+type PasswordObservation struct {
+
+	// (Output)
+	// Output only. The type of the secret.
+	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
+}
+
+type PasswordParameters struct {
+
+	// The plaintext password.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	PlaintextSecretRef v1.SecretKeySelector `json:"plaintextSecretRef" tf:"-"`
+}
+
+type PrivateServiceConnectInitParameters struct {
+
+	// The resource name of a network attachment in the format of
+	// projects/{project}/regions/{region}/networkAttachments/{networkAttachment}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+}
+
+type PrivateServiceConnectObservation struct {
+
+	// The resource name of a network attachment in the format of
+	// projects/{project}/regions/{region}/networkAttachments/{networkAttachment}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+}
+
+type PrivateServiceConnectParameters struct {
+
+	// The resource name of a network attachment in the format of
+	// projects/{project}/regions/{region}/networkAttachments/{networkAttachment}.
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment" tf:"network_attachment,omitempty"`
 }
 
 type SparkHistoryServerConfigInitParameters struct {
@@ -608,6 +851,38 @@ type SparkParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SparkHistoryServerConfig *SparkHistoryServerConfigParameters `json:"sparkHistoryServerConfig,omitempty" tf:"spark_history_server_config,omitempty"`
+}
+
+type UsernamePasswordInitParameters struct {
+
+	// Password configuration for the connector.
+	// Structure is documented below.
+	Password *PasswordInitParameters `json:"password,omitempty" tf:"password,omitempty"`
+
+	// Username for the connector.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type UsernamePasswordObservation struct {
+
+	// Password configuration for the connector.
+	// Structure is documented below.
+	Password *PasswordObservation `json:"password,omitempty" tf:"password,omitempty"`
+
+	// Username for the connector.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type UsernamePasswordParameters struct {
+
+	// Password configuration for the connector.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Password *PasswordParameters `json:"password" tf:"password,omitempty"`
+
+	// Username for the connector.
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username" tf:"username,omitempty"`
 }
 
 // ConnectionSpec defines the desired state of Connection

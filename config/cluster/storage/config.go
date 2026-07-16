@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config/conversion"
 )
 
 // Configure configures individual resources by adding custom
@@ -29,6 +30,21 @@ func Configure(p *config.Provider) {
 		// smaller value as a workaround/solution.
 		// Related issue: https://github.com/upbound/provider-gcp/issues/12
 		r.OperationTimeouts.Read = 1 * time.Minute
+		r.Version = "v1beta3"
+		r.PreviousVersions = []string{"v1beta2"}
+		r.SetCRDStorageVersion("v1beta2")
+		r.ControllerReconcileVersion = "v1beta3" //nolint:staticcheck // still handling the deprecated behavior
+		r.Conversions = []conversion.Conversion{
+			conversion.NewIdentityConversionExpandPaths("*", "*", conversion.DefaultPathPrefixes(), "retentionPolicy.retentionPeriod"),
+			conversion.NewIdentityConversionExpandPaths("*", "*", conversion.DefaultPathPrefixes(), "retentionPolicy.retentionPeriod"),
+
+			conversion.NewFieldTypeConversion("v1beta2", "v1beta3", "spec.forProvider.retentionPolicy.retentionPeriod", conversion.FloatToString),
+			conversion.NewFieldTypeConversion("v1beta2", "v1beta3", "spec.initProvider.retentionPolicy.retentionPeriod", conversion.FloatToString),
+			conversion.NewFieldTypeConversion("v1beta2", "v1beta3", "status.atProvider.retentionPolicy.retentionPeriod", conversion.FloatToString),
+			conversion.NewFieldTypeConversion("v1beta3", "v1beta2", "spec.forProvider.retentionPolicy.retentionPeriod", conversion.StringToFloat),
+			conversion.NewFieldTypeConversion("v1beta3", "v1beta2", "spec.initProvider.retentionPolicy.retentionPeriod", conversion.StringToFloat),
+			conversion.NewFieldTypeConversion("v1beta3", "v1beta2", "status.atProvider.retentionPolicy.retentionPeriod", conversion.StringToFloat),
+		}
 	})
 
 	p.AddResourceConfigurator("google_storage_bucket_iam_member", func(r *config.Resource) {

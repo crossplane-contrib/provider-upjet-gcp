@@ -13,7 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type HTTPSHealthCheckInitParameters_2 struct {
+type HTTPSHealthCheckInitParameters struct {
 
 	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
@@ -54,7 +54,7 @@ type HTTPSHealthCheckInitParameters_2 struct {
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
-type HTTPSHealthCheckObservation_2 struct {
+type HTTPSHealthCheckObservation struct {
 
 	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
@@ -62,6 +62,10 @@ type HTTPSHealthCheckObservation_2 struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -104,7 +108,7 @@ type HTTPSHealthCheckObservation_2 struct {
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
-type HTTPSHealthCheckParameters_2 struct {
+type HTTPSHealthCheckParameters struct {
 
 	// How often (in seconds) to send a health check. The default value is 5
 	// seconds.
@@ -157,7 +161,7 @@ type HTTPSHealthCheckParameters_2 struct {
 // HTTPSHealthCheckSpec defines the desired state of HTTPSHealthCheck
 type HTTPSHealthCheckSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     HTTPSHealthCheckParameters_2 `json:"forProvider"`
+	ForProvider     HTTPSHealthCheckParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -168,13 +172,13 @@ type HTTPSHealthCheckSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider HTTPSHealthCheckInitParameters_2 `json:"initProvider,omitempty"`
+	InitProvider HTTPSHealthCheckInitParameters `json:"initProvider,omitempty"`
 }
 
 // HTTPSHealthCheckStatus defines the observed state of HTTPSHealthCheck.
 type HTTPSHealthCheckStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        HTTPSHealthCheckObservation_2 `json:"atProvider,omitempty"`
+	AtProvider        HTTPSHealthCheckObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

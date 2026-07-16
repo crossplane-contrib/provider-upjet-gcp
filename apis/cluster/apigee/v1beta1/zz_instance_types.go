@@ -114,6 +114,10 @@ type InstanceObservation struct {
 	// project associated with the Apigee organization will be included to the list.
 	ConsumerAcceptList []*string `json:"consumerAcceptList,omitempty" tf:"consumer_accept_list,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

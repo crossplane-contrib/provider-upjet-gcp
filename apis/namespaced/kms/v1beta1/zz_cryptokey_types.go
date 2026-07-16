@@ -46,6 +46,7 @@ type CryptoKeyInitParameters struct {
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
 	// or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// This field is only applicable during initial CryptoKey creation.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// A template describing settings for new crypto key versions.
@@ -58,6 +59,10 @@ type CryptoKeyObservation struct {
 	// The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
 	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 30 days.
@@ -101,6 +106,7 @@ type CryptoKeyObservation struct {
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
 	// or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// This field is only applicable during initial CryptoKey creation.
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 
 	// The combination of labels configured directly on the resource
@@ -166,6 +172,7 @@ type CryptoKeyParameters struct {
 	// If set to true, the request will create a CryptoKey without any CryptoKeyVersions.
 	// You must use the google_kms_crypto_key_version resource to create a new CryptoKeyVersion
 	// or google_kms_key_ring_import_job resource to import the CryptoKeyVersion.
+	// This field is only applicable during initial CryptoKey creation.
 	// +kubebuilder:validation:Optional
 	SkipInitialVersionCreation *bool `json:"skipInitialVersionCreation,omitempty" tf:"skip_initial_version_creation,omitempty"`
 

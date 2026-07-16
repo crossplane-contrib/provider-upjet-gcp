@@ -13,6 +13,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type NluSettingsInitParameters struct {
+}
+
+type NluSettingsObservation struct {
+
+	// To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold. If the returned score value is less than the threshold value, then a no-match event will be triggered.
+	// The score values range from 0.0 (completely uncertain) to 1.0 (completely certain). If set to 0.0, the default of 0.3 is used.
+	ClassificationThreshold *float64 `json:"classificationThreshold,omitempty" tf:"classification_threshold,omitempty"`
+
+	// Indicates NLU model training mode.
+	ModelTrainingMode *string `json:"modelTrainingMode,omitempty" tf:"model_training_mode,omitempty"`
+
+	// Indicates the type of NLU model.
+	ModelType *string `json:"modelType,omitempty" tf:"model_type,omitempty"`
+}
+
+type NluSettingsParameters struct {
+}
+
 type VersionInitParameters struct {
 
 	// The description of the version. The maximum length is 500 characters. If exceeded, the request is rejected.
@@ -36,29 +55,14 @@ type VersionInitParameters struct {
 	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
 }
 
-type VersionNluSettingsInitParameters struct {
-}
-
-type VersionNluSettingsObservation struct {
-
-	// To filter out false positive results and still get variety in matched natural language inputs for your agent, you can tune the machine learning classification threshold. If the returned score value is less than the threshold value, then a no-match event will be triggered.
-	// The score values range from 0.0 (completely uncertain) to 1.0 (completely certain). If set to 0.0, the default of 0.3 is used.
-	ClassificationThreshold *float64 `json:"classificationThreshold,omitempty" tf:"classification_threshold,omitempty"`
-
-	// Indicates NLU model training mode.
-	ModelTrainingMode *string `json:"modelTrainingMode,omitempty" tf:"model_training_mode,omitempty"`
-
-	// Indicates the type of NLU model.
-	ModelType *string `json:"modelType,omitempty" tf:"model_type,omitempty"`
-}
-
-type VersionNluSettingsParameters struct {
-}
-
 type VersionObservation struct {
 
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the version. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -74,7 +78,7 @@ type VersionObservation struct {
 
 	// The NLU settings of the flow at version creation.
 	// Structure is documented below.
-	NluSettings []VersionNluSettingsObservation `json:"nluSettings,omitempty" tf:"nlu_settings,omitempty"`
+	NluSettings []NluSettingsObservation `json:"nluSettings,omitempty" tf:"nlu_settings,omitempty"`
 
 	// The Flow to create an Version for.
 	// Format: projects//locations//agents//flows/.

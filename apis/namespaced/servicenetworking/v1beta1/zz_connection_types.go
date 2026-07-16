@@ -16,7 +16,8 @@ import (
 
 type ConnectionInitParameters struct {
 
-	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// Defaults to "DELETE".
+	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
@@ -57,7 +58,8 @@ type ConnectionInitParameters struct {
 
 type ConnectionObservation struct {
 
-	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// Defaults to "DELETE".
+	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -84,7 +86,8 @@ type ConnectionObservation struct {
 
 type ConnectionParameters struct {
 
-	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// Defaults to "DELETE".
+	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 

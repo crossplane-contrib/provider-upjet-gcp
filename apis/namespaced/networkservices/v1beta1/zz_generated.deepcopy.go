@@ -54,6 +54,11 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 			}
 		}
 	}
+	if in.AllPorts != nil {
+		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -252,6 +257,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 			}
 		}
 	}
+	if in.AllPorts != nil {
+		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -271,6 +281,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 	if in.DeleteSwgAutogenRouterOnDestroy != nil {
 		in, out := &in.DeleteSwgAutogenRouterOnDestroy, &out.DeleteSwgAutogenRouterOnDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -432,6 +447,11 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.AllPorts != nil {
+		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
 	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls

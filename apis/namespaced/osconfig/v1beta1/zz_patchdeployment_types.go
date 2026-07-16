@@ -324,6 +324,9 @@ type PatchConfigInitParameters struct {
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
 
+	// Enables enhanced reporting for the patch job:
+	SkipUnpatchableVms *bool `json:"skipUnpatchableVms,omitempty" tf:"skip_unpatchable_vms,omitempty"`
+
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.
 	WindowsUpdate *WindowsUpdateInitParameters `json:"windowsUpdate,omitempty" tf:"windows_update,omitempty"`
@@ -361,6 +364,9 @@ type PatchConfigObservation struct {
 	// Post-patch reboot settings.
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
+
+	// Enables enhanced reporting for the patch job:
+	SkipUnpatchableVms *bool `json:"skipUnpatchableVms,omitempty" tf:"skip_unpatchable_vms,omitempty"`
 
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.
@@ -405,6 +411,10 @@ type PatchConfigParameters struct {
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	// +kubebuilder:validation:Optional
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
+
+	// Enables enhanced reporting for the patch job:
+	// +kubebuilder:validation:Optional
+	SkipUnpatchableVms *bool `json:"skipUnpatchableVms,omitempty" tf:"skip_unpatchable_vms,omitempty"`
 
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.
@@ -679,6 +689,10 @@ type PatchDeploymentObservation struct {
 	// Time the patch deployment was created. Timestamp is in RFC3339 text format.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the patch deployment. Length of the description is limited to 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

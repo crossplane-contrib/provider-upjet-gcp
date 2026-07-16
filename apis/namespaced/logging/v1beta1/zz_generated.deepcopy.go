@@ -620,6 +620,11 @@ func (in *FolderBucketConfigObservation) DeepCopyInto(out *FolderBucketConfigObs
 		*out = new(CmekSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1103,6 +1108,11 @@ func (in *FolderSinkObservation) DeepCopyInto(out *FolderSinkObservation) {
 		in, out := &in.BigqueryOptions, &out.BigqueryOptions
 		*out = new(BigqueryOptionsObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -1627,6 +1637,11 @@ func (in *LogViewObservation) DeepCopyInto(out *LogViewObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2032,6 +2047,11 @@ func (in *MetricObservation) DeepCopyInto(out *MetricObservation) {
 		in, out := &in.BucketOptions, &out.BucketOptions
 		*out = new(BucketOptionsObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -2500,6 +2520,11 @@ func (in *ProjectBucketConfigObservation) DeepCopyInto(out *ProjectBucketConfigO
 		in, out := &in.CmekSettings, &out.CmekSettings
 		*out = new(ProjectBucketConfigCmekSettingsObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -3182,6 +3207,11 @@ func (in *ProjectSinkObservation) DeepCopyInto(out *ProjectSinkObservation) {
 	}
 	if in.CustomWriterIdentity != nil {
 		in, out := &in.CustomWriterIdentity, &out.CustomWriterIdentity
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

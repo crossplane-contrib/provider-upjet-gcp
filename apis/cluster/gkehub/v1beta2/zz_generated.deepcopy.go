@@ -675,6 +675,11 @@ func (in *MembershipObservation) DeepCopyInto(out *MembershipObservation) {
 		*out = new(AuthorityObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.EffectiveLabels != nil {
 		in, out := &in.EffectiveLabels, &out.EffectiveLabels
 		*out = make(map[string]*string, len(*in))

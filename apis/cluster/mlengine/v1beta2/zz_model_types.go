@@ -73,6 +73,10 @@ type ModelObservation struct {
 	// Structure is documented below.
 	DefaultVersion *DefaultVersionObservation `json:"defaultVersion,omitempty" tf:"default_version,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description specified for the model when it was created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

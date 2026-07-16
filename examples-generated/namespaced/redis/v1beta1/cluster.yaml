@@ -8,13 +8,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: redis/v1beta1/cluster
   labels:
-    testing.upbound.io/example-name: cluster-ha
-  name: cluster-ha
+    testing.upbound.io/example-name: cluster-ha-with-labels
+  name: cluster-ha-with-labels
   namespace: upbound-system
 spec:
   forProvider:
     authorizationMode: AUTH_MODE_DISABLED
     deletionProtectionEnabled: true
+    labels:
+      my_key: my_val
+      other_key: other_val
     maintenancePolicy:
       weeklyMaintenanceWindow:
       - day: MONDAY

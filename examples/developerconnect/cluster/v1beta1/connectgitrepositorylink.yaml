@@ -19,7 +19,9 @@ spec:
         testing.upbound.io/example-name: my-connection
     cloneUri: https://github.com/myuser/myrepo.git
 
+
 ---
+
 apiVersion: developerconnect.gcp.upbound.io/v1beta1
 kind: ConnectConnection
 metadata:
@@ -39,8 +41,10 @@ spec:
             testing.upbound.io/example-name: github-token-secret-version
       githubApp: DEVELOPER_CONNECT
     location: us-central1
+
 ---
-apiVersion: secretmanager.gcp.upbound.io/v1beta1
+
+apiVersion: secretmanager.gcp.upbound.io/v1beta2
 kind: Secret
 metadata:
   annotations:
@@ -54,7 +58,9 @@ spec:
     replication:
     - auto:
       - {}
+
 ---
+
 apiVersion: secretmanager.gcp.upbound.io/v1beta1
 kind: SecretVersion
 metadata:
@@ -73,7 +79,9 @@ spec:
     secretSelector:
       matchLabels:
         testing.upbound.io/example-name: github-token-secret
+
 ---
+
 apiVersion: v1
 kind: Secret
 metadata:

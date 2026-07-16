@@ -104,6 +104,10 @@ type EntityTypeObservation struct {
 	// Represents kinds of entities.
 	AutoExpansionMode *string `json:"autoExpansionMode,omitempty" tf:"auto_expansion_mode,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The human-readable name of the entity type, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

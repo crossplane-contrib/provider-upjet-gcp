@@ -503,6 +503,10 @@ type StandardAppVersionObservation struct {
 	// If set to true, the service will be deleted if it is the last version.
 	DeleteServiceOnDestroy *bool `json:"deleteServiceOnDestroy,omitempty" tf:"delete_service_on_destroy,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Code and application artifacts that make up this version.
 	// Structure is documented below.
 	Deployment *DeploymentObservation `json:"deployment,omitempty" tf:"deployment,omitempty"`

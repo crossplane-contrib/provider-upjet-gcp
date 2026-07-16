@@ -22,6 +22,8 @@ type EnvReferencesInitParameters struct {
 }
 
 type EnvReferencesObservation struct {
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`

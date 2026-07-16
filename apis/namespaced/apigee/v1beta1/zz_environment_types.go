@@ -93,6 +93,10 @@ type EnvironmentObservation struct {
 	// Structure is documented below.
 	ClientIPResolutionConfig *ClientIPResolutionConfigObservation `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
 	// deployment, you will be prevented from performing a subset of actions within the

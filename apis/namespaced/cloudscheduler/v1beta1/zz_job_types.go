@@ -315,6 +315,10 @@ type JobObservation struct {
 	// The allowed duration for this deadline is:
 	AttemptDeadline *string `json:"attemptDeadline,omitempty" tf:"attempt_deadline,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description for the job.
 	// This string must not contain more than 500 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

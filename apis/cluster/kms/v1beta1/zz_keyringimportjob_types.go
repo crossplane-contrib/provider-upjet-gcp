@@ -13,10 +13,10 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type KeyRingImportJobAttestationInitParameters struct {
+type AttestationInitParameters struct {
 }
 
-type KeyRingImportJobAttestationObservation struct {
+type AttestationObservation struct {
 
 	// (Output)
 	// The attestation data provided by the HSM when the key operation was performed.
@@ -28,7 +28,7 @@ type KeyRingImportJobAttestationObservation struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 }
 
-type KeyRingImportJobAttestationParameters struct {
+type AttestationParameters struct {
 }
 
 type KeyRingImportJobInitParameters struct {
@@ -49,7 +49,11 @@ type KeyRingImportJobObservation struct {
 	// Use this statement to verify attributes of the key as stored on the HSM, independently of Google.
 	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	// Structure is documented below.
-	Attestation []KeyRingImportJobAttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
+	Attestation []AttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The time at which this resource is scheduled for expiration and can no longer be used.
 	// This is in RFC3339 text format.

@@ -26,6 +26,10 @@ type ApplicationURLDispatchRulesInitParameters struct {
 
 type ApplicationURLDispatchRulesObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Rules to match an HTTP request and dispatch that request to a service.
 	// Structure is documented below.
 	DispatchRules []DispatchRulesObservation `json:"dispatchRules,omitempty" tf:"dispatch_rules,omitempty"`

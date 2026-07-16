@@ -6,14 +6,14 @@ apiVersion: bigtable.gcp.m.upbound.io/v1beta1
 kind: TableIAMPolicy
 metadata:
   annotations:
-    meta.upbound.io/example-id: bigtable/v1beta1/tableiampolicy
+    meta.upbound.io/example-id: bigtable/v1beta2/tableiampolicy
   labels:
     testing.upbound.io/example-name: editor
   name: editor
   namespace: upbound-system
 spec:
   forProvider:
-    instance: your-bigtable-instance
+    instanceName: your-bigtable-instance
     policyData: ${data.google_iam_policy.admin.policy_data}
     project: your-project
     table: your-bigtable-table

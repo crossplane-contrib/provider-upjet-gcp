@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: addresses.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -88,6 +88,13 @@ spec:
                     type: string
                   description:
                     description: An optional description of this resource.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+                      The PDP must support enhanced IPv4 allocations.
+                      Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+                      Full resource URL, as in:
                     type: string
                   ipVersion:
                     description: |-
@@ -327,6 +334,13 @@ spec:
                     type: string
                   description:
                     description: An optional description of this resource.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+                      The PDP must support enhanced IPv4 allocations.
+                      Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+                      Full resource URL, as in:
                     type: string
                   ipVersion:
                     description: |-
@@ -628,6 +642,10 @@ spec:
                       The IP address must be inside the specified subnetwork,
                       if any. Set by the API if undefined.
                     type: string
+                  addressId:
+                    description: The unique numeric identifier for the resource. This
+                      identifier is defined by the server.
+                    type: string
                   addressType:
                     description: |-
                       The type of address to reserve.
@@ -637,6 +655,11 @@ spec:
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of this resource.
@@ -649,6 +672,13 @@ spec:
                     x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+                      The PDP must support enhanced IPv4 allocations.
+                      Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+                      Full resource URL, as in:
                     type: string
                   ipVersion:
                     description: |-

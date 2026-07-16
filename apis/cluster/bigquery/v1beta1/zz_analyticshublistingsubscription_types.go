@@ -13,20 +13,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type AnalyticsHubListingSubscriptionCommercialInfoInitParameters struct {
-}
-
-type AnalyticsHubListingSubscriptionCommercialInfoObservation struct {
-
-	// (Output)
-	// Cloud Marketplace commercial metadata for this subscription.
-	// Structure is documented below.
-	CloudMarketplace []CommercialInfoCloudMarketplaceObservation `json:"cloudMarketplace,omitempty" tf:"cloud_marketplace,omitempty"`
-}
-
-type AnalyticsHubListingSubscriptionCommercialInfoParameters struct {
-}
-
 type AnalyticsHubListingSubscriptionInitParameters struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
@@ -70,13 +56,17 @@ type AnalyticsHubListingSubscriptionObservation struct {
 
 	// Commercial info metadata for this subscription. This is set if this is a commercial subscription i.e. if this subscription was created from subscribing to a commercial listing.
 	// Structure is documented below.
-	CommercialInfo []AnalyticsHubListingSubscriptionCommercialInfoObservation `json:"commercialInfo,omitempty" tf:"commercial_info,omitempty"`
+	CommercialInfo []CommercialInfoObservation `json:"commercialInfo,omitempty" tf:"commercial_info,omitempty"`
 
 	// Timestamp when the subscription was created.
 	CreationTime *string `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The destination dataset for this subscription.
 	// Structure is documented below.
@@ -176,17 +166,31 @@ type AnalyticsHubListingSubscriptionParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
-type CommercialInfoCloudMarketplaceInitParameters struct {
+type CloudMarketplaceInitParameters struct {
 }
 
-type CommercialInfoCloudMarketplaceObservation struct {
+type CloudMarketplaceObservation struct {
 
 	// (Output)
 	// Resource name of the Marketplace Order.
 	Order *string `json:"order,omitempty" tf:"order,omitempty"`
 }
 
-type CommercialInfoCloudMarketplaceParameters struct {
+type CloudMarketplaceParameters struct {
+}
+
+type CommercialInfoInitParameters struct {
+}
+
+type CommercialInfoObservation struct {
+
+	// (Output)
+	// Cloud Marketplace commercial metadata for this subscription.
+	// Structure is documented below.
+	CloudMarketplace []CloudMarketplaceObservation `json:"cloudMarketplace,omitempty" tf:"cloud_marketplace,omitempty"`
+}
+
+type CommercialInfoParameters struct {
 }
 
 type DatasetReferenceInitParameters struct {
@@ -258,6 +262,10 @@ type DestinationDatasetInitParameters struct {
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type DestinationDatasetObservation struct {
@@ -280,6 +288,10 @@ type DestinationDatasetObservation struct {
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type DestinationDatasetParameters struct {
@@ -307,6 +319,11 @@ type DestinationDatasetParameters struct {
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type LinkedDatasetMapInitParameters struct {

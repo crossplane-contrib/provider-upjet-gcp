@@ -109,6 +109,11 @@ func (in *AgentPoolObservation) DeepCopyInto(out *AgentPoolObservation) {
 		*out = new(BandwidthLimitObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)

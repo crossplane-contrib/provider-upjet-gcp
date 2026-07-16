@@ -531,10 +531,20 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 		*out = new(AdvancedSettingsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AnswerFeedbackSettings != nil {
+		in, out := &in.AnswerFeedbackSettings, &out.AnswerFeedbackSettings
+		*out = new(AnswerFeedbackSettingsInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AvatarURI != nil {
 		in, out := &in.AvatarURI, &out.AvatarURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientCertificateSettings != nil {
+		in, out := &in.ClientCertificateSettings, &out.ClientCertificateSettings
+		*out = new(ClientCertificateSettingsInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLanguageCode != nil {
 		in, out := &in.DefaultLanguageCode, &out.DefaultLanguageCode
@@ -554,6 +564,11 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableMultiLanguageTraining != nil {
+		in, out := &in.EnableMultiLanguageTraining, &out.EnableMultiLanguageTraining
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableSpellCorrection != nil {
@@ -581,6 +596,16 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PersonalizationSettings != nil {
+		in, out := &in.PersonalizationSettings, &out.PersonalizationSettings
+		*out = new(PersonalizationSettingsInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -595,6 +620,11 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 		in, out := &in.SpeechToTextSettings, &out.SpeechToTextSettings
 		*out = new(SpeechToTextSettingsInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.StartPlaybook != nil {
+		in, out := &in.StartPlaybook, &out.StartPlaybook
+		*out = new(string)
+		**out = **in
 	}
 	if in.SupportedLanguageCodes != nil {
 		in, out := &in.SupportedLanguageCodes, &out.SupportedLanguageCodes
@@ -669,10 +699,20 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 		*out = new(AdvancedSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AnswerFeedbackSettings != nil {
+		in, out := &in.AnswerFeedbackSettings, &out.AnswerFeedbackSettings
+		*out = new(AnswerFeedbackSettingsObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AvatarURI != nil {
 		in, out := &in.AvatarURI, &out.AvatarURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientCertificateSettings != nil {
+		in, out := &in.ClientCertificateSettings, &out.ClientCertificateSettings
+		*out = new(ClientCertificateSettingsObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLanguageCode != nil {
 		in, out := &in.DefaultLanguageCode, &out.DefaultLanguageCode
@@ -684,6 +724,11 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -692,6 +737,11 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableMultiLanguageTraining != nil {
+		in, out := &in.EnableMultiLanguageTraining, &out.EnableMultiLanguageTraining
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableSpellCorrection != nil {
@@ -724,14 +774,34 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}
+	if in.PersonalizationSettings != nil {
+		in, out := &in.PersonalizationSettings, &out.PersonalizationSettings
+		*out = new(PersonalizationSettingsObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.SatisfiesPzi != nil {
+		in, out := &in.SatisfiesPzi, &out.SatisfiesPzi
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SatisfiesPzs != nil {
+		in, out := &in.SatisfiesPzs, &out.SatisfiesPzs
+		*out = new(bool)
 		**out = **in
 	}
 	if in.SecuritySettings != nil {
@@ -746,6 +816,11 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 	}
 	if in.StartFlow != nil {
 		in, out := &in.StartFlow, &out.StartFlow
+		*out = new(string)
+		**out = **in
+	}
+	if in.StartPlaybook != nil {
+		in, out := &in.StartPlaybook, &out.StartPlaybook
 		*out = new(string)
 		**out = **in
 	}
@@ -790,10 +865,20 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 		*out = new(AdvancedSettingsParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AnswerFeedbackSettings != nil {
+		in, out := &in.AnswerFeedbackSettings, &out.AnswerFeedbackSettings
+		*out = new(AnswerFeedbackSettingsParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AvatarURI != nil {
 		in, out := &in.AvatarURI, &out.AvatarURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientCertificateSettings != nil {
+		in, out := &in.ClientCertificateSettings, &out.ClientCertificateSettings
+		*out = new(ClientCertificateSettingsParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLanguageCode != nil {
 		in, out := &in.DefaultLanguageCode, &out.DefaultLanguageCode
@@ -813,6 +898,11 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableMultiLanguageTraining != nil {
+		in, out := &in.EnableMultiLanguageTraining, &out.EnableMultiLanguageTraining
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableSpellCorrection != nil {
@@ -840,6 +930,16 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PersonalizationSettings != nil {
+		in, out := &in.PersonalizationSettings, &out.PersonalizationSettings
+		*out = new(PersonalizationSettingsParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -854,6 +954,11 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 		in, out := &in.SpeechToTextSettings, &out.SpeechToTextSettings
 		*out = new(SpeechToTextSettingsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.StartPlaybook != nil {
+		in, out := &in.StartPlaybook, &out.StartPlaybook
+		*out = new(string)
+		**out = **in
 	}
 	if in.SupportedLanguageCodes != nil {
 		in, out := &in.SupportedLanguageCodes, &out.SupportedLanguageCodes
@@ -924,6 +1029,66 @@ func (in *AgentStatus) DeepCopy() *AgentStatus {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AnswerFeedbackSettingsInitParameters) DeepCopyInto(out *AnswerFeedbackSettingsInitParameters) {
+	*out = *in
+	if in.EnableAnswerFeedback != nil {
+		in, out := &in.EnableAnswerFeedback, &out.EnableAnswerFeedback
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AnswerFeedbackSettingsInitParameters.
+func (in *AnswerFeedbackSettingsInitParameters) DeepCopy() *AnswerFeedbackSettingsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(AnswerFeedbackSettingsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AnswerFeedbackSettingsObservation) DeepCopyInto(out *AnswerFeedbackSettingsObservation) {
+	*out = *in
+	if in.EnableAnswerFeedback != nil {
+		in, out := &in.EnableAnswerFeedback, &out.EnableAnswerFeedback
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AnswerFeedbackSettingsObservation.
+func (in *AnswerFeedbackSettingsObservation) DeepCopy() *AnswerFeedbackSettingsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(AnswerFeedbackSettingsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AnswerFeedbackSettingsParameters) DeepCopyInto(out *AnswerFeedbackSettingsParameters) {
+	*out = *in
+	if in.EnableAnswerFeedback != nil {
+		in, out := &in.EnableAnswerFeedback, &out.EnableAnswerFeedback
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AnswerFeedbackSettingsParameters.
+func (in *AnswerFeedbackSettingsParameters) DeepCopy() *AnswerFeedbackSettingsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(AnswerFeedbackSettingsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AudioExportGcsDestinationInitParameters) DeepCopyInto(out *AudioExportGcsDestinationInitParameters) {
 	*out = *in
 	if in.URI != nil {
@@ -979,6 +1144,96 @@ func (in *AudioExportGcsDestinationParameters) DeepCopy() *AudioExportGcsDestina
 		return nil
 	}
 	out := new(AudioExportGcsDestinationParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ClientCertificateSettingsInitParameters) DeepCopyInto(out *ClientCertificateSettingsInitParameters) {
+	*out = *in
+	if in.Passphrase != nil {
+		in, out := &in.Passphrase, &out.Passphrase
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKey != nil {
+		in, out := &in.PrivateKey, &out.PrivateKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLCertificate != nil {
+		in, out := &in.SSLCertificate, &out.SSLCertificate
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ClientCertificateSettingsInitParameters.
+func (in *ClientCertificateSettingsInitParameters) DeepCopy() *ClientCertificateSettingsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ClientCertificateSettingsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ClientCertificateSettingsObservation) DeepCopyInto(out *ClientCertificateSettingsObservation) {
+	*out = *in
+	if in.Passphrase != nil {
+		in, out := &in.Passphrase, &out.Passphrase
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKey != nil {
+		in, out := &in.PrivateKey, &out.PrivateKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLCertificate != nil {
+		in, out := &in.SSLCertificate, &out.SSLCertificate
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ClientCertificateSettingsObservation.
+func (in *ClientCertificateSettingsObservation) DeepCopy() *ClientCertificateSettingsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ClientCertificateSettingsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ClientCertificateSettingsParameters) DeepCopyInto(out *ClientCertificateSettingsParameters) {
+	*out = *in
+	if in.Passphrase != nil {
+		in, out := &in.Passphrase, &out.Passphrase
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKey != nil {
+		in, out := &in.PrivateKey, &out.PrivateKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLCertificate != nil {
+		in, out := &in.SSLCertificate, &out.SSLCertificate
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ClientCertificateSettingsParameters.
+func (in *ClientCertificateSettingsParameters) DeepCopy() *ClientCertificateSettingsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ClientCertificateSettingsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3503,6 +3758,11 @@ func (in *FlowObservation) DeepCopyInto(out *FlowObservation) {
 		*out = new(FlowAdvancedSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -3909,6 +4169,11 @@ func (in *GenericWebServiceInitParameters) DeepCopyInto(out *GenericWebServiceIn
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(ServiceAccountAuthConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -4147,6 +4412,11 @@ func (in *GenericWebServiceObservation) DeepCopyInto(out *GenericWebServiceObser
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(ServiceAccountAuthConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -4247,6 +4517,11 @@ func (in *GenericWebServiceParameters) DeepCopyInto(out *GenericWebServiceParame
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(ServiceAccountAuthConfigParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -4345,6 +4620,66 @@ func (in *GenericWebServiceSecretVersionsForRequestHeadersParameters) DeepCopy()
 		return nil
 	}
 	out := new(GenericWebServiceSecretVersionsForRequestHeadersParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *GenericWebServiceServiceAccountAuthConfigInitParameters) DeepCopyInto(out *GenericWebServiceServiceAccountAuthConfigInitParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new GenericWebServiceServiceAccountAuthConfigInitParameters.
+func (in *GenericWebServiceServiceAccountAuthConfigInitParameters) DeepCopy() *GenericWebServiceServiceAccountAuthConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(GenericWebServiceServiceAccountAuthConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *GenericWebServiceServiceAccountAuthConfigObservation) DeepCopyInto(out *GenericWebServiceServiceAccountAuthConfigObservation) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new GenericWebServiceServiceAccountAuthConfigObservation.
+func (in *GenericWebServiceServiceAccountAuthConfigObservation) DeepCopy() *GenericWebServiceServiceAccountAuthConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(GenericWebServiceServiceAccountAuthConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *GenericWebServiceServiceAccountAuthConfigParameters) DeepCopyInto(out *GenericWebServiceServiceAccountAuthConfigParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new GenericWebServiceServiceAccountAuthConfigParameters.
+func (in *GenericWebServiceServiceAccountAuthConfigParameters) DeepCopy() *GenericWebServiceServiceAccountAuthConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(GenericWebServiceServiceAccountAuthConfigParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -9106,6 +9441,11 @@ func (in *PageObservation) DeepCopyInto(out *PageObservation) {
 		*out = new(PageAdvancedSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -10212,6 +10552,66 @@ func (in *ParametersParameters) DeepCopy() *ParametersParameters {
 		return nil
 	}
 	out := new(ParametersParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PersonalizationSettingsInitParameters) DeepCopyInto(out *PersonalizationSettingsInitParameters) {
+	*out = *in
+	if in.DefaultEndUserMetadata != nil {
+		in, out := &in.DefaultEndUserMetadata, &out.DefaultEndUserMetadata
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PersonalizationSettingsInitParameters.
+func (in *PersonalizationSettingsInitParameters) DeepCopy() *PersonalizationSettingsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PersonalizationSettingsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PersonalizationSettingsObservation) DeepCopyInto(out *PersonalizationSettingsObservation) {
+	*out = *in
+	if in.DefaultEndUserMetadata != nil {
+		in, out := &in.DefaultEndUserMetadata, &out.DefaultEndUserMetadata
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PersonalizationSettingsObservation.
+func (in *PersonalizationSettingsObservation) DeepCopy() *PersonalizationSettingsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PersonalizationSettingsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PersonalizationSettingsParameters) DeepCopyInto(out *PersonalizationSettingsParameters) {
+	*out = *in
+	if in.DefaultEndUserMetadata != nil {
+		in, out := &in.DefaultEndUserMetadata, &out.DefaultEndUserMetadata
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PersonalizationSettingsParameters.
+func (in *PersonalizationSettingsParameters) DeepCopy() *PersonalizationSettingsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PersonalizationSettingsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -11448,6 +11848,66 @@ func (in *SegmentsParameters) DeepCopy() *SegmentsParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceAccountAuthConfigInitParameters) DeepCopyInto(out *ServiceAccountAuthConfigInitParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceAccountAuthConfigInitParameters.
+func (in *ServiceAccountAuthConfigInitParameters) DeepCopy() *ServiceAccountAuthConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceAccountAuthConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceAccountAuthConfigObservation) DeepCopyInto(out *ServiceAccountAuthConfigObservation) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceAccountAuthConfigObservation.
+func (in *ServiceAccountAuthConfigObservation) DeepCopy() *ServiceAccountAuthConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceAccountAuthConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceAccountAuthConfigParameters) DeepCopyInto(out *ServiceAccountAuthConfigParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceAccountAuthConfigParameters.
+func (in *ServiceAccountAuthConfigParameters) DeepCopy() *ServiceAccountAuthConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceAccountAuthConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ServiceDirectoryGenericWebServiceInitParameters) DeepCopyInto(out *ServiceDirectoryGenericWebServiceInitParameters) {
 	*out = *in
 	if in.AllowedCACerts != nil {
@@ -11519,6 +11979,11 @@ func (in *ServiceDirectoryGenericWebServiceInitParameters) DeepCopyInto(out *Ser
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(GenericWebServiceServiceAccountAuthConfigInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
@@ -11620,6 +12085,11 @@ func (in *ServiceDirectoryGenericWebServiceObservation) DeepCopyInto(out *Servic
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(GenericWebServiceServiceAccountAuthConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -11719,6 +12189,11 @@ func (in *ServiceDirectoryGenericWebServiceParameters) DeepCopyInto(out *Service
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(GenericWebServiceServiceAccountAuthConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
@@ -14777,6 +15252,11 @@ func (in *WebhookList) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WebhookObservation) DeepCopyInto(out *WebhookObservation) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Disabled != nil {
 		in, out := &in.Disabled, &out.Disabled
 		*out = new(bool)

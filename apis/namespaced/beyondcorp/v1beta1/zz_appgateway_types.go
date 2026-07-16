@@ -59,6 +59,10 @@ type AppGatewayObservation struct {
 	// Structure is documented below.
 	AllocatedConnections []AllocatedConnectionsObservation `json:"allocatedConnections,omitempty" tf:"allocated_connections,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An arbitrary user-provided name for the AppGateway.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

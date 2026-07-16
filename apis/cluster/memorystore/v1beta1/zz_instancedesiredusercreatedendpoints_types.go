@@ -70,6 +70,10 @@ type InstanceDesiredUserCreatedEndpointsInitParameters struct {
 
 type InstanceDesiredUserCreatedEndpointsObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A list of desired user endpoints
 	// Structure is documented below.
 	DesiredUserCreatedEndpoints []DesiredUserCreatedEndpointsObservation `json:"desiredUserCreatedEndpoints,omitempty" tf:"desired_user_created_endpoints,omitempty"`

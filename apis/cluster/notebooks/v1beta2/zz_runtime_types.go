@@ -444,6 +444,10 @@ type RuntimeObservation struct {
 	// Structure is documented below.
 	AccessConfig *AccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`

@@ -1099,6 +1099,10 @@ type OsPolicyAssignmentObservation struct {
 	// assignment.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Policy description. Length of the description is
 	// limited to 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

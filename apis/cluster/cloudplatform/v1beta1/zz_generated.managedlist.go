@@ -7,15 +7,6 @@ package v1beta1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-// GetItems of this FolderIAMMemberList.
-func (l *FolderIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this FolderList.
 func (l *FolderList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -36,15 +27,6 @@ func (l *OrganizationIAMAuditConfigList) GetItems() []resource.Managed {
 
 // GetItems of this OrganizationIAMCustomRoleList.
 func (l *OrganizationIAMCustomRoleList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this OrganizationIAMMemberList.
-func (l *OrganizationIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -79,15 +61,6 @@ func (l *ProjectIAMCustomRoleList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this ProjectIAMMemberList.
-func (l *ProjectIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this ProjectList.
 func (l *ProjectList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -108,15 +81,6 @@ func (l *ProjectServiceList) GetItems() []resource.Managed {
 
 // GetItems of this ProjectUsageExportBucketList.
 func (l *ProjectUsageExportBucketList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this ServiceAccountIAMMemberList.
-func (l *ServiceAccountIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

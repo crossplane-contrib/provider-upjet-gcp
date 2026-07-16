@@ -51,6 +51,10 @@ type AccessLevelObservation struct {
 	// Structure is documented below.
 	Custom *CustomObservation `json:"custom,omitempty" tf:"custom,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the AccessLevel and its use. Does not affect behavior.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

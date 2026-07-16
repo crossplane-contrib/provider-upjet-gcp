@@ -276,6 +276,11 @@ func (in *AttestorObservation) DeepCopyInto(out *AttestorObservation) {
 		*out = new(AttestationAuthorityNoteObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -851,6 +856,11 @@ func (in *PolicyObservation) DeepCopyInto(out *PolicyObservation) {
 		in, out := &in.DefaultAdmissionRule, &out.DefaultAdmissionRule
 		*out = new(DefaultAdmissionRuleObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

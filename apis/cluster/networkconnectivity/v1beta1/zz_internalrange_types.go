@@ -123,6 +123,10 @@ type InternalRangeObservation struct {
 	// Structure is documented below.
 	AllocationOptions *AllocationOptionsObservation `json:"allocationOptions,omitempty" tf:"allocation_options,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

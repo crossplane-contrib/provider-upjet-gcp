@@ -21,7 +21,7 @@ func (mg *Connection) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Connection
 func (tr *Connection) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"cloud_sql[*].credential[*].password": "cloudSql.credential.passwordSecretRef"}
+	return map[string]string{"cloud_sql[*].credential[*].password": "cloudSql.credential.passwordSecretRef", "configuration[*].authentication[*].username_password[*].password[*].plaintext": "configuration.authentication.usernamePassword.password.plaintextSecretRef"}
 }
 
 // GetObservation of this Connection

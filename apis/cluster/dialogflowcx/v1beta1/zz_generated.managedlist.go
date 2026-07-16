@@ -7,15 +7,6 @@ package v1beta1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-// GetItems of this AgentList.
-func (l *AgentList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this EntityTypeList.
 func (l *EntityTypeList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -34,15 +25,6 @@ func (l *EnvironmentList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this FlowList.
-func (l *FlowList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this IntentList.
 func (l *IntentList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -52,26 +34,8 @@ func (l *IntentList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this PageList.
-func (l *PageList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this VersionList.
 func (l *VersionList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this WebhookList.
-func (l *WebhookList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

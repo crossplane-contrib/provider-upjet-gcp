@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: capools.privateca.gcp.m.upbound.io
 spec:
   group: privateca.gcp.m.upbound.io
@@ -59,6 +59,19 @@ spec:
             properties:
               forProvider:
                 properties:
+                  encryptionSpec:
+                    description: |-
+                      Used when customer would like to encrypt data at rest. The customer-provided key will be used
+                      to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
+                      customer data will remain unencrypted.
+                      Structure is documented below.
+                    properties:
+                      cloudKmsKey:
+                        description: |-
+                          The resource name for an existing Cloud KMS key in the format
+                          projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                        type: string
+                    type: object
                   issuancePolicy:
                     description: |-
                       The IssuancePolicy to control how Certificates will be issued from this CaPool.
@@ -81,7 +94,7 @@ spec:
                       allowedKeyTypes:
                         description: |-
                           If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
-                          Otherwise, any key may be used.
+                          Otherwise, any key may be used. You can specify only one key type of those listed here.
                           Structure is documented below.
                         items:
                           properties:
@@ -499,6 +512,19 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  encryptionSpec:
+                    description: |-
+                      Used when customer would like to encrypt data at rest. The customer-provided key will be used
+                      to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
+                      customer data will remain unencrypted.
+                      Structure is documented below.
+                    properties:
+                      cloudKmsKey:
+                        description: |-
+                          The resource name for an existing Cloud KMS key in the format
+                          projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                        type: string
+                    type: object
                   issuancePolicy:
                     description: |-
                       The IssuancePolicy to control how Certificates will be issued from this CaPool.
@@ -521,7 +547,7 @@ spec:
                       allowedKeyTypes:
                         description: |-
                           If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
-                          Otherwise, any key may be used.
+                          Otherwise, any key may be used. You can specify only one key type of those listed here.
                           Structure is documented below.
                         items:
                           properties:
@@ -982,12 +1008,30 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
                     description: for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  encryptionSpec:
+                    description: |-
+                      Used when customer would like to encrypt data at rest. The customer-provided key will be used
+                      to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
+                      customer data will remain unencrypted.
+                      Structure is documented below.
+                    properties:
+                      cloudKmsKey:
+                        description: |-
+                          The resource name for an existing Cloud KMS key in the format
+                          projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                        type: string
+                    type: object
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{name}}
                     type: string
@@ -1013,7 +1057,7 @@ spec:
                       allowedKeyTypes:
                         description: |-
                           If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
-                          Otherwise, any key may be used.
+                          Otherwise, any key may be used. You can specify only one key type of those listed here.
                           Structure is documented below.
                         items:
                           properties:

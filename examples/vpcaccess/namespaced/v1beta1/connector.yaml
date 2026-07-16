@@ -9,7 +9,24 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
+    region: us-central1
     ipCidrRange: 10.8.0.0/28
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    uptest.upbound.io/timeout: "4800"
+    meta.upbound.io/example-id: compute/v1beta1/network
+  labels:
+    testing.upbound.io/example-name: example_network
+  name: example-network
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

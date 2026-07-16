@@ -239,6 +239,10 @@ type PolicyInitParameters struct {
 	// to by one or more attestors, that all pod creations will be allowed,
 	// or that all pod creations will be denied. There can be at most one
 	// admission rule per cluster spec.
+	// Identifier format: {{location}}.{{clusterId}}.
+	// A location is either a compute zone (e.g. us-central1-a) or a region
+	// (e.g. us-central1).
+	// Structure is documented below.
 	ClusterAdmissionRules []ClusterAdmissionRulesInitParameters `json:"clusterAdmissionRules,omitempty" tf:"cluster_admission_rules,omitempty"`
 
 	// Default admission rule for a cluster without a per-cluster admission
@@ -273,12 +277,20 @@ type PolicyObservation struct {
 	// to by one or more attestors, that all pod creations will be allowed,
 	// or that all pod creations will be denied. There can be at most one
 	// admission rule per cluster spec.
+	// Identifier format: {{location}}.{{clusterId}}.
+	// A location is either a compute zone (e.g. us-central1-a) or a region
+	// (e.g. us-central1).
+	// Structure is documented below.
 	ClusterAdmissionRules []ClusterAdmissionRulesObservation `json:"clusterAdmissionRules,omitempty" tf:"cluster_admission_rules,omitempty"`
 
 	// Default admission rule for a cluster without a per-cluster admission
 	// rule.
 	// Structure is documented below.
 	DefaultAdmissionRule *DefaultAdmissionRuleObservation `json:"defaultAdmissionRule,omitempty" tf:"default_admission_rule,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A descriptive comment.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -311,6 +323,10 @@ type PolicyParameters struct {
 	// to by one or more attestors, that all pod creations will be allowed,
 	// or that all pod creations will be denied. There can be at most one
 	// admission rule per cluster spec.
+	// Identifier format: {{location}}.{{clusterId}}.
+	// A location is either a compute zone (e.g. us-central1-a) or a region
+	// (e.g. us-central1).
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ClusterAdmissionRules []ClusterAdmissionRulesParameters `json:"clusterAdmissionRules,omitempty" tf:"cluster_admission_rules,omitempty"`
 

@@ -53,6 +53,10 @@ type AppProfileObservation struct {
 	// Structure is documented below.
 	DataBoostIsolationReadOnly *DataBoostIsolationReadOnlyObservation `json:"dataBoostIsolationReadOnly,omitempty" tf:"data_boost_isolation_read_only,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Long form description of the use case for this app profile.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

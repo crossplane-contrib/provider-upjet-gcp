@@ -24,6 +24,10 @@ type NATAddressObservation struct {
 	// Flag that specifies whether the reserved NAT address should be activate.
 	Activate *bool `json:"activate,omitempty" tf:"activate,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format {{instance_id}}/natAddresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

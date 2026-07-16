@@ -16,7 +16,7 @@ import (
 type BucketACLInitParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -45,6 +45,10 @@ type BucketACLObservation struct {
 	// Configure this ACL to be the default ACL.
 	DefaultACL *string `json:"defaultAcl,omitempty" tf:"default_acl,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The canned GCS ACL to apply. Must be set if role_entity is not.
@@ -57,7 +61,7 @@ type BucketACLObservation struct {
 type BucketACLParameters struct {
 
 	// The name of the bucket it applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

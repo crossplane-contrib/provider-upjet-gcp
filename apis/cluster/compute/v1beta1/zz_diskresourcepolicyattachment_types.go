@@ -50,6 +50,10 @@ type DiskResourcePolicyAttachmentInitParameters struct {
 
 type DiskResourcePolicyAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The name of the disk in which the resource policies are attached to.
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 

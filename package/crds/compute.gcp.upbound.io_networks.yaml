@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: networks.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -96,6 +96,11 @@ spec:
                       Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
                       Possible values are: DEFAULT, ADD_COST_TO_MED.
                     type: string
+                  deleteBgpAlwaysCompareMed:
+                    description: |-
+                      If set to true, the bgp_always_compare_med field will be cleared.
+                      If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+                    type: boolean
                   deleteDefaultRoutesOnCreate:
                     description: |-
                       If set to true, default routes (0.0.0.0/0) will be deleted
@@ -205,6 +210,11 @@ spec:
                       Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
                       Possible values are: DEFAULT, ADD_COST_TO_MED.
                     type: string
+                  deleteBgpAlwaysCompareMed:
+                    description: |-
+                      If set to true, the bgp_always_compare_med field will be cleared.
+                      If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+                    type: boolean
                   deleteDefaultRoutesOnCreate:
                     description: |-
                       If set to true, default routes (0.0.0.0/0) will be deleted
@@ -392,11 +402,21 @@ spec:
                       Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
                       Possible values are: DEFAULT, ADD_COST_TO_MED.
                     type: string
+                  deleteBgpAlwaysCompareMed:
+                    description: |-
+                      If set to true, the bgp_always_compare_med field will be cleared.
+                      If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+                    type: boolean
                   deleteDefaultRoutesOnCreate:
                     description: |-
                       If set to true, default routes (0.0.0.0/0) will be deleted
                       immediately after network creation. Defaults to false.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. The resource must be

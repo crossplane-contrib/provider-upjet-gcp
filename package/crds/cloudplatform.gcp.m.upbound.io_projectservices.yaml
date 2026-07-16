@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: projectservices.cloudplatform.gcp.m.upbound.io
 spec:
   group: cloudplatform.gcp.m.upbound.io
@@ -68,9 +68,8 @@ spec:
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. Most configurations should
-                      set this to false; it should generally only be true or unset in configurations
-                      that manage the google_project resource itself.
+                      It should generally only
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -185,9 +184,8 @@ spec:
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. Most configurations should
-                      set this to false; it should generally only be true or unset in configurations
-                      that manage the google_project resource itself.
+                      It should generally only
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -348,6 +346,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableDependentServices:
                     description: |-
                       If true, services that are enabled
@@ -357,9 +360,8 @@ spec:
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. Most configurations should
-                      set this to false; it should generally only be true or unset in configurations
-                      that manage the google_project resource itself.
+                      It should generally only
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   id:
                     description: an identifier for the resource with format {{project}}/{{service}}

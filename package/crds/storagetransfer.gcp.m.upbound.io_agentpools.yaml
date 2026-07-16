@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: agentpools.storagetransfer.gcp.m.upbound.io
 spec:
   group: storagetransfer.gcp.m.upbound.io
@@ -183,6 +183,11 @@ spec:
                           across all the agents in the pool.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: Specifies the client-specified AgentPool description.
                     type: string

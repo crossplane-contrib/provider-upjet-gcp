@@ -608,6 +608,11 @@ func (in *CryptoKeyObservation) DeepCopyInto(out *CryptoKeyObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DestroyScheduledDuration != nil {
 		in, out := &in.DestroyScheduledDuration, &out.DestroyScheduledDuration
 		*out = new(string)
@@ -1022,6 +1027,11 @@ func (in *CryptoKeyVersionObservation) DeepCopyInto(out *CryptoKeyVersionObserva
 	}
 	if in.CryptoKey != nil {
 		in, out := &in.CryptoKey, &out.CryptoKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -1691,6 +1701,11 @@ func (in *KeyRingImportJobObservation) DeepCopyInto(out *KeyRingImportJobObserva
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.ExpireTime != nil {
 		in, out := &in.ExpireTime, &out.ExpireTime

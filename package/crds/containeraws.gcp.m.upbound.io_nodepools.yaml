@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: nodepools.containeraws.gcp.m.upbound.io
 spec:
   group: containeraws.gcp.m.upbound.io
@@ -887,6 +887,11 @@ spec:
                   createTime:
                     description: Output only. The time at which this node pool was
                       created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveAnnotations:
                     additionalProperties:

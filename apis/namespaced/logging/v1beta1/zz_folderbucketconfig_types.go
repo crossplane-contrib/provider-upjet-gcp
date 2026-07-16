@@ -62,6 +62,10 @@ type FolderBucketConfigObservation struct {
 
 	CmekSettings *CmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

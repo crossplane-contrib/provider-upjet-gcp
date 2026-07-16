@@ -69,8 +69,16 @@ type AgentInitParameters struct {
 	// Structure is documented below.
 	AdvancedSettings *AdvancedSettingsInitParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Answer feedback collection settings.
+	// Structure is documented below.
+	AnswerFeedbackSettings *AnswerFeedbackSettingsInitParameters `json:"answerFeedbackSettings,omitempty" tf:"answer_feedback_settings,omitempty"`
+
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
 	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
+
+	// Settings for custom client certificates.
+	// Structure is documented below.
+	ClientCertificateSettings *ClientCertificateSettingsInitParameters `json:"clientCertificateSettings,omitempty" tf:"client_certificate_settings,omitempty"`
 
 	// The default language of the agent as a language tag. See Language Support
 	// for a list of the currently supported language codes. This field cannot be updated after creation.
@@ -84,6 +92,9 @@ type AgentInitParameters struct {
 
 	// The human-readable name of the agent, unique within the location.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Enable training multi-lingual models for this agent. These models will be trained on all the languages supported by the agent.
+	EnableMultiLanguageTraining *bool `json:"enableMultiLanguageTraining,omitempty" tf:"enable_multi_language_training,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
@@ -105,6 +116,13 @@ type AgentInitParameters struct {
 	// Another options is to use global location so you don't need to manually configure location settings.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Indicates whether the agent is locked for changes. If the agent is locked, modifications to the agent will be rejected except for [agents.restore][].
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
+
+	// Settings for end user personalization.
+	// Structure is documented below.
+	PersonalizationSettings *PersonalizationSettingsInitParameters `json:"personalizationSettings,omitempty" tf:"personalization_settings,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -115,6 +133,9 @@ type AgentInitParameters struct {
 	// Settings related to speech recognition.
 	// Structure is documented below.
 	SpeechToTextSettings *SpeechToTextSettingsInitParameters `json:"speechToTextSettings,omitempty" tf:"speech_to_text_settings,omitempty"`
+
+	// Name of the start playbook in this agent. A start playbook will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects/. Currently only the default playbook with id "00000000-0000-0000-0000-000000000000" is allowed.
+	StartPlaybook *string `json:"startPlaybook,omitempty" tf:"start_playbook,omitempty"`
 
 	// The list of all languages supported by this agent (except for the default_language_code).
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
@@ -135,8 +156,16 @@ type AgentObservation struct {
 	// Structure is documented below.
 	AdvancedSettings *AdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Answer feedback collection settings.
+	// Structure is documented below.
+	AnswerFeedbackSettings *AnswerFeedbackSettingsObservation `json:"answerFeedbackSettings,omitempty" tf:"answer_feedback_settings,omitempty"`
+
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
 	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
+
+	// Settings for custom client certificates.
+	// Structure is documented below.
+	ClientCertificateSettings *ClientCertificateSettingsObservation `json:"clientCertificateSettings,omitempty" tf:"client_certificate_settings,omitempty"`
 
 	// The default language of the agent as a language tag. See Language Support
 	// for a list of the currently supported language codes. This field cannot be updated after creation.
@@ -145,11 +174,18 @@ type AgentObservation struct {
 	// Otherwise, the chat engine will persist.
 	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The human-readable name of the agent, unique within the location.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Enable training multi-lingual models for this agent. These models will be trained on all the languages supported by the agent.
+	EnableMultiLanguageTraining *bool `json:"enableMultiLanguageTraining,omitempty" tf:"enable_multi_language_training,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
 	EnableSpellCorrection *bool `json:"enableSpellCorrection,omitempty" tf:"enable_spell_correction,omitempty"`
@@ -174,12 +210,25 @@ type AgentObservation struct {
 	// Another options is to use global location so you don't need to manually configure location settings.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Indicates whether the agent is locked for changes. If the agent is locked, modifications to the agent will be rejected except for [agents.restore][].
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
+
 	// The unique identifier of the agent.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Settings for end user personalization.
+	// Structure is documented below.
+	PersonalizationSettings *PersonalizationSettingsObservation `json:"personalizationSettings,omitempty" tf:"personalization_settings,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A read only boolean field reflecting Zone Isolation status of the agent.
+	SatisfiesPzi *bool `json:"satisfiesPzi,omitempty" tf:"satisfies_pzi,omitempty"`
+
+	// A read only boolean field reflecting Zone Separation status of the agent.
+	SatisfiesPzs *bool `json:"satisfiesPzs,omitempty" tf:"satisfies_pzs,omitempty"`
 
 	// Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
@@ -190,6 +239,9 @@ type AgentObservation struct {
 
 	// Name of the start flow in this agent. A start flow will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects//locations//agents//flows/.
 	StartFlow *string `json:"startFlow,omitempty" tf:"start_flow,omitempty"`
+
+	// Name of the start playbook in this agent. A start playbook will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects/. Currently only the default playbook with id "00000000-0000-0000-0000-000000000000" is allowed.
+	StartPlaybook *string `json:"startPlaybook,omitempty" tf:"start_playbook,omitempty"`
 
 	// The list of all languages supported by this agent (except for the default_language_code).
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
@@ -211,9 +263,19 @@ type AgentParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvancedSettings *AdvancedSettingsParameters `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
 
+	// Answer feedback collection settings.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AnswerFeedbackSettings *AnswerFeedbackSettingsParameters `json:"answerFeedbackSettings,omitempty" tf:"answer_feedback_settings,omitempty"`
+
 	// The URI of the agent's avatar. Avatars are used throughout the Dialogflow console and in the self-hosted Web Demo integration.
 	// +kubebuilder:validation:Optional
 	AvatarURI *string `json:"avatarUri,omitempty" tf:"avatar_uri,omitempty"`
+
+	// Settings for custom client certificates.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientCertificateSettings *ClientCertificateSettingsParameters `json:"clientCertificateSettings,omitempty" tf:"client_certificate_settings,omitempty"`
 
 	// The default language of the agent as a language tag. See Language Support
 	// for a list of the currently supported language codes. This field cannot be updated after creation.
@@ -231,6 +293,10 @@ type AgentParameters struct {
 	// The human-readable name of the agent, unique within the location.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Enable training multi-lingual models for this agent. These models will be trained on all the languages supported by the agent.
+	// +kubebuilder:validation:Optional
+	EnableMultiLanguageTraining *bool `json:"enableMultiLanguageTraining,omitempty" tf:"enable_multi_language_training,omitempty"`
 
 	// Indicates if automatic spell correction is enabled in detect intent requests.
 	// +kubebuilder:validation:Optional
@@ -257,6 +323,15 @@ type AgentParameters struct {
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Indicates whether the agent is locked for changes. If the agent is locked, modifications to the agent will be rejected except for [agents.restore][].
+	// +kubebuilder:validation:Optional
+	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
+
+	// Settings for end user personalization.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PersonalizationSettings *PersonalizationSettingsParameters `json:"personalizationSettings,omitempty" tf:"personalization_settings,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -271,6 +346,10 @@ type AgentParameters struct {
 	// +kubebuilder:validation:Optional
 	SpeechToTextSettings *SpeechToTextSettingsParameters `json:"speechToTextSettings,omitempty" tf:"speech_to_text_settings,omitempty"`
 
+	// Name of the start playbook in this agent. A start playbook will be automatically created when the agent is created, and can only be deleted by deleting the agent. Format: projects/. Currently only the default playbook with id "00000000-0000-0000-0000-000000000000" is allowed.
+	// +kubebuilder:validation:Optional
+	StartPlaybook *string `json:"startPlaybook,omitempty" tf:"start_playbook,omitempty"`
+
 	// The list of all languages supported by this agent (except for the default_language_code).
 	// +kubebuilder:validation:Optional
 	SupportedLanguageCodes []*string `json:"supportedLanguageCodes,omitempty" tf:"supported_language_codes,omitempty"`
@@ -284,6 +363,28 @@ type AgentParameters struct {
 	// Europe/Paris.
 	// +kubebuilder:validation:Optional
 	TimeZone *string `json:"timeZone,omitempty" tf:"time_zone,omitempty"`
+}
+
+type AnswerFeedbackSettingsInitParameters struct {
+
+	// If enabled, end users will be able to provide answer feedback
+	// to Dialogflow responses. Feature works only if interaction logging is enabled in the Dialogflow agent.
+	EnableAnswerFeedback *bool `json:"enableAnswerFeedback,omitempty" tf:"enable_answer_feedback,omitempty"`
+}
+
+type AnswerFeedbackSettingsObservation struct {
+
+	// If enabled, end users will be able to provide answer feedback
+	// to Dialogflow responses. Feature works only if interaction logging is enabled in the Dialogflow agent.
+	EnableAnswerFeedback *bool `json:"enableAnswerFeedback,omitempty" tf:"enable_answer_feedback,omitempty"`
+}
+
+type AnswerFeedbackSettingsParameters struct {
+
+	// If enabled, end users will be able to provide answer feedback
+	// to Dialogflow responses. Feature works only if interaction logging is enabled in the Dialogflow agent.
+	// +kubebuilder:validation:Optional
+	EnableAnswerFeedback *bool `json:"enableAnswerFeedback,omitempty" tf:"enable_answer_feedback,omitempty"`
 }
 
 type AudioExportGcsDestinationInitParameters struct {
@@ -306,6 +407,45 @@ type AudioExportGcsDestinationParameters struct {
 	// Format: gs://bucket/object-name-or-prefix
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
+}
+
+type ClientCertificateSettingsInitParameters struct {
+
+	// The name of the SecretManager secret version resource storing the passphrase. 'passphrase' should be left unset if the private key is not encrypted. Format: projects/{project}/secrets/{secret}/versions/{version}
+	Passphrase *string `json:"passphrase,omitempty" tf:"passphrase,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the private key encoded in PEM format. Format: projects/{project}/secrets/{secret}/versions/{version}
+	PrivateKey *string `json:"privateKey,omitempty" tf:"private_key,omitempty"`
+
+	// The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines.
+	SSLCertificate *string `json:"sslCertificate,omitempty" tf:"ssl_certificate,omitempty"`
+}
+
+type ClientCertificateSettingsObservation struct {
+
+	// The name of the SecretManager secret version resource storing the passphrase. 'passphrase' should be left unset if the private key is not encrypted. Format: projects/{project}/secrets/{secret}/versions/{version}
+	Passphrase *string `json:"passphrase,omitempty" tf:"passphrase,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the private key encoded in PEM format. Format: projects/{project}/secrets/{secret}/versions/{version}
+	PrivateKey *string `json:"privateKey,omitempty" tf:"private_key,omitempty"`
+
+	// The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines.
+	SSLCertificate *string `json:"sslCertificate,omitempty" tf:"ssl_certificate,omitempty"`
+}
+
+type ClientCertificateSettingsParameters struct {
+
+	// The name of the SecretManager secret version resource storing the passphrase. 'passphrase' should be left unset if the private key is not encrypted. Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	Passphrase *string `json:"passphrase,omitempty" tf:"passphrase,omitempty"`
+
+	// The name of the SecretManager secret version resource storing the private key encoded in PEM format. Format: projects/{project}/secrets/{secret}/versions/{version}
+	// +kubebuilder:validation:Optional
+	PrivateKey *string `json:"privateKey" tf:"private_key,omitempty"`
+
+	// The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines.
+	// +kubebuilder:validation:Optional
+	SSLCertificate *string `json:"sslCertificate" tf:"ssl_certificate,omitempty"`
 }
 
 type DtmfSettingsInitParameters struct {
@@ -486,6 +626,34 @@ type LoggingSettingsParameters struct {
 	// Enables Google Cloud Logging.
 	// +kubebuilder:validation:Optional
 	EnableStackdriverLogging *bool `json:"enableStackdriverLogging,omitempty" tf:"enable_stackdriver_logging,omitempty"`
+}
+
+type PersonalizationSettingsInitParameters struct {
+
+	// Default end user metadata, used when processing DetectIntent requests. Recommended to be filled as a template instead of hard-coded value, for example { "age": "$session.params.age" }.
+	// The data will be merged with the QueryParameters.end_user_metadata
+	// in DetectIntentRequest.query_params during query processing.
+	// This field uses JSON data as a string. The value provided must be a valid JSON representation documented in Struct.
+	DefaultEndUserMetadata *string `json:"defaultEndUserMetadata,omitempty" tf:"default_end_user_metadata,omitempty"`
+}
+
+type PersonalizationSettingsObservation struct {
+
+	// Default end user metadata, used when processing DetectIntent requests. Recommended to be filled as a template instead of hard-coded value, for example { "age": "$session.params.age" }.
+	// The data will be merged with the QueryParameters.end_user_metadata
+	// in DetectIntentRequest.query_params during query processing.
+	// This field uses JSON data as a string. The value provided must be a valid JSON representation documented in Struct.
+	DefaultEndUserMetadata *string `json:"defaultEndUserMetadata,omitempty" tf:"default_end_user_metadata,omitempty"`
+}
+
+type PersonalizationSettingsParameters struct {
+
+	// Default end user metadata, used when processing DetectIntent requests. Recommended to be filled as a template instead of hard-coded value, for example { "age": "$session.params.age" }.
+	// The data will be merged with the QueryParameters.end_user_metadata
+	// in DetectIntentRequest.query_params during query processing.
+	// This field uses JSON data as a string. The value provided must be a valid JSON representation documented in Struct.
+	// +kubebuilder:validation:Optional
+	DefaultEndUserMetadata *string `json:"defaultEndUserMetadata,omitempty" tf:"default_end_user_metadata,omitempty"`
 }
 
 type SpeechSettingsInitParameters struct {

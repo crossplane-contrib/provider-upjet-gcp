@@ -1791,6 +1791,11 @@ func (in *RegistryRepositoryObservation) DeepCopyInto(out *RegistryRepositoryObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -1870,6 +1875,11 @@ func (in *RegistryRepositoryObservation) DeepCopyInto(out *RegistryRepositoryObs
 	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
+		*out = new(string)
+		**out = **in
+	}
+	if in.RegistryURI != nil {
+		in, out := &in.RegistryURI, &out.RegistryURI
 		*out = new(string)
 		**out = **in
 	}

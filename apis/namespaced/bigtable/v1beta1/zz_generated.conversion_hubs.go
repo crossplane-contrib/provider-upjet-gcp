@@ -26,12 +26,3 @@ func (tr *InstanceIAMPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Table) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMPolicy) Hub() {}

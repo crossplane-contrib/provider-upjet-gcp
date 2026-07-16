@@ -50,6 +50,10 @@ type ClusterUserCreatedConnectionsObservation struct {
 	// Structure is documented below.
 	ClusterEndpoints []ClusterEndpointsObservation `json:"clusterEndpoints,omitempty" tf:"cluster_endpoints,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

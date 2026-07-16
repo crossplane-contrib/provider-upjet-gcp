@@ -15,6 +15,13 @@ import (
 
 type AspectTypeInitParameters struct {
 
+	// Classifies the data stored by the aspect.
+	// DATA_CLASSIFICATION_UNSPECIFIED denotes that the aspect contains only metadata
+	// while METADATA_AND_DATA indicates data derived content.
+	//
+	// Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+	DataClassification *string `json:"dataClassification,omitempty" tf:"data_classification,omitempty"`
+
 	// Description of the AspectType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -46,6 +53,17 @@ type AspectTypeObservation struct {
 
 	// The time when the AspectType was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Classifies the data stored by the aspect.
+	// DATA_CLASSIFICATION_UNSPECIFIED denotes that the aspect contains only metadata
+	// while METADATA_AND_DATA indicates data derived content.
+	//
+	// Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+	DataClassification *string `json:"dataClassification,omitempty" tf:"data_classification,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the AspectType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -94,6 +112,14 @@ type AspectTypeObservation struct {
 }
 
 type AspectTypeParameters struct {
+
+	// Classifies the data stored by the aspect.
+	// DATA_CLASSIFICATION_UNSPECIFIED denotes that the aspect contains only metadata
+	// while METADATA_AND_DATA indicates data derived content.
+	//
+	// Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+	// +kubebuilder:validation:Optional
+	DataClassification *string `json:"dataClassification,omitempty" tf:"data_classification,omitempty"`
 
 	// Description of the AspectType.
 	// +kubebuilder:validation:Optional

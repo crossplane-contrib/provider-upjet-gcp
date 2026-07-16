@@ -14,8 +14,10 @@ metadata:
 spec:
   forProvider:
     autoCreateSubnetworks: false
+
 ---
-apiVersion: vpcaccess.gcp.upbound.io/v1beta1
+
+apiVersion: vpcaccess.gcp.upbound.io/v1beta2
 kind: Connector
 metadata:
   annotations:

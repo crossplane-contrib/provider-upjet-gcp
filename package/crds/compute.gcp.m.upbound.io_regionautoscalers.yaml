@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: regionautoscalers.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -261,6 +261,14 @@ spec:
                               type: string
                           type: object
                         type: array
+                      stabilizationPeriod:
+                        description: |-
+                          The number of seconds that the autoscaler waits for load stabilization
+                          before making scale-in decisions.
+                          This might appear as a delay in scaling in but it is an important mechanism
+                          for your application to not have fluctuating size due to short term load
+                          fluctuations.
+                        type: number
                     type: object
                   description:
                     description: An optional description of this resource.
@@ -577,6 +585,14 @@ spec:
                               type: string
                           type: object
                         type: array
+                      stabilizationPeriod:
+                        description: |-
+                          The number of seconds that the autoscaler waits for load stabilization
+                          before making scale-in decisions.
+                          This might appear as a delay in scaling in but it is an important mechanism
+                          for your application to not have fluctuating size due to short term load
+                          fluctuations.
+                        type: number
                     type: object
                   description:
                     description: An optional description of this resource.
@@ -943,9 +959,22 @@ spec:
                               type: string
                           type: object
                         type: array
+                      stabilizationPeriod:
+                        description: |-
+                          The number of seconds that the autoscaler waits for load stabilization
+                          before making scale-in decisions.
+                          This might appear as a delay in scaling in but it is an important mechanism
+                          for your application to not have fluctuating size due to short term load
+                          fluctuations.
+                        type: number
                     type: object
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of this resource.

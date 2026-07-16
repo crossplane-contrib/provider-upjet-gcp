@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: hubs.networkconnectivity.gcp.m.upbound.io
 spec:
   group: networkconnectivity.gcp.m.upbound.io
@@ -89,7 +89,7 @@ spec:
                   presetTopology:
                     description: |-
                       Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-                      Possible values are: MESH, STAR.
+                      Possible values are: MESH, STAR, HYBRID_INSPECTION.
                     type: string
                   project:
                     description: |-
@@ -140,7 +140,7 @@ spec:
                   presetTopology:
                     description: |-
                       Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-                      Possible values are: MESH, STAR.
+                      Possible values are: MESH, STAR, HYBRID_INSPECTION.
                     type: string
                   project:
                     description: |-
@@ -214,6 +214,11 @@ spec:
                   createTime:
                     description: Output only. The time the hub was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the hub.
                     type: string
@@ -252,7 +257,7 @@ spec:
                   presetTopology:
                     description: |-
                       Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-                      Possible values are: MESH, STAR.
+                      Possible values are: MESH, STAR, HYBRID_INSPECTION.
                     type: string
                   project:
                     description: |-
