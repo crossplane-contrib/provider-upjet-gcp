@@ -1074,11 +1074,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/subscriptions/{{subscription_id}}
 	"google_bigquery_analytics_hub_listing_subscription": config.IdentifierFromProvider,
 
-	// tpu
-	//
-	// Imported by using the following projects/{{project}}/locations/{{zone}}/nodes/{{name}}
-	"google_tpu_node": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/nodes/{{ .external_name }}"),
-
 	// vpcaccess
 	//
 	// Imported by using the following projects/{{project}}/locations/{{region}}/connectors/{{name}}
