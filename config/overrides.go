@@ -148,7 +148,7 @@ func descriptionOverrides() tjconfig.ResourceOption {
 }
 
 // resourcesWithPreexistingDeletionPolicy is the set of TF resource names that
-// had a top-level deletion_policy field before the v7.32.0 provider bump.
+// had a top-level deletion_policy field before the v7.33.0 provider bump.
 // These must be kept to avoid breaking existing CRD APIs.
 var resourcesWithPreexistingDeletionPolicy = map[string]struct{}{
 	"google_alloydb_cluster":                        {},
@@ -178,7 +178,7 @@ var resourcesWithPreexistingDeletionPolicy = map[string]struct{}{
 }
 
 // deletionPolicyOverride move to status the deletion_policy field for
-// resources that gained it in the v7.32.0 provider bump. Resources that
+// resources that gained it in the v7.33.0 provider bump. Resources that
 // already exposed this field before the bump are preserved to avoid breaking
 // existing CRD APIs.
 // Directly removing from the schema causes some runtime issues. So this way
