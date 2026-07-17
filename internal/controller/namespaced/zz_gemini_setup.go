@@ -55,3 +55,21 @@ func SetupGated_gemini(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_gemini registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_gemini(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		coderepositoryindex.SetupWebhookWithManager,
+		codetoolssetting.SetupWebhookWithManager,
+		datasharingwithgooglesetting.SetupWebhookWithManager,
+		geminigcpenablementsetting.SetupWebhookWithManager,
+		loggingsetting.SetupWebhookWithManager,
+		releasechannelsetting.SetupWebhookWithManager,
+		repositorygroup.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}
