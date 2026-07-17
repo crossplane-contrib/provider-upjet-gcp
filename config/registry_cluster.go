@@ -60,7 +60,6 @@ func GetProvider(_ context.Context, sdkProvider *schema.Provider, fwProvider fwp
 		ujconfig.WithTerraformPluginFrameworkProvider(fwProvider),
 		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
 		ujconfig.WithControllerTemplate(templates.ControllerTemplate),
-		ujconfig.WithSetupAggregatorTemplate(templates.SetupAggregatorTemplate),
 	)
 
 	bumpVersionsWithEmbeddedLists(pc)

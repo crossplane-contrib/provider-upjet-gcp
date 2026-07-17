@@ -59,7 +59,6 @@ func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, fwPr
 		ujconfig.WithTerraformPluginFrameworkProvider(fwProvider),
 		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
 		ujconfig.WithControllerTemplate(templates.ControllerTemplate),
-		ujconfig.WithSetupAggregatorTemplate(templates.SetupAggregatorTemplate),
 	)
 
 	registerTerraformConversions(pc)
