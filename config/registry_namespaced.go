@@ -16,7 +16,6 @@ import (
 
 	"github.com/upbound/provider-gcp/v2/config/namespaced"
 	"github.com/upbound/provider-gcp/v2/config/templates"
-	"github.com/upbound/provider-gcp/v2/hack"
 )
 
 // GetNamespacedProvider returns the namespaced provider configuration
@@ -54,12 +53,11 @@ func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, fwPr
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithSkipList(skipList),
 		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithMainTemplate(hack.MainTemplate),
+		ujconfig.WithMainTemplate(templates.MainTemplate),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithTerraformPluginFrameworkProvider(fwProvider),
 		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
 		ujconfig.WithControllerTemplate(templates.ControllerTemplate),
-		ujconfig.WithSetupAggregatorTemplate(templates.SetupAggregatorTemplate),
 	)
 
 	registerTerraformConversions(pc)

@@ -43,3 +43,17 @@ func SetupGated_eventarc(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_eventarc registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_eventarc(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		channel.SetupWebhookWithManager,
+		googlechannelconfig.SetupWebhookWithManager,
+		trigger.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

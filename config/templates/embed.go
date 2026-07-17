@@ -6,14 +6,12 @@ package templates
 
 import _ "embed"
 
+// MainTemplate is populated with provider main program template.
+//
+//go:embed main.go.tmpl
+var MainTemplate string
+
 // ControllerTemplate is the template for the MR controller setup files.
 //
 //go:embed controller.go.tmpl
 var ControllerTemplate string
-
-// SetupAggregatorTemplate is the template for the controller setup aggregator files.
-// It omits the SetupWebhookWithManager aggregator since the controller template
-// does not emit a per-resource SetupWebhookWithManager function.
-//
-//go:embed setup.go.tmpl
-var SetupAggregatorTemplate string
