@@ -698,6 +698,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_security_tls_inspection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/tlsInspectionPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/urlLists/{{name}}
 	"google_network_security_url_lists": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/urlLists/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dnsThreatDetectors/{{name}}
+	"google_network_security_dns_threat_detector": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dnsThreatDetectors/{{ .external_name }}"),
 
 	// mlengine
 	//

@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	addressgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/addressgroup"
+	dnsthreatdetector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/dnsthreatdetector"
 	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/gatewaysecuritypolicy"
 	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/gatewaysecuritypolicyrule"
 	tlsinspectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/tlsinspectionpolicy"
@@ -21,6 +22,7 @@ import (
 func Setup_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addressgroup.Setup,
+		dnsthreatdetector.Setup,
 		gatewaysecuritypolicy.Setup,
 		gatewaysecuritypolicyrule.Setup,
 		tlsinspectionpolicy.Setup,
@@ -38,6 +40,7 @@ func Setup_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addressgroup.SetupGated,
+		dnsthreatdetector.SetupGated,
 		gatewaysecuritypolicy.SetupGated,
 		gatewaysecuritypolicyrule.SetupGated,
 		tlsinspectionpolicy.SetupGated,
@@ -54,6 +57,7 @@ func SetupGated_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_networksecurity(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		addressgroup.SetupWebhookWithManager,
+		dnsthreatdetector.SetupWebhookWithManager,
 		gatewaysecuritypolicy.SetupWebhookWithManager,
 		gatewaysecuritypolicyrule.SetupWebhookWithManager,
 		tlsinspectionpolicy.SetupWebhookWithManager,
