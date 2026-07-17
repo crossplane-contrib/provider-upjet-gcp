@@ -342,6 +342,10 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_region_instance_group_manager",
 			Extractor:     PathInstanceGroupExtractor,
 		}
+		r.References["security_policy"] = config.Reference{
+			TerraformName: "google_compute_region_security_policy",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
 		r.MarkAsRequired("region")
 	})
 

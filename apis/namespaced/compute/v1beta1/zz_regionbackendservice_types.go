@@ -1602,7 +1602,17 @@ type RegionBackendServiceInitParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionSecurityPolicy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
+	// Reference to a RegionSecurityPolicy in compute to populate securityPolicy.
+	// +kubebuilder:validation:Optional
+	SecurityPolicyRef *v1.NamespacedReference `json:"securityPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a RegionSecurityPolicy in compute to populate securityPolicy.
+	// +kubebuilder:validation:Optional
+	SecurityPolicySelector *v1.NamespacedSelector `json:"securityPolicySelector,omitempty" tf:"-"`
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -2253,8 +2263,18 @@ type RegionBackendServiceParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The security policy associated with this backend service.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionSecurityPolicy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
+
+	// Reference to a RegionSecurityPolicy in compute to populate securityPolicy.
+	// +kubebuilder:validation:Optional
+	SecurityPolicyRef *v1.NamespacedReference `json:"securityPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a RegionSecurityPolicy in compute to populate securityPolicy.
+	// +kubebuilder:validation:Optional
+	SecurityPolicySelector *v1.NamespacedSelector `json:"securityPolicySelector,omitempty" tf:"-"`
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.

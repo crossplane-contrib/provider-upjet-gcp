@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-apiVersion: networksecurity.gcp.upbound.io/v1beta1
+apiVersion: networksecurity.gcp.m.upbound.io/v1beta1
 kind: DNSThreatDetector
 metadata:
   annotations:
@@ -22,7 +22,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: Network
 metadata:
   annotations:

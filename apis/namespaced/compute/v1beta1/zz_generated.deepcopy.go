@@ -59839,6 +59839,16 @@ func (in *RegionBackendServiceInitParameters) DeepCopyInto(out *RegionBackendSer
 		*out = new(string)
 		**out = **in
 	}
+	if in.SecurityPolicyRef != nil {
+		in, out := &in.SecurityPolicyRef, &out.SecurityPolicyRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityPolicySelector != nil {
+		in, out := &in.SecurityPolicySelector, &out.SecurityPolicySelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SessionAffinity != nil {
 		in, out := &in.SessionAffinity, &out.SessionAffinity
 		*out = new(string)
@@ -60615,6 +60625,16 @@ func (in *RegionBackendServiceParameters) DeepCopyInto(out *RegionBackendService
 		in, out := &in.SecurityPolicy, &out.SecurityPolicy
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityPolicyRef != nil {
+		in, out := &in.SecurityPolicyRef, &out.SecurityPolicyRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityPolicySelector != nil {
+		in, out := &in.SecurityPolicySelector, &out.SecurityPolicySelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SessionAffinity != nil {
 		in, out := &in.SessionAffinity, &out.SessionAffinity
