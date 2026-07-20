@@ -46,12 +46,12 @@ spec:
       shell: node ./app.js
     envVariables:
       port: "8080"
-    runtime: nodejs20
+    runtime: nodejs22
     service: admin
 
 ---
 
-apiVersion: storage.gcp.m.upbound.io/v1beta1
+apiVersion: storage.gcp.m.upbound.io/v1beta2
 kind: Bucket
 metadata:
   annotations:

@@ -51,6 +51,9 @@ type ApplicationInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 
+	// A list of the SSL policy that will be applied. Each block has a SSL_POLICY_UNSPECIFIED, DEFAULT, and MODERN field.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
 	// The serving status of the app.
 	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
 }
@@ -104,6 +107,9 @@ type ApplicationObservation struct {
 	// you may get a "Permission denied" error.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// A list of the SSL policy that will be applied. Each block has a SSL_POLICY_UNSPECIFIED, DEFAULT, and MODERN field.
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
+
 	// The serving status of the app.
 	ServingStatus *string `json:"servingStatus,omitempty" tf:"serving_status,omitempty"`
 
@@ -154,6 +160,10 @@ type ApplicationParameters struct {
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
 	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+
+	// A list of the SSL policy that will be applied. Each block has a SSL_POLICY_UNSPECIFIED, DEFAULT, and MODERN field.
+	// +kubebuilder:validation:Optional
+	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
 
 	// The serving status of the app.
 	// +kubebuilder:validation:Optional

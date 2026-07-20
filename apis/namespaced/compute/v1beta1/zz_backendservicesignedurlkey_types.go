@@ -46,6 +46,10 @@ type BackendServiceSignedURLKeyObservation struct {
 	// The backend service this signed URL key belongs.
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/global/backendServices/{{backend_service}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

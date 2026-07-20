@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: reservations.bigquery.gcp.m.upbound.io
 spec:
   group: bigquery.gcp.m.upbound.io
@@ -95,6 +95,10 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  reservationGroup:
+                    description: The reservation group that this reservation belongs
+                      to.
+                    type: string
                   secondaryLocation:
                     description: |-
                       The current location of the reservation's secondary replica. This field is only set for
@@ -147,6 +151,10 @@ spec:
                       the same admin project. If true, a query using this reservation will execute with the slot
                       capacity specified above at most.
                     type: boolean
+                  reservationGroup:
+                    description: The reservation group that this reservation belongs
+                      to.
+                    type: string
                   secondaryLocation:
                     description: |-
                       The current location of the reservation's secondary replica. This field is only set for
@@ -249,6 +257,11 @@ spec:
                       for small queries. Default value is 0 which means that concurrency
                       will be automatically set based on the reservation size.
                     type: number
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   edition:
                     description: The edition type. Valid values are STANDARD, ENTERPRISE,
                       ENTERPRISE_PLUS
@@ -329,6 +342,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  reservationGroup:
+                    description: The reservation group that this reservation belongs
+                      to.
+                    type: string
                   secondaryLocation:
                     description: |-
                       The current location of the reservation's secondary replica. This field is only set for

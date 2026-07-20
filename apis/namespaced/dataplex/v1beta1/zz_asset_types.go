@@ -44,6 +44,10 @@ type AssetObservation struct {
 	// The zone for the resource
 	DataplexZone *string `json:"dataplexZone,omitempty" tf:"dataplex_zone,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Description of the asset.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

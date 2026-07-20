@@ -14,6 +14,34 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type AIInferenceUnstructuredInferenceInitParameters struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type AIInferenceUnstructuredInferenceObservation struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type AIInferenceUnstructuredInferenceParameters struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
 type AvroFormatInitParameters struct {
 }
 
@@ -543,6 +571,80 @@ type MessageStoragePolicyParameters struct {
 	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
+type MessageTransformsAIInferenceInitParameters struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The service account to use to make prediction requests against
+	// endpoints.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	UnstructuredInference *AIInferenceUnstructuredInferenceInitParameters `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
+type MessageTransformsAIInferenceObservation struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The service account to use to make prediction requests against
+	// endpoints.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	UnstructuredInference *AIInferenceUnstructuredInferenceObservation `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
+type MessageTransformsAIInferenceParameters struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	// +kubebuilder:validation:Optional
+	Endpoint *string `json:"endpoint" tf:"endpoint,omitempty"`
+
+	// The service account to use to make prediction requests against
+	// endpoints.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UnstructuredInference *AIInferenceUnstructuredInferenceParameters `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
 type MessageTransformsJavascriptUdfInitParameters struct {
 
 	// JavaScript code that contains a function function_name with the
@@ -619,6 +721,32 @@ type SchemaSettingsInitParameters struct {
 	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
+	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
+	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
+
+	// Reference to a Schema in pubsub to populate firstRevisionId.
+	// +kubebuilder:validation:Optional
+	FirstRevisionIDRef *v1.NamespacedReference `json:"firstRevisionIdRef,omitempty" tf:"-"`
+
+	// Selector for a Schema in pubsub to populate firstRevisionId.
+	// +kubebuilder:validation:Optional
+	FirstRevisionIDSelector *v1.NamespacedSelector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
+
+	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
+	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
+
+	// Reference to a Schema in pubsub to populate lastRevisionId.
+	// +kubebuilder:validation:Optional
+	LastRevisionIDRef *v1.NamespacedReference `json:"lastRevisionIdRef,omitempty" tf:"-"`
+
+	// Selector for a Schema in pubsub to populate lastRevisionId.
+	// +kubebuilder:validation:Optional
+	LastRevisionIDSelector *v1.NamespacedSelector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
+
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
 	// The value of this field will be deleted-schema
@@ -632,6 +760,12 @@ type SchemaSettingsObservation struct {
 	// Default value is ENCODING_UNSPECIFIED.
 	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
+	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
+
+	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
+	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
@@ -647,6 +781,34 @@ type SchemaSettingsParameters struct {
 	// Possible values are: ENCODING_UNSPECIFIED, JSON, BINARY.
 	// +kubebuilder:validation:Optional
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
+
+	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
+	// +kubebuilder:validation:Optional
+	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
+
+	// Reference to a Schema in pubsub to populate firstRevisionId.
+	// +kubebuilder:validation:Optional
+	FirstRevisionIDRef *v1.NamespacedReference `json:"firstRevisionIdRef,omitempty" tf:"-"`
+
+	// Selector for a Schema in pubsub to populate firstRevisionId.
+	// +kubebuilder:validation:Optional
+	FirstRevisionIDSelector *v1.NamespacedSelector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
+
+	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
+	// +kubebuilder:validation:Optional
+	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
+
+	// Reference to a Schema in pubsub to populate lastRevisionId.
+	// +kubebuilder:validation:Optional
+	LastRevisionIDRef *v1.NamespacedReference `json:"lastRevisionIdRef,omitempty" tf:"-"`
+
+	// Selector for a Schema in pubsub to populate lastRevisionId.
+	// +kubebuilder:validation:Optional
+	LastRevisionIDSelector *v1.NamespacedSelector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
@@ -736,9 +898,26 @@ type TopicInitParameters struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings *SchemaSettingsInitParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the topic. Tag keys and
+	// values have the same definition as resource manager tags. Keys must be in
+	// the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type TopicMessageTransformsInitParameters struct {
+
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	AIInference *MessageTransformsAIInferenceInitParameters `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
 
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
@@ -752,6 +931,12 @@ type TopicMessageTransformsInitParameters struct {
 
 type TopicMessageTransformsObservation struct {
 
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	AIInference *MessageTransformsAIInferenceObservation `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
+
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -763,6 +948,13 @@ type TopicMessageTransformsObservation struct {
 }
 
 type TopicMessageTransformsParameters struct {
+
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AIInference *MessageTransformsAIInferenceParameters `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
 
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
@@ -777,6 +969,10 @@ type TopicMessageTransformsParameters struct {
 }
 
 type TopicObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -828,6 +1024,17 @@ type TopicObservation struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings *SchemaSettingsObservation `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the topic. Tag keys and
+	// values have the same definition as resource manager tags. Keys must be in
+	// the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -898,6 +1105,18 @@ type TopicParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SchemaSettings *SchemaSettingsParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the topic. Tag keys and
+	// values have the same definition as resource manager tags. Keys must be in
+	// the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // TopicSpec defines the desired state of Topic

@@ -69,6 +69,10 @@ type AppConnectionObservation struct {
 	// List of AppConnectors that are authorised to be associated with this AppConnection
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

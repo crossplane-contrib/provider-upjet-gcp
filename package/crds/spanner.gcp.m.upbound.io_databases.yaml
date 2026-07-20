@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: databases.spanner.gcp.m.upbound.io
 spec:
   group: spanner.gcp.m.upbound.io
@@ -371,6 +371,11 @@ spec:
                     description: |-
                       The default time zone for the database. The default time zone must be a valid name
                       from the tz database. Default value is "America/Los_angeles".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: |-

@@ -27,7 +27,14 @@ type RegionSSLCertificateInitParameters struct {
 
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PrivateKeySecretRef v1.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
+	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+
+	// The write-only private key in PEM format.
+	// Note: This property is write-only and will not be read from the API.
+	PrivateKeyWo *string `json:"privateKeyWo,omitempty" tf:"private_key_wo,omitempty"`
+
+	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
+	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -42,6 +49,10 @@ type RegionSSLCertificateObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -50,6 +61,13 @@ type RegionSSLCertificateObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The write-only private key in PEM format.
+	// Note: This property is write-only and will not be read from the API.
+	PrivateKeyWo *string `json:"privateKeyWo,omitempty" tf:"private_key_wo,omitempty"`
+
+	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
+	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -79,7 +97,16 @@ type RegionSSLCertificateParameters struct {
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef v1.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
+	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+
+	// The write-only private key in PEM format.
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	PrivateKeyWo *string `json:"privateKeyWo,omitempty" tf:"private_key_wo,omitempty"`
+
+	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -129,7 +156,6 @@ type RegionSSLCertificate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificateSecretRef)",message="spec.forProvider.certificateSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.privateKeySecretRef)",message="spec.forProvider.privateKeySecretRef is a required parameter"
 	Spec   RegionSSLCertificateSpec   `json:"spec"`
 	Status RegionSSLCertificateStatus `json:"status,omitempty"`
 }

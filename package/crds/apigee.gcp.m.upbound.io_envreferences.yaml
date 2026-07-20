@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: envreferences.apigee.gcp.m.upbound.io
 spec:
   group: apigee.gcp.m.upbound.io
@@ -241,6 +241,8 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    type: string
                   description:
                     type: string
                   envId:

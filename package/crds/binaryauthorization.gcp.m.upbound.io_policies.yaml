@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: policies.binaryauthorization.gcp.m.upbound.io
 spec:
   group: binaryauthorization.gcp.m.upbound.io
@@ -83,6 +83,10 @@ spec:
                       to by one or more attestors, that all pod creations will be allowed,
                       or that all pod creations will be denied. There can be at most one
                       admission rule per cluster spec.
+                      Identifier format: {{location}}.{{clusterId}}.
+                      A location is either a compute zone (e.g. us-central1-a) or a region
+                      (e.g. us-central1).
+                      Structure is documented below.
                     items:
                       properties:
                         cluster:
@@ -369,6 +373,10 @@ spec:
                       to by one or more attestors, that all pod creations will be allowed,
                       or that all pod creations will be denied. There can be at most one
                       admission rule per cluster spec.
+                      Identifier format: {{location}}.{{clusterId}}.
+                      A location is either a compute zone (e.g. us-central1-a) or a region
+                      (e.g. us-central1).
+                      Structure is documented below.
                     items:
                       properties:
                         cluster:
@@ -710,6 +718,10 @@ spec:
                       to by one or more attestors, that all pod creations will be allowed,
                       or that all pod creations will be denied. There can be at most one
                       admission rule per cluster spec.
+                      Identifier format: {{location}}.{{clusterId}}.
+                      A location is either a compute zone (e.g. us-central1-a) or a region
+                      (e.g. us-central1).
+                      Structure is documented below.
                     items:
                       properties:
                         cluster:
@@ -773,6 +785,11 @@ spec:
                         type: array
                         x-kubernetes-list-type: set
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A descriptive comment.
                     type: string

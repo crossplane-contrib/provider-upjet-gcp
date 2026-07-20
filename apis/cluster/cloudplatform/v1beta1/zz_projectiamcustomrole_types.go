@@ -40,6 +40,10 @@ type ProjectIAMCustomRoleObservation struct {
 	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description for the role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

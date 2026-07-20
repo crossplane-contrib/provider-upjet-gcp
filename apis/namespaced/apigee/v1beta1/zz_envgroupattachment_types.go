@@ -45,6 +45,10 @@ type EnvgroupAttachmentInitParameters struct {
 
 type EnvgroupAttachmentObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`

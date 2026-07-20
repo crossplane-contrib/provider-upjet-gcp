@@ -380,6 +380,11 @@ func (in *AccessLevelConditionObservation) DeepCopyInto(out *AccessLevelConditio
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DevicePolicy != nil {
 		in, out := &in.DevicePolicy, &out.DevicePolicy
 		*out = new(AccessLevelConditionDevicePolicyObservation)
@@ -733,6 +738,11 @@ func (in *AccessLevelObservation) DeepCopyInto(out *AccessLevelObservation) {
 		in, out := &in.Custom, &out.Custom
 		*out = new(CustomObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -1160,6 +1170,11 @@ func (in *AccessPolicyObservation) DeepCopyInto(out *AccessPolicyObservation) {
 	*out = *in
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -4439,6 +4454,11 @@ func (in *ServicePerimeterObservation) DeepCopyInto(out *ServicePerimeterObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4655,6 +4675,11 @@ func (in *ServicePerimeterResourceObservation) DeepCopyInto(out *ServicePerimete
 	*out = *in
 	if in.AccessPolicyID != nil {
 		in, out := &in.AccessPolicyID, &out.AccessPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

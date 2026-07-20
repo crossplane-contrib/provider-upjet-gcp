@@ -27,6 +27,7 @@ spec:
         testing.upbound.io/example-name: default
     deleteSwgAutogenRouterOnDestroy: true
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -42,9 +43,10 @@ spec:
     autoCreateSubnetworks: false
     routingMode: "REGIONAL"
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:
@@ -62,9 +64,10 @@ spec:
     region: us-central1
     role: "ACTIVE"
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:

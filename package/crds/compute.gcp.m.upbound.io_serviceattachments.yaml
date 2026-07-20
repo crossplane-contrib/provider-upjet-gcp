@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: serviceattachments.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -76,6 +76,11 @@ spec:
                             The number of consumer forwarding rules the consumer project can
                             create.
                           type: number
+                        endpointUrl:
+                          description: |-
+                            The endpoint that is allowed to connect to this service attachment.
+                            Only one of project_id_or_num, network_url and endpoint_url may be set.
+                          type: string
                         networkUrl:
                           description: |-
                             The network that is allowed to connect to this service attachment.
@@ -314,6 +319,12 @@ spec:
                       When true, the provider will set propagated_connection_limit to zero.
                       Defaults to false.
                     type: boolean
+                  showNatIps:
+                    description: |-
+                      NOTE: This field is temporarily non-functional due to an underlying API issue.
+                      Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+                      [If true, show NAT IPs of all connected endpoints.]
+                    type: boolean
                   targetService:
                     description: The URL of a service serving the endpoint identified
                       by this service attachment.
@@ -433,6 +444,11 @@ spec:
                             The number of consumer forwarding rules the consumer project can
                             create.
                           type: number
+                        endpointUrl:
+                          description: |-
+                            The endpoint that is allowed to connect to this service attachment.
+                            Only one of project_id_or_num, network_url and endpoint_url may be set.
+                          type: string
                         networkUrl:
                           description: |-
                             The network that is allowed to connect to this service attachment.
@@ -667,6 +683,12 @@ spec:
                       When false, setting propagated_connection_limit to zero causes the provider to use to the API's default value.
                       When true, the provider will set propagated_connection_limit to zero.
                       Defaults to false.
+                    type: boolean
+                  showNatIps:
+                    description: |-
+                      NOTE: This field is temporarily non-functional due to an underlying API issue.
+                      Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+                      [If true, show NAT IPs of all connected endpoints.]
                     type: boolean
                   targetService:
                     description: The URL of a service serving the endpoint identified
@@ -844,6 +866,15 @@ spec:
                             (Output)
                             The URL of the consumer forwarding rule.
                           type: string
+                        natIps:
+                          description: |-
+                            (Output)
+                            NOTE: This field is temporarily non-functional due to an underlying API issue.
+                            Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+                            'The nat IPs of the connected endpoint.'
+                          items:
+                            type: string
+                          type: array
                         propagatedConnectionCount:
                           description: |-
                             (Output)
@@ -879,6 +910,11 @@ spec:
                             The number of consumer forwarding rules the consumer project can
                             create.
                           type: number
+                        endpointUrl:
+                          description: |-
+                            The endpoint that is allowed to connect to this service attachment.
+                            Only one of project_id_or_num, network_url and endpoint_url may be set.
+                          type: string
                         networkUrl:
                           description: |-
                             The network that is allowed to connect to this service attachment.
@@ -898,6 +934,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -943,6 +984,24 @@ spec:
                       If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
                       If unspecified, the default propagated connection limit is 250. To explicitly send a zero value, set send_propagated_connection_limit_if_zero = true.
                     type: number
+                  pscServiceAttachmentId:
+                    description: |-
+                      An 128-bit global unique ID of the PSC service attachment.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        high:
+                          description: |-
+                            (Output)
+                            The high 64 bits of the PSC service attachment ID.
+                          type: string
+                        low:
+                          description: |-
+                            (Output)
+                            The low 64 bits of the PSC service attachment ID.
+                          type: string
+                      type: object
+                    type: array
                   reconcileConnections:
                     description: |-
                       This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
@@ -961,6 +1020,12 @@ spec:
                       When false, setting propagated_connection_limit to zero causes the provider to use to the API's default value.
                       When true, the provider will set propagated_connection_limit to zero.
                       Defaults to false.
+                    type: boolean
+                  showNatIps:
+                    description: |-
+                      NOTE: This field is temporarily non-functional due to an underlying API issue.
+                      Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+                      [If true, show NAT IPs of all connected endpoints.]
                     type: boolean
                   targetService:
                     description: The URL of a service serving the endpoint identified

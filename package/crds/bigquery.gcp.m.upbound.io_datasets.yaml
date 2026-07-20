@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: datasets.bigquery.gcp.m.upbound.io
 spec:
   group: bigquery.gcp.m.upbound.io
@@ -1901,6 +1901,11 @@ spec:
                       dataset when destroying the resource; otherwise,
                       destroying the resource will fail if tables are present.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A user-friendly description of the dataset
                     type: string

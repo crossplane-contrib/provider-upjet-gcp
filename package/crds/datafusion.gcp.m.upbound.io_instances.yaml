@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: instances.datafusion.gcp.m.upbound.io
 spec:
   group: datafusion.gcp.m.upbound.io
@@ -290,6 +290,45 @@ spec:
                       such as Compute Engine VMs.
                     type: object
                     x-kubernetes-map-type: granular
+                  maintenancePolicy:
+                    description: |-
+                      Configure the maintenance policy for this instance.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindow:
+                        description: |-
+                          The maintenance window of the instance.
+                          Structure is documented below.
+                        properties:
+                          recurringTimeWindow:
+                            description: |-
+                              The recurring time window of the maintenance window.
+                              Structure is documented below.
+                            properties:
+                              recurrence:
+                                description: 'An RRULE with format RFC-5545 for how
+                                  this window reccurs. They go on for the span of
+                                  time between the start and end time. The only supported
+                                  FREQ value is "WEEKLY". To have something repeat
+                                  every weekday, use: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR".'
+                                type: string
+                              window:
+                                description: |-
+                                  The window representing the start and end time of recurrences. This field ignores the date components of the provided timestamps. Only the time of day and duration between start and end time are relevant.
+                                  Structure is documented below.
+                                properties:
+                                  endTime:
+                                    description: The end time of the time window provided
+                                      in RFC 3339 format.
+                                    type: string
+                                  startTime:
+                                    description: The start time of the time window
+                                      provided in RFC 3339 format.
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                    type: object
                   networkConfig:
                     description: |-
                       Network configuration options. These are required when a private Data Fusion instance is to be created.
@@ -341,6 +380,9 @@ spec:
                       of Data Fusion instance.
                     type: object
                     x-kubernetes-map-type: granular
+                  patchRevision:
+                    description: Current patch revision of the Data Fusion.
+                    type: string
                   privateInstance:
                     description: |-
                       Specifies whether the Data Fusion instance should be private. If set to
@@ -622,6 +664,45 @@ spec:
                       such as Compute Engine VMs.
                     type: object
                     x-kubernetes-map-type: granular
+                  maintenancePolicy:
+                    description: |-
+                      Configure the maintenance policy for this instance.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindow:
+                        description: |-
+                          The maintenance window of the instance.
+                          Structure is documented below.
+                        properties:
+                          recurringTimeWindow:
+                            description: |-
+                              The recurring time window of the maintenance window.
+                              Structure is documented below.
+                            properties:
+                              recurrence:
+                                description: 'An RRULE with format RFC-5545 for how
+                                  this window reccurs. They go on for the span of
+                                  time between the start and end time. The only supported
+                                  FREQ value is "WEEKLY". To have something repeat
+                                  every weekday, use: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR".'
+                                type: string
+                              window:
+                                description: |-
+                                  The window representing the start and end time of recurrences. This field ignores the date components of the provided timestamps. Only the time of day and duration between start and end time are relevant.
+                                  Structure is documented below.
+                                properties:
+                                  endTime:
+                                    description: The end time of the time window provided
+                                      in RFC 3339 format.
+                                    type: string
+                                  startTime:
+                                    description: The start time of the time window
+                                      provided in RFC 3339 format.
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                    type: object
                   networkConfig:
                     description: |-
                       Network configuration options. These are required when a private Data Fusion instance is to be created.
@@ -673,6 +754,9 @@ spec:
                       of Data Fusion instance.
                     type: object
                     x-kubernetes-map-type: granular
+                  patchRevision:
+                    description: Current patch revision of the Data Fusion.
+                    type: string
                   privateInstance:
                     description: |-
                       Specifies whether the Data Fusion instance should be private. If set to
@@ -817,6 +901,11 @@ spec:
                     description: User-managed service account to set on Dataproc when
                       Cloud Data Fusion creates Dataproc to run data processing pipelines.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of the instance.
                     type: string
@@ -866,6 +955,68 @@ spec:
                       such as Compute Engine VMs.
                     type: object
                     x-kubernetes-map-type: granular
+                  maintenanceEvents:
+                    description: |-
+                      The maintenance events for this instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        endTime:
+                          description: |-
+                            (Output)
+                            The end time of the maintenance event provided in RFC 3339 format.
+                          type: string
+                        startTime:
+                          description: |-
+                            (Output)
+                            The start time of the maintenance event provided in RFC 3339 format.
+                          type: string
+                        state:
+                          description: |-
+                            (Output)
+                            The state of the maintenance event.
+                          type: string
+                      type: object
+                    type: array
+                  maintenancePolicy:
+                    description: |-
+                      Configure the maintenance policy for this instance.
+                      Structure is documented below.
+                    properties:
+                      maintenanceWindow:
+                        description: |-
+                          The maintenance window of the instance.
+                          Structure is documented below.
+                        properties:
+                          recurringTimeWindow:
+                            description: |-
+                              The recurring time window of the maintenance window.
+                              Structure is documented below.
+                            properties:
+                              recurrence:
+                                description: 'An RRULE with format RFC-5545 for how
+                                  this window reccurs. They go on for the span of
+                                  time between the start and end time. The only supported
+                                  FREQ value is "WEEKLY". To have something repeat
+                                  every weekday, use: "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR".'
+                                type: string
+                              window:
+                                description: |-
+                                  The window representing the start and end time of recurrences. This field ignores the date components of the provided timestamps. Only the time of day and duration between start and end time are relevant.
+                                  Structure is documented below.
+                                properties:
+                                  endTime:
+                                    description: The end time of the time window provided
+                                      in RFC 3339 format.
+                                    type: string
+                                  startTime:
+                                    description: The start time of the time window
+                                      provided in RFC 3339 format.
+                                    type: string
+                                type: object
+                            type: object
+                        type: object
+                    type: object
                   networkConfig:
                     description: |-
                       Network configuration options. These are required when a private Data Fusion instance is to be created.
@@ -925,6 +1076,9 @@ spec:
                     x-kubernetes-map-type: granular
                   p4ServiceAccount:
                     description: P4 service account for the customer project.
+                    type: string
+                  patchRevision:
+                    description: Current patch revision of the Data Fusion.
                     type: string
                   privateInstance:
                     description: |-

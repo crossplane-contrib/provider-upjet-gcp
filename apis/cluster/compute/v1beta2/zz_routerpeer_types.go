@@ -389,6 +389,10 @@ type RouterPeerObservation struct {
 	// Google Cloud assigns a priority of 100 to the ranges.
 	CustomLearnedRoutePriority *float64 `json:"customLearnedRoutePriority,omitempty" tf:"custom_learned_route_priority,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The status of the BGP peer connection. If set to false, any active session
 	// with the peer is terminated and all associated routing information is removed.
 	// If set to true, the peer connection can be established with routing information.

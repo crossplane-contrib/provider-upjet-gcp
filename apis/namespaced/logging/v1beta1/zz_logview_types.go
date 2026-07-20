@@ -31,6 +31,10 @@ type LogViewObservation struct {
 	// Output only. The creation timestamp of the view.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Describes this view.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

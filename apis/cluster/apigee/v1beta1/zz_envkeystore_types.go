@@ -19,6 +19,8 @@ type EnvKeystoreInitParameters struct {
 type EnvKeystoreObservation struct {
 	Aliases []*string `json:"aliases,omitempty" tf:"aliases,omitempty"`
 
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`

@@ -78,8 +78,8 @@ type LakeIAMPolicyParameters struct {
 	// location is specified, it is taken from the provider configuration.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("location",false)
-	// +kubebuilder:validation:Required
-	Location *string `json:"location" tf:"location,omitempty"`
+	// +kubebuilder:validation:Optional
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
 	// Reference to a Lake in dataplex to populate location.
 	// +kubebuilder:validation:Optional

@@ -23,9 +23,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: instance
 
+
 ---
 
-apiVersion: filestore.gcp.upbound.io/v1beta1
+apiVersion: filestore.gcp.upbound.io/v1beta2
 kind: Instance
 metadata:
   annotations:

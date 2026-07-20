@@ -15,8 +15,12 @@ import (
 )
 
 type EndpointAttachmentInitParameters struct {
+
+	// The location of the endpoint attachment.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// The resource URL of the service attachment in the format:
+	// projects/*/regions/*/serviceAttachments/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
@@ -31,29 +35,50 @@ type EndpointAttachmentInitParameters struct {
 }
 
 type EndpointAttachmentObservation struct {
+
+	// State of the endpoint attachment connection to the service attachment.
+	// Possible values are: CONNECTION_STATE_UNSPECIFIED, PENDING, ACCEPTED, REJECTED, CLOSED.
 	ConnectionState *string `json:"connectionState,omitempty" tf:"connection_state,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// Host that can be used in either HTTP Target Endpoint directly, or as the host in Target Server.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// an identifier for the resource with format {{org_id}}/endpointAttachments/{{endpoint_attachment_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The location of the endpoint attachment.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Name of the Endpoint Attachment in the following format:
+	// organizations/{organization}/endpointAttachments/{endpointAttachment}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The Apigee Organization associated with the Apigee instance,
+	// in the format organizations/{{org_name}}.
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
+	// The resource URL of the service attachment in the format:
+	// projects/*/regions/*/serviceAttachments/*.
 	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
 }
 
 type EndpointAttachmentParameters struct {
 
+	// The location of the endpoint attachment.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// The Apigee Organization associated with the Apigee instance,
+	// in the format organizations/{{org_name}}.
 	// +kubebuilder:validation:Required
 	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
 
+	// The resource URL of the service attachment in the format:
+	// projects/*/regions/*/serviceAttachments/*.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -95,7 +120,7 @@ type EndpointAttachmentStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// EndpointAttachment is the Schema for the EndpointAttachments API. <no value>
+// EndpointAttachment is the Schema for the EndpointAttachments API. An
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

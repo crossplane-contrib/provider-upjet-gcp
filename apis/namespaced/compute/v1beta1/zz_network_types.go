@@ -35,6 +35,10 @@ type NetworkInitParameters struct {
 	// Possible values are: DEFAULT, ADD_COST_TO_MED.
 	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
+	// If set to true, the bgp_always_compare_med field will be cleared.
+	// If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+	DeleteBGPAlwaysCompareMed *bool `json:"deleteBgpAlwaysCompareMed,omitempty" tf:"delete_bgp_always_compare_med,omitempty"`
+
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`
@@ -109,9 +113,17 @@ type NetworkObservation struct {
 	// Possible values are: DEFAULT, ADD_COST_TO_MED.
 	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
+	// If set to true, the bgp_always_compare_med field will be cleared.
+	// If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+	DeleteBGPAlwaysCompareMed *bool `json:"deleteBgpAlwaysCompareMed,omitempty" tf:"delete_bgp_always_compare_med,omitempty"`
+
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. The resource must be
 	// recreated to modify this field.
@@ -203,6 +215,11 @@ type NetworkParameters struct {
 	// Possible values are: DEFAULT, ADD_COST_TO_MED.
 	// +kubebuilder:validation:Optional
 	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
+
+	// If set to true, the bgp_always_compare_med field will be cleared.
+	// If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+	// +kubebuilder:validation:Optional
+	DeleteBGPAlwaysCompareMed *bool `json:"deleteBgpAlwaysCompareMed,omitempty" tf:"delete_bgp_always_compare_med,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.

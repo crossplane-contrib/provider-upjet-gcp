@@ -629,6 +629,10 @@ type RegistryRepositoryObservation struct {
 	// The time when the repository was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The user-provided description of the repository.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -689,6 +693,9 @@ type RegistryRepositoryObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The repository endpoint, for example: us-docker.pkg.dev/my-proj/my-repo.
+	RegistryURI *string `json:"registryUri,omitempty" tf:"registry_uri,omitempty"`
 
 	// Configuration specific for a Remote Repository.
 	// Structure is documented below.

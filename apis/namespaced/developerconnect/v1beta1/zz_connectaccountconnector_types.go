@@ -16,13 +16,22 @@ import (
 
 type ConnectAccountConnectorInitParameters struct {
 
-	// Optional. Allows users to store small amounts of arbitrary data.
+	// Allows users to store small amounts of arbitrary data.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
-	// Optional. Labels as key value pairs
+	// Message for a customized OAuth config.
+	// Structure is documented below.
+	CustomOAuthConfig *CustomOAuthConfigInitParameters `json:"customOauthConfig,omitempty" tf:"custom_oauth_config,omitempty"`
+
+	// This checksum is computed by the server based on the value of other
+	// fields, and may be sent on update and delete requests to ensure the
+	// client has an up-to-date value before proceeding.
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// Labels as key value pairs
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
@@ -35,18 +44,30 @@ type ConnectAccountConnectorInitParameters struct {
 	// ProviderOAuthConfig is the OAuth config for a provider.
 	// Structure is documented below.
 	ProviderOAuthConfig *ProviderOAuthConfigInitParameters `json:"providerOauthConfig,omitempty" tf:"provider_oauth_config,omitempty"`
+
+	// The proxy configuration.
+	// Structure is documented below.
+	ProxyConfig *ProxyConfigInitParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
 }
 
 type ConnectAccountConnectorObservation struct {
 
-	// Optional. Allows users to store small amounts of arbitrary data.
+	// Allows users to store small amounts of arbitrary data.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
-	// Output only. The timestamp when the userConnection was created.
+	// The timestamp when the accountConnector was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Message for a customized OAuth config.
+	// Structure is documented below.
+	CustomOAuthConfig *CustomOAuthConfigObservation `json:"customOauthConfig,omitempty" tf:"custom_oauth_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveAnnotations map[string]*string `json:"effectiveAnnotations,omitempty" tf:"effective_annotations,omitempty"`
@@ -54,23 +75,28 @@ type ConnectAccountConnectorObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// This checksum is computed by the server based on the value of other
+	// fields, and may be sent on update and delete requests to ensure the
+	// client has an up-to-date value before proceeding.
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/accountConnectors/{{account_connector_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Optional. Labels as key value pairs
+	// Labels as key value pairs
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The location of the resource.
+	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// Identifier. The resource name of the userConnection, in the format
+	// Identifier. The resource name of the accountConnector, in the format
 	// projects/{project}/locations/{location}/accountConnectors/{account_connector_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Output only. Start OAuth flow by clicking on this URL.
+	// Start OAuth flow by clicking on this URL.
 	OAuthStartURI *string `json:"oauthStartUri,omitempty" tf:"oauth_start_uri,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -81,32 +107,47 @@ type ConnectAccountConnectorObservation struct {
 	// Structure is documented below.
 	ProviderOAuthConfig *ProviderOAuthConfigObservation `json:"providerOauthConfig,omitempty" tf:"provider_oauth_config,omitempty"`
 
+	// The proxy configuration.
+	// Structure is documented below.
+	ProxyConfig *ProxyConfigObservation `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
-	// Output only. The timestamp when the userConnection was updated.
+	// The timestamp when the accountConnector was updated.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type ConnectAccountConnectorParameters struct {
 
-	// Optional. Allows users to store small amounts of arbitrary data.
+	// Allows users to store small amounts of arbitrary data.
 	// Note: This field is non-authoritative, and will only manage the annotations present in your configuration.
 	// Please refer to the field effective_annotations for all of the annotations present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
-	// Optional. Labels as key value pairs
+	// Message for a customized OAuth config.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomOAuthConfig *CustomOAuthConfigParameters `json:"customOauthConfig,omitempty" tf:"custom_oauth_config,omitempty"`
+
+	// This checksum is computed by the server based on the value of other
+	// fields, and may be sent on update and delete requests to ensure the
+	// client has an up-to-date value before proceeding.
+	// +kubebuilder:validation:Optional
+	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
+
+	// Labels as key value pairs
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// The location of the resource.
+	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 
@@ -119,16 +160,200 @@ type ConnectAccountConnectorParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ProviderOAuthConfig *ProviderOAuthConfigParameters `json:"providerOauthConfig,omitempty" tf:"provider_oauth_config,omitempty"`
+
+	// The proxy configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ProxyConfig *ProxyConfigParameters `json:"proxyConfig,omitempty" tf:"proxy_config,omitempty"`
+}
+
+type CustomOAuthConfigInitParameters struct {
+
+	// The OAuth2 authrization server URL.
+	AuthURI *string `json:"authUri,omitempty" tf:"auth_uri,omitempty"`
+
+	// The client ID of the OAuth application.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v1.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v1.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
+
+	// Input only. The client secret of the OAuth application.
+	// It will be provided as plain text, but encrypted and stored in developer
+	// connect. As INPUT_ONLY field, it will not be included in the output.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate clientSecret.
+	// +kubebuilder:validation:Optional
+	ClientSecretRef *v1.NamespacedReference `json:"clientSecretRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate clientSecret.
+	// +kubebuilder:validation:Optional
+	ClientSecretSelector *v1.NamespacedSelector `json:"clientSecretSelector,omitempty" tf:"-"`
+
+	// The host URI of the OAuth application.
+	HostURI *string `json:"hostUri,omitempty" tf:"host_uri,omitempty"`
+
+	// Disable PKCE for this OAuth config. PKCE is enabled by default.
+	PkceDisabled *bool `json:"pkceDisabled,omitempty" tf:"pkce_disabled,omitempty"`
+
+	// SSL certificate to use for requests to a private service.
+	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
+
+	// The type of the SCM provider.
+	// Possible values:
+	// SCM_PROVIDER_UNKNOWN
+	// GITHUB_ENTERPRISE
+	// GITLAB_ENTERPRISE
+	// BITBUCKET_DATA_CENTER
+	ScmProvider *string `json:"scmProvider,omitempty" tf:"scm_provider,omitempty"`
+
+	// The scopes to be requested during OAuth.
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// ServiceDirectoryConfig represents Service Directory configuration for a
+	// connection.
+	// Structure is documented below.
+	ServiceDirectoryConfig *ServiceDirectoryConfigInitParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+
+	// The OAuth2 token request URL.
+	TokenURI *string `json:"tokenUri,omitempty" tf:"token_uri,omitempty"`
+}
+
+type CustomOAuthConfigObservation struct {
+
+	// The OAuth2 authrization server URL.
+	AuthURI *string `json:"authUri,omitempty" tf:"auth_uri,omitempty"`
+
+	// The client ID of the OAuth application.
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Input only. The client secret of the OAuth application.
+	// It will be provided as plain text, but encrypted and stored in developer
+	// connect. As INPUT_ONLY field, it will not be included in the output.
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// The host URI of the OAuth application.
+	HostURI *string `json:"hostUri,omitempty" tf:"host_uri,omitempty"`
+
+	// Disable PKCE for this OAuth config. PKCE is enabled by default.
+	PkceDisabled *bool `json:"pkceDisabled,omitempty" tf:"pkce_disabled,omitempty"`
+
+	// SSL certificate to use for requests to a private service.
+	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
+
+	// The type of the SCM provider.
+	// Possible values:
+	// SCM_PROVIDER_UNKNOWN
+	// GITHUB_ENTERPRISE
+	// GITLAB_ENTERPRISE
+	// BITBUCKET_DATA_CENTER
+	ScmProvider *string `json:"scmProvider,omitempty" tf:"scm_provider,omitempty"`
+
+	// The scopes to be requested during OAuth.
+	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
+
+	// (Output)
+	// SCM server version installed at the host URI.
+	ServerVersion *string `json:"serverVersion,omitempty" tf:"server_version,omitempty"`
+
+	// ServiceDirectoryConfig represents Service Directory configuration for a
+	// connection.
+	// Structure is documented below.
+	ServiceDirectoryConfig *ServiceDirectoryConfigObservation `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+
+	// The OAuth2 token request URL.
+	TokenURI *string `json:"tokenUri,omitempty" tf:"token_uri,omitempty"`
+}
+
+type CustomOAuthConfigParameters struct {
+
+	// The OAuth2 authrization server URL.
+	// +kubebuilder:validation:Optional
+	AuthURI *string `json:"authUri" tf:"auth_uri,omitempty"`
+
+	// The client ID of the OAuth application.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
+	// +kubebuilder:validation:Optional
+	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDRef *v1.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate clientId.
+	// +kubebuilder:validation:Optional
+	ClientIDSelector *v1.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
+
+	// Input only. The client secret of the OAuth application.
+	// It will be provided as plain text, but encrypted and stored in developer
+	// connect. As INPUT_ONLY field, it will not be included in the output.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
+	// +kubebuilder:validation:Optional
+	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
+
+	// Reference to a SecretVersion in secretmanager to populate clientSecret.
+	// +kubebuilder:validation:Optional
+	ClientSecretRef *v1.NamespacedReference `json:"clientSecretRef,omitempty" tf:"-"`
+
+	// Selector for a SecretVersion in secretmanager to populate clientSecret.
+	// +kubebuilder:validation:Optional
+	ClientSecretSelector *v1.NamespacedSelector `json:"clientSecretSelector,omitempty" tf:"-"`
+
+	// The host URI of the OAuth application.
+	// +kubebuilder:validation:Optional
+	HostURI *string `json:"hostUri" tf:"host_uri,omitempty"`
+
+	// Disable PKCE for this OAuth config. PKCE is enabled by default.
+	// +kubebuilder:validation:Optional
+	PkceDisabled *bool `json:"pkceDisabled,omitempty" tf:"pkce_disabled,omitempty"`
+
+	// SSL certificate to use for requests to a private service.
+	// +kubebuilder:validation:Optional
+	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
+
+	// The type of the SCM provider.
+	// Possible values:
+	// SCM_PROVIDER_UNKNOWN
+	// GITHUB_ENTERPRISE
+	// GITLAB_ENTERPRISE
+	// BITBUCKET_DATA_CENTER
+	// +kubebuilder:validation:Optional
+	ScmProvider *string `json:"scmProvider" tf:"scm_provider,omitempty"`
+
+	// The scopes to be requested during OAuth.
+	// +kubebuilder:validation:Optional
+	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
+
+	// ServiceDirectoryConfig represents Service Directory configuration for a
+	// connection.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServiceDirectoryConfig *ServiceDirectoryConfigParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+
+	// The OAuth2 token request URL.
+	// +kubebuilder:validation:Optional
+	TokenURI *string `json:"tokenUri" tf:"token_uri,omitempty"`
 }
 
 type ProviderOAuthConfigInitParameters struct {
 
-	// Required. User selected scopes to apply to the Oauth config
+	// User selected scopes to apply to the Oauth config
 	// In the event of changing scopes, user records under AccountConnector will
 	// be deleted and users will re-auth again.
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
-	// List of providers that are owned by Developer Connect.
 	// Possible values:
 	// GITHUB
 	// GITLAB
@@ -137,17 +362,17 @@ type ProviderOAuthConfigInitParameters struct {
 	// ROVO
 	// NEW_RELIC
 	// DATASTAX
+	// DYNATRACE
 	SystemProviderID *string `json:"systemProviderId,omitempty" tf:"system_provider_id,omitempty"`
 }
 
 type ProviderOAuthConfigObservation struct {
 
-	// Required. User selected scopes to apply to the Oauth config
+	// User selected scopes to apply to the Oauth config
 	// In the event of changing scopes, user records under AccountConnector will
 	// be deleted and users will re-auth again.
 	Scopes []*string `json:"scopes,omitempty" tf:"scopes,omitempty"`
 
-	// List of providers that are owned by Developer Connect.
 	// Possible values:
 	// GITHUB
 	// GITLAB
@@ -156,18 +381,18 @@ type ProviderOAuthConfigObservation struct {
 	// ROVO
 	// NEW_RELIC
 	// DATASTAX
+	// DYNATRACE
 	SystemProviderID *string `json:"systemProviderId,omitempty" tf:"system_provider_id,omitempty"`
 }
 
 type ProviderOAuthConfigParameters struct {
 
-	// Required. User selected scopes to apply to the Oauth config
+	// User selected scopes to apply to the Oauth config
 	// In the event of changing scopes, user records under AccountConnector will
 	// be deleted and users will re-auth again.
 	// +kubebuilder:validation:Optional
 	Scopes []*string `json:"scopes" tf:"scopes,omitempty"`
 
-	// List of providers that are owned by Developer Connect.
 	// Possible values:
 	// GITHUB
 	// GITLAB
@@ -176,8 +401,56 @@ type ProviderOAuthConfigParameters struct {
 	// ROVO
 	// NEW_RELIC
 	// DATASTAX
+	// DYNATRACE
 	// +kubebuilder:validation:Optional
 	SystemProviderID *string `json:"systemProviderId,omitempty" tf:"system_provider_id,omitempty"`
+}
+
+type ProxyConfigInitParameters struct {
+
+	// Setting this to true allows the git and http proxies to perform actions on
+	// behalf of the user configured under the account connector.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type ProxyConfigObservation struct {
+
+	// Setting this to true allows the git and http proxies to perform actions on
+	// behalf of the user configured under the account connector.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type ProxyConfigParameters struct {
+
+	// Setting this to true allows the git and http proxies to perform actions on
+	// behalf of the user configured under the account connector.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type ServiceDirectoryConfigInitParameters struct {
+
+	// The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ServiceDirectoryConfigObservation struct {
+
+	// The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ServiceDirectoryConfigParameters struct {
+
+	// The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service" tf:"service,omitempty"`
 }
 
 // ConnectAccountConnectorSpec defines the desired state of ConnectAccountConnector

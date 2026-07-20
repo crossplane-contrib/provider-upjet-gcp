@@ -6,25 +6,29 @@ import (
 	"testing"
 
 	"github.com/crossplane/upjet/v2/pkg/apitesting/roundtrip"
-	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/utils/ptr"
+	"sigs.k8s.io/randfill"
 
 	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
-	containerv1beta1 "github.com/upbound/provider-gcp/v2/apis/cluster/container/v1beta1"
+	storageclusterv1beta3 "github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3"
 	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
+	storagensv1beta2 "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2"
 	"github.com/upbound/provider-gcp/v2/config"
 )
 
 func TestRoundTrip(t *testing.T) {
 
 	schema := provider.Provider()
-	ujProviderCluster, err := config.GetProvider(t.Context(), schema, false)
+	fwProvider := fwprovider.New(schema)
+	ujProviderCluster, err := config.GetProvider(t.Context(), schema, fwProvider, false)
 	if err != nil {
 		t.Fatalf("GetProvider: %s", err)
 	}
 
-	ujProviderNamespaced, err := config.GetNamespacedProvider(t.Context(), schema, false)
+	ujProviderNamespaced, err := config.GetNamespacedProvider(t.Context(), schema, fwProvider, false)
 	if err != nil {
 		t.Fatalf("GetNamespacedProvider: %s", err)
 	}
@@ -49,11 +53,8 @@ func TestRoundTrip(t *testing.T) {
 		roundtrip.WithComparisonOptions(
 			roundtrip.EquateEmptyAndSingleZeroSlice(),
 			roundtrip.EquateNilAndZeroValuePtr(),
-			// ignore manually-injected SSA index fields at comparison
-			cmpopts.IgnoreFields(containerv1beta1.NodePoolNodeConfigInitParameters_2{}, "Index"),
-			cmpopts.IgnoreFields(containerv1beta1.NodePoolNodeConfigParameters_2{}, "Index"),
-			cmpopts.IgnoreFields(containerv1beta1.NodePoolNodeConfigObservation_2{}, "Index"),
 		),
+		roundtrip.WithExtraFuzzFuncs(gcpCustomFuzzers...),
 	)
 	if err != nil {
 		t.Fatalf("NewRoundTripTest: %s", err)
@@ -66,5 +67,39 @@ func TestRoundTrip(t *testing.T) {
 	t.Run("TestConversionRoundtrip", func(t *testing.T) {
 		rt.TestConversionRoundtrip(t)
 	})
+}
 
+var gcpCustomFuzzers = []roundtrip.FuzzFunc{
+	fuzzClusterStorageBucketV1Beta3,
+	fuzzNamespacedStorageBucketV1Beta2,
+}
+
+// fuzzClusterStorageBucketV1Beta3 ensures retentionPolicy.retentionPeriod is a
+// valid numeric string so that StringToFloat conversion to the v1beta2 spoke succeeds.
+func fuzzClusterStorageBucketV1Beta3(s *storageclusterv1beta3.Bucket, c randfill.Continue) {
+	c.Fill(s)
+	if s.Spec.ForProvider.RetentionPolicy != nil && s.Spec.ForProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.ForProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Spec.InitProvider.RetentionPolicy != nil && s.Spec.InitProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.InitProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Status.AtProvider.RetentionPolicy != nil && s.Status.AtProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Status.AtProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+}
+
+// fuzzNamespacedStorageBucketV1Beta2 ensures retentionPolicy.retentionPeriod is a
+// valid numeric string so that StringToFloat conversion to the v1beta1 spoke succeeds.
+func fuzzNamespacedStorageBucketV1Beta2(s *storagensv1beta2.Bucket, c randfill.Continue) {
+	c.Fill(s)
+	if s.Spec.ForProvider.RetentionPolicy != nil && s.Spec.ForProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.ForProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Spec.InitProvider.RetentionPolicy != nil && s.Spec.InitProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Spec.InitProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
+	if s.Status.AtProvider.RetentionPolicy != nil && s.Status.AtProvider.RetentionPolicy.RetentionPeriod != nil {
+		s.Status.AtProvider.RetentionPolicy.RetentionPeriod = ptr.To("3600")
+	}
 }

@@ -82,3 +82,30 @@ func SetupGated_cloudplatform(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_cloudplatform registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_cloudplatform(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		folder.SetupWebhookWithManager,
+		folderiammember.SetupWebhookWithManager,
+		organizationiamauditconfig.SetupWebhookWithManager,
+		organizationiamcustomrole.SetupWebhookWithManager,
+		organizationiammember.SetupWebhookWithManager,
+		project.SetupWebhookWithManager,
+		projectdefaultserviceaccounts.SetupWebhookWithManager,
+		projectiamauditconfig.SetupWebhookWithManager,
+		projectiamcustomrole.SetupWebhookWithManager,
+		projectiammember.SetupWebhookWithManager,
+		projectservice.SetupWebhookWithManager,
+		projectusageexportbucket.SetupWebhookWithManager,
+		serviceaccount.SetupWebhookWithManager,
+		serviceaccountiammember.SetupWebhookWithManager,
+		serviceaccountkey.SetupWebhookWithManager,
+		servicenetworkingpeereddnsdomain.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

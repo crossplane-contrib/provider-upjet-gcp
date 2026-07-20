@@ -66,6 +66,10 @@ type ConnectorObservation struct {
 	// List of projects using the connector.
 	ConnectedProjects []*string `json:"connectedProjects,omitempty" tf:"connected_projects,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/connectors/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

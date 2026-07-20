@@ -15,7 +15,8 @@ import (
 
 type RegionTargetTCPProxyInitParameters struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is specified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
@@ -48,11 +49,16 @@ type RegionTargetTCPProxyInitParameters struct {
 
 type RegionTargetTCPProxyObservation struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is specified.
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -87,7 +93,8 @@ type RegionTargetTCPProxyObservation struct {
 
 type RegionTargetTCPProxyParameters struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is specified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional

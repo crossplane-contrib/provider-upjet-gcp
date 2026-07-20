@@ -24,8 +24,10 @@ spec:
           }
       ]
       }
+
 ---
-apiVersion: dataplex.gcp.upbound.io/v1beta1
+
+apiVersion: dataplex.gcp.upbound.io/v1beta2
 kind: Lake
 metadata:
   annotations:

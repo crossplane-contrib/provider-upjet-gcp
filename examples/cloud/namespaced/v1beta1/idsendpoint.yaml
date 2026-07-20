@@ -7,6 +7,7 @@ kind: IdsEndpoint
 metadata:
   annotations:
     meta.upbound.io/example-id: cloud/v1beta1/idsendpoint
+    uptest.upbound.io/timeout: "3600"
   labels:
     testing.upbound.io/example-name: example-endpoint
   name: example-endpoint

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: certificateauthorities.privateca.gcp.m.upbound.io
 spec:
   group: privateca.gcp.m.upbound.io
@@ -1703,6 +1703,11 @@ spec:
                       The time at which this CertificateAuthority was created.
                       A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine
                       fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the CertificateAuthority

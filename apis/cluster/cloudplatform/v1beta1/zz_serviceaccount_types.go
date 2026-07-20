@@ -50,6 +50,10 @@ type ServiceAccountObservation struct {
 	// If set to true, skip service account creation if a service account with the same email already exists.
 	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A text description of the service account.
 	// Must be less than or equal to 256 UTF-8 bytes.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`

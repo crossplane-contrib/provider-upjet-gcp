@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: regiontargettcpproxies.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -62,7 +62,9 @@ spec:
               forProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is specified.
                     type: string
                   backendServiceRef:
                     description: Reference to a RegionBackendService in compute to
@@ -188,7 +190,9 @@ spec:
                   autoscaler.
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is specified.
                     type: string
                   backendServiceRef:
                     description: Reference to a RegionBackendService in compute to
@@ -358,10 +362,17 @@ spec:
               atProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is specified.
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of this resource.

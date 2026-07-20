@@ -40,3 +40,16 @@ func SetupGated_binaryauthorization(mgr ctrl.Manager, o controller.Options) erro
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_binaryauthorization registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_binaryauthorization(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		attestor.SetupWebhookWithManager,
+		policy.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

@@ -36,6 +36,10 @@ type EntryGroupInitParameters struct {
 
 type EntryGroupObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Entry group description, which can consist of several sentences or paragraphs that describe entry group contents.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

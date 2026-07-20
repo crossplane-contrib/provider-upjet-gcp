@@ -29,23 +29,9 @@ var (
 	providerMetadata []byte
 
 	// oldSingletonListAPIs is a newline-delimited list of Terraform resource
-	// names with converted singleton list APIs with at least CRD API version
-	// containing the old singleton list API. This is to prevent the API
-	// conversion for the newly added resources whose CRD APIs will already
-	// use embedded objects instead of the singleton lists and thus, will
-	// not possess a CRD API version with the singleton list. Thus, for
-	// the newly added resources (resources added after the singleton lists
-	// have been converted), we do not need the CRD API conversion
-	// functions that convert between singleton lists and embedded objects,
-	// but we need only the Terraform conversion functions.
-	// This list is immutable and represents the set of resources with the
-	// already generated CRD API versions with now converted singleton lists.
-	// Because new resources should never have singleton lists in their
-	// generated APIs, there should be no need to add them to this list.
-	// However, bugs might result in exceptions in the future.
-	// Please see:
-	// https://github.com/crossplane-contrib/provider-upjet-gcp/pull/508
-	// for more context on singleton list to embedded object conversions.
+	// names whose CRD APIs were generated at v1beta2 due to singleton list
+	// to embedded object conversions. These resources must continue to be
+	// generated at v1beta2 to avoid breaking existing CRD APIs.
 	//go:embed old-singleton-list-apis.txt
 	oldSingletonListAPIs string
 )

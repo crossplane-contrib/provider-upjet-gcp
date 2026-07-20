@@ -13,6 +13,115 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AdvancedOptionsConfigInitParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+	// Structure is documented below.
+	JSONCustomConfig *JSONCustomConfigInitParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+	// Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Logging level. Supported values include: "NORMAL", "VERBOSE".
+	// Possible values are: NORMAL, VERBOSE.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type AdvancedOptionsConfigObservation struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+	// Structure is documented below.
+	JSONCustomConfig *JSONCustomConfigObservation `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+	// Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Logging level. Supported values include: "NORMAL", "VERBOSE".
+	// Possible values are: NORMAL, VERBOSE.
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type AdvancedOptionsConfigParameters struct {
+
+	// Custom configuration to apply the JSON parsing. Only applicable when JSON parsing is set to STANDARD.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	JSONCustomConfig *JSONCustomConfigParameters `json:"jsonCustomConfig,omitempty" tf:"json_custom_config,omitempty"`
+
+	// JSON body parsing. Supported values include: "DISABLED", "STANDARD", "STANDARD_WITH_GRAPHQL".
+	// Possible values are: DISABLED, STANDARD, STANDARD_WITH_GRAPHQL.
+	// +kubebuilder:validation:Optional
+	JSONParsing *string `json:"jsonParsing,omitempty" tf:"json_parsing,omitempty"`
+
+	// Logging level. Supported values include: "NORMAL", "VERBOSE".
+	// Possible values are: NORMAL, VERBOSE.
+	// +kubebuilder:validation:Optional
+	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
+}
+
+type BanThresholdInitParameters struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
+}
+
+type BanThresholdObservation struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
+}
+
+type BanThresholdParameters struct {
+
+	// Number of HTTP(S) requests for calculating the threshold.
+	// +kubebuilder:validation:Optional
+	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
+
+	// Interval over which the threshold is computed.
+	// +kubebuilder:validation:Optional
+	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
+}
+
+type ConfigInitParameters struct {
+
+	// Source IPv4/IPv6 addresses or CIDR prefixes, in standard text format.
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+}
+
+type ConfigObservation struct {
+
+	// Source IPv4/IPv6 addresses or CIDR prefixes, in standard text format.
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+}
+
+type ConfigParameters struct {
+
+	// Source IPv4/IPv6 addresses or CIDR prefixes, in standard text format.
+	// +kubebuilder:validation:Optional
+	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+}
+
 type DdosProtectionConfigInitParameters struct {
 
 	// Google Cloud Armor offers the following options to help protect systems against DDoS attacks:
@@ -32,254 +141,170 @@ type DdosProtectionConfigParameters struct {
 	DdosProtection *string `json:"ddosProtection" tf:"ddos_protection,omitempty"`
 }
 
-type ExclusionRequestCookieInitParameters struct {
+type EnforceOnKeyConfigsInitParameters struct {
 
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	// Rate limit key name applicable only for the following key types:
+	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
+	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
 }
 
-type ExclusionRequestCookieObservation struct {
+type EnforceOnKeyConfigsObservation struct {
 
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	// Rate limit key name applicable only for the following key types:
+	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
+	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
 }
 
-type ExclusionRequestCookieParameters struct {
+type EnforceOnKeyConfigsParameters struct {
 
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// Rate limit key name applicable only for the following key types:
+	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
+	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
+	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
 }
 
-type ExclusionRequestHeaderInitParameters struct {
+type ExclusionInitParameters struct {
 
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Structure is documented below.
+	RequestCookie []RequestCookieInitParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Structure is documented below.
+	RequestHeader []RequestHeaderInitParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Note that the parameter can be in the query string or in the POST body.
+	// Structure is documented below.
+	RequestQueryParam []RequestQueryParamInitParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation.
+	// When specifying this field, the query or fragment part should be excluded.
+	// Structure is documented below.
+	RequestURI []RequestURIInitParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion.
+	// If omitted, it refers to all the rule IDs under the WAF rule set.
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
 }
 
-type ExclusionRequestHeaderObservation struct {
+type ExclusionObservation struct {
 
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Structure is documented below.
+	RequestCookie []RequestCookieObservation `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Structure is documented below.
+	RequestHeader []RequestHeaderObservation `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Note that the parameter can be in the query string or in the POST body.
+	// Structure is documented below.
+	RequestQueryParam []RequestQueryParamObservation `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
+
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation.
+	// When specifying this field, the query or fragment part should be excluded.
+	// Structure is documented below.
+	RequestURI []RequestURIObservation `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
+
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion.
+	// If omitted, it refers to all the rule IDs under the WAF rule set.
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
+
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
+	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
 }
 
-type ExclusionRequestHeaderParameters struct {
+type ExclusionParameters struct {
 
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
+	RequestCookie []RequestCookieParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
+	RequestHeader []RequestHeaderParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
 
-type ExclusionRequestQueryParamInitParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ExclusionRequestQueryParamObservation struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ExclusionRequestQueryParamParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// Note that the parameter can be in the query string or in the POST body.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
+	RequestQueryParam []RequestQueryParamParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation.
+	// When specifying this field, the query or fragment part should be excluded.
+	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
+	RequestURI []RequestURIParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
 
-type ExclusionRequestURIInitParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ExclusionRequestURIObservation struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
-	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
-
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type ExclusionRequestURIParameters struct {
-
-	// You can specify an exact match or a partial match by using a field operator and a field value.
-	// Available options:
-	// EQUALS: The operator matches if the field value equals the specified value.
-	// STARTS_WITH: The operator matches if the field value starts with the specified value.
-	// ENDS_WITH: The operator matches if the field value ends with the specified value.
-	// CONTAINS: The operator matches if the field value contains the specified value.
-	// EQUALS_ANY: The operator matches if the field value is any value.
-	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion.
+	// If omitted, it refers to all the rule IDs under the WAF rule set.
 	// +kubebuilder:validation:Optional
-	Operator *string `json:"operator" tf:"operator,omitempty"`
+	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
 
-	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
-	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// Target WAF rule set to apply the preconfigured WAF exclusion.
 	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+	TargetRuleSet *string `json:"targetRuleSet" tf:"target_rule_set,omitempty"`
 }
 
-type MatchConfigInitParameters struct {
-
-	// Source IPv4/IPv6 addresses or CIDR prefixes, in standard text format.
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-}
-
-type MatchConfigObservation struct {
-
-	// Source IPv4/IPv6 addresses or CIDR prefixes, in standard text format.
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-}
-
-type MatchConfigParameters struct {
-
-	// Source IPv4/IPv6 addresses or CIDR prefixes, in standard text format.
-	// +kubebuilder:validation:Optional
-	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
-}
-
-type MatchExprInitParameters struct {
+type ExprInitParameters struct {
 
 	// Textual representation of an expression in Common Expression Language syntax. The application context of the containing message determines which well-known feature set of CEL is supported.
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 }
 
-type MatchExprObservation struct {
+type ExprObservation struct {
 
 	// Textual representation of an expression in Common Expression Language syntax. The application context of the containing message determines which well-known feature set of CEL is supported.
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
 }
 
-type MatchExprParameters struct {
+type ExprParameters struct {
 
 	// Textual representation of an expression in Common Expression Language syntax. The application context of the containing message determines which well-known feature set of CEL is supported.
 	// +kubebuilder:validation:Optional
 	Expression *string `json:"expression" tf:"expression,omitempty"`
+}
+
+type JSONCustomConfigInitParameters struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing.
+	// +listType=set
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
+}
+
+type JSONCustomConfigObservation struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing.
+	// +listType=set
+	ContentTypes []*string `json:"contentTypes,omitempty" tf:"content_types,omitempty"`
+}
+
+type JSONCustomConfigParameters struct {
+
+	// A list of custom Content-Type header values to apply the JSON parsing.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ContentTypes []*string `json:"contentTypes" tf:"content_types,omitempty"`
 }
 
 type NetworkMatchInitParameters struct {
@@ -380,148 +405,132 @@ type NetworkMatchParameters struct {
 	UserDefinedFields []UserDefinedFieldsParameters `json:"userDefinedFields,omitempty" tf:"user_defined_fields,omitempty"`
 }
 
-type PreconfiguredWafConfigExclusionInitParameters struct {
+type PreconfiguredWafConfigInitParameters struct {
 
-	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// An exclusion to apply during preconfigured WAF evaluation.
 	// Structure is documented below.
-	RequestCookie []ExclusionRequestCookieInitParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
-
-	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation.
-	// Structure is documented below.
-	RequestHeader []ExclusionRequestHeaderInitParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
-
-	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation.
-	// Note that the parameter can be in the query string or in the POST body.
-	// Structure is documented below.
-	RequestQueryParam []ExclusionRequestQueryParamInitParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
-
-	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation.
-	// When specifying this field, the query or fragment part should be excluded.
-	// Structure is documented below.
-	RequestURI []ExclusionRequestURIInitParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
-
-	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion.
-	// If omitted, it refers to all the rule IDs under the WAF rule set.
-	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
-
-	// Target WAF rule set to apply the preconfigured WAF exclusion.
-	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+	Exclusion []ExclusionInitParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
 }
 
-type PreconfiguredWafConfigExclusionObservation struct {
+type PreconfiguredWafConfigObservation struct {
 
-	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// An exclusion to apply during preconfigured WAF evaluation.
 	// Structure is documented below.
-	RequestCookie []ExclusionRequestCookieObservation `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
-
-	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation.
-	// Structure is documented below.
-	RequestHeader []ExclusionRequestHeaderObservation `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
-
-	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation.
-	// Note that the parameter can be in the query string or in the POST body.
-	// Structure is documented below.
-	RequestQueryParam []ExclusionRequestQueryParamObservation `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
-
-	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation.
-	// When specifying this field, the query or fragment part should be excluded.
-	// Structure is documented below.
-	RequestURI []ExclusionRequestURIObservation `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
-
-	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion.
-	// If omitted, it refers to all the rule IDs under the WAF rule set.
-	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
-
-	// Target WAF rule set to apply the preconfigured WAF exclusion.
-	TargetRuleSet *string `json:"targetRuleSet,omitempty" tf:"target_rule_set,omitempty"`
+	Exclusion []ExclusionObservation `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
 }
 
-type PreconfiguredWafConfigExclusionParameters struct {
+type PreconfiguredWafConfigParameters struct {
 
-	// Request cookie whose value will be excluded from inspection during preconfigured WAF evaluation.
+	// An exclusion to apply during preconfigured WAF evaluation.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RequestCookie []ExclusionRequestCookieParameters `json:"requestCookie,omitempty" tf:"request_cookie,omitempty"`
+	Exclusion []ExclusionParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+}
 
-	// Request header whose value will be excluded from inspection during preconfigured WAF evaluation.
+type RateLimitOptionsInitParameters struct {
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, the key will be banned for the configured 'banDurationSec' when the number of requests that exceed the 'rateLimitThreshold' also exceed this 'banThreshold'.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestHeader []ExclusionRequestHeaderParameters `json:"requestHeader,omitempty" tf:"request_header,omitempty"`
+	BanThreshold *BanThresholdInitParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
 
-	// Request query parameter whose value will be excluded from inspection during preconfigured WAF evaluation.
-	// Note that the parameter can be in the query string or in the POST body.
+	// Action to take for requests that are under the configured rate limit threshold.
+	// Valid option is "allow" only.
+	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// If specified, any combination of values of enforceOnKeyType/enforceOnKeyName is treated as the key on which ratelimit threshold/action is enforced.
+	// You can specify up to 3 enforceOnKeyConfigs.
+	// If enforceOnKeyConfigs is specified, enforceOnKey must not be specified.
 	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestQueryParam []ExclusionRequestQueryParamParameters `json:"requestQueryParam,omitempty" tf:"request_query_param,omitempty"`
-
-	// Request URI from the request line to be excluded from inspection during preconfigured WAF evaluation.
-	// When specifying this field, the query or fragment part should be excluded.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestURI []ExclusionRequestURIParameters `json:"requestUri,omitempty" tf:"request_uri,omitempty"`
-
-	// A list of target rule IDs under the WAF rule set to apply the preconfigured WAF exclusion.
-	// If omitted, it refers to all the rule IDs under the WAF rule set.
-	// +kubebuilder:validation:Optional
-	TargetRuleIds []*string `json:"targetRuleIds,omitempty" tf:"target_rule_ids,omitempty"`
-
-	// Target WAF rule set to apply the preconfigured WAF exclusion.
-	// +kubebuilder:validation:Optional
-	TargetRuleSet *string `json:"targetRuleSet" tf:"target_rule_set,omitempty"`
-}
-
-type RateLimitOptionsBanThresholdInitParameters struct {
-
-	// Number of HTTP(S) requests for calculating the threshold.
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
-
-	// Interval over which the threshold is computed.
-	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
-}
-
-type RateLimitOptionsBanThresholdObservation struct {
-
-	// Number of HTTP(S) requests for calculating the threshold.
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
-
-	// Interval over which the threshold is computed.
-	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
-}
-
-type RateLimitOptionsBanThresholdParameters struct {
-
-	// Number of HTTP(S) requests for calculating the threshold.
-	// +kubebuilder:validation:Optional
-	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
-
-	// Interval over which the threshold is computed.
-	// +kubebuilder:validation:Optional
-	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
-}
-
-type RateLimitOptionsEnforceOnKeyConfigsInitParameters struct {
+	EnforceOnKeyConfigs []EnforceOnKeyConfigsInitParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
 
 	// Rate limit key name applicable only for the following key types:
 	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
 	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
-	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
-	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+	// Action to take for requests that are above the configured rate limit threshold, to deny with a specified HTTP response code.
+	// Valid options are deny(STATUS), where valid values for STATUS are 403, 404, 429, and 502.
+	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+
+	// Threshold at which to begin ratelimiting.
+	// Structure is documented below.
+	RateLimitThreshold *RateLimitThresholdInitParameters `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
 }
 
-type RateLimitOptionsEnforceOnKeyConfigsObservation struct {
+type RateLimitOptionsObservation struct {
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, the key will be banned for the configured 'banDurationSec' when the number of requests that exceed the 'rateLimitThreshold' also exceed this 'banThreshold'.
+	// Structure is documented below.
+	BanThreshold *BanThresholdObservation `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold.
+	// Valid option is "allow" only.
+	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// If specified, any combination of values of enforceOnKeyType/enforceOnKeyName is treated as the key on which ratelimit threshold/action is enforced.
+	// You can specify up to 3 enforceOnKeyConfigs.
+	// If enforceOnKeyConfigs is specified, enforceOnKey must not be specified.
+	// Structure is documented below.
+	EnforceOnKeyConfigs []EnforceOnKeyConfigsObservation `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
 
 	// Rate limit key name applicable only for the following key types:
 	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
 	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
-	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
-	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+	// Action to take for requests that are above the configured rate limit threshold, to deny with a specified HTTP response code.
+	// Valid options are deny(STATUS), where valid values for STATUS are 403, 404, 429, and 502.
+	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+
+	// Threshold at which to begin ratelimiting.
+	// Structure is documented below.
+	RateLimitThreshold *RateLimitThresholdObservation `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
 }
 
-type RateLimitOptionsEnforceOnKeyConfigsParameters struct {
+type RateLimitOptionsParameters struct {
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
+	// +kubebuilder:validation:Optional
+	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
+
+	// Can only be specified if the action for the rule is "rate_based_ban".
+	// If specified, the key will be banned for the configured 'banDurationSec' when the number of requests that exceed the 'rateLimitThreshold' also exceed this 'banThreshold'.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BanThreshold *BanThresholdParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+
+	// Action to take for requests that are under the configured rate limit threshold.
+	// Valid option is "allow" only.
+	// +kubebuilder:validation:Optional
+	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
+
+	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
+	// +kubebuilder:validation:Optional
+	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
+
+	// If specified, any combination of values of enforceOnKeyType/enforceOnKeyName is treated as the key on which ratelimit threshold/action is enforced.
+	// You can specify up to 3 enforceOnKeyConfigs.
+	// If enforceOnKeyConfigs is specified, enforceOnKey must not be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EnforceOnKeyConfigs []EnforceOnKeyConfigsParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
 
 	// Rate limit key name applicable only for the following key types:
 	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
@@ -529,12 +538,18 @@ type RateLimitOptionsEnforceOnKeyConfigsParameters struct {
 	// +kubebuilder:validation:Optional
 	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
 
-	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
+	// Action to take for requests that are above the configured rate limit threshold, to deny with a specified HTTP response code.
+	// Valid options are deny(STATUS), where valid values for STATUS are 403, 404, 429, and 502.
 	// +kubebuilder:validation:Optional
-	EnforceOnKeyType *string `json:"enforceOnKeyType,omitempty" tf:"enforce_on_key_type,omitempty"`
+	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+
+	// Threshold at which to begin ratelimiting.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RateLimitThreshold *RateLimitThresholdParameters `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
 }
 
-type RateLimitOptionsRateLimitThresholdInitParameters struct {
+type RateLimitThresholdInitParameters struct {
 
 	// Number of HTTP(S) requests for calculating the threshold.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
@@ -543,7 +558,7 @@ type RateLimitOptionsRateLimitThresholdInitParameters struct {
 	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
-type RateLimitOptionsRateLimitThresholdObservation struct {
+type RateLimitThresholdObservation struct {
 
 	// Number of HTTP(S) requests for calculating the threshold.
 	Count *float64 `json:"count,omitempty" tf:"count,omitempty"`
@@ -552,7 +567,7 @@ type RateLimitOptionsRateLimitThresholdObservation struct {
 	IntervalSec *float64 `json:"intervalSec,omitempty" tf:"interval_sec,omitempty"`
 }
 
-type RateLimitOptionsRateLimitThresholdParameters struct {
+type RateLimitThresholdParameters struct {
 
 	// Number of HTTP(S) requests for calculating the threshold.
 	// +kubebuilder:validation:Optional
@@ -564,6 +579,10 @@ type RateLimitOptionsRateLimitThresholdParameters struct {
 }
 
 type RegionSecurityPolicyInitParameters struct {
+
+	// Advanced Options Config of this security policy.
+	// Structure is documented below.
+	AdvancedOptionsConfig *AdvancedOptionsConfigInitParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.
@@ -578,7 +597,7 @@ type RegionSecurityPolicyInitParameters struct {
 
 	// The set of rules that belong to this policy. There must always be a default rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a security policy, a default rule with action "allow" will be added.
 	// Structure is documented below.
-	Rules []RegionSecurityPolicyRulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// The type indicates the intended use of the security policy.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -592,9 +611,17 @@ type RegionSecurityPolicyInitParameters struct {
 
 type RegionSecurityPolicyObservation struct {
 
+	// Advanced Options Config of this security policy.
+	// Structure is documented below.
+	AdvancedOptionsConfig *AdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.
 	DdosProtectionConfig *DdosProtectionConfigObservation `json:"ddosProtectionConfig,omitempty" tf:"ddos_protection_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -619,7 +646,7 @@ type RegionSecurityPolicyObservation struct {
 
 	// The set of rules that belong to this policy. There must always be a default rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a security policy, a default rule with action "allow" will be added.
 	// Structure is documented below.
-	Rules []RegionSecurityPolicyRulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// Server-defined URL for the resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
@@ -638,6 +665,11 @@ type RegionSecurityPolicyObservation struct {
 }
 
 type RegionSecurityPolicyParameters struct {
+
+	// Advanced Options Config of this security policy.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdvancedOptionsConfig *AdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.
@@ -661,7 +693,7 @@ type RegionSecurityPolicyParameters struct {
 	// The set of rules that belong to this policy. There must always be a default rule (rule with priority 2147483647 and match "*"). If no rules are provided when creating a security policy, a default rule with action "allow" will be added.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Rules []RegionSecurityPolicyRulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+	Rules []RulesParameters `json:"rules,omitempty" tf:"rules,omitempty"`
 
 	// The type indicates the intended use of the security policy.
 	// +kubebuilder:validation:Optional
@@ -673,140 +705,6 @@ type RegionSecurityPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UserDefinedFields []RegionSecurityPolicyUserDefinedFieldsParameters `json:"userDefinedFields,omitempty" tf:"user_defined_fields,omitempty"`
-}
-
-type RegionSecurityPolicyRulesInitParameters struct {
-
-	// The Action to perform when the rule is matched. The following are the valid actions:
-	Action *string `json:"action,omitempty" tf:"action,omitempty"`
-
-	// An optional description of this resource. Provide this property when you create the resource.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// A match condition that incoming traffic is evaluated against.
-	// If it evaluates to true, the corresponding 'action' is enforced.
-	// Structure is documented below.
-	Match *RulesMatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
-
-	// A match condition that incoming packets are evaluated against for CLOUD_ARMOR_NETWORK security policies. If it matches, the corresponding 'action' is enforced.
-	// The match criteria for a rule consists of built-in match fields (like 'srcIpRanges') and potentially multiple user-defined match fields ('userDefinedFields').
-	// Field values may be extracted directly from the packet or derived from it (e.g. 'srcRegionCodes'). Some fields may not be present in every packet (e.g. 'srcPorts'). A user-defined field is only present if the base header is found in the packet and the entire field is in bounds.
-	// Each match field may specify which values can match it, listing one or more ranges, prefixes, or exact values that are considered a match for the field. A field value must be present in order to match a specified match field. If no match values are specified for a match field, then any field value is considered to match it, and it's not required to be present. For strings specifying '*' is also equivalent to match all.
-	// For a packet to match a rule, all specified match fields must match the corresponding field values derived from the packet.
-	// Example:
-	// networkMatch: srcIpRanges: - "192.0.2.0/24" - "198.51.100.0/24" userDefinedFields: - name: "ipv4_fragment_offset" values: - "1-0x1fff"
-	// The above match condition matches packets with a source IP in 192.0.2.0/24 or 198.51.100.0/24 and a user-defined field named "ipv4_fragment_offset" with a value between 1 and 0x1fff inclusive
-	// Structure is documented below.
-	NetworkMatch *NetworkMatchInitParameters `json:"networkMatch,omitempty" tf:"network_match,omitempty"`
-
-	// Preconfigured WAF configuration to be applied for the rule.
-	// If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect.
-	// Structure is documented below.
-	PreconfiguredWafConfig *RulesPreconfiguredWafConfigInitParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
-
-	// If set to true, the specified action is not enforced.
-	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
-
-	// An integer indicating the priority of a rule in the list.
-	// The priority must be a positive value between 0 and 2147483647.
-	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
-	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
-
-	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
-	// Structure is documented below.
-	RateLimitOptions *RulesRateLimitOptionsInitParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
-}
-
-type RegionSecurityPolicyRulesObservation struct {
-
-	// The Action to perform when the rule is matched. The following are the valid actions:
-	Action *string `json:"action,omitempty" tf:"action,omitempty"`
-
-	// An optional description of this resource. Provide this property when you create the resource.
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// A match condition that incoming traffic is evaluated against.
-	// If it evaluates to true, the corresponding 'action' is enforced.
-	// Structure is documented below.
-	Match *RulesMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
-
-	// A match condition that incoming packets are evaluated against for CLOUD_ARMOR_NETWORK security policies. If it matches, the corresponding 'action' is enforced.
-	// The match criteria for a rule consists of built-in match fields (like 'srcIpRanges') and potentially multiple user-defined match fields ('userDefinedFields').
-	// Field values may be extracted directly from the packet or derived from it (e.g. 'srcRegionCodes'). Some fields may not be present in every packet (e.g. 'srcPorts'). A user-defined field is only present if the base header is found in the packet and the entire field is in bounds.
-	// Each match field may specify which values can match it, listing one or more ranges, prefixes, or exact values that are considered a match for the field. A field value must be present in order to match a specified match field. If no match values are specified for a match field, then any field value is considered to match it, and it's not required to be present. For strings specifying '*' is also equivalent to match all.
-	// For a packet to match a rule, all specified match fields must match the corresponding field values derived from the packet.
-	// Example:
-	// networkMatch: srcIpRanges: - "192.0.2.0/24" - "198.51.100.0/24" userDefinedFields: - name: "ipv4_fragment_offset" values: - "1-0x1fff"
-	// The above match condition matches packets with a source IP in 192.0.2.0/24 or 198.51.100.0/24 and a user-defined field named "ipv4_fragment_offset" with a value between 1 and 0x1fff inclusive
-	// Structure is documented below.
-	NetworkMatch *NetworkMatchObservation `json:"networkMatch,omitempty" tf:"network_match,omitempty"`
-
-	// Preconfigured WAF configuration to be applied for the rule.
-	// If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect.
-	// Structure is documented below.
-	PreconfiguredWafConfig *RulesPreconfiguredWafConfigObservation `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
-
-	// If set to true, the specified action is not enforced.
-	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
-
-	// An integer indicating the priority of a rule in the list.
-	// The priority must be a positive value between 0 and 2147483647.
-	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
-	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
-
-	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
-	// Structure is documented below.
-	RateLimitOptions *RulesRateLimitOptionsObservation `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
-}
-
-type RegionSecurityPolicyRulesParameters struct {
-
-	// The Action to perform when the rule is matched. The following are the valid actions:
-	// +kubebuilder:validation:Optional
-	Action *string `json:"action" tf:"action,omitempty"`
-
-	// An optional description of this resource. Provide this property when you create the resource.
-	// +kubebuilder:validation:Optional
-	Description *string `json:"description,omitempty" tf:"description,omitempty"`
-
-	// A match condition that incoming traffic is evaluated against.
-	// If it evaluates to true, the corresponding 'action' is enforced.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	Match *RulesMatchParameters `json:"match,omitempty" tf:"match,omitempty"`
-
-	// A match condition that incoming packets are evaluated against for CLOUD_ARMOR_NETWORK security policies. If it matches, the corresponding 'action' is enforced.
-	// The match criteria for a rule consists of built-in match fields (like 'srcIpRanges') and potentially multiple user-defined match fields ('userDefinedFields').
-	// Field values may be extracted directly from the packet or derived from it (e.g. 'srcRegionCodes'). Some fields may not be present in every packet (e.g. 'srcPorts'). A user-defined field is only present if the base header is found in the packet and the entire field is in bounds.
-	// Each match field may specify which values can match it, listing one or more ranges, prefixes, or exact values that are considered a match for the field. A field value must be present in order to match a specified match field. If no match values are specified for a match field, then any field value is considered to match it, and it's not required to be present. For strings specifying '*' is also equivalent to match all.
-	// For a packet to match a rule, all specified match fields must match the corresponding field values derived from the packet.
-	// Example:
-	// networkMatch: srcIpRanges: - "192.0.2.0/24" - "198.51.100.0/24" userDefinedFields: - name: "ipv4_fragment_offset" values: - "1-0x1fff"
-	// The above match condition matches packets with a source IP in 192.0.2.0/24 or 198.51.100.0/24 and a user-defined field named "ipv4_fragment_offset" with a value between 1 and 0x1fff inclusive
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	NetworkMatch *NetworkMatchParameters `json:"networkMatch,omitempty" tf:"network_match,omitempty"`
-
-	// Preconfigured WAF configuration to be applied for the rule.
-	// If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	PreconfiguredWafConfig *RulesPreconfiguredWafConfigParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
-
-	// If set to true, the specified action is not enforced.
-	// +kubebuilder:validation:Optional
-	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
-
-	// An integer indicating the priority of a rule in the list.
-	// The priority must be a positive value between 0 and 2147483647.
-	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
-	// +kubebuilder:validation:Optional
-	Priority *float64 `json:"priority" tf:"priority,omitempty"`
-
-	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RateLimitOptions *RulesRateLimitOptionsParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 }
 
 type RegionSecurityPolicyUserDefinedFieldsInitParameters struct {
@@ -874,16 +772,270 @@ type RegionSecurityPolicyUserDefinedFieldsParameters struct {
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 }
 
+type RequestCookieInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestCookieObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestCookieParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestHeaderInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestHeaderObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestHeaderParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestQueryParamInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestQueryParamObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestQueryParamParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestURIInitParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestURIObservation struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	Operator *string `json:"operator,omitempty" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RequestURIParameters struct {
+
+	// You can specify an exact match or a partial match by using a field operator and a field value.
+	// Available options:
+	// EQUALS: The operator matches if the field value equals the specified value.
+	// STARTS_WITH: The operator matches if the field value starts with the specified value.
+	// ENDS_WITH: The operator matches if the field value ends with the specified value.
+	// CONTAINS: The operator matches if the field value contains the specified value.
+	// EQUALS_ANY: The operator matches if the field value is any value.
+	// Possible values are: CONTAINS, ENDS_WITH, EQUALS, EQUALS_ANY, STARTS_WITH.
+	// +kubebuilder:validation:Optional
+	Operator *string `json:"operator" tf:"operator,omitempty"`
+
+	// A request field matching the specified value will be excluded from inspection during preconfigured WAF evaluation.
+	// The field value must be given if the field operator is not EQUALS_ANY, and cannot be given if the field operator is EQUALS_ANY.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type RulesInitParameters struct {
+
+	// The Action to perform when the rule is matched. The following are the valid actions:
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional description of this resource. Provide this property when you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A match condition that incoming traffic is evaluated against.
+	// If it evaluates to true, the corresponding 'action' is enforced.
+	// Structure is documented below.
+	Match *RulesMatchInitParameters `json:"match,omitempty" tf:"match,omitempty"`
+
+	// A match condition that incoming packets are evaluated against for CLOUD_ARMOR_NETWORK security policies. If it matches, the corresponding 'action' is enforced.
+	// The match criteria for a rule consists of built-in match fields (like 'srcIpRanges') and potentially multiple user-defined match fields ('userDefinedFields').
+	// Field values may be extracted directly from the packet or derived from it (e.g. 'srcRegionCodes'). Some fields may not be present in every packet (e.g. 'srcPorts'). A user-defined field is only present if the base header is found in the packet and the entire field is in bounds.
+	// Each match field may specify which values can match it, listing one or more ranges, prefixes, or exact values that are considered a match for the field. A field value must be present in order to match a specified match field. If no match values are specified for a match field, then any field value is considered to match it, and it's not required to be present. For strings specifying '*' is also equivalent to match all.
+	// For a packet to match a rule, all specified match fields must match the corresponding field values derived from the packet.
+	// Example:
+	// networkMatch: srcIpRanges: - "192.0.2.0/24" - "198.51.100.0/24" userDefinedFields: - name: "ipv4_fragment_offset" values: - "1-0x1fff"
+	// The above match condition matches packets with a source IP in 192.0.2.0/24 or 198.51.100.0/24 and a user-defined field named "ipv4_fragment_offset" with a value between 1 and 0x1fff inclusive
+	// Structure is documented below.
+	NetworkMatch *NetworkMatchInitParameters `json:"networkMatch,omitempty" tf:"network_match,omitempty"`
+
+	// Preconfigured WAF configuration to be applied for the rule.
+	// If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect.
+	// Structure is documented below.
+	PreconfiguredWafConfig *PreconfiguredWafConfigInitParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
+
+	// If set to true, the specified action is not enforced.
+	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
+
+	// An integer indicating the priority of a rule in the list.
+	// The priority must be a positive value between 0 and 2147483647.
+	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
+	// Structure is documented below.
+	RateLimitOptions *RateLimitOptionsInitParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
+}
+
 type RulesMatchInitParameters struct {
 
 	// The configuration options available when specifying versionedExpr.
 	// This field must be specified if versionedExpr is specified and cannot be specified if versionedExpr is not specified.
 	// Structure is documented below.
-	Config *MatchConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
+	Config *ConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria such as origin.ip, source.region_code and contents in the request header. See Sample expressions for examples.
 	// Structure is documented below.
-	Expr *MatchExprInitParameters `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr *ExprInitParameters `json:"expr,omitempty" tf:"expr,omitempty"`
 
 	// Preconfigured versioned expression. If this field is specified, config must also be specified.
 	// Available preconfigured expressions along with their requirements are: SRC_IPS_V1 - must specify the corresponding srcIpRange field in config.
@@ -896,11 +1048,11 @@ type RulesMatchObservation struct {
 	// The configuration options available when specifying versionedExpr.
 	// This field must be specified if versionedExpr is specified and cannot be specified if versionedExpr is not specified.
 	// Structure is documented below.
-	Config *MatchConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
+	Config *ConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
 	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria such as origin.ip, source.region_code and contents in the request header. See Sample expressions for examples.
 	// Structure is documented below.
-	Expr *MatchExprObservation `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr *ExprObservation `json:"expr,omitempty" tf:"expr,omitempty"`
 
 	// Preconfigured versioned expression. If this field is specified, config must also be specified.
 	// Available preconfigured expressions along with their requirements are: SRC_IPS_V1 - must specify the corresponding srcIpRange field in config.
@@ -914,12 +1066,12 @@ type RulesMatchParameters struct {
 	// This field must be specified if versionedExpr is specified and cannot be specified if versionedExpr is not specified.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Config *MatchConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+	Config *ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// User defined CEVAL expression. A CEVAL expression is used to specify match criteria such as origin.ip, source.region_code and contents in the request header. See Sample expressions for examples.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Expr *MatchExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
+	Expr *ExprParameters `json:"expr,omitempty" tf:"expr,omitempty"`
 
 	// Preconfigured versioned expression. If this field is specified, config must also be specified.
 	// Available preconfigured expressions along with their requirements are: SRC_IPS_V1 - must specify the corresponding srcIpRange field in config.
@@ -928,148 +1080,96 @@ type RulesMatchParameters struct {
 	VersionedExpr *string `json:"versionedExpr,omitempty" tf:"versioned_expr,omitempty"`
 }
 
-type RulesPreconfiguredWafConfigInitParameters struct {
+type RulesObservation struct {
 
-	// An exclusion to apply during preconfigured WAF evaluation.
+	// The Action to perform when the rule is matched. The following are the valid actions:
+	Action *string `json:"action,omitempty" tf:"action,omitempty"`
+
+	// An optional description of this resource. Provide this property when you create the resource.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// A match condition that incoming traffic is evaluated against.
+	// If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
-	Exclusion []PreconfiguredWafConfigExclusionInitParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
+	Match *RulesMatchObservation `json:"match,omitempty" tf:"match,omitempty"`
+
+	// A match condition that incoming packets are evaluated against for CLOUD_ARMOR_NETWORK security policies. If it matches, the corresponding 'action' is enforced.
+	// The match criteria for a rule consists of built-in match fields (like 'srcIpRanges') and potentially multiple user-defined match fields ('userDefinedFields').
+	// Field values may be extracted directly from the packet or derived from it (e.g. 'srcRegionCodes'). Some fields may not be present in every packet (e.g. 'srcPorts'). A user-defined field is only present if the base header is found in the packet and the entire field is in bounds.
+	// Each match field may specify which values can match it, listing one or more ranges, prefixes, or exact values that are considered a match for the field. A field value must be present in order to match a specified match field. If no match values are specified for a match field, then any field value is considered to match it, and it's not required to be present. For strings specifying '*' is also equivalent to match all.
+	// For a packet to match a rule, all specified match fields must match the corresponding field values derived from the packet.
+	// Example:
+	// networkMatch: srcIpRanges: - "192.0.2.0/24" - "198.51.100.0/24" userDefinedFields: - name: "ipv4_fragment_offset" values: - "1-0x1fff"
+	// The above match condition matches packets with a source IP in 192.0.2.0/24 or 198.51.100.0/24 and a user-defined field named "ipv4_fragment_offset" with a value between 1 and 0x1fff inclusive
+	// Structure is documented below.
+	NetworkMatch *NetworkMatchObservation `json:"networkMatch,omitempty" tf:"network_match,omitempty"`
+
+	// Preconfigured WAF configuration to be applied for the rule.
+	// If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect.
+	// Structure is documented below.
+	PreconfiguredWafConfig *PreconfiguredWafConfigObservation `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
+
+	// If set to true, the specified action is not enforced.
+	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
+
+	// An integer indicating the priority of a rule in the list.
+	// The priority must be a positive value between 0 and 2147483647.
+	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
+	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
+
+	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
+	// Structure is documented below.
+	RateLimitOptions *RateLimitOptionsObservation `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 }
 
-type RulesPreconfiguredWafConfigObservation struct {
+type RulesParameters struct {
 
-	// An exclusion to apply during preconfigured WAF evaluation.
-	// Structure is documented below.
-	Exclusion []PreconfiguredWafConfigExclusionObservation `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
-}
+	// The Action to perform when the rule is matched. The following are the valid actions:
+	// +kubebuilder:validation:Optional
+	Action *string `json:"action" tf:"action,omitempty"`
 
-type RulesPreconfiguredWafConfigParameters struct {
+	// An optional description of this resource. Provide this property when you create the resource.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// An exclusion to apply during preconfigured WAF evaluation.
+	// A match condition that incoming traffic is evaluated against.
+	// If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Exclusion []PreconfiguredWafConfigExclusionParameters `json:"exclusion,omitempty" tf:"exclusion,omitempty"`
-}
+	Match *RulesMatchParameters `json:"match,omitempty" tf:"match,omitempty"`
 
-type RulesRateLimitOptionsInitParameters struct {
-
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
-	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
-
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, the key will be banned for the configured 'banDurationSec' when the number of requests that exceed the 'rateLimitThreshold' also exceed this 'banThreshold'.
-	// Structure is documented below.
-	BanThreshold *RateLimitOptionsBanThresholdInitParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
-
-	// Action to take for requests that are under the configured rate limit threshold.
-	// Valid option is "allow" only.
-	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
-
-	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
-	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
-
-	// If specified, any combination of values of enforceOnKeyType/enforceOnKeyName is treated as the key on which ratelimit threshold/action is enforced.
-	// You can specify up to 3 enforceOnKeyConfigs.
-	// If enforceOnKeyConfigs is specified, enforceOnKey must not be specified.
-	// Structure is documented below.
-	EnforceOnKeyConfigs []RateLimitOptionsEnforceOnKeyConfigsInitParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
-
-	// Rate limit key name applicable only for the following key types:
-	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
-	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// Action to take for requests that are above the configured rate limit threshold, to deny with a specified HTTP response code.
-	// Valid options are deny(STATUS), where valid values for STATUS are 403, 404, 429, and 502.
-	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
-
-	// Threshold at which to begin ratelimiting.
-	// Structure is documented below.
-	RateLimitThreshold *RateLimitOptionsRateLimitThresholdInitParameters `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
-}
-
-type RulesRateLimitOptionsObservation struct {
-
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
-	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
-
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, the key will be banned for the configured 'banDurationSec' when the number of requests that exceed the 'rateLimitThreshold' also exceed this 'banThreshold'.
-	// Structure is documented below.
-	BanThreshold *RateLimitOptionsBanThresholdObservation `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
-
-	// Action to take for requests that are under the configured rate limit threshold.
-	// Valid option is "allow" only.
-	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
-
-	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
-	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
-
-	// If specified, any combination of values of enforceOnKeyType/enforceOnKeyName is treated as the key on which ratelimit threshold/action is enforced.
-	// You can specify up to 3 enforceOnKeyConfigs.
-	// If enforceOnKeyConfigs is specified, enforceOnKey must not be specified.
-	// Structure is documented below.
-	EnforceOnKeyConfigs []RateLimitOptionsEnforceOnKeyConfigsObservation `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
-
-	// Rate limit key name applicable only for the following key types:
-	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
-	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
-
-	// Action to take for requests that are above the configured rate limit threshold, to deny with a specified HTTP response code.
-	// Valid options are deny(STATUS), where valid values for STATUS are 403, 404, 429, and 502.
-	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
-
-	// Threshold at which to begin ratelimiting.
-	// Structure is documented below.
-	RateLimitThreshold *RateLimitOptionsRateLimitThresholdObservation `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
-}
-
-type RulesRateLimitOptionsParameters struct {
-
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, determines the time (in seconds) the traffic will continue to be banned by the rate limit after the rate falls below the threshold.
-	// +kubebuilder:validation:Optional
-	BanDurationSec *float64 `json:"banDurationSec,omitempty" tf:"ban_duration_sec,omitempty"`
-
-	// Can only be specified if the action for the rule is "rate_based_ban".
-	// If specified, the key will be banned for the configured 'banDurationSec' when the number of requests that exceed the 'rateLimitThreshold' also exceed this 'banThreshold'.
+	// A match condition that incoming packets are evaluated against for CLOUD_ARMOR_NETWORK security policies. If it matches, the corresponding 'action' is enforced.
+	// The match criteria for a rule consists of built-in match fields (like 'srcIpRanges') and potentially multiple user-defined match fields ('userDefinedFields').
+	// Field values may be extracted directly from the packet or derived from it (e.g. 'srcRegionCodes'). Some fields may not be present in every packet (e.g. 'srcPorts'). A user-defined field is only present if the base header is found in the packet and the entire field is in bounds.
+	// Each match field may specify which values can match it, listing one or more ranges, prefixes, or exact values that are considered a match for the field. A field value must be present in order to match a specified match field. If no match values are specified for a match field, then any field value is considered to match it, and it's not required to be present. For strings specifying '*' is also equivalent to match all.
+	// For a packet to match a rule, all specified match fields must match the corresponding field values derived from the packet.
+	// Example:
+	// networkMatch: srcIpRanges: - "192.0.2.0/24" - "198.51.100.0/24" userDefinedFields: - name: "ipv4_fragment_offset" values: - "1-0x1fff"
+	// The above match condition matches packets with a source IP in 192.0.2.0/24 or 198.51.100.0/24 and a user-defined field named "ipv4_fragment_offset" with a value between 1 and 0x1fff inclusive
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	BanThreshold *RateLimitOptionsBanThresholdParameters `json:"banThreshold,omitempty" tf:"ban_threshold,omitempty"`
+	NetworkMatch *NetworkMatchParameters `json:"networkMatch,omitempty" tf:"network_match,omitempty"`
 
-	// Action to take for requests that are under the configured rate limit threshold.
-	// Valid option is "allow" only.
-	// +kubebuilder:validation:Optional
-	ConformAction *string `json:"conformAction,omitempty" tf:"conform_action,omitempty"`
-
-	// Determines the key to enforce the rateLimitThreshold on. Possible values are:
-	// +kubebuilder:validation:Optional
-	EnforceOnKey *string `json:"enforceOnKey,omitempty" tf:"enforce_on_key,omitempty"`
-
-	// If specified, any combination of values of enforceOnKeyType/enforceOnKeyName is treated as the key on which ratelimit threshold/action is enforced.
-	// You can specify up to 3 enforceOnKeyConfigs.
-	// If enforceOnKeyConfigs is specified, enforceOnKey must not be specified.
+	// Preconfigured WAF configuration to be applied for the rule.
+	// If the rule does not evaluate preconfigured WAF rules, i.e., if evaluatePreconfiguredWaf() is not used, this field will have no effect.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	EnforceOnKeyConfigs []RateLimitOptionsEnforceOnKeyConfigsParameters `json:"enforceOnKeyConfigs,omitempty" tf:"enforce_on_key_configs,omitempty"`
+	PreconfiguredWafConfig *PreconfiguredWafConfigParameters `json:"preconfiguredWafConfig,omitempty" tf:"preconfigured_waf_config,omitempty"`
 
-	// Rate limit key name applicable only for the following key types:
-	// HTTP_HEADER -- Name of the HTTP header whose value is taken as the key value.
-	// HTTP_COOKIE -- Name of the HTTP cookie whose value is taken as the key value.
+	// If set to true, the specified action is not enforced.
 	// +kubebuilder:validation:Optional
-	EnforceOnKeyName *string `json:"enforceOnKeyName,omitempty" tf:"enforce_on_key_name,omitempty"`
+	Preview *bool `json:"preview,omitempty" tf:"preview,omitempty"`
 
-	// Action to take for requests that are above the configured rate limit threshold, to deny with a specified HTTP response code.
-	// Valid options are deny(STATUS), where valid values for STATUS are 403, 404, 429, and 502.
+	// An integer indicating the priority of a rule in the list.
+	// The priority must be a positive value between 0 and 2147483647.
+	// Rules are evaluated from highest to lowest priority where 0 is the highest priority and 2147483647 is the lowest priority.
 	// +kubebuilder:validation:Optional
-	ExceedAction *string `json:"exceedAction,omitempty" tf:"exceed_action,omitempty"`
+	Priority *float64 `json:"priority" tf:"priority,omitempty"`
 
-	// Threshold at which to begin ratelimiting.
+	// Must be specified if the action is "rate_based_ban" or "throttle". Cannot be specified for any other actions.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RateLimitThreshold *RateLimitOptionsRateLimitThresholdParameters `json:"rateLimitThreshold,omitempty" tf:"rate_limit_threshold,omitempty"`
+	RateLimitOptions *RateLimitOptionsParameters `json:"rateLimitOptions,omitempty" tf:"rate_limit_options,omitempty"`
 }
 
 type UserDefinedFieldsInitParameters struct {

@@ -282,6 +282,10 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// Structure is documented below.
 	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description for the provider. Cannot exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

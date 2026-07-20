@@ -274,6 +274,10 @@ type RoutineObservation_2 struct {
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
 	DefinitionBody *string `json:"definitionBody,omitempty" tf:"definition_body,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the routine if defined.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

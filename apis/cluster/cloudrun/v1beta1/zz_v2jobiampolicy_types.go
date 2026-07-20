@@ -171,7 +171,6 @@ type V2JobIAMPolicyStatus struct {
 type V2JobIAMPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.location) || (has(self.initProvider) && has(self.initProvider.location))",message="spec.forProvider.location is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policyData) || (has(self.initProvider) && has(self.initProvider.policyData))",message="spec.forProvider.policyData is a required parameter"
 	Spec   V2JobIAMPolicySpec   `json:"spec"`
 	Status V2JobIAMPolicyStatus `json:"status,omitempty"`

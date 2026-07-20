@@ -37,3 +37,15 @@ func SetupGated_networkservices(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_networkservices registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_networkservices(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		gateway.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

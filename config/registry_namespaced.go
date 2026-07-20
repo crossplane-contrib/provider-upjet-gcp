@@ -10,16 +10,16 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/registry/reference"
 	"github.com/crossplane/upjet/v2/pkg/schema/traverser"
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/v2/config/namespaced"
 	"github.com/upbound/provider-gcp/v2/config/templates"
-	"github.com/upbound/provider-gcp/v2/hack"
 )
 
 // GetNamespacedProvider returns the namespaced provider configuration
-func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
+func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, fwProvider fwprovider.Provider, generationProvider bool) (*ujconfig.Provider, error) {
 	if generationProvider {
 		p, err := getProviderSchema(providerSchema)
 		if err != nil {
@@ -42,17 +42,20 @@ func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, gene
 			defaultVersion(),
 			resourceConfigurator(),
 			descriptionOverrides(),
+			deletionPolicyOverride(),
 		),
 		ujconfig.WithRootGroup("gcp.m.upbound.io"),
 		ujconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
 		ujconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
 		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithTerraformPluginFrameworkIncludeList(resourceList(terraformPluginFrameworkExternalNameConfigs)),
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithSkipList(skipList),
 		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithMainTemplate(hack.MainTemplate),
+		ujconfig.WithMainTemplate(templates.MainTemplate),
 		ujconfig.WithTerraformProvider(sdkProvider),
+		ujconfig.WithTerraformPluginFrameworkProvider(fwProvider),
 		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
 		ujconfig.WithControllerTemplate(templates.ControllerTemplate),
 	)

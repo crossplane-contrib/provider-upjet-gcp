@@ -37,3 +37,15 @@ func SetupGated_cloudtasks(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_cloudtasks registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_cloudtasks(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		queue.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

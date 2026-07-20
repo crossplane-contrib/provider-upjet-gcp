@@ -145,6 +145,14 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Schema["state"].Description = `ENCRYPTED, ALL_OBJECTS_ENCRYPTION_ENABLED or DECRYPTED.`
 		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
 			Schema["state"].DiffSuppressFunc = DatabaseEncryptionSuppress
+
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Empty() || diff.Destroy || diff.Attributes == nil {
+				return diff, nil
+			}
+			delete(diff.Attributes, "autopilot_cluster_policy_config.#")
+			return diff, nil
+		}
 	})
 
 	p.AddResourceConfigurator("google_container_node_pool", func(r *config.Resource) {

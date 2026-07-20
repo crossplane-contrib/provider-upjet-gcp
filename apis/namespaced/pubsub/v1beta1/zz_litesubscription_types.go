@@ -64,6 +64,10 @@ type LiteSubscriptionInitParameters struct {
 
 type LiteSubscriptionObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The settings for this subscription's message delivery.
 	// Structure is documented below.
 	DeliveryConfig *DeliveryConfigObservation `json:"deliveryConfig,omitempty" tf:"delivery_config,omitempty"`

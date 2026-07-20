@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: nodepools.container.gcp.m.upbound.io
 spec:
   group: container.gcp.m.upbound.io
@@ -178,6 +178,13 @@ spec:
                             type: string
                         type: object
                     type: object
+                  ignoreNodeCountChanges:
+                    description: Whether to ignore external changes (drift) to the
+                      node count (e.g. from GKE autoscaling). Setting this to true
+                      skips querying Compute Engine Instance Group Managers (IGMs)
+                      to determine the current node count on read, which can save
+                      API quota and speed up plans on large clusters.
+                    type: boolean
                   initialNodeCount:
                     description: |-
                       The initial number of nodes for the pool. In
@@ -217,6 +224,13 @@ spec:
                       configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
                       documented below
                     properties:
+                      acceleratorNetworkProfile:
+                        description: Specifies the accelerator network profile for
+                          nodes in this node pool. Setting to "auto" enables GKE to
+                          automatically configure high-performance networking settings
+                          for nodes with accelerators (like GPUs). GKE manages the
+                          underlying resources (like VPCs and subnets) for this configuration.
+                        type: string
                       additionalNodeNetworkConfigs:
                         description: |-
                           We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
@@ -306,11 +320,18 @@ spec:
                           If create_pod_range is false, uses an existing secondary
                           range with this ID.
                         type: string
+                      subnetwork:
+                        description: 'The subnetwork path for the node pool. Format:
+                          projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                          If the cluster is associated with multiple subnetworks,
+                          the subnetwork for the node pool is picked based on the
+                          IP utilization during node pool creation and is immutable'
+                        type: string
                     type: object
                   nodeConfig:
-                    description: |-
-                      Parameters used in creating the node pool. See
-                      google_container_cluster for schema.
+                    description: Parameters used in creating the node pool. Structure
+                      is documented below. See google_container_cluster for exact
+                      schema.
                     properties:
                       advancedMachineFeatures:
                         properties:
@@ -319,6 +340,17 @@ spec:
                           performanceMonitoringUnit:
                             type: string
                           threadsPerCore:
+                            type: number
+                        type: object
+                      bootDisk:
+                        properties:
+                          diskType:
+                            type: string
+                          provisionedIops:
+                            type: number
+                          provisionedThroughput:
+                            type: number
+                          sizeGb:
                             type: number
                         type: object
                       bootDiskKmsKey:
@@ -355,6 +387,74 @@ spec:
                                   API exclusively.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              type: string
+                                            value:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -385,6 +485,8 @@ spec:
                               API exclusively.
                             type: boolean
                         type: object
+                      gpudirectStrategy:
+                        type: string
                       guestAccelerator:
                         items:
                           properties:
@@ -431,6 +533,8 @@ spec:
                       imageType:
                         type: string
                       kubeletConfig:
+                        description: Node kubelet configs. Structure is documented
+                          below.
                         properties:
                           allowedUnsafeSysctls:
                             items:
@@ -446,6 +550,58 @@ spec:
                             type: string
                           cpuManagerPolicy:
                             type: string
+                          crashLoopBackOff:
+                            properties:
+                              maxContainerRestartPeriod:
+                                type: string
+                            type: object
+                          evictionMaxPodGracePeriodSeconds:
+                            type: number
+                          evictionMinimumReclaim:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoft:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             type: number
                           imageGcLowThresholdPercent:
@@ -456,6 +612,8 @@ spec:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
+                          maxParallelImagePulls:
+                            type: number
                           memoryManager:
                             properties:
                               policy:
@@ -463,6 +621,23 @@ spec:
                             type: object
                           podPidsLimit:
                             type: number
+                          shutdownGracePeriodCriticalPodsSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown for critical pods. This value
+                              must be less than or equal to shutdown_grace_period_seconds.
+                              This field can only be configured if the node pool uses
+                              Spot VMs or Preemptible VMs.
+                            type: number
+                          shutdownGracePeriodSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown. This is the time allocated
+                              for all pods (critical and non-critical) to terminate.
+                              The value must be between 10 and 10000. This field can
+                              only be configured if the node pool uses Spot VMs or
+                              Preemptible VMs.
+                            type: number
+                          singleProcessOomKill:
+                            type: boolean
                           topologyManager:
                             properties:
                               policy:
@@ -477,10 +652,15 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                       linuxNodeConfig:
-                        description: |-
-                          Parameters used in creating the node pool. See
-                          google_container_cluster for schema.
+                        description: Parameters used in creating the node pool. Structure
+                          is documented below. See google_container_cluster for exact
+                          schema.
                         properties:
+                          accurateTimeConfig:
+                            properties:
+                              enablePtpKvmTimeSync:
+                                type: boolean
+                            type: object
                           cgroupMode:
                             type: string
                           hugepagesConfig:
@@ -490,11 +670,53 @@ spec:
                               hugepageSize2M:
                                 type: number
                             type: object
+                          nodeKernelModuleLoading:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
+                          swapConfig:
+                            properties:
+                              bootDiskProfile:
+                                properties:
+                                  swapSizeGib:
+                                    type: number
+                                  swapSizePercent:
+                                    type: number
+                                type: object
+                              dedicatedLocalSsdProfile:
+                                properties:
+                                  diskCount:
+                                    type: number
+                                type: object
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                              encryptionConfig:
+                                properties:
+                                  disabled:
+                                    description: Whether pod cidr overprovision is
+                                      disabled.
+                                    type: boolean
+                                type: object
+                              ephemeralLocalSsdProfile:
+                                properties:
+                                  swapSizeGib:
+                                    type: number
+                                  swapSizePercent:
+                                    type: number
+                                type: object
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            type: string
+                          transparentHugepageEnabled:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         properties:
@@ -504,9 +726,6 @@ spec:
                       localSsdCount:
                         type: number
                       localSsdEncryptionMode:
-                        description: |-
-                          Possible Local SSD encryption modes:
-                          Accepted values are:
                         type: string
                       loggingVariant:
                         type: string
@@ -523,6 +742,18 @@ spec:
                         type: string
                       nodeGroup:
                         type: string
+                      nodeImageConfig:
+                        items:
+                          properties:
+                            image:
+                              type: string
+                            imageProject:
+                              description: |-
+                                The ID of the project in which to create the node pool. If blank,
+                                the provider-configured project will be used.
+                              type: string
+                          type: object
+                        type: array
                       oauthScopes:
                         items:
                           type: string
@@ -558,6 +789,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        properties:
+                          type:
+                            description: |-
+                              The type of the policy. Supports a single value: COMPACT.
+                              Specifying COMPACT placement policy type places node pool's nodes in a closer
+                              physical proximity in order to reduce network latency between nodes.
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         items:
                           properties:
@@ -660,6 +900,8 @@ spec:
                         type: object
                       soleTenantConfig:
                         properties:
+                          minNodeCpus:
+                            type: number
                           nodeAffinity:
                             items:
                               properties:
@@ -700,10 +942,20 @@ spec:
                               type: string
                           type: object
                         type: array
+                      taintConfig:
+                        description: Taint configuration for the node pool. Structure
+                          is documented below.
+                        properties:
+                          architectureTaintBehavior:
+                            description: Specifies the behavior for applying architecture
+                              taints to node pool nodes. Valid values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                              NONE, or ARM.
+                            type: string
+                        type: object
                       windowsNodeConfig:
-                        description: |-
-                          Parameters used in creating the node pool. See
-                          google_container_cluster for schema.
+                        description: Parameters used in creating the node pool. Structure
+                          is documented below. See google_container_cluster for exact
+                          schema.
                         properties:
                           osversion:
                             description: |-
@@ -723,6 +975,25 @@ spec:
                       The number of nodes per instance group. This field can be used to
                       update the number of nodes per instance group but should not be used alongside autoscaling.
                     type: number
+                  nodeDrainConfig:
+                    description: The node drain configuration of the pool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        graceTerminationDuration:
+                          description: The duration of the grace termination period
+                            for node drain.
+                          type: string
+                        pdbTimeoutDuration:
+                          description: The duration of the PDB timeout period for
+                            node drain.
+                          type: string
+                        respectPdbDuringNodePoolDeletion:
+                          description: Whether to respect PodDisruptionBudget policy
+                            during node pool deletion.
+                          type: boolean
+                      type: object
+                    type: array
                   nodeLocations:
                     description: |-
                       The list of zones in which the node pool's nodes should be located. Nodes must
@@ -871,6 +1142,13 @@ spec:
                           Total size limits are supported only in 1.24.1+ clusters.
                         type: number
                     type: object
+                  ignoreNodeCountChanges:
+                    description: Whether to ignore external changes (drift) to the
+                      node count (e.g. from GKE autoscaling). Setting this to true
+                      skips querying Compute Engine Instance Group Managers (IGMs)
+                      to determine the current node count on read, which can save
+                      API quota and speed up plans on large clusters.
+                    type: boolean
                   initialNodeCount:
                     description: |-
                       The initial number of nodes for the pool. In
@@ -907,6 +1185,13 @@ spec:
                       configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
                       documented below
                     properties:
+                      acceleratorNetworkProfile:
+                        description: Specifies the accelerator network profile for
+                          nodes in this node pool. Setting to "auto" enables GKE to
+                          automatically configure high-performance networking settings
+                          for nodes with accelerators (like GPUs). GKE manages the
+                          underlying resources (like VPCs and subnets) for this configuration.
+                        type: string
                       additionalNodeNetworkConfigs:
                         description: |-
                           We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
@@ -996,11 +1281,18 @@ spec:
                           If create_pod_range is false, uses an existing secondary
                           range with this ID.
                         type: string
+                      subnetwork:
+                        description: 'The subnetwork path for the node pool. Format:
+                          projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                          If the cluster is associated with multiple subnetworks,
+                          the subnetwork for the node pool is picked based on the
+                          IP utilization during node pool creation and is immutable'
+                        type: string
                     type: object
                   nodeConfig:
-                    description: |-
-                      Parameters used in creating the node pool. See
-                      google_container_cluster for schema.
+                    description: Parameters used in creating the node pool. Structure
+                      is documented below. See google_container_cluster for exact
+                      schema.
                     properties:
                       advancedMachineFeatures:
                         properties:
@@ -1009,6 +1301,17 @@ spec:
                           performanceMonitoringUnit:
                             type: string
                           threadsPerCore:
+                            type: number
+                        type: object
+                      bootDisk:
+                        properties:
+                          diskType:
+                            type: string
+                          provisionedIops:
+                            type: number
+                          provisionedThroughput:
+                            type: number
+                          sizeGb:
                             type: number
                         type: object
                       bootDiskKmsKey:
@@ -1045,6 +1348,74 @@ spec:
                                   API exclusively.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              type: string
+                                            value:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -1075,6 +1446,8 @@ spec:
                               API exclusively.
                             type: boolean
                         type: object
+                      gpudirectStrategy:
+                        type: string
                       guestAccelerator:
                         items:
                           properties:
@@ -1121,6 +1494,8 @@ spec:
                       imageType:
                         type: string
                       kubeletConfig:
+                        description: Node kubelet configs. Structure is documented
+                          below.
                         properties:
                           allowedUnsafeSysctls:
                             items:
@@ -1136,6 +1511,58 @@ spec:
                             type: string
                           cpuManagerPolicy:
                             type: string
+                          crashLoopBackOff:
+                            properties:
+                              maxContainerRestartPeriod:
+                                type: string
+                            type: object
+                          evictionMaxPodGracePeriodSeconds:
+                            type: number
+                          evictionMinimumReclaim:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoft:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             type: number
                           imageGcLowThresholdPercent:
@@ -1146,6 +1573,8 @@ spec:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
+                          maxParallelImagePulls:
+                            type: number
                           memoryManager:
                             properties:
                               policy:
@@ -1153,6 +1582,23 @@ spec:
                             type: object
                           podPidsLimit:
                             type: number
+                          shutdownGracePeriodCriticalPodsSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown for critical pods. This value
+                              must be less than or equal to shutdown_grace_period_seconds.
+                              This field can only be configured if the node pool uses
+                              Spot VMs or Preemptible VMs.
+                            type: number
+                          shutdownGracePeriodSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown. This is the time allocated
+                              for all pods (critical and non-critical) to terminate.
+                              The value must be between 10 and 10000. This field can
+                              only be configured if the node pool uses Spot VMs or
+                              Preemptible VMs.
+                            type: number
+                          singleProcessOomKill:
+                            type: boolean
                           topologyManager:
                             properties:
                               policy:
@@ -1167,10 +1613,15 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                       linuxNodeConfig:
-                        description: |-
-                          Parameters used in creating the node pool. See
-                          google_container_cluster for schema.
+                        description: Parameters used in creating the node pool. Structure
+                          is documented below. See google_container_cluster for exact
+                          schema.
                         properties:
+                          accurateTimeConfig:
+                            properties:
+                              enablePtpKvmTimeSync:
+                                type: boolean
+                            type: object
                           cgroupMode:
                             type: string
                           hugepagesConfig:
@@ -1180,11 +1631,53 @@ spec:
                               hugepageSize2M:
                                 type: number
                             type: object
+                          nodeKernelModuleLoading:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
+                          swapConfig:
+                            properties:
+                              bootDiskProfile:
+                                properties:
+                                  swapSizeGib:
+                                    type: number
+                                  swapSizePercent:
+                                    type: number
+                                type: object
+                              dedicatedLocalSsdProfile:
+                                properties:
+                                  diskCount:
+                                    type: number
+                                type: object
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                              encryptionConfig:
+                                properties:
+                                  disabled:
+                                    description: Whether pod cidr overprovision is
+                                      disabled.
+                                    type: boolean
+                                type: object
+                              ephemeralLocalSsdProfile:
+                                properties:
+                                  swapSizeGib:
+                                    type: number
+                                  swapSizePercent:
+                                    type: number
+                                type: object
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            type: string
+                          transparentHugepageEnabled:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         properties:
@@ -1194,9 +1687,6 @@ spec:
                       localSsdCount:
                         type: number
                       localSsdEncryptionMode:
-                        description: |-
-                          Possible Local SSD encryption modes:
-                          Accepted values are:
                         type: string
                       loggingVariant:
                         type: string
@@ -1213,6 +1703,18 @@ spec:
                         type: string
                       nodeGroup:
                         type: string
+                      nodeImageConfig:
+                        items:
+                          properties:
+                            image:
+                              type: string
+                            imageProject:
+                              description: |-
+                                The ID of the project in which to create the node pool. If blank,
+                                the provider-configured project will be used.
+                              type: string
+                          type: object
+                        type: array
                       oauthScopes:
                         items:
                           type: string
@@ -1248,6 +1750,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        properties:
+                          type:
+                            description: |-
+                              The type of the policy. Supports a single value: COMPACT.
+                              Specifying COMPACT placement policy type places node pool's nodes in a closer
+                              physical proximity in order to reduce network latency between nodes.
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         items:
                           properties:
@@ -1350,6 +1861,8 @@ spec:
                         type: object
                       soleTenantConfig:
                         properties:
+                          minNodeCpus:
+                            type: number
                           nodeAffinity:
                             items:
                               properties:
@@ -1390,10 +1903,20 @@ spec:
                               type: string
                           type: object
                         type: array
+                      taintConfig:
+                        description: Taint configuration for the node pool. Structure
+                          is documented below.
+                        properties:
+                          architectureTaintBehavior:
+                            description: Specifies the behavior for applying architecture
+                              taints to node pool nodes. Valid values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                              NONE, or ARM.
+                            type: string
+                        type: object
                       windowsNodeConfig:
-                        description: |-
-                          Parameters used in creating the node pool. See
-                          google_container_cluster for schema.
+                        description: Parameters used in creating the node pool. Structure
+                          is documented below. See google_container_cluster for exact
+                          schema.
                         properties:
                           osversion:
                             description: |-
@@ -1413,6 +1936,25 @@ spec:
                       The number of nodes per instance group. This field can be used to
                       update the number of nodes per instance group but should not be used alongside autoscaling.
                     type: number
+                  nodeDrainConfig:
+                    description: The node drain configuration of the pool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        graceTerminationDuration:
+                          description: The duration of the grace termination period
+                            for node drain.
+                          type: string
+                        pdbTimeoutDuration:
+                          description: The duration of the PDB timeout period for
+                            node drain.
+                          type: string
+                        respectPdbDuringNodePoolDeletion:
+                          description: Whether to respect PodDisruptionBudget policy
+                            during node pool deletion.
+                          type: boolean
+                      type: object
+                    type: array
                   nodeLocations:
                     description: |-
                       The list of zones in which the node pool's nodes should be located. Nodes must
@@ -1617,9 +2159,21 @@ spec:
                       in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}}
                       or as just the name of the cluster.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format {{project}}/{{location}}/{{cluster}}/{{name}}
                     type: string
+                  ignoreNodeCountChanges:
+                    description: Whether to ignore external changes (drift) to the
+                      node count (e.g. from GKE autoscaling). Setting this to true
+                      skips querying Compute Engine Instance Group Managers (IGMs)
+                      to determine the current node count on read, which can save
+                      API quota and speed up plans on large clusters.
+                    type: boolean
                   initialNodeCount:
                     description: |-
                       The initial number of nodes for the pool. In
@@ -1671,6 +2225,13 @@ spec:
                       configuration for Adding Pod IP address ranges) to the node pool. Or enabling private nodes. Structure is
                       documented below
                     properties:
+                      acceleratorNetworkProfile:
+                        description: Specifies the accelerator network profile for
+                          nodes in this node pool. Setting to "auto" enables GKE to
+                          automatically configure high-performance networking settings
+                          for nodes with accelerators (like GPUs). GKE manages the
+                          underlying resources (like VPCs and subnets) for this configuration.
+                        type: string
                       additionalNodeNetworkConfigs:
                         description: |-
                           We specify the additional node networks for this node pool using this list. Each node network corresponds to an additional interface.
@@ -1769,9 +2330,9 @@ spec:
                         type: string
                     type: object
                   nodeConfig:
-                    description: |-
-                      Parameters used in creating the node pool. See
-                      google_container_cluster for schema.
+                    description: Parameters used in creating the node pool. Structure
+                      is documented below. See google_container_cluster for exact
+                      schema.
                     properties:
                       advancedMachineFeatures:
                         properties:
@@ -1780,6 +2341,17 @@ spec:
                           performanceMonitoringUnit:
                             type: string
                           threadsPerCore:
+                            type: number
+                        type: object
+                      bootDisk:
+                        properties:
+                          diskType:
+                            type: string
+                          provisionedIops:
+                            type: number
+                          provisionedThroughput:
+                            type: number
+                          sizeGb:
                             type: number
                         type: object
                       bootDiskKmsKey:
@@ -1811,6 +2383,74 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          registryHosts:
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              type: string
+                                            value:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            properties:
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -1859,6 +2499,8 @@ spec:
                               API exclusively.
                             type: boolean
                         type: object
+                      gpudirectStrategy:
+                        type: string
                       guestAccelerator:
                         items:
                           properties:
@@ -1905,6 +2547,8 @@ spec:
                       imageType:
                         type: string
                       kubeletConfig:
+                        description: Node kubelet configs. Structure is documented
+                          below.
                         properties:
                           allowedUnsafeSysctls:
                             items:
@@ -1920,6 +2564,58 @@ spec:
                             type: string
                           cpuManagerPolicy:
                             type: string
+                          crashLoopBackOff:
+                            properties:
+                              maxContainerRestartPeriod:
+                                type: string
+                            type: object
+                          evictionMaxPodGracePeriodSeconds:
+                            type: number
+                          evictionMinimumReclaim:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoft:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             type: number
                           imageGcLowThresholdPercent:
@@ -1930,6 +2626,8 @@ spec:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
+                          maxParallelImagePulls:
+                            type: number
                           memoryManager:
                             properties:
                               policy:
@@ -1937,6 +2635,23 @@ spec:
                             type: object
                           podPidsLimit:
                             type: number
+                          shutdownGracePeriodCriticalPodsSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown for critical pods. This value
+                              must be less than or equal to shutdown_grace_period_seconds.
+                              This field can only be configured if the node pool uses
+                              Spot VMs or Preemptible VMs.
+                            type: number
+                          shutdownGracePeriodSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown. This is the time allocated
+                              for all pods (critical and non-critical) to terminate.
+                              The value must be between 10 and 10000. This field can
+                              only be configured if the node pool uses Spot VMs or
+                              Preemptible VMs.
+                            type: number
+                          singleProcessOomKill:
+                            type: boolean
                           topologyManager:
                             properties:
                               policy:
@@ -1951,10 +2666,15 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                       linuxNodeConfig:
-                        description: |-
-                          Parameters used in creating the node pool. See
-                          google_container_cluster for schema.
+                        description: Parameters used in creating the node pool. Structure
+                          is documented below. See google_container_cluster for exact
+                          schema.
                         properties:
+                          accurateTimeConfig:
+                            properties:
+                              enablePtpKvmTimeSync:
+                                type: boolean
+                            type: object
                           cgroupMode:
                             type: string
                           hugepagesConfig:
@@ -1964,11 +2684,53 @@ spec:
                               hugepageSize2M:
                                 type: number
                             type: object
+                          nodeKernelModuleLoading:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
+                          swapConfig:
+                            properties:
+                              bootDiskProfile:
+                                properties:
+                                  swapSizeGib:
+                                    type: number
+                                  swapSizePercent:
+                                    type: number
+                                type: object
+                              dedicatedLocalSsdProfile:
+                                properties:
+                                  diskCount:
+                                    type: number
+                                type: object
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                              encryptionConfig:
+                                properties:
+                                  disabled:
+                                    description: Whether pod cidr overprovision is
+                                      disabled.
+                                    type: boolean
+                                type: object
+                              ephemeralLocalSsdProfile:
+                                properties:
+                                  swapSizeGib:
+                                    type: number
+                                  swapSizePercent:
+                                    type: number
+                                type: object
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            type: string
+                          transparentHugepageEnabled:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         properties:
@@ -1978,9 +2740,6 @@ spec:
                       localSsdCount:
                         type: number
                       localSsdEncryptionMode:
-                        description: |-
-                          Possible Local SSD encryption modes:
-                          Accepted values are:
                         type: string
                       loggingVariant:
                         type: string
@@ -1997,6 +2756,18 @@ spec:
                         type: string
                       nodeGroup:
                         type: string
+                      nodeImageConfig:
+                        items:
+                          properties:
+                            image:
+                              type: string
+                            imageProject:
+                              description: |-
+                                The ID of the project in which to create the node pool. If blank,
+                                the provider-configured project will be used.
+                              type: string
+                          type: object
+                        type: array
                       oauthScopes:
                         items:
                           type: string
@@ -2032,6 +2803,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        properties:
+                          type:
+                            description: |-
+                              The type of the policy. Supports a single value: COMPACT.
+                              Specifying COMPACT placement policy type places node pool's nodes in a closer
+                              physical proximity in order to reduce network latency between nodes.
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         items:
                           properties:
@@ -2052,6 +2832,8 @@ spec:
                         type: object
                       soleTenantConfig:
                         properties:
+                          minNodeCpus:
+                            type: number
                           nodeAffinity:
                             items:
                               properties:
@@ -2092,10 +2874,20 @@ spec:
                               type: string
                           type: object
                         type: array
+                      taintConfig:
+                        description: Taint configuration for the node pool. Structure
+                          is documented below.
+                        properties:
+                          architectureTaintBehavior:
+                            description: Specifies the behavior for applying architecture
+                              taints to node pool nodes. Valid values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                              NONE, or ARM.
+                            type: string
+                        type: object
                       windowsNodeConfig:
-                        description: |-
-                          Parameters used in creating the node pool. See
-                          google_container_cluster for schema.
+                        description: Parameters used in creating the node pool. Structure
+                          is documented below. See google_container_cluster for exact
+                          schema.
                         properties:
                           osversion:
                             description: |-
@@ -2115,6 +2907,25 @@ spec:
                       The number of nodes per instance group. This field can be used to
                       update the number of nodes per instance group but should not be used alongside autoscaling.
                     type: number
+                  nodeDrainConfig:
+                    description: The node drain configuration of the pool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        graceTerminationDuration:
+                          description: The duration of the grace termination period
+                            for node drain.
+                          type: string
+                        pdbTimeoutDuration:
+                          description: The duration of the PDB timeout period for
+                            node drain.
+                          type: string
+                        respectPdbDuringNodePoolDeletion:
+                          description: Whether to respect PodDisruptionBudget policy
+                            during node pool deletion.
+                          type: boolean
+                      type: object
+                    type: array
                   nodeLocations:
                     description: |-
                       The list of zones in which the node pool's nodes should be located. Nodes must

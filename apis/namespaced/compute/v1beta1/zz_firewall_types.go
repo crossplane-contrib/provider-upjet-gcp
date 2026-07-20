@@ -283,6 +283,10 @@ type FirewallObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The list of DENY rules specified by this firewall. Each rule specifies
 	// a protocol and port-range tuple that describes a denied connection.
 	// Structure is documented below.

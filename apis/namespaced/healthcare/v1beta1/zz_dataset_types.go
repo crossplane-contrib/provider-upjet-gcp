@@ -38,6 +38,10 @@ type DatasetInitParameters struct {
 
 type DatasetObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A nested object resource.
 	// Structure is documented below.
 	EncryptionSpec *EncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`

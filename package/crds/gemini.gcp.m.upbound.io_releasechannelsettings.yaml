@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: releasechannelsettings.gemini.gcp.m.upbound.io
 spec:
   group: gemini.gcp.m.upbound.io
@@ -188,6 +188,11 @@ spec:
                 properties:
                   createTime:
                     description: Create time stamp.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveLabels:
                     additionalProperties:

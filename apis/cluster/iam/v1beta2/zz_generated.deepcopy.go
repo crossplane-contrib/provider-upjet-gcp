@@ -612,6 +612,11 @@ func (in *WorkloadIdentityPoolProviderObservation) DeepCopyInto(out *WorkloadIde
 		*out = new(AwsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)

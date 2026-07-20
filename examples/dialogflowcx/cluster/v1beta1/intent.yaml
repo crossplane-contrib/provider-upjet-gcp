@@ -31,9 +31,10 @@ spec:
       - text: example
       repeatCount: 1
 
+
 ---
 
-apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta2
 kind: Agent
 metadata:
   annotations:

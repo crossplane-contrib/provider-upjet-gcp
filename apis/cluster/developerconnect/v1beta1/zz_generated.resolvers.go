@@ -16,8 +16,109 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *ConnectConnection) ResolveReferences( // ResolveReferences of this ConnectConnection.
+func (mg *ConnectAccountConnector) ResolveReferences( // ResolveReferences of this ConnectAccountConnector.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.CustomOAuthConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta1", "SecretVersion", "SecretVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomOAuthConfig.ClientID),
+				Extract:      resource.ExtractParamPath("secret_data", false),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.CustomOAuthConfig.ClientIDRef,
+				Selector:     mg.Spec.ForProvider.CustomOAuthConfig.ClientIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.CustomOAuthConfig.ClientID")
+		}
+		mg.Spec.ForProvider.CustomOAuthConfig.ClientID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CustomOAuthConfig.ClientIDRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.CustomOAuthConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta1", "SecretVersion", "SecretVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomOAuthConfig.ClientSecret),
+				Extract:      resource.ExtractParamPath("secret_data", false),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.CustomOAuthConfig.ClientSecretRef,
+				Selector:     mg.Spec.ForProvider.CustomOAuthConfig.ClientSecretSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.CustomOAuthConfig.ClientSecret")
+		}
+		mg.Spec.ForProvider.CustomOAuthConfig.ClientSecret = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.CustomOAuthConfig.ClientSecretRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.CustomOAuthConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta1", "SecretVersion", "SecretVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomOAuthConfig.ClientID),
+				Extract:      resource.ExtractParamPath("secret_data", false),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.CustomOAuthConfig.ClientIDRef,
+				Selector:     mg.Spec.InitProvider.CustomOAuthConfig.ClientIDSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CustomOAuthConfig.ClientID")
+		}
+		mg.Spec.InitProvider.CustomOAuthConfig.ClientID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CustomOAuthConfig.ClientIDRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.CustomOAuthConfig != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta1", "SecretVersion", "SecretVersionList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomOAuthConfig.ClientSecret),
+				Extract:      resource.ExtractParamPath("secret_data", false),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.CustomOAuthConfig.ClientSecretRef,
+				Selector:     mg.Spec.InitProvider.CustomOAuthConfig.ClientSecretSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.CustomOAuthConfig.ClientSecret")
+		}
+		mg.Spec.InitProvider.CustomOAuthConfig.ClientSecret = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.CustomOAuthConfig.ClientSecretRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this ConnectConnection.
+func (mg *ConnectConnection) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

@@ -43,3 +43,17 @@ func SetupGated_filestore(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_filestore registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_filestore(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		backup.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		snapshot.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

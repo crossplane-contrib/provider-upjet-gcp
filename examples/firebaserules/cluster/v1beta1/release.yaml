@@ -16,9 +16,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: release
 
+
 ---
 
-apiVersion: firebaserules.gcp.upbound.io/v1beta1
+apiVersion: firebaserules.gcp.upbound.io/v1beta2
 kind: Ruleset
 metadata:
   annotations:

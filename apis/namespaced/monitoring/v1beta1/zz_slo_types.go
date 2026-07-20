@@ -1176,6 +1176,10 @@ type SLOObservation struct {
 	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Name used for UI elements listing this SLO.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 

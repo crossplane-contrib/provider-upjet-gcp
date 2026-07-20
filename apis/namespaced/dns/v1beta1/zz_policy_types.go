@@ -193,6 +193,10 @@ type PolicyObservation struct {
 	// Structure is documented below.
 	AlternativeNameServerConfig *AlternativeNameServerConfigObservation `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

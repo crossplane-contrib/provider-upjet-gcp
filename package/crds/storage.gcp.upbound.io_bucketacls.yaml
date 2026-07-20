@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: bucketacls.storage.gcp.upbound.io
 spec:
   group: storage.gcp.upbound.io
@@ -366,6 +366,11 @@ spec:
                     type: string
                   defaultAcl:
                     description: Configure this ACL to be the default ACL.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   id:
                     type: string

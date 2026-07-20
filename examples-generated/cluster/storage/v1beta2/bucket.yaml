@@ -6,7 +6,7 @@ apiVersion: storage.gcp.upbound.io/v1beta2
 kind: Bucket
 metadata:
   annotations:
-    meta.upbound.io/example-id: storage/v1beta2/bucket
+    meta.upbound.io/example-id: storage/v1beta3/bucket
   labels:
     testing.upbound.io/example-name: static-site
   name: static-site
@@ -14,6 +14,17 @@ spec:
   forProvider:
     cors:
     - maxAgeSeconds: 3600
+      method:
+      - GET
+      - HEAD
+      - PUT
+      - POST
+      - DELETE
+      origin:
+      - http://image-store.com
+      responseHeader:
+      - '*'
+    - maxAgeSeconds: 0
       method:
       - GET
       - HEAD

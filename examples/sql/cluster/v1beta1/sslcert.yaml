@@ -22,7 +22,7 @@ spec:
 
 ---
 
-apiVersion: sql.gcp.upbound.io/v1beta1
+apiVersion: sql.gcp.upbound.io/v1beta2
 kind: DatabaseInstance
 metadata:
   annotations:
@@ -36,6 +36,6 @@ spec:
     region: "us-central1"
     databaseVersion: "MYSQL_5_7"
     settings:
-      - tier: "db-f1-micro"
-        diskSize: 20
+      tier: "db-f1-micro"
+      diskSize: 20
     deletionProtection: false # allow crossplane to delete the instance automatically

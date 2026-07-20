@@ -49,3 +49,19 @@ func SetupGated_certificatemanager(mgr ctrl.Manager, o controller.Options) error
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_certificatemanager registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_certificatemanager(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		certificate.SetupWebhookWithManager,
+		certificatemap.SetupWebhookWithManager,
+		certificatemapentry.SetupWebhookWithManager,
+		dnsauthorization.SetupWebhookWithManager,
+		trustconfig.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

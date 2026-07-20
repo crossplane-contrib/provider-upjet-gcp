@@ -130,6 +130,10 @@ type OrganizationObservation struct {
 	// Only used for the data residency region "US" or "EU".
 	ControlPlaneEncryptionKeyName *string `json:"controlPlaneEncryptionKeyName,omitempty" tf:"control_plane_encryption_key_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the Apigee organization.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

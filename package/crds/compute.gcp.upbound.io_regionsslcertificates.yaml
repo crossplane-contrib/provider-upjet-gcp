@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: regionsslcertificates.compute.gcp.upbound.io
 spec:
   group: compute.gcp.upbound.io
@@ -116,6 +116,16 @@ spec:
                     - name
                     - namespace
                     type: object
+                  privateKeyWo:
+                    description: |-
+                      The write-only private key in PEM format.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  privateKeyWoVersion:
+                    description: Triggers update of private_key_wo write-only. Increment
+                      this value when an update to private_key_wo is needed. For more
+                      info see updating write-only arguments
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -185,6 +195,16 @@ spec:
                     - name
                     - namespace
                     type: object
+                  privateKeyWo:
+                    description: |-
+                      The write-only private key in PEM format.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  privateKeyWoVersion:
+                    description: Triggers update of private_key_wo write-only. Increment
+                      this value when an update to private_key_wo is needed. For more
+                      info see updating write-only arguments
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -192,7 +212,6 @@ spec:
                     type: string
                 required:
                 - certificateSecretRef
-                - privateKeySecretRef
                 type: object
               managementPolicies:
                 default:
@@ -284,9 +303,6 @@ spec:
             - message: spec.forProvider.certificateSecretRef is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.certificateSecretRef)'
-            - message: spec.forProvider.privateKeySecretRef is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.privateKeySecretRef)'
           status:
             description: RegionSSLCertificateStatus defines the observed state of
               RegionSSLCertificate.
@@ -299,6 +315,11 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -307,6 +328,16 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
+                    type: string
+                  privateKeyWo:
+                    description: |-
+                      The write-only private key in PEM format.
+                      Note: This property is write-only and will not be read from the API.
+                    type: string
+                  privateKeyWoVersion:
+                    description: Triggers update of private_key_wo write-only. Increment
+                      this value when an update to private_key_wo is needed. For more
+                      info see updating write-only arguments
                     type: string
                   project:
                     description: |-

@@ -23,9 +23,10 @@ spec:
         testing.upbound.io/example-name: occurrence
     resourceUri: gcr.io/my-project/my-image
 
+
 ---
 
-apiVersion: containeranalysis.gcp.upbound.io/v1beta1
+apiVersion: containeranalysis.gcp.upbound.io/v1beta2
 kind: Note
 metadata:
   annotations:

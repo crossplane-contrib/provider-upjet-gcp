@@ -407,7 +407,7 @@ func (mg *Stream) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig != nil {
 			if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig != nil {
 				{
-					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 					if err != nil {
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
@@ -451,6 +451,32 @@ func (mg *Stream) ResolveReferences(ctx context.Context, c client.Reader) error 
 				}
 				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.DestinationConfig != nil {
+		if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig != nil {
+			if mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "Project", "ProjectList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectID),
+						Extract:      resource.ExtractParamPath("project_id", false),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectIDRef,
+						Selector:     mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectIDSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectID")
+				}
+				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectIDRef = rsp.ResolvedReference
 
 			}
 		}
@@ -503,7 +529,7 @@ func (mg *Stream) ResolveReferences(ctx context.Context, c client.Reader) error 
 		if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig != nil {
 			if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.BlmtConfig != nil {
 				{
-					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 					if err != nil {
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
@@ -547,6 +573,32 @@ func (mg *Stream) ResolveReferences(ctx context.Context, c client.Reader) error 
 				}
 				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetID = reference.ToPtrValue(rsp.ResolvedValue)
 				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SingleTargetDataset.DatasetIDRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.DestinationConfig != nil {
+		if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig != nil {
+			if mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "Project", "ProjectList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectID),
+						Extract:      resource.ExtractParamPath("project_id", false),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectIDRef,
+						Selector:     mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectIDSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectID")
+				}
+				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.DestinationConfig.BigqueryDestinationConfig.SourceHierarchyDatasets.ProjectIDRef = rsp.ResolvedReference
 
 			}
 		}

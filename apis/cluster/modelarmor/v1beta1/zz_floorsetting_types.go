@@ -275,6 +275,10 @@ type FloorSettingInitParameters struct {
 	// Structure is documented below.
 	FloorSettingMetadata *FloorSettingMetadataInitParameters `json:"floorSettingMetadata,omitempty" tf:"floor_setting_metadata,omitempty"`
 
+	// Google MCP Server floor setting.
+	// Structure is documented below.
+	GoogleMcpServerFloorSetting *GoogleMcpServerFloorSettingInitParameters `json:"googleMcpServerFloorSetting,omitempty" tf:"google_mcp_server_floor_setting,omitempty"`
+
 	// List of integrated services for which the floor setting is applicable.
 	IntegratedServices []*string `json:"integratedServices,omitempty" tf:"integrated_services,omitempty"`
 }
@@ -321,6 +325,10 @@ type FloorSettingObservation struct {
 	// Structure is documented below.
 	FloorSettingMetadata *FloorSettingMetadataObservation `json:"floorSettingMetadata,omitempty" tf:"floor_setting_metadata,omitempty"`
 
+	// Google MCP Server floor setting.
+	// Structure is documented below.
+	GoogleMcpServerFloorSetting *GoogleMcpServerFloorSettingObservation `json:"googleMcpServerFloorSetting,omitempty" tf:"google_mcp_server_floor_setting,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/locations/{{location}}/floorSetting
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -361,6 +369,11 @@ type FloorSettingParameters struct {
 	// +kubebuilder:validation:Optional
 	FloorSettingMetadata *FloorSettingMetadataParameters `json:"floorSettingMetadata,omitempty" tf:"floor_setting_metadata,omitempty"`
 
+	// Google MCP Server floor setting.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GoogleMcpServerFloorSetting *GoogleMcpServerFloorSettingParameters `json:"googleMcpServerFloorSetting,omitempty" tf:"google_mcp_server_floor_setting,omitempty"`
+
 	// List of integrated services for which the floor setting is applicable.
 	// +kubebuilder:validation:Optional
 	IntegratedServices []*string `json:"integratedServices,omitempty" tf:"integrated_services,omitempty"`
@@ -372,6 +385,51 @@ type FloorSettingParameters struct {
 	// Will be any one of these:
 	// +kubebuilder:validation:Required
 	Parent *string `json:"parent" tf:"parent,omitempty"`
+}
+
+type GoogleMcpServerFloorSettingInitParameters struct {
+
+	// If true, log Model Armor filter results to Cloud Logging.
+	EnableCloudLogging *bool `json:"enableCloudLogging,omitempty" tf:"enable_cloud_logging,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect and block mode.
+	// Requests that trip Model Armor filters will be blocked.
+	InspectAndBlock *bool `json:"inspectAndBlock,omitempty" tf:"inspect_and_block,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect only mode. No action
+	// will be taken on the request.
+	InspectOnly *bool `json:"inspectOnly,omitempty" tf:"inspect_only,omitempty"`
+}
+
+type GoogleMcpServerFloorSettingObservation struct {
+
+	// If true, log Model Armor filter results to Cloud Logging.
+	EnableCloudLogging *bool `json:"enableCloudLogging,omitempty" tf:"enable_cloud_logging,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect and block mode.
+	// Requests that trip Model Armor filters will be blocked.
+	InspectAndBlock *bool `json:"inspectAndBlock,omitempty" tf:"inspect_and_block,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect only mode. No action
+	// will be taken on the request.
+	InspectOnly *bool `json:"inspectOnly,omitempty" tf:"inspect_only,omitempty"`
+}
+
+type GoogleMcpServerFloorSettingParameters struct {
+
+	// If true, log Model Armor filter results to Cloud Logging.
+	// +kubebuilder:validation:Optional
+	EnableCloudLogging *bool `json:"enableCloudLogging,omitempty" tf:"enable_cloud_logging,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect and block mode.
+	// Requests that trip Model Armor filters will be blocked.
+	// +kubebuilder:validation:Optional
+	InspectAndBlock *bool `json:"inspectAndBlock,omitempty" tf:"inspect_and_block,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect only mode. No action
+	// will be taken on the request.
+	// +kubebuilder:validation:Optional
+	InspectOnly *bool `json:"inspectOnly,omitempty" tf:"inspect_only,omitempty"`
 }
 
 type MaliciousURIFilterSettingsInitParameters struct {

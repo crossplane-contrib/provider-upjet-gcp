@@ -17,7 +17,7 @@ spec:
     nodeTemplateSelector:
       matchLabels:
         testing.upbound.io/example-name: soletenant-tmpl
-    zone: us-central1-f
+    zone: us-central1-c
 
 ---
 
@@ -31,5 +31,5 @@ metadata:
   name: soletenant-tmpl
 spec:
   forProvider:
-    nodeType: n1-node-96-624
+    nodeType: c2-node-60-240
     region: us-central1

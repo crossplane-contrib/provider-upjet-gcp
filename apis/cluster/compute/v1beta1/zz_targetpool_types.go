@@ -60,6 +60,10 @@ type TargetPoolObservation struct {
 	// failover_ratio.
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

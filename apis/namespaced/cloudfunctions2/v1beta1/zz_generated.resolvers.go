@@ -73,7 +73,7 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 		if mg.Spec.ForProvider.BuildConfig.Source != nil {
 			if mg.Spec.ForProvider.BuildConfig.Source.StorageSource != nil {
 				{
-					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 					if err != nil {
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
@@ -146,7 +146,7 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 	if mg.Spec.ForProvider.EventTrigger != nil {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.EventTrigger.EventFilters); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -329,7 +329,7 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 		if mg.Spec.InitProvider.BuildConfig.Source != nil {
 			if mg.Spec.InitProvider.BuildConfig.Source.StorageSource != nil {
 				{
-					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 					if err != nil {
 						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 					}
@@ -402,7 +402,7 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 	if mg.Spec.InitProvider.EventTrigger != nil {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.EventTrigger.EventFilters); i4++ {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}

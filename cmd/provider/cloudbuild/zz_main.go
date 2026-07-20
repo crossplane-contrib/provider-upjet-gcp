@@ -26,6 +26,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/crossplane/upjet/v2/pkg/controller/conversion"
+	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -76,7 +77,7 @@ func init() {
 	}
 }
 
-func main() {
+func main() { //nolint:gocyclo // easier to follow as a unit
 	var (
 		app                     = kingpin.New(filepath.Base(os.Args[0]), "Terraform based Crossplane provider for GCP").DefaultEnvars()
 		debug                   = app.Flag("debug", "Run with debug logging.").Short('d').Bool()
@@ -188,9 +189,10 @@ func main() {
 
 	ctx := context.Background()
 	sdkProvider := provider.Provider()
-	clusterProvider, err := config.GetProvider(ctx, sdkProvider, false)
+	fwProvider := fwprovider.New(sdkProvider)
+	clusterProvider, err := config.GetProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
-	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, false)
+	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
@@ -209,7 +211,6 @@ func main() {
 		SetupFn:               clients.TerraformSetupBuilder(clusterProvider.TerraformProvider),
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(logr),
-		StartWebhooks:         *certsDir != "",
 	}
 
 	namespacedOpts := tjcontroller.Options{
@@ -229,7 +230,6 @@ func main() {
 		SetupFn:               clients.TerraformSetupBuilder(namespacedProvider.TerraformProvider),
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(logr),
-		StartWebhooks:         *certsDir != "",
 	}
 
 	if *enableManagementPolicies {
@@ -253,6 +253,15 @@ func main() {
 		}
 		clusterOpts.ChangeLogOptions = &clo
 		namespacedOpts.ChangeLogOptions = &clo
+	}
+
+	// Webhooks are registered eagerly on all pods before mgr.Start() so that
+	// every replica (leader and followers alike) can serve conversion requests.
+	// Reconciler setup is deferred to the gate and only runs on the leader.
+	startWebhooks := *certsDir != ""
+	if startWebhooks {
+		kingpin.FatalIfError(clustercontroller.SetupWebhookWithManager_cloudbuild(mgr), "Cannot setup cluster-scoped webhooks")
+		kingpin.FatalIfError(namespacedcontroller.SetupWebhookWithManager_cloudbuild(mgr), "Cannot setup namespaced webhooks")
 	}
 
 	canSafeStart, err := canWatchCRD(ctx, mgr)

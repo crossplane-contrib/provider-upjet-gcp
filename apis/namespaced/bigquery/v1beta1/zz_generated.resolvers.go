@@ -102,6 +102,30 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 	if mg.Spec.ForProvider.BigqueryDataset != nil {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.BigqueryDataset.SelectedResources); i4++ {
 			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Routine),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].RoutineRef,
+					Selector:     mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].RoutineSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Routine")
+			}
+			mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Routine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].RoutineRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.BigqueryDataset != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.BigqueryDataset.SelectedResources); i4++ {
+			{
 				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Table", "TableList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -186,6 +210,30 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 		mg.Spec.InitProvider.BigqueryDataset.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BigqueryDataset.DatasetRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.BigqueryDataset != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.BigqueryDataset.SelectedResources); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Routine),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].RoutineRef,
+					Selector:     mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].RoutineSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Routine")
+			}
+			mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Routine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].RoutineRef = rsp.ResolvedReference
+
+		}
 	}
 	if mg.Spec.InitProvider.BigqueryDataset != nil {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.BigqueryDataset.SelectedResources); i4++ {

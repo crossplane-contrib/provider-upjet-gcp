@@ -422,6 +422,154 @@ type BuildParameters struct {
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 }
 
+type DeveloperConnectEventConfigInitParameters struct {
+
+	// The Developer Connect Git repository link, formatted as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+	GitRepositoryLink *string `json:"gitRepositoryLink,omitempty" tf:"git_repository_link,omitempty"`
+
+	// Filter to match changes in pull requests.
+	// Structure is documented below.
+	PullRequest *DeveloperConnectEventConfigPullRequestInitParameters `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Filter to match changes in refs like branches and tags.
+	// Structure is documented below.
+	Push *DeveloperConnectEventConfigPushInitParameters `json:"push,omitempty" tf:"push,omitempty"`
+}
+
+type DeveloperConnectEventConfigObservation struct {
+
+	// The Developer Connect Git repository link, formatted as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+	GitRepositoryLink *string `json:"gitRepositoryLink,omitempty" tf:"git_repository_link,omitempty"`
+
+	// (Output)
+	// The type of DeveloperConnect GitRepositoryLink.
+	GitRepositoryLinkType *string `json:"gitRepositoryLinkType,omitempty" tf:"git_repository_link_type,omitempty"`
+
+	// Filter to match changes in pull requests.
+	// Structure is documented below.
+	PullRequest *DeveloperConnectEventConfigPullRequestObservation `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Filter to match changes in refs like branches and tags.
+	// Structure is documented below.
+	Push *DeveloperConnectEventConfigPushObservation `json:"push,omitempty" tf:"push,omitempty"`
+}
+
+type DeveloperConnectEventConfigParameters struct {
+
+	// The Developer Connect Git repository link, formatted as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+	// +kubebuilder:validation:Optional
+	GitRepositoryLink *string `json:"gitRepositoryLink" tf:"git_repository_link,omitempty"`
+
+	// Filter to match changes in pull requests.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PullRequest *DeveloperConnectEventConfigPullRequestParameters `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Filter to match changes in refs like branches and tags.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Push *DeveloperConnectEventConfigPushParameters `json:"push,omitempty" tf:"push,omitempty"`
+}
+
+type DeveloperConnectEventConfigPullRequestInitParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type DeveloperConnectEventConfigPullRequestObservation struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type DeveloperConnectEventConfigPullRequestParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// +kubebuilder:validation:Optional
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	// +kubebuilder:validation:Optional
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type DeveloperConnectEventConfigPushInitParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type DeveloperConnectEventConfigPushObservation struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type DeveloperConnectEventConfigPushParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	// +kubebuilder:validation:Optional
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
 type GitFileSourceInitParameters struct {
 
 	// The full resource name of the bitbucket server config.
@@ -2072,6 +2220,10 @@ type TriggerInitParameters struct {
 	// Human-readable description of the trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Configuration for triggers that respond to Developer Connect events.
+	// Structure is documented below.
+	DeveloperConnectEventConfig *DeveloperConnectEventConfigInitParameters `json:"developerConnectEventConfig,omitempty" tf:"developer_connect_event_config,omitempty"`
+
 	// Whether the trigger is disabled or not. If true, the trigger will never result in a build.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
@@ -2088,7 +2240,6 @@ type TriggerInitParameters struct {
 	GitFileSource *GitFileSourceInitParameters `json:"gitFileSource,omitempty" tf:"git_file_source,omitempty"`
 
 	// Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-	// One of trigger_template, github, pubsub_config or webhook_config must be provided.
 	// Structure is documented below.
 	Github *GithubInitParameters `json:"github,omitempty" tf:"github,omitempty"`
 
@@ -2131,7 +2282,6 @@ type TriggerInitParameters struct {
 
 	// PubsubConfig describes the configuration of a trigger that creates
 	// a build whenever a Pub/Sub message is published.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	PubsubConfig *PubsubConfigInitParameters `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
 
@@ -2160,7 +2310,6 @@ type TriggerInitParameters struct {
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
 	// This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	SourceToBuild *SourceToBuildInitParameters `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
 
@@ -2175,13 +2324,11 @@ type TriggerInitParameters struct {
 	// Branch and tag names in trigger templates are interpreted as regular
 	// expressions. Any branch or tag change that matches that regular
 	// expression will trigger a build.
-	// One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	TriggerTemplate *TriggerTemplateInitParameters `json:"triggerTemplate,omitempty" tf:"trigger_template,omitempty"`
 
 	// WebhookConfig describes the configuration of a trigger that creates
 	// a build whenever a webhook is sent to a trigger's webhook URL.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	WebhookConfig *WebhookConfigInitParameters `json:"webhookConfig,omitempty" tf:"webhook_config,omitempty"`
 }
@@ -2205,8 +2352,16 @@ type TriggerObservation struct {
 	// Time when the trigger was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Human-readable description of the trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Configuration for triggers that respond to Developer Connect events.
+	// Structure is documented below.
+	DeveloperConnectEventConfig *DeveloperConnectEventConfigObservation `json:"developerConnectEventConfig,omitempty" tf:"developer_connect_event_config,omitempty"`
 
 	// Whether the trigger is disabled or not. If true, the trigger will never result in a build.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -2224,7 +2379,6 @@ type TriggerObservation struct {
 	GitFileSource *GitFileSourceObservation `json:"gitFileSource,omitempty" tf:"git_file_source,omitempty"`
 
 	// Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-	// One of trigger_template, github, pubsub_config or webhook_config must be provided.
 	// Structure is documented below.
 	Github *GithubObservation `json:"github,omitempty" tf:"github,omitempty"`
 
@@ -2270,7 +2424,6 @@ type TriggerObservation struct {
 
 	// PubsubConfig describes the configuration of a trigger that creates
 	// a build whenever a Pub/Sub message is published.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	PubsubConfig *PubsubConfigObservation `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
 
@@ -2289,7 +2442,6 @@ type TriggerObservation struct {
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
 	// This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	SourceToBuild *SourceToBuildObservation `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
 
@@ -2307,13 +2459,11 @@ type TriggerObservation struct {
 	// Branch and tag names in trigger templates are interpreted as regular
 	// expressions. Any branch or tag change that matches that regular
 	// expression will trigger a build.
-	// One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	TriggerTemplate *TriggerTemplateObservation `json:"triggerTemplate,omitempty" tf:"trigger_template,omitempty"`
 
 	// WebhookConfig describes the configuration of a trigger that creates
 	// a build whenever a webhook is sent to a trigger's webhook URL.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	WebhookConfig *WebhookConfigObservation `json:"webhookConfig,omitempty" tf:"webhook_config,omitempty"`
 }
@@ -2341,6 +2491,11 @@ type TriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Configuration for triggers that respond to Developer Connect events.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DeveloperConnectEventConfig *DeveloperConnectEventConfigParameters `json:"developerConnectEventConfig,omitempty" tf:"developer_connect_event_config,omitempty"`
+
 	// Whether the trigger is disabled or not. If true, the trigger will never result in a build.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -2361,7 +2516,6 @@ type TriggerParameters struct {
 	GitFileSource *GitFileSourceParameters `json:"gitFileSource,omitempty" tf:"git_file_source,omitempty"`
 
 	// Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-	// One of trigger_template, github, pubsub_config or webhook_config must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Github *GithubParameters `json:"github,omitempty" tf:"github,omitempty"`
@@ -2411,7 +2565,6 @@ type TriggerParameters struct {
 
 	// PubsubConfig describes the configuration of a trigger that creates
 	// a build whenever a Pub/Sub message is published.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PubsubConfig *PubsubConfigParameters `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
@@ -2443,7 +2596,6 @@ type TriggerParameters struct {
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
 	// This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SourceToBuild *SourceToBuildParameters `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
@@ -2461,14 +2613,12 @@ type TriggerParameters struct {
 	// Branch and tag names in trigger templates are interpreted as regular
 	// expressions. Any branch or tag change that matches that regular
 	// expression will trigger a build.
-	// One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TriggerTemplate *TriggerTemplateParameters `json:"triggerTemplate,omitempty" tf:"trigger_template,omitempty"`
 
 	// WebhookConfig describes the configuration of a trigger that creates
 	// a build whenever a webhook is sent to a trigger's webhook URL.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WebhookConfig *WebhookConfigParameters `json:"webhookConfig,omitempty" tf:"webhook_config,omitempty"`

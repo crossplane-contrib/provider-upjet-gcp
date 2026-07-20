@@ -9,19 +9,18 @@ import (
 	"strings"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
-	"github.com/crossplane/upjet/v2/pkg/config/conversion"
 	"github.com/crossplane/upjet/v2/pkg/registry/reference"
 	"github.com/crossplane/upjet/v2/pkg/schema/traverser"
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/v2/config/cluster"
 	"github.com/upbound/provider-gcp/v2/config/templates"
-	"github.com/upbound/provider-gcp/v2/hack"
 )
 
 // GetProvider returns provider configuration
-func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
+func GetProvider(_ context.Context, sdkProvider *schema.Provider, fwProvider fwprovider.Provider, generationProvider bool) (*ujconfig.Provider, error) {
 	if generationProvider {
 		p, err := getProviderSchema(providerSchema)
 		if err != nil {
@@ -44,17 +43,20 @@ func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProv
 			defaultVersion(),
 			resourceConfigurator(),
 			descriptionOverrides(),
+			deletionPolicyOverride(),
 		),
 		ujconfig.WithRootGroup("gcp.upbound.io"),
 		ujconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
 		ujconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
 		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithTerraformPluginFrameworkIncludeList(resourceList(terraformPluginFrameworkExternalNameConfigs)),
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithSkipList(skipList),
 		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithMainTemplate(hack.MainTemplate),
+		ujconfig.WithMainTemplate(templates.MainTemplate),
 		ujconfig.WithTerraformProvider(sdkProvider),
+		ujconfig.WithTerraformPluginFrameworkProvider(fwProvider),
 		ujconfig.WithSchemaTraversers(&ujconfig.SingletonListEmbedder{}),
 		ujconfig.WithControllerTemplate(templates.ControllerTemplate),
 	)
@@ -83,23 +85,10 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 		if len(r.CRDListConversionPaths()) == 0 {
 			continue
 		}
-
 		if _, ok := oldSLAPIs[n]; ok {
 			r.Version = "v1beta2"
-			r.PreviousVersions = []string{"v1beta1"}
 			r.SetCRDStorageVersion(r.Version)
-			r.ControllerReconcileVersion = r.Version //nolint:staticcheck
-			r.Conversions = []conversion.Conversion{
-				conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, conversion.DefaultPathPrefixes(), r.CRDListConversionPaths()...),
-				conversion.NewSingletonListConversion("v1beta1", "v1beta2", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToEmbeddedObject),
-				conversion.NewSingletonListConversion("v1beta2", "v1beta1", conversion.DefaultPathPrefixes(), r.CRDListConversionPaths(), conversion.ToSingletonList)}
-			if err := r.SetDeprecatedVersion("v1beta1",
-				ujconfig.VersionDeprecation{
-					Warning:            "This API version is deprecated.",
-					DeprecationRelease: "v2.6.0",
-				}); err != nil {
-				panic(err)
-			}
+			r.ControllerReconcileVersion = r.Version //nolint:staticcheck // still handling the deprecated behavior
 		}
 		r.TerraformConversions = []ujconfig.TerraformConversion{
 			ujconfig.NewTFSingletonConversion(),

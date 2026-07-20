@@ -13,7 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
-type V2JobIAMBindingConditionInitParameters struct {
+type ConditionInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -21,7 +21,7 @@ type V2JobIAMBindingConditionInitParameters struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type V2JobIAMBindingConditionObservation struct {
+type ConditionObservation struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Expression *string `json:"expression,omitempty" tf:"expression,omitempty"`
@@ -29,7 +29,7 @@ type V2JobIAMBindingConditionObservation struct {
 	Title *string `json:"title,omitempty" tf:"title,omitempty"`
 }
 
-type V2JobIAMBindingConditionParameters struct {
+type ConditionParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -42,7 +42,7 @@ type V2JobIAMBindingConditionParameters struct {
 }
 
 type V2JobIAMBindingInitParameters struct {
-	Condition *V2JobIAMBindingConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -75,7 +75,7 @@ type V2JobIAMBindingInitParameters struct {
 }
 
 type V2JobIAMBindingObservation struct {
-	Condition *V2JobIAMBindingConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *ConditionObservation `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
@@ -96,7 +96,7 @@ type V2JobIAMBindingObservation struct {
 type V2JobIAMBindingParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Condition *V2JobIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
+	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
