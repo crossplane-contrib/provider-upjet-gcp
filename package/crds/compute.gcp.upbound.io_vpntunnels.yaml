@@ -379,12 +379,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  sharedSecretWo:
-                    description: |-
-                      Shared secret used to set the secure session between the Cloud VPN
-                      gateway and the peer VPN gateway.
-                      Note: This property is write-only and will not be read from the API.
-                    type: string
                   sharedSecretWoVersion:
                     description: Triggers update of shared_secret_wo write-only. Increment
                       this value when an update to shared_secret_wo is needed. For
@@ -876,12 +870,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  sharedSecretWo:
-                    description: |-
-                      Shared secret used to set the secure session between the Cloud VPN
-                      gateway and the peer VPN gateway.
-                      Note: This property is write-only and will not be read from the API.
-                    type: string
                   sharedSecretWoVersion:
                     description: Triggers update of shared_secret_wo write-only. Increment
                       this value when an update to shared_secret_wo is needed. For
@@ -1312,12 +1300,6 @@ spec:
                     type: string
                   sharedSecretHash:
                     description: Hash of the shared secret.
-                    type: string
-                  sharedSecretWo:
-                    description: |-
-                      Shared secret used to set the secure session between the Cloud VPN
-                      gateway and the peer VPN gateway.
-                      Note: This property is write-only and will not be read from the API.
                     type: string
                   sharedSecretWoVersion:
                     description: Triggers update of shared_secret_wo write-only. Increment

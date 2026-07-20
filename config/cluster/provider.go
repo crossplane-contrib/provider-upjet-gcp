@@ -7,6 +7,7 @@ package cluster
 import (
 	"github.com/upbound/provider-gcp/v2/config/cluster/accessapproval"
 	"github.com/upbound/provider-gcp/v2/config/cluster/accesscontextmanager"
+	"github.com/upbound/provider-gcp/v2/config/cluster/alloydb"
 	"github.com/upbound/provider-gcp/v2/config/cluster/apigee"
 	"github.com/upbound/provider-gcp/v2/config/cluster/beyondcorp"
 	"github.com/upbound/provider-gcp/v2/config/cluster/bigquery"
@@ -111,4 +112,5 @@ func init() {
 	ProviderConfiguration.AddConfig(gkehub.Configure)
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
+	ProviderConfiguration.AddConfig(alloydb.Configure)
 }

@@ -6,6 +6,7 @@ package alloydb
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 // Configure configures individual resources by adding custom
@@ -13,5 +14,11 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_alloydb_instance", func(r *config.Resource) {
 		r.UseAsync = true
+	})
+
+	p.AddResourceConfigurator("google_alloydb_cluster", func(r *config.Resource) {
+		delete(r.TerraformResource.
+			Schema["initial_user"].Elem.(*schema.Resource).
+			Schema, "password_wo")
 	})
 }

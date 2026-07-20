@@ -360,11 +360,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      secretAccessKeyWo:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       secretAccessKeyWoVersion:
                         description: The version of the sensitive params - used to
                           trigger updates of the write-only params. For more info
@@ -678,11 +673,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      secretAccessKeyWo:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       secretAccessKeyWoVersion:
                         description: The version of the sensitive params - used to
                           trigger updates of the write-only params. For more info
@@ -936,11 +926,6 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      secretAccessKeyWo:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       secretAccessKeyWoVersion:
                         description: The version of the sensitive params - used to
                           trigger updates of the write-only params. For more info

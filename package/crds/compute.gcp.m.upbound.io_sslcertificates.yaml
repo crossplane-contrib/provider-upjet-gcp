@@ -92,11 +92,6 @@ spec:
                     - key
                     - name
                     type: object
-                  privateKeyWo:
-                    description: |-
-                      The write-only private key in PEM format.
-                      Note: This property is write-only and will not be read from the API.
-                    type: string
                   privateKeyWoVersion:
                     description: Triggers update of private_key_wo write-only. Increment
                       this value when an update to private_key_wo is needed. For more
@@ -154,11 +149,6 @@ spec:
                     - key
                     - name
                     type: object
-                  privateKeyWo:
-                    description: |-
-                      The write-only private key in PEM format.
-                      Note: This property is write-only and will not be read from the API.
-                    type: string
                   privateKeyWoVersion:
                     description: Triggers update of private_key_wo write-only. Increment
                       this value when an update to private_key_wo is needed. For more
@@ -258,11 +248,6 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
-                    type: string
-                  privateKeyWo:
-                    description: |-
-                      The write-only private key in PEM format.
-                      Note: This property is write-only and will not be read from the API.
                     type: string
                   privateKeyWoVersion:
                     description: Triggers update of private_key_wo write-only. Increment

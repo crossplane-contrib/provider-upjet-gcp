@@ -219,13 +219,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  passwordWo:
-                    description: |-
-                      The password for the user. Can be updated. For Postgres
-                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-                    type: string
                   passwordWoVersion:
                     description: An integer value used to trigger an update for password_wo.
                       This property should be incremented when updating password_wo.
@@ -405,13 +398,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  passwordWo:
-                    description: |-
-                      The password for the user. Can be updated. For Postgres
-                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-                    type: string
                   passwordWoVersion:
                     description: An integer value used to trigger an update for password_wo.
                       This property should be incremented when updating password_wo.
@@ -591,13 +577,6 @@ spec:
                           type: object
                         type: array
                     type: object
-                  passwordWo:
-                    description: |-
-                      The password for the user. Can be updated. For Postgres
-                      instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-                      or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-                      and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-                    type: string
                   passwordWoVersion:
                     description: An integer value used to trigger an update for password_wo.
                       This property should be incremented when updating password_wo.

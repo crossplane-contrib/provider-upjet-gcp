@@ -163,11 +163,6 @@ spec:
                             - name
                             - namespace
                             type: object
-                          passwordWo:
-                            description: |-
-                              The password to authenticate.
-                              Note: This property is write-only and will not be read from the API.
-                            type: string
                           passwordWoVersion:
                             description: The password write-only version.
                             type: string
@@ -644,11 +639,6 @@ spec:
                             - name
                             - namespace
                             type: object
-                          passwordWo:
-                            description: |-
-                              The password to authenticate.
-                              Note: This property is write-only and will not be read from the API.
-                            type: string
                           passwordWoVersion:
                             description: The password write-only version.
                             type: string
@@ -1198,11 +1188,6 @@ spec:
                           The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
                           Structure is documented below.
                         properties:
-                          passwordWo:
-                            description: |-
-                              The password to authenticate.
-                              Note: This property is write-only and will not be read from the API.
-                            type: string
                           passwordWoVersion:
                             description: The password write-only version.
                             type: string

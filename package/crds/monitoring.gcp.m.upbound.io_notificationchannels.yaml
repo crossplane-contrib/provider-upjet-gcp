@@ -129,11 +129,6 @@ spec:
                         - key
                         - name
                         type: object
-                      authTokenWo:
-                        description: |-
-                          An authorization token for a notification channel. Channel types that support this field include: slack
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       authTokenWoVersion:
                         description: Triggers update of auth_token_wo write-only.
                           Increment this value when an update to auth_token_wo is
@@ -153,11 +148,6 @@ spec:
                         - key
                         - name
                         type: object
-                      passwordWo:
-                        description: |-
-                          An password for a notification channel. Channel types that support this field include: webhook_basicauth
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       passwordWoVersion:
                         description: Triggers update of password_wo write-only. Increment
                           this value when an update to password_wo is needed. For
@@ -177,11 +167,6 @@ spec:
                         - key
                         - name
                         type: object
-                      serviceKeyWo:
-                        description: |-
-                          An servicekey token for a notification channel. Channel types that support this field include: pagerduty
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       serviceKeyWoVersion:
                         description: Triggers update of service_key_wo write-only.
                           Increment this value when an update to service_key_wo is
@@ -290,11 +275,6 @@ spec:
                         - key
                         - name
                         type: object
-                      authTokenWo:
-                        description: |-
-                          An authorization token for a notification channel. Channel types that support this field include: slack
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       authTokenWoVersion:
                         description: Triggers update of auth_token_wo write-only.
                           Increment this value when an update to auth_token_wo is
@@ -314,11 +294,6 @@ spec:
                         - key
                         - name
                         type: object
-                      passwordWo:
-                        description: |-
-                          An password for a notification channel. Channel types that support this field include: webhook_basicauth
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       passwordWoVersion:
                         description: Triggers update of password_wo write-only. Increment
                           this value when an update to password_wo is needed. For
@@ -338,11 +313,6 @@ spec:
                         - key
                         - name
                         type: object
-                      serviceKeyWo:
-                        description: |-
-                          An servicekey token for a notification channel. Channel types that support this field include: pagerduty
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       serviceKeyWoVersion:
                         description: Triggers update of service_key_wo write-only.
                           Increment this value when an update to service_key_wo is
@@ -506,30 +476,15 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      authTokenWo:
-                        description: |-
-                          An authorization token for a notification channel. Channel types that support this field include: slack
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       authTokenWoVersion:
                         description: Triggers update of auth_token_wo write-only.
                           Increment this value when an update to auth_token_wo is
                           needed. For more info see updating write-only arguments
                         type: string
-                      passwordWo:
-                        description: |-
-                          An password for a notification channel. Channel types that support this field include: webhook_basicauth
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
                       passwordWoVersion:
                         description: Triggers update of password_wo write-only. Increment
                           this value when an update to password_wo is needed. For
                           more info see updating write-only arguments
-                        type: string
-                      serviceKeyWo:
-                        description: |-
-                          An servicekey token for a notification channel. Channel types that support this field include: pagerduty
-                          Note: This property is write-only and will not be read from the API.
                         type: string
                       serviceKeyWoVersion:
                         description: Triggers update of service_key_wo write-only.

@@ -13159,11 +13159,6 @@ func (in *RegionSSLCertificateInitParameters) DeepCopyInto(out *RegionSSLCertifi
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
-	if in.PrivateKeyWo != nil {
-		in, out := &in.PrivateKeyWo, &out.PrivateKeyWo
-		*out = new(string)
-		**out = **in
-	}
 	if in.PrivateKeyWoVersion != nil {
 		in, out := &in.PrivateKeyWoVersion, &out.PrivateKeyWoVersion
 		*out = new(string)
@@ -13251,11 +13246,6 @@ func (in *RegionSSLCertificateObservation) DeepCopyInto(out *RegionSSLCertificat
 		*out = new(string)
 		**out = **in
 	}
-	if in.PrivateKeyWo != nil {
-		in, out := &in.PrivateKeyWo, &out.PrivateKeyWo
-		*out = new(string)
-		**out = **in
-	}
 	if in.PrivateKeyWoVersion != nil {
 		in, out := &in.PrivateKeyWoVersion, &out.PrivateKeyWoVersion
 		*out = new(string)
@@ -13300,11 +13290,6 @@ func (in *RegionSSLCertificateParameters) DeepCopyInto(out *RegionSSLCertificate
 	if in.PrivateKeySecretRef != nil {
 		in, out := &in.PrivateKeySecretRef, &out.PrivateKeySecretRef
 		*out = new(v1.SecretKeySelector)
-		**out = **in
-	}
-	if in.PrivateKeyWo != nil {
-		in, out := &in.PrivateKeyWo, &out.PrivateKeyWo
-		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateKeyWoVersion != nil {
@@ -16504,11 +16489,6 @@ func (in *SSLCertificateInitParameters) DeepCopyInto(out *SSLCertificateInitPara
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
-	if in.PrivateKeyWo != nil {
-		in, out := &in.PrivateKeyWo, &out.PrivateKeyWo
-		*out = new(string)
-		**out = **in
-	}
 	if in.PrivateKeyWoVersion != nil {
 		in, out := &in.PrivateKeyWoVersion, &out.PrivateKeyWoVersion
 		*out = new(string)
@@ -16596,11 +16576,6 @@ func (in *SSLCertificateObservation) DeepCopyInto(out *SSLCertificateObservation
 		*out = new(string)
 		**out = **in
 	}
-	if in.PrivateKeyWo != nil {
-		in, out := &in.PrivateKeyWo, &out.PrivateKeyWo
-		*out = new(string)
-		**out = **in
-	}
 	if in.PrivateKeyWoVersion != nil {
 		in, out := &in.PrivateKeyWoVersion, &out.PrivateKeyWoVersion
 		*out = new(string)
@@ -16640,11 +16615,6 @@ func (in *SSLCertificateParameters) DeepCopyInto(out *SSLCertificateParameters) 
 	if in.PrivateKeySecretRef != nil {
 		in, out := &in.PrivateKeySecretRef, &out.PrivateKeySecretRef
 		*out = new(v1.SecretKeySelector)
-		**out = **in
-	}
-	if in.PrivateKeyWo != nil {
-		in, out := &in.PrivateKeyWo, &out.PrivateKeyWo
-		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateKeyWoVersion != nil {
@@ -20825,11 +20795,6 @@ func (in *VPNTunnelInitParameters) DeepCopyInto(out *VPNTunnelInitParameters) {
 		*out = new(v1.SecretKeySelector)
 		**out = **in
 	}
-	if in.SharedSecretWo != nil {
-		in, out := &in.SharedSecretWo, &out.SharedSecretWo
-		*out = new(string)
-		**out = **in
-	}
 	if in.SharedSecretWoVersion != nil {
 		in, out := &in.SharedSecretWoVersion, &out.SharedSecretWoVersion
 		*out = new(string)
@@ -21061,11 +21026,6 @@ func (in *VPNTunnelObservation) DeepCopyInto(out *VPNTunnelObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.SharedSecretWo != nil {
-		in, out := &in.SharedSecretWo, &out.SharedSecretWo
-		*out = new(string)
-		**out = **in
-	}
 	if in.SharedSecretWoVersion != nil {
 		in, out := &in.SharedSecretWoVersion, &out.SharedSecretWoVersion
 		*out = new(string)
@@ -21238,11 +21198,6 @@ func (in *VPNTunnelParameters) DeepCopyInto(out *VPNTunnelParameters) {
 	if in.SharedSecretSecretRef != nil {
 		in, out := &in.SharedSecretSecretRef, &out.SharedSecretSecretRef
 		*out = new(v1.SecretKeySelector)
-		**out = **in
-	}
-	if in.SharedSecretWo != nil {
-		in, out := &in.SharedSecretWo, &out.SharedSecretWo
-		*out = new(string)
 		**out = **in
 	}
 	if in.SharedSecretWoVersion != nil {

@@ -38,10 +38,6 @@ type SecretVersionInitParameters struct {
 	// The secret data. Must be no larger than 64KiB.
 	SecretDataSecretRef *v1.SecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
 
-	// The secret data. Must be no larger than 64KiB. For more info see updating write-only arguments
-	// Note: This property is write-only and will not be read from the API.
-	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
-
 	// Triggers update of secret data write-only. For more info see updating write-only arguments
 	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
 
@@ -87,10 +83,6 @@ type SecretVersionObservation struct {
 	// Secret Manager secret resource
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
-	// The secret data. Must be no larger than 64KiB. For more info see updating write-only arguments
-	// Note: This property is write-only and will not be read from the API.
-	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
-
 	// Triggers update of secret data write-only. For more info see updating write-only arguments
 	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
 
@@ -128,11 +120,6 @@ type SecretVersionParameters struct {
 	// The secret data. Must be no larger than 64KiB.
 	// +kubebuilder:validation:Optional
 	SecretDataSecretRef *v1.SecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
-
-	// The secret data. Must be no larger than 64KiB. For more info see updating write-only arguments
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
 
 	// Triggers update of secret data write-only. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional

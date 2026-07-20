@@ -51,10 +51,6 @@ type AuthInfoInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// The password to authenticate.
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
 	// The password write-only version.
 	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
@@ -63,10 +59,6 @@ type AuthInfoInitParameters struct {
 }
 
 type AuthInfoObservation struct {
-
-	// The password to authenticate.
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
 	// The password write-only version.
 	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
@@ -81,11 +73,6 @@ type AuthInfoParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password to authenticate.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
 	// The password write-only version.
 	// +kubebuilder:validation:Optional

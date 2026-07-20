@@ -28,10 +28,6 @@ type SSLCertificateInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
-	// The write-only private key in PEM format.
-	// Note: This property is write-only and will not be read from the API.
-	PrivateKeyWo *string `json:"privateKeyWo,omitempty" tf:"private_key_wo,omitempty"`
-
 	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
 	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
@@ -61,10 +57,6 @@ type SSLCertificateObservation struct {
 	// an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The write-only private key in PEM format.
-	// Note: This property is write-only and will not be read from the API.
-	PrivateKeyWo *string `json:"privateKeyWo,omitempty" tf:"private_key_wo,omitempty"`
-
 	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
 	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
@@ -93,11 +85,6 @@ type SSLCertificateParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
-
-	// The write-only private key in PEM format.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	PrivateKeyWo *string `json:"privateKeyWo,omitempty" tf:"private_key_wo,omitempty"`
 
 	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional

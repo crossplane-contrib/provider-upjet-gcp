@@ -512,9 +512,6 @@ type DatabaseInstanceInitParameters struct {
 	// Initial root password. Can be updated. Required for MS SQL Server.
 	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
-	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
-	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
-
 	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
 	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
 
@@ -632,9 +629,6 @@ type DatabaseInstanceObservation struct {
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext *RestoreBackupContextObservation `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
-	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
-	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
-
 	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
 	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
 
@@ -741,10 +735,6 @@ type DatabaseInstanceParameters struct {
 	// Initial root password. Can be updated. Required for MS SQL Server.
 	// +kubebuilder:validation:Optional
 	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
-
-	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
 
 	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional

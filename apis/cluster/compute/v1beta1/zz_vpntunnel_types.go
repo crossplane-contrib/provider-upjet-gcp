@@ -219,11 +219,6 @@ type VPNTunnelInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	SharedSecretSecretRef *v1.SecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
 
-	// Shared secret used to set the secure session between the Cloud VPN
-	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API.
-	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
-
 	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
 	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
@@ -347,11 +342,6 @@ type VPNTunnelObservation struct {
 
 	// Hash of the shared secret.
 	SharedSecretHash *string `json:"sharedSecretHash,omitempty" tf:"shared_secret_hash,omitempty"`
-
-	// Shared secret used to set the secure session between the Cloud VPN
-	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API.
-	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
 
 	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
 	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
@@ -477,12 +467,6 @@ type VPNTunnelParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	SharedSecretSecretRef *v1.SecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
-
-	// Shared secret used to set the secure session between the Cloud VPN
-	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
 
 	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional

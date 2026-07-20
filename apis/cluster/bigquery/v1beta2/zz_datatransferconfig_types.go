@@ -433,19 +433,11 @@ type SensitiveParamsInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 
-	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is write-only and will not be read from the API.
-	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
-
 	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
 	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
 type SensitiveParamsObservation struct {
-
-	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is write-only and will not be read from the API.
-	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
 
 	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
 	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
@@ -457,11 +449,6 @@ type SensitiveParamsParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
-
-	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
 
 	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional

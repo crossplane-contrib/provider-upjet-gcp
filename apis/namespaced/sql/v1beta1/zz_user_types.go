@@ -134,12 +134,6 @@ type UserInitParameters struct {
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
 	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
 	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
@@ -187,12 +181,6 @@ type UserObservation struct {
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	PasswordPolicy *PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
 	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
 	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
@@ -259,13 +247,6 @@ type UserParameters struct {
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
 	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
 	// +kubebuilder:validation:Optional

@@ -325,11 +325,6 @@ spec:
                     - key
                     - name
                     type: object
-                  rootPasswordWo:
-                    description: 'Initial root password. Can be updated. Required
-                      for MS SQL Server. Note: This property is write-only and will
-                      not be read from the API.'
-                    type: string
                   rootPasswordWoVersion:
                     description: Triggers update of root_password_wo write-only. Increment
                       this value when an update to root_password_wo is needed. For
@@ -1291,11 +1286,6 @@ spec:
                     - key
                     - name
                     type: object
-                  rootPasswordWo:
-                    description: 'Initial root password. Can be updated. Required
-                      for MS SQL Server. Note: This property is write-only and will
-                      not be read from the API.'
-                    type: string
                   rootPasswordWoVersion:
                     description: Triggers update of root_password_wo write-only. Increment
                       this value when an update to root_password_wo is needed. For
@@ -2366,11 +2356,6 @@ spec:
                         description: The full project ID of the source instance.`
                         type: string
                     type: object
-                  rootPasswordWo:
-                    description: 'Initial root password. Can be updated. Required
-                      for MS SQL Server. Note: This property is write-only and will
-                      not be read from the API.'
-                    type: string
                   rootPasswordWoVersion:
                     description: Triggers update of root_password_wo write-only. Increment
                       this value when an update to root_password_wo is needed. For

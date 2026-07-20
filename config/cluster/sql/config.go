@@ -80,6 +80,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
+		delete(r.TerraformResource.Schema, "root_password_wo")
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
@@ -125,6 +126,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
+		delete(r.TerraformResource.Schema, "password_wo")
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
