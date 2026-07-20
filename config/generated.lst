@@ -314,6 +314,7 @@
   "google_network_connectivity_spoke",
   "google_network_management_connectivity_test",
   "google_network_security_address_group",
+  "google_network_security_dns_threat_detector",
   "google_network_security_gateway_security_policy",
   "google_network_security_gateway_security_policy_rule",
   "google_network_security_tls_inspection_policy",

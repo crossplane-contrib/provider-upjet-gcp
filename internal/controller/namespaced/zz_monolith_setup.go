@@ -338,6 +338,7 @@ import (
 	spoke "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkmanagement/connectivitytest"
 	addressgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/addressgroup"
+	dnsthreatdetector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/dnsthreatdetector"
 	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/gatewaysecuritypolicy"
 	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/gatewaysecuritypolicyrule"
 	tlsinspectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/tlsinspectionpolicy"
@@ -746,6 +747,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.Setup,
 		connectivitytest.Setup,
 		addressgroup.Setup,
+		dnsthreatdetector.Setup,
 		gatewaysecuritypolicy.Setup,
 		gatewaysecuritypolicyrule.Setup,
 		tlsinspectionpolicy.Setup,
@@ -1160,6 +1162,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.SetupGated,
 		connectivitytest.SetupGated,
 		addressgroup.SetupGated,
+		dnsthreatdetector.SetupGated,
 		gatewaysecuritypolicy.SetupGated,
 		gatewaysecuritypolicyrule.SetupGated,
 		tlsinspectionpolicy.SetupGated,
@@ -1573,6 +1576,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		spoke.SetupWebhookWithManager,
 		connectivitytest.SetupWebhookWithManager,
 		addressgroup.SetupWebhookWithManager,
+		dnsthreatdetector.SetupWebhookWithManager,
 		gatewaysecuritypolicy.SetupWebhookWithManager,
 		gatewaysecuritypolicyrule.SetupWebhookWithManager,
 		tlsinspectionpolicy.SetupWebhookWithManager,
