@@ -4,7 +4,7 @@
 
 module github.com/upbound/provider-gcp/v2
 
-go 1.26.3
+go 1.26.5
 
 require (
 	dario.cat/mergo v1.0.2
