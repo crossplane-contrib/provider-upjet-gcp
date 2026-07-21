@@ -80,4 +80,31 @@ func Configure(p *config.Provider) {
 		// This prevents an import cycle not allowed error
 		delete(r.References, "template.vpc_access.connector")
 	})
+	p.AddResourceConfigurator("google_cloud_run_v2_job_iam_policy", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_run_v2_job",
+		}
+		r.MarkAsRequired("location")
+	})
+	p.AddResourceConfigurator("google_cloud_run_v2_job_iam_binding", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_run_v2_job",
+		}
+		r.MarkAsRequired("location")
+	})
+	p.AddResourceConfigurator("google_cloud_run_v2_job_iam_member", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_run_v2_job",
+		}
+		r.MarkAsRequired("location")
+	})
 }
