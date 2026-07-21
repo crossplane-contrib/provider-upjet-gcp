@@ -219,9 +219,6 @@ type VPNTunnelInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	SharedSecretSecretRef *v1.SecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
 
-	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
-	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
-
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.VPNGateway
@@ -342,9 +339,6 @@ type VPNTunnelObservation struct {
 
 	// Hash of the shared secret.
 	SharedSecretHash *string `json:"sharedSecretHash,omitempty" tf:"shared_secret_hash,omitempty"`
-
-	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
-	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
@@ -467,10 +461,6 @@ type VPNTunnelParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	SharedSecretSecretRef *v1.SecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
-
-	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.

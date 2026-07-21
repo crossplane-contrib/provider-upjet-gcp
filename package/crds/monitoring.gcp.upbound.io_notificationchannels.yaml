@@ -148,11 +148,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      authTokenWoVersion:
-                        description: Triggers update of auth_token_wo write-only.
-                          Increment this value when an update to auth_token_wo is
-                          needed. For more info see updating write-only arguments
-                        type: string
                       passwordSecretRef:
                         description: |-
                           An password for a notification channel. Channel types that support this field include: webhook_basicauth
@@ -172,11 +167,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      passwordWoVersion:
-                        description: Triggers update of password_wo write-only. Increment
-                          this value when an update to password_wo is needed. For
-                          more info see updating write-only arguments
-                        type: string
                       serviceKeySecretRef:
                         description: |-
                           An servicekey token for a notification channel. Channel types that support this field include: pagerduty
@@ -196,11 +186,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      serviceKeyWoVersion:
-                        description: Triggers update of service_key_wo write-only.
-                          Increment this value when an update to service_key_wo is
-                          needed. For more info see updating write-only arguments
-                        type: string
                     type: object
                   type:
                     description: The type of the notification channel. This field
@@ -309,11 +294,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      authTokenWoVersion:
-                        description: Triggers update of auth_token_wo write-only.
-                          Increment this value when an update to auth_token_wo is
-                          needed. For more info see updating write-only arguments
-                        type: string
                       passwordSecretRef:
                         description: |-
                           An password for a notification channel. Channel types that support this field include: webhook_basicauth
@@ -333,11 +313,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      passwordWoVersion:
-                        description: Triggers update of password_wo write-only. Increment
-                          this value when an update to password_wo is needed. For
-                          more info see updating write-only arguments
-                        type: string
                       serviceKeySecretRef:
                         description: |-
                           An servicekey token for a notification channel. Channel types that support this field include: pagerduty
@@ -357,11 +332,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      serviceKeyWoVersion:
-                        description: Triggers update of service_key_wo write-only.
-                          Increment this value when an update to service_key_wo is
-                          needed. For more info see updating write-only arguments
-                        type: string
                     type: object
                   type:
                     description: The type of the notification channel. This field
@@ -548,21 +518,63 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      authTokenWoVersion:
-                        description: Triggers update of auth_token_wo write-only.
-                          Increment this value when an update to auth_token_wo is
-                          needed. For more info see updating write-only arguments
-                        type: string
-                      passwordWoVersion:
-                        description: Triggers update of password_wo write-only. Increment
-                          this value when an update to password_wo is needed. For
-                          more info see updating write-only arguments
-                        type: string
-                      serviceKeyWoVersion:
-                        description: Triggers update of service_key_wo write-only.
-                          Increment this value when an update to service_key_wo is
-                          needed. For more info see updating write-only arguments
-                        type: string
+                      authTokenSecretRef:
+                        description: |-
+                          An authorization token for a notification channel. Channel types that support this field include: slack
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      passwordSecretRef:
+                        description: |-
+                          An password for a notification channel. Channel types that support this field include: webhook_basicauth
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
+                      serviceKeySecretRef:
+                        description: |-
+                          An servicekey token for a notification channel. Channel types that support this field include: pagerduty
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   type:
                     description: The type of the notification channel. This field

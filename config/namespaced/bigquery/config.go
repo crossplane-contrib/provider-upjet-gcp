@@ -108,5 +108,8 @@ func Configure(p *config.Provider) {
 		delete(r.TerraformResource.
 			Schema["sensitive_params"].Elem.(*schema.Resource).
 			Schema, "secret_access_key_wo")
+		delete(r.TerraformResource.
+			Schema["sensitive_params"].Elem.(*schema.Resource).
+			Schema, "secret_access_key_wo_version")
 	})
 }

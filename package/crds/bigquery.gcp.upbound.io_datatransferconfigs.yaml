@@ -360,11 +360,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      secretAccessKeyWoVersion:
-                        description: The version of the sensitive params - used to
-                          trigger updates of the write-only params. For more info
-                          see updating write-only arguments
-                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -673,11 +668,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      secretAccessKeyWoVersion:
-                        description: The version of the sensitive params - used to
-                          trigger updates of the write-only params. For more info
-                          see updating write-only arguments
-                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -926,11 +916,25 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      secretAccessKeyWoVersion:
-                        description: The version of the sensitive params - used to
-                          trigger updates of the write-only params. For more info
-                          see updating write-only arguments
-                        type: number
+                      secretAccessKeySecretRef:
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            description: The key to select.
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                          namespace:
+                            description: Namespace of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        - namespace
+                        type: object
                     type: object
                   serviceAccountName:
                     description: |-

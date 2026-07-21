@@ -20,5 +20,8 @@ func Configure(p *config.Provider) {
 		delete(r.TerraformResource.
 			Schema["initial_user"].Elem.(*schema.Resource).
 			Schema, "password_wo")
+		delete(r.TerraformResource.
+			Schema["initial_user"].Elem.(*schema.Resource).
+			Schema, "password_wo_version")
 	})
 }

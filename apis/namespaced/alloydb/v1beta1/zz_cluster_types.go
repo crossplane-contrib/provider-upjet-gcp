@@ -725,17 +725,11 @@ type InitialUserInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
 	// The database username.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 }
 
 type InitialUserObservation struct {
-
-	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The database username.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
@@ -747,10 +741,6 @@ type InitialUserParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The database username.
 	// +kubebuilder:validation:Optional

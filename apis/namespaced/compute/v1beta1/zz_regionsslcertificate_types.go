@@ -29,9 +29,6 @@ type RegionSSLCertificateInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
-	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
-	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
-
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -57,9 +54,6 @@ type RegionSSLCertificateObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/sslCertificates/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
-	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -90,10 +84,6 @@ type RegionSSLCertificateParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
-
-	// Triggers update of private_key_wo write-only. Increment this value when an update to private_key_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	PrivateKeyWoVersion *string `json:"privateKeyWoVersion,omitempty" tf:"private_key_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

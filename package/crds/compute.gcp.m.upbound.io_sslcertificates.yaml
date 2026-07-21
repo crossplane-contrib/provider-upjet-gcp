@@ -92,11 +92,6 @@ spec:
                     - key
                     - name
                     type: object
-                  privateKeyWoVersion:
-                    description: Triggers update of private_key_wo write-only. Increment
-                      this value when an update to private_key_wo is needed. For more
-                      info see updating write-only arguments
-                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -149,11 +144,6 @@ spec:
                     - key
                     - name
                     type: object
-                  privateKeyWoVersion:
-                    description: Triggers update of private_key_wo write-only. Increment
-                      this value when an update to private_key_wo is needed. For more
-                      info see updating write-only arguments
-                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -248,11 +238,6 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/global/sslCertificates/{{name}}
-                    type: string
-                  privateKeyWoVersion:
-                    description: Triggers update of private_key_wo write-only. Increment
-                      this value when an update to private_key_wo is needed. For more
-                      info see updating write-only arguments
                     type: string
                   project:
                     description: |-

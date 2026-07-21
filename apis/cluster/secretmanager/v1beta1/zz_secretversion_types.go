@@ -38,9 +38,6 @@ type SecretVersionInitParameters struct {
 	// The secret data. Must be no larger than 64KiB.
 	SecretDataSecretRef *v1.SecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
 
-	// Triggers update of secret data write-only. For more info see updating write-only arguments
-	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
-
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
 	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
@@ -83,9 +80,6 @@ type SecretVersionObservation struct {
 	// Secret Manager secret resource
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
-	// Triggers update of secret data write-only. For more info see updating write-only arguments
-	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
-
 	// The version of the Secret.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
@@ -120,10 +114,6 @@ type SecretVersionParameters struct {
 	// The secret data. Must be no larger than 64KiB.
 	// +kubebuilder:validation:Optional
 	SecretDataSecretRef *v1.SecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
-
-	// Triggers update of secret data write-only. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional

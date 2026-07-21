@@ -379,11 +379,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  sharedSecretWoVersion:
-                    description: Triggers update of shared_secret_wo write-only. Increment
-                      this value when an update to shared_secret_wo is needed. For
-                      more info see updating write-only arguments
-                    type: string
                   targetVpnGateway:
                     description: |-
                       URL of the Target VPN gateway with which this VPN tunnel is
@@ -870,11 +865,6 @@ spec:
                     - name
                     - namespace
                     type: object
-                  sharedSecretWoVersion:
-                    description: Triggers update of shared_secret_wo write-only. Increment
-                      this value when an update to shared_secret_wo is needed. For
-                      more info see updating write-only arguments
-                    type: string
                   targetVpnGateway:
                     description: |-
                       URL of the Target VPN gateway with which this VPN tunnel is
@@ -1300,11 +1290,6 @@ spec:
                     type: string
                   sharedSecretHash:
                     description: Hash of the shared secret.
-                    type: string
-                  sharedSecretWoVersion:
-                    description: Triggers update of shared_secret_wo write-only. Increment
-                      this value when an update to shared_secret_wo is needed. For
-                      more info see updating write-only arguments
                     type: string
                   targetVpnGateway:
                     description: |-

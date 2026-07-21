@@ -133,9 +133,6 @@ type UserInitParameters struct {
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -180,9 +177,6 @@ type UserObservation struct {
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	PasswordPolicy *PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
-
-	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -246,10 +240,6 @@ type UserParameters struct {
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.

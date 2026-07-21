@@ -163,9 +163,6 @@ spec:
                             - name
                             - namespace
                             type: object
-                          passwordWoVersion:
-                            description: The password write-only version.
-                            type: string
                           username:
                             description: The username to authenticate.
                             type: string
@@ -639,9 +636,6 @@ spec:
                             - name
                             - namespace
                             type: object
-                          passwordWoVersion:
-                            description: The password write-only version.
-                            type: string
                           username:
                             description: The username to authenticate.
                             type: string
@@ -1188,9 +1182,6 @@ spec:
                           The authentication information using username and password. Optional when creating an HTTP check; defaults to empty. Do not use with other authentication fields.
                           Structure is documented below.
                         properties:
-                          passwordWoVersion:
-                            description: The password write-only version.
-                            type: string
                           username:
                             description: The username to authenticate.
                             type: string
