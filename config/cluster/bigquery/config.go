@@ -6,6 +6,7 @@ package bigquery
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
@@ -102,5 +103,13 @@ func Configure(p *config.Provider) {
 			delete(diff.Attributes, "sharing_environment_config.0.default_exchange_config.#")
 			return diff, nil
 		}
+	})
+	p.AddResourceConfigurator("google_bigquery_data_transfer_config", func(r *config.Resource) {
+		delete(r.TerraformResource.
+			Schema["sensitive_params"].Elem.(*schema.Resource).
+			Schema, "secret_access_key_wo")
+		delete(r.TerraformResource.
+			Schema["sensitive_params"].Elem.(*schema.Resource).
+			Schema, "secret_access_key_wo_version")
 	})
 }

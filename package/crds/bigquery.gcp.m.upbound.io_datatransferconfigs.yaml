@@ -353,16 +353,6 @@ spec:
                         - key
                         - name
                         type: object
-                      secretAccessKeyWo:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
-                      secretAccessKeyWoVersion:
-                        description: The version of the sensitive params - used to
-                          trigger updates of the write-only params. For more info
-                          see updating write-only arguments
-                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -678,16 +668,6 @@ spec:
                         - key
                         - name
                         type: object
-                      secretAccessKeyWo:
-                        description: |-
-                          The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
-                      secretAccessKeyWoVersion:
-                        description: The version of the sensitive params - used to
-                          trigger updates of the write-only params. For more info
-                          see updating write-only arguments
-                        type: number
                     type: object
                   serviceAccountName:
                     description: |-
@@ -908,16 +888,20 @@ spec:
                       to a different credential configuration in the config will require an apply to update state.
                       Structure is documented below.
                     properties:
-                      secretAccessKeyWo:
+                      secretAccessKeySecretRef:
                         description: |-
                           The Secret Access Key of the AWS account transferring data from.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
-                      secretAccessKeyWoVersion:
-                        description: The version of the sensitive params - used to
-                          trigger updates of the write-only params. For more info
-                          see updating write-only arguments
-                        type: number
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
                     type: object
                   serviceAccountName:
                     description: |-

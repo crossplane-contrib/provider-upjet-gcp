@@ -7,6 +7,7 @@ package namespaced
 import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/accessapproval"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/accesscontextmanager"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/alloydb"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/apigee"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/beyondcorp"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/bigquery"
@@ -111,4 +112,5 @@ func init() {
 	ProviderConfiguration.AddConfig(gkehub.Configure)
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
+	ProviderConfiguration.AddConfig(alloydb.Configure)
 }

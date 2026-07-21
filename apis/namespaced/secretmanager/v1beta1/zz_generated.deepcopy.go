@@ -1337,16 +1337,6 @@ func (in *SecretVersionInitParameters) DeepCopyInto(out *SecretVersionInitParame
 		*out = new(v1.LocalSecretKeySelector)
 		**out = **in
 	}
-	if in.SecretDataWo != nil {
-		in, out := &in.SecretDataWo, &out.SecretDataWo
-		*out = new(string)
-		**out = **in
-	}
-	if in.SecretDataWoVersion != nil {
-		in, out := &in.SecretDataWoVersion, &out.SecretDataWoVersion
-		*out = new(float64)
-		**out = **in
-	}
 	if in.SecretRef != nil {
 		in, out := &in.SecretRef, &out.SecretRef
 		*out = new(v1.NamespacedReference)
@@ -1449,16 +1439,6 @@ func (in *SecretVersionObservation) DeepCopyInto(out *SecretVersionObservation) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.SecretDataWo != nil {
-		in, out := &in.SecretDataWo, &out.SecretDataWo
-		*out = new(string)
-		**out = **in
-	}
-	if in.SecretDataWoVersion != nil {
-		in, out := &in.SecretDataWoVersion, &out.SecretDataWoVersion
-		*out = new(float64)
-		**out = **in
-	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
@@ -1507,16 +1487,6 @@ func (in *SecretVersionParameters) DeepCopyInto(out *SecretVersionParameters) {
 	if in.SecretDataSecretRef != nil {
 		in, out := &in.SecretDataSecretRef, &out.SecretDataSecretRef
 		*out = new(v1.LocalSecretKeySelector)
-		**out = **in
-	}
-	if in.SecretDataWo != nil {
-		in, out := &in.SecretDataWo, &out.SecretDataWo
-		*out = new(string)
-		**out = **in
-	}
-	if in.SecretDataWoVersion != nil {
-		in, out := &in.SecretDataWoVersion, &out.SecretDataWoVersion
-		*out = new(float64)
 		**out = **in
 	}
 	if in.SecretRef != nil {

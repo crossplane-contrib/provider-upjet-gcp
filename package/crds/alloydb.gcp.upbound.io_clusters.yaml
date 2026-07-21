@@ -278,16 +278,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      passwordWo:
-                        description: |-
-                          The initial password for the user.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
-                      passwordWoVersion:
-                        description: Triggers update of password_wo write-only. Increment
-                          this value when an update to password_wo is needed. For
-                          more info see updating write-only arguments
-                        type: string
                       user:
                         description: The database username.
                         type: string
@@ -968,16 +958,6 @@ spec:
                         - name
                         - namespace
                         type: object
-                      passwordWo:
-                        description: |-
-                          The initial password for the user.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
-                      passwordWoVersion:
-                        description: Triggers update of password_wo write-only. Increment
-                          this value when an update to password_wo is needed. For
-                          more info see updating write-only arguments
-                        type: string
                       user:
                         description: The database username.
                         type: string
@@ -1819,16 +1799,6 @@ spec:
                       Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
                       Structure is documented below.
                     properties:
-                      passwordWo:
-                        description: |-
-                          The initial password for the user.
-                          Note: This property is write-only and will not be read from the API.
-                        type: string
-                      passwordWoVersion:
-                        description: Triggers update of password_wo write-only. Increment
-                          this value when an update to password_wo is needed. For
-                          more info see updating write-only arguments
-                        type: string
                       user:
                         description: The database username.
                         type: string
