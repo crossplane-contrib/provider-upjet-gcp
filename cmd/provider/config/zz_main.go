@@ -102,10 +102,6 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			return nil
 		}).String()
 
-		// now deprecated command-line arguments with the Terraform SDK-based upjet architecture
-		_ = app.Flag("namespace", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Namespace used to set as default scope in default secret store config.").Default("crossplane-system").Envar("POD_NAMESPACE").Hidden().Action(deprecationAction("namespace")).String()
-		_ = app.Flag("ess-tls-cert-dir", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Path of ESS TLS certificates.").Envar("ESS_TLS_CERTS_DIR").Hidden().Action(deprecationAction("ess-tls-cert-dir")).String()
-		_ = app.Flag("enable-external-secret-stores", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Enable support for ExternalSecretStores.").Default("false").Envar("ENABLE_EXTERNAL_SECRET_STORES").Hidden().Action(deprecationAction("enable-external-secret-stores")).Bool()
 	)
 
 	kingpin.MustParse(app.Parse(os.Args[1:]))
@@ -194,6 +190,7 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
 	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
+
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  logr,

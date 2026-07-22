@@ -45,7 +45,8 @@ import (
 
 	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
 	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
-	"github.com/upbound/provider-gcp/v2/config"
+{{ if ne .Group "config" }}	providerinit "github.com/upbound/provider-gcp/v2/cmd/provider"
+{{ end }}	"github.com/upbound/provider-gcp/v2/config"
 	resolverapis "github.com/upbound/provider-gcp/v2/internal/apis"
 	"github.com/upbound/provider-gcp/v2/internal/bootcheck"
 	"github.com/upbound/provider-gcp/v2/internal/clients"
@@ -102,11 +103,8 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			return nil
 		}).String()
 
-		// now deprecated command-line arguments with the Terraform SDK-based upjet architecture
-		_ = app.Flag("namespace", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Namespace used to set as default scope in default secret store config.").Default("crossplane-system").Envar("POD_NAMESPACE").Hidden().Action(deprecationAction("namespace")).String()
-		_ = app.Flag("ess-tls-cert-dir", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Path of ESS TLS certificates.").Envar("ESS_TLS_CERTS_DIR").Hidden().Action(deprecationAction("ess-tls-cert-dir")).String()
-		_ = app.Flag("enable-external-secret-stores", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Enable support for ExternalSecretStores.").Default("false").Envar("ENABLE_EXTERNAL_SECRET_STORES").Hidden().Action(deprecationAction("enable-external-secret-stores")).Bool()
-	)
+{{ if ne .Group "config" }}		init = app.Flag("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.").Short('i').Bool()
+{{ end }}	)
 
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 	log.Default().SetOutput(io.Discard)
@@ -199,7 +197,16 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
 	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
-	clusterOpts := tjcontroller.Options{
+
+{{ if ne .Group "config" }}	if *init {
+		{{ if eq .Group "monolith" -}}
+		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, ""), "Cannot run storage version migrator")
+		{{- else -}}
+		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, "{{ .Group }}"), "Cannot run storage version migrator")
+		{{- end }}
+		return
+	}
+{{ end }}	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  logr,
 			GlobalRateLimiter:       ratelimiter.NewGlobal(*maxReconcileRate),
