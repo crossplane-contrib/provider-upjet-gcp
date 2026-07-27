@@ -63,14 +63,6 @@ const (
 	tlsServerCertDir        = "/tls/server"
 )
 
-func deprecationAction(flagName string) kingpin.Action {
-	return func(c *kingpin.ParseContext) error {
-		_, err := fmt.Fprintf(os.Stderr, "warning: Command-line flag %q is deprecated and no longer used. It will be removed in a future release. Please remove it from all of your configurations (ControllerConfigs, etc.).\n", flagName)
-		kingpin.FatalIfError(err, "Failed to print the deprecation notice.")
-		return nil
-	}
-}
-
 func init() {
 	err := bootcheck.CheckEnv()
 	if err != nil {
