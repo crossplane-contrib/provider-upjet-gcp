@@ -93,7 +93,6 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			certsDirSet = true
 			return nil
 		}).String()
-
 	)
 
 	kingpin.MustParse(app.Parse(os.Args[1:]))
