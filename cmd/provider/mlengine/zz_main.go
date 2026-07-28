@@ -94,11 +94,12 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			certsDirSet = true
 			return nil
 		}).String()
-
-		init = app.Flag("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.").Short('i').Bool()
 	)
 
-	kingpin.MustParse(app.Parse(os.Args[1:]))
+	_ = app.Command("core", "Run the provider controllers.").Default()
+	initCmd := app.Command("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.")
+	cmd := kingpin.MustParse(app.Parse(os.Args[1:]))
+
 	log.Default().SetOutput(io.Discard)
 	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 
@@ -185,7 +186,7 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 
-	if *init {
+	if cmd == initCmd.FullCommand() {
 		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, "mlengine"), "Cannot run storage version migrator")
 		return
 	}
