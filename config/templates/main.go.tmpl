@@ -95,13 +95,11 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			return nil
 		}).String()
 	)
-{{ if ne .Group "config" }}
+
 	_ = app.Command("core", "Run the provider controllers.").Default()
-	initCmd := app.Command("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.")
+{{ if ne .Group "config" }}	initCmd := app.Command("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.")
 	cmd := kingpin.MustParse(app.Parse(os.Args[1:]))
-{{ else }}
-	_ = app.Command("core", "Run the provider controllers.").Default()
-	kingpin.MustParse(app.Parse(os.Args[1:]))
+{{ else }}	kingpin.MustParse(app.Parse(os.Args[1:]))
 {{ end }}
 	log.Default().SetOutput(io.Discard)
 	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
