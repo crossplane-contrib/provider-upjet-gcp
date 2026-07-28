@@ -45,6 +45,7 @@ import (
 
 	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
 	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
+	providerinit "github.com/upbound/provider-gcp/v2/cmd/provider"
 	"github.com/upbound/provider-gcp/v2/config"
 	resolverapis "github.com/upbound/provider-gcp/v2/internal/apis"
 	"github.com/upbound/provider-gcp/v2/internal/bootcheck"
@@ -61,14 +62,6 @@ const (
 	certsDirEnvVar          = "CERTS_DIR"
 	tlsServerCertDir        = "/tls/server"
 )
-
-func deprecationAction(flagName string) kingpin.Action {
-	return func(c *kingpin.ParseContext) error {
-		_, err := fmt.Fprintf(os.Stderr, "warning: Command-line flag %q is deprecated and no longer used. It will be removed in a future release. Please remove it from all of your configurations (ControllerConfigs, etc.).\n", flagName)
-		kingpin.FatalIfError(err, "Failed to print the deprecation notice.")
-		return nil
-	}
-}
 
 func init() {
 	err := bootcheck.CheckEnv()
@@ -102,10 +95,7 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			return nil
 		}).String()
 
-		// now deprecated command-line arguments with the Terraform SDK-based upjet architecture
-		_ = app.Flag("namespace", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Namespace used to set as default scope in default secret store config.").Default("crossplane-system").Envar("POD_NAMESPACE").Hidden().Action(deprecationAction("namespace")).String()
-		_ = app.Flag("ess-tls-cert-dir", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Path of ESS TLS certificates.").Envar("ESS_TLS_CERTS_DIR").Hidden().Action(deprecationAction("ess-tls-cert-dir")).String()
-		_ = app.Flag("enable-external-secret-stores", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Enable support for ExternalSecretStores.").Default("false").Envar("ENABLE_EXTERNAL_SECRET_STORES").Hidden().Action(deprecationAction("enable-external-secret-stores")).Bool()
+		init = app.Flag("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.").Short('i').Bool()
 	)
 
 	kingpin.MustParse(app.Parse(os.Args[1:]))
@@ -194,6 +184,11 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
 	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
+
+	if *init {
+		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, "accesscontextmanager"), "Cannot run storage version migrator")
+		return
+	}
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  logr,
