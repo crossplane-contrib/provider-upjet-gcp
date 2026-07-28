@@ -95,7 +95,9 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 		}).String()
 	)
 
+	_ = app.Command("core", "Run the provider controllers.").Default()
 	kingpin.MustParse(app.Parse(os.Args[1:]))
+
 	log.Default().SetOutput(io.Discard)
 	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 

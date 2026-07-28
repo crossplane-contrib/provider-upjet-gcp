@@ -13,7 +13,7 @@
 #
 # NOTE: Do NOT apply this DRC to the family/config provider package. That
 # package has no managed resources with version history and does not generate
-# the --init flag, so the init container would fail to start.
+# the init subcommand, so the init container would fail to start.
 #
 # The init container image must match the provider package image being deployed.
 # Update the image tag whenever you upgrade the provider.
@@ -61,7 +61,7 @@ spec:
               # Must match the provider package image being deployed.
               image: xpkg.upbound.io/upbound/provider-gcp-storage:v3.0.0
               args:
-                - --init
+                - init
                 - --debug
               securityContext:
                 runAsUser: 2000
