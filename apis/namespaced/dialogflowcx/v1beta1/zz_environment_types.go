@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvironmentInitParameters struct {
@@ -30,11 +29,11 @@ type EnvironmentInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
 	// Structure is documented below.
@@ -90,11 +89,11 @@ type EnvironmentParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
 	// Structure is documented below.
@@ -111,11 +110,11 @@ type VersionConfigsInitParameters struct {
 
 	// Reference to a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionRef *v1.NamespacedReference `json:"versionRef,omitempty" tf:"-"`
+	VersionRef *v2.NamespacedReference `json:"versionRef,omitempty" tf:"-"`
 
 	// Selector for a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionSelector *v1.NamespacedSelector `json:"versionSelector,omitempty" tf:"-"`
+	VersionSelector *v2.NamespacedSelector `json:"versionSelector,omitempty" tf:"-"`
 }
 
 type VersionConfigsObservation struct {
@@ -134,11 +133,11 @@ type VersionConfigsParameters struct {
 
 	// Reference to a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionRef *v1.NamespacedReference `json:"versionRef,omitempty" tf:"-"`
+	VersionRef *v2.NamespacedReference `json:"versionRef,omitempty" tf:"-"`
 
 	// Selector for a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionSelector *v1.NamespacedSelector `json:"versionSelector,omitempty" tf:"-"`
+	VersionSelector *v2.NamespacedSelector `json:"versionSelector,omitempty" tf:"-"`
 }
 
 // EnvironmentSpec defines the desired state of Environment
@@ -160,8 +159,8 @@ type EnvironmentSpec struct {
 
 // EnvironmentStatus defines the observed state of Environment.
 type EnvironmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvironmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvironmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

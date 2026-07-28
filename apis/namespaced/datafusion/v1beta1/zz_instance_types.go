@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AcceleratorsInitParameters struct {
@@ -58,11 +57,11 @@ type CryptoKeyConfigInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceRef *v1.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
+	KeyReferenceRef *v2.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceSelector *v1.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
+	KeyReferenceSelector *v2.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
 }
 
 type CryptoKeyConfigObservation struct {
@@ -81,11 +80,11 @@ type CryptoKeyConfigParameters struct {
 
 	// Reference to a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceRef *v1.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
+	KeyReferenceRef *v2.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceSelector *v1.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
+	KeyReferenceSelector *v2.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
 }
 
 type EventPublishConfigInitParameters struct {
@@ -100,11 +99,11 @@ type EventPublishConfigInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type EventPublishConfigObservation struct {
@@ -130,11 +129,11 @@ type EventPublishConfigParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type InstanceInitParameters struct {
@@ -721,8 +720,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

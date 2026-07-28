@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -51,11 +50,11 @@ type CryptoKeyIAMMemberInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDRef *v1.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+	CryptoKeyIDRef *v2.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDSelector *v1.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+	CryptoKeyIDSelector *v2.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -88,11 +87,11 @@ type CryptoKeyIAMMemberParameters struct {
 
 	// Reference to a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDRef *v1.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+	CryptoKeyIDRef *v2.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDSelector *v1.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+	CryptoKeyIDSelector *v2.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -120,8 +119,8 @@ type CryptoKeyIAMMemberSpec struct {
 
 // CryptoKeyIAMMemberStatus defines the observed state of CryptoKeyIAMMember.
 type CryptoKeyIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

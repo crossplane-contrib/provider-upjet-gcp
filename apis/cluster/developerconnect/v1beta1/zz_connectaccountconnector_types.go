@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectAccountConnectorInitParameters struct {
@@ -178,11 +178,11 @@ type CustomOAuthConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDRef *v1.Reference `json:"clientIdRef,omitempty" tf:"-"`
+	ClientIDRef *v2.Reference `json:"clientIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDSelector *v1.Selector `json:"clientIdSelector,omitempty" tf:"-"`
+	ClientIDSelector *v2.Selector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// Input only. The client secret of the OAuth application.
 	// It will be provided as plain text, but encrypted and stored in developer
@@ -193,11 +193,11 @@ type CustomOAuthConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretRef *v1.Reference `json:"clientSecretRef,omitempty" tf:"-"`
+	ClientSecretRef *v2.Reference `json:"clientSecretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretSelector *v1.Selector `json:"clientSecretSelector,omitempty" tf:"-"`
+	ClientSecretSelector *v2.Selector `json:"clientSecretSelector,omitempty" tf:"-"`
 
 	// The host URI of the OAuth application.
 	HostURI *string `json:"hostUri,omitempty" tf:"host_uri,omitempty"`
@@ -288,11 +288,11 @@ type CustomOAuthConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDRef *v1.Reference `json:"clientIdRef,omitempty" tf:"-"`
+	ClientIDRef *v2.Reference `json:"clientIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDSelector *v1.Selector `json:"clientIdSelector,omitempty" tf:"-"`
+	ClientIDSelector *v2.Selector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// Input only. The client secret of the OAuth application.
 	// It will be provided as plain text, but encrypted and stored in developer
@@ -304,11 +304,11 @@ type CustomOAuthConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretRef *v1.Reference `json:"clientSecretRef,omitempty" tf:"-"`
+	ClientSecretRef *v2.Reference `json:"clientSecretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretSelector *v1.Selector `json:"clientSecretSelector,omitempty" tf:"-"`
+	ClientSecretSelector *v2.Selector `json:"clientSecretSelector,omitempty" tf:"-"`
 
 	// The host URI of the OAuth application.
 	// +kubebuilder:validation:Optional
@@ -454,8 +454,8 @@ type ServiceDirectoryConfigParameters struct {
 
 // ConnectAccountConnectorSpec defines the desired state of ConnectAccountConnector
 type ConnectAccountConnectorSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConnectAccountConnectorParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConnectAccountConnectorParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -471,8 +471,8 @@ type ConnectAccountConnectorSpec struct {
 
 // ConnectAccountConnectorStatus defines the observed state of ConnectAccountConnector.
 type ConnectAccountConnectorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectAccountConnectorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectAccountConnectorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomaticUpdatePolicyInitParameters struct {
@@ -36,11 +35,11 @@ type BuildConfigInitParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositoryRef *v1.NamespacedReference `json:"dockerRepositoryRef,omitempty" tf:"-"`
+	DockerRepositoryRef *v2.NamespacedReference `json:"dockerRepositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositorySelector *v1.NamespacedSelector `json:"dockerRepositorySelector,omitempty" tf:"-"`
+	DockerRepositorySelector *v2.NamespacedSelector `json:"dockerRepositorySelector,omitempty" tf:"-"`
 
 	// The name of the function (as defined in source code) that will be executed.
 	// Defaults to the resource name suffix, if not specified. For backward
@@ -68,11 +67,11 @@ type BuildConfigInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.
@@ -85,11 +84,11 @@ type BuildConfigInitParameters struct {
 
 	// Reference to a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolRef *v1.NamespacedReference `json:"workerPoolRef,omitempty" tf:"-"`
+	WorkerPoolRef *v2.NamespacedReference `json:"workerPoolRef,omitempty" tf:"-"`
 
 	// Selector for a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolSelector *v1.NamespacedSelector `json:"workerPoolSelector,omitempty" tf:"-"`
+	WorkerPoolSelector *v2.NamespacedSelector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
 type BuildConfigObservation struct {
@@ -151,11 +150,11 @@ type BuildConfigParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositoryRef *v1.NamespacedReference `json:"dockerRepositoryRef,omitempty" tf:"-"`
+	DockerRepositoryRef *v2.NamespacedReference `json:"dockerRepositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositorySelector *v1.NamespacedSelector `json:"dockerRepositorySelector,omitempty" tf:"-"`
+	DockerRepositorySelector *v2.NamespacedSelector `json:"dockerRepositorySelector,omitempty" tf:"-"`
 
 	// The name of the function (as defined in source code) that will be executed.
 	// Defaults to the resource name suffix, if not specified. For backward
@@ -188,11 +187,11 @@ type BuildConfigParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.
@@ -207,11 +206,11 @@ type BuildConfigParameters struct {
 
 	// Reference to a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolRef *v1.NamespacedReference `json:"workerPoolRef,omitempty" tf:"-"`
+	WorkerPoolRef *v2.NamespacedReference `json:"workerPoolRef,omitempty" tf:"-"`
 
 	// Selector for a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolSelector *v1.NamespacedSelector `json:"workerPoolSelector,omitempty" tf:"-"`
+	WorkerPoolSelector *v2.NamespacedSelector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
 type DirectVPCNetworkInterfaceInitParameters struct {
@@ -274,11 +273,11 @@ type EventFiltersInitParameters struct {
 
 	// Reference to a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueRef *v1.NamespacedReference `json:"valueRef,omitempty" tf:"-"`
+	ValueRef *v2.NamespacedReference `json:"valueRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueSelector *v1.NamespacedSelector `json:"valueSelector,omitempty" tf:"-"`
+	ValueSelector *v2.NamespacedSelector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 type EventFiltersObservation struct {
@@ -324,11 +323,11 @@ type EventFiltersParameters struct {
 
 	// Reference to a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueRef *v1.NamespacedReference `json:"valueRef,omitempty" tf:"-"`
+	ValueRef *v2.NamespacedReference `json:"valueRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueSelector *v1.NamespacedSelector `json:"valueSelector,omitempty" tf:"-"`
+	ValueSelector *v2.NamespacedSelector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 type EventTriggerInitParameters struct {
@@ -348,11 +347,11 @@ type EventTriggerInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicRef *v1.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
+	PubsubTopicRef *v2.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicSelector *v1.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+	PubsubTopicSelector *v2.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
@@ -368,11 +367,11 @@ type EventTriggerInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The region that the trigger will be in. The trigger will only receive
 	// events originating in this region. It can be the same
@@ -435,11 +434,11 @@ type EventTriggerParameters struct {
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicRef *v1.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
+	PubsubTopicRef *v2.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicSelector *v1.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+	PubsubTopicSelector *v2.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
@@ -457,11 +456,11 @@ type EventTriggerParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The region that the trigger will be in. The trigger will only receive
 	// events originating in this region. It can be the same
@@ -718,11 +717,11 @@ type SecretEnvironmentVariablesInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -760,11 +759,11 @@ type SecretEnvironmentVariablesParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	// +kubebuilder:validation:Optional
@@ -785,11 +784,11 @@ type SecretVolumesInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 
 	// List of secret versions to mount for this secret. If empty, the latest version of the secret will be made available in a file named after the secret under the mount point.'
 	// Structure is documented below.
@@ -829,11 +828,11 @@ type SecretVolumesParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 
 	// List of secret versions to mount for this secret. If empty, the latest version of the secret will be made available in a file named after the secret under the mount point.'
 	// Structure is documented below.
@@ -900,11 +899,11 @@ type ServiceConfigInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The function execution timeout. Execution is considered failed and
 	// can be terminated if the function is not completed at the end of the
@@ -1072,11 +1071,11 @@ type ServiceConfigParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The function execution timeout. Execution is considered failed and
 	// can be terminated if the function is not completed at the end of the
@@ -1137,11 +1136,11 @@ type StorageSourceInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Google Cloud Storage generation for the object. If the generation
 	// is omitted, the latest generation will be used.
@@ -1154,11 +1153,11 @@ type StorageSourceInitParameters struct {
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
 }
 
 type StorageSourceObservation struct {
@@ -1183,11 +1182,11 @@ type StorageSourceParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Google Cloud Storage generation for the object. If the generation
 	// is omitted, the latest generation will be used.
@@ -1202,11 +1201,11 @@ type StorageSourceParameters struct {
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
 }
 
 type VersionsInitParameters struct {
@@ -1257,8 +1256,8 @@ type FunctionSpec struct {
 
 // FunctionStatus defines the observed state of Function.
 type FunctionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FunctionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FunctionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdmissionWhitelistPatternsInitParameters struct {
@@ -69,11 +68,11 @@ type ClusterAdmissionRulesInitParameters struct {
 
 	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsByRefs []v1.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+	RequireAttestationsByRefs []v2.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsBySelector *v1.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
+	RequireAttestationsBySelector *v2.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type ClusterAdmissionRulesObservation struct {
@@ -132,11 +131,11 @@ type ClusterAdmissionRulesParameters struct {
 
 	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsByRefs []v1.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+	RequireAttestationsByRefs []v2.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsBySelector *v1.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
+	RequireAttestationsBySelector *v2.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type DefaultAdmissionRuleInitParameters struct {
@@ -163,11 +162,11 @@ type DefaultAdmissionRuleInitParameters struct {
 
 	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsByRefs []v1.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+	RequireAttestationsByRefs []v2.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsBySelector *v1.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
+	RequireAttestationsBySelector *v2.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type DefaultAdmissionRuleObservation struct {
@@ -219,11 +218,11 @@ type DefaultAdmissionRuleParameters struct {
 
 	// References to Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsByRefs []v1.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
+	RequireAttestationsByRefs []v2.NamespacedReference `json:"requireAttestationsByRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Attestor in binaryauthorization to populate requireAttestationsBy.
 	// +kubebuilder:validation:Optional
-	RequireAttestationsBySelector *v1.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
+	RequireAttestationsBySelector *v2.NamespacedSelector `json:"requireAttestationsBySelector,omitempty" tf:"-"`
 }
 
 type PolicyInitParameters struct {
@@ -372,8 +371,8 @@ type PolicySpec struct {
 
 // PolicyStatus defines the observed state of Policy.
 type PolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ErrorInitParameters struct {
@@ -213,11 +213,11 @@ type VPCPeeringConfigInitParameters struct {
 
 	// Reference to a Network in compute to populate vpc.
 	// +kubebuilder:validation:Optional
-	VPCRef *v1.Reference `json:"vpcRef,omitempty" tf:"-"`
+	VPCRef *v2.Reference `json:"vpcRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate vpc.
 	// +kubebuilder:validation:Optional
-	VPCSelector *v1.Selector `json:"vpcSelector,omitempty" tf:"-"`
+	VPCSelector *v2.Selector `json:"vpcSelector,omitempty" tf:"-"`
 }
 
 type VPCPeeringConfigObservation struct {
@@ -245,17 +245,17 @@ type VPCPeeringConfigParameters struct {
 
 	// Reference to a Network in compute to populate vpc.
 	// +kubebuilder:validation:Optional
-	VPCRef *v1.Reference `json:"vpcRef,omitempty" tf:"-"`
+	VPCRef *v2.Reference `json:"vpcRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate vpc.
 	// +kubebuilder:validation:Optional
-	VPCSelector *v1.Selector `json:"vpcSelector,omitempty" tf:"-"`
+	VPCSelector *v2.Selector `json:"vpcSelector,omitempty" tf:"-"`
 }
 
 // PrivateConnectionSpec defines the desired state of PrivateConnection
 type PrivateConnectionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PrivateConnectionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PrivateConnectionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -271,8 +271,8 @@ type PrivateConnectionSpec struct {
 
 // PrivateConnectionStatus defines the observed state of PrivateConnection.
 type PrivateConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PrivateConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PrivateConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

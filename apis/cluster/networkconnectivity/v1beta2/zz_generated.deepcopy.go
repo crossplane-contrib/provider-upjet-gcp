@@ -9,7 +9,7 @@
 package v1beta2
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -28,12 +28,12 @@ func (in *InstancesInitParameters) DeepCopyInto(out *InstancesInitParameters) {
 	}
 	if in.VirtualMachineRef != nil {
 		in, out := &in.VirtualMachineRef, &out.VirtualMachineRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VirtualMachineSelector != nil {
 		in, out := &in.VirtualMachineSelector, &out.VirtualMachineSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -88,12 +88,12 @@ func (in *InstancesParameters) DeepCopyInto(out *InstancesParameters) {
 	}
 	if in.VirtualMachineRef != nil {
 		in, out := &in.VirtualMachineRef, &out.VirtualMachineRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VirtualMachineSelector != nil {
 		in, out := &in.VirtualMachineSelector, &out.VirtualMachineSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -173,14 +173,14 @@ func (in *LinkedInterconnectAttachmentsInitParameters) DeepCopyInto(out *LinkedI
 	}
 	if in.UrisRefs != nil {
 		in, out := &in.UrisRefs, &out.UrisRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.UrisSelector != nil {
 		in, out := &in.UrisSelector, &out.UrisSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -335,14 +335,14 @@ func (in *LinkedInterconnectAttachmentsParameters) DeepCopyInto(out *LinkedInter
 	}
 	if in.UrisRefs != nil {
 		in, out := &in.UrisRefs, &out.UrisRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.UrisSelector != nil {
 		in, out := &in.UrisSelector, &out.UrisSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -389,12 +389,12 @@ func (in *LinkedProducerVPCNetworkInitParameters) DeepCopyInto(out *LinkedProduc
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Peering != nil {
@@ -404,12 +404,12 @@ func (in *LinkedProducerVPCNetworkInitParameters) DeepCopyInto(out *LinkedProduc
 	}
 	if in.PeeringRef != nil {
 		in, out := &in.PeeringRef, &out.PeeringRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PeeringSelector != nil {
 		in, out := &in.PeeringSelector, &out.PeeringSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -508,12 +508,12 @@ func (in *LinkedProducerVPCNetworkParameters) DeepCopyInto(out *LinkedProducerVP
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Peering != nil {
@@ -523,12 +523,12 @@ func (in *LinkedProducerVPCNetworkParameters) DeepCopyInto(out *LinkedProducerVP
 	}
 	if in.PeeringRef != nil {
 		in, out := &in.PeeringRef, &out.PeeringRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PeeringSelector != nil {
 		in, out := &in.PeeringSelector, &out.PeeringSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -788,12 +788,12 @@ func (in *LinkedVPCNetworkInitParameters) DeepCopyInto(out *LinkedVPCNetworkInit
 	}
 	if in.URIRef != nil {
 		in, out := &in.URIRef, &out.URIRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URISelector != nil {
 		in, out := &in.URISelector, &out.URISelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -882,12 +882,12 @@ func (in *LinkedVPCNetworkParameters) DeepCopyInto(out *LinkedVPCNetworkParamete
 	}
 	if in.URIRef != nil {
 		in, out := &in.URIRef, &out.URIRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URISelector != nil {
 		in, out := &in.URISelector, &out.URISelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -967,14 +967,14 @@ func (in *LinkedVPNTunnelsInitParameters) DeepCopyInto(out *LinkedVPNTunnelsInit
 	}
 	if in.UrisRefs != nil {
 		in, out := &in.UrisRefs, &out.UrisRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.UrisSelector != nil {
 		in, out := &in.UrisSelector, &out.UrisSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1129,14 +1129,14 @@ func (in *LinkedVPNTunnelsParameters) DeepCopyInto(out *LinkedVPNTunnelsParamete
 	}
 	if in.UrisRefs != nil {
 		in, out := &in.UrisRefs, &out.UrisRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.UrisSelector != nil {
 		in, out := &in.UrisSelector, &out.UrisSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1253,12 +1253,12 @@ func (in *SpokeInitParameters) DeepCopyInto(out *SpokeInitParameters) {
 	}
 	if in.GroupRef != nil {
 		in, out := &in.GroupRef, &out.GroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupSelector != nil {
 		in, out := &in.GroupSelector, &out.GroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Hub != nil {
@@ -1268,12 +1268,12 @@ func (in *SpokeInitParameters) DeepCopyInto(out *SpokeInitParameters) {
 	}
 	if in.HubRef != nil {
 		in, out := &in.HubRef, &out.HubRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HubSelector != nil {
 		in, out := &in.HubSelector, &out.HubSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Labels != nil {
@@ -1546,12 +1546,12 @@ func (in *SpokeParameters) DeepCopyInto(out *SpokeParameters) {
 	}
 	if in.GroupRef != nil {
 		in, out := &in.GroupRef, &out.GroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupSelector != nil {
 		in, out := &in.GroupSelector, &out.GroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Hub != nil {
@@ -1561,12 +1561,12 @@ func (in *SpokeParameters) DeepCopyInto(out *SpokeParameters) {
 	}
 	if in.HubRef != nil {
 		in, out := &in.HubRef, &out.HubRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HubSelector != nil {
 		in, out := &in.HubSelector, &out.HubSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Labels != nil {
@@ -1640,7 +1640,7 @@ func (in *SpokeParameters) DeepCopy() *SpokeParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SpokeSpec) DeepCopyInto(out *SpokeSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -1658,7 +1658,7 @@ func (in *SpokeSpec) DeepCopy() *SpokeSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SpokeStatus) DeepCopyInto(out *SpokeStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 

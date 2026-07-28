@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FieldsInitParameters struct {
@@ -114,11 +113,11 @@ type TagInitParameters struct {
 
 	// Reference to a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// The resource name of the tag template that this tag uses. Example:
 	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
@@ -129,11 +128,11 @@ type TagInitParameters struct {
 
 	// Reference to a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateRef *v1.NamespacedReference `json:"templateRef,omitempty" tf:"-"`
+	TemplateRef *v2.NamespacedReference `json:"templateRef,omitempty" tf:"-"`
 
 	// Selector for a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateSelector *v1.NamespacedSelector `json:"templateSelector,omitempty" tf:"-"`
+	TemplateSelector *v2.NamespacedSelector `json:"templateSelector,omitempty" tf:"-"`
 }
 
 type TagObservation struct {
@@ -199,11 +198,11 @@ type TagParameters struct {
 
 	// Reference to a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// The resource name of the tag template that this tag uses. Example:
 	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
@@ -215,11 +214,11 @@ type TagParameters struct {
 
 	// Reference to a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateRef *v1.NamespacedReference `json:"templateRef,omitempty" tf:"-"`
+	TemplateRef *v2.NamespacedReference `json:"templateRef,omitempty" tf:"-"`
 
 	// Selector for a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateSelector *v1.NamespacedSelector `json:"templateSelector,omitempty" tf:"-"`
+	TemplateSelector *v2.NamespacedSelector `json:"templateSelector,omitempty" tf:"-"`
 }
 
 // TagSpec defines the desired state of Tag
@@ -241,8 +240,8 @@ type TagSpec struct {
 
 // TagStatus defines the observed state of Tag.
 type TagStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TagObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TagObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

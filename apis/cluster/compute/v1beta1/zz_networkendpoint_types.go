@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkEndpointInitParameters struct {
@@ -28,11 +28,11 @@ type NetworkEndpointInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkEndpointGroup
@@ -40,11 +40,11 @@ type NetworkEndpointInitParameters struct {
 
 	// Reference to a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupRef *v1.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
+	NetworkEndpointGroupRef *v2.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
+	NetworkEndpointGroupSelector *v2.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
@@ -111,11 +111,11 @@ type NetworkEndpointParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkEndpointGroup
@@ -124,11 +124,11 @@ type NetworkEndpointParameters struct {
 
 	// Reference to a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupRef *v1.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
+	NetworkEndpointGroupRef *v2.Reference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupSelector *v1.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
+	NetworkEndpointGroupSelector *v2.Selector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
@@ -148,8 +148,8 @@ type NetworkEndpointParameters struct {
 
 // NetworkEndpointSpec defines the desired state of NetworkEndpoint
 type NetworkEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -165,8 +165,8 @@ type NetworkEndpointSpec struct {
 
 // NetworkEndpointStatus defines the observed state of NetworkEndpoint.
 type NetworkEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

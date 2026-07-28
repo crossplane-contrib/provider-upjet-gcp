@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertsInfoInitParameters struct {
@@ -51,7 +50,7 @@ type KeystoresAliasesKeyCertFileInitParameters struct {
 
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
-	KeySecretRef *v1.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
 	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
 
@@ -61,13 +60,13 @@ type KeystoresAliasesKeyCertFileInitParameters struct {
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 }
 
 type KeystoresAliasesKeyCertFileObservation struct {
@@ -100,7 +99,7 @@ type KeystoresAliasesKeyCertFileParameters struct {
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	KeySecretRef *v1.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
@@ -112,14 +111,14 @@ type KeystoresAliasesKeyCertFileParameters struct {
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 }
 
 // KeystoresAliasesKeyCertFileSpec defines the desired state of KeystoresAliasesKeyCertFile
@@ -141,8 +140,8 @@ type KeystoresAliasesKeyCertFileSpec struct {
 
 // KeystoresAliasesKeyCertFileStatus defines the observed state of KeystoresAliasesKeyCertFile.
 type KeystoresAliasesKeyCertFileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KeystoresAliasesKeyCertFileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KeystoresAliasesKeyCertFileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

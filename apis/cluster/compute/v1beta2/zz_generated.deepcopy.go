@@ -9,7 +9,7 @@
 package v1beta2
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -269,14 +269,14 @@ func (in *ActionInitParameters) DeepCopyInto(out *ActionInitParameters) {
 	}
 	if in.SourceNATActiveIpsRefs != nil {
 		in, out := &in.SourceNATActiveIpsRefs, &out.SourceNATActiveIpsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SourceNATActiveIpsSelector != nil {
 		in, out := &in.SourceNATActiveIpsSelector, &out.SourceNATActiveIpsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceNATActiveRanges != nil {
@@ -292,14 +292,14 @@ func (in *ActionInitParameters) DeepCopyInto(out *ActionInitParameters) {
 	}
 	if in.SourceNATActiveRangesRefs != nil {
 		in, out := &in.SourceNATActiveRangesRefs, &out.SourceNATActiveRangesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SourceNATActiveRangesSelector != nil {
 		in, out := &in.SourceNATActiveRangesSelector, &out.SourceNATActiveRangesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceNATDrainIps != nil {
@@ -411,14 +411,14 @@ func (in *ActionParameters) DeepCopyInto(out *ActionParameters) {
 	}
 	if in.SourceNATActiveIpsRefs != nil {
 		in, out := &in.SourceNATActiveIpsRefs, &out.SourceNATActiveIpsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SourceNATActiveIpsSelector != nil {
 		in, out := &in.SourceNATActiveIpsSelector, &out.SourceNATActiveIpsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceNATActiveRanges != nil {
@@ -434,14 +434,14 @@ func (in *ActionParameters) DeepCopyInto(out *ActionParameters) {
 	}
 	if in.SourceNATActiveRangesRefs != nil {
 		in, out := &in.SourceNATActiveRangesRefs, &out.SourceNATActiveRangesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SourceNATActiveRangesSelector != nil {
 		in, out := &in.SourceNATActiveRangesSelector, &out.SourceNATActiveRangesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceNATDrainIps != nil {
@@ -1295,12 +1295,12 @@ func (in *AsyncPrimaryDiskInitParameters) DeepCopyInto(out *AsyncPrimaryDiskInit
 	}
 	if in.DiskRef != nil {
 		in, out := &in.DiskRef, &out.DiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskSelector != nil {
 		in, out := &in.DiskSelector, &out.DiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1345,12 +1345,12 @@ func (in *AsyncPrimaryDiskParameters) DeepCopyInto(out *AsyncPrimaryDiskParamete
 	}
 	if in.DiskRef != nil {
 		in, out := &in.DiskRef, &out.DiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskSelector != nil {
 		in, out := &in.DiskSelector, &out.DiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1375,12 +1375,12 @@ func (in *AttachedDiskInitParameters) DeepCopyInto(out *AttachedDiskInitParamete
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -1480,12 +1480,12 @@ func (in *AttachedDiskParameters) DeepCopyInto(out *AttachedDiskParameters) {
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -1535,12 +1535,12 @@ func (in *AutoHealingPoliciesInitParameters) DeepCopyInto(out *AutoHealingPolici
 	}
 	if in.HealthCheckRef != nil {
 		in, out := &in.HealthCheckRef, &out.HealthCheckRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HealthCheckSelector != nil {
 		in, out := &in.HealthCheckSelector, &out.HealthCheckSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InitialDelaySec != nil {
@@ -1595,12 +1595,12 @@ func (in *AutoHealingPoliciesParameters) DeepCopyInto(out *AutoHealingPoliciesPa
 	}
 	if in.HealthCheckRef != nil {
 		in, out := &in.HealthCheckRef, &out.HealthCheckRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HealthCheckSelector != nil {
 		in, out := &in.HealthCheckSelector, &out.HealthCheckSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InitialDelaySec != nil {
@@ -1672,12 +1672,12 @@ func (in *AutoscalerInitParameters) DeepCopyInto(out *AutoscalerInitParameters) 
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1809,12 +1809,12 @@ func (in *AutoscalerParameters) DeepCopyInto(out *AutoscalerParameters) {
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Zone != nil {
@@ -1837,7 +1837,7 @@ func (in *AutoscalerParameters) DeepCopy() *AutoscalerParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AutoscalerSpec) DeepCopyInto(out *AutoscalerSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -1855,7 +1855,7 @@ func (in *AutoscalerSpec) DeepCopy() *AutoscalerSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AutoscalerStatus) DeepCopyInto(out *AutoscalerStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -2566,7 +2566,7 @@ func (in *AwsV4AuthenticationInitParameters) DeepCopyInto(out *AwsV4Authenticati
 	}
 	if in.AccessKeySecretRef != nil {
 		in, out := &in.AccessKeySecretRef, &out.AccessKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AccessKeyVersion != nil {
@@ -2631,7 +2631,7 @@ func (in *AwsV4AuthenticationParameters) DeepCopyInto(out *AwsV4AuthenticationPa
 	}
 	if in.AccessKeySecretRef != nil {
 		in, out := &in.AccessKeySecretRef, &out.AccessKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AccessKeyVersion != nil {
@@ -2852,12 +2852,12 @@ func (in *BackendBucketInitParameters) DeepCopyInto(out *BackendBucketInitParame
 	}
 	if in.BucketNameRef != nil {
 		in, out := &in.BucketNameRef, &out.BucketNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketNameSelector != nil {
 		in, out := &in.BucketNameSelector, &out.BucketNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CdnPolicy != nil {
@@ -2893,12 +2893,12 @@ func (in *BackendBucketInitParameters) DeepCopyInto(out *BackendBucketInitParame
 	}
 	if in.EdgeSecurityPolicyRef != nil {
 		in, out := &in.EdgeSecurityPolicyRef, &out.EdgeSecurityPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EdgeSecurityPolicySelector != nil {
 		in, out := &in.EdgeSecurityPolicySelector, &out.EdgeSecurityPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EnableCdn != nil {
@@ -3066,12 +3066,12 @@ func (in *BackendBucketParameters) DeepCopyInto(out *BackendBucketParameters) {
 	}
 	if in.BucketNameRef != nil {
 		in, out := &in.BucketNameRef, &out.BucketNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketNameSelector != nil {
 		in, out := &in.BucketNameSelector, &out.BucketNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CdnPolicy != nil {
@@ -3107,12 +3107,12 @@ func (in *BackendBucketParameters) DeepCopyInto(out *BackendBucketParameters) {
 	}
 	if in.EdgeSecurityPolicyRef != nil {
 		in, out := &in.EdgeSecurityPolicyRef, &out.EdgeSecurityPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EdgeSecurityPolicySelector != nil {
 		in, out := &in.EdgeSecurityPolicySelector, &out.EdgeSecurityPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EnableCdn != nil {
@@ -3150,7 +3150,7 @@ func (in *BackendBucketParameters) DeepCopy() *BackendBucketParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackendBucketSpec) DeepCopyInto(out *BackendBucketSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3168,7 +3168,7 @@ func (in *BackendBucketSpec) DeepCopy() *BackendBucketSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackendBucketStatus) DeepCopyInto(out *BackendBucketStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -3304,12 +3304,12 @@ func (in *BackendInitParameters) DeepCopyInto(out *BackendInitParameters) {
 	}
 	if in.GroupRef != nil {
 		in, out := &in.GroupRef, &out.GroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupSelector != nil {
 		in, out := &in.GroupSelector, &out.GroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxConnections != nil {
@@ -3478,12 +3478,12 @@ func (in *BackendParameters) DeepCopyInto(out *BackendParameters) {
 	}
 	if in.GroupRef != nil {
 		in, out := &in.GroupRef, &out.GroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupSelector != nil {
 		in, out := &in.GroupSelector, &out.GroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxConnections != nil {
@@ -3969,14 +3969,14 @@ func (in *BackendServiceInitParameters) DeepCopyInto(out *BackendServiceInitPara
 	}
 	if in.HealthChecksRefs != nil {
 		in, out := &in.HealthChecksRefs, &out.HealthChecksRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.HealthChecksSelector != nil {
 		in, out := &in.HealthChecksSelector, &out.HealthChecksSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelectionPolicy != nil {
@@ -4471,14 +4471,14 @@ func (in *BackendServiceParameters) DeepCopyInto(out *BackendServiceParameters) 
 	}
 	if in.HealthChecksRefs != nil {
 		in, out := &in.HealthChecksRefs, &out.HealthChecksRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.HealthChecksSelector != nil {
 		in, out := &in.HealthChecksSelector, &out.HealthChecksSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelectionPolicy != nil {
@@ -4686,7 +4686,7 @@ func (in *BackendServiceParamsParameters) DeepCopy() *BackendServiceParamsParame
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackendServiceSpec) DeepCopyInto(out *BackendServiceSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -4704,7 +4704,7 @@ func (in *BackendServiceSpec) DeepCopy() *BackendServiceSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackendServiceStatus) DeepCopyInto(out *BackendServiceStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4988,12 +4988,12 @@ func (in *BootDiskInitParameters) DeepCopyInto(out *BootDiskInitParameters) {
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -5414,12 +5414,12 @@ func (in *BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters) DeepCo
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -5479,12 +5479,12 @@ func (in *BootDiskInitializeParamsSourceImageEncryptionKeyParameters) DeepCopyIn
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -5514,12 +5514,12 @@ func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters) Dee
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -5579,12 +5579,12 @@ func (in *BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters) DeepCop
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -5690,12 +5690,12 @@ func (in *BootDiskParameters) DeepCopyInto(out *BootDiskParameters) {
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -7677,12 +7677,12 @@ func (in *CloudFunctionInitParameters) DeepCopyInto(out *CloudFunctionInitParame
 	}
 	if in.FunctionRef != nil {
 		in, out := &in.FunctionRef, &out.FunctionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FunctionSelector != nil {
 		in, out := &in.FunctionSelector, &out.FunctionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLMask != nil {
@@ -7737,12 +7737,12 @@ func (in *CloudFunctionParameters) DeepCopyInto(out *CloudFunctionParameters) {
 	}
 	if in.FunctionRef != nil {
 		in, out := &in.FunctionRef, &out.FunctionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FunctionSelector != nil {
 		in, out := &in.FunctionSelector, &out.FunctionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLMask != nil {
@@ -7772,12 +7772,12 @@ func (in *CloudRunInitParameters) DeepCopyInto(out *CloudRunInitParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tag != nil {
@@ -7842,12 +7842,12 @@ func (in *CloudRunParameters) DeepCopyInto(out *CloudRunParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tag != nil {
@@ -7882,12 +7882,12 @@ func (in *CollectorIlbInitParameters) DeepCopyInto(out *CollectorIlbInitParamete
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7932,12 +7932,12 @@ func (in *CollectorIlbParameters) DeepCopyInto(out *CollectorIlbParameters) {
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8860,12 +8860,12 @@ func (in *CustomErrorResponsePolicyInitParameters) DeepCopyInto(out *CustomError
 	}
 	if in.ErrorServiceRef != nil {
 		in, out := &in.ErrorServiceRef, &out.ErrorServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorServiceSelector != nil {
 		in, out := &in.ErrorServiceSelector, &out.ErrorServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8924,12 +8924,12 @@ func (in *CustomErrorResponsePolicyParameters) DeepCopyInto(out *CustomErrorResp
 	}
 	if in.ErrorServiceRef != nil {
 		in, out := &in.ErrorServiceRef, &out.ErrorServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorServiceSelector != nil {
 		in, out := &in.ErrorServiceSelector, &out.ErrorServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9594,12 +9594,12 @@ func (in *DefaultCustomErrorResponsePolicyInitParameters) DeepCopyInto(out *Defa
 	}
 	if in.ErrorServiceRef != nil {
 		in, out := &in.ErrorServiceRef, &out.ErrorServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorServiceSelector != nil {
 		in, out := &in.ErrorServiceSelector, &out.ErrorServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9658,12 +9658,12 @@ func (in *DefaultCustomErrorResponsePolicyParameters) DeepCopyInto(out *DefaultC
 	}
 	if in.ErrorServiceRef != nil {
 		in, out := &in.ErrorServiceRef, &out.ErrorServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorServiceSelector != nil {
 		in, out := &in.ErrorServiceSelector, &out.ErrorServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -10990,12 +10990,12 @@ func (in *DefaultRouteActionRequestMirrorPolicyInitParameters) DeepCopyInto(out 
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -11040,12 +11040,12 @@ func (in *DefaultRouteActionRequestMirrorPolicyParameters) DeepCopyInto(out *Def
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -11751,12 +11751,12 @@ func (in *DefaultRouteActionWeightedBackendServicesInitParameters) DeepCopyInto(
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -11821,12 +11821,12 @@ func (in *DefaultRouteActionWeightedBackendServicesParameters) DeepCopyInto(out 
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -12556,12 +12556,12 @@ func (in *DiskEncryptionKeyInitParameters) DeepCopyInto(out *DiskEncryptionKeyIn
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -12621,12 +12621,12 @@ func (in *DiskEncryptionKeyParameters) DeepCopyInto(out *DiskEncryptionKeyParame
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -12688,12 +12688,12 @@ func (in *DiskIAMMemberInitParameters) DeepCopyInto(out *DiskIAMMemberInitParame
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -12830,12 +12830,12 @@ func (in *DiskIAMMemberParameters) DeepCopyInto(out *DiskIAMMemberParameters) {
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -12868,7 +12868,7 @@ func (in *DiskIAMMemberParameters) DeepCopy() *DiskIAMMemberParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskIAMMemberSpec) DeepCopyInto(out *DiskIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -12886,7 +12886,7 @@ func (in *DiskIAMMemberSpec) DeepCopy() *DiskIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskIAMMemberStatus) DeepCopyInto(out *DiskIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -13645,12 +13645,12 @@ func (in *DiskSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *DiskSour
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -13705,12 +13705,12 @@ func (in *DiskSourceImageEncryptionKeyParameters) DeepCopyInto(out *DiskSourceIm
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -13740,12 +13740,12 @@ func (in *DiskSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *DiskS
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -13800,12 +13800,12 @@ func (in *DiskSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *DiskSourc
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -13823,7 +13823,7 @@ func (in *DiskSourceSnapshotEncryptionKeyParameters) DeepCopy() *DiskSourceSnaps
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskSpec) DeepCopyInto(out *DiskSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -13841,7 +13841,7 @@ func (in *DiskSpec) DeepCopy() *DiskSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DiskStatus) DeepCopyInto(out *DiskStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -15328,12 +15328,12 @@ func (in *FirewallInitParameters) DeepCopyInto(out *FirewallInitParameters) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Params != nil {
@@ -15730,12 +15730,12 @@ func (in *FirewallParameters) DeepCopyInto(out *FirewallParameters) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Params != nil {
@@ -15975,12 +15975,12 @@ func (in *FirewallPolicyRuleInitParameters) DeepCopyInto(out *FirewallPolicyRule
 	}
 	if in.FirewallPolicyRef != nil {
 		in, out := &in.FirewallPolicyRef, &out.FirewallPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FirewallPolicySelector != nil {
 		in, out := &in.FirewallPolicySelector, &out.FirewallPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Match != nil {
@@ -16230,12 +16230,12 @@ func (in *FirewallPolicyRuleParameters) DeepCopyInto(out *FirewallPolicyRulePara
 	}
 	if in.FirewallPolicyRef != nil {
 		in, out := &in.FirewallPolicyRef, &out.FirewallPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FirewallPolicySelector != nil {
 		in, out := &in.FirewallPolicySelector, &out.FirewallPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Match != nil {
@@ -16302,7 +16302,7 @@ func (in *FirewallPolicyRuleParameters) DeepCopy() *FirewallPolicyRuleParameters
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *FirewallPolicyRuleSpec) DeepCopyInto(out *FirewallPolicyRuleSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -16320,7 +16320,7 @@ func (in *FirewallPolicyRuleSpec) DeepCopy() *FirewallPolicyRuleSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *FirewallPolicyRuleStatus) DeepCopyInto(out *FirewallPolicyRuleStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -16337,7 +16337,7 @@ func (in *FirewallPolicyRuleStatus) DeepCopy() *FirewallPolicyRuleStatus {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *FirewallSpec) DeepCopyInto(out *FirewallSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -16355,7 +16355,7 @@ func (in *FirewallSpec) DeepCopy() *FirewallSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *FirewallStatus) DeepCopyInto(out *FirewallStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -16496,12 +16496,12 @@ func (in *ForwardingRuleInitParameters) DeepCopyInto(out *ForwardingRuleInitPara
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -16516,12 +16516,12 @@ func (in *ForwardingRuleInitParameters) DeepCopyInto(out *ForwardingRuleInitPara
 	}
 	if in.IPAddressRef != nil {
 		in, out := &in.IPAddressRef, &out.IPAddressRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelector != nil {
 		in, out := &in.IPAddressSelector, &out.IPAddressSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPCollection != nil {
@@ -16572,12 +16572,12 @@ func (in *ForwardingRuleInitParameters) DeepCopyInto(out *ForwardingRuleInitPara
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkTier != nil {
@@ -16644,12 +16644,12 @@ func (in *ForwardingRuleInitParameters) DeepCopyInto(out *ForwardingRuleInitPara
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Target != nil {
@@ -16659,12 +16659,12 @@ func (in *ForwardingRuleInitParameters) DeepCopyInto(out *ForwardingRuleInitPara
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16981,12 +16981,12 @@ func (in *ForwardingRuleParameters) DeepCopyInto(out *ForwardingRuleParameters) 
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -17001,12 +17001,12 @@ func (in *ForwardingRuleParameters) DeepCopyInto(out *ForwardingRuleParameters) 
 	}
 	if in.IPAddressRef != nil {
 		in, out := &in.IPAddressRef, &out.IPAddressRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelector != nil {
 		in, out := &in.IPAddressSelector, &out.IPAddressSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPCollection != nil {
@@ -17057,12 +17057,12 @@ func (in *ForwardingRuleParameters) DeepCopyInto(out *ForwardingRuleParameters) 
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkTier != nil {
@@ -17134,12 +17134,12 @@ func (in *ForwardingRuleParameters) DeepCopyInto(out *ForwardingRuleParameters) 
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Target != nil {
@@ -17149,12 +17149,12 @@ func (in *ForwardingRuleParameters) DeepCopyInto(out *ForwardingRuleParameters) 
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -17172,7 +17172,7 @@ func (in *ForwardingRuleParameters) DeepCopy() *ForwardingRuleParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ForwardingRuleSpec) DeepCopyInto(out *ForwardingRuleSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -17190,7 +17190,7 @@ func (in *ForwardingRuleSpec) DeepCopy() *ForwardingRuleSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ForwardingRuleStatus) DeepCopyInto(out *ForwardingRuleStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -17451,12 +17451,12 @@ func (in *GlobalForwardingRuleInitParameters) DeepCopyInto(out *GlobalForwarding
 	}
 	if in.IPAddressRef != nil {
 		in, out := &in.IPAddressRef, &out.IPAddressRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelector != nil {
 		in, out := &in.IPAddressSelector, &out.IPAddressSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPProtocol != nil {
@@ -17504,12 +17504,12 @@ func (in *GlobalForwardingRuleInitParameters) DeepCopyInto(out *GlobalForwarding
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkTier != nil {
@@ -17534,12 +17534,12 @@ func (in *GlobalForwardingRuleInitParameters) DeepCopyInto(out *GlobalForwarding
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceDirectoryRegistrations != nil {
@@ -17565,12 +17565,12 @@ func (in *GlobalForwardingRuleInitParameters) DeepCopyInto(out *GlobalForwarding
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Target != nil {
@@ -17580,12 +17580,12 @@ func (in *GlobalForwardingRuleInitParameters) DeepCopyInto(out *GlobalForwarding
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -17853,12 +17853,12 @@ func (in *GlobalForwardingRuleParameters) DeepCopyInto(out *GlobalForwardingRule
 	}
 	if in.IPAddressRef != nil {
 		in, out := &in.IPAddressRef, &out.IPAddressRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelector != nil {
 		in, out := &in.IPAddressSelector, &out.IPAddressSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPProtocol != nil {
@@ -17906,12 +17906,12 @@ func (in *GlobalForwardingRuleParameters) DeepCopyInto(out *GlobalForwardingRule
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkTier != nil {
@@ -17936,12 +17936,12 @@ func (in *GlobalForwardingRuleParameters) DeepCopyInto(out *GlobalForwardingRule
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceDirectoryRegistrations != nil {
@@ -17967,12 +17967,12 @@ func (in *GlobalForwardingRuleParameters) DeepCopyInto(out *GlobalForwardingRule
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Target != nil {
@@ -17982,12 +17982,12 @@ func (in *GlobalForwardingRuleParameters) DeepCopyInto(out *GlobalForwardingRule
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -18080,7 +18080,7 @@ func (in *GlobalForwardingRuleServiceDirectoryRegistrationsParameters) DeepCopy(
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GlobalForwardingRuleSpec) DeepCopyInto(out *GlobalForwardingRuleSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -18098,7 +18098,7 @@ func (in *GlobalForwardingRuleSpec) DeepCopy() *GlobalForwardingRuleSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GlobalForwardingRuleStatus) DeepCopyInto(out *GlobalForwardingRuleStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -20050,7 +20050,7 @@ func (in *HealthCheckParameters) DeepCopy() *HealthCheckParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *HealthCheckSpec) DeepCopyInto(out *HealthCheckSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -20068,7 +20068,7 @@ func (in *HealthCheckSpec) DeepCopy() *HealthCheckSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *HealthCheckStatus) DeepCopyInto(out *HealthCheckStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -20670,7 +20670,7 @@ func (in *IapInitParameters) DeepCopyInto(out *IapInitParameters) {
 	}
 	if in.Oauth2ClientSecretSecretRef != nil {
 		in, out := &in.Oauth2ClientSecretSecretRef, &out.Oauth2ClientSecretSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -20725,7 +20725,7 @@ func (in *IapParameters) DeepCopyInto(out *IapParameters) {
 	}
 	if in.Oauth2ClientSecretSecretRef != nil {
 		in, out := &in.Oauth2ClientSecretSecretRef, &out.Oauth2ClientSecretSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -20782,12 +20782,12 @@ func (in *ImageEncryptionKeyInitParameters) DeepCopyInto(out *ImageEncryptionKey
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -20842,12 +20842,12 @@ func (in *ImageEncryptionKeyParameters) DeepCopyInto(out *ImageEncryptionKeyPara
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -21054,12 +21054,12 @@ func (in *ImageIAMMemberInitParameters) DeepCopyInto(out *ImageIAMMemberInitPara
 	}
 	if in.ImageRef != nil {
 		in, out := &in.ImageRef, &out.ImageRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageSelector != nil {
 		in, out := &in.ImageSelector, &out.ImageSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Member != nil {
@@ -21186,12 +21186,12 @@ func (in *ImageIAMMemberParameters) DeepCopyInto(out *ImageIAMMemberParameters) 
 	}
 	if in.ImageRef != nil {
 		in, out := &in.ImageRef, &out.ImageRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageSelector != nil {
 		in, out := &in.ImageSelector, &out.ImageSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Member != nil {
@@ -21224,7 +21224,7 @@ func (in *ImageIAMMemberParameters) DeepCopy() *ImageIAMMemberParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ImageIAMMemberSpec) DeepCopyInto(out *ImageIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -21242,7 +21242,7 @@ func (in *ImageIAMMemberSpec) DeepCopy() *ImageIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ImageIAMMemberStatus) DeepCopyInto(out *ImageIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -21345,12 +21345,12 @@ func (in *ImageInitParameters) DeepCopyInto(out *ImageInitParameters) {
 	}
 	if in.SourceDiskRef != nil {
 		in, out := &in.SourceDiskRef, &out.SourceDiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskSelector != nil {
 		in, out := &in.SourceDiskSelector, &out.SourceDiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceImage != nil {
@@ -21709,12 +21709,12 @@ func (in *ImageParameters) DeepCopyInto(out *ImageParameters) {
 	}
 	if in.SourceDiskRef != nil {
 		in, out := &in.SourceDiskRef, &out.SourceDiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskSelector != nil {
 		in, out := &in.SourceDiskSelector, &out.SourceDiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceImage != nil {
@@ -21868,12 +21868,12 @@ func (in *ImageSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *ImageSo
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -21928,12 +21928,12 @@ func (in *ImageSourceImageEncryptionKeyParameters) DeepCopyInto(out *ImageSource
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -21963,12 +21963,12 @@ func (in *ImageSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *Imag
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22023,12 +22023,12 @@ func (in *ImageSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *ImageSou
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22046,7 +22046,7 @@ func (in *ImageSourceSnapshotEncryptionKeyParameters) DeepCopy() *ImageSourceSna
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ImageSpec) DeepCopyInto(out *ImageSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -22064,7 +22064,7 @@ func (in *ImageSpec) DeepCopy() *ImageSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ImageStatus) DeepCopyInto(out *ImageStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -22098,12 +22098,12 @@ func (in *InitializeParamsInitParameters) DeepCopyInto(out *InitializeParamsInit
 	}
 	if in.ImageRef != nil {
 		in, out := &in.ImageRef, &out.ImageRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageSelector != nil {
 		in, out := &in.ImageSelector, &out.ImageSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Labels != nil {
@@ -22338,12 +22338,12 @@ func (in *InitializeParamsParameters) DeepCopyInto(out *InitializeParamsParamete
 	}
 	if in.ImageRef != nil {
 		in, out := &in.ImageRef, &out.ImageRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageSelector != nil {
 		in, out := &in.ImageSelector, &out.ImageSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Labels != nil {
@@ -22458,12 +22458,12 @@ func (in *InitializeParamsSourceImageEncryptionKeyInitParameters) DeepCopyInto(o
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22523,12 +22523,12 @@ func (in *InitializeParamsSourceImageEncryptionKeyParameters) DeepCopyInto(out *
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22558,12 +22558,12 @@ func (in *InitializeParamsSourceSnapshotEncryptionKeyInitParameters) DeepCopyInt
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22623,12 +22623,12 @@ func (in *InitializeParamsSourceSnapshotEncryptionKeyParameters) DeepCopyInto(ou
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -22988,12 +22988,12 @@ func (in *InstanceFromTemplateAttachedDiskInitParameters) DeepCopyInto(out *Inst
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -23093,12 +23093,12 @@ func (in *InstanceFromTemplateAttachedDiskParameters) DeepCopyInto(out *Instance
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -23153,12 +23153,12 @@ func (in *InstanceFromTemplateBootDiskInitParameters) DeepCopyInto(out *Instance
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -23310,12 +23310,12 @@ func (in *InstanceFromTemplateBootDiskParameters) DeepCopyInto(out *InstanceFrom
 	}
 	if in.DiskEncryptionKeyRawSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRawSecretRef, &out.DiskEncryptionKeyRawSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionKeyRsaSecretRef != nil {
 		in, out := &in.DiskEncryptionKeyRsaSecretRef, &out.DiskEncryptionKeyRsaSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.DiskEncryptionServiceAccount != nil {
@@ -23713,12 +23713,12 @@ func (in *InstanceFromTemplateInitParameters) DeepCopyInto(out *InstanceFromTemp
 	}
 	if in.SourceInstanceTemplateRef != nil {
 		in, out := &in.SourceInstanceTemplateRef, &out.SourceInstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstanceTemplateSelector != nil {
 		in, out := &in.SourceInstanceTemplateSelector, &out.SourceInstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
@@ -23917,12 +23917,12 @@ func (in *InstanceFromTemplateNetworkInterfaceInitParameters) DeepCopyInto(out *
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NicType != nil {
@@ -23952,12 +23952,12 @@ func (in *InstanceFromTemplateNetworkInterfaceInitParameters) DeepCopyInto(out *
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vlan != nil {
@@ -24144,12 +24144,12 @@ func (in *InstanceFromTemplateNetworkInterfaceParameters) DeepCopyInto(out *Inst
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NicType != nil {
@@ -24179,12 +24179,12 @@ func (in *InstanceFromTemplateNetworkInterfaceParameters) DeepCopyInto(out *Inst
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vlan != nil {
@@ -24746,12 +24746,12 @@ func (in *InstanceFromTemplateParameters) DeepCopyInto(out *InstanceFromTemplate
 	}
 	if in.SourceInstanceTemplateRef != nil {
 		in, out := &in.SourceInstanceTemplateRef, &out.SourceInstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstanceTemplateSelector != nil {
 		in, out := &in.SourceInstanceTemplateSelector, &out.SourceInstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
@@ -25457,7 +25457,7 @@ func (in *InstanceFromTemplateShieldedInstanceConfigParameters) DeepCopy() *Inst
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceFromTemplateSpec) DeepCopyInto(out *InstanceFromTemplateSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -25475,7 +25475,7 @@ func (in *InstanceFromTemplateSpec) DeepCopy() *InstanceFromTemplateSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceFromTemplateStatus) DeepCopyInto(out *InstanceFromTemplateStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -25605,14 +25605,14 @@ func (in *InstanceGroupManagerInitParameters) DeepCopyInto(out *InstanceGroupMan
 	}
 	if in.TargetPoolsRefs != nil {
 		in, out := &in.TargetPoolsRefs, &out.TargetPoolsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.TargetPoolsSelector != nil {
 		in, out := &in.TargetPoolsSelector, &out.TargetPoolsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSize != nil {
@@ -25987,14 +25987,14 @@ func (in *InstanceGroupManagerParameters) DeepCopyInto(out *InstanceGroupManager
 	}
 	if in.TargetPoolsRefs != nil {
 		in, out := &in.TargetPoolsRefs, &out.TargetPoolsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.TargetPoolsSelector != nil {
 		in, out := &in.TargetPoolsSelector, &out.TargetPoolsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSize != nil {
@@ -26061,7 +26061,7 @@ func (in *InstanceGroupManagerParameters) DeepCopy() *InstanceGroupManagerParame
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceGroupManagerSpec) DeepCopyInto(out *InstanceGroupManagerSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -26079,7 +26079,7 @@ func (in *InstanceGroupManagerSpec) DeepCopy() *InstanceGroupManagerSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceGroupManagerStatus) DeepCopyInto(out *InstanceGroupManagerStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -26225,12 +26225,12 @@ func (in *InstanceIAMMemberInitParameters) DeepCopyInto(out *InstanceIAMMemberIn
 	}
 	if in.InstanceNameRef != nil {
 		in, out := &in.InstanceNameRef, &out.InstanceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNameSelector != nil {
 		in, out := &in.InstanceNameSelector, &out.InstanceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Member != nil {
@@ -26367,12 +26367,12 @@ func (in *InstanceIAMMemberParameters) DeepCopyInto(out *InstanceIAMMemberParame
 	}
 	if in.InstanceNameRef != nil {
 		in, out := &in.InstanceNameRef, &out.InstanceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNameSelector != nil {
 		in, out := &in.InstanceNameSelector, &out.InstanceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Member != nil {
@@ -26410,7 +26410,7 @@ func (in *InstanceIAMMemberParameters) DeepCopy() *InstanceIAMMemberParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceIAMMemberSpec) DeepCopyInto(out *InstanceIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -26428,7 +26428,7 @@ func (in *InstanceIAMMemberSpec) DeepCopy() *InstanceIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceIAMMemberStatus) DeepCopyInto(out *InstanceIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -27723,7 +27723,7 @@ func (in *InstanceSelectionsParameters) DeepCopy() *InstanceSelectionsParameters
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceSpec) DeepCopyInto(out *InstanceSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -27741,7 +27741,7 @@ func (in *InstanceSpec) DeepCopy() *InstanceSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceStatus) DeepCopyInto(out *InstanceStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -28111,14 +28111,14 @@ func (in *InstanceTemplateDiskInitParameters) DeepCopyInto(out *InstanceTemplate
 	}
 	if in.ResourcePoliciesRefs != nil {
 		in, out := &in.ResourcePoliciesRefs, &out.ResourcePoliciesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.ResourcePoliciesSelector != nil {
 		in, out := &in.ResourcePoliciesSelector, &out.ResourcePoliciesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
@@ -28138,12 +28138,12 @@ func (in *InstanceTemplateDiskInitParameters) DeepCopyInto(out *InstanceTemplate
 	}
 	if in.SourceRef != nil {
 		in, out := &in.SourceRef, &out.SourceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSelector != nil {
 		in, out := &in.SourceSelector, &out.SourceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSnapshot != nil {
@@ -28461,14 +28461,14 @@ func (in *InstanceTemplateDiskParameters) DeepCopyInto(out *InstanceTemplateDisk
 	}
 	if in.ResourcePoliciesRefs != nil {
 		in, out := &in.ResourcePoliciesRefs, &out.ResourcePoliciesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.ResourcePoliciesSelector != nil {
 		in, out := &in.ResourcePoliciesSelector, &out.ResourcePoliciesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
@@ -28488,12 +28488,12 @@ func (in *InstanceTemplateDiskParameters) DeepCopyInto(out *InstanceTemplateDisk
 	}
 	if in.SourceRef != nil {
 		in, out := &in.SourceRef, &out.SourceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSelector != nil {
 		in, out := &in.SourceSelector, &out.SourceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSnapshot != nil {
@@ -29113,12 +29113,12 @@ func (in *InstanceTemplateNetworkInterfaceInitParameters) DeepCopyInto(out *Inst
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NicType != nil {
@@ -29148,12 +29148,12 @@ func (in *InstanceTemplateNetworkInterfaceInitParameters) DeepCopyInto(out *Inst
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vlan != nil {
@@ -29340,12 +29340,12 @@ func (in *InstanceTemplateNetworkInterfaceParameters) DeepCopyInto(out *Instance
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NicType != nil {
@@ -29375,12 +29375,12 @@ func (in *InstanceTemplateNetworkInterfaceParameters) DeepCopyInto(out *Instance
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vlan != nil {
@@ -30634,12 +30634,12 @@ func (in *InstanceTemplateServiceAccountInitParameters) DeepCopyInto(out *Instan
 	}
 	if in.EmailRef != nil {
 		in, out := &in.EmailRef, &out.EmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EmailSelector != nil {
 		in, out := &in.EmailSelector, &out.EmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
@@ -30706,12 +30706,12 @@ func (in *InstanceTemplateServiceAccountParameters) DeepCopyInto(out *InstanceTe
 	}
 	if in.EmailRef != nil {
 		in, out := &in.EmailRef, &out.EmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EmailSelector != nil {
 		in, out := &in.EmailSelector, &out.EmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
@@ -30830,7 +30830,7 @@ func (in *InstanceTemplateShieldedInstanceConfigParameters) DeepCopy() *Instance
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceTemplateSpec) DeepCopyInto(out *InstanceTemplateSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -30848,7 +30848,7 @@ func (in *InstanceTemplateSpec) DeepCopy() *InstanceTemplateSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InstanceTemplateStatus) DeepCopyInto(out *InstanceTemplateStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -30872,12 +30872,12 @@ func (in *InstancesInitParameters) DeepCopyInto(out *InstancesInitParameters) {
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -30922,12 +30922,12 @@ func (in *InstancesParameters) DeepCopyInto(out *InstancesParameters) {
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -31519,12 +31519,12 @@ func (in *LeaderInitParameters) DeepCopyInto(out *LeaderInitParameters) {
 	}
 	if in.BackendGroupRef != nil {
 		in, out := &in.BackendGroupRef, &out.BackendGroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendGroupSelector != nil {
 		in, out := &in.BackendGroupSelector, &out.BackendGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkEndpoint != nil {
@@ -31579,12 +31579,12 @@ func (in *LeaderParameters) DeepCopyInto(out *LeaderParameters) {
 	}
 	if in.BackendGroupRef != nil {
 		in, out := &in.BackendGroupRef, &out.BackendGroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendGroupSelector != nil {
 		in, out := &in.BackendGroupSelector, &out.BackendGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkEndpoint != nil {
@@ -32358,7 +32358,7 @@ func (in *ManagedSSLCertificateParameters) DeepCopy() *ManagedSSLCertificatePara
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ManagedSSLCertificateSpec) DeepCopyInto(out *ManagedSSLCertificateSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -32376,7 +32376,7 @@ func (in *ManagedSSLCertificateSpec) DeepCopy() *ManagedSSLCertificateSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ManagedSSLCertificateStatus) DeepCopyInto(out *ManagedSSLCertificateStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -32406,14 +32406,14 @@ func (in *MatchInitParameters) DeepCopyInto(out *MatchInitParameters) {
 	}
 	if in.DestAddressGroupsRefs != nil {
 		in, out := &in.DestAddressGroupsRefs, &out.DestAddressGroupsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DestAddressGroupsSelector != nil {
 		in, out := &in.DestAddressGroupsSelector, &out.DestAddressGroupsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DestFqdns != nil {
@@ -32523,14 +32523,14 @@ func (in *MatchInitParameters) DeepCopyInto(out *MatchInitParameters) {
 	}
 	if in.SrcNetworksRefs != nil {
 		in, out := &in.SrcNetworksRefs, &out.SrcNetworksRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SrcNetworksSelector != nil {
 		in, out := &in.SrcNetworksSelector, &out.SrcNetworksSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SrcRegionCodes != nil {
@@ -32750,14 +32750,14 @@ func (in *MatchParameters) DeepCopyInto(out *MatchParameters) {
 	}
 	if in.DestAddressGroupsRefs != nil {
 		in, out := &in.DestAddressGroupsRefs, &out.DestAddressGroupsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DestAddressGroupsSelector != nil {
 		in, out := &in.DestAddressGroupsSelector, &out.DestAddressGroupsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DestFqdns != nil {
@@ -32867,14 +32867,14 @@ func (in *MatchParameters) DeepCopyInto(out *MatchParameters) {
 	}
 	if in.SrcNetworksRefs != nil {
 		in, out := &in.SrcNetworksRefs, &out.SrcNetworksRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SrcNetworksSelector != nil {
 		in, out := &in.SrcNetworksSelector, &out.SrcNetworksSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SrcRegionCodes != nil {
@@ -33830,7 +33830,7 @@ func (in *MaxTTLParameters) DeepCopy() *MaxTTLParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Md5AuthenticationKeyInitParameters) DeepCopyInto(out *Md5AuthenticationKeyInitParameters) {
 	*out = *in
-	in.KeySecretRef.DeepCopyInto(&out.KeySecretRef)
+	out.KeySecretRef = in.KeySecretRef
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -33871,7 +33871,7 @@ func (in *Md5AuthenticationKeyObservation) DeepCopy() *Md5AuthenticationKeyObser
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Md5AuthenticationKeyParameters) DeepCopyInto(out *Md5AuthenticationKeyParameters) {
 	*out = *in
-	in.KeySecretRef.DeepCopyInto(&out.KeySecretRef)
+	out.KeySecretRef = in.KeySecretRef
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -34655,12 +34655,12 @@ func (in *NetworkEndpointInitParameters) DeepCopyInto(out *NetworkEndpointInitPa
 	}
 	if in.InstanceRef != nil {
 		in, out := &in.InstanceRef, &out.InstanceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -34705,12 +34705,12 @@ func (in *NetworkEndpointParameters) DeepCopyInto(out *NetworkEndpointParameters
 	}
 	if in.InstanceRef != nil {
 		in, out := &in.InstanceRef, &out.InstanceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -34735,12 +34735,12 @@ func (in *NetworkInitParameters) DeepCopyInto(out *NetworkInitParameters) {
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -35096,12 +35096,12 @@ func (in *NetworkInterfaceInitParameters) DeepCopyInto(out *NetworkInterfaceInit
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NicType != nil {
@@ -35131,12 +35131,12 @@ func (in *NetworkInterfaceInitParameters) DeepCopyInto(out *NetworkInterfaceInit
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vlan != nil {
@@ -35323,12 +35323,12 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NicType != nil {
@@ -35358,12 +35358,12 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vlan != nil {
@@ -35413,12 +35413,12 @@ func (in *NetworkParameters) DeepCopyInto(out *NetworkParameters) {
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -35813,12 +35813,12 @@ func (in *NodeGroupInitParameters) DeepCopyInto(out *NodeGroupInitParameters) {
 	}
 	if in.NodeTemplateRef != nil {
 		in, out := &in.NodeTemplateRef, &out.NodeTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NodeTemplateSelector != nil {
 		in, out := &in.NodeTemplateSelector, &out.NodeTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -35995,12 +35995,12 @@ func (in *NodeGroupParameters) DeepCopyInto(out *NodeGroupParameters) {
 	}
 	if in.NodeTemplateRef != nil {
 		in, out := &in.NodeTemplateRef, &out.NodeTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NodeTemplateSelector != nil {
 		in, out := &in.NodeTemplateSelector, &out.NodeTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -36033,7 +36033,7 @@ func (in *NodeGroupParameters) DeepCopy() *NodeGroupParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *NodeGroupSpec) DeepCopyInto(out *NodeGroupSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -36051,7 +36051,7 @@ func (in *NodeGroupSpec) DeepCopy() *NodeGroupSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *NodeGroupStatus) DeepCopyInto(out *NodeGroupStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -36382,7 +36382,7 @@ func (in *NodeTemplateParameters) DeepCopy() *NodeTemplateParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *NodeTemplateSpec) DeepCopyInto(out *NodeTemplateSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -36400,7 +36400,7 @@ func (in *NodeTemplateSpec) DeepCopy() *NodeTemplateSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *NodeTemplateStatus) DeepCopyInto(out *NodeTemplateStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -37161,7 +37161,7 @@ func (in *PacketMirroringParameters) DeepCopy() *PacketMirroringParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PacketMirroringSpec) DeepCopyInto(out *PacketMirroringSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -37179,7 +37179,7 @@ func (in *PacketMirroringSpec) DeepCopy() *PacketMirroringSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PacketMirroringStatus) DeepCopyInto(out *PacketMirroringStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -37303,12 +37303,12 @@ func (in *PathMatcherDefaultCustomErrorResponsePolicyInitParameters) DeepCopyInt
 	}
 	if in.ErrorServiceRef != nil {
 		in, out := &in.ErrorServiceRef, &out.ErrorServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorServiceSelector != nil {
 		in, out := &in.ErrorServiceSelector, &out.ErrorServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -37367,12 +37367,12 @@ func (in *PathMatcherDefaultCustomErrorResponsePolicyParameters) DeepCopyInto(ou
 	}
 	if in.ErrorServiceRef != nil {
 		in, out := &in.ErrorServiceRef, &out.ErrorServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorServiceSelector != nil {
 		in, out := &in.ErrorServiceSelector, &out.ErrorServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -38198,12 +38198,12 @@ func (in *PathMatcherDefaultRouteActionRequestMirrorPolicyInitParameters) DeepCo
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -38248,12 +38248,12 @@ func (in *PathMatcherDefaultRouteActionRequestMirrorPolicyParameters) DeepCopyIn
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -39507,12 +39507,12 @@ func (in *PathMatcherInitParameters) DeepCopyInto(out *PathMatcherInitParameters
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -39635,12 +39635,12 @@ func (in *PathMatcherParameters) DeepCopyInto(out *PathMatcherParameters) {
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -39720,12 +39720,12 @@ func (in *PathMatcherPathRuleInitParameters) DeepCopyInto(out *PathMatcherPathRu
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -39822,12 +39822,12 @@ func (in *PathMatcherPathRuleParameters) DeepCopyInto(out *PathMatcherPathRulePa
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -40217,12 +40217,12 @@ func (in *PathMatcherRouteRulesInitParameters) DeepCopyInto(out *PathMatcherRout
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -40331,12 +40331,12 @@ func (in *PathMatcherRouteRulesParameters) DeepCopyInto(out *PathMatcherRouteRul
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -42014,12 +42014,12 @@ func (in *PathRuleInitParameters) DeepCopyInto(out *PathRuleInitParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -42106,12 +42106,12 @@ func (in *PathRuleParameters) DeepCopyInto(out *PathRuleParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -42882,12 +42882,12 @@ func (in *PathRuleRouteActionRequestMirrorPolicyInitParameters) DeepCopyInto(out
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -42932,12 +42932,12 @@ func (in *PathRuleRouteActionRequestMirrorPolicyParameters) DeepCopyInto(out *Pa
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -43628,12 +43628,12 @@ func (in *PathRuleRouteActionWeightedBackendServicesInitParameters) DeepCopyInto
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -43698,12 +43698,12 @@ func (in *PathRuleRouteActionWeightedBackendServicesParameters) DeepCopyInto(out
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -43900,12 +43900,12 @@ func (in *PerInstanceConfigInitParameters) DeepCopyInto(out *PerInstanceConfigIn
 	}
 	if in.InstanceGroupManagerRef != nil {
 		in, out := &in.InstanceGroupManagerRef, &out.InstanceGroupManagerRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceGroupManagerSelector != nil {
 		in, out := &in.InstanceGroupManagerSelector, &out.InstanceGroupManagerSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MinimalAction != nil {
@@ -43950,12 +43950,12 @@ func (in *PerInstanceConfigInitParameters) DeepCopyInto(out *PerInstanceConfigIn
 	}
 	if in.ZoneRef != nil {
 		in, out := &in.ZoneRef, &out.ZoneRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneSelector != nil {
 		in, out := &in.ZoneSelector, &out.ZoneSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -44082,12 +44082,12 @@ func (in *PerInstanceConfigParameters) DeepCopyInto(out *PerInstanceConfigParame
 	}
 	if in.InstanceGroupManagerRef != nil {
 		in, out := &in.InstanceGroupManagerRef, &out.InstanceGroupManagerRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceGroupManagerSelector != nil {
 		in, out := &in.InstanceGroupManagerSelector, &out.InstanceGroupManagerSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MinimalAction != nil {
@@ -44132,12 +44132,12 @@ func (in *PerInstanceConfigParameters) DeepCopyInto(out *PerInstanceConfigParame
 	}
 	if in.ZoneRef != nil {
 		in, out := &in.ZoneRef, &out.ZoneRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneSelector != nil {
 		in, out := &in.ZoneSelector, &out.ZoneSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -44155,7 +44155,7 @@ func (in *PerInstanceConfigParameters) DeepCopy() *PerInstanceConfigParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PerInstanceConfigSpec) DeepCopyInto(out *PerInstanceConfigSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -44173,7 +44173,7 @@ func (in *PerInstanceConfigSpec) DeepCopy() *PerInstanceConfigSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PerInstanceConfigStatus) DeepCopyInto(out *PerInstanceConfigStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -44538,12 +44538,12 @@ func (in *PreservedStateDiskInitParameters) DeepCopyInto(out *PreservedStateDisk
 	}
 	if in.SourceRef != nil {
 		in, out := &in.SourceRef, &out.SourceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSelector != nil {
 		in, out := &in.SourceSelector, &out.SourceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -44618,12 +44618,12 @@ func (in *PreservedStateDiskParameters) DeepCopyInto(out *PreservedStateDiskPara
 	}
 	if in.SourceRef != nil {
 		in, out := &in.SourceRef, &out.SourceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSelector != nil {
 		in, out := &in.SourceSelector, &out.SourceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -45044,12 +45044,12 @@ func (in *ProjectMapInitParameters) DeepCopyInto(out *ProjectMapInitParameters) 
 	}
 	if in.IDRef != nil {
 		in, out := &in.IDRef, &out.IDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IDSelector != nil {
 		in, out := &in.IDSelector, &out.IDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
@@ -45059,12 +45059,12 @@ func (in *ProjectMapInitParameters) DeepCopyInto(out *ProjectMapInitParameters) 
 	}
 	if in.ProjectIDRef != nil {
 		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectIDSelector != nil {
 		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -45114,12 +45114,12 @@ func (in *ProjectMapParameters) DeepCopyInto(out *ProjectMapParameters) {
 	}
 	if in.IDRef != nil {
 		in, out := &in.IDRef, &out.IDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IDSelector != nil {
 		in, out := &in.IDSelector, &out.IDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
@@ -45129,12 +45129,12 @@ func (in *ProjectMapParameters) DeepCopyInto(out *ProjectMapParameters) {
 	}
 	if in.ProjectIDRef != nil {
 		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectIDSelector != nil {
 		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -46245,12 +46245,12 @@ func (in *RegionAutoscalerInitParameters) DeepCopyInto(out *RegionAutoscalerInit
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -46387,12 +46387,12 @@ func (in *RegionAutoscalerParameters) DeepCopyInto(out *RegionAutoscalerParamete
 	}
 	if in.TargetRef != nil {
 		in, out := &in.TargetRef, &out.TargetRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSelector != nil {
 		in, out := &in.TargetSelector, &out.TargetSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -46410,7 +46410,7 @@ func (in *RegionAutoscalerParameters) DeepCopy() *RegionAutoscalerParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionAutoscalerSpec) DeepCopyInto(out *RegionAutoscalerSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -46428,7 +46428,7 @@ func (in *RegionAutoscalerSpec) DeepCopy() *RegionAutoscalerSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionAutoscalerStatus) DeepCopyInto(out *RegionAutoscalerStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -46506,12 +46506,12 @@ func (in *RegionBackendServiceBackendInitParameters) DeepCopyInto(out *RegionBac
 	}
 	if in.GroupRef != nil {
 		in, out := &in.GroupRef, &out.GroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupSelector != nil {
 		in, out := &in.GroupSelector, &out.GroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxConnections != nil {
@@ -46680,12 +46680,12 @@ func (in *RegionBackendServiceBackendParameters) DeepCopyInto(out *RegionBackend
 	}
 	if in.GroupRef != nil {
 		in, out := &in.GroupRef, &out.GroupRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupSelector != nil {
 		in, out := &in.GroupSelector, &out.GroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxConnections != nil {
@@ -47470,7 +47470,7 @@ func (in *RegionBackendServiceIapInitParameters) DeepCopyInto(out *RegionBackend
 	}
 	if in.Oauth2ClientSecretSecretRef != nil {
 		in, out := &in.Oauth2ClientSecretSecretRef, &out.Oauth2ClientSecretSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -47525,7 +47525,7 @@ func (in *RegionBackendServiceIapParameters) DeepCopyInto(out *RegionBackendServ
 	}
 	if in.Oauth2ClientSecretSecretRef != nil {
 		in, out := &in.Oauth2ClientSecretSecretRef, &out.Oauth2ClientSecretSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -47620,14 +47620,14 @@ func (in *RegionBackendServiceInitParameters) DeepCopyInto(out *RegionBackendSer
 	}
 	if in.HealthChecksRefs != nil {
 		in, out := &in.HealthChecksRefs, &out.HealthChecksRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.HealthChecksSelector != nil {
 		in, out := &in.HealthChecksSelector, &out.HealthChecksSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelectionPolicy != nil {
@@ -47667,12 +47667,12 @@ func (in *RegionBackendServiceInitParameters) DeepCopyInto(out *RegionBackendSer
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutlierDetection != nil {
@@ -47707,12 +47707,12 @@ func (in *RegionBackendServiceInitParameters) DeepCopyInto(out *RegionBackendSer
 	}
 	if in.SecurityPolicyRef != nil {
 		in, out := &in.SecurityPolicyRef, &out.SecurityPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityPolicySelector != nil {
 		in, out := &in.SecurityPolicySelector, &out.SecurityPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SessionAffinity != nil {
@@ -48402,14 +48402,14 @@ func (in *RegionBackendServiceParameters) DeepCopyInto(out *RegionBackendService
 	}
 	if in.HealthChecksRefs != nil {
 		in, out := &in.HealthChecksRefs, &out.HealthChecksRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.HealthChecksSelector != nil {
 		in, out := &in.HealthChecksSelector, &out.HealthChecksSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPAddressSelectionPolicy != nil {
@@ -48449,12 +48449,12 @@ func (in *RegionBackendServiceParameters) DeepCopyInto(out *RegionBackendService
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OutlierDetection != nil {
@@ -48494,12 +48494,12 @@ func (in *RegionBackendServiceParameters) DeepCopyInto(out *RegionBackendService
 	}
 	if in.SecurityPolicyRef != nil {
 		in, out := &in.SecurityPolicyRef, &out.SecurityPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityPolicySelector != nil {
 		in, out := &in.SecurityPolicySelector, &out.SecurityPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SessionAffinity != nil {
@@ -48630,7 +48630,7 @@ func (in *RegionBackendServiceParamsParameters) DeepCopy() *RegionBackendService
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionBackendServiceSpec) DeepCopyInto(out *RegionBackendServiceSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -48648,7 +48648,7 @@ func (in *RegionBackendServiceSpec) DeepCopy() *RegionBackendServiceSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionBackendServiceStatus) DeepCopyInto(out *RegionBackendServiceStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -48960,12 +48960,12 @@ func (in *RegionDiskAsyncPrimaryDiskInitParameters) DeepCopyInto(out *RegionDisk
 	}
 	if in.DiskRef != nil {
 		in, out := &in.DiskRef, &out.DiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskSelector != nil {
 		in, out := &in.DiskSelector, &out.DiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -49010,12 +49010,12 @@ func (in *RegionDiskAsyncPrimaryDiskParameters) DeepCopyInto(out *RegionDiskAsyn
 	}
 	if in.DiskRef != nil {
 		in, out := &in.DiskRef, &out.DiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskSelector != nil {
 		in, out := &in.DiskSelector, &out.DiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -49040,12 +49040,12 @@ func (in *RegionDiskDiskEncryptionKeyInitParameters) DeepCopyInto(out *RegionDis
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -49095,12 +49095,12 @@ func (in *RegionDiskDiskEncryptionKeyParameters) DeepCopyInto(out *RegionDiskDis
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -49312,12 +49312,12 @@ func (in *RegionDiskIAMMemberInitParameters) DeepCopyInto(out *RegionDiskIAMMemb
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -49454,12 +49454,12 @@ func (in *RegionDiskIAMMemberParameters) DeepCopyInto(out *RegionDiskIAMMemberPa
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -49492,7 +49492,7 @@ func (in *RegionDiskIAMMemberParameters) DeepCopy() *RegionDiskIAMMemberParamete
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionDiskIAMMemberSpec) DeepCopyInto(out *RegionDiskIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -49510,7 +49510,7 @@ func (in *RegionDiskIAMMemberSpec) DeepCopy() *RegionDiskIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionDiskIAMMemberStatus) DeepCopyInto(out *RegionDiskIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -49639,12 +49639,12 @@ func (in *RegionDiskInitParameters) DeepCopyInto(out *RegionDiskInitParameters) 
 	}
 	if in.SnapshotRef != nil {
 		in, out := &in.SnapshotRef, &out.SnapshotRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SnapshotSelector != nil {
 		in, out := &in.SnapshotSelector, &out.SnapshotSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDisk != nil {
@@ -50079,12 +50079,12 @@ func (in *RegionDiskParameters) DeepCopyInto(out *RegionDiskParameters) {
 	}
 	if in.SnapshotRef != nil {
 		in, out := &in.SnapshotRef, &out.SnapshotRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SnapshotSelector != nil {
 		in, out := &in.SnapshotSelector, &out.SnapshotSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDisk != nil {
@@ -50134,12 +50134,12 @@ func (in *RegionDiskSourceImageEncryptionKeyInitParameters) DeepCopyInto(out *Re
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -50199,12 +50199,12 @@ func (in *RegionDiskSourceImageEncryptionKeyParameters) DeepCopyInto(out *Region
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -50224,7 +50224,7 @@ func (in *RegionDiskSourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out 
 	*out = *in
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -50264,7 +50264,7 @@ func (in *RegionDiskSourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *Reg
 	*out = *in
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -50282,7 +50282,7 @@ func (in *RegionDiskSourceSnapshotEncryptionKeyParameters) DeepCopy() *RegionDis
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionDiskSpec) DeepCopyInto(out *RegionDiskSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -50300,7 +50300,7 @@ func (in *RegionDiskSpec) DeepCopy() *RegionDiskSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionDiskStatus) DeepCopyInto(out *RegionDiskStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -51511,7 +51511,7 @@ func (in *RegionHealthCheckSSLHealthCheckParameters) DeepCopy() *RegionHealthChe
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionHealthCheckSpec) DeepCopyInto(out *RegionHealthCheckSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -51529,7 +51529,7 @@ func (in *RegionHealthCheckSpec) DeepCopy() *RegionHealthCheckSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionHealthCheckStatus) DeepCopyInto(out *RegionHealthCheckStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -51856,12 +51856,12 @@ func (in *RegionInstanceGroupManagerAutoHealingPoliciesInitParameters) DeepCopyI
 	}
 	if in.HealthCheckRef != nil {
 		in, out := &in.HealthCheckRef, &out.HealthCheckRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HealthCheckSelector != nil {
 		in, out := &in.HealthCheckSelector, &out.HealthCheckSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InitialDelaySec != nil {
@@ -51916,12 +51916,12 @@ func (in *RegionInstanceGroupManagerAutoHealingPoliciesParameters) DeepCopyInto(
 	}
 	if in.HealthCheckRef != nil {
 		in, out := &in.HealthCheckRef, &out.HealthCheckRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HealthCheckSelector != nil {
 		in, out := &in.HealthCheckSelector, &out.HealthCheckSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InitialDelaySec != nil {
@@ -52061,14 +52061,14 @@ func (in *RegionInstanceGroupManagerInitParameters) DeepCopyInto(out *RegionInst
 	}
 	if in.TargetPoolsRefs != nil {
 		in, out := &in.TargetPoolsRefs, &out.TargetPoolsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.TargetPoolsSelector != nil {
 		in, out := &in.TargetPoolsSelector, &out.TargetPoolsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSize != nil {
@@ -52660,14 +52660,14 @@ func (in *RegionInstanceGroupManagerParameters) DeepCopyInto(out *RegionInstance
 	}
 	if in.TargetPoolsRefs != nil {
 		in, out := &in.TargetPoolsRefs, &out.TargetPoolsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.TargetPoolsSelector != nil {
 		in, out := &in.TargetPoolsSelector, &out.TargetPoolsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetSize != nil {
@@ -52789,7 +52789,7 @@ func (in *RegionInstanceGroupManagerResourcePoliciesParameters) DeepCopy() *Regi
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionInstanceGroupManagerSpec) DeepCopyInto(out *RegionInstanceGroupManagerSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -53107,7 +53107,7 @@ func (in *RegionInstanceGroupManagerStatefulInternalIPParameters) DeepCopy() *Re
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionInstanceGroupManagerStatus) DeepCopyInto(out *RegionInstanceGroupManagerStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -53497,12 +53497,12 @@ func (in *RegionInstanceGroupManagerVersionInitParameters) DeepCopyInto(out *Reg
 	}
 	if in.InstanceTemplateRef != nil {
 		in, out := &in.InstanceTemplateRef, &out.InstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceTemplateSelector != nil {
 		in, out := &in.InstanceTemplateSelector, &out.InstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -53567,12 +53567,12 @@ func (in *RegionInstanceGroupManagerVersionParameters) DeepCopyInto(out *RegionI
 	}
 	if in.InstanceTemplateRef != nil {
 		in, out := &in.InstanceTemplateRef, &out.InstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceTemplateSelector != nil {
 		in, out := &in.InstanceTemplateSelector, &out.InstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -53659,12 +53659,12 @@ func (in *RegionNetworkEndpointGroupInitParameters) DeepCopyInto(out *RegionNetw
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -53684,12 +53684,12 @@ func (in *RegionNetworkEndpointGroupInitParameters) DeepCopyInto(out *RegionNetw
 	}
 	if in.PscTargetServiceRef != nil {
 		in, out := &in.PscTargetServiceRef, &out.PscTargetServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PscTargetServiceSelector != nil {
 		in, out := &in.PscTargetServiceSelector, &out.PscTargetServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Subnetwork != nil {
@@ -53699,12 +53699,12 @@ func (in *RegionNetworkEndpointGroupInitParameters) DeepCopyInto(out *RegionNetw
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -53871,12 +53871,12 @@ func (in *RegionNetworkEndpointGroupParameters) DeepCopyInto(out *RegionNetworkE
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -53896,12 +53896,12 @@ func (in *RegionNetworkEndpointGroupParameters) DeepCopyInto(out *RegionNetworkE
 	}
 	if in.PscTargetServiceRef != nil {
 		in, out := &in.PscTargetServiceRef, &out.PscTargetServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PscTargetServiceSelector != nil {
 		in, out := &in.PscTargetServiceSelector, &out.PscTargetServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -53916,12 +53916,12 @@ func (in *RegionNetworkEndpointGroupParameters) DeepCopyInto(out *RegionNetworkE
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -53939,7 +53939,7 @@ func (in *RegionNetworkEndpointGroupParameters) DeepCopy() *RegionNetworkEndpoin
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionNetworkEndpointGroupSpec) DeepCopyInto(out *RegionNetworkEndpointGroupSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -53957,7 +53957,7 @@ func (in *RegionNetworkEndpointGroupSpec) DeepCopy() *RegionNetworkEndpointGroup
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionNetworkEndpointGroupStatus) DeepCopyInto(out *RegionNetworkEndpointGroupStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -54038,22 +54038,22 @@ func (in *RegionPerInstanceConfigInitParameters) DeepCopyInto(out *RegionPerInst
 	}
 	if in.RegionInstanceGroupManagerRef != nil {
 		in, out := &in.RegionInstanceGroupManagerRef, &out.RegionInstanceGroupManagerRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionInstanceGroupManagerSelector != nil {
 		in, out := &in.RegionInstanceGroupManagerSelector, &out.RegionInstanceGroupManagerSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionRef != nil {
 		in, out := &in.RegionRef, &out.RegionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionSelector != nil {
 		in, out := &in.RegionSelector, &out.RegionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RemoveInstanceOnDestroy != nil {
@@ -54220,22 +54220,22 @@ func (in *RegionPerInstanceConfigParameters) DeepCopyInto(out *RegionPerInstance
 	}
 	if in.RegionInstanceGroupManagerRef != nil {
 		in, out := &in.RegionInstanceGroupManagerRef, &out.RegionInstanceGroupManagerRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionInstanceGroupManagerSelector != nil {
 		in, out := &in.RegionInstanceGroupManagerSelector, &out.RegionInstanceGroupManagerSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionRef != nil {
 		in, out := &in.RegionRef, &out.RegionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionSelector != nil {
 		in, out := &in.RegionSelector, &out.RegionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RemoveInstanceOnDestroy != nil {
@@ -54285,12 +54285,12 @@ func (in *RegionPerInstanceConfigPreservedStateDiskInitParameters) DeepCopyInto(
 	}
 	if in.SourceRef != nil {
 		in, out := &in.SourceRef, &out.SourceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSelector != nil {
 		in, out := &in.SourceSelector, &out.SourceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -54365,12 +54365,12 @@ func (in *RegionPerInstanceConfigPreservedStateDiskParameters) DeepCopyInto(out 
 	}
 	if in.SourceRef != nil {
 		in, out := &in.SourceRef, &out.SourceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSelector != nil {
 		in, out := &in.SourceSelector, &out.SourceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -54544,7 +54544,7 @@ func (in *RegionPerInstanceConfigPreservedStateParameters) DeepCopy() *RegionPer
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionPerInstanceConfigSpec) DeepCopyInto(out *RegionPerInstanceConfigSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -54562,7 +54562,7 @@ func (in *RegionPerInstanceConfigSpec) DeepCopy() *RegionPerInstanceConfigSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionPerInstanceConfigStatus) DeepCopyInto(out *RegionPerInstanceConfigStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -54771,12 +54771,12 @@ func (in *RegionURLMapInitParameters) DeepCopyInto(out *RegionURLMapInitParamete
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -54980,12 +54980,12 @@ func (in *RegionURLMapParameters) DeepCopyInto(out *RegionURLMapParameters) {
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -55049,7 +55049,7 @@ func (in *RegionURLMapParameters) DeepCopy() *RegionURLMapParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionURLMapSpec) DeepCopyInto(out *RegionURLMapSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -55067,7 +55067,7 @@ func (in *RegionURLMapSpec) DeepCopy() *RegionURLMapSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RegionURLMapStatus) DeepCopyInto(out *RegionURLMapStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -55406,12 +55406,12 @@ func (in *RequestMirrorPolicyInitParameters) DeepCopyInto(out *RequestMirrorPoli
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -55456,12 +55456,12 @@ func (in *RequestMirrorPolicyParameters) DeepCopyInto(out *RequestMirrorPolicyPa
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -56441,7 +56441,7 @@ func (in *ReservationSharingPolicyParameters) DeepCopy() *ReservationSharingPoli
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ReservationSpec) DeepCopyInto(out *ReservationSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -56476,12 +56476,12 @@ func (in *ReservationSpecificReservationInitParameters) DeepCopyInto(out *Reserv
 	}
 	if in.SourceInstanceTemplateRef != nil {
 		in, out := &in.SourceInstanceTemplateRef, &out.SourceInstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstanceTemplateSelector != nil {
 		in, out := &in.SourceInstanceTemplateSelector, &out.SourceInstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -56556,12 +56556,12 @@ func (in *ReservationSpecificReservationParameters) DeepCopyInto(out *Reservatio
 	}
 	if in.SourceInstanceTemplateRef != nil {
 		in, out := &in.SourceInstanceTemplateRef, &out.SourceInstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstanceTemplateSelector != nil {
 		in, out := &in.SourceInstanceTemplateSelector, &out.SourceInstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -56579,7 +56579,7 @@ func (in *ReservationSpecificReservationParameters) DeepCopy() *ReservationSpeci
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ReservationStatus) DeepCopyInto(out *ReservationStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -56603,12 +56603,12 @@ func (in *ResourcePoliciesInitParameters) DeepCopyInto(out *ResourcePoliciesInit
 	}
 	if in.WorkloadPolicyRef != nil {
 		in, out := &in.WorkloadPolicyRef, &out.WorkloadPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WorkloadPolicySelector != nil {
 		in, out := &in.WorkloadPolicySelector, &out.WorkloadPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -56653,12 +56653,12 @@ func (in *ResourcePoliciesParameters) DeepCopyInto(out *ResourcePoliciesParamete
 	}
 	if in.WorkloadPolicyRef != nil {
 		in, out := &in.WorkloadPolicyRef, &out.WorkloadPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WorkloadPolicySelector != nil {
 		in, out := &in.WorkloadPolicySelector, &out.WorkloadPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -56910,7 +56910,7 @@ func (in *ResourcePolicyParameters) DeepCopy() *ResourcePolicyParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ResourcePolicySpec) DeepCopyInto(out *ResourcePolicySpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -56928,7 +56928,7 @@ func (in *ResourcePolicySpec) DeepCopy() *ResourcePolicySpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ResourcePolicyStatus) DeepCopyInto(out *ResourcePolicyStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -59048,12 +59048,12 @@ func (in *RouteActionRequestMirrorPolicyInitParameters) DeepCopyInto(out *RouteA
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -59098,12 +59098,12 @@ func (in *RouteActionRequestMirrorPolicyParameters) DeepCopyInto(out *RouteActio
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -59794,12 +59794,12 @@ func (in *RouteActionWeightedBackendServicesInitParameters) DeepCopyInto(out *Ro
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -59864,12 +59864,12 @@ func (in *RouteActionWeightedBackendServicesParameters) DeepCopyInto(out *RouteA
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -60448,12 +60448,12 @@ func (in *RouteRulesInitParameters) DeepCopyInto(out *RouteRulesInitParameters) 
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -60816,12 +60816,12 @@ func (in *RouteRulesParameters) DeepCopyInto(out *RouteRulesParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLRedirect != nil {
@@ -63541,12 +63541,12 @@ func (in *RouterInitParameters) DeepCopyInto(out *RouterInitParameters) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Params != nil {
@@ -63719,14 +63719,14 @@ func (in *RouterNATInitParameters) DeepCopyInto(out *RouterNATInitParameters) {
 	}
 	if in.NATIpsRefs != nil {
 		in, out := &in.NATIpsRefs, &out.NATIpsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.NATIpsSelector != nil {
 		in, out := &in.NATIpsSelector, &out.NATIpsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Nat64Subnetwork != nil {
@@ -64178,14 +64178,14 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 	}
 	if in.NATIpsRefs != nil {
 		in, out := &in.NATIpsRefs, &out.NATIpsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.NATIpsSelector != nil {
 		in, out := &in.NATIpsSelector, &out.NATIpsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Nat64Subnetwork != nil {
@@ -64212,12 +64212,12 @@ func (in *RouterNATParameters) DeepCopyInto(out *RouterNATParameters) {
 	}
 	if in.RouterRef != nil {
 		in, out := &in.RouterRef, &out.RouterRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterSelector != nil {
 		in, out := &in.RouterSelector, &out.RouterSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Rules != nil {
@@ -64284,7 +64284,7 @@ func (in *RouterNATParameters) DeepCopy() *RouterNATParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouterNATSpec) DeepCopyInto(out *RouterNATSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -64302,7 +64302,7 @@ func (in *RouterNATSpec) DeepCopy() *RouterNATSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouterNATStatus) DeepCopyInto(out *RouterNATStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -64421,12 +64421,12 @@ func (in *RouterParameters) DeepCopyInto(out *RouterParameters) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Params != nil {
@@ -64758,12 +64758,12 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 	}
 	if in.InterfaceRef != nil {
 		in, out := &in.InterfaceRef, &out.InterfaceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InterfaceSelector != nil {
 		in, out := &in.InterfaceSelector, &out.InterfaceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Md5AuthenticationKey != nil {
@@ -64783,12 +64783,12 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 	}
 	if in.PeerIPAddressRef != nil {
 		in, out := &in.PeerIPAddressRef, &out.PeerIPAddressRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PeerIPAddressSelector != nil {
 		in, out := &in.PeerIPAddressSelector, &out.PeerIPAddressSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PeerIPv4NexthopAddress != nil {
@@ -64813,12 +64813,12 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 	}
 	if in.RegionRef != nil {
 		in, out := &in.RegionRef, &out.RegionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionSelector != nil {
 		in, out := &in.RegionSelector, &out.RegionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterApplianceInstance != nil {
@@ -64828,12 +64828,12 @@ func (in *RouterPeerInitParameters) DeepCopyInto(out *RouterPeerInitParameters) 
 	}
 	if in.RouterApplianceInstanceRef != nil {
 		in, out := &in.RouterApplianceInstanceRef, &out.RouterApplianceInstanceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterApplianceInstanceSelector != nil {
 		in, out := &in.RouterApplianceInstanceSelector, &out.RouterApplianceInstanceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZeroAdvertisedRoutePriority != nil {
@@ -65194,12 +65194,12 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 	}
 	if in.InterfaceRef != nil {
 		in, out := &in.InterfaceRef, &out.InterfaceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InterfaceSelector != nil {
 		in, out := &in.InterfaceSelector, &out.InterfaceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Md5AuthenticationKey != nil {
@@ -65219,12 +65219,12 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 	}
 	if in.PeerIPAddressRef != nil {
 		in, out := &in.PeerIPAddressRef, &out.PeerIPAddressRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PeerIPAddressSelector != nil {
 		in, out := &in.PeerIPAddressSelector, &out.PeerIPAddressSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PeerIPv4NexthopAddress != nil {
@@ -65249,12 +65249,12 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 	}
 	if in.RegionRef != nil {
 		in, out := &in.RegionRef, &out.RegionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionSelector != nil {
 		in, out := &in.RegionSelector, &out.RegionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Router != nil {
@@ -65269,22 +65269,22 @@ func (in *RouterPeerParameters) DeepCopyInto(out *RouterPeerParameters) {
 	}
 	if in.RouterApplianceInstanceRef != nil {
 		in, out := &in.RouterApplianceInstanceRef, &out.RouterApplianceInstanceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterApplianceInstanceSelector != nil {
 		in, out := &in.RouterApplianceInstanceSelector, &out.RouterApplianceInstanceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterRef != nil {
 		in, out := &in.RouterRef, &out.RouterRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RouterSelector != nil {
 		in, out := &in.RouterSelector, &out.RouterSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZeroAdvertisedRoutePriority != nil {
@@ -65312,7 +65312,7 @@ func (in *RouterPeerParameters) DeepCopy() *RouterPeerParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouterPeerSpec) DeepCopyInto(out *RouterPeerSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -65330,7 +65330,7 @@ func (in *RouterPeerSpec) DeepCopy() *RouterPeerSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouterPeerStatus) DeepCopyInto(out *RouterPeerStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -65347,7 +65347,7 @@ func (in *RouterPeerStatus) DeepCopy() *RouterPeerStatus {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouterSpec) DeepCopyInto(out *RouterSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -65365,7 +65365,7 @@ func (in *RouterSpec) DeepCopy() *RouterSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RouterStatus) DeepCopyInto(out *RouterStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -67412,7 +67412,7 @@ func (in *SecurityPolicyParameters) DeepCopy() *SecurityPolicyParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SecurityPolicySpec) DeepCopyInto(out *SecurityPolicySpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -67430,7 +67430,7 @@ func (in *SecurityPolicySpec) DeepCopy() *SecurityPolicySpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SecurityPolicyStatus) DeepCopyInto(out *SecurityPolicyStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -67697,12 +67697,12 @@ func (in *ServiceAccountInitParameters) DeepCopyInto(out *ServiceAccountInitPara
 	}
 	if in.EmailRef != nil {
 		in, out := &in.EmailRef, &out.EmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EmailSelector != nil {
 		in, out := &in.EmailSelector, &out.EmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
@@ -67769,12 +67769,12 @@ func (in *ServiceAccountParameters) DeepCopyInto(out *ServiceAccountParameters) 
 	}
 	if in.EmailRef != nil {
 		in, out := &in.EmailRef, &out.EmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EmailSelector != nil {
 		in, out := &in.EmailSelector, &out.EmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Scopes != nil {
@@ -68286,12 +68286,12 @@ func (in *SnapshotEncryptionKeyInitParameters) DeepCopyInto(out *SnapshotEncrypt
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -68351,12 +68351,12 @@ func (in *SnapshotEncryptionKeyParameters) DeepCopyInto(out *SnapshotEncryptionK
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -68653,7 +68653,7 @@ func (in *SnapshotIAMMemberParameters) DeepCopy() *SnapshotIAMMemberParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SnapshotIAMMemberSpec) DeepCopyInto(out *SnapshotIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -68671,7 +68671,7 @@ func (in *SnapshotIAMMemberSpec) DeepCopy() *SnapshotIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SnapshotIAMMemberStatus) DeepCopyInto(out *SnapshotIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -68746,12 +68746,12 @@ func (in *SnapshotInitParameters) DeepCopyInto(out *SnapshotInitParameters) {
 	}
 	if in.SourceDiskRef != nil {
 		in, out := &in.SourceDiskRef, &out.SourceDiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskSelector != nil {
 		in, out := &in.SourceDiskSelector, &out.SourceDiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstantSnapshot != nil {
@@ -69055,12 +69055,12 @@ func (in *SnapshotParameters) DeepCopyInto(out *SnapshotParameters) {
 	}
 	if in.SourceDiskRef != nil {
 		in, out := &in.SourceDiskRef, &out.SourceDiskRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDiskSelector != nil {
 		in, out := &in.SourceDiskSelector, &out.SourceDiskSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceInstantSnapshot != nil {
@@ -69450,12 +69450,12 @@ func (in *SnapshotSourceDiskEncryptionKeyInitParameters) DeepCopyInto(out *Snaps
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69510,12 +69510,12 @@ func (in *SnapshotSourceDiskEncryptionKeyParameters) DeepCopyInto(out *SnapshotS
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69533,7 +69533,7 @@ func (in *SnapshotSourceDiskEncryptionKeyParameters) DeepCopy() *SnapshotSourceD
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SnapshotSpec) DeepCopyInto(out *SnapshotSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -69551,7 +69551,7 @@ func (in *SnapshotSpec) DeepCopy() *SnapshotSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SnapshotStatus) DeepCopyInto(out *SnapshotStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -69580,12 +69580,12 @@ func (in *SourceDiskEncryptionKeyInitParameters) DeepCopyInto(out *SourceDiskEnc
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69640,12 +69640,12 @@ func (in *SourceDiskEncryptionKeyParameters) DeepCopyInto(out *SourceDiskEncrypt
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.RsaEncryptedKeySecretRef != nil {
 		in, out := &in.RsaEncryptedKeySecretRef, &out.RsaEncryptedKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69675,7 +69675,7 @@ func (in *SourceImageEncryptionKeyInitParameters) DeepCopyInto(out *SourceImageE
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69735,7 +69735,7 @@ func (in *SourceImageEncryptionKeyParameters) DeepCopyInto(out *SourceImageEncry
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69765,7 +69765,7 @@ func (in *SourceSnapshotEncryptionKeyInitParameters) DeepCopyInto(out *SourceSna
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -69825,7 +69825,7 @@ func (in *SourceSnapshotEncryptionKeyParameters) DeepCopyInto(out *SourceSnapsho
 	}
 	if in.RawKeySecretRef != nil {
 		in, out := &in.RawKeySecretRef, &out.RawKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -70009,12 +70009,12 @@ func (in *SrcSecureTagsInitParameters) DeepCopyInto(out *SrcSecureTagsInitParame
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -70064,12 +70064,12 @@ func (in *SrcSecureTagsParameters) DeepCopyInto(out *SrcSecureTagsParameters) {
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -71143,12 +71143,12 @@ func (in *SubnetworkIAMMemberInitParameters) DeepCopyInto(out *SubnetworkIAMMemb
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -71285,12 +71285,12 @@ func (in *SubnetworkIAMMemberParameters) DeepCopyInto(out *SubnetworkIAMMemberPa
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -71308,7 +71308,7 @@ func (in *SubnetworkIAMMemberParameters) DeepCopy() *SubnetworkIAMMemberParamete
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubnetworkIAMMemberSpec) DeepCopyInto(out *SubnetworkIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -71326,7 +71326,7 @@ func (in *SubnetworkIAMMemberSpec) DeepCopy() *SubnetworkIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubnetworkIAMMemberStatus) DeepCopyInto(out *SubnetworkIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -71350,12 +71350,12 @@ func (in *SubnetworkInitParameters) DeepCopyInto(out *SubnetworkInitParameters) 
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryIPRangeNames != nil {
@@ -71442,12 +71442,12 @@ func (in *SubnetworkInitParameters_2) DeepCopyInto(out *SubnetworkInitParameters
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Params != nil {
@@ -71913,12 +71913,12 @@ func (in *SubnetworkParameters) DeepCopyInto(out *SubnetworkParameters) {
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryIPRangeNames != nil {
@@ -72005,12 +72005,12 @@ func (in *SubnetworkParameters_2) DeepCopyInto(out *SubnetworkParameters_2) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Params != nil {
@@ -72183,7 +72183,7 @@ func (in *SubnetworkParamsParameters) DeepCopy() *SubnetworkParamsParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubnetworkSpec) DeepCopyInto(out *SubnetworkSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -72201,7 +72201,7 @@ func (in *SubnetworkSpec) DeepCopy() *SubnetworkSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubnetworkStatus) DeepCopyInto(out *SubnetworkStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -72225,12 +72225,12 @@ func (in *SubnetworksInitParameters) DeepCopyInto(out *SubnetworksInitParameters
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -72275,12 +72275,12 @@ func (in *SubnetworksParameters) DeepCopyInto(out *SubnetworksParameters) {
 	}
 	if in.URLRef != nil {
 		in, out := &in.URLRef, &out.URLRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.URLSelector != nil {
 		in, out := &in.URLSelector, &out.URLSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -72686,12 +72686,12 @@ func (in *TargetSecureTagsInitParameters) DeepCopyInto(out *TargetSecureTagsInit
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -72741,12 +72741,12 @@ func (in *TargetSecureTagsParameters) DeepCopyInto(out *TargetSecureTagsParamete
 	}
 	if in.NameRef != nil {
 		in, out := &in.NameRef, &out.NameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NameSelector != nil {
 		in, out := &in.NameSelector, &out.NameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -72921,12 +72921,12 @@ func (in *TestInitParameters) DeepCopyInto(out *TestInitParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -73001,12 +73001,12 @@ func (in *TestParameters) DeepCopyInto(out *TestParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -74000,12 +74000,12 @@ func (in *URLMapDefaultRouteActionRequestMirrorPolicyInitParameters) DeepCopyInt
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -74050,12 +74050,12 @@ func (in *URLMapDefaultRouteActionRequestMirrorPolicyParameters) DeepCopyInto(ou
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -75014,12 +75014,12 @@ func (in *URLMapInitParameters) DeepCopyInto(out *URLMapInitParameters) {
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -75228,12 +75228,12 @@ func (in *URLMapParameters) DeepCopyInto(out *URLMapParameters) {
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -75963,12 +75963,12 @@ func (in *URLMapPathMatcherInitParameters) DeepCopyInto(out *URLMapPathMatcherIn
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -76101,12 +76101,12 @@ func (in *URLMapPathMatcherParameters) DeepCopyInto(out *URLMapPathMatcherParame
 	}
 	if in.DefaultServiceRef != nil {
 		in, out := &in.DefaultServiceRef, &out.DefaultServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultServiceSelector != nil {
 		in, out := &in.DefaultServiceSelector, &out.DefaultServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultURLRedirect != nil {
@@ -76158,7 +76158,7 @@ func (in *URLMapPathMatcherParameters) DeepCopy() *URLMapPathMatcherParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *URLMapSpec) DeepCopyInto(out *URLMapSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -76176,7 +76176,7 @@ func (in *URLMapSpec) DeepCopy() *URLMapSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *URLMapStatus) DeepCopyInto(out *URLMapStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -76232,12 +76232,12 @@ func (in *URLMapTestInitParameters) DeepCopyInto(out *URLMapTestInitParameters) 
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -76346,12 +76346,12 @@ func (in *URLMapTestParameters) DeepCopyInto(out *URLMapTestParameters) {
 	}
 	if in.ServiceRef != nil {
 		in, out := &in.ServiceRef, &out.ServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceSelector != nil {
 		in, out := &in.ServiceSelector, &out.ServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -76962,12 +76962,12 @@ func (in *VersionInitParameters) DeepCopyInto(out *VersionInitParameters) {
 	}
 	if in.InstanceTemplateRef != nil {
 		in, out := &in.InstanceTemplateRef, &out.InstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceTemplateSelector != nil {
 		in, out := &in.InstanceTemplateSelector, &out.InstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -77032,12 +77032,12 @@ func (in *VersionParameters) DeepCopyInto(out *VersionParameters) {
 	}
 	if in.InstanceTemplateRef != nil {
 		in, out := &in.InstanceTemplateRef, &out.InstanceTemplateRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceTemplateSelector != nil {
 		in, out := &in.InstanceTemplateSelector, &out.InstanceTemplateSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -77596,12 +77596,12 @@ func (in *WeightedBackendServicesInitParameters) DeepCopyInto(out *WeightedBacke
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {
@@ -77666,12 +77666,12 @@ func (in *WeightedBackendServicesParameters) DeepCopyInto(out *WeightedBackendSe
 	}
 	if in.BackendServiceRef != nil {
 		in, out := &in.BackendServiceRef, &out.BackendServiceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BackendServiceSelector != nil {
 		in, out := &in.BackendServiceSelector, &out.BackendServiceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderAction != nil {

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorizedExternalNetworksInitParameters struct {
@@ -176,11 +176,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Cluster in alloydb to populate instanceType.
 	// +kubebuilder:validation:Optional
-	InstanceTypeRef *v1.Reference `json:"instanceTypeRef,omitempty" tf:"-"`
+	InstanceTypeRef *v2.Reference `json:"instanceTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate instanceType.
 	// +kubebuilder:validation:Optional
-	InstanceTypeSelector *v1.Selector `json:"instanceTypeSelector,omitempty" tf:"-"`
+	InstanceTypeSelector *v2.Selector `json:"instanceTypeSelector,omitempty" tf:"-"`
 
 	// User-defined labels for the alloydb instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -458,11 +458,11 @@ type InstanceParameters struct {
 
 	// Reference to a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// Configuration for Managed Connection Pool.
 	// Structure is documented below.
@@ -495,11 +495,11 @@ type InstanceParameters struct {
 
 	// Reference to a Cluster in alloydb to populate instanceType.
 	// +kubebuilder:validation:Optional
-	InstanceTypeRef *v1.Reference `json:"instanceTypeRef,omitempty" tf:"-"`
+	InstanceTypeRef *v2.Reference `json:"instanceTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate instanceType.
 	// +kubebuilder:validation:Optional
-	InstanceTypeSelector *v1.Selector `json:"instanceTypeSelector,omitempty" tf:"-"`
+	InstanceTypeSelector *v2.Selector `json:"instanceTypeSelector,omitempty" tf:"-"`
 
 	// User-defined labels for the alloydb instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -807,8 +807,8 @@ type SSLConfigParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -824,8 +824,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

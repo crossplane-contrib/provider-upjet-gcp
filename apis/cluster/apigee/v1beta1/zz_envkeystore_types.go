@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvKeystoreInitParameters struct {
@@ -35,17 +35,17 @@ type EnvKeystoreParameters struct {
 
 	// Reference to a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDRef *v1.Reference `json:"envIdRef,omitempty" tf:"-"`
+	EnvIDRef *v2.Reference `json:"envIdRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDSelector *v1.Selector `json:"envIdSelector,omitempty" tf:"-"`
+	EnvIDSelector *v2.Selector `json:"envIdSelector,omitempty" tf:"-"`
 }
 
 // EnvKeystoreSpec defines the desired state of EnvKeystore
 type EnvKeystoreSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EnvKeystoreParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EnvKeystoreParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -61,8 +61,8 @@ type EnvKeystoreSpec struct {
 
 // EnvKeystoreStatus defines the observed state of EnvKeystore.
 type EnvKeystoreStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvKeystoreObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvKeystoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

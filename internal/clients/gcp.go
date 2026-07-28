@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/crossplane/upjet/v2/apis/configuration/v1alpha1"
 	upjetmetrics "github.com/crossplane/upjet/v2/pkg/metrics"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
@@ -152,14 +152,14 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		}
 
 		switch pcSpec.Credentials.Source { //nolint:exhaustive
-		case xpv1.CredentialsSourceInjectedIdentity:
+		case xpv2.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
 		case impersonateServiceAccount:
 			if pcSpec.Credentials.Name != "" {
 				ps.Configuration[keyImpersonateServiceAccount] = pcSpec.Credentials.Name
 			}
 		case credentialsSourceAccessToken:
-			data, err := resource.CommonCredentialExtractor(ctx, xpv1.CredentialsSourceSecret, crClient, pcSpec.Credentials.CommonCredentialSelectors)
+			data, err := resource.CommonCredentialExtractor(ctx, xpv2.CredentialsSourceSecret, crClient, pcSpec.Credentials.CommonCredentialSelectors)
 			if err != nil {
 				return ps, errors.Wrap(err, errExtractTokenCredentials)
 			}

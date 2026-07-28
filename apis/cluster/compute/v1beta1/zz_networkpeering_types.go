@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkPeeringInitParameters struct {
@@ -35,11 +35,11 @@ type NetworkPeeringInitParameters struct {
 
 	// Reference to a Network in compute to populate peerNetwork.
 	// +kubebuilder:validation:Optional
-	PeerNetworkRef *v1.Reference `json:"peerNetworkRef,omitempty" tf:"-"`
+	PeerNetworkRef *v2.Reference `json:"peerNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate peerNetwork.
 	// +kubebuilder:validation:Optional
-	PeerNetworkSelector *v1.Selector `json:"peerNetworkSelector,omitempty" tf:"-"`
+	PeerNetworkSelector *v2.Selector `json:"peerNetworkSelector,omitempty" tf:"-"`
 
 	// Which IP version(s) of traffic and routes are allowed to be imported or exported between peer networks. The default value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
@@ -116,11 +116,11 @@ type NetworkPeeringParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The peer network in the peering. The peer network
 	// may belong to a different project.
@@ -131,11 +131,11 @@ type NetworkPeeringParameters struct {
 
 	// Reference to a Network in compute to populate peerNetwork.
 	// +kubebuilder:validation:Optional
-	PeerNetworkRef *v1.Reference `json:"peerNetworkRef,omitempty" tf:"-"`
+	PeerNetworkRef *v2.Reference `json:"peerNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate peerNetwork.
 	// +kubebuilder:validation:Optional
-	PeerNetworkSelector *v1.Selector `json:"peerNetworkSelector,omitempty" tf:"-"`
+	PeerNetworkSelector *v2.Selector `json:"peerNetworkSelector,omitempty" tf:"-"`
 
 	// Which IP version(s) of traffic and routes are allowed to be imported or exported between peer networks. The default value is IPV4_ONLY. Possible values: ["IPV4_ONLY", "IPV4_IPV6"].
 	// +kubebuilder:validation:Optional
@@ -148,8 +148,8 @@ type NetworkPeeringParameters struct {
 
 // NetworkPeeringSpec defines the desired state of NetworkPeering
 type NetworkPeeringSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkPeeringParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkPeeringParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -165,8 +165,8 @@ type NetworkPeeringSpec struct {
 
 // NetworkPeeringStatus defines the observed state of NetworkPeering.
 type NetworkPeeringStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkPeeringObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkPeeringObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

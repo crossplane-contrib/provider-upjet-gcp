@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessRoleInitParameters struct {
@@ -194,11 +193,11 @@ type CloudSQLInitParameters struct {
 
 	// Reference to a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// Cloud SQL instance ID in the form project:location:instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
@@ -207,11 +206,11 @@ type CloudSQLInitParameters struct {
 
 	// Reference to a DatabaseInstance in sql to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Type of the Cloud SQL database.
 	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
@@ -253,11 +252,11 @@ type CloudSQLParameters struct {
 
 	// Reference to a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// Cloud SQL instance ID in the form project:location:instance.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
@@ -267,11 +266,11 @@ type CloudSQLParameters struct {
 
 	// Reference to a DatabaseInstance in sql to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Type of the Cloud SQL database.
 	// Possible values are: DATABASE_TYPE_UNSPECIFIED, POSTGRES, MYSQL.
@@ -630,7 +629,7 @@ type CredentialInitParameters struct {
 
 	// Password configuration for the connector.
 	// Structure is documented below.
-	PasswordSecretRef v1.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef v2.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Username for the connector.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.User
@@ -638,11 +637,11 @@ type CredentialInitParameters struct {
 
 	// Reference to a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type CredentialObservation struct {
@@ -656,7 +655,7 @@ type CredentialParameters struct {
 	// Password configuration for the connector.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef v1.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef v2.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// Username for the connector.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.User
@@ -665,11 +664,11 @@ type CredentialParameters struct {
 
 	// Reference to a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type EndpointInitParameters struct {
@@ -736,7 +735,7 @@ type PasswordInitParameters struct {
 
 	// The plaintext password.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PlaintextSecretRef v1.LocalSecretKeySelector `json:"plaintextSecretRef" tf:"-"`
+	PlaintextSecretRef v2.LocalSecretKeySelector `json:"plaintextSecretRef" tf:"-"`
 }
 
 type PasswordObservation struct {
@@ -751,7 +750,7 @@ type PasswordParameters struct {
 	// The plaintext password.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PlaintextSecretRef v1.LocalSecretKeySelector `json:"plaintextSecretRef" tf:"-"`
+	PlaintextSecretRef v2.LocalSecretKeySelector `json:"plaintextSecretRef" tf:"-"`
 }
 
 type PrivateServiceConnectInitParameters struct {
@@ -785,11 +784,11 @@ type SparkHistoryServerConfigInitParameters struct {
 
 	// Reference to a Cluster in dataproc to populate dataprocCluster.
 	// +kubebuilder:validation:Optional
-	DataprocClusterRef *v1.NamespacedReference `json:"dataprocClusterRef,omitempty" tf:"-"`
+	DataprocClusterRef *v2.NamespacedReference `json:"dataprocClusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate dataprocCluster.
 	// +kubebuilder:validation:Optional
-	DataprocClusterSelector *v1.NamespacedSelector `json:"dataprocClusterSelector,omitempty" tf:"-"`
+	DataprocClusterSelector *v2.NamespacedSelector `json:"dataprocClusterSelector,omitempty" tf:"-"`
 }
 
 type SparkHistoryServerConfigObservation struct {
@@ -808,11 +807,11 @@ type SparkHistoryServerConfigParameters struct {
 
 	// Reference to a Cluster in dataproc to populate dataprocCluster.
 	// +kubebuilder:validation:Optional
-	DataprocClusterRef *v1.NamespacedReference `json:"dataprocClusterRef,omitempty" tf:"-"`
+	DataprocClusterRef *v2.NamespacedReference `json:"dataprocClusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate dataprocCluster.
 	// +kubebuilder:validation:Optional
-	DataprocClusterSelector *v1.NamespacedSelector `json:"dataprocClusterSelector,omitempty" tf:"-"`
+	DataprocClusterSelector *v2.NamespacedSelector `json:"dataprocClusterSelector,omitempty" tf:"-"`
 }
 
 type SparkInitParameters struct {
@@ -905,8 +904,8 @@ type ConnectionSpec struct {
 
 // ConnectionStatus defines the observed state of Connection.
 type ConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PolicyTagInitParameters struct {
@@ -36,11 +35,11 @@ type PolicyTagInitParameters struct {
 
 	// Reference to a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagRef *v1.NamespacedReference `json:"parentPolicyTagRef,omitempty" tf:"-"`
+	ParentPolicyTagRef *v2.NamespacedReference `json:"parentPolicyTagRef,omitempty" tf:"-"`
 
 	// Selector for a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagSelector *v1.NamespacedSelector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
+	ParentPolicyTagSelector *v2.NamespacedSelector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
 
 	// Taxonomy the policy tag is associated with
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.Taxonomy
@@ -49,11 +48,11 @@ type PolicyTagInitParameters struct {
 
 	// Reference to a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomyRef *v1.NamespacedReference `json:"taxonomyRef,omitempty" tf:"-"`
+	TaxonomyRef *v2.NamespacedReference `json:"taxonomyRef,omitempty" tf:"-"`
 
 	// Selector for a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomySelector *v1.NamespacedSelector `json:"taxonomySelector,omitempty" tf:"-"`
+	TaxonomySelector *v2.NamespacedSelector `json:"taxonomySelector,omitempty" tf:"-"`
 }
 
 type PolicyTagObservation struct {
@@ -117,11 +116,11 @@ type PolicyTagParameters struct {
 
 	// Reference to a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagRef *v1.NamespacedReference `json:"parentPolicyTagRef,omitempty" tf:"-"`
+	ParentPolicyTagRef *v2.NamespacedReference `json:"parentPolicyTagRef,omitempty" tf:"-"`
 
 	// Selector for a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagSelector *v1.NamespacedSelector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
+	ParentPolicyTagSelector *v2.NamespacedSelector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
 
 	// Taxonomy the policy tag is associated with
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.Taxonomy
@@ -131,11 +130,11 @@ type PolicyTagParameters struct {
 
 	// Reference to a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomyRef *v1.NamespacedReference `json:"taxonomyRef,omitempty" tf:"-"`
+	TaxonomyRef *v2.NamespacedReference `json:"taxonomyRef,omitempty" tf:"-"`
 
 	// Selector for a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomySelector *v1.NamespacedSelector `json:"taxonomySelector,omitempty" tf:"-"`
+	TaxonomySelector *v2.NamespacedSelector `json:"taxonomySelector,omitempty" tf:"-"`
 }
 
 // PolicyTagSpec defines the desired state of PolicyTag
@@ -157,8 +156,8 @@ type PolicyTagSpec struct {
 
 // PolicyTagStatus defines the observed state of PolicyTag.
 type PolicyTagStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyTagObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyTagObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

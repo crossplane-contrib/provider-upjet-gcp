@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SyncAuthorizationInitParameters struct {
@@ -59,11 +58,11 @@ type SyncAuthorizationParameters struct {
 
 	// Reference to a Organization in apigee to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 // SyncAuthorizationSpec defines the desired state of SyncAuthorization
@@ -85,8 +84,8 @@ type SyncAuthorizationSpec struct {
 
 // SyncAuthorizationStatus defines the observed state of SyncAuthorization.
 type SyncAuthorizationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SyncAuthorizationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SyncAuthorizationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

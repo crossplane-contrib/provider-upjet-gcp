@@ -5,104 +5,104 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this ResponsePolicy.
-func (mg *ResponsePolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ResponsePolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ResponsePolicy.
-func (mg *ResponsePolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ResponsePolicy) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ResponsePolicy.
-func (mg *ResponsePolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ResponsePolicy) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ResponsePolicy.
-func (mg *ResponsePolicy) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ResponsePolicy) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ResponsePolicy.
-func (mg *ResponsePolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ResponsePolicy) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ResponsePolicy.
-func (mg *ResponsePolicy) SetConditions(c ...xpv1.Condition) {
+func (mg *ResponsePolicy) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ResponsePolicy.
-func (mg *ResponsePolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ResponsePolicy) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ResponsePolicy.
-func (mg *ResponsePolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ResponsePolicy) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ResponsePolicy.
-func (mg *ResponsePolicy) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ResponsePolicy) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ResponsePolicy.
-func (mg *ResponsePolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ResponsePolicy) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ResponsePolicyRule) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ResponsePolicyRule) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ResponsePolicyRule) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ResponsePolicyRule) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ResponsePolicyRule) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) SetConditions(c ...xpv1.Condition) {
+func (mg *ResponsePolicyRule) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ResponsePolicyRule) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ResponsePolicyRule) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ResponsePolicyRule) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ResponsePolicyRule.
-func (mg *ResponsePolicyRule) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ResponsePolicyRule) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

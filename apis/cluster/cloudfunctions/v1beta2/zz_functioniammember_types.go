@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -48,11 +48,11 @@ type FunctionIAMMemberInitParameters struct {
 
 	// Reference to a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
-	CloudFunctionRef *v1.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
+	CloudFunctionRef *v2.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
-	CloudFunctionSelector *v1.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
+	CloudFunctionSelector *v2.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
 
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
@@ -91,11 +91,11 @@ type FunctionIAMMemberParameters struct {
 
 	// Reference to a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
-	CloudFunctionRef *v1.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
+	CloudFunctionRef *v2.Reference `json:"cloudFunctionRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions to populate cloudFunction.
 	// +kubebuilder:validation:Optional
-	CloudFunctionSelector *v1.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
+	CloudFunctionSelector *v2.Selector `json:"cloudFunctionSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
@@ -115,8 +115,8 @@ type FunctionIAMMemberParameters struct {
 
 // FunctionIAMMemberSpec defines the desired state of FunctionIAMMember
 type FunctionIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FunctionIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FunctionIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -132,8 +132,8 @@ type FunctionIAMMemberSpec struct {
 
 // FunctionIAMMemberStatus defines the observed state of FunctionIAMMember.
 type FunctionIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FunctionIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FunctionIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

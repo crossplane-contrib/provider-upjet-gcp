@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ArgumentsInitParameters struct {
@@ -101,11 +100,11 @@ type RemoteFunctionOptionsInitParameters struct {
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Endpoint of the user-provided remote service, e.g.
 	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
@@ -160,11 +159,11 @@ type RemoteFunctionOptionsParameters struct {
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Endpoint of the user-provided remote service, e.g.
 	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
@@ -357,11 +356,11 @@ type RoutineParameters_2 struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The body of the routine. For functions, this is the expression in the AS clause.
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
@@ -445,11 +444,11 @@ type SparkOptionsInitParameters struct {
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Custom container image for the runtime environment.
 	ContainerImage *string `json:"containerImage,omitempty" tf:"container_image,omitempty"`
@@ -537,11 +536,11 @@ type SparkOptionsParameters struct {
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.NamespacedReference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.NamespacedSelector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Custom container image for the runtime environment.
 	// +kubebuilder:validation:Optional
@@ -601,8 +600,8 @@ type RoutineSpec struct {
 
 // RoutineStatus defines the observed state of Routine.
 type RoutineStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RoutineObservation_2 `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RoutineObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

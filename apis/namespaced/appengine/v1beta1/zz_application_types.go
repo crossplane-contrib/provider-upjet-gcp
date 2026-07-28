@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ApplicationInitParameters struct {
@@ -46,11 +45,11 @@ type ApplicationInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// A list of the SSL policy that will be applied. Each block has a SSL_POLICY_UNSPECIFIED, DEFAULT, and MODERN field.
 	SSLPolicy *string `json:"sslPolicy,omitempty" tf:"ssl_policy,omitempty"`
@@ -156,11 +155,11 @@ type ApplicationParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// A list of the SSL policy that will be applied. Each block has a SSL_POLICY_UNSPECIFIED, DEFAULT, and MODERN field.
 	// +kubebuilder:validation:Optional
@@ -204,7 +203,7 @@ type IapInitParameters struct {
 
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
-	Oauth2ClientSecretSecretRef v1.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef v2.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 
 type IapObservation struct {
@@ -231,7 +230,7 @@ type IapParameters struct {
 	// OAuth2 client secret to use for the authentication flow.
 	// The SHA-256 hash of the value is returned in the oauth2ClientSecretSha256 field.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef v1.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
+	Oauth2ClientSecretSecretRef v2.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef" tf:"-"`
 }
 
 type URLDispatchRuleInitParameters struct {
@@ -267,8 +266,8 @@ type ApplicationSpec struct {
 
 // ApplicationStatus defines the observed state of Application.
 type ApplicationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ApplicationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ApplicationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

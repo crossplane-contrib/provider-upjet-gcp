@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DefaultObjectAccessControlInitParameters struct {
@@ -21,11 +21,11 @@ type DefaultObjectAccessControlInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
@@ -86,11 +86,11 @@ type DefaultObjectAccessControlParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
 	// +kubebuilder:validation:Optional
@@ -124,8 +124,8 @@ type ProjectTeamParameters struct {
 
 // DefaultObjectAccessControlSpec defines the desired state of DefaultObjectAccessControl
 type DefaultObjectAccessControlSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DefaultObjectAccessControlParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DefaultObjectAccessControlParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -141,8 +141,8 @@ type DefaultObjectAccessControlSpec struct {
 
 // DefaultObjectAccessControlStatus defines the observed state of DefaultObjectAccessControl.
 type DefaultObjectAccessControlStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DefaultObjectAccessControlObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DefaultObjectAccessControlObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

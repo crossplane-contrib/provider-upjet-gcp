@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ActionsInitParameters struct {
@@ -2730,11 +2729,11 @@ type TableInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -2747,11 +2746,11 @@ type TableInitParameters struct {
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableObservation struct {
@@ -2839,11 +2838,11 @@ type TableParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
@@ -2858,11 +2857,11 @@ type TableParameters struct {
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableReferenceInitParameters struct {
@@ -3117,8 +3116,8 @@ type JobTriggerSpec struct {
 
 // JobTriggerStatus defines the observed state of JobTrigger.
 type JobTriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobTriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobTriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

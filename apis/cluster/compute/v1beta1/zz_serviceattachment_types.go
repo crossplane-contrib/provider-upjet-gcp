@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectedEndpointsInitParameters struct {
@@ -67,11 +67,11 @@ type ConsumerAcceptListsInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// A project that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -118,11 +118,11 @@ type ConsumerAcceptListsParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// A project that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -182,11 +182,11 @@ type ServiceAttachmentInitParameters struct {
 
 	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsRefs []v1.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
+	NATSubnetsRefs []v2.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsSelector *v1.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
+	NATSubnetsSelector *v2.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -222,11 +222,11 @@ type ServiceAttachmentInitParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceRef *v1.Reference `json:"targetServiceRef,omitempty" tf:"-"`
+	TargetServiceRef *v2.Reference `json:"targetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceSelector *v1.Selector `json:"targetServiceSelector,omitempty" tf:"-"`
+	TargetServiceSelector *v2.Selector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 type ServiceAttachmentObservation struct {
@@ -360,11 +360,11 @@ type ServiceAttachmentParameters struct {
 
 	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsRefs []v1.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
+	NATSubnetsRefs []v2.Reference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsSelector *v1.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
+	NATSubnetsSelector *v2.Selector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -410,17 +410,17 @@ type ServiceAttachmentParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceRef *v1.Reference `json:"targetServiceRef,omitempty" tf:"-"`
+	TargetServiceRef *v2.Reference `json:"targetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceSelector *v1.Selector `json:"targetServiceSelector,omitempty" tf:"-"`
+	TargetServiceSelector *v2.Selector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 // ServiceAttachmentSpec defines the desired state of ServiceAttachment
 type ServiceAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -436,8 +436,8 @@ type ServiceAttachmentSpec struct {
 
 // ServiceAttachmentStatus defines the observed state of ServiceAttachment.
 type ServiceAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

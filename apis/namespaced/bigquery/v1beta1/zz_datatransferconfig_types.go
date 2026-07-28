@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DataTransferConfigInitParameters struct {
@@ -32,11 +31,11 @@ type DataTransferConfigInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDRef *v1.NamespacedReference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
+	DestinationDatasetIDRef *v2.NamespacedReference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDSelector *v1.NamespacedSelector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
+	DestinationDatasetIDSelector *v2.NamespacedSelector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
 
 	// When set to true, no runs are scheduled for a given transfer.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -216,11 +215,11 @@ type DataTransferConfigParameters struct {
 
 	// Reference to a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDRef *v1.NamespacedReference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
+	DestinationDatasetIDRef *v2.NamespacedReference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDSelector *v1.NamespacedSelector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
+	DestinationDatasetIDSelector *v2.NamespacedSelector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
 
 	// When set to true, no runs are scheduled for a given transfer.
 	// +kubebuilder:validation:Optional
@@ -326,11 +325,11 @@ type EncryptionConfigurationInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type EncryptionConfigurationObservation struct {
@@ -349,11 +348,11 @@ type EncryptionConfigurationParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ScheduleOptionsInitParameters struct {
@@ -432,7 +431,7 @@ type SensitiveParamsInitParameters struct {
 
 	// The Secret Access Key of the AWS account transferring data from.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	SecretAccessKeySecretRef *v1.LocalSecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
+	SecretAccessKeySecretRef *v2.LocalSecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 }
 
 type SensitiveParamsObservation struct {
@@ -443,7 +442,7 @@ type SensitiveParamsParameters struct {
 	// The Secret Access Key of the AWS account transferring data from.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	SecretAccessKeySecretRef *v1.LocalSecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
+	SecretAccessKeySecretRef *v2.LocalSecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 }
 
 // DataTransferConfigSpec defines the desired state of DataTransferConfig
@@ -465,8 +464,8 @@ type DataTransferConfigSpec struct {
 
 // DataTransferConfigStatus defines the observed state of DataTransferConfig.
 type DataTransferConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DataTransferConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DataTransferConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

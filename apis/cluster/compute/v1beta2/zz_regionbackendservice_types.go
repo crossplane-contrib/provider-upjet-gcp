@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackendCustomMetricsInitParameters struct {
@@ -397,11 +397,11 @@ type LeaderInitParameters struct {
 
 	// Reference to a NetworkEndpointGroup in compute to populate backendGroup.
 	// +kubebuilder:validation:Optional
-	BackendGroupRef *v1.Reference `json:"backendGroupRef,omitempty" tf:"-"`
+	BackendGroupRef *v2.Reference `json:"backendGroupRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkEndpointGroup in compute to populate backendGroup.
 	// +kubebuilder:validation:Optional
-	BackendGroupSelector *v1.Selector `json:"backendGroupSelector,omitempty" tf:"-"`
+	BackendGroupSelector *v2.Selector `json:"backendGroupSelector,omitempty" tf:"-"`
 
 	// The network endpoint within the leader.backendGroup that is designated as the leader.
 	// Structure is documented below.
@@ -430,11 +430,11 @@ type LeaderParameters struct {
 
 	// Reference to a NetworkEndpointGroup in compute to populate backendGroup.
 	// +kubebuilder:validation:Optional
-	BackendGroupRef *v1.Reference `json:"backendGroupRef,omitempty" tf:"-"`
+	BackendGroupRef *v2.Reference `json:"backendGroupRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkEndpointGroup in compute to populate backendGroup.
 	// +kubebuilder:validation:Optional
-	BackendGroupSelector *v1.Selector `json:"backendGroupSelector,omitempty" tf:"-"`
+	BackendGroupSelector *v2.Selector `json:"backendGroupSelector,omitempty" tf:"-"`
 
 	// The network endpoint within the leader.backendGroup that is designated as the leader.
 	// Structure is documented below.
@@ -451,11 +451,11 @@ type NetworkEndpointInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 }
 
 type NetworkEndpointObservation struct {
@@ -475,11 +475,11 @@ type NetworkEndpointParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 }
 
 type NetworkPassThroughLBTrafficPolicyInitParameters struct {
@@ -639,11 +639,11 @@ type RegionBackendServiceBackendInitParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
@@ -861,11 +861,11 @@ type RegionBackendServiceBackendParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
@@ -1420,7 +1420,7 @@ type RegionBackendServiceIapInitParameters struct {
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+	Oauth2ClientSecretSecretRef *v2.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type RegionBackendServiceIapObservation struct {
@@ -1445,7 +1445,7 @@ type RegionBackendServiceIapParameters struct {
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+	Oauth2ClientSecretSecretRef *v2.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type RegionBackendServiceInitParameters struct {
@@ -1527,11 +1527,11 @@ type RegionBackendServiceInitParameters struct {
 
 	// References to RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
@@ -1568,11 +1568,11 @@ type RegionBackendServiceInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
@@ -1607,11 +1607,11 @@ type RegionBackendServiceInitParameters struct {
 
 	// Reference to a RegionSecurityPolicy in compute to populate securityPolicy.
 	// +kubebuilder:validation:Optional
-	SecurityPolicyRef *v1.Reference `json:"securityPolicyRef,omitempty" tf:"-"`
+	SecurityPolicyRef *v2.Reference `json:"securityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a RegionSecurityPolicy in compute to populate securityPolicy.
 	// +kubebuilder:validation:Optional
-	SecurityPolicySelector *v1.Selector `json:"securityPolicySelector,omitempty" tf:"-"`
+	SecurityPolicySelector *v2.Selector `json:"securityPolicySelector,omitempty" tf:"-"`
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -2171,11 +2171,11 @@ type RegionBackendServiceParameters struct {
 
 	// References to RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of RegionHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
@@ -2219,11 +2219,11 @@ type RegionBackendServiceParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Settings controlling eviction of unhealthy hosts from the load balancing pool.
 	// This field is applicable only when the load_balancing_scheme is set
@@ -2269,11 +2269,11 @@ type RegionBackendServiceParameters struct {
 
 	// Reference to a RegionSecurityPolicy in compute to populate securityPolicy.
 	// +kubebuilder:validation:Optional
-	SecurityPolicyRef *v1.Reference `json:"securityPolicyRef,omitempty" tf:"-"`
+	SecurityPolicyRef *v2.Reference `json:"securityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a RegionSecurityPolicy in compute to populate securityPolicy.
 	// +kubebuilder:validation:Optional
-	SecurityPolicySelector *v1.Selector `json:"securityPolicySelector,omitempty" tf:"-"`
+	SecurityPolicySelector *v2.Selector `json:"securityPolicySelector,omitempty" tf:"-"`
 
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -2557,8 +2557,8 @@ type ZonalAffinityParameters struct {
 
 // RegionBackendServiceSpec defines the desired state of RegionBackendService
 type RegionBackendServiceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionBackendServiceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionBackendServiceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2574,8 +2574,8 @@ type RegionBackendServiceSpec struct {
 
 // RegionBackendServiceStatus defines the observed state of RegionBackendService.
 type RegionBackendServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionBackendServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionBackendServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

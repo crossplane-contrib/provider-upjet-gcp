@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllocationOptionsInitParameters struct {
@@ -84,11 +84,11 @@ type InternalRangeInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Optional. Types of resources that are allowed to overlap with the current internal range.
 	// Each value may be one of: OVERLAP_ROUTE_RANGE, OVERLAP_EXISTING_SUBNET_RANGE.
@@ -241,11 +241,11 @@ type InternalRangeParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Optional. Types of resources that are allowed to overlap with the current internal range.
 	// Each value may be one of: OVERLAP_ROUTE_RANGE, OVERLAP_EXISTING_SUBNET_RANGE.
@@ -292,11 +292,11 @@ type MigrationInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.Reference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
 	// Resource path of the target resource. The target project can be
 	// different, as in the cases when migrating to peer networks. The resource
@@ -333,11 +333,11 @@ type MigrationParameters struct {
 
 	// Reference to a Subnetwork in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.Reference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
 	// Resource path of the target resource. The target project can be
 	// different, as in the cases when migrating to peer networks. The resource
@@ -349,8 +349,8 @@ type MigrationParameters struct {
 
 // InternalRangeSpec defines the desired state of InternalRange
 type InternalRangeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InternalRangeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InternalRangeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -366,8 +366,8 @@ type InternalRangeSpec struct {
 
 // InternalRangeStatus defines the observed state of InternalRange.
 type InternalRangeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InternalRangeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InternalRangeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

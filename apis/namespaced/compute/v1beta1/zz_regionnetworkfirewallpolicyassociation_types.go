@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionNetworkFirewallPolicyAssociationInitParameters struct {
@@ -23,11 +22,11 @@ type RegionNetworkFirewallPolicyAssociationInitParameters struct {
 
 	// Reference to a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.NamespacedReference `json:"attachmentTargetRef,omitempty" tf:"-"`
+	AttachmentTargetRef *v2.NamespacedReference `json:"attachmentTargetRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+	AttachmentTargetSelector *v2.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -70,11 +69,11 @@ type RegionNetworkFirewallPolicyAssociationParameters struct {
 
 	// Reference to a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.NamespacedReference `json:"attachmentTargetRef,omitempty" tf:"-"`
+	AttachmentTargetRef *v2.NamespacedReference `json:"attachmentTargetRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+	AttachmentTargetSelector *v2.NamespacedSelector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionNetworkFirewallPolicy
@@ -84,11 +83,11 @@ type RegionNetworkFirewallPolicyAssociationParameters struct {
 
 	// Reference to a RegionNetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -119,8 +118,8 @@ type RegionNetworkFirewallPolicyAssociationSpec struct {
 
 // RegionNetworkFirewallPolicyAssociationStatus defines the observed state of RegionNetworkFirewallPolicyAssociation.
 type RegionNetworkFirewallPolicyAssociationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkFirewallPolicyAssociationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkFirewallPolicyAssociationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

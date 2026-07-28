@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ActiveDirectoryConfigInitParameters struct {
@@ -510,7 +509,7 @@ type DatabaseInstanceInitParameters struct {
 	RestoreBackupContext *RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
-	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
+	RootPasswordSecretRef *v2.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
@@ -728,7 +727,7 @@ type DatabaseInstanceParameters struct {
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
 	// +kubebuilder:validation:Optional
-	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
+	RootPasswordSecretRef *v2.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
@@ -917,11 +916,11 @@ type IPConfigurationInitParameters struct {
 
 	// Reference to a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkRef *v1.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
+	PrivateNetworkRef *v2.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkSelector *v1.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
+	PrivateNetworkSelector *v2.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
 	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
@@ -1015,11 +1014,11 @@ type IPConfigurationParameters struct {
 
 	// Reference to a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkRef *v1.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
+	PrivateNetworkRef *v2.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkSelector *v1.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
+	PrivateNetworkSelector *v2.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
@@ -1559,7 +1558,7 @@ type ReplicaConfigurationInitParameters struct {
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
 	// Password for the replication connection.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
@@ -1667,7 +1666,7 @@ type ReplicaConfigurationParameters struct {
 
 	// Password for the replication connection.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Permissible ciphers for use in SSL encryption.
 	// +kubebuilder:validation:Optional
@@ -2280,8 +2279,8 @@ type DatabaseInstanceSpec struct {
 
 // DatabaseInstanceStatus defines the observed state of DatabaseInstance.
 type DatabaseInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatabaseInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatabaseInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

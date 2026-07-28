@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AggregationsInitParameters struct {
@@ -2960,8 +2959,8 @@ type AlertPolicySpec struct {
 
 // AlertPolicyStatus defines the observed state of AlertPolicy.
 type AlertPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AlertPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AlertPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

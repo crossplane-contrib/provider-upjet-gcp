@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ExternalIPIPAddressInitParameters struct {
@@ -181,19 +180,19 @@ type RegionPerInstanceConfigInitParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
 	// +kubebuilder:validation:Optional
-	RegionInstanceGroupManagerRef *v1.NamespacedReference `json:"regionInstanceGroupManagerRef,omitempty" tf:"-"`
+	RegionInstanceGroupManagerRef *v2.NamespacedReference `json:"regionInstanceGroupManagerRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
 	// +kubebuilder:validation:Optional
-	RegionInstanceGroupManagerSelector *v1.NamespacedSelector `json:"regionInstanceGroupManagerSelector,omitempty" tf:"-"`
+	RegionInstanceGroupManagerSelector *v2.NamespacedSelector `json:"regionInstanceGroupManagerSelector,omitempty" tf:"-"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.NamespacedReference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.NamespacedReference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.NamespacedSelector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.NamespacedSelector `json:"regionSelector,omitempty" tf:"-"`
 
 	// When true, deleting this config will immediately remove the underlying instance.
 	// When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
@@ -289,19 +288,19 @@ type RegionPerInstanceConfigParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
 	// +kubebuilder:validation:Optional
-	RegionInstanceGroupManagerRef *v1.NamespacedReference `json:"regionInstanceGroupManagerRef,omitempty" tf:"-"`
+	RegionInstanceGroupManagerRef *v2.NamespacedReference `json:"regionInstanceGroupManagerRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate regionInstanceGroupManager.
 	// +kubebuilder:validation:Optional
-	RegionInstanceGroupManagerSelector *v1.NamespacedSelector `json:"regionInstanceGroupManagerSelector,omitempty" tf:"-"`
+	RegionInstanceGroupManagerSelector *v2.NamespacedSelector `json:"regionInstanceGroupManagerSelector,omitempty" tf:"-"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.NamespacedReference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.NamespacedReference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.NamespacedSelector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.NamespacedSelector `json:"regionSelector,omitempty" tf:"-"`
 
 	// When true, deleting this config will immediately remove the underlying instance.
 	// When false, deleting this config will use the behavior as determined by remove_instance_on_destroy.
@@ -342,11 +341,11 @@ type RegionPerInstanceConfigPreservedStateDiskInitParameters struct {
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
 type RegionPerInstanceConfigPreservedStateDiskObservation struct {
@@ -404,11 +403,11 @@ type RegionPerInstanceConfigPreservedStateDiskParameters struct {
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
 type RegionPerInstanceConfigPreservedStateInitParameters struct {
@@ -491,8 +490,8 @@ type RegionPerInstanceConfigSpec struct {
 
 // RegionPerInstanceConfigStatus defines the observed state of RegionPerInstanceConfig.
 type RegionPerInstanceConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionPerInstanceConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionPerInstanceConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

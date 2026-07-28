@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TLSInspectionPolicyInitParameters struct {
@@ -23,11 +22,11 @@ type TLSInspectionPolicyInitParameters struct {
 
 	// Reference to a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolRef *v1.NamespacedReference `json:"caPoolRef,omitempty" tf:"-"`
+	CAPoolRef *v2.NamespacedReference `json:"caPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolSelector *v1.NamespacedSelector `json:"caPoolSelector,omitempty" tf:"-"`
+	CAPoolSelector *v2.NamespacedSelector `json:"caPoolSelector,omitempty" tf:"-"`
 
 	// List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field.
 	CustomTLSFeatures []*string `json:"customTlsFeatures,omitempty" tf:"custom_tls_features,omitempty"`
@@ -59,11 +58,11 @@ type TLSInspectionPolicyInitParameters struct {
 
 	// Reference to a TrustConfig in certificatemanager to populate trustConfig.
 	// +kubebuilder:validation:Optional
-	TrustConfigRef *v1.NamespacedReference `json:"trustConfigRef,omitempty" tf:"-"`
+	TrustConfigRef *v2.NamespacedReference `json:"trustConfigRef,omitempty" tf:"-"`
 
 	// Selector for a TrustConfig in certificatemanager to populate trustConfig.
 	// +kubebuilder:validation:Optional
-	TrustConfigSelector *v1.NamespacedSelector `json:"trustConfigSelector,omitempty" tf:"-"`
+	TrustConfigSelector *v2.NamespacedSelector `json:"trustConfigSelector,omitempty" tf:"-"`
 }
 
 type TLSInspectionPolicyObservation struct {
@@ -124,11 +123,11 @@ type TLSInspectionPolicyParameters struct {
 
 	// Reference to a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolRef *v1.NamespacedReference `json:"caPoolRef,omitempty" tf:"-"`
+	CAPoolRef *v2.NamespacedReference `json:"caPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolSelector *v1.NamespacedSelector `json:"caPoolSelector,omitempty" tf:"-"`
+	CAPoolSelector *v2.NamespacedSelector `json:"caPoolSelector,omitempty" tf:"-"`
 
 	// List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field.
 	// +kubebuilder:validation:Optional
@@ -171,11 +170,11 @@ type TLSInspectionPolicyParameters struct {
 
 	// Reference to a TrustConfig in certificatemanager to populate trustConfig.
 	// +kubebuilder:validation:Optional
-	TrustConfigRef *v1.NamespacedReference `json:"trustConfigRef,omitempty" tf:"-"`
+	TrustConfigRef *v2.NamespacedReference `json:"trustConfigRef,omitempty" tf:"-"`
 
 	// Selector for a TrustConfig in certificatemanager to populate trustConfig.
 	// +kubebuilder:validation:Optional
-	TrustConfigSelector *v1.NamespacedSelector `json:"trustConfigSelector,omitempty" tf:"-"`
+	TrustConfigSelector *v2.NamespacedSelector `json:"trustConfigSelector,omitempty" tf:"-"`
 }
 
 // TLSInspectionPolicySpec defines the desired state of TLSInspectionPolicy
@@ -197,8 +196,8 @@ type TLSInspectionPolicySpec struct {
 
 // TLSInspectionPolicyStatus defines the observed state of TLSInspectionPolicy.
 type TLSInspectionPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TLSInspectionPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TLSInspectionPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

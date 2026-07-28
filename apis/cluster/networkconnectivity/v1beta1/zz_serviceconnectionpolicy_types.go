@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ErrorInfoInitParameters struct {
@@ -79,11 +79,11 @@ type PscConfigInitParameters struct {
 
 	// References to Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksRefs []v1.Reference `json:"subnetworksRefs,omitempty" tf:"-"`
+	SubnetworksRefs []v2.Reference `json:"subnetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksSelector *v1.Selector `json:"subnetworksSelector,omitempty" tf:"-"`
+	SubnetworksSelector *v2.Selector `json:"subnetworksSelector,omitempty" tf:"-"`
 }
 
 type PscConfigObservation struct {
@@ -143,11 +143,11 @@ type PscConfigParameters struct {
 
 	// References to Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksRefs []v1.Reference `json:"subnetworksRefs,omitempty" tf:"-"`
+	SubnetworksRefs []v2.Reference `json:"subnetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksSelector *v1.Selector `json:"subnetworksSelector,omitempty" tf:"-"`
+	SubnetworksSelector *v2.Selector `json:"subnetworksSelector,omitempty" tf:"-"`
 }
 
 type PscConnectionsInitParameters struct {
@@ -207,11 +207,11 @@ type ServiceConnectionPolicyInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -311,11 +311,11 @@ type ServiceConnectionPolicyParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -336,8 +336,8 @@ type ServiceConnectionPolicyParameters struct {
 
 // ServiceConnectionPolicySpec defines the desired state of ServiceConnectionPolicy
 type ServiceConnectionPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceConnectionPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceConnectionPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -353,8 +353,8 @@ type ServiceConnectionPolicySpec struct {
 
 // ServiceConnectionPolicyStatus defines the observed state of ServiceConnectionPolicy.
 type ServiceConnectionPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceConnectionPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceConnectionPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

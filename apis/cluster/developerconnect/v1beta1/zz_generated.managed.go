@@ -5,154 +5,154 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConnectAccountConnector) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ConnectAccountConnector) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConnectAccountConnector) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ConnectAccountConnector) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ConnectAccountConnector) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetConditions(c ...xpv1.Condition) {
+func (mg *ConnectAccountConnector) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ConnectAccountConnector) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConnectAccountConnector) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ConnectAccountConnector) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ConnectAccountConnector) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ConnectConnection.
-func (mg *ConnectConnection) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConnectConnection) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ConnectConnection.
-func (mg *ConnectConnection) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ConnectConnection) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ConnectConnection.
-func (mg *ConnectConnection) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConnectConnection) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConnectConnection.
-func (mg *ConnectConnection) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ConnectConnection) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConnectConnection.
-func (mg *ConnectConnection) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ConnectConnection) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConnectConnection.
-func (mg *ConnectConnection) SetConditions(c ...xpv1.Condition) {
+func (mg *ConnectConnection) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ConnectConnection.
-func (mg *ConnectConnection) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ConnectConnection) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ConnectConnection.
-func (mg *ConnectConnection) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConnectConnection) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConnectConnection.
-func (mg *ConnectConnection) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ConnectConnection) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConnectConnection.
-func (mg *ConnectConnection) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ConnectConnection) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConnectGitRepositoryLink) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ConnectGitRepositoryLink) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConnectGitRepositoryLink) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ConnectGitRepositoryLink) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ConnectGitRepositoryLink) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetConditions(c ...xpv1.Condition) {
+func (mg *ConnectGitRepositoryLink) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ConnectGitRepositoryLink) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConnectGitRepositoryLink) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ConnectGitRepositoryLink) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ConnectGitRepositoryLink) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

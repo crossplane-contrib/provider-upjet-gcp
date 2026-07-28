@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionSSLCertificateInitParameters struct {
@@ -20,14 +19,14 @@ type RegionSSLCertificateInitParameters struct {
 	// The certificate chain must be no greater than 5 certs long.
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CertificateSecretRef v1.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
+	CertificateSecretRef v2.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -74,7 +73,7 @@ type RegionSSLCertificateParameters struct {
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CertificateSecretRef v1.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
+	CertificateSecretRef v2.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -83,7 +82,7 @@ type RegionSSLCertificateParameters struct {
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -115,8 +114,8 @@ type RegionSSLCertificateSpec struct {
 
 // RegionSSLCertificateStatus defines the observed state of RegionSSLCertificate.
 type RegionSSLCertificateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionSSLCertificateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionSSLCertificateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

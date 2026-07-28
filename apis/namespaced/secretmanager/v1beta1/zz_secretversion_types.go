@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecretVersionInitParameters struct {
@@ -37,15 +36,15 @@ type SecretVersionInitParameters struct {
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
-	SecretDataSecretRef *v1.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
+	SecretDataSecretRef *v2.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type SecretVersionObservation struct {
@@ -114,15 +113,15 @@ type SecretVersionParameters struct {
 
 	// The secret data. Must be no larger than 64KiB.
 	// +kubebuilder:validation:Optional
-	SecretDataSecretRef *v1.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
+	SecretDataSecretRef *v2.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 // SecretVersionSpec defines the desired state of SecretVersion
@@ -144,8 +143,8 @@ type SecretVersionSpec struct {
 
 // SecretVersionStatus defines the observed state of SecretVersion.
 type SecretVersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretVersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretVersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

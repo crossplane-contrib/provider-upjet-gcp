@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetGRPCProxyInitParameters struct {
@@ -32,11 +31,11 @@ type TargetGRPCProxyInitParameters struct {
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
 
 	// If true, indicates that the BackendServices referenced by
 	// the urlMap may be accessed by gRPC applications without using
@@ -124,11 +123,11 @@ type TargetGRPCProxyParameters struct {
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
 
 	// If true, indicates that the BackendServices referenced by
 	// the urlMap may be accessed by gRPC applications without using
@@ -163,8 +162,8 @@ type TargetGRPCProxySpec struct {
 
 // TargetGRPCProxyStatus defines the observed state of TargetGRPCProxy.
 type TargetGRPCProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetGRPCProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetGRPCProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

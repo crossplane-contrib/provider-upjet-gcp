@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccurateTimeConfigInitParameters struct {
@@ -1522,11 +1521,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Determines whether alias IPs or routes will be used for pod IPs in the cluster.
 	// Options are VPC_NATIVE or ROUTES. VPC_NATIVE enables IP aliasing. Newly created clusters will default to VPC_NATIVE.
@@ -1632,11 +1631,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The custom keys configuration of the cluster Structure is documented below.
 	UserManagedKeysConfig *UserManagedKeysConfigInitParameters `json:"userManagedKeysConfig,omitempty" tf:"user_managed_keys_config,omitempty"`
@@ -2350,11 +2349,11 @@ type ClusterParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Determines whether alias IPs or routes will be used for pod IPs in the cluster.
 	// Options are VPC_NATIVE or ROUTES. VPC_NATIVE enables IP aliasing. Newly created clusters will default to VPC_NATIVE.
@@ -2483,11 +2482,11 @@ type ClusterParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The custom keys configuration of the cluster Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -5985,11 +5984,11 @@ type NodeConfigInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance options. Structure is documented below.
 	ShieldedInstanceConfig *NodeConfigShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -6590,11 +6589,11 @@ type NodeConfigParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance options. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -7491,11 +7490,11 @@ type PrivateClusterConfigInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkRef *v1.NamespacedReference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkRef *v2.NamespacedReference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkSelector *v1.NamespacedSelector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkSelector *v2.NamespacedSelector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateClusterConfigObservation struct {
@@ -7577,11 +7576,11 @@ type PrivateClusterConfigParameters struct {
 
 	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkRef *v1.NamespacedReference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkRef *v2.NamespacedReference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkSelector *v1.NamespacedSelector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkSelector *v2.NamespacedSelector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
@@ -8990,8 +8989,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

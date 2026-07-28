@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomatedBackupPolicyEncryptionConfigInitParameters struct {
@@ -723,7 +722,7 @@ type InitialUserInitParameters struct {
 
 	// The initial password for the user.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The database username.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
@@ -740,7 +739,7 @@ type InitialUserParameters struct {
 	// The initial password for the user.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The database username.
 	// +kubebuilder:validation:Optional
@@ -836,11 +835,11 @@ type NetworkConfigInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type NetworkConfigObservation struct {
@@ -870,11 +869,11 @@ type NetworkConfigParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type PscConfigInitParameters struct {
@@ -929,11 +928,11 @@ type RestoreBackupSourceInitParameters struct {
 
 	// Reference to a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameRef *v1.NamespacedReference `json:"backupNameRef,omitempty" tf:"-"`
+	BackupNameRef *v2.NamespacedReference `json:"backupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameSelector *v1.NamespacedSelector `json:"backupNameSelector,omitempty" tf:"-"`
+	BackupNameSelector *v2.NamespacedSelector `json:"backupNameSelector,omitempty" tf:"-"`
 }
 
 type RestoreBackupSourceObservation struct {
@@ -952,11 +951,11 @@ type RestoreBackupSourceParameters struct {
 
 	// Reference to a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameRef *v1.NamespacedReference `json:"backupNameRef,omitempty" tf:"-"`
+	BackupNameRef *v2.NamespacedReference `json:"backupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameSelector *v1.NamespacedSelector `json:"backupNameSelector,omitempty" tf:"-"`
+	BackupNameSelector *v2.NamespacedSelector `json:"backupNameSelector,omitempty" tf:"-"`
 }
 
 type RestoreBackupdrBackupSourceInitParameters struct {
@@ -1016,11 +1015,11 @@ type RestoreContinuousBackupSourceInitParameters struct {
 
 	// Reference to a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The point in time that this cluster is restored to, in RFC 3339 format.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
@@ -1045,11 +1044,11 @@ type RestoreContinuousBackupSourceParameters struct {
 
 	// Reference to a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The point in time that this cluster is restored to, in RFC 3339 format.
 	// +kubebuilder:validation:Optional
@@ -1066,11 +1065,11 @@ type SecondaryConfigInitParameters struct {
 
 	// Reference to a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameRef *v1.NamespacedReference `json:"primaryClusterNameRef,omitempty" tf:"-"`
+	PrimaryClusterNameRef *v2.NamespacedReference `json:"primaryClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameSelector *v1.NamespacedSelector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
+	PrimaryClusterNameSelector *v2.NamespacedSelector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
 }
 
 type SecondaryConfigObservation struct {
@@ -1091,11 +1090,11 @@ type SecondaryConfigParameters struct {
 
 	// Reference to a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameRef *v1.NamespacedReference `json:"primaryClusterNameRef,omitempty" tf:"-"`
+	PrimaryClusterNameRef *v2.NamespacedReference `json:"primaryClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameSelector *v1.NamespacedSelector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
+	PrimaryClusterNameSelector *v2.NamespacedSelector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
 }
 
 type StartTimeInitParameters struct {
@@ -1293,8 +1292,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

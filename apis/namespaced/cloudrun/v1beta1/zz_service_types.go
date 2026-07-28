@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConfigMapRefInitParameters struct {
@@ -1025,11 +1024,11 @@ type SecretInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameRef *v1.NamespacedReference `json:"secretNameRef,omitempty" tf:"-"`
+	SecretNameRef *v2.NamespacedReference `json:"secretNameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameSelector *v1.NamespacedSelector `json:"secretNameSelector,omitempty" tf:"-"`
+	SecretNameSelector *v2.NamespacedSelector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretKeyRefInitParameters struct {
@@ -1044,11 +1043,11 @@ type SecretKeyRefInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretKeyRefObservation struct {
@@ -1075,11 +1074,11 @@ type SecretKeyRefParameters struct {
 
 	// Reference to a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretObservation struct {
@@ -1143,11 +1142,11 @@ type SecretParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameRef *v1.NamespacedReference `json:"secretNameRef,omitempty" tf:"-"`
+	SecretNameRef *v2.NamespacedReference `json:"secretNameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameSelector *v1.NamespacedSelector `json:"secretNameSelector,omitempty" tf:"-"`
+	SecretNameSelector *v2.NamespacedSelector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretRefInitParameters struct {
@@ -1260,11 +1259,11 @@ type ServiceMetadataInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ServiceMetadataObservation struct {
@@ -1347,11 +1346,11 @@ type ServiceMetadataParameters struct {
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ServiceObservation struct {
@@ -2246,8 +2245,8 @@ type ServiceSpec struct {
 
 // ServiceStatus defines the observed state of Service.
 type ServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GarbageCollectionPolicyInitParameters struct {
@@ -37,11 +37,11 @@ type GarbageCollectionPolicyInitParameters struct {
 
 	// Reference to a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// GC policy that applies to all cells older than the given age.
 	MaxAge *MaxAgeInitParameters `json:"maxAge,omitempty" tf:"max_age,omitempty"`
@@ -61,11 +61,11 @@ type GarbageCollectionPolicyInitParameters struct {
 
 	// Reference to a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.Reference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type GarbageCollectionPolicyObservation struct {
@@ -136,11 +136,11 @@ type GarbageCollectionPolicyParameters struct {
 
 	// Reference to a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// GC policy that applies to all cells older than the given age.
 	// +kubebuilder:validation:Optional
@@ -165,11 +165,11 @@ type GarbageCollectionPolicyParameters struct {
 
 	// Reference to a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.Reference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type MaxAgeInitParameters struct {
@@ -222,8 +222,8 @@ type MaxVersionParameters struct {
 
 // GarbageCollectionPolicySpec defines the desired state of GarbageCollectionPolicy
 type GarbageCollectionPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GarbageCollectionPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GarbageCollectionPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -239,8 +239,8 @@ type GarbageCollectionPolicySpec struct {
 
 // GarbageCollectionPolicyStatus defines the observed state of GarbageCollectionPolicy.
 type GarbageCollectionPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GarbageCollectionPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GarbageCollectionPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

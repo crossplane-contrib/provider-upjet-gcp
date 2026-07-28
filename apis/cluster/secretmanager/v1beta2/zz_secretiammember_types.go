@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -56,11 +56,11 @@ type SecretIAMMemberInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDRef *v1.Reference `json:"secretIdRef,omitempty" tf:"-"`
+	SecretIDRef *v2.Reference `json:"secretIdRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDSelector *v1.Selector `json:"secretIdSelector,omitempty" tf:"-"`
+	SecretIDSelector *v2.Selector `json:"secretIdSelector,omitempty" tf:"-"`
 }
 
 type SecretIAMMemberObservation struct {
@@ -100,17 +100,17 @@ type SecretIAMMemberParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDRef *v1.Reference `json:"secretIdRef,omitempty" tf:"-"`
+	SecretIDRef *v2.Reference `json:"secretIdRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDSelector *v1.Selector `json:"secretIdSelector,omitempty" tf:"-"`
+	SecretIDSelector *v2.Selector `json:"secretIdSelector,omitempty" tf:"-"`
 }
 
 // SecretIAMMemberSpec defines the desired state of SecretIAMMember
 type SecretIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SecretIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SecretIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -126,8 +126,8 @@ type SecretIAMMemberSpec struct {
 
 // SecretIAMMemberStatus defines the observed state of SecretIAMMember.
 type SecretIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

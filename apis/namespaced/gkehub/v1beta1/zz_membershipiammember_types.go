@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -55,11 +54,11 @@ type MembershipIAMMemberInitParameters struct {
 
 	// Reference to a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDRef *v1.NamespacedReference `json:"membershipIdRef,omitempty" tf:"-"`
+	MembershipIDRef *v2.NamespacedReference `json:"membershipIdRef,omitempty" tf:"-"`
 
 	// Selector for a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDSelector *v1.NamespacedSelector `json:"membershipIdSelector,omitempty" tf:"-"`
+	MembershipIDSelector *v2.NamespacedSelector `json:"membershipIdSelector,omitempty" tf:"-"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -102,11 +101,11 @@ type MembershipIAMMemberParameters struct {
 
 	// Reference to a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDRef *v1.NamespacedReference `json:"membershipIdRef,omitempty" tf:"-"`
+	MembershipIDRef *v2.NamespacedReference `json:"membershipIdRef,omitempty" tf:"-"`
 
 	// Selector for a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDSelector *v1.NamespacedSelector `json:"membershipIdSelector,omitempty" tf:"-"`
+	MembershipIDSelector *v2.NamespacedSelector `json:"membershipIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -134,8 +133,8 @@ type MembershipIAMMemberSpec struct {
 
 // MembershipIAMMemberStatus defines the observed state of MembershipIAMMember.
 type MembershipIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MembershipIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MembershipIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

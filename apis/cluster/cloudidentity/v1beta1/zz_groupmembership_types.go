@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ExpiryDetailInitParameters struct {
@@ -53,11 +53,11 @@ type GroupMembershipInitParameters struct {
 
 	// Reference to a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// EntityKey of the member.
 	// Structure is documented below.
@@ -120,11 +120,11 @@ type GroupMembershipParameters struct {
 
 	// Reference to a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// EntityKey of the member.
 	// Structure is documented below.
@@ -237,8 +237,8 @@ type RolesParameters struct {
 
 // GroupMembershipSpec defines the desired state of GroupMembership
 type GroupMembershipSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GroupMembershipParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GroupMembershipParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -254,8 +254,8 @@ type GroupMembershipSpec struct {
 
 // GroupMembershipStatus defines the observed state of GroupMembership.
 type GroupMembershipStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupMembershipObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupMembershipObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

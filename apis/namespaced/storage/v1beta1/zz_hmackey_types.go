@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HMACKeyInitParameters struct {
@@ -27,11 +26,11 @@ type HMACKeyInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The state of the key. Can be set to one of ACTIVE, INACTIVE.
 	// Default value is ACTIVE.
@@ -85,11 +84,11 @@ type HMACKeyParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The state of the key. Can be set to one of ACTIVE, INACTIVE.
 	// Default value is ACTIVE.
@@ -117,8 +116,8 @@ type HMACKeySpec struct {
 
 // HMACKeyStatus defines the observed state of HMACKey.
 type HMACKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        HMACKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               HMACKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

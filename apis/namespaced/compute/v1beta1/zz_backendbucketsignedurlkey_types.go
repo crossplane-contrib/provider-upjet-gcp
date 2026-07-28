@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackendBucketSignedURLKeyInitParameters struct {
@@ -22,16 +21,16 @@ type BackendBucketSignedURLKeyInitParameters struct {
 
 	// Reference to a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketRef *v1.NamespacedReference `json:"backendBucketRef,omitempty" tf:"-"`
+	BackendBucketRef *v2.NamespacedReference `json:"backendBucketRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketSelector *v1.NamespacedSelector `json:"backendBucketSelector,omitempty" tf:"-"`
+	BackendBucketSelector *v2.NamespacedSelector `json:"backendBucketSelector,omitempty" tf:"-"`
 
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	KeyValueSecretRef v1.LocalSecretKeySelector `json:"keyValueSecretRef" tf:"-"`
+	KeyValueSecretRef v2.LocalSecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
 	// Name of the signed URL key.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -70,17 +69,17 @@ type BackendBucketSignedURLKeyParameters struct {
 
 	// Reference to a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketRef *v1.NamespacedReference `json:"backendBucketRef,omitempty" tf:"-"`
+	BackendBucketRef *v2.NamespacedReference `json:"backendBucketRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketSelector *v1.NamespacedSelector `json:"backendBucketSelector,omitempty" tf:"-"`
+	BackendBucketSelector *v2.NamespacedSelector `json:"backendBucketSelector,omitempty" tf:"-"`
 
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	KeyValueSecretRef v1.LocalSecretKeySelector `json:"keyValueSecretRef" tf:"-"`
+	KeyValueSecretRef v2.LocalSecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
 	// Name of the signed URL key.
 	// +kubebuilder:validation:Optional
@@ -111,8 +110,8 @@ type BackendBucketSignedURLKeySpec struct {
 
 // BackendBucketSignedURLKeyStatus defines the observed state of BackendBucketSignedURLKey.
 type BackendBucketSignedURLKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendBucketSignedURLKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendBucketSignedURLKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

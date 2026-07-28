@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AnalyticsHubListingInitParameters struct {
@@ -182,11 +181,11 @@ type AnalyticsHubListingParameters struct {
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// Details of the data provider who owns the source data.
 	// Structure is documented below.
@@ -264,11 +263,11 @@ type BigqueryDatasetInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// A list of regions where the publisher has created shared dataset replicas.
 	// +listType=set
@@ -309,11 +308,11 @@ type BigqueryDatasetParameters struct {
 
 	// Reference to a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// A list of regions where the publisher has created shared dataset replicas.
 	// +kubebuilder:validation:Optional
@@ -452,11 +451,11 @@ type PubsubTopicInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubTopicObservation struct {
@@ -486,11 +485,11 @@ type PubsubTopicParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type RestrictedExportConfigInitParameters struct {
@@ -535,11 +534,11 @@ type SelectedResourcesInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineRef *v1.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
+	RoutineRef *v2.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineSelector *v1.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
+	RoutineSelector *v2.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
 
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Table
@@ -548,11 +547,11 @@ type SelectedResourcesInitParameters struct {
 
 	// Reference to a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type SelectedResourcesObservation struct {
@@ -574,11 +573,11 @@ type SelectedResourcesParameters struct {
 
 	// Reference to a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineRef *v1.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
+	RoutineRef *v2.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineSelector *v1.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
+	RoutineSelector *v2.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
 
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Table
@@ -588,11 +587,11 @@ type SelectedResourcesParameters struct {
 
 	// Reference to a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing
@@ -614,8 +613,8 @@ type AnalyticsHubListingSpec struct {
 
 // AnalyticsHubListingStatus defines the observed state of AnalyticsHubListing.
 type AnalyticsHubListingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AnalyticsHubListingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AnalyticsHubListingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

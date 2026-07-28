@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BigqueryOptionsInitParameters struct {
@@ -207,11 +207,11 @@ type FolderSinkParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
+	FolderRef *v2.Reference `json:"folderRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
+	FolderSelector *v2.Selector `json:"folderSelector,omitempty" tf:"-"`
 
 	// Whether or not to include children folders in the sink export. If true, logs
 	// associated with child projects are also exported; otherwise only logs relating to the provided folder are included.
@@ -226,8 +226,8 @@ type FolderSinkParameters struct {
 
 // FolderSinkSpec defines the desired state of FolderSink
 type FolderSinkSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FolderSinkParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FolderSinkParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -243,8 +243,8 @@ type FolderSinkSpec struct {
 
 // FolderSinkStatus defines the observed state of FolderSink.
 type FolderSinkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderSinkObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FolderSinkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

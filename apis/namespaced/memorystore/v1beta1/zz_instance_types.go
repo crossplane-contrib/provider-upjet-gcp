@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AofConfigInitParameters struct {
@@ -172,11 +171,11 @@ type CrossInstanceReplicationConfigPrimaryInstanceInitParameters struct {
 
 	// Reference to a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 }
 
 type CrossInstanceReplicationConfigPrimaryInstanceObservation struct {
@@ -198,11 +197,11 @@ type CrossInstanceReplicationConfigPrimaryInstanceParameters struct {
 
 	// Reference to a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 }
 
 type DesiredAutoCreatedEndpointsInitParameters struct {
@@ -216,11 +215,11 @@ type DesiredAutoCreatedEndpointsInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// (Output)
 	// Output only. The consumer project_id where the forwarding rule is created from.
@@ -251,11 +250,11 @@ type DesiredAutoCreatedEndpointsParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// (Output)
 	// Output only. The consumer project_id where the forwarding rule is created from.
@@ -485,11 +484,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
@@ -825,11 +824,11 @@ type InstanceParameters struct {
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	// +kubebuilder:validation:Optional
@@ -1483,8 +1482,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

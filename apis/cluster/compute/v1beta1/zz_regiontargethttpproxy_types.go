@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionTargetHTTPProxyInitParameters struct {
@@ -37,11 +37,11 @@ type RegionTargetHTTPProxyInitParameters struct {
 
 	// Reference to a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type RegionTargetHTTPProxyObservation struct {
@@ -118,17 +118,17 @@ type RegionTargetHTTPProxyParameters struct {
 
 	// Reference to a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 // RegionTargetHTTPProxySpec defines the desired state of RegionTargetHTTPProxy
 type RegionTargetHTTPProxySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionTargetHTTPProxyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionTargetHTTPProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -144,8 +144,8 @@ type RegionTargetHTTPProxySpec struct {
 
 // RegionTargetHTTPProxyStatus defines the observed state of RegionTargetHTTPProxy.
 type RegionTargetHTTPProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionTargetHTTPProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionTargetHTTPProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

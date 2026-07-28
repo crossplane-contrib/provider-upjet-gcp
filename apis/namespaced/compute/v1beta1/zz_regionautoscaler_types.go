@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalingPolicyCPUUtilizationInitParameters struct {
@@ -569,11 +568,11 @@ type RegionAutoscalerInitParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type RegionAutoscalerObservation struct {
@@ -645,11 +644,11 @@ type RegionAutoscalerParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type ScaleInControlMaxScaledInReplicasInitParameters struct {
@@ -706,8 +705,8 @@ type RegionAutoscalerSpec struct {
 
 // RegionAutoscalerStatus defines the observed state of RegionAutoscaler.
 type RegionAutoscalerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionAutoscalerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionAutoscalerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ApplianceMappingsInitParameters struct {
@@ -206,11 +206,11 @@ type InterconnectAttachmentInitParameters struct {
 
 	// References to Address in compute to populate ipsecInternalAddresses.
 	// +kubebuilder:validation:Optional
-	IpsecInternalAddressesRefs []v1.Reference `json:"ipsecInternalAddressesRefs,omitempty" tf:"-"`
+	IpsecInternalAddressesRefs []v2.Reference `json:"ipsecInternalAddressesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Address in compute to populate ipsecInternalAddresses.
 	// +kubebuilder:validation:Optional
-	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
+	IpsecInternalAddressesSelector *v2.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
 	// L2 Interconnect Attachment related configuration.
 	// Structure is documented below.
@@ -243,11 +243,11 @@ type InterconnectAttachmentInitParameters struct {
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.Reference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The stack type for this interconnect attachment to identify whether the IPv6
 	// feature is enabled or not. If not specified, IPV4_ONLY will be used.
@@ -569,11 +569,11 @@ type InterconnectAttachmentParameters struct {
 
 	// References to Address in compute to populate ipsecInternalAddresses.
 	// +kubebuilder:validation:Optional
-	IpsecInternalAddressesRefs []v1.Reference `json:"ipsecInternalAddressesRefs,omitempty" tf:"-"`
+	IpsecInternalAddressesRefs []v2.Reference `json:"ipsecInternalAddressesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Address in compute to populate ipsecInternalAddresses.
 	// +kubebuilder:validation:Optional
-	IpsecInternalAddressesSelector *v1.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
+	IpsecInternalAddressesSelector *v2.Selector `json:"ipsecInternalAddressesSelector,omitempty" tf:"-"`
 
 	// L2 Interconnect Attachment related configuration.
 	// Structure is documented below.
@@ -616,11 +616,11 @@ type InterconnectAttachmentParameters struct {
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.Reference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The stack type for this interconnect attachment to identify whether the IPv6
 	// feature is enabled or not. If not specified, IPV4_ONLY will be used.
@@ -760,8 +760,8 @@ type PrivateInterconnectInfoParameters struct {
 
 // InterconnectAttachmentSpec defines the desired state of InterconnectAttachment
 type InterconnectAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InterconnectAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InterconnectAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -777,8 +777,8 @@ type InterconnectAttachmentSpec struct {
 
 // InterconnectAttachmentStatus defines the observed state of InterconnectAttachment.
 type InterconnectAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InterconnectAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InterconnectAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

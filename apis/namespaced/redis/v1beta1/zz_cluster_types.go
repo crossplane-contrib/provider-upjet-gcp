@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AofConfigInitParameters struct {
@@ -170,11 +169,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the Redis cluster.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
@@ -465,11 +464,11 @@ type ClusterParameters struct {
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the Redis cluster.
 	// +kubebuilder:validation:Optional
@@ -545,11 +544,11 @@ type CrossClusterReplicationConfigPrimaryClusterInitParameters struct {
 
 	// Reference to a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 }
 
 type CrossClusterReplicationConfigPrimaryClusterObservation struct {
@@ -571,11 +570,11 @@ type CrossClusterReplicationConfigPrimaryClusterParameters struct {
 
 	// Reference to a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 }
 
 type CrossClusterReplicationConfigSecondaryClustersInitParameters struct {
@@ -867,11 +866,11 @@ type PscConfigsInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type PscConfigsObservation struct {
@@ -894,11 +893,11 @@ type PscConfigsParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type PscConnectionsInitParameters struct {
@@ -1190,8 +1189,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

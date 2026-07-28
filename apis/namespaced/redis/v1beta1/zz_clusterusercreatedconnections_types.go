@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClusterEndpointsInitParameters struct {
@@ -116,11 +115,11 @@ type PscConnectionInitParameters struct {
 
 	// Reference to a Address in compute to populate address.
 	// +kubebuilder:validation:Optional
-	AddressRef *v1.NamespacedReference `json:"addressRef,omitempty" tf:"-"`
+	AddressRef *v2.NamespacedReference `json:"addressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate address.
 	// +kubebuilder:validation:Optional
-	AddressSelector *v1.NamespacedSelector `json:"addressSelector,omitempty" tf:"-"`
+	AddressSelector *v2.NamespacedSelector `json:"addressSelector,omitempty" tf:"-"`
 
 	// The URI of the consumer side forwarding rule.
 	// Format:
@@ -131,11 +130,11 @@ type PscConnectionInitParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleRef *v1.NamespacedReference `json:"forwardingRuleRef,omitempty" tf:"-"`
+	ForwardingRuleRef *v2.NamespacedReference `json:"forwardingRuleRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleSelector *v1.NamespacedSelector `json:"forwardingRuleSelector,omitempty" tf:"-"`
+	ForwardingRuleSelector *v2.NamespacedSelector `json:"forwardingRuleSelector,omitempty" tf:"-"`
 
 	// The consumer network where the IP address resides, in the form of
 	// projects/{project_id}/global/networks/{network_id}.
@@ -145,11 +144,11 @@ type PscConnectionInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The consumer project_id where the forwarding rule is created from.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -162,11 +161,11 @@ type PscConnectionInitParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDRef *v1.NamespacedReference `json:"pscConnectionIdRef,omitempty" tf:"-"`
+	PscConnectionIDRef *v2.NamespacedReference `json:"pscConnectionIdRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDSelector *v1.NamespacedSelector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
+	PscConnectionIDSelector *v2.NamespacedSelector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
 
 	// The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}.
 	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
@@ -222,11 +221,11 @@ type PscConnectionParameters struct {
 
 	// Reference to a Address in compute to populate address.
 	// +kubebuilder:validation:Optional
-	AddressRef *v1.NamespacedReference `json:"addressRef,omitempty" tf:"-"`
+	AddressRef *v2.NamespacedReference `json:"addressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate address.
 	// +kubebuilder:validation:Optional
-	AddressSelector *v1.NamespacedSelector `json:"addressSelector,omitempty" tf:"-"`
+	AddressSelector *v2.NamespacedSelector `json:"addressSelector,omitempty" tf:"-"`
 
 	// The URI of the consumer side forwarding rule.
 	// Format:
@@ -238,11 +237,11 @@ type PscConnectionParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleRef *v1.NamespacedReference `json:"forwardingRuleRef,omitempty" tf:"-"`
+	ForwardingRuleRef *v2.NamespacedReference `json:"forwardingRuleRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleSelector *v1.NamespacedSelector `json:"forwardingRuleSelector,omitempty" tf:"-"`
+	ForwardingRuleSelector *v2.NamespacedSelector `json:"forwardingRuleSelector,omitempty" tf:"-"`
 
 	// The consumer network where the IP address resides, in the form of
 	// projects/{project_id}/global/networks/{network_id}.
@@ -253,11 +252,11 @@ type PscConnectionParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The consumer project_id where the forwarding rule is created from.
 	// +kubebuilder:validation:Optional
@@ -272,11 +271,11 @@ type PscConnectionParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDRef *v1.NamespacedReference `json:"pscConnectionIdRef,omitempty" tf:"-"`
+	PscConnectionIDRef *v2.NamespacedReference `json:"pscConnectionIdRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDSelector *v1.NamespacedSelector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
+	PscConnectionIDSelector *v2.NamespacedSelector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
 
 	// The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}.
 	// +kubebuilder:validation:Optional
@@ -302,8 +301,8 @@ type ClusterUserCreatedConnectionsSpec struct {
 
 // ClusterUserCreatedConnectionsStatus defines the observed state of ClusterUserCreatedConnections.
 type ClusterUserCreatedConnectionsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterUserCreatedConnectionsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterUserCreatedConnectionsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

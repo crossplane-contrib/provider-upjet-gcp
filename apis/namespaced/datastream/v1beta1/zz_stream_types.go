@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppendOnlyInitParameters struct {
@@ -337,11 +336,11 @@ type BlmtConfigInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The bigquery connection. Format: {project}.{location}.{name}
 	ConnectionName *string `json:"connectionName,omitempty" tf:"connection_name,omitempty"`
@@ -383,11 +382,11 @@ type BlmtConfigParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The bigquery connection. Format: {project}.{location}.{name}
 	// +kubebuilder:validation:Optional
@@ -675,11 +674,11 @@ type DestinationConfigInitParameters struct {
 
 	// Reference to a ConnectionProfile in datastream to populate destinationConnectionProfile.
 	// +kubebuilder:validation:Optional
-	DestinationConnectionProfileRef *v1.NamespacedReference `json:"destinationConnectionProfileRef,omitempty" tf:"-"`
+	DestinationConnectionProfileRef *v2.NamespacedReference `json:"destinationConnectionProfileRef,omitempty" tf:"-"`
 
 	// Selector for a ConnectionProfile in datastream to populate destinationConnectionProfile.
 	// +kubebuilder:validation:Optional
-	DestinationConnectionProfileSelector *v1.NamespacedSelector `json:"destinationConnectionProfileSelector,omitempty" tf:"-"`
+	DestinationConnectionProfileSelector *v2.NamespacedSelector `json:"destinationConnectionProfileSelector,omitempty" tf:"-"`
 
 	// A configuration for how data should be loaded to Cloud Storage.
 	// Structure is documented below.
@@ -715,11 +714,11 @@ type DestinationConfigParameters struct {
 
 	// Reference to a ConnectionProfile in datastream to populate destinationConnectionProfile.
 	// +kubebuilder:validation:Optional
-	DestinationConnectionProfileRef *v1.NamespacedReference `json:"destinationConnectionProfileRef,omitempty" tf:"-"`
+	DestinationConnectionProfileRef *v2.NamespacedReference `json:"destinationConnectionProfileRef,omitempty" tf:"-"`
 
 	// Selector for a ConnectionProfile in datastream to populate destinationConnectionProfile.
 	// +kubebuilder:validation:Optional
-	DestinationConnectionProfileSelector *v1.NamespacedSelector `json:"destinationConnectionProfileSelector,omitempty" tf:"-"`
+	DestinationConnectionProfileSelector *v2.NamespacedSelector `json:"destinationConnectionProfileSelector,omitempty" tf:"-"`
 
 	// A configuration for how data should be loaded to Cloud Storage.
 	// Structure is documented below.
@@ -3924,11 +3923,11 @@ type SingleTargetDatasetInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 }
 
 type SingleTargetDatasetObservation struct {
@@ -3949,11 +3948,11 @@ type SingleTargetDatasetParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 }
 
 type SourceConfigInitParameters struct {
@@ -3989,11 +3988,11 @@ type SourceConfigInitParameters struct {
 
 	// Reference to a ConnectionProfile in datastream to populate sourceConnectionProfile.
 	// +kubebuilder:validation:Optional
-	SourceConnectionProfileRef *v1.NamespacedReference `json:"sourceConnectionProfileRef,omitempty" tf:"-"`
+	SourceConnectionProfileRef *v2.NamespacedReference `json:"sourceConnectionProfileRef,omitempty" tf:"-"`
 
 	// Selector for a ConnectionProfile in datastream to populate sourceConnectionProfile.
 	// +kubebuilder:validation:Optional
-	SourceConnectionProfileSelector *v1.NamespacedSelector `json:"sourceConnectionProfileSelector,omitempty" tf:"-"`
+	SourceConnectionProfileSelector *v2.NamespacedSelector `json:"sourceConnectionProfileSelector,omitempty" tf:"-"`
 
 	// Spanner data source configuration.
 	// Structure is documented below.
@@ -4074,11 +4073,11 @@ type SourceConfigParameters struct {
 
 	// Reference to a ConnectionProfile in datastream to populate sourceConnectionProfile.
 	// +kubebuilder:validation:Optional
-	SourceConnectionProfileRef *v1.NamespacedReference `json:"sourceConnectionProfileRef,omitempty" tf:"-"`
+	SourceConnectionProfileRef *v2.NamespacedReference `json:"sourceConnectionProfileRef,omitempty" tf:"-"`
 
 	// Selector for a ConnectionProfile in datastream to populate sourceConnectionProfile.
 	// +kubebuilder:validation:Optional
-	SourceConnectionProfileSelector *v1.NamespacedSelector `json:"sourceConnectionProfileSelector,omitempty" tf:"-"`
+	SourceConnectionProfileSelector *v2.NamespacedSelector `json:"sourceConnectionProfileSelector,omitempty" tf:"-"`
 
 	// Spanner data source configuration.
 	// Structure is documented below.
@@ -4099,11 +4098,11 @@ type SourceHierarchyDatasetsInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type SourceHierarchyDatasetsObservation struct {
@@ -4131,11 +4130,11 @@ type SourceHierarchyDatasetsParameters struct {
 
 	// Reference to a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type SourceObjectIdentifierInitParameters struct {
@@ -4768,8 +4767,8 @@ type StreamSpec struct {
 
 // StreamStatus defines the observed state of Stream.
 type StreamStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StreamObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StreamObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SourceRepresentationInstanceInitParameters struct {
@@ -36,7 +35,7 @@ type SourceRepresentationInstanceInitParameters struct {
 
 	// The password for the replication user account.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The externally accessible port for the source database server.
 	// Defaults to 3306.
@@ -126,7 +125,7 @@ type SourceRepresentationInstanceParameters struct {
 	// The password for the replication user account.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The externally accessible port for the source database server.
 	// Defaults to 3306.
@@ -167,8 +166,8 @@ type SourceRepresentationInstanceSpec struct {
 
 // SourceRepresentationInstanceStatus defines the observed state of SourceRepresentationInstance.
 type SourceRepresentationInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SourceRepresentationInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SourceRepresentationInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

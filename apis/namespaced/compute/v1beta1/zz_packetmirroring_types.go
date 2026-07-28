@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CollectorIlbInitParameters struct {
@@ -23,11 +22,11 @@ type CollectorIlbInitParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type CollectorIlbObservation struct {
@@ -46,11 +45,11 @@ type CollectorIlbParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type FilterInitParameters struct {
@@ -110,11 +109,11 @@ type InstancesInitParameters struct {
 
 	// Reference to a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type InstancesObservation struct {
@@ -133,11 +132,11 @@ type InstancesParameters struct {
 
 	// Reference to a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type MirroredResourcesInitParameters struct {
@@ -235,11 +234,11 @@ type PacketMirroringNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type PacketMirroringNetworkObservation struct {
@@ -258,11 +257,11 @@ type PacketMirroringNetworkParameters struct {
 
 	// Reference to a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type PacketMirroringObservation struct {
@@ -380,11 +379,11 @@ type SubnetworksInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type SubnetworksObservation struct {
@@ -403,11 +402,11 @@ type SubnetworksParameters struct {
 
 	// Reference to a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 // PacketMirroringSpec defines the desired state of PacketMirroring
@@ -429,8 +428,8 @@ type PacketMirroringSpec struct {
 
 // PacketMirroringStatus defines the observed state of PacketMirroring.
 type PacketMirroringStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PacketMirroringObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PacketMirroringObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

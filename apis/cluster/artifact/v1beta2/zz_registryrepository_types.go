@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AptRepositoryInitParameters struct {
@@ -105,11 +105,11 @@ type CommonRepositoryInitParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.Reference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.Selector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type CommonRepositoryObservation struct {
@@ -128,11 +128,11 @@ type CommonRepositoryParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.Reference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.Selector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type ConditionInitParameters struct {
@@ -981,11 +981,11 @@ type UpstreamPoliciesInitParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UpstreamPoliciesObservation struct {
@@ -1020,11 +1020,11 @@ type UpstreamPoliciesParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UsernamePasswordCredentialsInitParameters struct {
@@ -1038,11 +1038,11 @@ type UsernamePasswordCredentialsInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionRef *v1.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+	PasswordSecretVersionRef *v2.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionSelector *v1.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+	PasswordSecretVersionSelector *v2.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
 
 	// The username to access the remote repository.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -1071,11 +1071,11 @@ type UsernamePasswordCredentialsParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionRef *v1.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+	PasswordSecretVersionRef *v2.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionSelector *v1.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+	PasswordSecretVersionSelector *v2.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
 
 	// The username to access the remote repository.
 	// +kubebuilder:validation:Optional
@@ -1193,8 +1193,8 @@ type YumRepositoryPublicRepositoryParameters struct {
 
 // RegistryRepositorySpec defines the desired state of RegistryRepository
 type RegistryRepositorySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegistryRepositoryParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegistryRepositoryParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1210,8 +1210,8 @@ type RegistryRepositorySpec struct {
 
 // RegistryRepositoryStatus defines the observed state of RegistryRepository.
 type RegistryRepositoryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegistryRepositoryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegistryRepositoryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

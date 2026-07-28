@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectGitRepositoryLinkInitParameters struct {
@@ -149,11 +148,11 @@ type ConnectGitRepositoryLinkParameters struct {
 
 	// Reference to a ConnectConnection in developerconnect to populate parentConnection.
 	// +kubebuilder:validation:Optional
-	ParentConnectionRef *v1.NamespacedReference `json:"parentConnectionRef,omitempty" tf:"-"`
+	ParentConnectionRef *v2.NamespacedReference `json:"parentConnectionRef,omitempty" tf:"-"`
 
 	// Selector for a ConnectConnection in developerconnect to populate parentConnection.
 	// +kubebuilder:validation:Optional
-	ParentConnectionSelector *v1.NamespacedSelector `json:"parentConnectionSelector,omitempty" tf:"-"`
+	ParentConnectionSelector *v2.NamespacedSelector `json:"parentConnectionSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -180,8 +179,8 @@ type ConnectGitRepositoryLinkSpec struct {
 
 // ConnectGitRepositoryLinkStatus defines the observed state of ConnectGitRepositoryLink.
 type ConnectGitRepositoryLinkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectGitRepositoryLinkObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectGitRepositoryLinkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

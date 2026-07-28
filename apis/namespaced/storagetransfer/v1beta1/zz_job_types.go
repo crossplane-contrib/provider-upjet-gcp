@@ -10,17 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsAccessKeyInitParameters struct {
 
 	// AWS Key ID.
-	AccessKeyIDSecretRef v1.LocalSecretKeySelector `json:"accessKeyIdSecretRef" tf:"-"`
+	AccessKeyIDSecretRef v2.LocalSecretKeySelector `json:"accessKeyIdSecretRef" tf:"-"`
 
 	// AWS Secret Access Key.
-	SecretAccessKeySecretRef v1.LocalSecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
+	SecretAccessKeySecretRef v2.LocalSecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
 }
 
 type AwsAccessKeyObservation struct {
@@ -30,11 +29,11 @@ type AwsAccessKeyParameters struct {
 
 	// AWS Key ID.
 	// +kubebuilder:validation:Optional
-	AccessKeyIDSecretRef v1.LocalSecretKeySelector `json:"accessKeyIdSecretRef" tf:"-"`
+	AccessKeyIDSecretRef v2.LocalSecretKeySelector `json:"accessKeyIdSecretRef" tf:"-"`
 
 	// AWS Secret Access Key.
 	// +kubebuilder:validation:Optional
-	SecretAccessKeySecretRef v1.LocalSecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
+	SecretAccessKeySecretRef v2.LocalSecretKeySelector `json:"secretAccessKeySecretRef" tf:"-"`
 }
 
 type AwsS3CompatibleDataSourceInitParameters struct {
@@ -247,7 +246,7 @@ type AzureBlobStorageDataSourceParameters struct {
 type AzureCredentialsInitParameters struct {
 
 	// Azure shared access signature. See Grant limited access to Azure Storage resources using shared access signatures (SAS).
-	SasTokenSecretRef v1.LocalSecretKeySelector `json:"sasTokenSecretRef" tf:"-"`
+	SasTokenSecretRef v2.LocalSecretKeySelector `json:"sasTokenSecretRef" tf:"-"`
 }
 
 type AzureCredentialsObservation struct {
@@ -257,7 +256,7 @@ type AzureCredentialsParameters struct {
 
 	// Azure shared access signature. See Grant limited access to Azure Storage resources using shared access signatures (SAS).
 	// +kubebuilder:validation:Optional
-	SasTokenSecretRef v1.LocalSecretKeySelector `json:"sasTokenSecretRef" tf:"-"`
+	SasTokenSecretRef v2.LocalSecretKeySelector `json:"sasTokenSecretRef" tf:"-"`
 }
 
 type EventStreamInitParameters struct {
@@ -302,10 +301,10 @@ type EventStreamParameters struct {
 type FederatedIdentityConfigInitParameters struct {
 
 	// The client (application) ID of the application with federated credentials.
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client (directory) ID of the application with federated credentials.
-	TenantIDSecretRef v1.LocalSecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
+	TenantIDSecretRef v2.LocalSecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
 }
 
 type FederatedIdentityConfigObservation struct {
@@ -315,11 +314,11 @@ type FederatedIdentityConfigParameters struct {
 
 	// The client (application) ID of the application with federated credentials.
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client (directory) ID of the application with federated credentials.
 	// +kubebuilder:validation:Optional
-	TenantIDSecretRef v1.LocalSecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
+	TenantIDSecretRef v2.LocalSecretKeySelector `json:"tenantIdSecretRef" tf:"-"`
 }
 
 type GcsDataSinkInitParameters struct {
@@ -330,11 +329,11 @@ type GcsDataSinkInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -358,11 +357,11 @@ type GcsDataSinkParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -377,11 +376,11 @@ type GcsDataSourceInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -405,11 +404,11 @@ type GcsDataSourceParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -746,11 +745,11 @@ type NotificationConfigInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicRef *v1.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
+	PubsubTopicRef *v2.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicSelector *v1.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+	PubsubTopicSelector *v2.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 }
 
 type NotificationConfigObservation struct {
@@ -785,11 +784,11 @@ type NotificationConfigParameters struct {
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicRef *v1.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
+	PubsubTopicRef *v2.NamespacedReference `json:"pubsubTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicSelector *v1.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+	PubsubTopicSelector *v2.NamespacedSelector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 }
 
 type ObjectConditionsInitParameters struct {
@@ -1361,11 +1360,11 @@ type TransferSpecGcsDataSinkInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -1389,11 +1388,11 @@ type TransferSpecGcsDataSinkParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -1408,11 +1407,11 @@ type TransferSpecGcsDataSourceInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
@@ -1436,11 +1435,11 @@ type TransferSpecGcsDataSourceParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
@@ -1746,8 +1745,8 @@ type JobSpec struct {
 
 // JobStatus defines the observed state of Job.
 type JobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

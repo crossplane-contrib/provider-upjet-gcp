@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BinaryAuthorizationInitParameters struct {
@@ -61,11 +61,11 @@ type CloudSQLInstanceInitParameters struct {
 
 	// References to DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type CloudSQLInstanceObservation struct {
@@ -84,11 +84,11 @@ type CloudSQLInstanceParameters struct {
 
 	// References to DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type ContainersEnvInitParameters struct {
@@ -1472,11 +1472,11 @@ type ValueSourceSecretKeyRefInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1502,11 +1502,11 @@ type ValueSourceSecretKeyRefParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
@@ -1603,11 +1603,11 @@ type VolumesSecretInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type VolumesSecretObservation struct {
@@ -1643,17 +1643,17 @@ type VolumesSecretParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 // V2JobSpec defines the desired state of V2Job
 type V2JobSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     V2JobParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   V2JobParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1669,8 +1669,8 @@ type V2JobSpec struct {
 
 // V2JobStatus defines the observed state of V2Job.
 type V2JobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        V2JobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               V2JobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

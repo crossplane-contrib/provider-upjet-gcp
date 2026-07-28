@@ -5,104 +5,104 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ApplicationURLDispatchRules) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ApplicationURLDispatchRules) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ApplicationURLDispatchRules) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ApplicationURLDispatchRules) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ApplicationURLDispatchRules) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) SetConditions(c ...xpv1.Condition) {
+func (mg *ApplicationURLDispatchRules) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ApplicationURLDispatchRules) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ApplicationURLDispatchRules) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ApplicationURLDispatchRules) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ApplicationURLDispatchRules.
-func (mg *ApplicationURLDispatchRules) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ApplicationURLDispatchRules) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this FirewallRule.
-func (mg *FirewallRule) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *FirewallRule) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this FirewallRule.
-func (mg *FirewallRule) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *FirewallRule) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this FirewallRule.
-func (mg *FirewallRule) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *FirewallRule) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this FirewallRule.
-func (mg *FirewallRule) GetProviderConfigReference() *xpv1.Reference {
+func (mg *FirewallRule) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this FirewallRule.
-func (mg *FirewallRule) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *FirewallRule) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this FirewallRule.
-func (mg *FirewallRule) SetConditions(c ...xpv1.Condition) {
+func (mg *FirewallRule) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this FirewallRule.
-func (mg *FirewallRule) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *FirewallRule) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this FirewallRule.
-func (mg *FirewallRule) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *FirewallRule) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this FirewallRule.
-func (mg *FirewallRule) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *FirewallRule) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this FirewallRule.
-func (mg *FirewallRule) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *FirewallRule) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

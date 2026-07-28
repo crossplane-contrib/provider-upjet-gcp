@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsV4AuthenticationInitParameters struct {
@@ -22,7 +21,7 @@ type AwsV4AuthenticationInitParameters struct {
 	// The access key used for s3 bucket authentication.
 	// Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AccessKeySecretRef *v1.LocalSecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
+	AccessKeySecretRef *v2.LocalSecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
 
 	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
 	AccessKeyVersion *string `json:"accessKeyVersion,omitempty" tf:"access_key_version,omitempty"`
@@ -55,7 +54,7 @@ type AwsV4AuthenticationParameters struct {
 	// Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AccessKeySecretRef *v1.LocalSecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
+	AccessKeySecretRef *v2.LocalSecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
 
 	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
 	// +kubebuilder:validation:Optional
@@ -115,11 +114,11 @@ type BackendInitParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
@@ -320,11 +319,11 @@ type BackendParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
@@ -710,11 +709,11 @@ type BackendServiceInitParameters struct {
 
 	// References to HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
@@ -1156,11 +1155,11 @@ type BackendServiceParameters struct {
 
 	// References to HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
@@ -1814,7 +1813,7 @@ type IapInitParameters struct {
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	Oauth2ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+	Oauth2ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IapObservation struct {
@@ -1839,7 +1838,7 @@ type IapParameters struct {
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+	Oauth2ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IntervalInitParameters struct {
@@ -2549,8 +2548,8 @@ type BackendServiceSpec struct {
 
 // BackendServiceStatus defines the observed state of BackendService.
 type BackendServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

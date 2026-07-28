@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FilterConfigMaliciousURIFilterSettingsInitParameters struct {
@@ -218,11 +217,11 @@ type SdpSettingsAdvancedConfigInitParameters struct {
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateRef *v1.NamespacedReference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
+	DeidentifyTemplateRef *v2.NamespacedReference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateSelector *v1.NamespacedSelector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
+	DeidentifyTemplateSelector *v2.NamespacedSelector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
 	// Sensitive Data Protection inspect template resource name
 	// If only inspect template is provided (de-identify template not provided),
@@ -237,11 +236,11 @@ type SdpSettingsAdvancedConfigInitParameters struct {
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateRef *v1.NamespacedReference `json:"inspectTemplateRef,omitempty" tf:"-"`
+	InspectTemplateRef *v2.NamespacedReference `json:"inspectTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateSelector *v1.NamespacedSelector `json:"inspectTemplateSelector,omitempty" tf:"-"`
+	InspectTemplateSelector *v2.NamespacedSelector `json:"inspectTemplateSelector,omitempty" tf:"-"`
 }
 
 type SdpSettingsAdvancedConfigObservation struct {
@@ -283,11 +282,11 @@ type SdpSettingsAdvancedConfigParameters struct {
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateRef *v1.NamespacedReference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
+	DeidentifyTemplateRef *v2.NamespacedReference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateSelector *v1.NamespacedSelector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
+	DeidentifyTemplateSelector *v2.NamespacedSelector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
 	// Sensitive Data Protection inspect template resource name
 	// If only inspect template is provided (de-identify template not provided),
@@ -303,11 +302,11 @@ type SdpSettingsAdvancedConfigParameters struct {
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateRef *v1.NamespacedReference `json:"inspectTemplateRef,omitempty" tf:"-"`
+	InspectTemplateRef *v2.NamespacedReference `json:"inspectTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateSelector *v1.NamespacedSelector `json:"inspectTemplateSelector,omitempty" tf:"-"`
+	InspectTemplateSelector *v2.NamespacedSelector `json:"inspectTemplateSelector,omitempty" tf:"-"`
 }
 
 type SdpSettingsBasicConfigInitParameters struct {
@@ -656,8 +655,8 @@ type TemplateSpec struct {
 
 // TemplateStatus defines the observed state of Template.
 type TemplateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TemplateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TemplateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

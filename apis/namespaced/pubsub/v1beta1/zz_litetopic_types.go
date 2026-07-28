@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CapacityInitParameters struct {
@@ -168,11 +167,11 @@ type ReservationConfigInitParameters struct {
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationRef *v1.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
+	ThroughputReservationRef *v2.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
 
 	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationSelector *v1.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
+	ThroughputReservationSelector *v2.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type ReservationConfigObservation struct {
@@ -190,11 +189,11 @@ type ReservationConfigParameters struct {
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationRef *v1.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
+	ThroughputReservationRef *v2.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
 
 	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationSelector *v1.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
+	ThroughputReservationSelector *v2.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type RetentionConfigInitParameters struct {
@@ -260,8 +259,8 @@ type LiteTopicSpec struct {
 
 // LiteTopicStatus defines the observed state of LiteTopic.
 type LiteTopicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LiteTopicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LiteTopicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

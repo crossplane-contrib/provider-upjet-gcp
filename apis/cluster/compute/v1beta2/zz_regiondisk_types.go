@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionDiskAsyncPrimaryDiskInitParameters struct {
@@ -22,11 +22,11 @@ type RegionDiskAsyncPrimaryDiskInitParameters struct {
 
 	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.Reference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.Selector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type RegionDiskAsyncPrimaryDiskObservation struct {
@@ -45,11 +45,11 @@ type RegionDiskAsyncPrimaryDiskParameters struct {
 
 	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.Reference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.Selector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type RegionDiskDiskEncryptionKeyInitParameters struct {
@@ -60,13 +60,13 @@ type RegionDiskDiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskDiskEncryptionKeyObservation struct {
@@ -90,14 +90,14 @@ type RegionDiskDiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskGuestOsFeaturesInitParameters struct {
@@ -220,11 +220,11 @@ type RegionDiskInitParameters struct {
 
 	// Reference to a Snapshot in compute to populate snapshot.
 	// +kubebuilder:validation:Optional
-	SnapshotRef *v1.Reference `json:"snapshotRef,omitempty" tf:"-"`
+	SnapshotRef *v2.Reference `json:"snapshotRef,omitempty" tf:"-"`
 
 	// Selector for a Snapshot in compute to populate snapshot.
 	// +kubebuilder:validation:Optional
-	SnapshotSelector *v1.Selector `json:"snapshotSelector,omitempty" tf:"-"`
+	SnapshotSelector *v2.Selector `json:"snapshotSelector,omitempty" tf:"-"`
 
 	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
 	// For example, the following are valid values:
@@ -541,11 +541,11 @@ type RegionDiskParameters struct {
 
 	// Reference to a Snapshot in compute to populate snapshot.
 	// +kubebuilder:validation:Optional
-	SnapshotRef *v1.Reference `json:"snapshotRef,omitempty" tf:"-"`
+	SnapshotRef *v2.Reference `json:"snapshotRef,omitempty" tf:"-"`
 
 	// Selector for a Snapshot in compute to populate snapshot.
 	// +kubebuilder:validation:Optional
-	SnapshotSelector *v1.Selector `json:"snapshotSelector,omitempty" tf:"-"`
+	SnapshotSelector *v2.Selector `json:"snapshotSelector,omitempty" tf:"-"`
 
 	// The source disk used to create this disk. You can provide this as a partial or full URL to the resource.
 	// For example, the following are valid values:
@@ -583,13 +583,13 @@ type RegionDiskSourceImageEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskSourceImageEncryptionKeyObservation struct {
@@ -622,14 +622,14 @@ type RegionDiskSourceImageEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyInitParameters struct {
@@ -637,7 +637,7 @@ type RegionDiskSourceSnapshotEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type RegionDiskSourceSnapshotEncryptionKeyObservation struct {
@@ -654,13 +654,13 @@ type RegionDiskSourceSnapshotEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 // RegionDiskSpec defines the desired state of RegionDisk
 type RegionDiskSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionDiskParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionDiskParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -676,8 +676,8 @@ type RegionDiskSpec struct {
 
 // RegionDiskStatus defines the observed state of RegionDisk.
 type RegionDiskStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionDiskObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionDiskObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

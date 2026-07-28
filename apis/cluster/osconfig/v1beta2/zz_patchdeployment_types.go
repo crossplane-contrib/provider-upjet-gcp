@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GcsObjectInitParameters struct {
@@ -614,11 +614,11 @@ type PatchDeploymentInstanceFilterInitParameters struct {
 
 	// References to Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone.
 	Zones []*string `json:"zones,omitempty" tf:"zones,omitempty"`
@@ -672,11 +672,11 @@ type PatchDeploymentInstanceFilterParameters struct {
 
 	// References to Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone.
 	// +kubebuilder:validation:Optional
@@ -1472,8 +1472,8 @@ type WindowsUpdateParameters struct {
 
 // PatchDeploymentSpec defines the desired state of PatchDeployment
 type PatchDeploymentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PatchDeploymentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PatchDeploymentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1489,8 +1489,8 @@ type PatchDeploymentSpec struct {
 
 // PatchDeploymentStatus defines the observed state of PatchDeployment.
 type PatchDeploymentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PatchDeploymentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PatchDeploymentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
