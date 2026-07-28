@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstancesInitParameters struct {
@@ -25,11 +25,11 @@ type InstancesInitParameters struct {
 
 	// Reference to a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineRef *v1.Reference `json:"virtualMachineRef,omitempty" tf:"-"`
+	VirtualMachineRef *v2.Reference `json:"virtualMachineRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineSelector *v1.Selector `json:"virtualMachineSelector,omitempty" tf:"-"`
+	VirtualMachineSelector *v2.Selector `json:"virtualMachineSelector,omitempty" tf:"-"`
 }
 
 type InstancesObservation struct {
@@ -55,11 +55,11 @@ type InstancesParameters struct {
 
 	// Reference to a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineRef *v1.Reference `json:"virtualMachineRef,omitempty" tf:"-"`
+	VirtualMachineRef *v2.Reference `json:"virtualMachineRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineSelector *v1.Selector `json:"virtualMachineSelector,omitempty" tf:"-"`
+	VirtualMachineSelector *v2.Selector `json:"virtualMachineSelector,omitempty" tf:"-"`
 }
 
 type LinkedInterconnectAttachmentsInitParameters struct {
@@ -87,11 +87,11 @@ type LinkedInterconnectAttachmentsInitParameters struct {
 
 	// References to InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.Reference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.Reference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.Selector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.Selector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type LinkedInterconnectAttachmentsObservation struct {
@@ -147,11 +147,11 @@ type LinkedInterconnectAttachmentsParameters struct {
 
 	// References to InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.Reference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.Reference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.Selector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.Selector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type LinkedProducerVPCNetworkInitParameters struct {
@@ -168,11 +168,11 @@ type LinkedProducerVPCNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/servicenetworking/v1beta1.Connection
@@ -181,11 +181,11 @@ type LinkedProducerVPCNetworkInitParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringRef *v1.Reference `json:"peeringRef,omitempty" tf:"-"`
+	PeeringRef *v2.Reference `json:"peeringRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringSelector *v1.Selector `json:"peeringSelector,omitempty" tf:"-"`
+	PeeringSelector *v2.Selector `json:"peeringSelector,omitempty" tf:"-"`
 }
 
 type LinkedProducerVPCNetworkObservation struct {
@@ -224,11 +224,11 @@ type LinkedProducerVPCNetworkParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/servicenetworking/v1beta1.Connection
@@ -238,11 +238,11 @@ type LinkedProducerVPCNetworkParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringRef *v1.Reference `json:"peeringRef,omitempty" tf:"-"`
+	PeeringRef *v2.Reference `json:"peeringRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringSelector *v1.Selector `json:"peeringSelector,omitempty" tf:"-"`
+	PeeringSelector *v2.Selector `json:"peeringSelector,omitempty" tf:"-"`
 }
 
 type LinkedRouterApplianceInstancesInitParameters struct {
@@ -335,11 +335,11 @@ type LinkedVPCNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.Reference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.Selector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type LinkedVPCNetworkObservation struct {
@@ -372,11 +372,11 @@ type LinkedVPCNetworkParameters struct {
 
 	// Reference to a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.Reference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.Selector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type LinkedVPNTunnelsInitParameters struct {
@@ -404,11 +404,11 @@ type LinkedVPNTunnelsInitParameters struct {
 
 	// References to VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.Reference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.Reference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.Selector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.Selector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type LinkedVPNTunnelsObservation struct {
@@ -464,11 +464,11 @@ type LinkedVPNTunnelsParameters struct {
 
 	// References to VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.Reference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.Reference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.Selector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.Selector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type ReasonsInitParameters struct {
@@ -501,11 +501,11 @@ type SpokeInitParameters struct {
 
 	// Reference to a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Hub
@@ -514,11 +514,11 @@ type SpokeInitParameters struct {
 
 	// Reference to a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubRef *v1.Reference `json:"hubRef,omitempty" tf:"-"`
+	HubRef *v2.Reference `json:"hubRef,omitempty" tf:"-"`
 
 	// Selector for a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
+	HubSelector *v2.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -650,11 +650,11 @@ type SpokeParameters struct {
 
 	// Reference to a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Hub
@@ -664,11 +664,11 @@ type SpokeParameters struct {
 
 	// Reference to a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubRef *v1.Reference `json:"hubRef,omitempty" tf:"-"`
+	HubRef *v2.Reference `json:"hubRef,omitempty" tf:"-"`
 
 	// Selector for a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
+	HubSelector *v2.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -718,8 +718,8 @@ type SpokeParameters struct {
 
 // SpokeSpec defines the desired state of Spoke
 type SpokeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SpokeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SpokeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -735,8 +735,8 @@ type SpokeSpec struct {
 
 // SpokeStatus defines the observed state of Spoke.
 type SpokeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SpokeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SpokeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

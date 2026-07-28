@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ApprovalConfigInitParameters struct {
@@ -1200,11 +1200,11 @@ type PubsubConfigInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubConfigObservation struct {
@@ -1239,11 +1239,11 @@ type PubsubConfigParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PullRequestInitParameters struct {
@@ -2299,11 +2299,11 @@ type TriggerInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The repo and ref of the repository from which to build.
 	// This field is used only for those triggers that do not respond to SCM events.
@@ -2585,11 +2585,11 @@ type TriggerParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The repo and ref of the repository from which to build.
 	// This field is used only for those triggers that do not respond to SCM events.
@@ -2770,11 +2770,11 @@ type WebhookConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type WebhookConfigObservation struct {
@@ -2798,17 +2798,17 @@ type WebhookConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 // TriggerSpec defines the desired state of Trigger
 type TriggerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TriggerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TriggerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2824,8 +2824,8 @@ type TriggerSpec struct {
 
 // TriggerStatus defines the observed state of Trigger.
 type TriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

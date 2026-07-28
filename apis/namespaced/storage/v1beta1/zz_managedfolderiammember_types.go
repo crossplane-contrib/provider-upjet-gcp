@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ManagedFolderIAMMemberConditionInitParameters struct {
@@ -49,11 +48,11 @@ type ManagedFolderIAMMemberInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	Condition *ManagedFolderIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
@@ -63,11 +62,11 @@ type ManagedFolderIAMMemberInitParameters struct {
 
 	// Reference to a ManagedFolder in storage to populate managedFolder.
 	// +kubebuilder:validation:Optional
-	ManagedFolderRef *v1.NamespacedReference `json:"managedFolderRef,omitempty" tf:"-"`
+	ManagedFolderRef *v2.NamespacedReference `json:"managedFolderRef,omitempty" tf:"-"`
 
 	// Selector for a ManagedFolder in storage to populate managedFolder.
 	// +kubebuilder:validation:Optional
-	ManagedFolderSelector *v1.NamespacedSelector `json:"managedFolderSelector,omitempty" tf:"-"`
+	ManagedFolderSelector *v2.NamespacedSelector `json:"managedFolderSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -98,11 +97,11 @@ type ManagedFolderIAMMemberParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Condition *ManagedFolderIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
@@ -114,11 +113,11 @@ type ManagedFolderIAMMemberParameters struct {
 
 	// Reference to a ManagedFolder in storage to populate managedFolder.
 	// +kubebuilder:validation:Optional
-	ManagedFolderRef *v1.NamespacedReference `json:"managedFolderRef,omitempty" tf:"-"`
+	ManagedFolderRef *v2.NamespacedReference `json:"managedFolderRef,omitempty" tf:"-"`
 
 	// Selector for a ManagedFolder in storage to populate managedFolder.
 	// +kubebuilder:validation:Optional
-	ManagedFolderSelector *v1.NamespacedSelector `json:"managedFolderSelector,omitempty" tf:"-"`
+	ManagedFolderSelector *v2.NamespacedSelector `json:"managedFolderSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -146,8 +145,8 @@ type ManagedFolderIAMMemberSpec struct {
 
 // ManagedFolderIAMMemberStatus defines the observed state of ManagedFolderIAMMember.
 type ManagedFolderIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ManagedFolderIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ManagedFolderIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

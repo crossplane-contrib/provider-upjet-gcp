@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalerInitParameters struct {
@@ -37,11 +37,11 @@ type AutoscalerInitParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type AutoscalerObservation struct {
@@ -109,11 +109,11 @@ type AutoscalerParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 
 	// URL of the zone where the instance group resides.
 	// +kubebuilder:validation:Required
@@ -688,8 +688,8 @@ type ScalingSchedulesParameters struct {
 
 // AutoscalerSpec defines the desired state of Autoscaler
 type AutoscalerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AutoscalerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AutoscalerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -705,8 +705,8 @@ type AutoscalerSpec struct {
 
 // AutoscalerStatus defines the observed state of Autoscaler.
 type AutoscalerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoscalerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoscalerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

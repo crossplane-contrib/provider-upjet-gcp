@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EgressFromInitParameters struct {
@@ -759,11 +758,11 @@ type IngressPoliciesIngressFromSourcesInitParameters struct {
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
+	AccessLevelRef *v2.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
 
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+	AccessLevelSelector *v2.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -818,11 +817,11 @@ type IngressPoliciesIngressFromSourcesParameters struct {
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
+	AccessLevelRef *v2.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
 
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+	AccessLevelSelector *v2.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -1558,11 +1557,11 @@ type SpecInitParameters struct {
 
 	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsRefs []v1.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
+	AccessLevelsRefs []v2.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsSelector *v1.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
+	AccessLevelsSelector *v2.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.
@@ -1664,11 +1663,11 @@ type SpecParameters struct {
 
 	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsRefs []v1.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
+	AccessLevelsRefs []v2.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsSelector *v1.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
+	AccessLevelsSelector *v2.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.
@@ -1825,11 +1824,11 @@ type StatusInitParameters struct {
 
 	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsRefs []v1.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
+	AccessLevelsRefs []v2.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsSelector *v1.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
+	AccessLevelsSelector *v2.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.
@@ -1931,11 +1930,11 @@ type StatusParameters struct {
 
 	// References to AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsRefs []v1.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
+	AccessLevelsRefs []v2.NamespacedReference `json:"accessLevelsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AccessLevel in accesscontextmanager to populate accessLevels.
 	// +kubebuilder:validation:Optional
-	AccessLevelsSelector *v1.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
+	AccessLevelsSelector *v2.NamespacedSelector `json:"accessLevelsSelector,omitempty" tf:"-"`
 
 	// List of EgressPolicies to apply to the perimeter. A perimeter may
 	// have multiple EgressPolicies, each of which is evaluated separately.
@@ -2071,8 +2070,8 @@ type ServicePerimeterSpec struct {
 
 // ServicePerimeterStatus defines the observed state of ServicePerimeter.
 type ServicePerimeterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServicePerimeterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServicePerimeterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

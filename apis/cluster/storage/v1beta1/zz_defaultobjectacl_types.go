@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DefaultObjectACLInitParameters struct {
@@ -21,11 +21,11 @@ type DefaultObjectACLInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
@@ -61,11 +61,11 @@ type DefaultObjectACLParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// List of role/entity pairs in the form ROLE:entity.
 	// See GCS Object ACL documentation for more details.
@@ -77,8 +77,8 @@ type DefaultObjectACLParameters struct {
 
 // DefaultObjectACLSpec defines the desired state of DefaultObjectACL
 type DefaultObjectACLSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DefaultObjectACLParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DefaultObjectACLParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -94,8 +94,8 @@ type DefaultObjectACLSpec struct {
 
 // DefaultObjectACLStatus defines the observed state of DefaultObjectACL.
 type DefaultObjectACLStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DefaultObjectACLObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DefaultObjectACLObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

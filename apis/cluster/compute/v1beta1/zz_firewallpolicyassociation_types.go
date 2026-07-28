@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FirewallPolicyAssociationInitParameters struct {
@@ -22,11 +22,11 @@ type FirewallPolicyAssociationInitParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
+	AttachmentTargetRef *v2.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+	AttachmentTargetSelector *v2.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
@@ -39,11 +39,11 @@ type FirewallPolicyAssociationInitParameters struct {
 
 	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a FirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The name for an association.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -85,11 +85,11 @@ type FirewallPolicyAssociationParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
+	AttachmentTargetRef *v2.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+	AttachmentTargetSelector *v2.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
@@ -103,11 +103,11 @@ type FirewallPolicyAssociationParameters struct {
 
 	// Reference to a FirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a FirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The name for an association.
 	// +kubebuilder:validation:Optional
@@ -116,8 +116,8 @@ type FirewallPolicyAssociationParameters struct {
 
 // FirewallPolicyAssociationSpec defines the desired state of FirewallPolicyAssociation
 type FirewallPolicyAssociationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FirewallPolicyAssociationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FirewallPolicyAssociationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -133,8 +133,8 @@ type FirewallPolicyAssociationSpec struct {
 
 // FirewallPolicyAssociationStatus defines the observed state of FirewallPolicyAssociation.
 type FirewallPolicyAssociationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FirewallPolicyAssociationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FirewallPolicyAssociationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

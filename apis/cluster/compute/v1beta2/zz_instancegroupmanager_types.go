@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllInstancesConfigInitParameters struct {
@@ -57,11 +57,11 @@ type AutoHealingPoliciesInitParameters struct {
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.Reference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.Reference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
@@ -88,11 +88,11 @@ type AutoHealingPoliciesParameters struct {
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.Reference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.Reference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
@@ -166,11 +166,11 @@ type InstanceGroupManagerInitParameters struct {
 
 	// References to TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsRefs []v1.Reference `json:"targetPoolsRefs,omitempty" tf:"-"`
+	TargetPoolsRefs []v2.Reference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
+	TargetPoolsSelector *v2.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
@@ -413,11 +413,11 @@ type InstanceGroupManagerParameters struct {
 
 	// References to TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsRefs []v1.Reference `json:"targetPoolsRefs,omitempty" tf:"-"`
+	TargetPoolsRefs []v2.Reference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsSelector *v1.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
+	TargetPoolsSelector *v2.Selector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
@@ -555,11 +555,11 @@ type ResourcePoliciesInitParameters struct {
 
 	// Reference to a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicyRef *v1.Reference `json:"workloadPolicyRef,omitempty" tf:"-"`
+	WorkloadPolicyRef *v2.Reference `json:"workloadPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicySelector *v1.Selector `json:"workloadPolicySelector,omitempty" tf:"-"`
+	WorkloadPolicySelector *v2.Selector `json:"workloadPolicySelector,omitempty" tf:"-"`
 }
 
 type ResourcePoliciesObservation struct {
@@ -578,11 +578,11 @@ type ResourcePoliciesParameters struct {
 
 	// Reference to a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicyRef *v1.Reference `json:"workloadPolicyRef,omitempty" tf:"-"`
+	WorkloadPolicyRef *v2.Reference `json:"workloadPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicySelector *v1.Selector `json:"workloadPolicySelector,omitempty" tf:"-"`
+	WorkloadPolicySelector *v2.Selector `json:"workloadPolicySelector,omitempty" tf:"-"`
 }
 
 type StandbyPolicyInitParameters struct {
@@ -904,11 +904,11 @@ type VersionInitParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateRef *v1.Reference `json:"instanceTemplateRef,omitempty" tf:"-"`
+	InstanceTemplateRef *v2.Reference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateSelector *v1.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
+	InstanceTemplateSelector *v2.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -939,11 +939,11 @@ type VersionParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateRef *v1.Reference `json:"instanceTemplateRef,omitempty" tf:"-"`
+	InstanceTemplateRef *v2.Reference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateSelector *v1.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
+	InstanceTemplateSelector *v2.Selector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	// +kubebuilder:validation:Optional
@@ -966,8 +966,8 @@ type VersionTargetParameters struct {
 
 // InstanceGroupManagerSpec defines the desired state of InstanceGroupManager
 type InstanceGroupManagerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceGroupManagerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceGroupManagerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -983,8 +983,8 @@ type InstanceGroupManagerSpec struct {
 
 // InstanceGroupManagerStatus defines the observed state of InstanceGroupManager.
 type InstanceGroupManagerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceGroupManagerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceGroupManagerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

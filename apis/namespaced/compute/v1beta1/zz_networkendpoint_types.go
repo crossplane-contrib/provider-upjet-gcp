@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkEndpointInitParameters struct {
@@ -29,11 +28,11 @@ type NetworkEndpointInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.NetworkEndpointGroup
@@ -41,11 +40,11 @@ type NetworkEndpointInitParameters struct {
 
 	// Reference to a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupRef *v1.NamespacedReference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
+	NetworkEndpointGroupRef *v2.NamespacedReference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupSelector *v1.NamespacedSelector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
+	NetworkEndpointGroupSelector *v2.NamespacedSelector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
@@ -112,11 +111,11 @@ type NetworkEndpointParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The network endpoint group this endpoint is part of.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.NetworkEndpointGroup
@@ -125,11 +124,11 @@ type NetworkEndpointParameters struct {
 
 	// Reference to a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupRef *v1.NamespacedReference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
+	NetworkEndpointGroupRef *v2.NamespacedReference `json:"networkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkEndpointGroup in compute to populate networkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	NetworkEndpointGroupSelector *v1.NamespacedSelector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
+	NetworkEndpointGroupSelector *v2.NamespacedSelector `json:"networkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// Note port is required unless the Network Endpoint Group is created
@@ -166,8 +165,8 @@ type NetworkEndpointSpec struct {
 
 // NetworkEndpointStatus defines the observed state of NetworkEndpoint.
 type NetworkEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

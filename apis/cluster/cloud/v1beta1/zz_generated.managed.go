@@ -5,54 +5,54 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this IdsEndpoint.
-func (mg *IdsEndpoint) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *IdsEndpoint) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this IdsEndpoint.
-func (mg *IdsEndpoint) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *IdsEndpoint) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this IdsEndpoint.
-func (mg *IdsEndpoint) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *IdsEndpoint) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this IdsEndpoint.
-func (mg *IdsEndpoint) GetProviderConfigReference() *xpv1.Reference {
+func (mg *IdsEndpoint) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this IdsEndpoint.
-func (mg *IdsEndpoint) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *IdsEndpoint) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this IdsEndpoint.
-func (mg *IdsEndpoint) SetConditions(c ...xpv1.Condition) {
+func (mg *IdsEndpoint) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this IdsEndpoint.
-func (mg *IdsEndpoint) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *IdsEndpoint) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this IdsEndpoint.
-func (mg *IdsEndpoint) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *IdsEndpoint) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this IdsEndpoint.
-func (mg *IdsEndpoint) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *IdsEndpoint) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this IdsEndpoint.
-func (mg *IdsEndpoint) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *IdsEndpoint) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

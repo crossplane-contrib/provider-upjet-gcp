@@ -5,104 +5,104 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this AspectType.
-func (mg *AspectType) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *AspectType) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this AspectType.
-func (mg *AspectType) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *AspectType) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this AspectType.
-func (mg *AspectType) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *AspectType) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AspectType.
-func (mg *AspectType) GetProviderConfigReference() *xpv1.Reference {
+func (mg *AspectType) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this AspectType.
-func (mg *AspectType) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *AspectType) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this AspectType.
-func (mg *AspectType) SetConditions(c ...xpv1.Condition) {
+func (mg *AspectType) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this AspectType.
-func (mg *AspectType) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *AspectType) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this AspectType.
-func (mg *AspectType) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *AspectType) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AspectType.
-func (mg *AspectType) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *AspectType) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this AspectType.
-func (mg *AspectType) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *AspectType) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *LakeIAMPolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *LakeIAMPolicy) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *LakeIAMPolicy) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) GetProviderConfigReference() *xpv1.Reference {
+func (mg *LakeIAMPolicy) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *LakeIAMPolicy) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) SetConditions(c ...xpv1.Condition) {
+func (mg *LakeIAMPolicy) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *LakeIAMPolicy) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *LakeIAMPolicy) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *LakeIAMPolicy) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this LakeIAMPolicy.
-func (mg *LakeIAMPolicy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *LakeIAMPolicy) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

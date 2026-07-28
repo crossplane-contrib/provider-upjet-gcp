@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorizerCredentialInitParameters struct {
@@ -629,11 +628,11 @@ type GithubConfigAuthorizerCredentialInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionRef *v1.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
+	OAuthTokenSecretVersionRef *v2.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionSelector *v1.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
+	OAuthTokenSecretVersionSelector *v2.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubConfigAuthorizerCredentialObservation struct {
@@ -658,11 +657,11 @@ type GithubConfigAuthorizerCredentialParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionRef *v1.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
+	OAuthTokenSecretVersionRef *v2.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionSelector *v1.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
+	OAuthTokenSecretVersionSelector *v2.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubConfigInitParameters struct {
@@ -749,11 +748,11 @@ type GithubEnterpriseConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionRef *v1.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
+	PrivateKeySecretVersionRef *v2.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionSelector *v1.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
+	PrivateKeySecretVersionSelector *v2.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
 
 	// Optional. SSL certificate to use for requests to GitHub Enterprise.
 	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
@@ -771,11 +770,11 @@ type GithubEnterpriseConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionRef *v1.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
+	WebhookSecretSecretVersionRef *v2.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionSelector *v1.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
+	WebhookSecretSecretVersionSelector *v2.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubEnterpriseConfigObservation struct {
@@ -842,11 +841,11 @@ type GithubEnterpriseConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionRef *v1.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
+	PrivateKeySecretVersionRef *v2.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionSelector *v1.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
+	PrivateKeySecretVersionSelector *v2.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
 
 	// Optional. SSL certificate to use for requests to GitHub Enterprise.
 	// +kubebuilder:validation:Optional
@@ -867,11 +866,11 @@ type GithubEnterpriseConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionRef *v1.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
+	WebhookSecretSecretVersionRef *v2.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionSelector *v1.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
+	WebhookSecretSecretVersionSelector *v2.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubEnterpriseConfigServiceDirectoryConfigInitParameters struct {
@@ -1368,8 +1367,8 @@ type ConnectConnectionSpec struct {
 
 // ConnectConnectionStatus defines the observed state of ConnectConnection.
 type ConnectConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

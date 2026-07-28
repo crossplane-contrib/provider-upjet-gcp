@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceInitParameters struct {
@@ -24,11 +23,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// When the field is set to false, deleting the instance is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -186,11 +185,11 @@ type InstanceParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// When the field is set to false, deleting the instance is allowed.
 	// +kubebuilder:validation:Optional
@@ -548,8 +547,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

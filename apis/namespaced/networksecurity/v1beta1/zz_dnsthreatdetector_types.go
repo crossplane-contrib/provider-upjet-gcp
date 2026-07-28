@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DNSThreatDetectorInitParameters struct {
@@ -23,11 +22,11 @@ type DNSThreatDetectorInitParameters struct {
 
 	// References to Network in compute to populate excludedNetworks.
 	// +kubebuilder:validation:Optional
-	ExcludedNetworksRefs []v1.NamespacedReference `json:"excludedNetworksRefs,omitempty" tf:"-"`
+	ExcludedNetworksRefs []v2.NamespacedReference `json:"excludedNetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Network in compute to populate excludedNetworks.
 	// +kubebuilder:validation:Optional
-	ExcludedNetworksSelector *v1.NamespacedSelector `json:"excludedNetworksSelector,omitempty" tf:"-"`
+	ExcludedNetworksSelector *v2.NamespacedSelector `json:"excludedNetworksSelector,omitempty" tf:"-"`
 
 	// Set of label tags associated with the DNS Threat Detector resource.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
@@ -99,11 +98,11 @@ type DNSThreatDetectorParameters struct {
 
 	// References to Network in compute to populate excludedNetworks.
 	// +kubebuilder:validation:Optional
-	ExcludedNetworksRefs []v1.NamespacedReference `json:"excludedNetworksRefs,omitempty" tf:"-"`
+	ExcludedNetworksRefs []v2.NamespacedReference `json:"excludedNetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Network in compute to populate excludedNetworks.
 	// +kubebuilder:validation:Optional
-	ExcludedNetworksSelector *v1.NamespacedSelector `json:"excludedNetworksSelector,omitempty" tf:"-"`
+	ExcludedNetworksSelector *v2.NamespacedSelector `json:"excludedNetworksSelector,omitempty" tf:"-"`
 
 	// Set of label tags associated with the DNS Threat Detector resource.
 	// An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }.
@@ -144,8 +143,8 @@ type DNSThreatDetectorSpec struct {
 
 // DNSThreatDetectorStatus defines the observed state of DNSThreatDetector.
 type DNSThreatDetectorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DNSThreatDetectorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DNSThreatDetectorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AttestationAuthorityNoteInitParameters struct {
@@ -28,11 +27,11 @@ type AttestationAuthorityNoteInitParameters struct {
 
 	// Reference to a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceRef *v1.NamespacedReference `json:"noteReferenceRef,omitempty" tf:"-"`
+	NoteReferenceRef *v2.NamespacedReference `json:"noteReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceSelector *v1.NamespacedSelector `json:"noteReferenceSelector,omitempty" tf:"-"`
+	NoteReferenceSelector *v2.NamespacedSelector `json:"noteReferenceSelector,omitempty" tf:"-"`
 
 	// Public keys that verify attestations signed by this attestor. This
 	// field may be updated.
@@ -94,11 +93,11 @@ type AttestationAuthorityNoteParameters struct {
 
 	// Reference to a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceRef *v1.NamespacedReference `json:"noteReferenceRef,omitempty" tf:"-"`
+	NoteReferenceRef *v2.NamespacedReference `json:"noteReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceSelector *v1.NamespacedSelector `json:"noteReferenceSelector,omitempty" tf:"-"`
+	NoteReferenceSelector *v2.NamespacedSelector `json:"noteReferenceSelector,omitempty" tf:"-"`
 
 	// Public keys that verify attestations signed by this attestor. This
 	// field may be updated.
@@ -333,8 +332,8 @@ type AttestorSpec struct {
 
 // AttestorStatus defines the observed state of Attestor.
 type AttestorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AttestorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AttestorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

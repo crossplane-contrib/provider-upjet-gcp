@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketObjectInitParameters struct {
@@ -21,11 +21,11 @@ type BucketObjectInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Cache-Control
 	// directive to specify caching behavior of object data. If omitted and object is accessible to all anonymous users, the default will be public, max-age=3600
@@ -201,11 +201,11 @@ type BucketObjectParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Cache-Control
 	// directive to specify caching behavior of object data. If omitted and object is accessible to all anonymous users, the default will be public, max-age=3600
@@ -355,7 +355,7 @@ type CustomerEncryptionInitParameters struct {
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty" tf:"encryption_algorithm,omitempty"`
 
 	// Base64 encoded Customer-Supplied Encryption Key.
-	EncryptionKeySecretRef v1.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
+	EncryptionKeySecretRef v2.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
 }
 
 type CustomerEncryptionObservation struct {
@@ -372,7 +372,7 @@ type CustomerEncryptionParameters struct {
 
 	// Base64 encoded Customer-Supplied Encryption Key.
 	// +kubebuilder:validation:Optional
-	EncryptionKeySecretRef v1.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
+	EncryptionKeySecretRef v2.SecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
 }
 
 type RetentionInitParameters struct {
@@ -406,8 +406,8 @@ type RetentionParameters struct {
 
 // BucketObjectSpec defines the desired state of BucketObject
 type BucketObjectSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketObjectParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketObjectParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -423,8 +423,8 @@ type BucketObjectSpec struct {
 
 // BucketObjectStatus defines the observed state of BucketObject.
 type BucketObjectStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketObjectObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketObjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

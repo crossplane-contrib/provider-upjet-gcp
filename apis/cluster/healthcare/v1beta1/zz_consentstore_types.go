@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConsentStoreInitParameters struct {
@@ -23,11 +23,11 @@ type ConsentStoreInitParameters struct {
 
 	// Reference to a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.Reference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.Reference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.Selector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
@@ -108,11 +108,11 @@ type ConsentStoreParameters struct {
 
 	// Reference to a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.Reference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.Reference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.Selector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
@@ -143,8 +143,8 @@ type ConsentStoreParameters struct {
 
 // ConsentStoreSpec defines the desired state of ConsentStore
 type ConsentStoreSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConsentStoreParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConsentStoreParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -160,8 +160,8 @@ type ConsentStoreSpec struct {
 
 // ConsentStoreStatus defines the observed state of ConsentStore.
 type ConsentStoreStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConsentStoreObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConsentStoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

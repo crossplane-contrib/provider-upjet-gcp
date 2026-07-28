@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeleteAfterDurationInitParameters struct {
@@ -527,11 +526,11 @@ type ReservationSpecificReservationInitParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ReservationSpecificReservationObservation struct {
@@ -576,11 +575,11 @@ type ReservationSpecificReservationParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ResourceStatusInitParameters struct {
@@ -718,8 +717,8 @@ type ReservationSpec struct {
 
 // ReservationStatus defines the observed state of Reservation.
 type ReservationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReservationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReservationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

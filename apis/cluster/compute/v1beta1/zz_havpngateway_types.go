@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HaVPNGatewayInitParameters struct {
@@ -35,11 +35,11 @@ type HaVPNGatewayInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -152,11 +152,11 @@ type HaVPNGatewayParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -230,11 +230,11 @@ type VPNInterfacesInitParameters struct {
 
 	// Reference to a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentRef *v1.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
+	InterconnectAttachmentRef *v2.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
 
 	// Selector for a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentSelector *v1.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
+	InterconnectAttachmentSelector *v2.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }
 
 type VPNInterfacesObservation struct {
@@ -274,17 +274,17 @@ type VPNInterfacesParameters struct {
 
 	// Reference to a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentRef *v1.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
+	InterconnectAttachmentRef *v2.Reference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
 
 	// Selector for a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentSelector *v1.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
+	InterconnectAttachmentSelector *v2.Selector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }
 
 // HaVPNGatewaySpec defines the desired state of HaVPNGateway
 type HaVPNGatewaySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     HaVPNGatewayParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   HaVPNGatewayParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -300,8 +300,8 @@ type HaVPNGatewaySpec struct {
 
 // HaVPNGatewayStatus defines the observed state of HaVPNGateway.
 type HaVPNGatewayStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        HaVPNGatewayObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               HaVPNGatewayObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

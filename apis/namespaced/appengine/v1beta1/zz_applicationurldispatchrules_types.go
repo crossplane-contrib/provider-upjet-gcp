@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ApplicationURLDispatchRulesInitParameters struct {
@@ -74,11 +73,11 @@ type DispatchRulesInitParameters struct {
 
 	// Reference to a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type DispatchRulesObservation struct {
@@ -117,11 +116,11 @@ type DispatchRulesParameters struct {
 
 	// Reference to a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 // ApplicationURLDispatchRulesSpec defines the desired state of ApplicationURLDispatchRules
@@ -143,8 +142,8 @@ type ApplicationURLDispatchRulesSpec struct {
 
 // ApplicationURLDispatchRulesStatus defines the observed state of ApplicationURLDispatchRules.
 type ApplicationURLDispatchRulesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ApplicationURLDispatchRulesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ApplicationURLDispatchRulesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

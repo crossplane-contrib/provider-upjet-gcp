@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetSSLProxyInitParameters struct {
@@ -22,11 +22,11 @@ type TargetSSLProxyInitParameters struct {
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
@@ -54,11 +54,11 @@ type TargetSSLProxyInitParameters struct {
 
 	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetSslProxy resource. If not set, the TargetSslProxy
@@ -126,11 +126,11 @@ type TargetSSLProxyParameters struct {
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// A reference to the CertificateMap resource uri that identifies a certificate map
 	// associated with the given target proxy. This field can only be set for global target proxies.
@@ -163,11 +163,11 @@ type TargetSSLProxyParameters struct {
 
 	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetSslProxy resource. If not set, the TargetSslProxy
@@ -178,8 +178,8 @@ type TargetSSLProxyParameters struct {
 
 // TargetSSLProxySpec defines the desired state of TargetSSLProxy
 type TargetSSLProxySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TargetSSLProxyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TargetSSLProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -195,8 +195,8 @@ type TargetSSLProxySpec struct {
 
 // TargetSSLProxyStatus defines the observed state of TargetSSLProxy.
 type TargetSSLProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetSSLProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetSSLProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -9,7 +9,7 @@
 package v1beta2
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -28,12 +28,12 @@ func (in *AIInferenceInitParameters) DeepCopyInto(out *AIInferenceInitParameters
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UnstructuredInference != nil {
@@ -98,12 +98,12 @@ func (in *AIInferenceParameters) DeepCopyInto(out *AIInferenceParameters) {
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UnstructuredInference != nil {
@@ -711,12 +711,12 @@ func (in *BigqueryConfigInitParameters) DeepCopyInto(out *BigqueryConfigInitPara
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Table != nil {
@@ -811,12 +811,12 @@ func (in *BigqueryConfigParameters) DeepCopyInto(out *BigqueryConfigParameters) 
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Table != nil {
@@ -976,12 +976,12 @@ func (in *CloudStorageConfigInitParameters) DeepCopyInto(out *CloudStorageConfig
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TextConfig != nil {
@@ -1121,12 +1121,12 @@ func (in *CloudStorageConfigParameters) DeepCopyInto(out *CloudStorageConfigPara
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TextConfig != nil {
@@ -1501,12 +1501,12 @@ func (in *DeadLetterPolicyInitParameters) DeepCopyInto(out *DeadLetterPolicyInit
 	}
 	if in.DeadLetterTopicRef != nil {
 		in, out := &in.DeadLetterTopicRef, &out.DeadLetterTopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeadLetterTopicSelector != nil {
 		in, out := &in.DeadLetterTopicSelector, &out.DeadLetterTopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxDeliveryAttempts != nil {
@@ -1561,12 +1561,12 @@ func (in *DeadLetterPolicyParameters) DeepCopyInto(out *DeadLetterPolicyParamete
 	}
 	if in.DeadLetterTopicRef != nil {
 		in, out := &in.DeadLetterTopicRef, &out.DeadLetterTopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeadLetterTopicSelector != nil {
 		in, out := &in.DeadLetterTopicSelector, &out.DeadLetterTopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxDeliveryAttempts != nil {
@@ -1968,12 +1968,12 @@ func (in *LiteSubscriptionInitParameters) DeepCopyInto(out *LiteSubscriptionInit
 	}
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2095,12 +2095,12 @@ func (in *LiteSubscriptionParameters) DeepCopyInto(out *LiteSubscriptionParamete
 	}
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Zone != nil {
@@ -2123,7 +2123,7 @@ func (in *LiteSubscriptionParameters) DeepCopy() *LiteSubscriptionParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *LiteSubscriptionSpec) DeepCopyInto(out *LiteSubscriptionSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -2141,7 +2141,7 @@ func (in *LiteSubscriptionSpec) DeepCopy() *LiteSubscriptionSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *LiteSubscriptionStatus) DeepCopyInto(out *LiteSubscriptionStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -2357,7 +2357,7 @@ func (in *LiteTopicParameters) DeepCopy() *LiteTopicParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *LiteTopicSpec) DeepCopyInto(out *LiteTopicSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -2375,7 +2375,7 @@ func (in *LiteTopicSpec) DeepCopy() *LiteTopicSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *LiteTopicStatus) DeepCopyInto(out *LiteTopicStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -2497,12 +2497,12 @@ func (in *MessageTransformsAIInferenceInitParameters) DeepCopyInto(out *MessageT
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UnstructuredInference != nil {
@@ -2567,12 +2567,12 @@ func (in *MessageTransformsAIInferenceParameters) DeepCopyInto(out *MessageTrans
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UnstructuredInference != nil {
@@ -3220,12 +3220,12 @@ func (in *ReservationConfigInitParameters) DeepCopyInto(out *ReservationConfigIn
 	}
 	if in.ThroughputReservationRef != nil {
 		in, out := &in.ThroughputReservationRef, &out.ThroughputReservationRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ThroughputReservationSelector != nil {
 		in, out := &in.ThroughputReservationSelector, &out.ThroughputReservationSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3270,12 +3270,12 @@ func (in *ReservationConfigParameters) DeepCopyInto(out *ReservationConfigParame
 	}
 	if in.ThroughputReservationRef != nil {
 		in, out := &in.ThroughputReservationRef, &out.ThroughputReservationRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ThroughputReservationSelector != nil {
 		in, out := &in.ThroughputReservationSelector, &out.ThroughputReservationSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3455,12 +3455,12 @@ func (in *SchemaSettingsInitParameters) DeepCopyInto(out *SchemaSettingsInitPara
 	}
 	if in.FirstRevisionIDRef != nil {
 		in, out := &in.FirstRevisionIDRef, &out.FirstRevisionIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FirstRevisionIDSelector != nil {
 		in, out := &in.FirstRevisionIDSelector, &out.FirstRevisionIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LastRevisionID != nil {
@@ -3470,12 +3470,12 @@ func (in *SchemaSettingsInitParameters) DeepCopyInto(out *SchemaSettingsInitPara
 	}
 	if in.LastRevisionIDRef != nil {
 		in, out := &in.LastRevisionIDRef, &out.LastRevisionIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LastRevisionIDSelector != nil {
 		in, out := &in.LastRevisionIDSelector, &out.LastRevisionIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Schema != nil {
@@ -3545,12 +3545,12 @@ func (in *SchemaSettingsParameters) DeepCopyInto(out *SchemaSettingsParameters) 
 	}
 	if in.FirstRevisionIDRef != nil {
 		in, out := &in.FirstRevisionIDRef, &out.FirstRevisionIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FirstRevisionIDSelector != nil {
 		in, out := &in.FirstRevisionIDSelector, &out.FirstRevisionIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LastRevisionID != nil {
@@ -3560,12 +3560,12 @@ func (in *SchemaSettingsParameters) DeepCopyInto(out *SchemaSettingsParameters) 
 	}
 	if in.LastRevisionIDRef != nil {
 		in, out := &in.LastRevisionIDRef, &out.LastRevisionIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LastRevisionIDSelector != nil {
 		in, out := &in.LastRevisionIDSelector, &out.LastRevisionIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Schema != nil {
@@ -3669,12 +3669,12 @@ func (in *SubscriptionIAMMemberInitParameters) DeepCopyInto(out *SubscriptionIAM
 	}
 	if in.SubscriptionRef != nil {
 		in, out := &in.SubscriptionRef, &out.SubscriptionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionSelector != nil {
 		in, out := &in.SubscriptionSelector, &out.SubscriptionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3801,12 +3801,12 @@ func (in *SubscriptionIAMMemberParameters) DeepCopyInto(out *SubscriptionIAMMemb
 	}
 	if in.SubscriptionRef != nil {
 		in, out := &in.SubscriptionRef, &out.SubscriptionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionSelector != nil {
 		in, out := &in.SubscriptionSelector, &out.SubscriptionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3824,7 +3824,7 @@ func (in *SubscriptionIAMMemberParameters) DeepCopy() *SubscriptionIAMMemberPara
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubscriptionIAMMemberSpec) DeepCopyInto(out *SubscriptionIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3842,7 +3842,7 @@ func (in *SubscriptionIAMMemberSpec) DeepCopy() *SubscriptionIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubscriptionIAMMemberStatus) DeepCopyInto(out *SubscriptionIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -3970,12 +3970,12 @@ func (in *SubscriptionInitParameters) DeepCopyInto(out *SubscriptionInitParamete
 	}
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4302,12 +4302,12 @@ func (in *SubscriptionParameters) DeepCopyInto(out *SubscriptionParameters) {
 	}
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4325,7 +4325,7 @@ func (in *SubscriptionParameters) DeepCopy() *SubscriptionParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubscriptionSpec) DeepCopyInto(out *SubscriptionSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -4343,7 +4343,7 @@ func (in *SubscriptionSpec) DeepCopy() *SubscriptionSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *SubscriptionStatus) DeepCopyInto(out *SubscriptionStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4641,12 +4641,12 @@ func (in *TopicIAMMemberInitParameters) DeepCopyInto(out *TopicIAMMemberInitPara
 	}
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4773,12 +4773,12 @@ func (in *TopicIAMMemberParameters) DeepCopyInto(out *TopicIAMMemberParameters) 
 	}
 	if in.TopicRef != nil {
 		in, out := &in.TopicRef, &out.TopicRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicSelector != nil {
 		in, out := &in.TopicSelector, &out.TopicSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4796,7 +4796,7 @@ func (in *TopicIAMMemberParameters) DeepCopy() *TopicIAMMemberParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *TopicIAMMemberSpec) DeepCopyInto(out *TopicIAMMemberSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -4814,7 +4814,7 @@ func (in *TopicIAMMemberSpec) DeepCopy() *TopicIAMMemberSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *TopicIAMMemberStatus) DeepCopyInto(out *TopicIAMMemberStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4843,12 +4843,12 @@ func (in *TopicInitParameters) DeepCopyInto(out *TopicInitParameters) {
 	}
 	if in.KMSKeyNameRef != nil {
 		in, out := &in.KMSKeyNameRef, &out.KMSKeyNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyNameSelector != nil {
 		in, out := &in.KMSKeyNameSelector, &out.KMSKeyNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Labels != nil {
@@ -5185,12 +5185,12 @@ func (in *TopicParameters) DeepCopyInto(out *TopicParameters) {
 	}
 	if in.KMSKeyNameRef != nil {
 		in, out := &in.KMSKeyNameRef, &out.KMSKeyNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyNameSelector != nil {
 		in, out := &in.KMSKeyNameSelector, &out.KMSKeyNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Labels != nil {
@@ -5267,7 +5267,7 @@ func (in *TopicParameters) DeepCopy() *TopicParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *TopicSpec) DeepCopyInto(out *TopicSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -5285,7 +5285,7 @@ func (in *TopicSpec) DeepCopy() *TopicSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *TopicStatus) DeepCopyInto(out *TopicStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 

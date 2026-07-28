@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessConditionInitParameters struct {
@@ -170,11 +169,11 @@ type AccessInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailRef *v1.NamespacedReference `json:"userByEmailRef,omitempty" tf:"-"`
+	UserByEmailRef *v2.NamespacedReference `json:"userByEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailSelector *v1.NamespacedSelector `json:"userByEmailSelector,omitempty" tf:"-"`
+	UserByEmailSelector *v2.NamespacedSelector `json:"userByEmailSelector,omitempty" tf:"-"`
 
 	// A view from a different dataset to grant access to. Queries
 	// executed against that view will have read access to tables in
@@ -295,11 +294,11 @@ type AccessParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailRef *v1.NamespacedReference `json:"userByEmailRef,omitempty" tf:"-"`
+	UserByEmailRef *v2.NamespacedReference `json:"userByEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailSelector *v1.NamespacedSelector `json:"userByEmailSelector,omitempty" tf:"-"`
+	UserByEmailSelector *v2.NamespacedSelector `json:"userByEmailSelector,omitempty" tf:"-"`
 
 	// A view from a different dataset to grant access to. Queries
 	// executed against that view will have read access to tables in
@@ -319,11 +318,11 @@ type DatasetDatasetInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -347,11 +346,11 @@ type DatasetDatasetParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
@@ -745,11 +744,11 @@ type DefaultEncryptionConfigurationInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type DefaultEncryptionConfigurationObservation struct {
@@ -772,11 +771,11 @@ type DefaultEncryptionConfigurationParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ExternalCatalogDatasetOptionsInitParameters struct {
@@ -858,11 +857,11 @@ type RoutineInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Routine
@@ -871,11 +870,11 @@ type RoutineInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The ID of the routine. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
@@ -885,11 +884,11 @@ type RoutineInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDRef *v1.NamespacedReference `json:"routineIdRef,omitempty" tf:"-"`
+	RoutineIDRef *v2.NamespacedReference `json:"routineIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDSelector *v1.NamespacedSelector `json:"routineIdSelector,omitempty" tf:"-"`
+	RoutineIDSelector *v2.NamespacedSelector `json:"routineIdSelector,omitempty" tf:"-"`
 }
 
 type RoutineObservation struct {
@@ -916,11 +915,11 @@ type RoutineParameters struct {
 
 	// Reference to a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Routine
@@ -930,11 +929,11 @@ type RoutineParameters struct {
 
 	// Reference to a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The ID of the routine. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
@@ -945,11 +944,11 @@ type RoutineParameters struct {
 
 	// Reference to a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDRef *v1.NamespacedReference `json:"routineIdRef,omitempty" tf:"-"`
+	RoutineIDRef *v2.NamespacedReference `json:"routineIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDSelector *v1.NamespacedSelector `json:"routineIdSelector,omitempty" tf:"-"`
+	RoutineIDSelector *v2.NamespacedSelector `json:"routineIdSelector,omitempty" tf:"-"`
 }
 
 type ViewInitParameters struct {
@@ -1016,8 +1015,8 @@ type DatasetSpec struct {
 
 // DatasetStatus defines the observed state of Dataset.
 type DatasetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

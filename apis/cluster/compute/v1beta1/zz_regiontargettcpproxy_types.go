@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionTargetTCPProxyInitParameters struct {
@@ -23,11 +23,11 @@ type RegionTargetTCPProxyInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -102,11 +102,11 @@ type RegionTargetTCPProxyParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -137,8 +137,8 @@ type RegionTargetTCPProxyParameters struct {
 
 // RegionTargetTCPProxySpec defines the desired state of RegionTargetTCPProxy
 type RegionTargetTCPProxySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionTargetTCPProxyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionTargetTCPProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -154,8 +154,8 @@ type RegionTargetTCPProxySpec struct {
 
 // RegionTargetTCPProxyStatus defines the observed state of RegionTargetTCPProxy.
 type RegionTargetTCPProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionTargetTCPProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionTargetTCPProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

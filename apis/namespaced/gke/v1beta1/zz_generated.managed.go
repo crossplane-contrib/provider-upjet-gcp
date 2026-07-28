@@ -5,44 +5,44 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this BackupBackupPlan.
-func (mg *BackupBackupPlan) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *BackupBackupPlan) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this BackupBackupPlan.
-func (mg *BackupBackupPlan) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *BackupBackupPlan) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this BackupBackupPlan.
-func (mg *BackupBackupPlan) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *BackupBackupPlan) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this BackupBackupPlan.
-func (mg *BackupBackupPlan) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *BackupBackupPlan) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this BackupBackupPlan.
-func (mg *BackupBackupPlan) SetConditions(c ...xpv1.Condition) {
+func (mg *BackupBackupPlan) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this BackupBackupPlan.
-func (mg *BackupBackupPlan) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *BackupBackupPlan) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this BackupBackupPlan.
-func (mg *BackupBackupPlan) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *BackupBackupPlan) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this BackupBackupPlan.
-func (mg *BackupBackupPlan) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *BackupBackupPlan) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MatchLayer4ConfigsInitParameters struct {
@@ -57,11 +56,11 @@ type MatchSrcSecureTagsInitParameters struct {
 
 	// Reference to a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type MatchSrcSecureTagsObservation struct {
@@ -83,11 +82,11 @@ type MatchSrcSecureTagsParameters struct {
 
 	// Reference to a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type NetworkFirewallPolicyRuleInitParameters struct {
@@ -142,11 +141,11 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 
 	// References to ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesRefs []v1.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+	TargetForwardingRulesRefs []v2.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesSelector *v1.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+	TargetForwardingRulesSelector *v2.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
 
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
@@ -196,11 +195,11 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v2.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v2.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
@@ -219,11 +218,11 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 
 	// References to Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksRefs []v1.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
+	SrcNetworksRefs []v2.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksSelector *v1.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
+	SrcNetworksSelector *v2.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
@@ -328,11 +327,11 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v2.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v2.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
@@ -355,11 +354,11 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 
 	// References to Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksRefs []v1.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
+	SrcNetworksRefs []v2.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksSelector *v1.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
+	SrcNetworksSelector *v2.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
@@ -498,11 +497,11 @@ type NetworkFirewallPolicyRuleParameters struct {
 
 	// Reference to a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
@@ -545,11 +544,11 @@ type NetworkFirewallPolicyRuleParameters struct {
 
 	// References to ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesRefs []v1.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+	TargetForwardingRulesRefs []v2.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesSelector *v1.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+	TargetForwardingRulesSelector *v2.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
 
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
@@ -612,8 +611,8 @@ type NetworkFirewallPolicyRuleSpec struct {
 
 // NetworkFirewallPolicyRuleStatus defines the observed state of NetworkFirewallPolicyRule.
 type NetworkFirewallPolicyRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkFirewallPolicyRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkFirewallPolicyRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

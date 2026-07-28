@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessUrlsInitParameters struct {
@@ -359,11 +358,11 @@ type CertificateAuthorityParameters struct {
 
 	// Reference to a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolRef *v1.NamespacedReference `json:"poolRef,omitempty" tf:"-"`
+	PoolRef *v2.NamespacedReference `json:"poolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolSelector *v1.NamespacedSelector `json:"poolSelector,omitempty" tf:"-"`
+	PoolSelector *v2.NamespacedSelector `json:"poolSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -1277,11 +1276,11 @@ type SubordinateConfigInitParameters struct {
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
@@ -1316,11 +1315,11 @@ type SubordinateConfigParameters struct {
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
@@ -1377,8 +1376,8 @@ type CertificateAuthoritySpec struct {
 
 // CertificateAuthorityStatus defines the observed state of CertificateAuthority.
 type CertificateAuthorityStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateAuthorityObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateAuthorityObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

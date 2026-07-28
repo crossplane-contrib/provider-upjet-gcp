@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AbortInitParameters struct {
@@ -507,11 +506,11 @@ type DefaultRouteActionRequestMirrorPolicyInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type DefaultRouteActionRequestMirrorPolicyObservation struct {
@@ -534,11 +533,11 @@ type DefaultRouteActionRequestMirrorPolicyParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type DefaultRouteActionRetryPolicyInitParameters struct {
@@ -713,11 +712,11 @@ type DefaultRouteActionWeightedBackendServicesInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -768,11 +767,11 @@ type DefaultRouteActionWeightedBackendServicesParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -2237,11 +2236,11 @@ type PathMatcherInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -2355,11 +2354,11 @@ type PathMatcherParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -2430,11 +2429,11 @@ type PathRuleInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -2499,11 +2498,11 @@ type PathRuleParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -2730,11 +2729,11 @@ type RegionURLMapInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -2872,11 +2871,11 @@ type RegionURLMapParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.NamespacedReference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.NamespacedSelector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -2978,11 +2977,11 @@ type RequestMirrorPolicyInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type RequestMirrorPolicyObservation struct {
@@ -3005,11 +3004,11 @@ type RequestMirrorPolicyParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type ResponseHeadersToAddInitParameters struct {
@@ -3573,11 +3572,11 @@ type RouteActionRequestMirrorPolicyInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type RouteActionRequestMirrorPolicyObservation struct {
@@ -3600,11 +3599,11 @@ type RouteActionRequestMirrorPolicyParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type RouteActionRetryPolicyInitParameters struct {
@@ -3916,11 +3915,11 @@ type RouteActionWeightedBackendServicesInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -3971,11 +3970,11 @@ type RouteActionWeightedBackendServicesParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -4176,11 +4175,11 @@ type RouteRulesInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -4283,11 +4282,11 @@ type RouteRulesParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -5257,11 +5256,11 @@ type TestInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type TestObservation struct {
@@ -5301,11 +5300,11 @@ type TestParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type TimeoutInitParameters struct {
@@ -5657,11 +5656,11 @@ type WeightedBackendServicesInitParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -5712,11 +5711,11 @@ type WeightedBackendServicesParameters struct {
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -5754,8 +5753,8 @@ type RegionURLMapSpec struct {
 
 // RegionURLMapStatus defines the observed state of RegionURLMap.
 type RegionURLMapStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionURLMapObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionURLMapObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

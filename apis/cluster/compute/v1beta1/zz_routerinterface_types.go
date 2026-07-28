@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RouterInterfaceInitParameters struct {
@@ -54,11 +54,11 @@ type RouterInterfaceInitParameters struct {
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.Reference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The URI of the subnetwork resource that this interface
 	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
@@ -72,11 +72,11 @@ type RouterInterfaceInitParameters struct {
 
 	// Reference to a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelRef *v1.Reference `json:"vpnTunnelRef,omitempty" tf:"-"`
+	VPNTunnelRef *v2.Reference `json:"vpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelSelector *v1.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
+	VPNTunnelSelector *v2.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
 }
 
 type RouterInterfaceObservation struct {
@@ -184,11 +184,11 @@ type RouterInterfaceParameters struct {
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.Reference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The URI of the subnetwork resource that this interface
 	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
@@ -204,17 +204,17 @@ type RouterInterfaceParameters struct {
 
 	// Reference to a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelRef *v1.Reference `json:"vpnTunnelRef,omitempty" tf:"-"`
+	VPNTunnelRef *v2.Reference `json:"vpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelSelector *v1.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
+	VPNTunnelSelector *v2.Selector `json:"vpnTunnelSelector,omitempty" tf:"-"`
 }
 
 // RouterInterfaceSpec defines the desired state of RouterInterface
 type RouterInterfaceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RouterInterfaceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RouterInterfaceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -230,8 +230,8 @@ type RouterInterfaceSpec struct {
 
 // RouterInterfaceStatus defines the observed state of RouterInterface.
 type RouterInterfaceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouterInterfaceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouterInterfaceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -5,154 +5,154 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this KeyRing.
-func (mg *KeyRing) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *KeyRing) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this KeyRing.
-func (mg *KeyRing) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *KeyRing) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this KeyRing.
-func (mg *KeyRing) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *KeyRing) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this KeyRing.
-func (mg *KeyRing) GetProviderConfigReference() *xpv1.Reference {
+func (mg *KeyRing) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this KeyRing.
-func (mg *KeyRing) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *KeyRing) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this KeyRing.
-func (mg *KeyRing) SetConditions(c ...xpv1.Condition) {
+func (mg *KeyRing) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this KeyRing.
-func (mg *KeyRing) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *KeyRing) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this KeyRing.
-func (mg *KeyRing) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *KeyRing) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this KeyRing.
-func (mg *KeyRing) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *KeyRing) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this KeyRing.
-func (mg *KeyRing) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *KeyRing) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this KeyRingImportJob.
-func (mg *KeyRingImportJob) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *KeyRingImportJob) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this KeyRingImportJob.
-func (mg *KeyRingImportJob) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *KeyRingImportJob) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this KeyRingImportJob.
-func (mg *KeyRingImportJob) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *KeyRingImportJob) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this KeyRingImportJob.
-func (mg *KeyRingImportJob) GetProviderConfigReference() *xpv1.Reference {
+func (mg *KeyRingImportJob) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this KeyRingImportJob.
-func (mg *KeyRingImportJob) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *KeyRingImportJob) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this KeyRingImportJob.
-func (mg *KeyRingImportJob) SetConditions(c ...xpv1.Condition) {
+func (mg *KeyRingImportJob) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this KeyRingImportJob.
-func (mg *KeyRingImportJob) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *KeyRingImportJob) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this KeyRingImportJob.
-func (mg *KeyRingImportJob) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *KeyRingImportJob) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this KeyRingImportJob.
-func (mg *KeyRingImportJob) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *KeyRingImportJob) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this KeyRingImportJob.
-func (mg *KeyRingImportJob) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *KeyRingImportJob) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this SecretCiphertext.
-func (mg *SecretCiphertext) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *SecretCiphertext) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this SecretCiphertext.
-func (mg *SecretCiphertext) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *SecretCiphertext) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this SecretCiphertext.
-func (mg *SecretCiphertext) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *SecretCiphertext) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this SecretCiphertext.
-func (mg *SecretCiphertext) GetProviderConfigReference() *xpv1.Reference {
+func (mg *SecretCiphertext) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this SecretCiphertext.
-func (mg *SecretCiphertext) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *SecretCiphertext) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this SecretCiphertext.
-func (mg *SecretCiphertext) SetConditions(c ...xpv1.Condition) {
+func (mg *SecretCiphertext) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this SecretCiphertext.
-func (mg *SecretCiphertext) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *SecretCiphertext) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this SecretCiphertext.
-func (mg *SecretCiphertext) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *SecretCiphertext) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this SecretCiphertext.
-func (mg *SecretCiphertext) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *SecretCiphertext) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this SecretCiphertext.
-func (mg *SecretCiphertext) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *SecretCiphertext) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

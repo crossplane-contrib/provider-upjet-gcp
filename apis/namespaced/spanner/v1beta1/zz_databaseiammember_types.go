@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -51,11 +50,11 @@ type DatabaseIAMMemberInitParameters struct {
 
 	// Reference to a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
@@ -63,11 +62,11 @@ type DatabaseIAMMemberInitParameters struct {
 
 	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -106,11 +105,11 @@ type DatabaseIAMMemberParameters struct {
 
 	// Reference to a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in spanner to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
@@ -119,11 +118,11 @@ type DatabaseIAMMemberParameters struct {
 
 	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -154,8 +153,8 @@ type DatabaseIAMMemberSpec struct {
 
 // DatabaseIAMMemberStatus defines the observed state of DatabaseIAMMember.
 type DatabaseIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatabaseIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatabaseIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

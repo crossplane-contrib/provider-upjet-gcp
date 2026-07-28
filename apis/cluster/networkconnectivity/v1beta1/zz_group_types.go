@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoAcceptInitParameters struct {
@@ -124,11 +124,11 @@ type GroupParameters struct {
 
 	// Reference to a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubRef *v1.Reference `json:"hubRef,omitempty" tf:"-"`
+	HubRef *v2.Reference `json:"hubRef,omitempty" tf:"-"`
 
 	// Selector for a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubSelector *v1.Selector `json:"hubSelector,omitempty" tf:"-"`
+	HubSelector *v2.Selector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -145,8 +145,8 @@ type GroupParameters struct {
 
 // GroupSpec defines the desired state of Group
 type GroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -162,8 +162,8 @@ type GroupSpec struct {
 
 // GroupStatus defines the observed state of Group.
 type GroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

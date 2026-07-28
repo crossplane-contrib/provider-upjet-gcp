@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LocationTagBindingInitParameters struct {
@@ -29,11 +28,11 @@ type LocationTagBindingInitParameters struct {
 
 	// Reference to a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueRef *v1.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
+	TagValueRef *v2.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueSelector *v1.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
+	TagValueSelector *v2.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
 }
 
 type LocationTagBindingObservation struct {
@@ -76,11 +75,11 @@ type LocationTagBindingParameters struct {
 
 	// Reference to a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueRef *v1.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
+	TagValueRef *v2.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueSelector *v1.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
+	TagValueSelector *v2.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
 }
 
 // LocationTagBindingSpec defines the desired state of LocationTagBinding
@@ -102,8 +101,8 @@ type LocationTagBindingSpec struct {
 
 // LocationTagBindingStatus defines the observed state of LocationTagBinding.
 type LocationTagBindingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LocationTagBindingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LocationTagBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

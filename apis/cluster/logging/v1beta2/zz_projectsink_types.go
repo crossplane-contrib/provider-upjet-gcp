@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectSinkBigqueryOptionsInitParameters struct {
@@ -108,11 +108,11 @@ type ProjectSinkInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentityRef *v1.Reference `json:"customWriterIdentityRef,omitempty" tf:"-"`
+	CustomWriterIdentityRef *v2.Reference `json:"customWriterIdentityRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentitySelector *v1.Selector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+	CustomWriterIdentitySelector *v2.Selector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -207,11 +207,11 @@ type ProjectSinkParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentityRef *v1.Reference `json:"customWriterIdentityRef,omitempty" tf:"-"`
+	CustomWriterIdentityRef *v2.Reference `json:"customWriterIdentityRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentitySelector *v1.Selector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+	CustomWriterIdentitySelector *v2.Selector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	// +kubebuilder:validation:Optional
@@ -249,8 +249,8 @@ type ProjectSinkParameters struct {
 
 // ProjectSinkSpec defines the desired state of ProjectSink
 type ProjectSinkSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectSinkParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProjectSinkParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -266,8 +266,8 @@ type ProjectSinkSpec struct {
 
 // ProjectSinkStatus defines the observed state of ProjectSink.
 type ProjectSinkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectSinkObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectSinkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

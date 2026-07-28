@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AnalyticsHubListingSubscriptionInitParameters struct {
@@ -22,11 +22,11 @@ type AnalyticsHubListingSubscriptionInitParameters struct {
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// The destination dataset for this subscription.
 	// Structure is documented below.
@@ -38,11 +38,11 @@ type AnalyticsHubListingSubscriptionInitParameters struct {
 
 	// Reference to a AnalyticsHubListing in bigquery to populate listingId.
 	// +kubebuilder:validation:Optional
-	ListingIDRef *v1.Reference `json:"listingIdRef,omitempty" tf:"-"`
+	ListingIDRef *v2.Reference `json:"listingIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubListing in bigquery to populate listingId.
 	// +kubebuilder:validation:Optional
-	ListingIDSelector *v1.Selector `json:"listingIdSelector,omitempty" tf:"-"`
+	ListingIDSelector *v2.Selector `json:"listingIdSelector,omitempty" tf:"-"`
 
 	// The name of the location of the data exchange. Distinct from the location of the destination data set.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -132,11 +132,11 @@ type AnalyticsHubListingSubscriptionParameters struct {
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// The destination dataset for this subscription.
 	// Structure is documented below.
@@ -150,11 +150,11 @@ type AnalyticsHubListingSubscriptionParameters struct {
 
 	// Reference to a AnalyticsHubListing in bigquery to populate listingId.
 	// +kubebuilder:validation:Optional
-	ListingIDRef *v1.Reference `json:"listingIdRef,omitempty" tf:"-"`
+	ListingIDRef *v2.Reference `json:"listingIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubListing in bigquery to populate listingId.
 	// +kubebuilder:validation:Optional
-	ListingIDSelector *v1.Selector `json:"listingIdSelector,omitempty" tf:"-"`
+	ListingIDSelector *v2.Selector `json:"listingIdSelector,omitempty" tf:"-"`
 
 	// The name of the location of the data exchange. Distinct from the location of the destination data set.
 	// +kubebuilder:validation:Optional
@@ -205,11 +205,11 @@ type DatasetReferenceInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type DatasetReferenceObservation struct {
@@ -235,11 +235,11 @@ type DatasetReferenceParameters struct {
 
 	// Reference to a Dataset in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type DestinationDatasetInitParameters struct {
@@ -365,8 +365,8 @@ type LinkedResourcesParameters struct {
 
 // AnalyticsHubListingSubscriptionSpec defines the desired state of AnalyticsHubListingSubscription
 type AnalyticsHubListingSubscriptionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AnalyticsHubListingSubscriptionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AnalyticsHubListingSubscriptionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -382,8 +382,8 @@ type AnalyticsHubListingSubscriptionSpec struct {
 
 // AnalyticsHubListingSubscriptionStatus defines the observed state of AnalyticsHubListingSubscription.
 type AnalyticsHubListingSubscriptionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AnalyticsHubListingSubscriptionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AnalyticsHubListingSubscriptionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

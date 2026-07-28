@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FirewallPolicyInitParameters struct {
@@ -106,8 +105,8 @@ type FirewallPolicySpec struct {
 
 // FirewallPolicyStatus defines the observed state of FirewallPolicy.
 type FirewallPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FirewallPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FirewallPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

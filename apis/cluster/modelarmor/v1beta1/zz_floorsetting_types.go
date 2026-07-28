@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AIPlatformFloorSettingInitParameters struct {
@@ -74,11 +74,11 @@ type AdvancedConfigInitParameters struct {
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateRef *v1.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
+	DeidentifyTemplateRef *v2.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateSelector *v1.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
+	DeidentifyTemplateSelector *v2.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
 	// Sensitive Data Protection inspect template resource name
 	// If only inspect template is provided (de-identify template not provided),
@@ -93,11 +93,11 @@ type AdvancedConfigInitParameters struct {
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateRef *v1.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
+	InspectTemplateRef *v2.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateSelector *v1.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
+	InspectTemplateSelector *v2.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
 }
 
 type AdvancedConfigObservation struct {
@@ -139,11 +139,11 @@ type AdvancedConfigParameters struct {
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateRef *v1.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
+	DeidentifyTemplateRef *v2.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateSelector *v1.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
+	DeidentifyTemplateSelector *v2.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
 	// Sensitive Data Protection inspect template resource name
 	// If only inspect template is provided (de-identify template not provided),
@@ -159,11 +159,11 @@ type AdvancedConfigParameters struct {
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateRef *v1.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
+	InspectTemplateRef *v2.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateSelector *v1.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
+	InspectTemplateSelector *v2.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
 }
 
 type BasicConfigInitParameters struct {
@@ -641,8 +641,8 @@ type SdpSettingsParameters struct {
 
 // FloorSettingSpec defines the desired state of FloorSetting
 type FloorSettingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FloorSettingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FloorSettingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -658,8 +658,8 @@ type FloorSettingSpec struct {
 
 // FloorSettingStatus defines the observed state of FloorSetting.
 type FloorSettingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FloorSettingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FloorSettingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

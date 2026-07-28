@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TagValueInitParameters struct {
@@ -25,11 +25,11 @@ type TagValueInitParameters struct {
 
 	// Reference to a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Input only. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey.
 	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
@@ -84,11 +84,11 @@ type TagValueParameters struct {
 
 	// Reference to a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Input only. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey.
 	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
@@ -98,8 +98,8 @@ type TagValueParameters struct {
 
 // TagValueSpec defines the desired state of TagValue
 type TagValueSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TagValueParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TagValueParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -115,8 +115,8 @@ type TagValueSpec struct {
 
 // TagValueStatus defines the observed state of TagValue.
 type TagValueStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TagValueObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TagValueObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

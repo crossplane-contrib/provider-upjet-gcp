@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SnapshotEncryptionKeyInitParameters struct {
@@ -26,12 +25,12 @@ type SnapshotEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotEncryptionKeyObservation struct {
@@ -64,13 +63,13 @@ type SnapshotEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotInitParameters struct {
@@ -130,11 +129,11 @@ type SnapshotInitParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// A reference to the instant snapshot used to create this snapshot.
 	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
@@ -317,11 +316,11 @@ type SnapshotParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// A reference to the instant snapshot used to create this snapshot.
 	// +kubebuilder:validation:Optional
@@ -376,12 +375,12 @@ type SnapshotSourceDiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotSourceDiskEncryptionKeyObservation struct {
@@ -409,13 +408,13 @@ type SnapshotSourceDiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 // SnapshotSpec defines the desired state of Snapshot
@@ -437,8 +436,8 @@ type SnapshotSpec struct {
 
 // SnapshotStatus defines the observed state of Snapshot.
 type SnapshotStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SnapshotObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SnapshotObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CAPoolIAMMemberInitParameters struct {
@@ -21,11 +21,11 @@ type CAPoolIAMMemberInitParameters struct {
 
 	// Reference to a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolRef *v1.Reference `json:"caPoolRef,omitempty" tf:"-"`
+	CAPoolRef *v2.Reference `json:"caPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolSelector *v1.Selector `json:"caPoolSelector,omitempty" tf:"-"`
+	CAPoolSelector *v2.Selector `json:"caPoolSelector,omitempty" tf:"-"`
 
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
@@ -65,11 +65,11 @@ type CAPoolIAMMemberParameters struct {
 
 	// Reference to a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolRef *v1.Reference `json:"caPoolRef,omitempty" tf:"-"`
+	CAPoolRef *v2.Reference `json:"caPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate caPool.
 	// +kubebuilder:validation:Optional
-	CAPoolSelector *v1.Selector `json:"caPoolSelector,omitempty" tf:"-"`
+	CAPoolSelector *v2.Selector `json:"caPoolSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
@@ -117,8 +117,8 @@ type ConditionParameters struct {
 
 // CAPoolIAMMemberSpec defines the desired state of CAPoolIAMMember
 type CAPoolIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CAPoolIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CAPoolIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -134,8 +134,8 @@ type CAPoolIAMMemberSpec struct {
 
 // CAPoolIAMMemberStatus defines the observed state of CAPoolIAMMember.
 type CAPoolIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CAPoolIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CAPoolIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,15 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IdPConfigIdPCertificatesInitParameters struct {
 
 	// (Output)
 	// The x509 certificate
-	X509CertificateSecretRef *v1.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPConfigIdPCertificatesObservation struct {
@@ -29,7 +28,7 @@ type IdPConfigIdPCertificatesParameters struct {
 	// (Output)
 	// The x509 certificate
 	// +kubebuilder:validation:Optional
-	X509CertificateSecretRef *v1.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type SpConfigSpCertificatesInitParameters struct {
@@ -130,11 +129,11 @@ type TenantInboundSAMLConfigInitParameters struct {
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantInboundSAMLConfigObservation struct {
@@ -214,11 +213,11 @@ type TenantInboundSAMLConfigParameters struct {
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantInboundSAMLConfigSpConfigInitParameters struct {
@@ -274,8 +273,8 @@ type TenantInboundSAMLConfigSpec struct {
 
 // TenantInboundSAMLConfigStatus defines the observed state of TenantInboundSAMLConfig.
 type TenantInboundSAMLConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TenantInboundSAMLConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TenantInboundSAMLConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

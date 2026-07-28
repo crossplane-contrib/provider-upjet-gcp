@@ -10,15 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IdPCertificatesInitParameters struct {
 
 	// (Output)
 	// The x509 certificate
-	X509CertificateSecretRef *v1.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPCertificatesObservation struct {
@@ -29,7 +28,7 @@ type IdPCertificatesParameters struct {
 	// (Output)
 	// The x509 certificate
 	// +kubebuilder:validation:Optional
-	X509CertificateSecretRef *v1.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.LocalSecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPConfigInitParameters struct {
@@ -244,8 +243,8 @@ type InboundSAMLConfigSpec struct {
 
 // InboundSAMLConfigStatus defines the observed state of InboundSAMLConfig.
 type InboundSAMLConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InboundSAMLConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InboundSAMLConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -5,164 +5,164 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this LocationTagBinding.
-func (mg *LocationTagBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *LocationTagBinding) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this LocationTagBinding.
-func (mg *LocationTagBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *LocationTagBinding) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this LocationTagBinding.
-func (mg *LocationTagBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *LocationTagBinding) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this LocationTagBinding.
-func (mg *LocationTagBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *LocationTagBinding) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this LocationTagBinding.
-func (mg *LocationTagBinding) SetConditions(c ...xpv1.Condition) {
+func (mg *LocationTagBinding) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this LocationTagBinding.
-func (mg *LocationTagBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *LocationTagBinding) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this LocationTagBinding.
-func (mg *LocationTagBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *LocationTagBinding) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this LocationTagBinding.
-func (mg *LocationTagBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *LocationTagBinding) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TagBinding.
-func (mg *TagBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TagBinding) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this TagBinding.
-func (mg *TagBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TagBinding) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TagBinding.
-func (mg *TagBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *TagBinding) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TagBinding.
-func (mg *TagBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *TagBinding) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TagBinding.
-func (mg *TagBinding) SetConditions(c ...xpv1.Condition) {
+func (mg *TagBinding) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this TagBinding.
-func (mg *TagBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TagBinding) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TagBinding.
-func (mg *TagBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *TagBinding) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TagBinding.
-func (mg *TagBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *TagBinding) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TagKey.
-func (mg *TagKey) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TagKey) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this TagKey.
-func (mg *TagKey) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TagKey) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TagKey.
-func (mg *TagKey) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *TagKey) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TagKey.
-func (mg *TagKey) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *TagKey) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TagKey.
-func (mg *TagKey) SetConditions(c ...xpv1.Condition) {
+func (mg *TagKey) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this TagKey.
-func (mg *TagKey) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TagKey) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TagKey.
-func (mg *TagKey) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *TagKey) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TagKey.
-func (mg *TagKey) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *TagKey) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TagValue.
-func (mg *TagValue) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TagValue) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this TagValue.
-func (mg *TagValue) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TagValue) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TagValue.
-func (mg *TagValue) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *TagValue) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TagValue.
-func (mg *TagValue) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *TagValue) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TagValue.
-func (mg *TagValue) SetConditions(c ...xpv1.Condition) {
+func (mg *TagValue) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this TagValue.
-func (mg *TagValue) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TagValue) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TagValue.
-func (mg *TagValue) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *TagValue) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TagValue.
-func (mg *TagValue) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *TagValue) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

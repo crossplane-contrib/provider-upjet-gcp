@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceFlexibilityPolicyInitParameters struct {
@@ -119,11 +118,11 @@ type RegionInstanceGroupManagerAutoHealingPoliciesInitParameters struct {
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
@@ -150,11 +149,11 @@ type RegionInstanceGroupManagerAutoHealingPoliciesParameters struct {
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
@@ -248,11 +247,11 @@ type RegionInstanceGroupManagerInitParameters struct {
 
 	// References to TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsRefs []v1.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
+	TargetPoolsRefs []v2.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsSelector *v1.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
+	TargetPoolsSelector *v2.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
@@ -601,11 +600,11 @@ type RegionInstanceGroupManagerParameters struct {
 
 	// References to TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsRefs []v1.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
+	TargetPoolsRefs []v2.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsSelector *v1.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
+	TargetPoolsSelector *v2.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
@@ -947,11 +946,11 @@ type RegionInstanceGroupManagerVersionInitParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateRef *v1.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
+	InstanceTemplateRef *v2.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateSelector *v1.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
+	InstanceTemplateSelector *v2.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -982,11 +981,11 @@ type RegionInstanceGroupManagerVersionParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateRef *v1.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
+	InstanceTemplateRef *v2.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateSelector *v1.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
+	InstanceTemplateSelector *v2.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	// +kubebuilder:validation:Optional
@@ -1088,8 +1087,8 @@ type RegionInstanceGroupManagerSpec struct {
 
 // RegionInstanceGroupManagerStatus defines the observed state of RegionInstanceGroupManager.
 type RegionInstanceGroupManagerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionInstanceGroupManagerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionInstanceGroupManagerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

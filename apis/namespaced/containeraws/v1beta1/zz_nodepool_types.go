@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalingInitParameters struct {
@@ -530,11 +529,11 @@ type NodePoolParameters struct {
 
 	// Reference to a Cluster in containeraws to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in containeraws to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The configuration of the node pool.
 	// +kubebuilder:validation:Optional
@@ -679,8 +678,8 @@ type NodePoolSpec struct {
 
 // NodePoolStatus defines the observed state of NodePool.
 type NodePoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NodePoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NodePoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

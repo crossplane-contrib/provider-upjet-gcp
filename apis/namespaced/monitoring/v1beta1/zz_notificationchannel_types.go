@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NotificationChannelInitParameters struct {
@@ -180,15 +179,15 @@ type SensitiveLabelsInitParameters struct {
 
 	// An authorization token for a notification channel. Channel types that support this field include: slack
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AuthTokenSecretRef *v1.LocalSecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
+	AuthTokenSecretRef *v2.LocalSecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
 
 	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ServiceKeySecretRef *v1.LocalSecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.LocalSecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 }
 
 type SensitiveLabelsObservation struct {
@@ -199,17 +198,17 @@ type SensitiveLabelsParameters struct {
 	// An authorization token for a notification channel. Channel types that support this field include: slack
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AuthTokenSecretRef *v1.LocalSecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
+	AuthTokenSecretRef *v2.LocalSecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
 
 	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ServiceKeySecretRef *v1.LocalSecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.LocalSecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 }
 
 // NotificationChannelSpec defines the desired state of NotificationChannel
@@ -231,8 +230,8 @@ type NotificationChannelSpec struct {
 
 // NotificationChannelStatus defines the observed state of NotificationChannel.
 type NotificationChannelStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NotificationChannelObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NotificationChannelObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

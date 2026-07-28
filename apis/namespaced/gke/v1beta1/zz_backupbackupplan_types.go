@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupBackupPlanInitParameters struct {
@@ -31,11 +30,11 @@ type BackupBackupPlanInitParameters struct {
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
@@ -160,11 +159,11 @@ type BackupBackupPlanParameters struct {
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
@@ -409,11 +408,11 @@ type EncryptionKeyInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeyRef *v1.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+	GCPKMSEncryptionKeyRef *v2.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeySelector *v1.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+	GCPKMSEncryptionKeySelector *v2.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type EncryptionKeyObservation struct {
@@ -432,11 +431,11 @@ type EncryptionKeyParameters struct {
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeyRef *v1.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+	GCPKMSEncryptionKeyRef *v2.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeySelector *v1.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+	GCPKMSEncryptionKeySelector *v2.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type ExclusionWindowsInitParameters struct {
@@ -902,8 +901,8 @@ type BackupBackupPlanSpec struct {
 
 // BackupBackupPlanStatus defines the observed state of BackupBackupPlan.
 type BackupBackupPlanStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupBackupPlanObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupBackupPlanObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

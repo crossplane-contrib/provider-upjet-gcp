@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServicePerimeterResourceInitParameters struct {
@@ -23,11 +22,11 @@ type ServicePerimeterResourceInitParameters struct {
 
 	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameRef *v1.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
+	PerimeterNameRef *v2.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
 
 	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameSelector *v1.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
+	PerimeterNameSelector *v2.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
 
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
@@ -69,11 +68,11 @@ type ServicePerimeterResourceParameters struct {
 
 	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameRef *v1.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
+	PerimeterNameRef *v2.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
 
 	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameSelector *v1.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
+	PerimeterNameSelector *v2.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
 
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
@@ -101,8 +100,8 @@ type ServicePerimeterResourceSpec struct {
 
 // ServicePerimeterResourceStatus defines the observed state of ServicePerimeterResource.
 type ServicePerimeterResourceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServicePerimeterResourceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServicePerimeterResourceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

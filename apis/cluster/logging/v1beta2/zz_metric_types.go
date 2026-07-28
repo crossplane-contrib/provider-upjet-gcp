@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketOptionsInitParameters struct {
@@ -323,11 +323,11 @@ type MetricInitParameters struct {
 
 	// Reference to a ProjectBucketConfig in logging to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a ProjectBucketConfig in logging to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// The bucketOptions are required when the logs-based metric is using a DISTRIBUTION value type and it
 	// describes the bucket boundaries used to create a histogram of the extracted values.
@@ -441,11 +441,11 @@ type MetricParameters struct {
 
 	// Reference to a ProjectBucketConfig in logging to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a ProjectBucketConfig in logging to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// The bucketOptions are required when the logs-based metric is using a DISTRIBUTION value type and it
 	// describes the bucket boundaries used to create a histogram of the extracted values.
@@ -501,8 +501,8 @@ type MetricParameters struct {
 
 // MetricSpec defines the desired state of Metric
 type MetricSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MetricParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   MetricParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -518,8 +518,8 @@ type MetricSpec struct {
 
 // MetricStatus defines the observed state of Metric.
 type MetricStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MetricObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MetricObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type OrganizationInitParameters struct {
@@ -36,11 +35,11 @@ type OrganizationInitParameters struct {
 
 	// Reference to a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// Billing type of the Apigee organization. See Apigee pricing.
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
@@ -87,11 +86,11 @@ type OrganizationInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameRef *v1.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameRef *v2.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameSelector *v1.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameSelector *v2.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
@@ -211,11 +210,11 @@ type OrganizationParameters struct {
 
 	// Reference to a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// Billing type of the Apigee organization. See Apigee pricing.
 	// +kubebuilder:validation:Optional
@@ -271,11 +270,11 @@ type OrganizationParameters struct {
 
 	// Reference to a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameRef *v1.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameRef *v2.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameSelector *v1.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameSelector *v2.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
@@ -354,8 +353,8 @@ type OrganizationSpec struct {
 
 // OrganizationStatus defines the observed state of Organization.
 type OrganizationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        OrganizationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               OrganizationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

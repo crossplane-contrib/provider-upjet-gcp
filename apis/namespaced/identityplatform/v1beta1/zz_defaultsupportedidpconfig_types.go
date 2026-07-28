@@ -10,17 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DefaultSupportedIdPConfigInitParameters struct {
 
 	// OAuth client ID
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
-	ClientSecretSecretRef v1.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+	ClientSecretSecretRef v2.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -60,11 +59,11 @@ type DefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef v1.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+	ClientSecretSecretRef v2.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
 	// +kubebuilder:validation:Optional
@@ -99,8 +98,8 @@ type DefaultSupportedIdPConfigSpec struct {
 
 // DefaultSupportedIdPConfigStatus defines the observed state of DefaultSupportedIdPConfig.
 type DefaultSupportedIdPConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DefaultSupportedIdPConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DefaultSupportedIdPConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

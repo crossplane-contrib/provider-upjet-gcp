@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GatewaySecurityPolicyRuleInitParameters struct {
@@ -125,11 +125,11 @@ type GatewaySecurityPolicyRuleParameters struct {
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicyRef *v1.Reference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
+	GatewaySecurityPolicyRef *v2.Reference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+	GatewaySecurityPolicySelector *v2.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
 	// The location of the gateway security policy.
 	// +kubebuilder:validation:Required
@@ -156,8 +156,8 @@ type GatewaySecurityPolicyRuleParameters struct {
 
 // GatewaySecurityPolicyRuleSpec defines the desired state of GatewaySecurityPolicyRule
 type GatewaySecurityPolicyRuleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GatewaySecurityPolicyRuleParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GatewaySecurityPolicyRuleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -173,8 +173,8 @@ type GatewaySecurityPolicyRuleSpec struct {
 
 // GatewaySecurityPolicyRuleStatus defines the observed state of GatewaySecurityPolicyRule.
 type GatewaySecurityPolicyRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GatewaySecurityPolicyRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GatewaySecurityPolicyRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

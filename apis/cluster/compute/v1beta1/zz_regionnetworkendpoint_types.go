@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionNetworkEndpointInitParameters struct {
@@ -34,11 +34,11 @@ type RegionNetworkEndpointInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -56,11 +56,11 @@ type RegionNetworkEndpointInitParameters struct {
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupRef *v1.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupRef *v2.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupSelector *v1.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupSelector *v2.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
 }
 
 type RegionNetworkEndpointObservation struct {
@@ -129,11 +129,11 @@ type RegionNetworkEndpointParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// +kubebuilder:validation:Optional
@@ -155,17 +155,17 @@ type RegionNetworkEndpointParameters struct {
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupRef *v1.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupRef *v2.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupSelector *v1.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupSelector *v2.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
 }
 
 // RegionNetworkEndpointSpec defines the desired state of RegionNetworkEndpoint
 type RegionNetworkEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionNetworkEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionNetworkEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -181,8 +181,8 @@ type RegionNetworkEndpointSpec struct {
 
 // RegionNetworkEndpointStatus defines the observed state of RegionNetworkEndpoint.
 type RegionNetworkEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

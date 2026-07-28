@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GatewaySecurityPolicyInitParameters struct {
@@ -29,11 +29,11 @@ type GatewaySecurityPolicyInitParameters struct {
 
 	// Reference to a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicyRef *v1.Reference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
+	TLSInspectionPolicyRef *v2.Reference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicySelector *v1.Selector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
+	TLSInspectionPolicySelector *v2.Selector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
 }
 
 type GatewaySecurityPolicyObservation struct {
@@ -97,17 +97,17 @@ type GatewaySecurityPolicyParameters struct {
 
 	// Reference to a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicyRef *v1.Reference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
+	TLSInspectionPolicyRef *v2.Reference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicySelector *v1.Selector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
+	TLSInspectionPolicySelector *v2.Selector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
 }
 
 // GatewaySecurityPolicySpec defines the desired state of GatewaySecurityPolicy
 type GatewaySecurityPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GatewaySecurityPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GatewaySecurityPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -123,8 +123,8 @@ type GatewaySecurityPolicySpec struct {
 
 // GatewaySecurityPolicyStatus defines the observed state of GatewaySecurityPolicy.
 type GatewaySecurityPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GatewaySecurityPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GatewaySecurityPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

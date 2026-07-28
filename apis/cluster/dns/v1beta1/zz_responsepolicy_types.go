@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GkeClustersInitParameters struct {
@@ -24,11 +24,11 @@ type GkeClustersInitParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type GkeClustersObservation struct {
@@ -51,11 +51,11 @@ type GkeClustersParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type NetworksInitParameters struct {
@@ -69,11 +69,11 @@ type NetworksInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type NetworksObservation struct {
@@ -96,11 +96,11 @@ type NetworksParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type ResponsePolicyInitParameters struct {
@@ -170,8 +170,8 @@ type ResponsePolicyParameters struct {
 
 // ResponsePolicySpec defines the desired state of ResponsePolicy
 type ResponsePolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ResponsePolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ResponsePolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -187,8 +187,8 @@ type ResponsePolicySpec struct {
 
 // ResponsePolicyStatus defines the observed state of ResponsePolicy.
 type ResponsePolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ResponsePolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ResponsePolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

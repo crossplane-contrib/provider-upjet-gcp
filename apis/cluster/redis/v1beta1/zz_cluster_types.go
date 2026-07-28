@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AofConfigInitParameters struct {
@@ -169,11 +169,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the Redis cluster.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
@@ -464,11 +464,11 @@ type ClusterParameters struct {
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the Redis cluster.
 	// +kubebuilder:validation:Optional
@@ -544,11 +544,11 @@ type CrossClusterReplicationConfigPrimaryClusterInitParameters struct {
 
 	// Reference to a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 }
 
 type CrossClusterReplicationConfigPrimaryClusterObservation struct {
@@ -570,11 +570,11 @@ type CrossClusterReplicationConfigPrimaryClusterParameters struct {
 
 	// Reference to a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in redis to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 }
 
 type CrossClusterReplicationConfigSecondaryClustersInitParameters struct {
@@ -866,11 +866,11 @@ type PscConfigsInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type PscConfigsObservation struct {
@@ -893,11 +893,11 @@ type PscConfigsParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type PscConnectionsInitParameters struct {
@@ -1172,8 +1172,8 @@ type ZoneDistributionConfigParameters struct {
 
 // ClusterSpec defines the desired state of Cluster
 type ClusterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ClusterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ClusterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1189,8 +1189,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

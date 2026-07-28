@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type APISecurityConfigInitParameters struct {
@@ -124,11 +123,11 @@ type AddonsConfigInitParameters struct {
 
 	// Reference to a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgRef *v1.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
+	OrgRef *v2.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgSelector *v1.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
+	OrgSelector *v2.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
 }
 
 type AddonsConfigObservation struct {
@@ -163,11 +162,11 @@ type AddonsConfigParameters struct {
 
 	// Reference to a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgRef *v1.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
+	OrgRef *v2.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgSelector *v1.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
+	OrgSelector *v2.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
 }
 
 type AdvancedAPIOpsConfigInitParameters struct {
@@ -269,8 +268,8 @@ type AddonsConfigSpec struct {
 
 // AddonsConfigStatus defines the observed state of AddonsConfig.
 type AddonsConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AddonsConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AddonsConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

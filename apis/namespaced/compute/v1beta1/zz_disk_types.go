@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AsyncPrimaryDiskInitParameters struct {
@@ -23,11 +22,11 @@ type AsyncPrimaryDiskInitParameters struct {
 
 	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type AsyncPrimaryDiskObservation struct {
@@ -46,11 +45,11 @@ type AsyncPrimaryDiskParameters struct {
 
 	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type DiskEncryptionKeyInitParameters struct {
@@ -69,13 +68,13 @@ type DiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskEncryptionKeyObservation struct {
@@ -116,14 +115,14 @@ type DiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskInitParameters struct {
@@ -711,7 +710,7 @@ type SourceImageEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceImageEncryptionKeyObservation struct {
@@ -752,7 +751,7 @@ type SourceImageEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceSnapshotEncryptionKeyInitParameters struct {
@@ -771,7 +770,7 @@ type SourceSnapshotEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceSnapshotEncryptionKeyObservation struct {
@@ -812,7 +811,7 @@ type SourceSnapshotEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 // DiskSpec defines the desired state of Disk
@@ -834,8 +833,8 @@ type DiskSpec struct {
 
 // DiskStatus defines the observed state of Disk.
 type DiskStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DiskObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DiskObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

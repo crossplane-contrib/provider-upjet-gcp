@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TensorboardEncryptionSpecInitParameters struct {
@@ -133,8 +133,8 @@ type TensorboardParameters struct {
 
 // TensorboardSpec defines the desired state of Tensorboard
 type TensorboardSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TensorboardParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TensorboardParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -150,8 +150,8 @@ type TensorboardSpec struct {
 
 // TensorboardStatus defines the observed state of Tensorboard.
 type TensorboardStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TensorboardObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TensorboardObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

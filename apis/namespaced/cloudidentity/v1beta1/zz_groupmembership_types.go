@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ExpiryDetailInitParameters struct {
@@ -54,11 +53,11 @@ type GroupMembershipInitParameters struct {
 
 	// Reference to a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
 
 	// EntityKey of the member.
 	// Structure is documented below.
@@ -121,11 +120,11 @@ type GroupMembershipParameters struct {
 
 	// Reference to a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in cloudidentity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
 
 	// EntityKey of the member.
 	// Structure is documented below.
@@ -255,8 +254,8 @@ type GroupMembershipSpec struct {
 
 // GroupMembershipStatus defines the observed state of GroupMembership.
 type GroupMembershipStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupMembershipObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupMembershipObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeleteAfterDurationInitParameters struct {
@@ -526,11 +526,11 @@ type ReservationSpecificReservationInitParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ReservationSpecificReservationObservation struct {
@@ -575,11 +575,11 @@ type ReservationSpecificReservationParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.Reference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.Selector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ResourceStatusInitParameters struct {
@@ -700,8 +700,8 @@ type UpcomingGroupMaintenanceParameters struct {
 
 // ReservationSpec defines the desired state of Reservation
 type ReservationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReservationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ReservationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -717,8 +717,8 @@ type ReservationSpec struct {
 
 // ReservationStatus defines the observed state of Reservation.
 type ReservationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReservationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReservationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

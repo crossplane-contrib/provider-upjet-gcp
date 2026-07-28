@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DiskDiskEncryptionKeyInitParameters struct {
@@ -71,12 +71,12 @@ type DiskSourceImageEncryptionKeyInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskSourceImageEncryptionKeyObservation struct {
@@ -112,13 +112,13 @@ type DiskSourceImageEncryptionKeyParameters struct {
 	// to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskSourceSnapshotEncryptionKeyInitParameters struct {
@@ -138,12 +138,12 @@ type DiskSourceSnapshotEncryptionKeyInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskSourceSnapshotEncryptionKeyObservation struct {
@@ -179,13 +179,13 @@ type DiskSourceSnapshotEncryptionKeyParameters struct {
 	// to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt this snapshot. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InstanceTemplateAdvancedMachineFeaturesInitParameters struct {
@@ -355,11 +355,11 @@ type InstanceTemplateDiskInitParameters struct {
 
 	// References to ResourcePolicy in compute to populate resourcePolicies.
 	// +kubebuilder:validation:Optional
-	ResourcePoliciesRefs []v1.Reference `json:"resourcePoliciesRefs,omitempty" tf:"-"`
+	ResourcePoliciesRefs []v2.Reference `json:"resourcePoliciesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ResourcePolicy in compute to populate resourcePolicies.
 	// +kubebuilder:validation:Optional
-	ResourcePoliciesSelector *v1.Selector `json:"resourcePoliciesSelector,omitempty" tf:"-"`
+	ResourcePoliciesSelector *v2.Selector `json:"resourcePoliciesSelector,omitempty" tf:"-"`
 
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
@@ -383,11 +383,11 @@ type InstanceTemplateDiskInitParameters struct {
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.Reference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
 	// The source snapshot to create this disk.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
@@ -594,11 +594,11 @@ type InstanceTemplateDiskParameters struct {
 
 	// References to ResourcePolicy in compute to populate resourcePolicies.
 	// +kubebuilder:validation:Optional
-	ResourcePoliciesRefs []v1.Reference `json:"resourcePoliciesRefs,omitempty" tf:"-"`
+	ResourcePoliciesRefs []v2.Reference `json:"resourcePoliciesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ResourcePolicy in compute to populate resourcePolicies.
 	// +kubebuilder:validation:Optional
-	ResourcePoliciesSelector *v1.Selector `json:"resourcePoliciesSelector,omitempty" tf:"-"`
+	ResourcePoliciesSelector *v2.Selector `json:"resourcePoliciesSelector,omitempty" tf:"-"`
 
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
@@ -625,11 +625,11 @@ type InstanceTemplateDiskParameters struct {
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.Reference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.Reference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.Selector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.Selector `json:"sourceSelector,omitempty" tf:"-"`
 
 	// The source snapshot to create this disk.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
@@ -946,11 +946,11 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
@@ -973,11 +973,11 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
 	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
@@ -1097,11 +1097,11 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.
 	// +kubebuilder:validation:Optional
@@ -1129,11 +1129,11 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
 	// +kubebuilder:validation:Optional
@@ -1811,11 +1811,11 @@ type InstanceTemplateServiceAccountInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.Reference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
@@ -1848,11 +1848,11 @@ type InstanceTemplateServiceAccountParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.Reference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
@@ -1903,8 +1903,8 @@ type InstanceTemplateShieldedInstanceConfigParameters struct {
 
 // InstanceTemplateSpec defines the desired state of InstanceTemplate
 type InstanceTemplateSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceTemplateParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceTemplateParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1920,8 +1920,8 @@ type InstanceTemplateSpec struct {
 
 // InstanceTemplateStatus defines the observed state of InstanceTemplate.
 type InstanceTemplateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceTemplateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceTemplateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

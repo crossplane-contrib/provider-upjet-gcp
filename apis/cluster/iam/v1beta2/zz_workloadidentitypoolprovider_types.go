@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsInitParameters struct {
@@ -389,11 +389,11 @@ type WorkloadIdentityPoolProviderParameters struct {
 
 	// Reference to a WorkloadIdentityPool in iam to populate workloadIdentityPoolId.
 	// +kubebuilder:validation:Optional
-	WorkloadIdentityPoolIDRef *v1.Reference `json:"workloadIdentityPoolIdRef,omitempty" tf:"-"`
+	WorkloadIdentityPoolIDRef *v2.Reference `json:"workloadIdentityPoolIdRef,omitempty" tf:"-"`
 
 	// Selector for a WorkloadIdentityPool in iam to populate workloadIdentityPoolId.
 	// +kubebuilder:validation:Optional
-	WorkloadIdentityPoolIDSelector *v1.Selector `json:"workloadIdentityPoolIdSelector,omitempty" tf:"-"`
+	WorkloadIdentityPoolIDSelector *v2.Selector `json:"workloadIdentityPoolIdSelector,omitempty" tf:"-"`
 
 	// An X.509-type identity provider represents a CA. It is trusted to assert a
 	// client identity if the client has a certificate that chains up to this CA.
@@ -438,8 +438,8 @@ type X509Parameters struct {
 
 // WorkloadIdentityPoolProviderSpec defines the desired state of WorkloadIdentityPoolProvider
 type WorkloadIdentityPoolProviderSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     WorkloadIdentityPoolProviderParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   WorkloadIdentityPoolProviderParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -455,8 +455,8 @@ type WorkloadIdentityPoolProviderSpec struct {
 
 // WorkloadIdentityPoolProviderStatus defines the observed state of WorkloadIdentityPoolProvider.
 type WorkloadIdentityPoolProviderStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkloadIdentityPoolProviderObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkloadIdentityPoolProviderObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

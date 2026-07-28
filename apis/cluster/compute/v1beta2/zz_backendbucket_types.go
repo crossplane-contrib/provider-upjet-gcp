@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackendBucketInitParameters struct {
@@ -21,11 +21,11 @@ type BackendBucketInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
@@ -49,11 +49,11 @@ type BackendBucketInitParameters struct {
 
 	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicyRef *v1.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+	EdgeSecurityPolicyRef *v2.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicySelector *v1.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
+	EdgeSecurityPolicySelector *v2.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
 	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
@@ -138,11 +138,11 @@ type BackendBucketParameters struct {
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
@@ -171,11 +171,11 @@ type BackendBucketParameters struct {
 
 	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicyRef *v1.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+	EdgeSecurityPolicyRef *v2.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicySelector *v1.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
+	EdgeSecurityPolicySelector *v2.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
 	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
@@ -492,8 +492,8 @@ type ParamsParameters struct {
 
 // BackendBucketSpec defines the desired state of BackendBucket
 type BackendBucketSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackendBucketParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackendBucketParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -509,8 +509,8 @@ type BackendBucketSpec struct {
 
 // BackendBucketStatus defines the observed state of BackendBucket.
 type BackendBucketStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendBucketObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendBucketObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

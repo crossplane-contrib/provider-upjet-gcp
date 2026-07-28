@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CloudLoggingConfigInitParameters struct {
@@ -212,11 +211,11 @@ type GkeClustersInitParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type GkeClustersObservation struct {
@@ -239,11 +238,11 @@ type GkeClustersParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type ManagedZoneInitParameters struct {
@@ -445,11 +444,11 @@ type NetworksInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type NetworksObservation struct {
@@ -472,11 +471,11 @@ type NetworksParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type PeeringConfigInitParameters struct {
@@ -623,11 +622,11 @@ type TargetNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type TargetNetworkObservation struct {
@@ -650,11 +649,11 @@ type TargetNetworkParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 // ManagedZoneSpec defines the desired state of ManagedZone
@@ -676,8 +675,8 @@ type ManagedZoneSpec struct {
 
 // ManagedZoneStatus defines the observed state of ManagedZone.
 type ManagedZoneStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ManagedZoneObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ManagedZoneObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

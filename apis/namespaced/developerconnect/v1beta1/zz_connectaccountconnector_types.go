@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectAccountConnectorInitParameters struct {
@@ -179,11 +178,11 @@ type CustomOAuthConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDRef *v1.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+	ClientIDRef *v2.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDSelector *v1.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
+	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// Input only. The client secret of the OAuth application.
 	// It will be provided as plain text, but encrypted and stored in developer
@@ -194,11 +193,11 @@ type CustomOAuthConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretRef *v1.NamespacedReference `json:"clientSecretRef,omitempty" tf:"-"`
+	ClientSecretRef *v2.NamespacedReference `json:"clientSecretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretSelector *v1.NamespacedSelector `json:"clientSecretSelector,omitempty" tf:"-"`
+	ClientSecretSelector *v2.NamespacedSelector `json:"clientSecretSelector,omitempty" tf:"-"`
 
 	// The host URI of the OAuth application.
 	HostURI *string `json:"hostUri,omitempty" tf:"host_uri,omitempty"`
@@ -289,11 +288,11 @@ type CustomOAuthConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDRef *v1.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
+	ClientIDRef *v2.NamespacedReference `json:"clientIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientId.
 	// +kubebuilder:validation:Optional
-	ClientIDSelector *v1.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
+	ClientIDSelector *v2.NamespacedSelector `json:"clientIdSelector,omitempty" tf:"-"`
 
 	// Input only. The client secret of the OAuth application.
 	// It will be provided as plain text, but encrypted and stored in developer
@@ -305,11 +304,11 @@ type CustomOAuthConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretRef *v1.NamespacedReference `json:"clientSecretRef,omitempty" tf:"-"`
+	ClientSecretRef *v2.NamespacedReference `json:"clientSecretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate clientSecret.
 	// +kubebuilder:validation:Optional
-	ClientSecretSelector *v1.NamespacedSelector `json:"clientSecretSelector,omitempty" tf:"-"`
+	ClientSecretSelector *v2.NamespacedSelector `json:"clientSecretSelector,omitempty" tf:"-"`
 
 	// The host URI of the OAuth application.
 	// +kubebuilder:validation:Optional
@@ -472,8 +471,8 @@ type ConnectAccountConnectorSpec struct {
 
 // ConnectAccountConnectorStatus defines the observed state of ConnectAccountConnector.
 type ConnectAccountConnectorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectAccountConnectorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectAccountConnectorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceGroupNamedPortInitParameters struct {
@@ -105,8 +104,8 @@ type InstanceGroupNamedPortSpec struct {
 
 // InstanceGroupNamedPortStatus defines the observed state of InstanceGroupNamedPort.
 type InstanceGroupNamedPortStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceGroupNamedPortObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceGroupNamedPortObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

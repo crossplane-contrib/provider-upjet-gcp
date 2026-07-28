@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ObjectAccessControlInitParameters struct {
@@ -21,11 +21,11 @@ type ObjectAccessControlInitParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
@@ -37,11 +37,11 @@ type ObjectAccessControlInitParameters struct {
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.Reference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.Reference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.Selector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER.
@@ -96,11 +96,11 @@ type ObjectAccessControlParameters struct {
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
 	// +kubebuilder:validation:Optional
@@ -114,11 +114,11 @@ type ObjectAccessControlParameters struct {
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.Reference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.Reference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.Selector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER.
@@ -144,8 +144,8 @@ type ObjectAccessControlProjectTeamParameters struct {
 
 // ObjectAccessControlSpec defines the desired state of ObjectAccessControl
 type ObjectAccessControlSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ObjectAccessControlParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ObjectAccessControlParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -161,8 +161,8 @@ type ObjectAccessControlSpec struct {
 
 // ObjectAccessControlStatus defines the observed state of ObjectAccessControl.
 type ObjectAccessControlStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ObjectAccessControlObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ObjectAccessControlObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

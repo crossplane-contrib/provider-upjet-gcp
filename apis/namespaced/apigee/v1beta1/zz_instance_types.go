@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLoggingConfigInitParameters struct {
@@ -76,11 +75,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameRef *v1.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
+	DiskEncryptionKeyNameRef *v2.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameSelector *v1.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
+	DiskEncryptionKeyNameSelector *v2.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Display name of the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -192,11 +191,11 @@ type InstanceParameters struct {
 
 	// Reference to a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameRef *v1.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
+	DiskEncryptionKeyNameRef *v2.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameSelector *v1.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
+	DiskEncryptionKeyNameSelector *v2.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Display name of the instance.
 	// +kubebuilder:validation:Optional
@@ -225,11 +224,11 @@ type InstanceParameters struct {
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// The size of the CIDR block range that will be reserved by the instance. For valid values,
 	// see CidrRange on the documentation.
@@ -256,8 +255,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

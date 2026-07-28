@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AIInferenceUnstructuredInferenceInitParameters struct {
@@ -586,11 +586,11 @@ type MessageTransformsAIInferenceInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// Configuration for making inferences using arbitrary JSON payloads.
 	// Structure is documented below.
@@ -632,11 +632,11 @@ type MessageTransformsAIInferenceParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// Configuration for making inferences using arbitrary JSON payloads.
 	// Structure is documented below.
@@ -727,11 +727,11 @@ type SchemaSettingsInitParameters struct {
 
 	// Reference to a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDRef *v1.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
+	FirstRevisionIDRef *v2.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDSelector *v1.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
+	FirstRevisionIDSelector *v2.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
 
 	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Schema
@@ -740,11 +740,11 @@ type SchemaSettingsInitParameters struct {
 
 	// Reference to a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDRef *v1.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
+	LastRevisionIDRef *v2.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDSelector *v1.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
+	LastRevisionIDSelector *v2.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
@@ -789,11 +789,11 @@ type SchemaSettingsParameters struct {
 
 	// Reference to a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDRef *v1.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
+	FirstRevisionIDRef *v2.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDSelector *v1.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
+	FirstRevisionIDSelector *v2.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
 
 	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Schema
@@ -803,11 +803,11 @@ type SchemaSettingsParameters struct {
 
 	// Reference to a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDRef *v1.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
+	LastRevisionIDRef *v2.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDSelector *v1.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
+	LastRevisionIDSelector *v2.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
@@ -859,11 +859,11 @@ type TopicInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this Topic.
 	// +mapType=granular
@@ -1060,11 +1060,11 @@ type TopicParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this Topic.
 	// +kubebuilder:validation:Optional
@@ -1120,8 +1120,8 @@ type TopicParameters struct {
 
 // TopicSpec defines the desired state of Topic
 type TopicSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TopicParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TopicParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1137,8 +1137,8 @@ type TopicSpec struct {
 
 // TopicStatus defines the observed state of Topic.
 type TopicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TopicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TopicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
