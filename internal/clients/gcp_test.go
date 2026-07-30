@@ -13,6 +13,8 @@ import (
 	upjetmetrics "github.com/crossplane/upjet/v2/pkg/metrics"
 	"github.com/google/go-cmp/cmp"
 	"github.com/prometheus/client_golang/prometheus/testutil"
+
+	namespacedv1beta1 "github.com/upbound/provider-gcp/v2/apis/namespaced/v1beta1"
 )
 
 type roundTripperFunc func(*http.Request) (*http.Response, error)
@@ -56,6 +58,82 @@ func Test_serviceFromURL(t *testing.T) {
 			got := serviceFromURL(u)
 			if diff := cmp.Diff(tc.want.service, got); diff != "" {
 				t.Errorf("serviceFromURL(%q) mismatch (-want +got):\n%s", tc.args.rawURL, diff)
+			}
+		})
+	}
+}
+
+func Test_setProjectOverrides(t *testing.T) {
+	type args struct {
+		pcSpec *namespacedv1beta1.ProviderConfigSpec
+	}
+	type want struct {
+		configuration map[string]interface{}
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"unset_fields_leave_configuration_untouched": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{ProjectID: "example-project"}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+		"override_enabled": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:           "example-project",
+				UserProjectOverride: new(true),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:             "example-project",
+				keyUserProjectOverride: true,
+			}},
+		},
+		"override_disabled_explicitly": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:           "example-project",
+				UserProjectOverride: new(false),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:             "example-project",
+				keyUserProjectOverride: false,
+			}},
+		},
+		"billing_project_set": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				BillingProject: new("billed-project"),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:        "example-project",
+				keyBillingProject: "billed-project",
+			}},
+		},
+		"empty_billing_project_ignored": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				BillingProject: new(""),
+			}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+		"override_and_billing_project": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:           "example-project",
+				UserProjectOverride: new(true),
+				BillingProject:      new("billed-project"),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:             "example-project",
+				keyUserProjectOverride: true,
+				keyBillingProject:      "billed-project",
+			}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			cfg := map[string]interface{}{keyProject: tc.args.pcSpec.ProjectID}
+			setProjectOverrides(cfg, tc.args.pcSpec)
+			if diff := cmp.Diff(tc.want.configuration, cfg); diff != "" {
+				t.Errorf("setProjectOverrides(...) configuration mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}
