@@ -1,0 +1,82 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: InsightsReportConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/insightsreportconfig
+    upjet.upbound.io/manual-intervention: "This resource requires the Storage Insights service agent to be granted roles/storage.admin on the destination bucket; the BucketIAMMember below needs the correct project number in its member."
+  labels:
+    testing.upbound.io/example-name: config
+  name: config
+  namespace: upbound-system
+spec:
+  forProvider:
+    csvOptions:
+      delimiter: ","
+      headerRequired: false
+      recordSeparator: "\n"
+    displayName: Test Report Config
+    frequencyOptions:
+      endDate:
+        day: 15
+        month: 4
+        year: 2050
+      frequency: WEEKLY
+      startDate:
+        day: 15
+        month: 3
+        year: 2050
+    location: us-central1
+    objectMetadataReportOptions:
+      metadataFields:
+      - bucket
+      - name
+      - project
+      storageDestinationOptions:
+        bucketSelector:
+          matchLabels:
+            testing.upbound.io/example-name: report_bucket
+        destinationPath: test-insights-reports
+      storageFilters:
+        bucketSelector:
+          matchLabels:
+            testing.upbound.io/example-name: report_bucket
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/insightsreportconfig
+  labels:
+    testing.upbound.io/example-name: report_bucket
+  name: report-bucket-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    forceDestroy: true
+    location: us-central1
+    uniformBucketLevelAccess: true
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1beta1/insightsreportconfig
+  labels:
+    testing.upbound.io/example-name: report_bucket_admin
+  name: report-bucket-admin
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: report_bucket
+    member: "serviceAccount:service-<yourprojectnumber>@gcp-sa-storageinsights.iam.gserviceaccount.com"
+    role: roles/storage.admin
