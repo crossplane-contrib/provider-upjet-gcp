@@ -73,7 +73,7 @@ func TestClusterConnectionDetails(t *testing.T) {
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			got, err := ClusterConnectionDetails(tc.args.attr)
+			got, err := clusterConnectionDetails(tc.args.attr)
 			if err != nil {
 				t.Fatalf("ClusterConnectionDetails(...): unexpected error: %v\nreason: %s", err, tc.reason)
 			}
@@ -84,7 +84,7 @@ func TestClusterConnectionDetails(t *testing.T) {
 			cluster := kc.Clusters[kc.CurrentContext]
 			result := want{server: cluster.Server, caData: cluster.CertificateAuthorityData}
 			if diff := cmp.Diff(tc.want, result, cmp.AllowUnexported(want{})); diff != "" {
-				t.Errorf("ClusterConnectionDetails(...): -want, +got:\n%s\nreason: %s", diff, tc.reason)
+				t.Errorf("clusterConnectionDetails(...): -want, +got:\n%s\nreason: %s", diff, tc.reason)
 			}
 		})
 	}

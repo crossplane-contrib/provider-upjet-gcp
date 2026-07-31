@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
+	"github.com/crossplane/crossplane-runtime/v2/pkg/errors"
 	"github.com/crossplane/upjet/v2/pkg/config"
-	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 
@@ -50,7 +50,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			},
 		}
 		config.MoveToStatus(r.TerraformResource, "node_pool")
-		r.Sensitive.AdditionalConnectionDetailsFn = ClusterConnectionDetails
+		r.Sensitive.AdditionalConnectionDetailsFn = clusterConnectionDetails
 		r.References["network"] = config.Reference{
 			TerraformName: "google_compute_network",
 			Extractor:     common.PathSelfLinkExtractor,
@@ -121,9 +121,9 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 	})
 }
 
-// ClusterConnectionDetails builds the kubeconfig published in the connection
+// clusterConnectionDetails builds the kubeconfig published in the connection
 // secret of a container.Cluster.
-func ClusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, error) {
+func clusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, error) { //nolint:gocyclo // easier to follow as a unit
 	name, err := common.GetField(attr, "name")
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func ClusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, e
 	}
 	server, err := url.Parse(endpoint)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot parse API server endpoint")
+		return nil, errors.Wrap(err, "cannot parse API server endpoint")
 	}
 	// NOTE(hasheddan): the endpoint returned is just an IP address, and
 	// clients will default to http, causing any authentication
@@ -158,7 +158,7 @@ func ClusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, e
 		}
 		caDataBytes, err := base64.StdEncoding.DecodeString(caData)
 		if err != nil {
-			return nil, errors.Wrapf(err, "cannot serialize cluster ca data")
+			return nil, errors.Wrap(err, "cannot serialize cluster ca data")
 		}
 		kcCluster.CertificateAuthorityData = caDataBytes
 	}
@@ -169,7 +169,7 @@ func ClusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, e
 	}
 	clientCertDataBytes, err := base64.StdEncoding.DecodeString(clientCertData)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot serialize cluster client cert data")
+		return nil, errors.Wrap(err, "cannot serialize cluster client cert data")
 	}
 	clientKeyData, err := common.GetField(attr, "master_auth[0].client_key")
 	if err != nil {
@@ -177,7 +177,7 @@ func ClusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, e
 	}
 	clientKeyDataBytes, err := base64.StdEncoding.DecodeString(clientKeyData)
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot serialize cluster client key data")
+		return nil, errors.Wrap(err, "cannot serialize cluster client key data")
 	}
 	kc := clientcmdapi.Config{
 		Kind:       "Config",
