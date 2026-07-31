@@ -22,6 +22,18 @@ type ProviderConfigSpec struct {
 
 	// ProjectID is the project name (not numerical ID) of this GCP ProviderConfig.
 	ProjectID string `json:"projectID"`
+
+	// UserProjectOverride enables attributing API requests to the project in
+	// billingProject (or, when that is unset, the resource's project) by
+	// sending the X-Goog-User-Project header, instead of attributing them to
+	// the credential's home project.
+	// +optional
+	UserProjectOverride *bool `json:"userProjectOverride,omitempty"`
+
+	// BillingProject is the project name (not numerical ID) to attribute API
+	// requests to. Only used when userProjectOverride is true.
+	// +optional
+	BillingProject *string `json:"billingProject,omitempty"`
 }
 
 // ProviderCredentials required to authenticate.

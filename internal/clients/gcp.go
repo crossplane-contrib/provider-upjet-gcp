@@ -31,7 +31,9 @@ import (
 )
 
 const (
-	keyProject = "project"
+	keyProject             = "project"
+	keyUserProjectOverride = "user_project_override"
+	keyBillingProject      = "billing_project"
 
 	credentialsSourceUpbound     = "Upbound"
 	keyCredentials               = "credentials"
@@ -136,6 +138,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		ps.Configuration = map[string]interface{}{
 			keyProject: pcSpec.ProjectID,
 		}
+		setProjectOverrides(ps.Configuration, pcSpec)
 		// TODO: this will have a performance impact. We need to quantify this.
 		p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
 		if err != nil {
@@ -184,6 +187,19 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		// deliberately not using the caller context as context used to configure terraform is stored
 		// nolint:contextcheck
 		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
+	}
+}
+
+// setProjectOverrides populates the user_project_override and billing_project
+// provider configuration keys from the resolved ProviderConfig spec. Both keys
+// are left unset when the corresponding spec fields are empty so that the
+// Terraform provider defaults stay in effect.
+func setProjectOverrides(cfg map[string]interface{}, pcSpec *namespacedv1beta1.ProviderConfigSpec) {
+	if pcSpec.UserProjectOverride != nil {
+		cfg[keyUserProjectOverride] = *pcSpec.UserProjectOverride
+	}
+	if pcSpec.BillingProject != nil && *pcSpec.BillingProject != "" {
+		cfg[keyBillingProject] = *pcSpec.BillingProject
 	}
 }
 
