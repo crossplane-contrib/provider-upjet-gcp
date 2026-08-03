@@ -137,6 +137,14 @@ linters:
         text: "SA1019:.*LegacyManaged is deprecated"
         linters:
           - staticcheck
+      # Ease goconst warnings on test files.
+      - path: _test\.go
+        linters:
+          - goconst
+      # Ease goconst warnings on config.go files as they target terraform resource names.
+      - path: .*config\.go
+        linters:
+          - goconst
 
 issues:
   new: false
