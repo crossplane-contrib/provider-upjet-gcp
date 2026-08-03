@@ -5977,6 +5977,11 @@ func (in *MonitoredProjectObservation) DeepCopyInto(out *MonitoredProjectObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)

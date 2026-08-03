@@ -146,6 +146,11 @@ spec:
                     description: Output only. The time when this MonitoredProject
                       was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format locations/global/metricsScopes/{{metrics_scope}}/projects/{{name}}
                     type: string

@@ -7,6 +7,9 @@ kind: MonitoredProject
 metadata:
   annotations:
     meta.upbound.io/example-id: monitoring/v1beta1/monitoredproject
+    # The monitored project name is used as the external name of the resource.
+    crossplane.io/external-name: monitored-project-id
+    upjet.upbound.io/manual-intervention: "Requires an existing monitored project, which needs organization level IAM permissions to create."
   labels:
     testing.upbound.io/example-name: primary
   name: primary
@@ -14,4 +17,3 @@ metadata:
 spec:
   forProvider:
     metricsScope: my-project-name
-    name: monitored-project-id

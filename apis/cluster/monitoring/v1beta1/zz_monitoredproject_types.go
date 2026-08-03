@@ -21,6 +21,10 @@ type MonitoredProjectObservation struct {
 	// Output only. The time when this MonitoredProject was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format locations/global/metricsScopes/{{metrics_scope}}/projects/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -38,7 +42,7 @@ type MonitoredProjectParameters struct {
 // MonitoredProjectSpec defines the desired state of MonitoredProject
 type MonitoredProjectSpec struct {
 	v2.ClusterManagedResourceSpec `json:",inline"`
-	ForProvider     MonitoredProjectParameters `json:"forProvider"`
+	ForProvider                   MonitoredProjectParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -55,7 +59,7 @@ type MonitoredProjectSpec struct {
 // MonitoredProjectStatus defines the observed state of MonitoredProject.
 type MonitoredProjectStatus struct {
 	v2.ManagedResourceStatus `json:",inline"`
-	AtProvider        MonitoredProjectObservation `json:"atProvider,omitempty"`
+	AtProvider               MonitoredProjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

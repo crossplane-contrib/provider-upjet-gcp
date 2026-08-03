@@ -1580,6 +1580,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		dashboard.SetupWebhookWithManager,
 		groupmonitoring.SetupWebhookWithManager,
 		metricdescriptor.SetupWebhookWithManager,
+		monitoredproject.SetupWebhookWithManager,
 		notificationchannel.SetupWebhookWithManager,
 		servicemonitoring.SetupWebhookWithManager,
 		slo.SetupWebhookWithManager,
