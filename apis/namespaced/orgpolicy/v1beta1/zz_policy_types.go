@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -126,6 +125,10 @@ type PolicyInitParameters struct {
 
 type PolicyObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced.
 	// Structure is documented below.
 	DryRunSpec *DryRunSpecObservation `json:"dryRunSpec,omitempty" tf:"dry_run_spec,omitempty"`
@@ -159,11 +162,11 @@ type PolicyParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Basic information about the Organization Policy.
 	// Structure is documented below.
@@ -497,8 +500,8 @@ type PolicySpec struct {
 
 // PolicyStatus defines the observed state of Policy.
 type PolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

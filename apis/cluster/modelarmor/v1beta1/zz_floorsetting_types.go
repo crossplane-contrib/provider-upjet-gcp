@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AIPlatformFloorSettingInitParameters struct {
@@ -74,11 +74,11 @@ type AdvancedConfigInitParameters struct {
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateRef *v1.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
+	DeidentifyTemplateRef *v2.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateSelector *v1.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
+	DeidentifyTemplateSelector *v2.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
 	// Sensitive Data Protection inspect template resource name
 	// If only inspect template is provided (de-identify template not provided),
@@ -93,11 +93,11 @@ type AdvancedConfigInitParameters struct {
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateRef *v1.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
+	InspectTemplateRef *v2.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateSelector *v1.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
+	InspectTemplateSelector *v2.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
 }
 
 type AdvancedConfigObservation struct {
@@ -139,11 +139,11 @@ type AdvancedConfigParameters struct {
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateRef *v1.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
+	DeidentifyTemplateRef *v2.Reference `json:"deidentifyTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
 	// +kubebuilder:validation:Optional
-	DeidentifyTemplateSelector *v1.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
+	DeidentifyTemplateSelector *v2.Selector `json:"deidentifyTemplateSelector,omitempty" tf:"-"`
 
 	// Sensitive Data Protection inspect template resource name
 	// If only inspect template is provided (de-identify template not provided),
@@ -159,11 +159,11 @@ type AdvancedConfigParameters struct {
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateRef *v1.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
+	InspectTemplateRef *v2.Reference `json:"inspectTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InspectTemplate in datalossprevention to populate inspectTemplate.
 	// +kubebuilder:validation:Optional
-	InspectTemplateSelector *v1.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
+	InspectTemplateSelector *v2.Selector `json:"inspectTemplateSelector,omitempty" tf:"-"`
 }
 
 type BasicConfigInitParameters struct {
@@ -275,6 +275,10 @@ type FloorSettingInitParameters struct {
 	// Structure is documented below.
 	FloorSettingMetadata *FloorSettingMetadataInitParameters `json:"floorSettingMetadata,omitempty" tf:"floor_setting_metadata,omitempty"`
 
+	// Google MCP Server floor setting.
+	// Structure is documented below.
+	GoogleMcpServerFloorSetting *GoogleMcpServerFloorSettingInitParameters `json:"googleMcpServerFloorSetting,omitempty" tf:"google_mcp_server_floor_setting,omitempty"`
+
 	// List of integrated services for which the floor setting is applicable.
 	IntegratedServices []*string `json:"integratedServices,omitempty" tf:"integrated_services,omitempty"`
 }
@@ -321,6 +325,10 @@ type FloorSettingObservation struct {
 	// Structure is documented below.
 	FloorSettingMetadata *FloorSettingMetadataObservation `json:"floorSettingMetadata,omitempty" tf:"floor_setting_metadata,omitempty"`
 
+	// Google MCP Server floor setting.
+	// Structure is documented below.
+	GoogleMcpServerFloorSetting *GoogleMcpServerFloorSettingObservation `json:"googleMcpServerFloorSetting,omitempty" tf:"google_mcp_server_floor_setting,omitempty"`
+
 	// an identifier for the resource with format {{parent}}/locations/{{location}}/floorSetting
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -361,6 +369,11 @@ type FloorSettingParameters struct {
 	// +kubebuilder:validation:Optional
 	FloorSettingMetadata *FloorSettingMetadataParameters `json:"floorSettingMetadata,omitempty" tf:"floor_setting_metadata,omitempty"`
 
+	// Google MCP Server floor setting.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GoogleMcpServerFloorSetting *GoogleMcpServerFloorSettingParameters `json:"googleMcpServerFloorSetting,omitempty" tf:"google_mcp_server_floor_setting,omitempty"`
+
 	// List of integrated services for which the floor setting is applicable.
 	// +kubebuilder:validation:Optional
 	IntegratedServices []*string `json:"integratedServices,omitempty" tf:"integrated_services,omitempty"`
@@ -372,6 +385,51 @@ type FloorSettingParameters struct {
 	// Will be any one of these:
 	// +kubebuilder:validation:Required
 	Parent *string `json:"parent" tf:"parent,omitempty"`
+}
+
+type GoogleMcpServerFloorSettingInitParameters struct {
+
+	// If true, log Model Armor filter results to Cloud Logging.
+	EnableCloudLogging *bool `json:"enableCloudLogging,omitempty" tf:"enable_cloud_logging,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect and block mode.
+	// Requests that trip Model Armor filters will be blocked.
+	InspectAndBlock *bool `json:"inspectAndBlock,omitempty" tf:"inspect_and_block,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect only mode. No action
+	// will be taken on the request.
+	InspectOnly *bool `json:"inspectOnly,omitempty" tf:"inspect_only,omitempty"`
+}
+
+type GoogleMcpServerFloorSettingObservation struct {
+
+	// If true, log Model Armor filter results to Cloud Logging.
+	EnableCloudLogging *bool `json:"enableCloudLogging,omitempty" tf:"enable_cloud_logging,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect and block mode.
+	// Requests that trip Model Armor filters will be blocked.
+	InspectAndBlock *bool `json:"inspectAndBlock,omitempty" tf:"inspect_and_block,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect only mode. No action
+	// will be taken on the request.
+	InspectOnly *bool `json:"inspectOnly,omitempty" tf:"inspect_only,omitempty"`
+}
+
+type GoogleMcpServerFloorSettingParameters struct {
+
+	// If true, log Model Armor filter results to Cloud Logging.
+	// +kubebuilder:validation:Optional
+	EnableCloudLogging *bool `json:"enableCloudLogging,omitempty" tf:"enable_cloud_logging,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect and block mode.
+	// Requests that trip Model Armor filters will be blocked.
+	// +kubebuilder:validation:Optional
+	InspectAndBlock *bool `json:"inspectAndBlock,omitempty" tf:"inspect_and_block,omitempty"`
+
+	// If true, Model Armor filters will be run in inspect only mode. No action
+	// will be taken on the request.
+	// +kubebuilder:validation:Optional
+	InspectOnly *bool `json:"inspectOnly,omitempty" tf:"inspect_only,omitempty"`
 }
 
 type MaliciousURIFilterSettingsInitParameters struct {
@@ -583,8 +641,8 @@ type SdpSettingsParameters struct {
 
 // FloorSettingSpec defines the desired state of FloorSetting
 type FloorSettingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FloorSettingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FloorSettingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -600,8 +658,8 @@ type FloorSettingSpec struct {
 
 // FloorSettingStatus defines the observed state of FloorSetting.
 type FloorSettingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FloorSettingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FloorSettingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

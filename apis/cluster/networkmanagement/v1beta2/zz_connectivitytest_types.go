@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppEngineVersionInitParameters struct {
@@ -125,6 +125,10 @@ type ConnectivityTestObservation struct {
 
 	// Whether the analysis should skip firewall checking. Default value is false.
 	BypassFirewallChecks *bool `json:"bypassFirewallChecks,omitempty" tf:"bypass_firewall_checks,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The user-supplied description of the Connectivity Test.
 	// Maximum of 512 characters.
@@ -262,6 +266,9 @@ type DestinationInitParameters struct {
 	// A cluster URI for Google Kubernetes Engine cluster control plane.
 	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
+	// A GKE Pod URI.
+	GkePod *string `json:"gkePod,omitempty" tf:"gke_pod,omitempty"`
+
 	// The IP address of the endpoint, which can be an external or internal IP.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
@@ -269,11 +276,11 @@ type DestinationInitParameters struct {
 
 	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// A Compute Engine instance URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
@@ -282,11 +289,11 @@ type DestinationInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// A VPC network URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
@@ -295,11 +302,15 @@ type DestinationInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when protocol is
 	// TCP or UDP.
@@ -315,11 +326,11 @@ type DestinationInitParameters struct {
 
 	// Reference to a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// A Redis Cluster URI.
 	RedisCluster *string `json:"redisCluster,omitempty" tf:"redis_cluster,omitempty"`
@@ -345,6 +356,9 @@ type DestinationObservation struct {
 	// A cluster URI for Google Kubernetes Engine cluster control plane.
 	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
+	// A GKE Pod URI.
+	GkePod *string `json:"gkePod,omitempty" tf:"gke_pod,omitempty"`
+
 	// The IP address of the endpoint, which can be an external or internal IP.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
@@ -353,6 +367,10 @@ type DestinationObservation struct {
 
 	// A VPC network URI.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when protocol is
 	// TCP or UDP.
@@ -392,6 +410,10 @@ type DestinationParameters struct {
 	// +kubebuilder:validation:Optional
 	GkeMasterCluster *string `json:"gkeMasterCluster,omitempty" tf:"gke_master_cluster,omitempty"`
 
+	// A GKE Pod URI.
+	// +kubebuilder:validation:Optional
+	GkePod *string `json:"gkePod,omitempty" tf:"gke_pod,omitempty"`
+
 	// The IP address of the endpoint, which can be an external or internal IP.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
@@ -400,11 +422,11 @@ type DestinationParameters struct {
 
 	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// A Compute Engine instance URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
@@ -414,11 +436,11 @@ type DestinationParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// A VPC network URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
@@ -428,11 +450,16 @@ type DestinationParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
+
+	// For source endpoints, type of the network where the endpoint is located. Not relevant for destination endpoints.
+	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK, INTERNET.
+	// +kubebuilder:validation:Optional
+	NetworkType *string `json:"networkType,omitempty" tf:"network_type,omitempty"`
 
 	// The IP protocol port of the endpoint. Only applicable when protocol is
 	// TCP or UDP.
@@ -450,11 +477,11 @@ type DestinationParameters struct {
 
 	// Reference to a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// A Redis Cluster URI.
 	// +kubebuilder:validation:Optional
@@ -492,11 +519,11 @@ type SourceInitParameters struct {
 
 	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// A Compute Engine instance URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
@@ -505,11 +532,11 @@ type SourceInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// A VPC network URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
@@ -518,11 +545,11 @@ type SourceInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Type of the network where the endpoint is located.
 	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK.
@@ -542,11 +569,11 @@ type SourceInitParameters struct {
 
 	// Reference to a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type SourceObservation struct {
@@ -626,11 +653,11 @@ type SourceParameters struct {
 
 	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// A Compute Engine instance URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
@@ -640,11 +667,11 @@ type SourceParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// A VPC network URI.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
@@ -654,11 +681,11 @@ type SourceParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Type of the network where the endpoint is located.
 	// Possible values are: GCP_NETWORK, NON_GCP_NETWORK.
@@ -681,17 +708,17 @@ type SourceParameters struct {
 
 	// Reference to a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 // ConnectivityTestSpec defines the desired state of ConnectivityTest
 type ConnectivityTestSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConnectivityTestParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConnectivityTestParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -707,8 +734,8 @@ type ConnectivityTestSpec struct {
 
 // ConnectivityTestStatus defines the observed state of ConnectivityTest.
 type ConnectivityTestStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectivityTestObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectivityTestObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

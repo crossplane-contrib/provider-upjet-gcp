@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectBucketConfigCmekSettingsInitParameters struct {
@@ -28,11 +27,11 @@ type ProjectBucketConfigCmekSettingsInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ProjectBucketConfigCmekSettingsObservation struct {
@@ -77,11 +76,11 @@ type ProjectBucketConfigCmekSettingsParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ProjectBucketConfigIndexConfigsInitParameters struct {
@@ -144,6 +143,10 @@ type ProjectBucketConfigObservation struct {
 
 	// The CMEK settings of the log bucket. If present, new log entries written to this log bucket are encrypted using the CMEK key provided in this configuration. If a log bucket has CMEK settings, the CMEK settings cannot be disabled later by updating the log bucket. Changing the KMS key is allowed. Structure is documented below.
 	CmekSettings *ProjectBucketConfigCmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -214,11 +217,11 @@ type ProjectBucketConfigParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used.
 	// +kubebuilder:validation:Optional
@@ -244,8 +247,8 @@ type ProjectBucketConfigSpec struct {
 
 // ProjectBucketConfigStatus defines the observed state of ProjectBucketConfig.
 type ProjectBucketConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectBucketConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectBucketConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

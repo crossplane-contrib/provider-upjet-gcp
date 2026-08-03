@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SSLCertificateInitParameters struct {
@@ -20,14 +19,14 @@ type SSLCertificateInitParameters struct {
 	// The certificate chain must be no greater than 5 certs long.
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CertificateSecretRef v1.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
+	CertificateSecretRef v2.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PrivateKeySecretRef v1.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
+	PrivateKeySecretRef *v2.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -41,6 +40,10 @@ type SSLCertificateObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -66,7 +69,7 @@ type SSLCertificateParameters struct {
 	// The chain must include at least one intermediate cert.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CertificateSecretRef v1.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
+	CertificateSecretRef v2.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -75,7 +78,7 @@ type SSLCertificateParameters struct {
 	// The write-only private key in PEM format.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef v1.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
+	PrivateKeySecretRef *v2.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -102,8 +105,8 @@ type SSLCertificateSpec struct {
 
 // SSLCertificateStatus defines the observed state of SSLCertificate.
 type SSLCertificateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SSLCertificateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SSLCertificateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -120,7 +123,6 @@ type SSLCertificate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.certificateSecretRef)",message="spec.forProvider.certificateSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.privateKeySecretRef)",message="spec.forProvider.privateKeySecretRef is a required parameter"
 	Spec   SSLCertificateSpec   `json:"spec"`
 	Status SSLCertificateStatus `json:"status,omitempty"`
 }

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CategoricalThresholdConfigInitParameters struct {
@@ -44,11 +44,11 @@ type FeaturestoreEntitytypeInitParameters struct {
 
 	// Reference to a Featurestore in vertexai to populate featurestore.
 	// +kubebuilder:validation:Optional
-	FeaturestoreRef *v1.Reference `json:"featurestoreRef,omitempty" tf:"-"`
+	FeaturestoreRef *v2.Reference `json:"featurestoreRef,omitempty" tf:"-"`
 
 	// Selector for a Featurestore in vertexai to populate featurestore.
 	// +kubebuilder:validation:Optional
-	FeaturestoreSelector *v1.Selector `json:"featurestoreSelector,omitempty" tf:"-"`
+	FeaturestoreSelector *v2.Selector `json:"featurestoreSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this EntityType.
 	// +mapType=granular
@@ -67,6 +67,10 @@ type FeaturestoreEntitytypeObservation struct {
 
 	// The timestamp of when the featurestore was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the EntityType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -121,11 +125,11 @@ type FeaturestoreEntitytypeParameters struct {
 
 	// Reference to a Featurestore in vertexai to populate featurestore.
 	// +kubebuilder:validation:Optional
-	FeaturestoreRef *v1.Reference `json:"featurestoreRef,omitempty" tf:"-"`
+	FeaturestoreRef *v2.Reference `json:"featurestoreRef,omitempty" tf:"-"`
 
 	// Selector for a Featurestore in vertexai to populate featurestore.
 	// +kubebuilder:validation:Optional
-	FeaturestoreSelector *v1.Selector `json:"featurestoreSelector,omitempty" tf:"-"`
+	FeaturestoreSelector *v2.Selector `json:"featurestoreSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this EntityType.
 	// +kubebuilder:validation:Optional
@@ -296,8 +300,8 @@ type SnapshotAnalysisParameters struct {
 
 // FeaturestoreEntitytypeSpec defines the desired state of FeaturestoreEntitytype
 type FeaturestoreEntitytypeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FeaturestoreEntitytypeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FeaturestoreEntitytypeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -313,8 +317,8 @@ type FeaturestoreEntitytypeSpec struct {
 
 // FeaturestoreEntitytypeStatus defines the observed state of FeaturestoreEntitytype.
 type FeaturestoreEntitytypeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FeaturestoreEntitytypeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FeaturestoreEntitytypeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

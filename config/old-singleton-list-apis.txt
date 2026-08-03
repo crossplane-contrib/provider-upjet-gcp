@@ -202,7 +202,6 @@ google_storage_bucket
 google_storage_bucket_iam_member
 google_storage_bucket_object
 google_storage_transfer_agent_pool
-google_tpu_node
 google_vertex_ai_dataset
 google_vertex_ai_featurestore
 google_vertex_ai_featurestore_entitytype

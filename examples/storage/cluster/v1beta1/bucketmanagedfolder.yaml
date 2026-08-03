@@ -16,8 +16,10 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucket-access-control
+
 ---
-apiVersion: storage.gcp.upbound.io/v1beta1
+
+apiVersion: storage.gcp.upbound.io/v1beta3
 kind: Bucket
 metadata:
   annotations:

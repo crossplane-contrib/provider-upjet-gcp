@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EntryFulfillmentConditionalCasesInitParameters struct {
@@ -2089,11 +2088,11 @@ type PageInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Ordered list of TransitionRouteGroups associated with the page. Transition route groups must be unique within a page.
 	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
@@ -2135,11 +2134,11 @@ type PageKnowledgeConnectorSettingsInitParameters struct {
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to be triggered.
 	// When the answers from the Knowledge Connector are selected by Dialogflow, you can utitlize the request scoped parameter $request.knowledge.answers (contains up to the 5 highest confidence answers) and $request.knowledge.questions (contains the corresponding questions) to construct the fulfillment.
@@ -2197,11 +2196,11 @@ type PageKnowledgeConnectorSettingsParameters struct {
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to be triggered.
 	// When the answers from the Knowledge Connector are selected by Dialogflow, you can utitlize the request scoped parameter $request.knowledge.answers (contains up to the 5 highest confidence answers) and $request.knowledge.questions (contains the corresponding questions) to construct the fulfillment.
@@ -2246,11 +2245,11 @@ type PageKnowledgeConnectorSettingsTriggerFulfillmentInitParameters struct {
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type PageKnowledgeConnectorSettingsTriggerFulfillmentObservation struct {
@@ -2330,11 +2329,11 @@ type PageKnowledgeConnectorSettingsTriggerFulfillmentParameters struct {
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type PageObservation struct {
@@ -2343,6 +2342,10 @@ type PageObservation struct {
 	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
 	// Structure is documented below.
 	AdvancedSettings *PageAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The human-readable name of the page, unique within the agent.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -2462,11 +2465,11 @@ type PageParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Ordered list of TransitionRouteGroups associated with the page. Transition route groups must be unique within a page.
 	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
@@ -2510,11 +2513,11 @@ type PageTransitionRoutesInitParameters struct {
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -2574,11 +2577,11 @@ type PageTransitionRoutesParameters struct {
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -2896,11 +2899,11 @@ type RepromptEventHandlersInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
@@ -2910,11 +2913,11 @@ type RepromptEventHandlersInitParameters struct {
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -2958,11 +2961,11 @@ type RepromptEventHandlersParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
@@ -2973,11 +2976,11 @@ type RepromptEventHandlersParameters struct {
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.NamespacedReference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.NamespacedSelector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -3034,11 +3037,11 @@ type RepromptEventHandlersTriggerFulfillmentInitParameters struct {
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessInitParameters struct {
@@ -3344,11 +3347,11 @@ type RepromptEventHandlersTriggerFulfillmentParameters struct {
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type RepromptEventHandlersTriggerFulfillmentSetParameterActionsInitParameters struct {
@@ -3535,8 +3538,8 @@ type PageSpec struct {
 
 // PageStatus defines the observed state of Page.
 type PageStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PageObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

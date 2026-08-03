@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectMetadataItemInitParameters struct {
@@ -27,6 +27,10 @@ type ProjectMetadataItemInitParameters struct {
 }
 
 type ProjectMetadataItemObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format `{{key}}`
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -60,8 +64,8 @@ type ProjectMetadataItemParameters struct {
 
 // ProjectMetadataItemSpec defines the desired state of ProjectMetadataItem
 type ProjectMetadataItemSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectMetadataItemParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProjectMetadataItemParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -77,8 +81,8 @@ type ProjectMetadataItemSpec struct {
 
 // ProjectMetadataItemStatus defines the observed state of ProjectMetadataItem.
 type ProjectMetadataItemStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectMetadataItemObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectMetadataItemObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GenericWebServiceInitParameters struct {
@@ -63,6 +62,10 @@ type GenericWebServiceInitParameters struct {
 	// secret_versions_for_request_headers will be used.
 	// Structure is documented below.
 	SecretVersionsForRequestHeaders []SecretVersionsForRequestHeadersInitParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Configuration for authentication using a service account.
+	// Structure is documented below.
+	ServiceAccountAuthConfig *ServiceAccountAuthConfigInitParameters `json:"serviceAccountAuthConfig,omitempty" tf:"service_account_auth_config,omitempty"`
 
 	// Indicate the auth token type generated from the Diglogflow service
 	// agent.
@@ -205,6 +208,10 @@ type GenericWebServiceObservation struct {
 	// Structure is documented below.
 	SecretVersionsForRequestHeaders []SecretVersionsForRequestHeadersObservation `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
 
+	// Configuration for authentication using a service account.
+	// Structure is documented below.
+	ServiceAccountAuthConfig *ServiceAccountAuthConfigObservation `json:"serviceAccountAuthConfig,omitempty" tf:"service_account_auth_config,omitempty"`
+
 	// Indicate the auth token type generated from the Diglogflow service
 	// agent.
 	// The generated token is sent in the Authorization header.
@@ -277,6 +284,11 @@ type GenericWebServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretVersionsForRequestHeaders []SecretVersionsForRequestHeadersParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
 
+	// Configuration for authentication using a service account.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServiceAccountAuthConfig *ServiceAccountAuthConfigParameters `json:"serviceAccountAuthConfig,omitempty" tf:"service_account_auth_config,omitempty"`
+
 	// Indicate the auth token type generated from the Diglogflow service
 	// agent.
 	// The generated token is sent in the Authorization header.
@@ -324,6 +336,40 @@ type GenericWebServiceSecretVersionsForRequestHeadersParameters struct {
 	// Format: projects/{project}/secrets/{secret}/versions/{version}
 	// +kubebuilder:validation:Optional
 	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
+}
+
+type GenericWebServiceServiceAccountAuthConfigInitParameters struct {
+
+	// The email address of the service account used to authenticate the webhook call.
+	// Dialogflow uses this service account to exchange an access token and the access
+	// token is then sent in the Authorization header of the webhook request.
+	// The service account must have the roles/iam.serviceAccountTokenCreator role
+	// granted to the
+	// Dialogflow service agent.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+}
+
+type GenericWebServiceServiceAccountAuthConfigObservation struct {
+
+	// The email address of the service account used to authenticate the webhook call.
+	// Dialogflow uses this service account to exchange an access token and the access
+	// token is then sent in the Authorization header of the webhook request.
+	// The service account must have the roles/iam.serviceAccountTokenCreator role
+	// granted to the
+	// Dialogflow service agent.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+}
+
+type GenericWebServiceServiceAccountAuthConfigParameters struct {
+
+	// The email address of the service account used to authenticate the webhook call.
+	// Dialogflow uses this service account to exchange an access token and the access
+	// token is then sent in the Authorization header of the webhook request.
+	// The service account must have the roles/iam.serviceAccountTokenCreator role
+	// granted to the
+	// Dialogflow service agent.
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount" tf:"service_account,omitempty"`
 }
 
 type OAuthConfigInitParameters struct {
@@ -435,6 +481,40 @@ type SecretVersionsForRequestHeadersParameters struct {
 	SecretVersion *string `json:"secretVersion" tf:"secret_version,omitempty"`
 }
 
+type ServiceAccountAuthConfigInitParameters struct {
+
+	// The email address of the service account used to authenticate the webhook call.
+	// Dialogflow uses this service account to exchange an access token and the access
+	// token is then sent in the Authorization header of the webhook request.
+	// The service account must have the roles/iam.serviceAccountTokenCreator role
+	// granted to the
+	// Dialogflow service agent.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+}
+
+type ServiceAccountAuthConfigObservation struct {
+
+	// The email address of the service account used to authenticate the webhook call.
+	// Dialogflow uses this service account to exchange an access token and the access
+	// token is then sent in the Authorization header of the webhook request.
+	// The service account must have the roles/iam.serviceAccountTokenCreator role
+	// granted to the
+	// Dialogflow service agent.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+}
+
+type ServiceAccountAuthConfigParameters struct {
+
+	// The email address of the service account used to authenticate the webhook call.
+	// Dialogflow uses this service account to exchange an access token and the access
+	// token is then sent in the Authorization header of the webhook request.
+	// The service account must have the roles/iam.serviceAccountTokenCreator role
+	// granted to the
+	// Dialogflow service agent.
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount" tf:"service_account,omitempty"`
+}
+
 type ServiceDirectoryGenericWebServiceInitParameters struct {
 
 	// Specifies a list of allowed custom CA certificates (in DER format) for
@@ -484,6 +564,10 @@ type ServiceDirectoryGenericWebServiceInitParameters struct {
 	// secret_versions_for_request_headers will be used.
 	// Structure is documented below.
 	SecretVersionsForRequestHeaders []GenericWebServiceSecretVersionsForRequestHeadersInitParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Configuration for authentication using a service account.
+	// Structure is documented below.
+	ServiceAccountAuthConfig *GenericWebServiceServiceAccountAuthConfigInitParameters `json:"serviceAccountAuthConfig,omitempty" tf:"service_account_auth_config,omitempty"`
 
 	// Indicate the auth token type generated from the Diglogflow service
 	// agent.
@@ -548,6 +632,10 @@ type ServiceDirectoryGenericWebServiceObservation struct {
 	// secret_versions_for_request_headers will be used.
 	// Structure is documented below.
 	SecretVersionsForRequestHeaders []GenericWebServiceSecretVersionsForRequestHeadersObservation `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Configuration for authentication using a service account.
+	// Structure is documented below.
+	ServiceAccountAuthConfig *GenericWebServiceServiceAccountAuthConfigObservation `json:"serviceAccountAuthConfig,omitempty" tf:"service_account_auth_config,omitempty"`
 
 	// Indicate the auth token type generated from the Diglogflow service
 	// agent.
@@ -620,6 +708,11 @@ type ServiceDirectoryGenericWebServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecretVersionsForRequestHeaders []GenericWebServiceSecretVersionsForRequestHeadersParameters `json:"secretVersionsForRequestHeaders,omitempty" tf:"secret_versions_for_request_headers,omitempty"`
+
+	// Configuration for authentication using a service account.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServiceAccountAuthConfig *GenericWebServiceServiceAccountAuthConfigParameters `json:"serviceAccountAuthConfig,omitempty" tf:"service_account_auth_config,omitempty"`
 
 	// Indicate the auth token type generated from the Diglogflow service
 	// agent.
@@ -696,11 +789,11 @@ type WebhookInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Deprecated. Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	SecuritySettings *string `json:"securitySettings,omitempty" tf:"security_settings,omitempty"`
@@ -714,6 +807,10 @@ type WebhookInitParameters struct {
 }
 
 type WebhookObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Indicates whether the webhook is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -788,11 +885,11 @@ type WebhookParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Deprecated. Name of the SecuritySettings reference for the agent. Format: projects//locations//securitySettings/.
 	// +kubebuilder:validation:Optional
@@ -827,8 +924,8 @@ type WebhookSpec struct {
 
 // WebhookStatus defines the observed state of Webhook.
 type WebhookStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WebhookObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WebhookObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

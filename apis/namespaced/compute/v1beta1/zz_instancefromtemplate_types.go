@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BootDiskInitializeParamsInitParameters struct {
@@ -26,6 +25,8 @@ type BootDiskInitializeParamsInitParameters struct {
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
 
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
@@ -57,6 +58,8 @@ type BootDiskInitializeParamsObservation struct {
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
 
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
@@ -97,6 +100,9 @@ type BootDiskInitializeParamsParameters struct {
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
@@ -127,9 +133,9 @@ type BootDiskInitializeParamsSourceImageEncryptionKeyInitParameters struct {
 
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type BootDiskInitializeParamsSourceImageEncryptionKeyObservation struct {
@@ -149,10 +155,10 @@ type BootDiskInitializeParamsSourceImageEncryptionKeyParameters struct {
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
@@ -160,9 +166,9 @@ type BootDiskInitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
 
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type BootDiskInitializeParamsSourceSnapshotEncryptionKeyObservation struct {
@@ -182,10 +188,10 @@ type BootDiskInitializeParamsSourceSnapshotEncryptionKeyParameters struct {
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InstanceFromTemplateAdvancedMachineFeaturesInitParameters struct {
@@ -243,9 +249,9 @@ type InstanceFromTemplateAttachedDiskInitParameters struct {
 	// Changing this forces a new resource to be created.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
 
@@ -285,10 +291,10 @@ type InstanceFromTemplateAttachedDiskParameters struct {
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
@@ -315,9 +321,9 @@ type InstanceFromTemplateBootDiskInitParameters struct {
 	// Changing this forces a new resource to be created.
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
 
@@ -376,10 +382,10 @@ type InstanceFromTemplateBootDiskParameters struct {
 	DeviceName *string `json:"deviceName,omitempty" tf:"device_name,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
@@ -524,11 +530,11 @@ type InstanceFromTemplateInitParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -570,6 +576,8 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
@@ -581,11 +589,11 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -600,11 +608,13 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceFromTemplateNetworkInterfaceObservation struct {
@@ -617,6 +627,8 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
 
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
@@ -632,6 +644,10 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	ParentNicName *string `json:"parentNicName,omitempty" tf:"parent_nic_name,omitempty"`
+
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
 
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
@@ -639,6 +655,8 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceFromTemplateNetworkInterfaceParameters struct {
@@ -656,6 +674,9 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
@@ -670,11 +691,11 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
@@ -694,11 +715,14 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceFromTemplateNetworkPerformanceConfigInitParameters struct {
@@ -734,6 +758,8 @@ type InstanceFromTemplateObservation struct {
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
+
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -927,11 +953,11 @@ type InstanceFromTemplateParameters struct {
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -1404,8 +1430,8 @@ type InstanceFromTemplateSpec struct {
 
 // InstanceFromTemplateStatus defines the observed state of InstanceFromTemplate.
 type InstanceFromTemplateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceFromTemplateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceFromTemplateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

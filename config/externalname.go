@@ -12,6 +12,18 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
 
+// terraformPluginFrameworkExternalNameConfigs contains all external
+// name configurations belonging to Terraform Plugin Framework
+// resources to be reconciled under the no-fork architecture for this
+// provider.
+var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName{
+	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
+	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+
+	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
+	"google_storage_notification": config.IdentifierFromProvider,
+}
+
 // terraformPluginSDKExternalNameConfigs contains all external name configurations
 // belonging to Terraform resources to be reconciled under the no-fork
 // architecture for this provider.
@@ -509,14 +521,21 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// firestore
 	//
+	// Imported by using the following format: projects/{{project}}/databases/{{name}}
+	"google_firestore_database": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/databases/{{ .external_name }}"),
 	// Imported by using the following format: {{name}}
 	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
 	// The Cloud Firestore API is not available for Datastore Mode projects
 	// "google_firestore_document": config.IdentifierFromProvider,
-	// Imported by using the following format: {{name}}
-	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
+	// Imported by using the following format: {{name}}, where name is the
+	// server-generated path projects/{{project}}/databases/{{database}}/collectionGroups/{{collection}}/indexes/{{server_generated_id}}
+	// This resource creates a Firestore Index on a project that already has Firestore enabled
 	// Requires project level IAM permissions
-	// "google_firestore_index": config.IdentifierFromProvider,
+	"google_firestore_index": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/databases/{{database}}/collectionGroups/{{collection}}/fields/{{field}}
+	// This resource creates a Firestore Field on a project that already has Firestore enabled
+	// Requires project level IAM permissions
+	"google_firestore_field": config.TemplatedStringAsIdentifier("field", "projects/{{ .setup.configuration.project }}/databases/{{ .parameters.database }}/collectionGroups/{{ .parameters.collection }}/fields/{{ .external_name }}"),
 
 	// gameservers
 	//
@@ -686,6 +705,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_security_tls_inspection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/tlsInspectionPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/urlLists/{{name}}
 	"google_network_security_url_lists": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/urlLists/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dnsThreatDetectors/{{name}}
+	"google_network_security_dns_threat_detector": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dnsThreatDetectors/{{ .external_name }}"),
 
 	// mlengine
 	//
@@ -845,8 +866,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_transfer_agent_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/agentPools/{{ .external_name }}"),
 	// Imported by using the following {{project}}/{{name}}
 	"google_storage_transfer_job": config.IdentifierFromProvider,
-	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
 	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
@@ -960,8 +979,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_apigee_env_references": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/references/{{ .external_name }}"),
 	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
 	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
-	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
 
 	// binaryauthorization
 	//
@@ -1065,11 +1082,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_bigquery_analytics_hub_data_exchange_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/subscriptions/{{subscription_id}}
 	"google_bigquery_analytics_hub_listing_subscription": config.IdentifierFromProvider,
-
-	// tpu
-	//
-	// Imported by using the following projects/{{project}}/locations/{{zone}}/nodes/{{name}}
-	"google_tpu_node": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/nodes/{{ .external_name }}"),
 
 	// vpcaccess
 	//

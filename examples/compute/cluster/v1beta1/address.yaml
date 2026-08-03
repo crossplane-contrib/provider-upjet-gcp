@@ -19,6 +19,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example_ip_address_subnet
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -33,9 +34,10 @@ spec:
   forProvider:
     autoCreateSubnetworks: false
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:

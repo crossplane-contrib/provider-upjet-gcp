@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AvailabilityInitParameters struct {
@@ -1133,11 +1133,11 @@ type SLOInitParameters struct {
 
 	// Reference to a CustomService in monitoring to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a CustomService in monitoring to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
@@ -1174,6 +1174,10 @@ type SLOObservation struct {
 	// ".
 	// Possible values are: DAY, WEEK, FORTNIGHT, MONTH.
 	CalendarPeriod *string `json:"calendarPeriod,omitempty" tf:"calendar_period,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name used for UI elements listing this SLO.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -1293,11 +1297,11 @@ type SLOParameters struct {
 
 	// Reference to a CustomService in monitoring to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a CustomService in monitoring to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// This field is intended to be used for organizing and identifying the AlertPolicy
 	// objects.The field can contain up to 64 entries. Each key and value is limited
@@ -1454,8 +1458,8 @@ type WindowsBasedSliParameters struct {
 
 // SLOSpec defines the desired state of SLO
 type SLOSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SLOParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SLOParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1471,8 +1475,8 @@ type SLOSpec struct {
 
 // SLOStatus defines the observed state of SLO.
 type SLOStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SLOObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SLOObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

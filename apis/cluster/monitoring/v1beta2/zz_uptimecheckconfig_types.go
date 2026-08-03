@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AcceptedResponseStatusCodesInitParameters struct {
@@ -46,37 +46,29 @@ type AcceptedResponseStatusCodesParameters struct {
 }
 
 type AuthInfoInitParameters struct {
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
+	// The password to authenticate.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
-	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthInfoObservation struct {
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
-	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthInfoParameters struct {
 
+	// The password to authenticate.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
-	// A unique resource name for this UptimeCheckConfig. The format is projects/[PROJECT_ID]/uptimeCheckConfigs/[UPTIME_CHECK_ID].
+	// The username to authenticate.
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username" tf:"username,omitempty"`
 }
@@ -90,11 +82,11 @@ type CloudFunctionV2InitParameters struct {
 
 	// Reference to a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type CloudFunctionV2Observation struct {
@@ -113,11 +105,11 @@ type CloudFunctionV2Parameters struct {
 
 	// Reference to a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type ContentMatchersInitParameters struct {
@@ -436,11 +428,11 @@ type ResourceGroupInitParameters struct {
 
 	// Reference to a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDRef *v1.Reference `json:"groupIdRef,omitempty" tf:"-"`
+	GroupIDRef *v2.Reference `json:"groupIdRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDSelector *v1.Selector `json:"groupIdSelector,omitempty" tf:"-"`
+	GroupIDSelector *v2.Selector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// The resource type of the group members.
 	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
@@ -467,11 +459,11 @@ type ResourceGroupParameters struct {
 
 	// Reference to a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDRef *v1.Reference `json:"groupIdRef,omitempty" tf:"-"`
+	GroupIDRef *v2.Reference `json:"groupIdRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDSelector *v1.Selector `json:"groupIdSelector,omitempty" tf:"-"`
+	GroupIDSelector *v2.Selector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// The resource type of the group members.
 	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
@@ -640,6 +632,10 @@ type UptimeCheckConfigObservation struct {
 	// Structure is documented below.
 	ContentMatchers []ContentMatchersObservation `json:"contentMatchers,omitempty" tf:"content_matchers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-friendly name for the uptime check configuration. The display name should be unique within a Stackdriver Workspace in order to make it easier to identify; however, uniqueness is not enforced.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -767,8 +763,8 @@ type UptimeCheckConfigParameters struct {
 
 // UptimeCheckConfigSpec defines the desired state of UptimeCheckConfig
 type UptimeCheckConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     UptimeCheckConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   UptimeCheckConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -784,8 +780,8 @@ type UptimeCheckConfigSpec struct {
 
 // UptimeCheckConfigStatus defines the observed state of UptimeCheckConfig.
 type UptimeCheckConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        UptimeCheckConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               UptimeCheckConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

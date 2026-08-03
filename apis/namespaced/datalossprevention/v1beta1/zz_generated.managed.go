@@ -5,164 +5,164 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *DeidentifyTemplate) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *DeidentifyTemplate) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *DeidentifyTemplate) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *DeidentifyTemplate) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) SetConditions(c ...xpv1.Condition) {
+func (mg *DeidentifyTemplate) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *DeidentifyTemplate) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *DeidentifyTemplate) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this DeidentifyTemplate.
-func (mg *DeidentifyTemplate) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *DeidentifyTemplate) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this InspectTemplate.
-func (mg *InspectTemplate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *InspectTemplate) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this InspectTemplate.
-func (mg *InspectTemplate) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *InspectTemplate) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this InspectTemplate.
-func (mg *InspectTemplate) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *InspectTemplate) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this InspectTemplate.
-func (mg *InspectTemplate) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *InspectTemplate) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this InspectTemplate.
-func (mg *InspectTemplate) SetConditions(c ...xpv1.Condition) {
+func (mg *InspectTemplate) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this InspectTemplate.
-func (mg *InspectTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *InspectTemplate) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this InspectTemplate.
-func (mg *InspectTemplate) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *InspectTemplate) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this InspectTemplate.
-func (mg *InspectTemplate) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *InspectTemplate) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this JobTrigger.
-func (mg *JobTrigger) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *JobTrigger) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this JobTrigger.
-func (mg *JobTrigger) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *JobTrigger) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this JobTrigger.
-func (mg *JobTrigger) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *JobTrigger) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this JobTrigger.
-func (mg *JobTrigger) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *JobTrigger) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this JobTrigger.
-func (mg *JobTrigger) SetConditions(c ...xpv1.Condition) {
+func (mg *JobTrigger) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this JobTrigger.
-func (mg *JobTrigger) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *JobTrigger) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this JobTrigger.
-func (mg *JobTrigger) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *JobTrigger) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this JobTrigger.
-func (mg *JobTrigger) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *JobTrigger) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this StoredInfoType.
-func (mg *StoredInfoType) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *StoredInfoType) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this StoredInfoType.
-func (mg *StoredInfoType) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *StoredInfoType) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this StoredInfoType.
-func (mg *StoredInfoType) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *StoredInfoType) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this StoredInfoType.
-func (mg *StoredInfoType) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *StoredInfoType) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this StoredInfoType.
-func (mg *StoredInfoType) SetConditions(c ...xpv1.Condition) {
+func (mg *StoredInfoType) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this StoredInfoType.
-func (mg *StoredInfoType) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *StoredInfoType) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this StoredInfoType.
-func (mg *StoredInfoType) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *StoredInfoType) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this StoredInfoType.
-func (mg *StoredInfoType) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *StoredInfoType) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

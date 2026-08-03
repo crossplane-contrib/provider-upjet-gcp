@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppConnectorInitParameters struct {
@@ -33,6 +32,10 @@ type AppConnectorInitParameters struct {
 }
 
 type AppConnectorObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppConnector.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -125,11 +128,11 @@ type ServiceAccountInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountObservation struct {
@@ -148,11 +151,11 @@ type ServiceAccountParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
 }
 
 // AppConnectorSpec defines the desired state of AppConnector
@@ -174,8 +177,8 @@ type AppConnectorSpec struct {
 
 // AppConnectorStatus defines the observed state of AppConnector.
 type AppConnectorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppConnectorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppConnectorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectServiceInitParameters struct {
@@ -22,9 +21,8 @@ type ProjectServiceInitParameters struct {
 	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -34,11 +32,11 @@ type ProjectServiceInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The service to enable.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
@@ -46,15 +44,18 @@ type ProjectServiceInitParameters struct {
 
 type ProjectServiceObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be returned if any enabled
 	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{service}}
@@ -77,9 +78,8 @@ type ProjectServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
@@ -91,11 +91,11 @@ type ProjectServiceParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The service to enable.
 	// +kubebuilder:validation:Optional
@@ -121,8 +121,8 @@ type ProjectServiceSpec struct {
 
 // ProjectServiceStatus defines the observed state of ProjectService.
 type ProjectServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

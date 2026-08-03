@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BigQueryFieldFieldInitParameters struct {
@@ -302,6 +302,10 @@ type StoredInfoTypeInitParameters struct {
 
 type StoredInfoTypeObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the info type.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -405,8 +409,8 @@ type StoredInfoTypeRegexParameters struct {
 
 // StoredInfoTypeSpec defines the desired state of StoredInfoType
 type StoredInfoTypeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StoredInfoTypeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StoredInfoTypeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -422,8 +426,8 @@ type StoredInfoTypeSpec struct {
 
 // StoredInfoTypeStatus defines the observed state of StoredInfoType.
 type StoredInfoTypeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StoredInfoTypeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StoredInfoTypeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

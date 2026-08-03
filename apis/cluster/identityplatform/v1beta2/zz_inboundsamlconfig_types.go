@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IdPCertificatesInitParameters struct {
 
 	// (Output)
 	// The x509 certificate
-	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPCertificatesObservation struct {
@@ -28,7 +28,7 @@ type IdPCertificatesParameters struct {
 	// (Output)
 	// The x509 certificate
 	// +kubebuilder:validation:Optional
-	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPConfigInitParameters struct {
@@ -111,6 +111,10 @@ type InboundSAMLConfigInitParameters struct {
 }
 
 type InboundSAMLConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -222,8 +226,8 @@ type SpConfigParameters struct {
 
 // InboundSAMLConfigSpec defines the desired state of InboundSAMLConfig
 type InboundSAMLConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InboundSAMLConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InboundSAMLConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -239,8 +243,8 @@ type InboundSAMLConfigSpec struct {
 
 // InboundSAMLConfigStatus defines the observed state of InboundSAMLConfig.
 type InboundSAMLConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InboundSAMLConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InboundSAMLConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,23 +10,22 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketObjectInitParameters struct {
 
 	// The name of the containing bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Cache-Control
 	// directive to specify caching behavior of object data. If omitted and object is accessible to all anonymous users, the default will be public, max-age=3600
@@ -47,11 +46,15 @@ type BucketObjectInitParameters struct {
 	// Content-Type of the object data. Defaults to "application/octet-stream" or "text/plain; charset=utf-8".
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
+	// Contexts attached to an object, in key-value pairs. For more information about object contexts, see Object contexts overview. Structure is documented below.
+	Contexts *ContextsInitParameters `json:"contexts,omitempty" tf:"contexts,omitempty"`
+
 	// Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
 	// Structure is documented below.
 	CustomerEncryption *CustomerEncryptionInitParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
-	// When set to ABANDON, the object won't be deleted from storage bucket.
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
@@ -116,6 +119,9 @@ type BucketObjectObservation struct {
 	// Content-Type of the object data. Defaults to "application/octet-stream" or "text/plain; charset=utf-8".
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
+	// Contexts attached to an object, in key-value pairs. For more information about object contexts, see Object contexts overview. Structure is documented below.
+	Contexts *ContextsObservation `json:"contexts,omitempty" tf:"contexts,omitempty"`
+
 	// (Computed) Base 64 CRC32 hash of the uploaded data.
 	Crc32C *string `json:"crc32c,omitempty" tf:"crc32c,omitempty"`
 
@@ -123,7 +129,8 @@ type BucketObjectObservation struct {
 	// Structure is documented below.
 	CustomerEncryption *CustomerEncryptionObservation `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
-	// When set to ABANDON, the object won't be deleted from storage bucket.
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// MD5 hash of the data, encoded using base64. This field is not present for composite objects. For more information about using the MD5 hash, see Hashes and ETags: Best Practices.
@@ -188,17 +195,17 @@ type BucketObjectObservation struct {
 type BucketObjectParameters struct {
 
 	// The name of the containing bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Cache-Control
 	// directive to specify caching behavior of object data. If omitted and object is accessible to all anonymous users, the default will be public, max-age=3600
@@ -225,12 +232,17 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	ContentType *string `json:"contentType,omitempty" tf:"content_type,omitempty"`
 
+	// Contexts attached to an object, in key-value pairs. For more information about object contexts, see Object contexts overview. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Contexts *ContextsParameters `json:"contexts,omitempty" tf:"contexts,omitempty"`
+
 	// Enables object encryption with Customer-Supplied Encryption Key (CSEK). [Google documentation about CSEK.](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CustomerEncryption *CustomerEncryptionParameters `json:"customerEncryption,omitempty" tf:"customer_encryption,omitempty"`
 
-	// When set to ABANDON, the object won't be deleted from storage bucket.
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -283,13 +295,67 @@ type BucketObjectParameters struct {
 	TemporaryHold *bool `json:"temporaryHold,omitempty" tf:"temporary_hold,omitempty"`
 }
 
+type ContextsInitParameters struct {
+
+	// User-provided object contexts. Structure is documented below.
+	Custom []CustomInitParameters `json:"custom,omitempty" tf:"custom,omitempty"`
+}
+
+type ContextsObservation struct {
+
+	// User-provided object contexts. Structure is documented below.
+	Custom []CustomObservation `json:"custom,omitempty" tf:"custom,omitempty"`
+}
+
+type ContextsParameters struct {
+
+	// User-provided object contexts. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Custom []CustomParameters `json:"custom" tf:"custom,omitempty"`
+}
+
+type CustomInitParameters struct {
+
+	// An individual object context. Context keys and their corresponding values must start with an alphanumeric character.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value associated with this context. This field holds the primary information for the given context key.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type CustomObservation struct {
+
+	// (Computed) The time when context was first added to the storage object in RFC 3399 format.
+	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// An individual object context. Context keys and their corresponding values must start with an alphanumeric character.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// (Computed) The time when context was last updated in RFC 3399 format.
+	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
+
+	// The value associated with this context. This field holds the primary information for the given context key.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type CustomParameters struct {
+
+	// An individual object context. Context keys and their corresponding values must start with an alphanumeric character.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value associated with this context. This field holds the primary information for the given context key.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
 type CustomerEncryptionInitParameters struct {
 
 	// Encryption algorithm. Default: AES256
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty" tf:"encryption_algorithm,omitempty"`
 
 	// Base64 encoded Customer-Supplied Encryption Key.
-	EncryptionKeySecretRef v1.LocalSecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
+	EncryptionKeySecretRef v2.LocalSecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
 }
 
 type CustomerEncryptionObservation struct {
@@ -306,7 +372,7 @@ type CustomerEncryptionParameters struct {
 
 	// Base64 encoded Customer-Supplied Encryption Key.
 	// +kubebuilder:validation:Optional
-	EncryptionKeySecretRef v1.LocalSecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
+	EncryptionKeySecretRef v2.LocalSecretKeySelector `json:"encryptionKeySecretRef" tf:"-"`
 }
 
 type RetentionInitParameters struct {
@@ -357,8 +423,8 @@ type BucketObjectSpec struct {
 
 // BucketObjectStatus defines the observed state of BucketObject.
 type BucketObjectStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketObjectObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketObjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

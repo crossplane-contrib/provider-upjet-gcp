@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectedEndpointsInitParameters struct {
@@ -26,6 +25,12 @@ type ConnectedEndpointsObservation struct {
 	// (Output)
 	// The URL of the consumer forwarding rule.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// (Output)
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// 'The nat IPs of the connected endpoint.'
+	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
 	// (Output)
 	// The number of consumer Network Connectivity Center spokes that the connected Private Service Connect endpoint has propagated to.
@@ -50,6 +55,10 @@ type ConsumerAcceptListsInitParameters struct {
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
+
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
@@ -58,11 +67,11 @@ type ConsumerAcceptListsInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// A project that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -74,6 +83,10 @@ type ConsumerAcceptListsObservation struct {
 	// The number of consumer forwarding rules the consumer project can
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
+
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -91,6 +104,11 @@ type ConsumerAcceptListsParameters struct {
 	// +kubebuilder:validation:Optional
 	ConnectionLimit *float64 `json:"connectionLimit" tf:"connection_limit,omitempty"`
 
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	// +kubebuilder:validation:Optional
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
+
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
@@ -100,16 +118,33 @@ type ConsumerAcceptListsParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// A project that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	// +kubebuilder:validation:Optional
 	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
+}
+
+type PscServiceAttachmentIDInitParameters struct {
+}
+
+type PscServiceAttachmentIDObservation struct {
+
+	// (Output)
+	// The high 64 bits of the PSC service attachment ID.
+	High *string `json:"high,omitempty" tf:"high,omitempty"`
+
+	// (Output)
+	// The low 64 bits of the PSC service attachment ID.
+	Low *string `json:"low,omitempty" tf:"low,omitempty"`
+}
+
+type PscServiceAttachmentIDParameters struct {
 }
 
 type ServiceAttachmentInitParameters struct {
@@ -147,11 +182,11 @@ type ServiceAttachmentInitParameters struct {
 
 	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsRefs []v1.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
+	NATSubnetsRefs []v2.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsSelector *v1.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
+	NATSubnetsSelector *v2.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -175,6 +210,11 @@ type ServiceAttachmentInitParameters struct {
 	// Defaults to false.
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
 
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// [If true, show NAT IPs of all connected endpoints.]
+	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
+
 	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -182,11 +222,11 @@ type ServiceAttachmentInitParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceRef *v1.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
+	TargetServiceRef *v2.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceSelector *v1.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
+	TargetServiceSelector *v2.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 type ServiceAttachmentObservation struct {
@@ -208,6 +248,10 @@ type ServiceAttachmentObservation struct {
 	// An array of projects that are not allowed to connect to this service
 	// attachment.
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -244,6 +288,10 @@ type ServiceAttachmentObservation struct {
 	// If unspecified, the default propagated connection limit is 250. To explicitly send a zero value, set send_propagated_connection_limit_if_zero = true.
 	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
 
+	// An 128-bit global unique ID of the PSC service attachment.
+	// Structure is documented below.
+	PscServiceAttachmentID []PscServiceAttachmentIDObservation `json:"pscServiceAttachmentId,omitempty" tf:"psc_service_attachment_id,omitempty"`
+
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .
 	// If true, update will affect both PENDING and ACCEPTED/REJECTED PSC endpoints. For example, an ACCEPTED PSC endpoint will be moved to REJECTED if its project is added to the reject list.
@@ -260,6 +308,11 @@ type ServiceAttachmentObservation struct {
 	// When true, the provider will set propagated_connection_limit to zero.
 	// Defaults to false.
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
+
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// [If true, show NAT IPs of all connected endpoints.]
+	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
 
 	// The URL of a service serving the endpoint identified by this service attachment.
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
@@ -307,11 +360,11 @@ type ServiceAttachmentParameters struct {
 
 	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsRefs []v1.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
+	NATSubnetsRefs []v2.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsSelector *v1.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
+	NATSubnetsSelector *v2.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -343,6 +396,12 @@ type ServiceAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
 
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// [If true, show NAT IPs of all connected endpoints.]
+	// +kubebuilder:validation:Optional
+	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
+
 	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -351,11 +410,11 @@ type ServiceAttachmentParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceRef *v1.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
+	TargetServiceRef *v2.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceSelector *v1.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
+	TargetServiceSelector *v2.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 // ServiceAttachmentSpec defines the desired state of ServiceAttachment
@@ -377,8 +436,8 @@ type ServiceAttachmentSpec struct {
 
 // ServiceAttachmentStatus defines the observed state of ServiceAttachment.
 type ServiceAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

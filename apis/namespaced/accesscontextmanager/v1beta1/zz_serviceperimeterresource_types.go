@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServicePerimeterResourceInitParameters struct {
@@ -23,11 +22,11 @@ type ServicePerimeterResourceInitParameters struct {
 
 	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameRef *v1.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
+	PerimeterNameRef *v2.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
 
 	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameSelector *v1.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
+	PerimeterNameSelector *v2.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
 
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
@@ -39,6 +38,10 @@ type ServicePerimeterResourceObservation struct {
 
 	// The name of the Access Policy this resource belongs to.
 	AccessPolicyID *string `json:"accessPolicyId,omitempty" tf:"access_policy_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The perimeter etag is internally used to prevent overwriting the list of perimeter resources on PATCH calls. It is retrieved from the same GET perimeter API call that's used to get the current list of resources. The resource to add or remove is merged into that list and then this etag is sent with the PATCH call along with the updated resource list.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
@@ -65,11 +68,11 @@ type ServicePerimeterResourceParameters struct {
 
 	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameRef *v1.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
+	PerimeterNameRef *v2.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
 
 	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameSelector *v1.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
+	PerimeterNameSelector *v2.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
 
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
@@ -97,8 +100,8 @@ type ServicePerimeterResourceSpec struct {
 
 // ServicePerimeterResourceStatus defines the observed state of ServicePerimeterResource.
 type ServicePerimeterResourceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServicePerimeterResourceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServicePerimeterResourceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

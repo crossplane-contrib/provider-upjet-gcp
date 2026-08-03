@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdditionalExtensionsInitParameters struct {
@@ -368,6 +368,12 @@ type CAOptionsParameters struct {
 
 type CAPoolInitParameters struct {
 
+	// Used when customer would like to encrypt data at rest. The customer-provided key will be used
+	// to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
+	// customer data will remain unencrypted.
+	// Structure is documented below.
+	EncryptionSpec *EncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// The IssuancePolicy to control how Certificates will be issued from this CaPool.
 	// Structure is documented below.
 	IssuancePolicy *IssuancePolicyInitParameters `json:"issuancePolicy,omitempty" tf:"issuance_policy,omitempty"`
@@ -393,9 +399,19 @@ type CAPoolInitParameters struct {
 
 type CAPoolObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// for all of the labels present on the resource.
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Used when customer would like to encrypt data at rest. The customer-provided key will be used
+	// to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
+	// customer data will remain unencrypted.
+	// Structure is documented below.
+	EncryptionSpec *EncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/caPools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -433,6 +449,13 @@ type CAPoolObservation struct {
 }
 
 type CAPoolParameters struct {
+
+	// Used when customer would like to encrypt data at rest. The customer-provided key will be used
+	// to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
+	// customer data will remain unencrypted.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionSpec *EncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// The IssuancePolicy to control how Certificates will be issued from this CaPool.
 	// Structure is documented below.
@@ -535,6 +558,28 @@ type EllipticCurveParameters struct {
 	// Possible values are: ECDSA_P256, ECDSA_P384, EDDSA_25519.
 	// +kubebuilder:validation:Optional
 	SignatureAlgorithm *string `json:"signatureAlgorithm" tf:"signature_algorithm,omitempty"`
+}
+
+type EncryptionSpecInitParameters struct {
+
+	// The resource name for an existing Cloud KMS key in the format
+	// projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	CloudKMSKey *string `json:"cloudKmsKey,omitempty" tf:"cloud_kms_key,omitempty"`
+}
+
+type EncryptionSpecObservation struct {
+
+	// The resource name for an existing Cloud KMS key in the format
+	// projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	CloudKMSKey *string `json:"cloudKmsKey,omitempty" tf:"cloud_kms_key,omitempty"`
+}
+
+type EncryptionSpecParameters struct {
+
+	// The resource name for an existing Cloud KMS key in the format
+	// projects/*/locations/*/keyRings/*/cryptoKeys/*.
+	// +kubebuilder:validation:Optional
+	CloudKMSKey *string `json:"cloudKmsKey,omitempty" tf:"cloud_kms_key,omitempty"`
 }
 
 type ExtendedKeyUsageInitParameters struct {
@@ -667,7 +712,7 @@ type IssuancePolicyInitParameters struct {
 	AllowedIssuanceModes *AllowedIssuanceModesInitParameters `json:"allowedIssuanceModes,omitempty" tf:"allowed_issuance_modes,omitempty"`
 
 	// If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
-	// Otherwise, any key may be used.
+	// Otherwise, any key may be used. You can specify only one key type of those listed here.
 	// Structure is documented below.
 	AllowedKeyTypes []AllowedKeyTypesInitParameters `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
 
@@ -702,7 +747,7 @@ type IssuancePolicyObservation struct {
 	AllowedIssuanceModes *AllowedIssuanceModesObservation `json:"allowedIssuanceModes,omitempty" tf:"allowed_issuance_modes,omitempty"`
 
 	// If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
-	// Otherwise, any key may be used.
+	// Otherwise, any key may be used. You can specify only one key type of those listed here.
 	// Structure is documented below.
 	AllowedKeyTypes []AllowedKeyTypesObservation `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
 
@@ -738,7 +783,7 @@ type IssuancePolicyParameters struct {
 	AllowedIssuanceModes *AllowedIssuanceModesParameters `json:"allowedIssuanceModes,omitempty" tf:"allowed_issuance_modes,omitempty"`
 
 	// If any AllowedKeyType is specified, then the certificate request's public key must match one of the key types listed here.
-	// Otherwise, any key may be used.
+	// Otherwise, any key may be used. You can specify only one key type of those listed here.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AllowedKeyTypes []AllowedKeyTypesParameters `json:"allowedKeyTypes,omitempty" tf:"allowed_key_types,omitempty"`
@@ -1147,8 +1192,8 @@ type UnknownExtendedKeyUsagesParameters struct {
 
 // CAPoolSpec defines the desired state of CAPool
 type CAPoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CAPoolParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CAPoolParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1164,8 +1209,8 @@ type CAPoolSpec struct {
 
 // CAPoolStatus defines the observed state of CAPool.
 type CAPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CAPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CAPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

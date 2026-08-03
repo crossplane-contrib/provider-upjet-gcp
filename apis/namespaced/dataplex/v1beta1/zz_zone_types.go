@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DiscoverySpecCsvOptionsInitParameters struct {
@@ -209,6 +208,10 @@ type ZoneObservation struct {
 	// Output only. The time when the zone was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. Description of the zone.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -283,11 +286,11 @@ type ZoneParameters struct {
 
 	// Reference to a Lake in dataplex to populate lake.
 	// +kubebuilder:validation:Optional
-	LakeRef *v1.NamespacedReference `json:"lakeRef,omitempty" tf:"-"`
+	LakeRef *v2.NamespacedReference `json:"lakeRef,omitempty" tf:"-"`
 
 	// Selector for a Lake in dataplex to populate lake.
 	// +kubebuilder:validation:Optional
-	LakeSelector *v1.NamespacedSelector `json:"lakeSelector,omitempty" tf:"-"`
+	LakeSelector *v2.NamespacedSelector `json:"lakeSelector,omitempty" tf:"-"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required
@@ -344,8 +347,8 @@ type ZoneSpec struct {
 
 // ZoneStatus defines the observed state of Zone.
 type ZoneStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ZoneObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ZoneObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

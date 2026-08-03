@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IntentInitParameters struct {
@@ -47,7 +47,7 @@ type IntentInitParameters struct {
 
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
-	Parameters []IntentParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -57,11 +57,11 @@ type IntentInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// The priority of this intent. Higher numbers represent higher priorities.
 	// If the supplied value is unspecified or 0, the service translates the value to 500,000, which corresponds to the Normal priority in the console.
@@ -74,6 +74,10 @@ type IntentInitParameters struct {
 }
 
 type IntentObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human readable description for better understanding an intent like its scope, content, result etc. Maximum character limit: 140 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -118,7 +122,7 @@ type IntentObservation struct {
 
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
-	Parameters []IntentParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []ParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -181,7 +185,7 @@ type IntentParameters struct {
 	// The collection of parameters associated with the intent.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Parameters []IntentParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
+	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The agent to create an intent for.
 	// Format: projects//locations//agents/.
@@ -192,11 +196,11 @@ type IntentParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// The priority of this intent. Higher numbers represent higher priorities.
 	// If the supplied value is unspecified or 0, the service translates the value to 500,000, which corresponds to the Normal priority in the console.
@@ -210,7 +214,7 @@ type IntentParameters struct {
 	TrainingPhrases []TrainingPhrasesParameters `json:"trainingPhrases,omitempty" tf:"training_phrases,omitempty"`
 }
 
-type IntentParametersInitParameters struct {
+type ParametersInitParameters struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -227,7 +231,7 @@ type IntentParametersInitParameters struct {
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
-type IntentParametersObservation struct {
+type ParametersObservation struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -244,7 +248,7 @@ type IntentParametersObservation struct {
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
 }
 
-type IntentParametersParameters struct {
+type ParametersParameters struct {
 
 	// The entity type of the parameter.
 	// Format: projects/-/locations/-/agents/-/entityTypes/ for system entity types (for example, projects/-/locations/-/agents/-/entityTypes/sys.date), or projects//locations//agents//entityTypes/ for developer entity types.
@@ -350,8 +354,8 @@ type TrainingPhrasesParameters struct {
 
 // IntentSpec defines the desired state of Intent
 type IntentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     IntentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   IntentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -367,8 +371,8 @@ type IntentSpec struct {
 
 // IntentStatus defines the observed state of Intent.
 type IntentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        IntentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               IntentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

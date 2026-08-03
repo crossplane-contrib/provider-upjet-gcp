@@ -26,6 +26,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/crossplane/upjet/v2/pkg/controller/conversion"
+	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -44,6 +45,7 @@ import (
 
 	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
 	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
+	providerinit "github.com/upbound/provider-gcp/v2/cmd/provider"
 	"github.com/upbound/provider-gcp/v2/config"
 	resolverapis "github.com/upbound/provider-gcp/v2/internal/apis"
 	"github.com/upbound/provider-gcp/v2/internal/bootcheck"
@@ -61,14 +63,6 @@ const (
 	tlsServerCertDir        = "/tls/server"
 )
 
-func deprecationAction(flagName string) kingpin.Action {
-	return func(c *kingpin.ParseContext) error {
-		_, err := fmt.Fprintf(os.Stderr, "warning: Command-line flag %q is deprecated and no longer used. It will be removed in a future release. Please remove it from all of your configurations (ControllerConfigs, etc.).\n", flagName)
-		kingpin.FatalIfError(err, "Failed to print the deprecation notice.")
-		return nil
-	}
-}
-
 func init() {
 	err := bootcheck.CheckEnv()
 	if err != nil {
@@ -76,7 +70,7 @@ func init() {
 	}
 }
 
-func main() {
+func main() { //nolint:gocyclo // easier to follow as a unit
 	var (
 		app                     = kingpin.New(filepath.Base(os.Args[0]), "Terraform based Crossplane provider for GCP").DefaultEnvars()
 		debug                   = app.Flag("debug", "Run with debug logging.").Short('d').Bool()
@@ -100,14 +94,12 @@ func main() {
 			certsDirSet = true
 			return nil
 		}).String()
-
-		// now deprecated command-line arguments with the Terraform SDK-based upjet architecture
-		_ = app.Flag("namespace", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Namespace used to set as default scope in default secret store config.").Default("crossplane-system").Envar("POD_NAMESPACE").Hidden().Action(deprecationAction("namespace")).String()
-		_ = app.Flag("ess-tls-cert-dir", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Path of ESS TLS certificates.").Envar("ESS_TLS_CERTS_DIR").Hidden().Action(deprecationAction("ess-tls-cert-dir")).String()
-		_ = app.Flag("enable-external-secret-stores", "[DEPRECATED: This option is no longer used and it will be removed in a future release.] Enable support for ExternalSecretStores.").Default("false").Envar("ENABLE_EXTERNAL_SECRET_STORES").Hidden().Action(deprecationAction("enable-external-secret-stores")).Bool()
 	)
 
-	kingpin.MustParse(app.Parse(os.Args[1:]))
+	_ = app.Command("core", "Run the provider controllers.").Default()
+	initCmd := app.Command("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.")
+	cmd := kingpin.MustParse(app.Parse(os.Args[1:]))
+
 	log.Default().SetOutput(io.Discard)
 	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 
@@ -188,10 +180,16 @@ func main() {
 
 	ctx := context.Background()
 	sdkProvider := provider.Provider()
-	clusterProvider, err := config.GetProvider(ctx, sdkProvider, false)
+	fwProvider := fwprovider.New(sdkProvider)
+	clusterProvider, err := config.GetProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
-	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, false)
+	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
 	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
+
+	if cmd == initCmd.FullCommand() {
+		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, "containeraws"), "Cannot run storage version migrator")
+		return
+	}
 	clusterOpts := tjcontroller.Options{
 		Options: xpcontroller.Options{
 			Logger:                  logr,
@@ -209,7 +207,6 @@ func main() {
 		SetupFn:               clients.TerraformSetupBuilder(clusterProvider.TerraformProvider),
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(logr),
-		StartWebhooks:         *certsDir != "",
 	}
 
 	namespacedOpts := tjcontroller.Options{
@@ -229,7 +226,6 @@ func main() {
 		SetupFn:               clients.TerraformSetupBuilder(namespacedProvider.TerraformProvider),
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(logr),
-		StartWebhooks:         *certsDir != "",
 	}
 
 	if *enableManagementPolicies {
@@ -253,6 +249,15 @@ func main() {
 		}
 		clusterOpts.ChangeLogOptions = &clo
 		namespacedOpts.ChangeLogOptions = &clo
+	}
+
+	// Webhooks are registered eagerly on all pods before mgr.Start() so that
+	// every replica (leader and followers alike) can serve conversion requests.
+	// Reconciler setup is deferred to the gate and only runs on the leader.
+	startWebhooks := *certsDir != ""
+	if startWebhooks {
+		kingpin.FatalIfError(clustercontroller.SetupWebhookWithManager_containeraws(mgr), "Cannot setup cluster-scoped webhooks")
+		kingpin.FatalIfError(namespacedcontroller.SetupWebhookWithManager_containeraws(mgr), "Cannot setup namespaced webhooks")
 	}
 
 	canSafeStart, err := canWatchCRD(ctx, mgr)

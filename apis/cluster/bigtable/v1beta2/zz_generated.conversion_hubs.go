@@ -22,7 +22,4 @@ func (tr *InstanceIAMBinding) Hub() {}
 func (tr *InstanceIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *TableIAMBinding) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *TableIAMMember) Hub() {}
+func (tr *TableIAMPolicy) Hub() {}

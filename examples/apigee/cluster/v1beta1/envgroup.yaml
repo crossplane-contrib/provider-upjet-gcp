@@ -19,9 +19,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: apigee_org
 
+
 ---
 
-apiVersion: apigee.gcp.upbound.io/v1beta1
+apiVersion: apigee.gcp.upbound.io/v1beta2
 kind: Organization
 metadata:
   annotations:
@@ -36,6 +37,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: apigee_network
     projectId: ${project.project_id}
+
 
 ---
 
@@ -56,6 +58,7 @@ spec:
     prefixLength: 16
     purpose: VPC_PEERING
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -68,6 +71,7 @@ metadata:
   name: apigee-network
 spec:
   forProvider: {}
+
 
 ---
 

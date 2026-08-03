@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FolderExclusionInitParameters struct {
@@ -77,11 +76,11 @@ type FolderExclusionParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderRef *v1.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
+	FolderRef *v2.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderSelector *v1.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
+	FolderSelector *v2.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
 }
 
 // FolderExclusionSpec defines the desired state of FolderExclusion
@@ -103,8 +102,8 @@ type FolderExclusionSpec struct {
 
 // FolderExclusionStatus defines the observed state of FolderExclusion.
 type FolderExclusionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderExclusionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FolderExclusionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

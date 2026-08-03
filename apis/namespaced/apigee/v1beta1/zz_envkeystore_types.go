@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvKeystoreInitParameters struct {
@@ -19,6 +18,8 @@ type EnvKeystoreInitParameters struct {
 
 type EnvKeystoreObservation struct {
 	Aliases []*string `json:"aliases,omitempty" tf:"aliases,omitempty"`
+
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
@@ -34,11 +35,11 @@ type EnvKeystoreParameters struct {
 
 	// Reference to a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDRef *v1.NamespacedReference `json:"envIdRef,omitempty" tf:"-"`
+	EnvIDRef *v2.NamespacedReference `json:"envIdRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDSelector *v1.NamespacedSelector `json:"envIdSelector,omitempty" tf:"-"`
+	EnvIDSelector *v2.NamespacedSelector `json:"envIdSelector,omitempty" tf:"-"`
 }
 
 // EnvKeystoreSpec defines the desired state of EnvKeystore
@@ -60,8 +61,8 @@ type EnvKeystoreSpec struct {
 
 // EnvKeystoreStatus defines the observed state of EnvKeystore.
 type EnvKeystoreStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvKeystoreObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvKeystoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -25,7 +25,7 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta3", "Bucket", "BucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -65,7 +65,7 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 	mg.Spec.ForProvider.SourceArchiveObject = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SourceArchiveObjectRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta3", "Bucket", "BucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

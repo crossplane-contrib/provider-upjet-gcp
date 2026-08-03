@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionDiskResourcePolicyAttachmentInitParameters struct {
@@ -22,11 +21,11 @@ type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
 	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
@@ -35,11 +34,11 @@ type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
 	// Reference to a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -50,6 +49,10 @@ type RegionDiskResourcePolicyAttachmentInitParameters struct {
 }
 
 type RegionDiskResourcePolicyAttachmentObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the regional disk in which the resource policies are attached to.
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -78,11 +81,11 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 
 	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
@@ -92,11 +95,11 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 
 	// Reference to a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -127,8 +130,8 @@ type RegionDiskResourcePolicyAttachmentSpec struct {
 
 // RegionDiskResourcePolicyAttachmentStatus defines the observed state of RegionDiskResourcePolicyAttachment.
 type RegionDiskResourcePolicyAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionDiskResourcePolicyAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionDiskResourcePolicyAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

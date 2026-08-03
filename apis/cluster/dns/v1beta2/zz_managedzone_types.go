@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CloudLoggingConfigInitParameters struct {
@@ -211,11 +211,11 @@ type GkeClustersInitParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type GkeClustersObservation struct {
@@ -238,11 +238,11 @@ type GkeClustersParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type ManagedZoneInitParameters struct {
@@ -311,6 +311,10 @@ type ManagedZoneObservation struct {
 	// DNSSEC configuration
 	// Structure is documented below.
 	DNSSECConfig *DNSSECConfigObservation `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -440,11 +444,11 @@ type NetworksInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type NetworksObservation struct {
@@ -467,11 +471,11 @@ type NetworksParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type PeeringConfigInitParameters struct {
@@ -542,14 +546,21 @@ type TargetNameServersInitParameters struct {
 	// Fully qualified domain name for the forwarding target.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
-	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Forwarding path for this TargetNameServer. If unset or default
+	// Cloud DNS will make forwarding decision based on address ranges,
+	// i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always
+	// send queries through VPC for this target.
 	// Possible values are: default, private.
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+
+	// IPv6 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type TargetNameServersObservation struct {
@@ -557,14 +568,21 @@ type TargetNameServersObservation struct {
 	// Fully qualified domain name for the forwarding target.
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
-	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Forwarding path for this TargetNameServer. If unset or default
+	// Cloud DNS will make forwarding decision based on address ranges,
+	// i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always
+	// send queries through VPC for this target.
 	// Possible values are: default, private.
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+
+	// IPv6 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type TargetNameServersParameters struct {
@@ -573,16 +591,24 @@ type TargetNameServersParameters struct {
 	// +kubebuilder:validation:Optional
 	DomainName *string `json:"domainName,omitempty" tf:"domain_name,omitempty"`
 
-	// Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-	// decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-	// to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+	// Forwarding path for this TargetNameServer. If unset or default
+	// Cloud DNS will make forwarding decision based on address ranges,
+	// i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+	// to the Internet. When set to private, Cloud DNS will always
+	// send queries through VPC for this target.
 	// Possible values are: default, private.
 	// +kubebuilder:validation:Optional
 	ForwardingPath *string `json:"forwardingPath,omitempty" tf:"forwarding_path,omitempty"`
 
 	// IPv4 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
 	// +kubebuilder:validation:Optional
 	IPv4Address *string `json:"ipv4Address,omitempty" tf:"ipv4_address,omitempty"`
+
+	// IPv6 address of a target name server.
+	// Does not accept both fields (ipv4 & ipv6) being populated.
+	// +kubebuilder:validation:Optional
+	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 }
 
 type TargetNetworkInitParameters struct {
@@ -596,11 +622,11 @@ type TargetNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type TargetNetworkObservation struct {
@@ -623,17 +649,17 @@ type TargetNetworkParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 // ManagedZoneSpec defines the desired state of ManagedZone
 type ManagedZoneSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ManagedZoneParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ManagedZoneParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -649,8 +675,8 @@ type ManagedZoneSpec struct {
 
 // ManagedZoneStatus defines the observed state of ManagedZone.
 type ManagedZoneStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ManagedZoneObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ManagedZoneObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

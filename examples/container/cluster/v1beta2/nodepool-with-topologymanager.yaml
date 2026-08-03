@@ -1,0 +1,63 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: container.gcp.upbound.io/v1beta2
+kind: NodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta2/nodepool
+    uptest.upbound.io/disable-import: "true"
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: nodepool
+  name: gke-low-profile-pool
+spec:
+  forProvider:
+    location: us-central1-a
+    clusterRef:
+      name: gke-low-profile
+    initialNodeCount: 1
+    nodeConfig:
+      machineType: c3-standard-4
+      diskSizeGb: 30
+      preemptible: true
+      serviceAccountSelector:
+        matchLabels:
+          testing.upbound.io/example-name: nodepool
+      kubeletConfig:
+        cpuManagerPolicy: static
+        topologyManager:
+          policy: best-effort
+          scope: pod
+        memoryManager:
+          policy: Static
+      linuxNodeConfig:
+        cgroupMode: CGROUP_MODE_V2
+
+---
+
+apiVersion: container.gcp.upbound.io/v1beta2
+kind: Cluster
+metadata:
+  name: gke-low-profile
+spec:
+  forProvider:
+    location: us-central1-a
+    initialNodeCount: 1
+    removeDefaultNodePool: true
+    deletionProtection: false
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: container/v1beta2/nodepool
+  labels:
+    testing.upbound.io/example-name: nodepool
+  name: nodepool
+spec:
+  forProvider:
+    displayName: Service Account for GKE Cluster

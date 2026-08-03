@@ -52,7 +52,7 @@ metadata:
 spec:
   forProvider:
     deletionProtection: false
-    displayName: my-folder
+    displayName: folder-fpa
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: example

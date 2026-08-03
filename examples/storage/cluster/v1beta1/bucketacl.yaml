@@ -18,9 +18,10 @@ spec:
     roleEntity:
     - READER:allAuthenticatedUsers
 
+
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta3
 kind: Bucket
 metadata:
   annotations:

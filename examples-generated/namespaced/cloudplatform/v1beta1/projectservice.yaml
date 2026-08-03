@@ -13,7 +13,6 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    disableOnDestroy: false
     projectSelector:
       matchLabels:
         testing.upbound.io/example-name: example

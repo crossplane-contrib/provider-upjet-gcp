@@ -35,6 +35,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
+    deletionProtection: false
     initialUser:
       passwordSecretRef:
         key: example-key

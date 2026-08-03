@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AsyncPrimaryDiskInitParameters struct {
@@ -23,11 +22,11 @@ type AsyncPrimaryDiskInitParameters struct {
 
 	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type AsyncPrimaryDiskObservation struct {
@@ -46,11 +45,11 @@ type AsyncPrimaryDiskParameters struct {
 
 	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.NamespacedReference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.NamespacedSelector `json:"diskSelector,omitempty" tf:"-"`
 }
 
 type DiskEncryptionKeyInitParameters struct {
@@ -69,13 +68,13 @@ type DiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskEncryptionKeyObservation struct {
@@ -116,14 +115,14 @@ type DiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type DiskInitParameters struct {
@@ -192,7 +191,7 @@ type DiskInitParameters struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params *DiskParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -291,6 +290,10 @@ type DiskObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -356,7 +359,7 @@ type DiskObservation struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+	Params *DiskParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -552,7 +555,7 @@ type DiskParameters struct {
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Params *ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params *DiskParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -644,6 +647,34 @@ type DiskParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+type DiskParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the disk. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type DiskParamsObservation struct {
+
+	// Resource manager tags to be bound to the disk. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type DiskParamsParameters struct {
+
+	// Resource manager tags to be bound to the disk. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 type GuestOsFeaturesInitParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
@@ -663,34 +694,6 @@ type GuestOsFeaturesParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
-type ParamsInitParameters struct {
-
-	// Resource manager tags to be bound to the disk. Tag keys and values have the
-	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-	// and values are in the format tagValues/456.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsObservation struct {
-
-	// Resource manager tags to be bound to the disk. Tag keys and values have the
-	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-	// and values are in the format tagValues/456.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsParameters struct {
-
-	// Resource manager tags to be bound to the disk. Tag keys and values have the
-	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-	// and values are in the format tagValues/456.
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
 type SourceImageEncryptionKeyInitParameters struct {
 
 	// The self link of the encryption key used to encrypt the disk. Also called KmsKeyName
@@ -706,7 +709,8 @@ type SourceImageEncryptionKeyInitParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceImageEncryptionKeyObservation struct {
@@ -721,10 +725,6 @@ type SourceImageEncryptionKeyObservation struct {
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
-
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
 	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
@@ -749,8 +749,9 @@ type SourceImageEncryptionKeyParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceSnapshotEncryptionKeyInitParameters struct {
@@ -768,7 +769,8 @@ type SourceSnapshotEncryptionKeyInitParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceSnapshotEncryptionKeyObservation struct {
@@ -783,10 +785,6 @@ type SourceSnapshotEncryptionKeyObservation struct {
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
-
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
 	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
@@ -811,8 +809,9 @@ type SourceSnapshotEncryptionKeyParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 // DiskSpec defines the desired state of Disk
@@ -834,8 +833,8 @@ type DiskSpec struct {
 
 // DiskStatus defines the observed state of Disk.
 type DiskStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DiskObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DiskObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceAccountIAMMemberConditionInitParameters struct {
@@ -54,11 +54,11 @@ type ServiceAccountIAMMemberInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
-	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
+	ServiceAccountIDRef *v2.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
-	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
+	ServiceAccountIDSelector *v2.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountIAMMemberObservation struct {
@@ -93,17 +93,17 @@ type ServiceAccountIAMMemberParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
-	ServiceAccountIDRef *v1.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
+	ServiceAccountIDRef *v2.Reference `json:"serviceAccountIdRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountId.
 	// +kubebuilder:validation:Optional
-	ServiceAccountIDSelector *v1.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
+	ServiceAccountIDSelector *v2.Selector `json:"serviceAccountIdSelector,omitempty" tf:"-"`
 }
 
 // ServiceAccountIAMMemberSpec defines the desired state of ServiceAccountIAMMember
 type ServiceAccountIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceAccountIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceAccountIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -119,8 +119,8 @@ type ServiceAccountIAMMemberSpec struct {
 
 // ServiceAccountIAMMemberStatus defines the observed state of ServiceAccountIAMMember.
 type ServiceAccountIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAccountIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAccountIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -138,7 +138,6 @@ type ServiceAccountIAMMember struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || (has(self.initProvider) && has(self.initProvider.member))",message="spec.forProvider.member is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.serviceAccountId) || (has(self.initProvider) && has(self.initProvider.serviceAccountId))",message="spec.forProvider.serviceAccountId is a required parameter"
 	Spec   ServiceAccountIAMMemberSpec   `json:"spec"`
 	Status ServiceAccountIAMMemberStatus `json:"status,omitempty"`
 }

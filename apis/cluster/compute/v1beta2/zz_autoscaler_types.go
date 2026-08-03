@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalerInitParameters struct {
@@ -37,11 +37,11 @@ type AutoscalerInitParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type AutoscalerObservation struct {
@@ -56,6 +56,10 @@ type AutoscalerObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -105,11 +109,11 @@ type AutoscalerParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 
 	// URL of the zone where the instance group resides.
 	// +kubebuilder:validation:Required
@@ -166,6 +170,13 @@ type AutoscalingPolicyInitParameters struct {
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
 	// Structure is documented below.
 	ScalingSchedules []ScalingSchedulesInitParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type AutoscalingPolicyObservation struct {
@@ -218,6 +229,13 @@ type AutoscalingPolicyObservation struct {
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
 	// Structure is documented below.
 	ScalingSchedules []ScalingSchedulesObservation `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type AutoscalingPolicyParameters struct {
@@ -279,6 +297,14 @@ type AutoscalingPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ScalingSchedules []ScalingSchedulesParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	// +kubebuilder:validation:Optional
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type CPUUtilizationInitParameters struct {
@@ -662,8 +688,8 @@ type ScalingSchedulesParameters struct {
 
 // AutoscalerSpec defines the desired state of Autoscaler
 type AutoscalerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AutoscalerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AutoscalerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -679,8 +705,8 @@ type AutoscalerSpec struct {
 
 // AutoscalerStatus defines the observed state of Autoscaler.
 type AutoscalerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoscalerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoscalerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

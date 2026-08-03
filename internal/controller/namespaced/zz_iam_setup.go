@@ -40,3 +40,16 @@ func SetupGated_iam(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_iam registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_iam(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		workloadidentitypool.SetupWebhookWithManager,
+		workloadidentitypoolprovider.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

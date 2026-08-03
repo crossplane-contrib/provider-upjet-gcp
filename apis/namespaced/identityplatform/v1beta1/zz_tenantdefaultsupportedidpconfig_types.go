@@ -10,17 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TenantDefaultSupportedIdPConfigInitParameters struct {
 
 	// OAuth client ID
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
-	ClientSecretSecretRef v1.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+	ClientSecretSecretRef v2.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -39,14 +38,18 @@ type TenantDefaultSupportedIdPConfigInitParameters struct {
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantDefaultSupportedIdPConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -72,11 +75,11 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef v1.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+	ClientSecretSecretRef v2.LocalSecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
 	// +kubebuilder:validation:Optional
@@ -99,11 +102,11 @@ type TenantDefaultSupportedIdPConfigParameters struct {
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 // TenantDefaultSupportedIdPConfigSpec defines the desired state of TenantDefaultSupportedIdPConfig
@@ -125,8 +128,8 @@ type TenantDefaultSupportedIdPConfigSpec struct {
 
 // TenantDefaultSupportedIdPConfigStatus defines the observed state of TenantDefaultSupportedIdPConfig.
 type TenantDefaultSupportedIdPConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TenantDefaultSupportedIdPConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TenantDefaultSupportedIdPConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

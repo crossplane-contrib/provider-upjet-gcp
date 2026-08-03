@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CodeRepositoryIndexInitParameters struct {
@@ -37,6 +37,10 @@ type CodeRepositoryIndexObservation struct {
 
 	// Output only. Create time stamp.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -110,8 +114,8 @@ type CodeRepositoryIndexParameters struct {
 
 // CodeRepositoryIndexSpec defines the desired state of CodeRepositoryIndex
 type CodeRepositoryIndexSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CodeRepositoryIndexParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CodeRepositoryIndexParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -127,8 +131,8 @@ type CodeRepositoryIndexSpec struct {
 
 // CodeRepositoryIndexStatus defines the observed state of CodeRepositoryIndex.
 type CodeRepositoryIndexStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CodeRepositoryIndexObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CodeRepositoryIndexObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

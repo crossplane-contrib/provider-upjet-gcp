@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalingPolicyCPUUtilizationInitParameters struct {
@@ -407,6 +407,13 @@ type RegionAutoscalerAutoscalingPolicyInitParameters struct {
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
 	// Structure is documented below.
 	ScalingSchedules []AutoscalingPolicyScalingSchedulesInitParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type RegionAutoscalerAutoscalingPolicyObservation struct {
@@ -459,6 +466,13 @@ type RegionAutoscalerAutoscalingPolicyObservation struct {
 	// Scaling schedules defined for an autoscaler. Multiple schedules can be set on an autoscaler and they can overlap.
 	// Structure is documented below.
 	ScalingSchedules []AutoscalingPolicyScalingSchedulesObservation `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type RegionAutoscalerAutoscalingPolicyParameters struct {
@@ -520,6 +534,14 @@ type RegionAutoscalerAutoscalingPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ScalingSchedules []AutoscalingPolicyScalingSchedulesParameters `json:"scalingSchedules,omitempty" tf:"scaling_schedules,omitempty"`
+
+	// The number of seconds that the autoscaler waits for load stabilization
+	// before making scale-in decisions.
+	// This might appear as a delay in scaling in but it is an important mechanism
+	// for your application to not have fluctuating size due to short term load
+	// fluctuations.
+	// +kubebuilder:validation:Optional
+	StabilizationPeriod *float64 `json:"stabilizationPeriod,omitempty" tf:"stabilization_period,omitempty"`
 }
 
 type RegionAutoscalerInitParameters struct {
@@ -546,11 +568,11 @@ type RegionAutoscalerInitParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type RegionAutoscalerObservation struct {
@@ -565,6 +587,10 @@ type RegionAutoscalerObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -618,11 +644,11 @@ type RegionAutoscalerParameters struct {
 
 	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type ScaleInControlMaxScaledInReplicasInitParameters struct {
@@ -662,8 +688,8 @@ type ScaleInControlMaxScaledInReplicasParameters struct {
 
 // RegionAutoscalerSpec defines the desired state of RegionAutoscaler
 type RegionAutoscalerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionAutoscalerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionAutoscalerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -679,8 +705,8 @@ type RegionAutoscalerSpec struct {
 
 // RegionAutoscalerStatus defines the observed state of RegionAutoscaler.
 type RegionAutoscalerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionAutoscalerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionAutoscalerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ActionsInitParameters struct {
@@ -28,6 +28,9 @@ type ActionsInitParameters struct {
 
 	// Publish findings of a DlpJob to Data Catalog.
 	PublishFindingsToCloudDataCatalog *PublishFindingsToCloudDataCatalogInitParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
+
+	// Publish findings of a DlpJob as an aspect to Dataplex Universal Catalog.
+	PublishFindingsToDataplexCatalog *PublishFindingsToDataplexCatalogInitParameters `json:"publishFindingsToDataplexCatalog,omitempty" tf:"publish_findings_to_dataplex_catalog,omitempty"`
 
 	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
 	PublishSummaryToCscc *PublishSummaryToCsccInitParameters `json:"publishSummaryToCscc,omitempty" tf:"publish_summary_to_cscc,omitempty"`
@@ -55,6 +58,9 @@ type ActionsObservation struct {
 
 	// Publish findings of a DlpJob to Data Catalog.
 	PublishFindingsToCloudDataCatalog *PublishFindingsToCloudDataCatalogParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
+
+	// Publish findings of a DlpJob as an aspect to Dataplex Universal Catalog.
+	PublishFindingsToDataplexCatalog *PublishFindingsToDataplexCatalogParameters `json:"publishFindingsToDataplexCatalog,omitempty" tf:"publish_findings_to_dataplex_catalog,omitempty"`
 
 	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
 	PublishSummaryToCscc *PublishSummaryToCsccParameters `json:"publishSummaryToCscc,omitempty" tf:"publish_summary_to_cscc,omitempty"`
@@ -86,6 +92,10 @@ type ActionsParameters struct {
 	// Publish findings of a DlpJob to Data Catalog.
 	// +kubebuilder:validation:Optional
 	PublishFindingsToCloudDataCatalog *PublishFindingsToCloudDataCatalogParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
+
+	// Publish findings of a DlpJob as an aspect to Dataplex Universal Catalog.
+	// +kubebuilder:validation:Optional
+	PublishFindingsToDataplexCatalog *PublishFindingsToDataplexCatalogParameters `json:"publishFindingsToDataplexCatalog,omitempty" tf:"publish_findings_to_dataplex_catalog,omitempty"`
 
 	// Publish the result summary of a DlpJob to the Cloud Security Command Center.
 	// +kubebuilder:validation:Optional
@@ -317,19 +327,22 @@ type CloudStorageOptionsParameters struct {
 
 type CustomInfoTypesDictionaryCloudStoragePathInitParameters struct {
 
-	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type CustomInfoTypesDictionaryCloudStoragePathObservation struct {
 
-	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type CustomInfoTypesDictionaryCloudStoragePathParameters struct {
 
-	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path" tf:"path,omitempty"`
 }
@@ -760,19 +773,22 @@ type ExcludedFieldsParameters struct {
 
 type ExclusionRuleDictionaryCloudStoragePathInitParameters struct {
 
-	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type ExclusionRuleDictionaryCloudStoragePathObservation struct {
 
-	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 }
 
 type ExclusionRuleDictionaryCloudStoragePathParameters struct {
 
-	// A url representing a file or path (no wildcards) in Cloud Storage. Example: gs://[BUCKET_NAME]/dictionary.txt
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path" tf:"path,omitempty"`
 }
@@ -1742,6 +1758,10 @@ type JobTriggerObservation struct {
 	// The creation timestamp of an inspectTemplate. Set by the server.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the job trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1993,6 +2013,14 @@ type OutputConfigInitParameters struct {
 	// Possible values are: BASIC_COLUMNS, GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS, ALL_COLUMNS.
 	OutputSchema *string `json:"outputSchema,omitempty" tf:"output_schema,omitempty"`
 
+	// Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number
+	// as the filename, and will contain findings in textproto format as SaveToGcsFindingsOutput. The file name will use
+	// the naming convention <job_id>-<shard_number>, for example: my-job-id-2.
+	// Supported for InspectJobs. The bucket must not be the same as the bucket being inspected. If storing findings to
+	// Cloud Storage, the output schema field should not be set. If set, it will be ignored.
+	// Structure is documented below.
+	StoragePath *StoragePathInitParameters `json:"storagePath,omitempty" tf:"storage_path,omitempty"`
+
 	// The BigQuery table in which to store the output.
 	// Structure is documented below.
 	Table *OutputConfigTableInitParameters `json:"table,omitempty" tf:"table,omitempty"`
@@ -2009,6 +2037,14 @@ type OutputConfigObservation struct {
 	// Only for use with external storage.
 	// Possible values are: BASIC_COLUMNS, GCS_COLUMNS, DATASTORE_COLUMNS, BIG_QUERY_COLUMNS, ALL_COLUMNS.
 	OutputSchema *string `json:"outputSchema,omitempty" tf:"output_schema,omitempty"`
+
+	// Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number
+	// as the filename, and will contain findings in textproto format as SaveToGcsFindingsOutput. The file name will use
+	// the naming convention <job_id>-<shard_number>, for example: my-job-id-2.
+	// Supported for InspectJobs. The bucket must not be the same as the bucket being inspected. If storing findings to
+	// Cloud Storage, the output schema field should not be set. If set, it will be ignored.
+	// Structure is documented below.
+	StoragePath *StoragePathObservation `json:"storagePath,omitempty" tf:"storage_path,omitempty"`
 
 	// The BigQuery table in which to store the output.
 	// Structure is documented below.
@@ -2028,10 +2064,19 @@ type OutputConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	OutputSchema *string `json:"outputSchema,omitempty" tf:"output_schema,omitempty"`
 
+	// Store findings in an existing Cloud Storage bucket. Files will be generated with the job ID and file part number
+	// as the filename, and will contain findings in textproto format as SaveToGcsFindingsOutput. The file name will use
+	// the naming convention <job_id>-<shard_number>, for example: my-job-id-2.
+	// Supported for InspectJobs. The bucket must not be the same as the bucket being inspected. If storing findings to
+	// Cloud Storage, the output schema field should not be set. If set, it will be ignored.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StoragePath *StoragePathParameters `json:"storagePath,omitempty" tf:"storage_path,omitempty"`
+
 	// The BigQuery table in which to store the output.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Table *OutputConfigTableParameters `json:"table" tf:"table,omitempty"`
+	Table *OutputConfigTableParameters `json:"table,omitempty" tf:"table,omitempty"`
 }
 
 type OutputConfigTableInitParameters struct {
@@ -2134,6 +2179,15 @@ type PublishFindingsToCloudDataCatalogObservation struct {
 }
 
 type PublishFindingsToCloudDataCatalogParameters struct {
+}
+
+type PublishFindingsToDataplexCatalogInitParameters struct {
+}
+
+type PublishFindingsToDataplexCatalogObservation struct {
+}
+
+type PublishFindingsToDataplexCatalogParameters struct {
 }
 
 type PublishSummaryToCsccInitParameters struct {
@@ -2645,6 +2699,28 @@ type StorageConfigParameters struct {
 	TimespanConfig *TimespanConfigParameters `json:"timespanConfig,omitempty" tf:"timespan_config,omitempty"`
 }
 
+type StoragePathInitParameters struct {
+
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type StoragePathObservation struct {
+
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+}
+
+type StoragePathParameters struct {
+
+	// A URL representing a file or path (no wildcards) in Cloud Storage.
+	// Example: gs://[BUCKET_NAME]/dictionary.txt
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path" tf:"path,omitempty"`
+}
+
 type TableInitParameters struct {
 
 	// The ID of the dataset containing this table.
@@ -2653,11 +2729,11 @@ type TableInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -2670,11 +2746,11 @@ type TableInitParameters struct {
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.Reference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableObservation struct {
@@ -2762,11 +2838,11 @@ type TableParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
@@ -2781,11 +2857,11 @@ type TableParameters struct {
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.Reference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableReferenceInitParameters struct {
@@ -3023,8 +3099,8 @@ type TriggersParameters struct {
 
 // JobTriggerSpec defines the desired state of JobTrigger
 type JobTriggerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     JobTriggerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   JobTriggerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -3040,8 +3116,8 @@ type JobTriggerSpec struct {
 
 // JobTriggerStatus defines the observed state of JobTrigger.
 type JobTriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobTriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobTriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

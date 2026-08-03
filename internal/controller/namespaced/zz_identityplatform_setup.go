@@ -58,3 +58,22 @@ func SetupGated_identityplatform(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_identityplatform registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_identityplatform(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		config.SetupWebhookWithManager,
+		defaultsupportedidpconfig.SetupWebhookWithManager,
+		inboundsamlconfig.SetupWebhookWithManager,
+		oauthidpconfig.SetupWebhookWithManager,
+		tenant.SetupWebhookWithManager,
+		tenantdefaultsupportedidpconfig.SetupWebhookWithManager,
+		tenantinboundsamlconfig.SetupWebhookWithManager,
+		tenantoauthidpconfig.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

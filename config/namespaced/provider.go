@@ -7,6 +7,7 @@ package namespaced
 import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/accessapproval"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/accesscontextmanager"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/alloydb"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/apigee"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/beyondcorp"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/bigquery"
@@ -54,7 +55,6 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/storage"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/storagetransfer"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/tags"
-	"github.com/upbound/provider-gcp/v2/config/namespaced/tpu"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/vertexai"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/vpcaccess"
 )
@@ -107,10 +107,10 @@ func init() {
 	ProviderConfiguration.AddConfig(beyondcorp.Configure)
 	ProviderConfiguration.AddConfig(vertexai.Configure)
 	ProviderConfiguration.AddConfig(tags.Configure)
-	ProviderConfiguration.AddConfig(tpu.Configure)
 	ProviderConfiguration.AddConfig(vpcaccess.Configure)
 	ProviderConfiguration.AddConfig(healthcare.Configure)
 	ProviderConfiguration.AddConfig(gkehub.Configure)
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
+	ProviderConfiguration.AddConfig(alloydb.Configure)
 }

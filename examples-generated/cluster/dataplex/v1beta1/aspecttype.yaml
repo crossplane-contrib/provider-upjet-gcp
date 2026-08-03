@@ -12,6 +12,7 @@ metadata:
   name: test-aspect-type-basic
 spec:
   forProvider:
+    dataClassification: DATA_CLASSIFICATION_UNSPECIFIED
     location: us-central1
     metadataTemplate: |
       {

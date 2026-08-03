@@ -52,3 +52,20 @@ func SetupGated_accesscontextmanager(mgr ctrl.Manager, o controller.Options) err
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_accesscontextmanager registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_accesscontextmanager(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		accesslevel.SetupWebhookWithManager,
+		accesslevelcondition.SetupWebhookWithManager,
+		accesspolicy.SetupWebhookWithManager,
+		accesspolicyiammember.SetupWebhookWithManager,
+		serviceperimeter.SetupWebhookWithManager,
+		serviceperimeterresource.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

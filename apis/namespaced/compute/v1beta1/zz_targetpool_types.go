@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetPoolInitParameters struct {
@@ -34,11 +33,11 @@ type TargetPoolInitParameters struct {
 
 	// References to HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
@@ -60,6 +59,10 @@ type TargetPoolObservation struct {
 	// URL to the backup target pool. Must also set
 	// failover_ratio.
 	BackupPool *string `json:"backupPool,omitempty" tf:"backup_pool,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -121,11 +124,11 @@ type TargetPoolParameters struct {
 
 	// References to HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.NamespacedReference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.NamespacedSelector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
@@ -169,8 +172,8 @@ type TargetPoolSpec struct {
 
 // TargetPoolStatus defines the observed state of TargetPool.
 type TargetPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

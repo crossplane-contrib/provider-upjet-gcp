@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceNetworkingPeeredDNSDomainInitParameters struct {
@@ -26,6 +26,10 @@ type ServiceNetworkingPeeredDNSDomainObservation struct {
 
 	// The DNS domain suffix of the peered DNS domain. Make sure to suffix with a . (dot).
 	DNSSuffix *string `json:"dnsSuffix,omitempty" tf:"dns_suffix,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format services/{{service}}/projects/{{project}}/global/networks/{{network}}/peeredDnsDomains/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -64,8 +68,8 @@ type ServiceNetworkingPeeredDNSDomainParameters struct {
 
 // ServiceNetworkingPeeredDNSDomainSpec defines the desired state of ServiceNetworkingPeeredDNSDomain
 type ServiceNetworkingPeeredDNSDomainSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceNetworkingPeeredDNSDomainParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceNetworkingPeeredDNSDomainParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -81,8 +85,8 @@ type ServiceNetworkingPeeredDNSDomainSpec struct {
 
 // ServiceNetworkingPeeredDNSDomainStatus defines the observed state of ServiceNetworkingPeeredDNSDomain.
 type ServiceNetworkingPeeredDNSDomainStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceNetworkingPeeredDNSDomainObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceNetworkingPeeredDNSDomainObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

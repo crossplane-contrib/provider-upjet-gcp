@@ -10,16 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DefaultSupportedIdPConfigInitParameters struct {
 
 	// OAuth client ID
-	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
-	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+	ClientSecretSecretRef v2.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -33,6 +33,10 @@ type DefaultSupportedIdPConfigInitParameters struct {
 }
 
 type DefaultSupportedIdPConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If this IDP allows the user to sign in
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -55,11 +59,11 @@ type DefaultSupportedIdPConfigParameters struct {
 
 	// OAuth client ID
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// OAuth client secret
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef v1.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
+	ClientSecretSecretRef v2.SecretKeySelector `json:"clientSecretSecretRef" tf:"-"`
 
 	// If this IDP allows the user to sign in
 	// +kubebuilder:validation:Optional
@@ -77,8 +81,8 @@ type DefaultSupportedIdPConfigParameters struct {
 
 // DefaultSupportedIdPConfigSpec defines the desired state of DefaultSupportedIdPConfig
 type DefaultSupportedIdPConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DefaultSupportedIdPConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DefaultSupportedIdPConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -94,8 +98,8 @@ type DefaultSupportedIdPConfigSpec struct {
 
 // DefaultSupportedIdPConfigStatus defines the observed state of DefaultSupportedIdPConfig.
 type DefaultSupportedIdPConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DefaultSupportedIdPConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DefaultSupportedIdPConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

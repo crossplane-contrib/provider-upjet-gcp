@@ -17,9 +17,10 @@ spec:
         testing.upbound.io/example-name: default
     region: europe-west4
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RegionBackendService
 metadata:
   annotations:
@@ -36,9 +37,10 @@ spec:
     region: europe-west4
     timeoutSec: 10
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RegionHealthCheck
 metadata:
   annotations:

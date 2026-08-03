@@ -36,6 +36,7 @@ spec:
       ipAddress: 8.8.8.8
     redundancyType: SINGLE_IP_INTERNALLY_REDUNDANT
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -53,6 +54,7 @@ spec:
         testing.upbound.io/example-name: external-vpn-gateway
     region: us-central1
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -68,9 +70,10 @@ spec:
     autoCreateSubnetworks: false
     routingMode: GLOBAL
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Router
 metadata:
   annotations:
@@ -86,6 +89,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: external-vpn-gateway
     region: us-central1
+
 
 ---
 
@@ -109,6 +113,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: external-vpn-gateway-1
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -131,9 +136,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: external-vpn-gateway-2
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:
@@ -149,9 +155,10 @@ spec:
         testing.upbound.io/example-name: external-vpn-gateway
     region: us-central1
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:
@@ -166,6 +173,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: external-vpn-gateway
     region: us-west1
+
 
 ---
 
@@ -196,6 +204,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: external-vpn-gateway
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -224,6 +233,7 @@ spec:
     vpnGatewaySelector:
       matchLabels:
         testing.upbound.io/example-name: external-vpn-gateway
+
 
 ---
 

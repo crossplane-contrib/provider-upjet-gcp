@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HaVPNGatewayInitParameters struct {
@@ -36,11 +35,15 @@ type HaVPNGatewayInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *HaVPNGatewayParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -58,6 +61,10 @@ type HaVPNGatewayInitParameters struct {
 }
 
 type HaVPNGatewayObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -88,6 +95,10 @@ type HaVPNGatewayObservation struct {
 
 	// The network this VPN gateway is accepting traffic for.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *HaVPNGatewayParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -141,11 +152,16 @@ type HaVPNGatewayParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *HaVPNGatewayParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -169,6 +185,34 @@ type HaVPNGatewayParameters struct {
 	VPNInterfaces []VPNInterfacesParameters `json:"vpnInterfaces,omitempty" tf:"vpn_interfaces,omitempty"`
 }
 
+type HaVPNGatewayParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the HaVpnGateway. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type HaVPNGatewayParamsObservation struct {
+
+	// Resource manager tags to be bound to the HaVpnGateway. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type HaVPNGatewayParamsParameters struct {
+
+	// Resource manager tags to be bound to the HaVpnGateway. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 type VPNInterfacesInitParameters struct {
 
 	// The numeric ID of this VPN gateway interface.
@@ -186,11 +230,11 @@ type VPNInterfacesInitParameters struct {
 
 	// Reference to a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentRef *v1.NamespacedReference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
+	InterconnectAttachmentRef *v2.NamespacedReference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
 
 	// Selector for a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentSelector *v1.NamespacedSelector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
+	InterconnectAttachmentSelector *v2.NamespacedSelector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }
 
 type VPNInterfacesObservation struct {
@@ -230,11 +274,11 @@ type VPNInterfacesParameters struct {
 
 	// Reference to a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentRef *v1.NamespacedReference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
+	InterconnectAttachmentRef *v2.NamespacedReference `json:"interconnectAttachmentRef,omitempty" tf:"-"`
 
 	// Selector for a InterconnectAttachment in compute to populate interconnectAttachment.
 	// +kubebuilder:validation:Optional
-	InterconnectAttachmentSelector *v1.NamespacedSelector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
+	InterconnectAttachmentSelector *v2.NamespacedSelector `json:"interconnectAttachmentSelector,omitempty" tf:"-"`
 }
 
 // HaVPNGatewaySpec defines the desired state of HaVPNGateway
@@ -256,8 +300,8 @@ type HaVPNGatewaySpec struct {
 
 // HaVPNGatewayStatus defines the observed state of HaVPNGateway.
 type HaVPNGatewayStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        HaVPNGatewayObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               HaVPNGatewayObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

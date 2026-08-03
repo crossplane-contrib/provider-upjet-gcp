@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomaticUpdatePolicyInitParameters struct {
@@ -138,7 +137,7 @@ type FunctionInitParameters struct {
 	// If specified, you must also provide an artifact registry repository using the docker_repository field that was created with the same KMS crypto key. Before deploying, please complete all pre-requisites described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The limit on the maximum number of function instances that may coexist at a given time.
@@ -167,16 +166,16 @@ type FunctionInitParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The GCS bucket containing the zip archive which contains the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
 	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate sourceArchiveBucket.
 	// +kubebuilder:validation:Optional
-	SourceArchiveBucketRef *v1.NamespacedReference `json:"sourceArchiveBucketRef,omitempty" tf:"-"`
+	SourceArchiveBucketRef *v2.NamespacedReference `json:"sourceArchiveBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate sourceArchiveBucket.
 	// +kubebuilder:validation:Optional
-	SourceArchiveBucketSelector *v1.NamespacedSelector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
+	SourceArchiveBucketSelector *v2.NamespacedSelector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
 	// The source archive object (file) in archive bucket.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
@@ -185,11 +184,11 @@ type FunctionInitParameters struct {
 
 	// Reference to a BucketObject in storage to populate sourceArchiveObject.
 	// +kubebuilder:validation:Optional
-	SourceArchiveObjectRef *v1.NamespacedReference `json:"sourceArchiveObjectRef,omitempty" tf:"-"`
+	SourceArchiveObjectRef *v2.NamespacedReference `json:"sourceArchiveObjectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate sourceArchiveObject.
 	// +kubebuilder:validation:Optional
-	SourceArchiveObjectSelector *v1.NamespacedSelector `json:"sourceArchiveObjectSelector,omitempty" tf:"-"`
+	SourceArchiveObjectSelector *v2.NamespacedSelector `json:"sourceArchiveObjectSelector,omitempty" tf:"-"`
 
 	// Represents parameters related to source repository where a function is hosted.
 	// Cannot be set alongside source_archive_bucket or source_archive_object. Structure is documented below. It must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
@@ -224,6 +223,10 @@ type FunctionObservation struct {
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
 	BuildWorkerPool *string `json:"buildWorkerPool,omitempty" tf:"build_worker_pool,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the function.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -262,7 +265,7 @@ type FunctionObservation struct {
 	// If specified, you must also provide an artifact registry repository using the docker_repository field that was created with the same KMS crypto key. Before deploying, please complete all pre-requisites described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The limit on the maximum number of function instances that may coexist at a given time.
@@ -388,7 +391,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -430,17 +433,17 @@ type FunctionParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The GCS bucket containing the zip archive which contains the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate sourceArchiveBucket.
 	// +kubebuilder:validation:Optional
-	SourceArchiveBucketRef *v1.NamespacedReference `json:"sourceArchiveBucketRef,omitempty" tf:"-"`
+	SourceArchiveBucketRef *v2.NamespacedReference `json:"sourceArchiveBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate sourceArchiveBucket.
 	// +kubebuilder:validation:Optional
-	SourceArchiveBucketSelector *v1.NamespacedSelector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
+	SourceArchiveBucketSelector *v2.NamespacedSelector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
 	// The source archive object (file) in archive bucket.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
@@ -450,11 +453,11 @@ type FunctionParameters struct {
 
 	// Reference to a BucketObject in storage to populate sourceArchiveObject.
 	// +kubebuilder:validation:Optional
-	SourceArchiveObjectRef *v1.NamespacedReference `json:"sourceArchiveObjectRef,omitempty" tf:"-"`
+	SourceArchiveObjectRef *v2.NamespacedReference `json:"sourceArchiveObjectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate sourceArchiveObject.
 	// +kubebuilder:validation:Optional
-	SourceArchiveObjectSelector *v1.NamespacedSelector `json:"sourceArchiveObjectSelector,omitempty" tf:"-"`
+	SourceArchiveObjectSelector *v2.NamespacedSelector `json:"sourceArchiveObjectSelector,omitempty" tf:"-"`
 
 	// Represents parameters related to source repository where a function is hosted.
 	// Cannot be set alongside source_archive_bucket or source_archive_object. Structure is documented below. It must match the pattern projects/{project}/locations/{location}/repositories/{repository}.*
@@ -658,8 +661,8 @@ type FunctionSpec struct {
 
 // FunctionStatus defines the observed state of Function.
 type FunctionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FunctionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FunctionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

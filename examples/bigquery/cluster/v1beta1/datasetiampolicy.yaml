@@ -27,9 +27,10 @@ spec:
           }]
       }
 
+
 ---
 
-apiVersion: bigquery.gcp.upbound.io/v1beta1
+apiVersion: bigquery.gcp.upbound.io/v1beta2
 kind: Dataset
 metadata:
   annotations:
@@ -53,6 +54,7 @@ spec:
     labels:
       env: default
     location: EU
+
 
 ---
 

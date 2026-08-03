@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessConfigInitParameters struct {
@@ -187,11 +186,11 @@ type BootDiskInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
@@ -296,12 +295,12 @@ type BootDiskParameters struct {
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	// +kubebuilder:validation:Optional
@@ -348,29 +347,29 @@ type BootDiskParameters struct {
 
 type ConfidentialInstanceConfigInitParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigObservation struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
@@ -504,11 +503,11 @@ type InitializeParamsInitParameters struct {
 
 	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageRef *v1.NamespacedReference `json:"imageRef,omitempty" tf:"-"`
+	ImageRef *v2.NamespacedReference `json:"imageRef,omitempty" tf:"-"`
 
 	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageSelector *v1.NamespacedSelector `json:"imageSelector,omitempty" tf:"-"`
+	ImageSelector *v2.NamespacedSelector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -532,6 +531,9 @@ type InitializeParamsInitParameters struct {
 	// for an update of throughput every 4 hours. To update your hyperdisk more
 	// frequently, you'll need to manually delete and recreate it.
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+
+	// A list of short names or self_links of zones in which to create the disk. Setting this field converts the disk to a regional disk. You must provide exactly two replica zones, and one zone must be the same as the instance zone.
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +mapType=granular
@@ -604,6 +606,9 @@ type InitializeParamsObservation struct {
 	// frequently, you'll need to manually delete and recreate it.
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
+	// A list of short names or self_links of zones in which to create the disk. Setting this field converts the disk to a regional disk. You must provide exactly two replica zones, and one zone must be the same as the instance zone.
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
+
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
@@ -658,11 +663,11 @@ type InitializeParamsParameters struct {
 
 	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageRef *v1.NamespacedReference `json:"imageRef,omitempty" tf:"-"`
+	ImageRef *v2.NamespacedReference `json:"imageRef,omitempty" tf:"-"`
 
 	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageSelector *v1.NamespacedSelector `json:"imageSelector,omitempty" tf:"-"`
+	ImageSelector *v2.NamespacedSelector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -689,6 +694,10 @@ type InitializeParamsParameters struct {
 	// frequently, you'll need to manually delete and recreate it.
 	// +kubebuilder:validation:Optional
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+
+	// A list of short names or self_links of zones in which to create the disk. Setting this field converts the disk to a regional disk. You must provide exactly two replica zones, and one zone must be the same as the instance zone.
+	// +kubebuilder:validation:Optional
+	ReplicaZones []*string `json:"replicaZones,omitempty" tf:"replica_zones,omitempty"`
 
 	// A tag is a key-value pair that can be attached to a Google Cloud resource. You can use tags to conditionally allow or deny policies based on whether a resource has a specific tag. This value is not returned by the API.
 	// +kubebuilder:validation:Optional
@@ -741,12 +750,12 @@ type InitializeParamsSourceImageEncryptionKeyInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InitializeParamsSourceImageEncryptionKeyObservation struct {
@@ -783,13 +792,13 @@ type InitializeParamsSourceImageEncryptionKeyParameters struct {
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
@@ -807,12 +816,12 @@ type InitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InitializeParamsSourceSnapshotEncryptionKeyObservation struct {
@@ -849,13 +858,13 @@ type InitializeParamsSourceSnapshotEncryptionKeyParameters struct {
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InstanceAttachedDiskInitParameters struct {
@@ -869,12 +878,12 @@ type InstanceAttachedDiskInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
@@ -946,13 +955,13 @@ type InstanceAttachedDiskParameters struct {
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRsaSecretRef *v1.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.LocalSecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	// +kubebuilder:validation:Optional
@@ -1185,6 +1194,10 @@ type InstanceObservation struct {
 
 	// The current status of the instance. This could be one of the following values: PROVISIONING, STAGING, RUNNING, STOPPING, SUSPENDING, SUSPENDED, REPAIRING, and TERMINATED. For more information about the status of the instance, see Instance life cycle.
 	CurrentStatus *string `json:"currentStatus,omitempty" tf:"current_status,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Enable deletion protection on this instance. Defaults to false.
 	// Note: you must disable deletion protection before removing the resource (e.g.
@@ -1620,6 +1633,9 @@ type NetworkInterfaceInitParameters struct {
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	// Indicates whether igmp query is enabled on the network interface or not. If enabled, also indicates the version of IGMP supported.
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name or self_link of the network to attach this interface to.
@@ -1638,13 +1654,13 @@ type NetworkInterfaceInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA, IDPF
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
@@ -1672,11 +1688,14 @@ type NetworkInterfaceInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type NetworkInterfaceObservation struct {
@@ -1704,6 +1723,9 @@ type NetworkInterfaceObservation struct {
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	// Indicates whether igmp query is enabled on the network interface or not. If enabled, also indicates the version of IGMP supported.
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// A unique name for the resource, required by GCE.
@@ -1722,8 +1744,11 @@ type NetworkInterfaceObservation struct {
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA, IDPF
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
+
+	// Name of the parent network interface of a dynamic network interface.
+	ParentNicName *string `json:"parentNicName,omitempty" tf:"parent_nic_name,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
@@ -1745,6 +1770,9 @@ type NetworkInterfaceObservation struct {
 	// defined in the subnetwork self_link. If the subnetwork is a name and this
 	// field is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type NetworkInterfaceParameters struct {
@@ -1772,6 +1800,10 @@ type NetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	// Indicates whether igmp query is enabled on the network interface or not. If enabled, also indicates the version of IGMP supported.
+	// +kubebuilder:validation:Optional
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
@@ -1794,13 +1826,13 @@ type NetworkInterfaceParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA, IDPF
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -1833,11 +1865,15 @@ type NetworkInterfaceParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
+	// +kubebuilder:validation:Optional
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type NetworkPerformanceConfigInitParameters struct {
@@ -1971,7 +2007,7 @@ type SchedulingInitParameters struct {
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
-	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// (../guides/provider_versions.html.markdown) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
 	LocalSsdRecoveryTimeout *LocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
@@ -2023,7 +2059,7 @@ type SchedulingObservation struct {
 	// Describe the type of termination action for VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
-	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// (../guides/provider_versions.html.markdown) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
 	LocalSsdRecoveryTimeout *LocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
@@ -2078,7 +2114,7 @@ type SchedulingParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
-	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// (../guides/provider_versions.html.markdown) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LocalSsdRecoveryTimeout *LocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
@@ -2181,11 +2217,11 @@ type ServiceAccountInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
@@ -2220,11 +2256,11 @@ type ServiceAccountParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
@@ -2331,8 +2367,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -7,9 +7,6 @@
 package v1beta2
 
 // Hub marks this type as a conversion hub.
-func (tr *Bucket) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *BucketIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.

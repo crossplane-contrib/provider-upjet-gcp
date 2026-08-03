@@ -8,14 +8,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
 	"time"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/upjet/v2/apis/configuration/v1alpha1"
+	upjetmetrics "github.com/crossplane/upjet/v2/pkg/metrics"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	transporttpg "github.com/hashicorp/terraform-provider-google/google/transport"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -25,7 +31,9 @@ import (
 )
 
 const (
-	keyProject = "project"
+	keyProject             = "project"
+	keyUserProjectOverride = "user_project_override"
+	keyBillingProject      = "billing_project"
 
 	credentialsSourceUpbound     = "Upbound"
 	keyCredentials               = "credentials"
@@ -82,6 +90,39 @@ func constructFederatedCredentials(providerID, serviceAccount string) ([]byte, e
 	})
 }
 
+// metricsRoundTripper increments the upjet ExternalAPICalls metric for every
+// Google API response it observes. It sits at the outermost layer of the GCP
+// provider's transport chain, so it counts logical API calls rather than
+// individual retry attempts.
+type metricsRoundTripper struct {
+	base http.RoundTripper
+}
+
+func (m *metricsRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	resp, err := m.base.RoundTrip(req)
+	if err == nil && resp != nil {
+		upjetmetrics.ExternalAPICalls.WithLabelValues(serviceFromURL(req.URL), req.Method).Inc()
+	}
+	return resp, err
+}
+
+// serviceFromURL extracts a short service label from a Google API request URL.
+//
+// GCP URL patterns:
+//   - compute.googleapis.com/compute/v1/...  → "compute"
+//   - storage.googleapis.com/...             → "storage"
+//   - www.googleapis.com/storage/v1/...      → "storage" (generic host → path fallback)
+func serviceFromURL(u *url.URL) string {
+	host := u.Hostname()
+	if label, _, _ := strings.Cut(host, "."); label != "" && label != "www" {
+		return label
+	}
+	if seg, _, _ := strings.Cut(strings.TrimPrefix(u.Path, "/"), "/"); seg != "" {
+		return seg
+	}
+	return "unknown"
+}
+
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
 // NOTE(hasheddan): this function is slightly over our cyclomatic complexity
@@ -97,6 +138,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		ps.Configuration = map[string]interface{}{
 			keyProject: pcSpec.ProjectID,
 		}
+		setProjectOverrides(ps.Configuration, pcSpec)
 		// TODO: this will have a performance impact. We need to quantify this.
 		p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
 		if err != nil {
@@ -113,14 +155,14 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		}
 
 		switch pcSpec.Credentials.Source { //nolint:exhaustive
-		case xpv1.CredentialsSourceInjectedIdentity:
+		case xpv2.CredentialsSourceInjectedIdentity:
 			// We don't need to do anything here, as the TF Provider will take care of workloadIdentity etc.
 		case impersonateServiceAccount:
 			if pcSpec.Credentials.Name != "" {
 				ps.Configuration[keyImpersonateServiceAccount] = pcSpec.Credentials.Name
 			}
 		case credentialsSourceAccessToken:
-			data, err := resource.CommonCredentialExtractor(ctx, xpv1.CredentialsSourceSecret, crClient, pcSpec.Credentials.CommonCredentialSelectors)
+			data, err := resource.CommonCredentialExtractor(ctx, xpv2.CredentialsSourceSecret, crClient, pcSpec.Credentials.CommonCredentialSelectors)
 			if err != nil {
 				return ps, errors.Wrap(err, errExtractTokenCredentials)
 			}
@@ -145,6 +187,19 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		// deliberately not using the caller context as context used to configure terraform is stored
 		// nolint:contextcheck
 		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
+	}
+}
+
+// setProjectOverrides populates the user_project_override and billing_project
+// provider configuration keys from the resolved ProviderConfig spec. Both keys
+// are left unset when the corresponding spec fields are empty so that the
+// Terraform provider defaults stay in effect.
+func setProjectOverrides(cfg map[string]interface{}, pcSpec *namespacedv1beta1.ProviderConfigSpec) {
+	if pcSpec.UserProjectOverride != nil {
+		cfg[keyUserProjectOverride] = *pcSpec.UserProjectOverride
+	}
+	if pcSpec.BillingProject != nil && *pcSpec.BillingProject != "" {
+		cfg[keyBillingProject] = *pcSpec.BillingProject
 	}
 }
 
@@ -174,6 +229,13 @@ func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
 		return errors.Errorf("failed to configure the provider: %v", diag)
 	}
 	ps.Meta = p.Meta()
+	if config, ok := ps.Meta.(*transporttpg.Config); ok && config.Client != nil {
+		base := config.Client.Transport
+		if base == nil {
+			base = http.DefaultTransport
+		}
+		config.Client.Transport = &metricsRoundTripper{base: base}
+	}
 	return nil
 }
 
@@ -260,4 +322,12 @@ func resolveV2(ctx context.Context, crClient client.Client, mg resource.ModernMa
 		return nil, errors.Wrap(err, errTrackUsage)
 	}
 	return &pcSpec, nil
+}
+
+func ReconciliationPolicy(ctx context.Context, client client.Client, mg resource.Managed) (*v1alpha1.ReconciliationPolicy, error) {
+	spec, err := resolveProviderConfig(ctx, client, mg)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot resolve the referenced ProviderConfig")
+	}
+	return spec.ReconciliationPolicy, nil
 }

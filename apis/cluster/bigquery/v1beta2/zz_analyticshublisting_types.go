@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AnalyticsHubListingInitParameters struct {
@@ -100,6 +100,10 @@ type AnalyticsHubListingObservation struct {
 	// If the listing is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid deleting commercial listings accidentally.
 	DeleteCommercial *bool `json:"deleteCommercial,omitempty" tf:"delete_commercial,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF).
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -177,11 +181,11 @@ type AnalyticsHubListingParameters struct {
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// Details of the data provider who owns the source data.
 	// Structure is documented below.
@@ -259,11 +263,15 @@ type BigqueryDatasetInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.Reference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.Reference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// A list of regions where the publisher has created shared dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 
 	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
 	// Structure is documented below.
@@ -274,6 +282,16 @@ type BigqueryDatasetObservation struct {
 
 	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
+
+	// (Output)
+	// Server owned effective state of replicas. Contains both primary and secondary replicas.
+	// Each replica includes a system-computed (output-only) state and primary designation.
+	// Structure is documented below.
+	EffectiveReplicas []EffectiveReplicasObservation `json:"effectiveReplicas,omitempty" tf:"effective_replicas,omitempty"`
+
+	// A list of regions where the publisher has created shared dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 
 	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
 	// Structure is documented below.
@@ -290,11 +308,16 @@ type BigqueryDatasetParameters struct {
 
 	// Reference to a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.Reference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.Reference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.Selector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.Selector `json:"datasetSelector,omitempty" tf:"-"`
+
+	// A list of regions where the publisher has created shared dataset replicas.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 
 	// Resource in this dataset that is selectively shared. This field is required for data clean room exchanges.
 	// Structure is documented below.
@@ -363,6 +386,28 @@ type DataProviderParameters struct {
 	PrimaryContact *string `json:"primaryContact,omitempty" tf:"primary_contact,omitempty"`
 }
 
+type EffectiveReplicasInitParameters struct {
+}
+
+type EffectiveReplicasObservation struct {
+
+	// The name of the location this data exchange listing.
+	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// (Output)
+	// Output-only. Indicates that this replica is the primary replica.
+	// Possible values: PRIMARY_STATE_UNSPECIFIED, PRIMARY_REPLICA
+	PrimaryState *string `json:"primaryState,omitempty" tf:"primary_state,omitempty"`
+
+	// (Output)
+	// Output-only. Assigned by Analytics Hub based on real BigQuery replication state.
+	// Possible values: REPLICA_STATE_UNSPECIFIED, READY_TO_USE, UNAVAILABLE
+	ReplicaState *string `json:"replicaState,omitempty" tf:"replica_state,omitempty"`
+}
+
+type EffectiveReplicasParameters struct {
+}
+
 type PublisherInitParameters struct {
 
 	// Name of the listing publisher.
@@ -406,11 +451,11 @@ type PubsubTopicInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubTopicObservation struct {
@@ -440,11 +485,11 @@ type PubsubTopicParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type RestrictedExportConfigInitParameters struct {
@@ -482,6 +527,19 @@ type RestrictedExportConfigParameters struct {
 
 type SelectedResourcesInitParameters struct {
 
+	// Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId} Example:"projects/test_project/datasets/test_dataset/routines/test_routine"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Routine
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	Routine *string `json:"routine,omitempty" tf:"routine,omitempty"`
+
+	// Reference to a Routine in bigquery to populate routine.
+	// +kubebuilder:validation:Optional
+	RoutineRef *v2.Reference `json:"routineRef,omitempty" tf:"-"`
+
+	// Selector for a Routine in bigquery to populate routine.
+	// +kubebuilder:validation:Optional
+	RoutineSelector *v2.Selector `json:"routineSelector,omitempty" tf:"-"`
+
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -489,14 +547,17 @@ type SelectedResourcesInitParameters struct {
 
 	// Reference to a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.Reference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type SelectedResourcesObservation struct {
+
+	// Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId} Example:"projects/test_project/datasets/test_dataset/routines/test_routine"
+	Routine *string `json:"routine,omitempty" tf:"routine,omitempty"`
 
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
@@ -504,6 +565,20 @@ type SelectedResourcesObservation struct {
 
 type SelectedResourcesParameters struct {
 
+	// Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId} Example:"projects/test_project/datasets/test_dataset/routines/test_routine"
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Routine
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Routine *string `json:"routine,omitempty" tf:"routine,omitempty"`
+
+	// Reference to a Routine in bigquery to populate routine.
+	// +kubebuilder:validation:Optional
+	RoutineRef *v2.Reference `json:"routineRef,omitempty" tf:"-"`
+
+	// Selector for a Routine in bigquery to populate routine.
+	// +kubebuilder:validation:Optional
+	RoutineSelector *v2.Selector `json:"routineSelector,omitempty" tf:"-"`
+
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -512,17 +587,17 @@ type SelectedResourcesParameters struct {
 
 	// Reference to a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.Reference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.Reference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.Selector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.Selector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing
 type AnalyticsHubListingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AnalyticsHubListingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AnalyticsHubListingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -538,8 +613,8 @@ type AnalyticsHubListingSpec struct {
 
 // AnalyticsHubListingStatus defines the observed state of AnalyticsHubListing.
 type AnalyticsHubListingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AnalyticsHubListingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AnalyticsHubListingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

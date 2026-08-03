@@ -58,3 +58,22 @@ func SetupGated_pubsub(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_pubsub registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_pubsub(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		litereservation.SetupWebhookWithManager,
+		litesubscription.SetupWebhookWithManager,
+		litetopic.SetupWebhookWithManager,
+		schema.SetupWebhookWithManager,
+		subscription.SetupWebhookWithManager,
+		subscriptioniammember.SetupWebhookWithManager,
+		topic.SetupWebhookWithManager,
+		topiciammember.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

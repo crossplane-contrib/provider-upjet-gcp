@@ -10,13 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
-type KeyRingImportJobAttestationInitParameters struct {
+type AttestationInitParameters struct {
 }
 
-type KeyRingImportJobAttestationObservation struct {
+type AttestationObservation struct {
 
 	// (Output)
 	// The attestation data provided by the HSM when the key operation was performed.
@@ -28,7 +28,7 @@ type KeyRingImportJobAttestationObservation struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 }
 
-type KeyRingImportJobAttestationParameters struct {
+type AttestationParameters struct {
 }
 
 type KeyRingImportJobInitParameters struct {
@@ -49,7 +49,11 @@ type KeyRingImportJobObservation struct {
 	// Use this statement to verify attributes of the key as stored on the HSM, independently of Google.
 	// Only present if the chosen ImportMethod is one with a protection level of HSM.
 	// Structure is documented below.
-	Attestation []KeyRingImportJobAttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
+	Attestation []AttestationObservation `json:"attestation,omitempty" tf:"attestation,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The time at which this resource is scheduled for expiration and can no longer be used.
 	// This is in RFC3339 text format.
@@ -98,11 +102,11 @@ type KeyRingImportJobParameters struct {
 
 	// Reference to a KeyRing in kms to populate keyRing.
 	// +kubebuilder:validation:Optional
-	KeyRingRef *v1.Reference `json:"keyRingRef,omitempty" tf:"-"`
+	KeyRingRef *v2.Reference `json:"keyRingRef,omitempty" tf:"-"`
 
 	// Selector for a KeyRing in kms to populate keyRing.
 	// +kubebuilder:validation:Optional
-	KeyRingSelector *v1.Selector `json:"keyRingSelector,omitempty" tf:"-"`
+	KeyRingSelector *v2.Selector `json:"keyRingSelector,omitempty" tf:"-"`
 
 	// The protection level of the ImportJob. This must match the protectionLevel of the
 	// versionTemplate on the CryptoKey you attempt to import into.
@@ -127,8 +131,8 @@ type PublicKeyParameters struct {
 
 // KeyRingImportJobSpec defines the desired state of KeyRingImportJob
 type KeyRingImportJobSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KeyRingImportJobParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KeyRingImportJobParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -144,8 +148,8 @@ type KeyRingImportJobSpec struct {
 
 // KeyRingImportJobStatus defines the observed state of KeyRingImportJob.
 type KeyRingImportJobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KeyRingImportJobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KeyRingImportJobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

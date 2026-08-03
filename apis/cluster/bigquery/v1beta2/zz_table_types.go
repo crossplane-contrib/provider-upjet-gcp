@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AvroOptionsInitParameters struct {
@@ -335,6 +335,14 @@ type CsvOptionsInitParameters struct {
 	// that BigQuery will skip when reading the data. At least one of range or
 	// skip_leading_rows must be set.
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+
+	// Specifies how source columns are matched
+	// to the table schema. Valid values are POSITION (columns matched by position,
+	// assuming same ordering as the schema) or NAME (columns matched by name,
+	// reads the header row and reorders columns to align with schema field names).
+	// If not set, a default is chosen based on how the schema is provided: when
+	// autodetect is used, columns are matched by name; otherwise, by position.
+	SourceColumnMatch *string `json:"sourceColumnMatch,omitempty" tf:"source_column_match,omitempty"`
 }
 
 type CsvOptionsObservation struct {
@@ -364,6 +372,14 @@ type CsvOptionsObservation struct {
 	// that BigQuery will skip when reading the data. At least one of range or
 	// skip_leading_rows must be set.
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+
+	// Specifies how source columns are matched
+	// to the table schema. Valid values are POSITION (columns matched by position,
+	// assuming same ordering as the schema) or NAME (columns matched by name,
+	// reads the header row and reorders columns to align with schema field names).
+	// If not set, a default is chosen based on how the schema is provided: when
+	// autodetect is used, columns are matched by name; otherwise, by position.
+	SourceColumnMatch *string `json:"sourceColumnMatch,omitempty" tf:"source_column_match,omitempty"`
 }
 
 type CsvOptionsParameters struct {
@@ -399,6 +415,15 @@ type CsvOptionsParameters struct {
 	// skip_leading_rows must be set.
 	// +kubebuilder:validation:Optional
 	SkipLeadingRows *float64 `json:"skipLeadingRows,omitempty" tf:"skip_leading_rows,omitempty"`
+
+	// Specifies how source columns are matched
+	// to the table schema. Valid values are POSITION (columns matched by position,
+	// assuming same ordering as the schema) or NAME (columns matched by name,
+	// reads the header row and reorders columns to align with schema field names).
+	// If not set, a default is chosen based on how the schema is provided: when
+	// autodetect is used, columns are matched by name; otherwise, by position.
+	// +kubebuilder:validation:Optional
+	SourceColumnMatch *string `json:"sourceColumnMatch,omitempty" tf:"source_column_match,omitempty"`
 }
 
 type ExternalCatalogTableOptionsInitParameters struct {
@@ -491,6 +516,10 @@ type ExternalDataConfigurationInitParameters struct {
 	// Additional properties to set if
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions *CsvOptionsInitParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown.
+	// +listType=set
+	DecimalTargetTypes []*string `json:"decimalTargetTypes,omitempty" tf:"decimal_target_types,omitempty"`
 
 	// Specifies how source URIs are interpreted for constructing the file set to load.
 	// By default source URIs are expanded against the underlying storage.
@@ -591,6 +620,10 @@ type ExternalDataConfigurationObservation struct {
 	// Additional properties to set if
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions *CsvOptionsObservation `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown.
+	// +listType=set
+	DecimalTargetTypes []*string `json:"decimalTargetTypes,omitempty" tf:"decimal_target_types,omitempty"`
 
 	// Specifies how source URIs are interpreted for constructing the file set to load.
 	// By default source URIs are expanded against the underlying storage.
@@ -697,6 +730,11 @@ type ExternalDataConfigurationParameters struct {
 	// source_format is set to "CSV". Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CsvOptions *CsvOptionsParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	DecimalTargetTypes []*string `json:"decimalTargetTypes,omitempty" tf:"decimal_target_types,omitempty"`
 
 	// Specifies how source URIs are interpreted for constructing the file set to load.
 	// By default source URIs are expanded against the underlying storage.
@@ -1447,8 +1485,11 @@ type TableInitParameters struct {
 	// g. hive partitioned columns) in schema from showing diff.
 	IgnoreAutoGeneratedSchema *bool `json:"ignoreAutoGeneratedSchema,omitempty" tf:"ignore_auto_generated_schema,omitempty"`
 
-	// A list of fields which should be ignored for each column in schema.
-	// NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+	// A list of fields which would act non-authoritative for each column in schema.
+	// NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+	// If there is no policy in config for a column but there are in live state, the policy will persist.
+	// If the policy in config is updated, it will override the policy in the live state. Other fields
+	// like description for a column will keep behaving as they are(authoritatively).
 	IgnoreSchemaChanges []*string `json:"ignoreSchemaChanges,omitempty" tf:"ignore_schema_changes,omitempty"`
 
 	// A mapping of labels to assign to the resource.
@@ -1530,6 +1571,10 @@ type TableObservation struct {
 	// Changing this forces a new resource to be created.
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// When the field is set to false, deleting the table is allowed..
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -1574,8 +1619,11 @@ type TableObservation struct {
 	// g. hive partitioned columns) in schema from showing diff.
 	IgnoreAutoGeneratedSchema *bool `json:"ignoreAutoGeneratedSchema,omitempty" tf:"ignore_auto_generated_schema,omitempty"`
 
-	// A list of fields which should be ignored for each column in schema.
-	// NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+	// A list of fields which would act non-authoritative for each column in schema.
+	// NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+	// If there is no policy in config for a column but there are in live state, the policy will persist.
+	// If the policy in config is updated, it will override the policy in the live state. Other fields
+	// like description for a column will keep behaving as they are(authoritatively).
 	IgnoreSchemaChanges []*string `json:"ignoreSchemaChanges,omitempty" tf:"ignore_schema_changes,omitempty"`
 
 	// A mapping of labels to assign to the resource.
@@ -1689,11 +1737,11 @@ type TableParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// When the field is set to false, deleting the table is allowed..
 	// +kubebuilder:validation:Optional
@@ -1736,8 +1784,11 @@ type TableParameters struct {
 	// +kubebuilder:validation:Optional
 	IgnoreAutoGeneratedSchema *bool `json:"ignoreAutoGeneratedSchema,omitempty" tf:"ignore_auto_generated_schema,omitempty"`
 
-	// A list of fields which should be ignored for each column in schema.
-	// NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+	// A list of fields which would act non-authoritative for each column in schema.
+	// NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+	// If there is no policy in config for a column but there are in live state, the policy will persist.
+	// If the policy in config is updated, it will override the policy in the live state. Other fields
+	// like description for a column will keep behaving as they are(authoritatively).
 	// +kubebuilder:validation:Optional
 	IgnoreSchemaChanges []*string `json:"ignoreSchemaChanges,omitempty" tf:"ignore_schema_changes,omitempty"`
 
@@ -1949,7 +2000,10 @@ type TableViewInitParameters struct {
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
-	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	// If set to false, the view will use BigQuery's standard SQL. If set to
+	// true, the view will use BigQuery's legacy SQL. If unset, the API will
+	// interpret it as a true and assumes the legacy SQL dialect for its query
+	// according to the API documentation.
 	// -> Note: Starting in provider version 7.0.0, no default value is
 	// provided for this field unless explicitly set in the configuration.
 	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
@@ -1961,7 +2015,10 @@ type TableViewObservation struct {
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
-	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	// If set to false, the view will use BigQuery's standard SQL. If set to
+	// true, the view will use BigQuery's legacy SQL. If unset, the API will
+	// interpret it as a true and assumes the legacy SQL dialect for its query
+	// according to the API documentation.
 	// -> Note: Starting in provider version 7.0.0, no default value is
 	// provided for this field unless explicitly set in the configuration.
 	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
@@ -1974,7 +2031,10 @@ type TableViewParameters struct {
 	Query *string `json:"query" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
-	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	// If set to false, the view will use BigQuery's standard SQL. If set to
+	// true, the view will use BigQuery's legacy SQL. If unset, the API will
+	// interpret it as a true and assumes the legacy SQL dialect for its query
+	// according to the API documentation.
 	// -> Note: Starting in provider version 7.0.0, no default value is
 	// provided for this field unless explicitly set in the configuration.
 	// +kubebuilder:validation:Optional
@@ -1983,8 +2043,8 @@ type TableViewParameters struct {
 
 // TableSpec defines the desired state of Table
 type TableSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TableParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TableParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2000,8 +2060,8 @@ type TableSpec struct {
 
 // TableStatus defines the observed state of Table.
 type TableStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TableObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TableObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLevelConditionDevicePolicyInitParameters struct {
@@ -113,11 +112,11 @@ type AccessLevelConditionInitParameters struct {
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
+	AccessLevelRef *v2.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
 
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+	AccessLevelSelector *v2.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
@@ -175,6 +174,10 @@ type AccessLevelConditionObservation struct {
 
 	// The name of the Access Policy this resource belongs to.
 	AccessPolicyID *string `json:"accessPolicyId,omitempty" tf:"access_policy_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
@@ -238,11 +241,11 @@ type AccessLevelConditionParameters struct {
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
+	AccessLevelRef *v2.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
 
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+	AccessLevelSelector *v2.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
@@ -408,8 +411,8 @@ type AccessLevelConditionSpec struct {
 
 // AccessLevelConditionStatus defines the observed state of AccessLevelCondition.
 type AccessLevelConditionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccessLevelConditionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccessLevelConditionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

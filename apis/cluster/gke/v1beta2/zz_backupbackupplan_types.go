@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupBackupPlanInitParameters struct {
@@ -30,11 +30,11 @@ type BackupBackupPlanInitParameters struct {
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
@@ -79,6 +79,10 @@ type BackupBackupPlanObservation struct {
 	// from being created via this BackupPlan (including scheduled Backups).
 	Deactivated *bool `json:"deactivated,omitempty" tf:"deactivated,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User specified descriptive string for this BackupPlan.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -109,6 +113,9 @@ type BackupBackupPlanObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The number of Kubernetes Namespaces backed up in the last successful Backup created via this BackupPlan.
+	ProtectedNamespaceCount *float64 `json:"protectedNamespaceCount,omitempty" tf:"protected_namespace_count,omitempty"`
 
 	// The number of Kubernetes Pods backed up in the last successful Backup created via this BackupPlan.
 	ProtectedPodCount *float64 `json:"protectedPodCount,omitempty" tf:"protected_pod_count,omitempty"`
@@ -152,11 +159,11 @@ type BackupBackupPlanParameters struct {
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
@@ -218,6 +225,10 @@ type BackupConfigInitParameters struct {
 	// Structure is documented below.
 	SelectedApplications *SelectedApplicationsInitParameters `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
 
+	// If set, include just the resources in the listed namespace Labels.
+	// Structure is documented below.
+	SelectedNamespaceLabels *SelectedNamespaceLabelsInitParameters `json:"selectedNamespaceLabels,omitempty" tf:"selected_namespace_labels,omitempty"`
+
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
 	SelectedNamespaces *SelectedNamespacesInitParameters `json:"selectedNamespaces,omitempty" tf:"selected_namespaces,omitempty"`
@@ -249,6 +260,10 @@ type BackupConfigObservation struct {
 	// A list of namespaced Kubernetes Resources.
 	// Structure is documented below.
 	SelectedApplications *SelectedApplicationsObservation `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
+
+	// If set, include just the resources in the listed namespace Labels.
+	// Structure is documented below.
+	SelectedNamespaceLabels *SelectedNamespaceLabelsObservation `json:"selectedNamespaceLabels,omitempty" tf:"selected_namespace_labels,omitempty"`
 
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
@@ -287,6 +302,11 @@ type BackupConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelectedApplications *SelectedApplicationsParameters `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
+
+	// If set, include just the resources in the listed namespace Labels.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SelectedNamespaceLabels *SelectedNamespaceLabelsParameters `json:"selectedNamespaceLabels,omitempty" tf:"selected_namespace_labels,omitempty"`
 
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
@@ -388,11 +408,11 @@ type EncryptionKeyInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeyRef *v1.Reference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+	GCPKMSEncryptionKeyRef *v2.Reference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeySelector *v1.Selector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+	GCPKMSEncryptionKeySelector *v2.Selector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type EncryptionKeyObservation struct {
@@ -411,11 +431,11 @@ type EncryptionKeyParameters struct {
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeyRef *v1.Reference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+	GCPKMSEncryptionKeyRef *v2.Reference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeySelector *v1.Selector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+	GCPKMSEncryptionKeySelector *v2.Selector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type ExclusionWindowsInitParameters struct {
@@ -531,6 +551,35 @@ type NamespacedNamesParameters struct {
 	// The namespace of a Kubernetes Resource.
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
+}
+
+type ResourceLabelsInitParameters struct {
+
+	// The key of the kubernetes label.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the Label.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ResourceLabelsObservation struct {
+
+	// The key of the kubernetes label.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the Label.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ResourceLabelsParameters struct {
+
+	// The key of the kubernetes label.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of the Label.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type RetentionPolicyInitParameters struct {
@@ -704,6 +753,28 @@ type SelectedApplicationsParameters struct {
 	NamespacedNames []NamespacedNamesParameters `json:"namespacedNames" tf:"namespaced_names,omitempty"`
 }
 
+type SelectedNamespaceLabelsInitParameters struct {
+
+	// A list of Kubernetes Namespace labels.
+	// Structure is documented below.
+	ResourceLabels []ResourceLabelsInitParameters `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+}
+
+type SelectedNamespaceLabelsObservation struct {
+
+	// A list of Kubernetes Namespace labels.
+	// Structure is documented below.
+	ResourceLabels []ResourceLabelsObservation `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+}
+
+type SelectedNamespaceLabelsParameters struct {
+
+	// A list of Kubernetes Namespace labels.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResourceLabels []ResourceLabelsParameters `json:"resourceLabels" tf:"resource_labels,omitempty"`
+}
+
 type SelectedNamespacesInitParameters struct {
 
 	// A list of Kubernetes Namespaces.
@@ -813,8 +884,8 @@ type StartTimeParameters struct {
 
 // BackupBackupPlanSpec defines the desired state of BackupBackupPlan
 type BackupBackupPlanSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackupBackupPlanParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackupBackupPlanParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -830,8 +901,8 @@ type BackupBackupPlanSpec struct {
 
 // BackupBackupPlanStatus defines the observed state of BackupBackupPlan.
 type BackupBackupPlanStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupBackupPlanObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupBackupPlanObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

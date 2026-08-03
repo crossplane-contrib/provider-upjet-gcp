@@ -10,13 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectionInitParameters struct {
 
-	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// Defaults to "DELETE".
+	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
@@ -26,11 +26,11 @@ type ConnectionInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
@@ -40,11 +40,11 @@ type ConnectionInitParameters struct {
 
 	// References to GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesRefs []v1.NamespacedReference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
+	ReservedPeeringRangesRefs []v2.NamespacedReference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesSelector *v1.NamespacedSelector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
+	ReservedPeeringRangesSelector *v2.NamespacedSelector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
 
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
@@ -57,7 +57,8 @@ type ConnectionInitParameters struct {
 
 type ConnectionObservation struct {
 
-	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// Defaults to "DELETE".
+	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -84,7 +85,8 @@ type ConnectionObservation struct {
 
 type ConnectionParameters struct {
 
-	// The deletion policy for the service networking connection. Setting to ABANDON allows the resource to be abandoned rather than deleted. Use with care as it can lead to dangling resources.
+	// Defaults to "DELETE".
+	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -96,11 +98,11 @@ type ConnectionParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
@@ -111,11 +113,11 @@ type ConnectionParameters struct {
 
 	// References to GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesRefs []v1.NamespacedReference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
+	ReservedPeeringRangesRefs []v2.NamespacedReference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesSelector *v1.NamespacedSelector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
+	ReservedPeeringRangesSelector *v2.NamespacedSelector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
 
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
@@ -147,8 +149,8 @@ type ConnectionSpec struct {
 
 // ConnectionStatus defines the observed state of Connection.
 type ConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

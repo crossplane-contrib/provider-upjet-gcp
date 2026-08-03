@@ -76,3 +76,28 @@ func SetupGated_storage(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_storage registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_storage(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		bucket.SetupWebhookWithManager,
+		bucketaccesscontrol.SetupWebhookWithManager,
+		bucketacl.SetupWebhookWithManager,
+		bucketiammember.SetupWebhookWithManager,
+		bucketiampolicy.SetupWebhookWithManager,
+		bucketobject.SetupWebhookWithManager,
+		defaultobjectaccesscontrol.SetupWebhookWithManager,
+		defaultobjectacl.SetupWebhookWithManager,
+		hmackey.SetupWebhookWithManager,
+		managedfolder.SetupWebhookWithManager,
+		managedfolderiammember.SetupWebhookWithManager,
+		notification.SetupWebhookWithManager,
+		objectaccesscontrol.SetupWebhookWithManager,
+		objectacl.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

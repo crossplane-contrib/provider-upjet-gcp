@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectIAMCustomRoleInitParameters struct {
@@ -40,6 +39,10 @@ type ProjectIAMCustomRoleObservation struct {
 
 	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description for the role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -113,8 +116,8 @@ type ProjectIAMCustomRoleSpec struct {
 
 // ProjectIAMCustomRoleStatus defines the observed state of ProjectIAMCustomRole.
 type ProjectIAMCustomRoleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectIAMCustomRoleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectIAMCustomRoleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

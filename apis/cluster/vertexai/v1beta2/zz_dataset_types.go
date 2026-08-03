@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DatasetInitParameters struct {
@@ -41,6 +41,10 @@ type DatasetObservation struct {
 
 	// The timestamp of when the dataset was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The user-defined name of the Dataset. The name can be up to 128 characters long and can be consist of any UTF-8 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -136,8 +140,8 @@ type EncryptionSpecParameters struct {
 
 // DatasetSpec defines the desired state of Dataset
 type DatasetSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DatasetParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DatasetParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -153,8 +157,8 @@ type DatasetSpec struct {
 
 // DatasetStatus defines the observed state of Dataset.
 type DatasetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

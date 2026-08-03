@@ -10,14 +10,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkFirewallPolicyInitParameters struct {
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Policy type is used to determine which resources (networks) the policy can be associated with.
+	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
+	// Different policy types may support some of the Firewall Rules features.
+	// Possible values are: VPC_POLICY.
+	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -28,6 +33,10 @@ type NetworkFirewallPolicyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -40,6 +49,12 @@ type NetworkFirewallPolicyObservation struct {
 
 	// The unique identifier for the resource. This identifier is defined by the server.
 	NetworkFirewallPolicyID *string `json:"networkFirewallPolicyId,omitempty" tf:"network_firewall_policy_id,omitempty"`
+
+	// Policy type is used to determine which resources (networks) the policy can be associated with.
+	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
+	// Different policy types may support some of the Firewall Rules features.
+	// Possible values are: VPC_POLICY.
+	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -60,6 +75,13 @@ type NetworkFirewallPolicyParameters struct {
 	// An optional description of this resource. Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Policy type is used to determine which resources (networks) the policy can be associated with.
+	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
+	// Different policy types may support some of the Firewall Rules features.
+	// Possible values are: VPC_POLICY.
+	// +kubebuilder:validation:Optional
+	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -86,8 +108,8 @@ type NetworkFirewallPolicySpec struct {
 
 // NetworkFirewallPolicyStatus defines the observed state of NetworkFirewallPolicy.
 type NetworkFirewallPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkFirewallPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkFirewallPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

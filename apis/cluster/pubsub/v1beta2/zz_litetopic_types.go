@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CapacityInitParameters struct {
@@ -65,6 +65,10 @@ type LiteTopicInitParameters struct {
 }
 
 type LiteTopicObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{zone}}/topics/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -163,11 +167,11 @@ type ReservationConfigInitParameters struct {
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationRef *v1.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
+	ThroughputReservationRef *v2.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
 
 	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
+	ThroughputReservationSelector *v2.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type ReservationConfigObservation struct {
@@ -185,11 +189,11 @@ type ReservationConfigParameters struct {
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationRef *v1.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
+	ThroughputReservationRef *v2.Reference `json:"throughputReservationRef,omitempty" tf:"-"`
 
 	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationSelector *v1.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
+	ThroughputReservationSelector *v2.Selector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type RetentionConfigInitParameters struct {
@@ -238,8 +242,8 @@ type RetentionConfigParameters struct {
 
 // LiteTopicSpec defines the desired state of LiteTopic
 type LiteTopicSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LiteTopicParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LiteTopicParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -255,8 +259,8 @@ type LiteTopicSpec struct {
 
 // LiteTopicStatus defines the observed state of LiteTopic.
 type LiteTopicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LiteTopicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LiteTopicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

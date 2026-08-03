@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkConfigInitParameters struct {
@@ -26,11 +25,11 @@ type NetworkConfigInitParameters struct {
 
 	// Reference to a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkRef *v1.NamespacedReference `json:"peeredNetworkRef,omitempty" tf:"-"`
+	PeeredNetworkRef *v2.NamespacedReference `json:"peeredNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkSelector *v1.NamespacedSelector `json:"peeredNetworkSelector,omitempty" tf:"-"`
+	PeeredNetworkSelector *v2.NamespacedSelector `json:"peeredNetworkSelector,omitempty" tf:"-"`
 }
 
 type NetworkConfigObservation struct {
@@ -56,11 +55,11 @@ type NetworkConfigParameters struct {
 
 	// Reference to a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkRef *v1.NamespacedReference `json:"peeredNetworkRef,omitempty" tf:"-"`
+	PeeredNetworkRef *v2.NamespacedReference `json:"peeredNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkSelector *v1.NamespacedSelector `json:"peeredNetworkSelector,omitempty" tf:"-"`
+	PeeredNetworkSelector *v2.NamespacedSelector `json:"peeredNetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateServiceConnectInitParameters struct {
@@ -89,6 +88,9 @@ type WorkerConfigInitParameters struct {
 	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
 
+	// Enable nested virtualization on the worker, if supported by the machine type. See Worker pool config file. If left blank, Cloud Build will set this to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
+
 	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
@@ -100,6 +102,9 @@ type WorkerConfigObservation struct {
 
 	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Enable nested virtualization on the worker, if supported by the machine type. See Worker pool config file. If left blank, Cloud Build will set this to false.
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
@@ -113,6 +118,10 @@ type WorkerConfigParameters struct {
 	// Size of the disk attached to the worker, in GB. See diskSizeGb. Specify a value of up to 1000. If 0 is specified, Cloud Build will use a standard disk size.
 	// +kubebuilder:validation:Optional
 	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// Enable nested virtualization on the worker, if supported by the machine type. See Worker pool config file. If left blank, Cloud Build will set this to false.
+	// +kubebuilder:validation:Optional
+	EnableNestedVirtualization *bool `json:"enableNestedVirtualization,omitempty" tf:"enable_nested_virtualization,omitempty"`
 
 	// Machine type of a worker, such as n1-standard-1. See machineType. If left blank, Cloud Build will use n1-standard-1.
 	// +kubebuilder:validation:Optional
@@ -153,6 +162,10 @@ type WorkerPoolObservation struct {
 
 	// Output only. Time at which the request to delete the WorkerPool was received.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined name of the WorkerPool.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -236,8 +249,8 @@ type WorkerPoolSpec struct {
 
 // WorkerPoolStatus defines the observed state of WorkerPool.
 type WorkerPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkerPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkerPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

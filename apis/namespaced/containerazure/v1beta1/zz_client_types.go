@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClientInitParameters struct {
@@ -36,6 +35,10 @@ type ClientObservation struct {
 
 	// Output only. The time at which this resource was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/azureClients/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -91,8 +94,8 @@ type ClientSpec struct {
 
 // ClientStatus defines the observed state of Client.
 type ClientStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClientObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClientObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

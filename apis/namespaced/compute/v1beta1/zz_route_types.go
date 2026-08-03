@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AsPathsInitParameters struct {
@@ -64,11 +63,11 @@ type RouteInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
@@ -90,11 +89,11 @@ type RouteInitParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbRef *v1.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
+	NextHopIlbRef *v2.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbSelector *v1.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
+	NextHopIlbSelector *v2.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
 
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
@@ -109,11 +108,11 @@ type RouteInitParameters struct {
 
 	// Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelRef *v1.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
+	NextHopVPNTunnelRef *v2.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelSelector *v1.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
+	NextHopVPNTunnelSelector *v2.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -142,6 +141,10 @@ type RouteObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property
 	// when you create the resource.
@@ -253,11 +256,11 @@ type RouteParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
@@ -282,11 +285,11 @@ type RouteParameters struct {
 
 	// Reference to a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbRef *v1.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
+	NextHopIlbRef *v2.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbSelector *v1.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
+	NextHopIlbSelector *v2.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
 
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
@@ -304,11 +307,11 @@ type RouteParameters struct {
 
 	// Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelRef *v1.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
+	NextHopVPNTunnelRef *v2.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelSelector *v1.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
+	NextHopVPNTunnelSelector *v2.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -414,8 +417,8 @@ type RouteSpec struct {
 
 // RouteStatus defines the observed state of Route.
 type RouteStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouteObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouteObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

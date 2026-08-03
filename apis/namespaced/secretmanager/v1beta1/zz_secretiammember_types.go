@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -57,11 +56,11 @@ type SecretIAMMemberInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDRef *v1.NamespacedReference `json:"secretIdRef,omitempty" tf:"-"`
+	SecretIDRef *v2.NamespacedReference `json:"secretIdRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDSelector *v1.NamespacedSelector `json:"secretIdSelector,omitempty" tf:"-"`
+	SecretIDSelector *v2.NamespacedSelector `json:"secretIdSelector,omitempty" tf:"-"`
 }
 
 type SecretIAMMemberObservation struct {
@@ -101,11 +100,11 @@ type SecretIAMMemberParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDRef *v1.NamespacedReference `json:"secretIdRef,omitempty" tf:"-"`
+	SecretIDRef *v2.NamespacedReference `json:"secretIdRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretId.
 	// +kubebuilder:validation:Optional
-	SecretIDSelector *v1.NamespacedSelector `json:"secretIdSelector,omitempty" tf:"-"`
+	SecretIDSelector *v2.NamespacedSelector `json:"secretIdSelector,omitempty" tf:"-"`
 }
 
 // SecretIAMMemberSpec defines the desired state of SecretIAMMember
@@ -127,8 +126,8 @@ type SecretIAMMemberSpec struct {
 
 // SecretIAMMemberStatus defines the observed state of SecretIAMMember.
 type SecretIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

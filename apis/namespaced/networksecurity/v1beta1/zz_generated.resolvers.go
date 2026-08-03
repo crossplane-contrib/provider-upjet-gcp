@@ -16,8 +16,60 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *GatewaySecurityPolicy) ResolveReferences( // ResolveReferences of this GatewaySecurityPolicy.
+func (mg *DNSThreatDetector) ResolveReferences( // ResolveReferences of this DNSThreatDetector.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var mrsp reference.MultiNamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ExcludedNetworks),
+			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.ForProvider.ExcludedNetworksRefs,
+			Selector:      mg.Spec.ForProvider.ExcludedNetworksSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ExcludedNetworks")
+	}
+	mg.Spec.ForProvider.ExcludedNetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.ExcludedNetworksRefs = mrsp.ResolvedReferences
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ExcludedNetworks),
+			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.InitProvider.ExcludedNetworksRefs,
+			Selector:      mg.Spec.InitProvider.ExcludedNetworksSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ExcludedNetworks")
+	}
+	mg.Spec.InitProvider.ExcludedNetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.ExcludedNetworksRefs = mrsp.ResolvedReferences
+
+	return nil
+}
+
+// ResolveReferences of this GatewaySecurityPolicy.
+func (mg *GatewaySecurityPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPINamespacedResolver(c, mg)

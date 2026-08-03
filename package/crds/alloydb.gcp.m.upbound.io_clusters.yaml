@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: clusters.alloydb.gcp.m.upbound.io
 spec:
   group: alloydb.gcp.m.upbound.io
@@ -202,13 +202,26 @@ spec:
                       The database engine major version. This is an optional field and it's populated at the Cluster creation time.
                       Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
+                  dataplexConfig:
+                    description: |-
+                      Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Indicates whether Dataplex integration is enabled
+                          for the cluster.
+                        type: boolean
+                    type: object
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
                       Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
-                      Possible values: DEFAULT, FORCE
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the cluster
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -229,7 +242,7 @@ spec:
                     type: string
                   initialUser:
                     description: |-
-                      Initial user to setup during cluster creation.
+                      Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
                       Structure is documented below.
                     properties:
                       passwordSecretRef:
@@ -420,7 +433,7 @@ spec:
                     type: object
                   restoreBackupSource:
                     description: |-
-                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
                       Structure is documented below.
                     properties:
                       backupName:
@@ -510,9 +523,33 @@ spec:
                             type: object
                         type: object
                     type: object
+                  restoreBackupdrBackupSource:
+                    description: |-
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source',  'restore_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: The name of the BackupDR backup that this cluster
+                          is restored from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]/backups/[BACKUP_ID]"
+                        type: string
+                    type: object
+                  restoreBackupdrPitrSource:
+                    description: |-
+                      The BackupDR source used for point in time recovery. Conflicts with 'restore_backupdr_backup_source', 'restore_continuous_backup_source' and 'restore_backupdr_backup_source', they can't be set togeter.
+                      Structure is documented below.
+                    properties:
+                      dataSource:
+                        description: The name of the BackupDR data source that this
+                          cluster is restore from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]"
+                        type: string
+                      pointInTime:
+                        description: The point in time that this cluster is restored
+                          to, in RFC 3339 format.
+                        type: string
+                    type: object
                   restoreContinuousBackupSource:
                     description: |-
-                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
                       Structure is documented below.
                     properties:
                       cluster:
@@ -864,13 +901,26 @@ spec:
                       The database engine major version. This is an optional field and it's populated at the Cluster creation time.
                       Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
+                  dataplexConfig:
+                    description: |-
+                      Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Indicates whether Dataplex integration is enabled
+                          for the cluster.
+                        type: boolean
+                    type: object
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
                       Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
-                      Possible values: DEFAULT, FORCE
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the cluster
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -891,7 +941,7 @@ spec:
                     type: string
                   initialUser:
                     description: |-
-                      Initial user to setup during cluster creation.
+                      Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
                       Structure is documented below.
                     properties:
                       passwordSecretRef:
@@ -911,8 +961,6 @@ spec:
                       user:
                         description: The database username.
                         type: string
-                    required:
-                    - passwordSecretRef
                     type: object
                   labels:
                     additionalProperties:
@@ -1081,7 +1129,7 @@ spec:
                     type: object
                   restoreBackupSource:
                     description: |-
-                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
                       Structure is documented below.
                     properties:
                       backupName:
@@ -1171,9 +1219,33 @@ spec:
                             type: object
                         type: object
                     type: object
+                  restoreBackupdrBackupSource:
+                    description: |-
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source',  'restore_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: The name of the BackupDR backup that this cluster
+                          is restored from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]/backups/[BACKUP_ID]"
+                        type: string
+                    type: object
+                  restoreBackupdrPitrSource:
+                    description: |-
+                      The BackupDR source used for point in time recovery. Conflicts with 'restore_backupdr_backup_source', 'restore_continuous_backup_source' and 'restore_backupdr_backup_source', they can't be set togeter.
+                      Structure is documented below.
+                    properties:
+                      dataSource:
+                        description: The name of the BackupDR data source that this
+                          cluster is restore from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]"
+                        type: string
+                      pointInTime:
+                        description: The point in time that this cluster is restored
+                          to, in RFC 3339 format.
+                        type: string
+                    type: object
                   restoreContinuousBackupSource:
                     description: |-
-                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
                       Structure is documented below.
                     properties:
                       cluster:
@@ -1551,6 +1623,17 @@ spec:
                           type: string
                       type: object
                     type: array
+                  backupdrBackupSource:
+                    description: |-
+                      Cluster created from a BackupDR backup.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        backup:
+                          description: The name of the BackupDR backup resource.
+                          type: string
+                      type: object
+                    type: array
                   clusterType:
                     description: |-
                       The type of cluster. If not set, defaults to PRIMARY.
@@ -1635,13 +1718,26 @@ spec:
                       The database engine major version. This is an optional field and it's populated at the Cluster creation time.
                       Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
+                  dataplexConfig:
+                    description: |-
+                      Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Indicates whether Dataplex integration is enabled
+                          for the cluster.
+                        type: boolean
+                    type: object
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
                       Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
-                      Possible values: DEFAULT, FORCE
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the cluster
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -1696,7 +1792,7 @@ spec:
                     type: string
                   initialUser:
                     description: |-
-                      Initial user to setup during cluster creation.
+                      Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
                       Structure is documented below.
                     properties:
                       user:
@@ -1825,7 +1921,7 @@ spec:
                     type: boolean
                   restoreBackupSource:
                     description: |-
-                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
                       Structure is documented below.
                     properties:
                       backupName:
@@ -1833,9 +1929,33 @@ spec:
                           from.
                         type: string
                     type: object
+                  restoreBackupdrBackupSource:
+                    description: |-
+                      The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source',  'restore_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
+                      Structure is documented below.
+                    properties:
+                      backup:
+                        description: The name of the BackupDR backup that this cluster
+                          is restored from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]/backups/[BACKUP_ID]"
+                        type: string
+                    type: object
+                  restoreBackupdrPitrSource:
+                    description: |-
+                      The BackupDR source used for point in time recovery. Conflicts with 'restore_backupdr_backup_source', 'restore_continuous_backup_source' and 'restore_backupdr_backup_source', they can't be set togeter.
+                      Structure is documented below.
+                    properties:
+                      dataSource:
+                        description: The name of the BackupDR data source that this
+                          cluster is restore from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]"
+                        type: string
+                      pointInTime:
+                        description: The point in time that this cluster is restored
+                          to, in RFC 3339 format.
+                        type: string
+                    type: object
                   restoreContinuousBackupSource:
                     description: |-
-                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+                      The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
                       Structure is documented below.
                     properties:
                       cluster:
@@ -1951,6 +2071,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CommonNameInitParameters struct {
@@ -179,6 +179,10 @@ type TargetServerInitParameters struct {
 
 type TargetServerObservation struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of this TargetServer.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -222,11 +226,11 @@ type TargetServerParameters struct {
 
 	// Reference to a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDRef *v1.Reference `json:"envIdRef,omitempty" tf:"-"`
+	EnvIDRef *v2.Reference `json:"envIdRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDSelector *v1.Selector `json:"envIdSelector,omitempty" tf:"-"`
+	EnvIDSelector *v2.Selector `json:"envIdSelector,omitempty" tf:"-"`
 
 	// The host name this target connects to. Value must be a valid hostname as described by RFC-1123.
 	// +kubebuilder:validation:Optional
@@ -253,8 +257,8 @@ type TargetServerParameters struct {
 
 // TargetServerSpec defines the desired state of TargetServer
 type TargetServerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TargetServerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TargetServerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -270,8 +274,8 @@ type TargetServerSpec struct {
 
 // TargetServerStatus defines the observed state of TargetServer.
 type TargetServerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetServerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetServerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

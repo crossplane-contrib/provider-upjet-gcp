@@ -50,7 +50,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.ForProvider.ReplicationSpec != nil {
 		if mg.Spec.ForProvider.ReplicationSpec.GcsDataSink != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -74,7 +74,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.ForProvider.ReplicationSpec != nil {
 		if mg.Spec.ForProvider.ReplicationSpec.GcsDataSource != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -98,7 +98,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.ForProvider.TransferSpec != nil {
 		if mg.Spec.ForProvider.TransferSpec.GcsDataSink != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -122,7 +122,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.ForProvider.TransferSpec != nil {
 		if mg.Spec.ForProvider.TransferSpec.GcsDataSource != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -168,7 +168,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.InitProvider.ReplicationSpec != nil {
 		if mg.Spec.InitProvider.ReplicationSpec.GcsDataSink != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -192,7 +192,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.InitProvider.ReplicationSpec != nil {
 		if mg.Spec.InitProvider.ReplicationSpec.GcsDataSource != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -216,7 +216,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.InitProvider.TransferSpec != nil {
 		if mg.Spec.InitProvider.TransferSpec.GcsDataSink != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}
@@ -240,7 +240,7 @@ func (mg *Job) ResolveReferences( // ResolveReferences of this Job.
 	if mg.Spec.InitProvider.TransferSpec != nil {
 		if mg.Spec.InitProvider.TransferSpec.GcsDataSource != nil {
 			{
-				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+				m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta2", "Bucket", "BucketList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 				}

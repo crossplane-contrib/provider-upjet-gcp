@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeliveryConfigInitParameters struct {
@@ -54,14 +54,18 @@ type LiteSubscriptionInitParameters struct {
 
 	// Reference to a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type LiteSubscriptionObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The settings for this subscription's message delivery.
 	// Structure is documented below.
@@ -107,11 +111,11 @@ type LiteSubscriptionParameters struct {
 
 	// Reference to a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 
 	// The zone of the pubsub lite topic.
 	// +kubebuilder:validation:Required
@@ -120,8 +124,8 @@ type LiteSubscriptionParameters struct {
 
 // LiteSubscriptionSpec defines the desired state of LiteSubscription
 type LiteSubscriptionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LiteSubscriptionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LiteSubscriptionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -137,8 +141,8 @@ type LiteSubscriptionSpec struct {
 
 // LiteSubscriptionStatus defines the observed state of LiteSubscription.
 type LiteSubscriptionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LiteSubscriptionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LiteSubscriptionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

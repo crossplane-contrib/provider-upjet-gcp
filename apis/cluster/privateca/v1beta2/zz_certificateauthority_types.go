@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessUrlsInitParameters struct {
@@ -186,6 +186,10 @@ type CertificateAuthorityObservation struct {
 	// fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// When the field is set to false, deleting the CertificateAuthority is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -354,11 +358,11 @@ type CertificateAuthorityParameters struct {
 
 	// Reference to a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolRef *v1.Reference `json:"poolRef,omitempty" tf:"-"`
+	PoolRef *v2.Reference `json:"poolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolSelector *v1.Selector `json:"poolSelector,omitempty" tf:"-"`
+	PoolSelector *v2.Selector `json:"poolSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -1272,11 +1276,11 @@ type SubordinateConfigInitParameters struct {
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
@@ -1311,11 +1315,11 @@ type SubordinateConfigParameters struct {
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
@@ -1355,8 +1359,8 @@ type UserDefinedAccessUrlsParameters struct {
 
 // CertificateAuthoritySpec defines the desired state of CertificateAuthority
 type CertificateAuthoritySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CertificateAuthorityParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CertificateAuthorityParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1372,8 +1376,8 @@ type CertificateAuthoritySpec struct {
 
 // CertificateAuthorityStatus defines the observed state of CertificateAuthority.
 type CertificateAuthorityStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateAuthorityObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateAuthorityObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

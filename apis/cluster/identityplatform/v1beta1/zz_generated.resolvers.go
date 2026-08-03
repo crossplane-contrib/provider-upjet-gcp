@@ -120,58 +120,6 @@ func (mg *TenantDefaultSupportedIdPConfig) ResolveReferences(ctx context.Context
 	return nil
 }
 
-// ResolveReferences of this TenantInboundSAMLConfig.
-func (mg *TenantInboundSAMLConfig) ResolveReferences(ctx context.Context, c client.Reader) error {
-	var m xpresource.Managed
-	var l xpresource.ManagedList
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-	{
-		m, l, err = apisresolver.GetManagedResource("identityplatform.gcp.upbound.io", "v1beta1", "Tenant", "TenantList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Tenant),
-			Extract:      resource.ExtractParamPath("name", true),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.ForProvider.TenantRef,
-			Selector:     mg.Spec.ForProvider.TenantSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Tenant")
-	}
-	mg.Spec.ForProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.TenantRef = rsp.ResolvedReference
-	{
-		m, l, err = apisresolver.GetManagedResource("identityplatform.gcp.upbound.io", "v1beta1", "Tenant", "TenantList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Tenant),
-			Extract:      resource.ExtractParamPath("name", true),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.InitProvider.TenantRef,
-			Selector:     mg.Spec.InitProvider.TenantSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.Tenant")
-	}
-	mg.Spec.InitProvider.Tenant = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.TenantRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this TenantOAuthIdPConfig.
 func (mg *TenantOAuthIdPConfig) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed

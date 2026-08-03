@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AgentPoolInitParameters struct {
@@ -32,6 +32,10 @@ type AgentPoolObservation struct {
 	// Specifies the bandwidth limit details. If this field is unspecified, the default value is set as 'No Limit'.
 	// Structure is documented below.
 	BandwidthLimit *BandwidthLimitObservation `json:"bandwidthLimit,omitempty" tf:"bandwidth_limit,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Specifies the client-specified AgentPool description.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -85,8 +89,8 @@ type BandwidthLimitParameters struct {
 
 // AgentPoolSpec defines the desired state of AgentPool
 type AgentPoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AgentPoolParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AgentPoolParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -102,8 +106,8 @@ type AgentPoolSpec struct {
 
 // AgentPoolStatus defines the observed state of AgentPool.
 type AgentPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AgentPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AgentPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

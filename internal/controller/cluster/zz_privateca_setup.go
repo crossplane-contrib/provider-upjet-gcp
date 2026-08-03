@@ -52,3 +52,20 @@ func SetupGated_privateca(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_privateca registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_privateca(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		capool.SetupWebhookWithManager,
+		capooliammember.SetupWebhookWithManager,
+		certificate.SetupWebhookWithManager,
+		certificateauthority.SetupWebhookWithManager,
+		certificatetemplate.SetupWebhookWithManager,
+		certificatetemplateiammember.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

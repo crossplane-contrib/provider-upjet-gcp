@@ -64,3 +64,24 @@ func SetupGated_bigtable(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_bigtable registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_bigtable(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		appprofile.SetupWebhookWithManager,
+		garbagecollectionpolicy.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		instanceiambinding.SetupWebhookWithManager,
+		instanceiammember.SetupWebhookWithManager,
+		instanceiampolicy.SetupWebhookWithManager,
+		table.SetupWebhookWithManager,
+		tableiambinding.SetupWebhookWithManager,
+		tableiammember.SetupWebhookWithManager,
+		tableiampolicy.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

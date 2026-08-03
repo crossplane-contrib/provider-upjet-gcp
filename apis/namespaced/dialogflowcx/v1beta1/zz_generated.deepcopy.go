@@ -9,7 +9,7 @@
 package v1beta1
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -531,10 +531,20 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 		*out = new(AdvancedSettingsInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AnswerFeedbackSettings != nil {
+		in, out := &in.AnswerFeedbackSettings, &out.AnswerFeedbackSettings
+		*out = new(AnswerFeedbackSettingsInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AvatarURI != nil {
 		in, out := &in.AvatarURI, &out.AvatarURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientCertificateSettings != nil {
+		in, out := &in.ClientCertificateSettings, &out.ClientCertificateSettings
+		*out = new(ClientCertificateSettingsInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLanguageCode != nil {
 		in, out := &in.DefaultLanguageCode, &out.DefaultLanguageCode
@@ -554,6 +564,11 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableMultiLanguageTraining != nil {
+		in, out := &in.EnableMultiLanguageTraining, &out.EnableMultiLanguageTraining
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableSpellCorrection != nil {
@@ -581,6 +596,16 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PersonalizationSettings != nil {
+		in, out := &in.PersonalizationSettings, &out.PersonalizationSettings
+		*out = new(PersonalizationSettingsInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -595,6 +620,11 @@ func (in *AgentInitParameters) DeepCopyInto(out *AgentInitParameters) {
 		in, out := &in.SpeechToTextSettings, &out.SpeechToTextSettings
 		*out = new(SpeechToTextSettingsInitParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.StartPlaybook != nil {
+		in, out := &in.StartPlaybook, &out.StartPlaybook
+		*out = new(string)
+		**out = **in
 	}
 	if in.SupportedLanguageCodes != nil {
 		in, out := &in.SupportedLanguageCodes, &out.SupportedLanguageCodes
@@ -669,10 +699,20 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 		*out = new(AdvancedSettingsObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AnswerFeedbackSettings != nil {
+		in, out := &in.AnswerFeedbackSettings, &out.AnswerFeedbackSettings
+		*out = new(AnswerFeedbackSettingsObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AvatarURI != nil {
 		in, out := &in.AvatarURI, &out.AvatarURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientCertificateSettings != nil {
+		in, out := &in.ClientCertificateSettings, &out.ClientCertificateSettings
+		*out = new(ClientCertificateSettingsObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLanguageCode != nil {
 		in, out := &in.DefaultLanguageCode, &out.DefaultLanguageCode
@@ -684,6 +724,11 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -692,6 +737,11 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableMultiLanguageTraining != nil {
+		in, out := &in.EnableMultiLanguageTraining, &out.EnableMultiLanguageTraining
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableSpellCorrection != nil {
@@ -724,14 +774,34 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}
+	if in.PersonalizationSettings != nil {
+		in, out := &in.PersonalizationSettings, &out.PersonalizationSettings
+		*out = new(PersonalizationSettingsObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.SatisfiesPzi != nil {
+		in, out := &in.SatisfiesPzi, &out.SatisfiesPzi
+		*out = new(bool)
+		**out = **in
+	}
+	if in.SatisfiesPzs != nil {
+		in, out := &in.SatisfiesPzs, &out.SatisfiesPzs
+		*out = new(bool)
 		**out = **in
 	}
 	if in.SecuritySettings != nil {
@@ -746,6 +816,11 @@ func (in *AgentObservation) DeepCopyInto(out *AgentObservation) {
 	}
 	if in.StartFlow != nil {
 		in, out := &in.StartFlow, &out.StartFlow
+		*out = new(string)
+		**out = **in
+	}
+	if in.StartPlaybook != nil {
+		in, out := &in.StartPlaybook, &out.StartPlaybook
 		*out = new(string)
 		**out = **in
 	}
@@ -790,10 +865,20 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 		*out = new(AdvancedSettingsParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AnswerFeedbackSettings != nil {
+		in, out := &in.AnswerFeedbackSettings, &out.AnswerFeedbackSettings
+		*out = new(AnswerFeedbackSettingsParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AvatarURI != nil {
 		in, out := &in.AvatarURI, &out.AvatarURI
 		*out = new(string)
 		**out = **in
+	}
+	if in.ClientCertificateSettings != nil {
+		in, out := &in.ClientCertificateSettings, &out.ClientCertificateSettings
+		*out = new(ClientCertificateSettingsParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DefaultLanguageCode != nil {
 		in, out := &in.DefaultLanguageCode, &out.DefaultLanguageCode
@@ -813,6 +898,11 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EnableMultiLanguageTraining != nil {
+		in, out := &in.EnableMultiLanguageTraining, &out.EnableMultiLanguageTraining
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableSpellCorrection != nil {
@@ -840,6 +930,16 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locked != nil {
+		in, out := &in.Locked, &out.Locked
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PersonalizationSettings != nil {
+		in, out := &in.PersonalizationSettings, &out.PersonalizationSettings
+		*out = new(PersonalizationSettingsParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -854,6 +954,11 @@ func (in *AgentParameters) DeepCopyInto(out *AgentParameters) {
 		in, out := &in.SpeechToTextSettings, &out.SpeechToTextSettings
 		*out = new(SpeechToTextSettingsParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.StartPlaybook != nil {
+		in, out := &in.StartPlaybook, &out.StartPlaybook
+		*out = new(string)
+		**out = **in
 	}
 	if in.SupportedLanguageCodes != nil {
 		in, out := &in.SupportedLanguageCodes, &out.SupportedLanguageCodes
@@ -909,7 +1014,7 @@ func (in *AgentSpec) DeepCopy() *AgentSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AgentStatus) DeepCopyInto(out *AgentStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -919,6 +1024,66 @@ func (in *AgentStatus) DeepCopy() *AgentStatus {
 		return nil
 	}
 	out := new(AgentStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AnswerFeedbackSettingsInitParameters) DeepCopyInto(out *AnswerFeedbackSettingsInitParameters) {
+	*out = *in
+	if in.EnableAnswerFeedback != nil {
+		in, out := &in.EnableAnswerFeedback, &out.EnableAnswerFeedback
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AnswerFeedbackSettingsInitParameters.
+func (in *AnswerFeedbackSettingsInitParameters) DeepCopy() *AnswerFeedbackSettingsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(AnswerFeedbackSettingsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AnswerFeedbackSettingsObservation) DeepCopyInto(out *AnswerFeedbackSettingsObservation) {
+	*out = *in
+	if in.EnableAnswerFeedback != nil {
+		in, out := &in.EnableAnswerFeedback, &out.EnableAnswerFeedback
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AnswerFeedbackSettingsObservation.
+func (in *AnswerFeedbackSettingsObservation) DeepCopy() *AnswerFeedbackSettingsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(AnswerFeedbackSettingsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AnswerFeedbackSettingsParameters) DeepCopyInto(out *AnswerFeedbackSettingsParameters) {
+	*out = *in
+	if in.EnableAnswerFeedback != nil {
+		in, out := &in.EnableAnswerFeedback, &out.EnableAnswerFeedback
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AnswerFeedbackSettingsParameters.
+func (in *AnswerFeedbackSettingsParameters) DeepCopy() *AnswerFeedbackSettingsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(AnswerFeedbackSettingsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -979,6 +1144,96 @@ func (in *AudioExportGcsDestinationParameters) DeepCopy() *AudioExportGcsDestina
 		return nil
 	}
 	out := new(AudioExportGcsDestinationParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ClientCertificateSettingsInitParameters) DeepCopyInto(out *ClientCertificateSettingsInitParameters) {
+	*out = *in
+	if in.Passphrase != nil {
+		in, out := &in.Passphrase, &out.Passphrase
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKey != nil {
+		in, out := &in.PrivateKey, &out.PrivateKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLCertificate != nil {
+		in, out := &in.SSLCertificate, &out.SSLCertificate
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ClientCertificateSettingsInitParameters.
+func (in *ClientCertificateSettingsInitParameters) DeepCopy() *ClientCertificateSettingsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ClientCertificateSettingsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ClientCertificateSettingsObservation) DeepCopyInto(out *ClientCertificateSettingsObservation) {
+	*out = *in
+	if in.Passphrase != nil {
+		in, out := &in.Passphrase, &out.Passphrase
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKey != nil {
+		in, out := &in.PrivateKey, &out.PrivateKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLCertificate != nil {
+		in, out := &in.SSLCertificate, &out.SSLCertificate
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ClientCertificateSettingsObservation.
+func (in *ClientCertificateSettingsObservation) DeepCopy() *ClientCertificateSettingsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ClientCertificateSettingsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ClientCertificateSettingsParameters) DeepCopyInto(out *ClientCertificateSettingsParameters) {
+	*out = *in
+	if in.Passphrase != nil {
+		in, out := &in.Passphrase, &out.Passphrase
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKey != nil {
+		in, out := &in.PrivateKey, &out.PrivateKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLCertificate != nil {
+		in, out := &in.SSLCertificate, &out.SSLCertificate
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ClientCertificateSettingsParameters.
+func (in *ClientCertificateSettingsParameters) DeepCopy() *ClientCertificateSettingsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ClientCertificateSettingsParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -1497,12 +1752,12 @@ func (in *EntityTypeInitParameters) DeepCopyInto(out *EntityTypeInitParameters) 
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Redact != nil {
@@ -1559,6 +1814,11 @@ func (in *EntityTypeObservation) DeepCopyInto(out *EntityTypeObservation) {
 	*out = *in
 	if in.AutoExpansionMode != nil {
 		in, out := &in.AutoExpansionMode, &out.AutoExpansionMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -1677,12 +1937,12 @@ func (in *EntityTypeParameters) DeepCopyInto(out *EntityTypeParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Redact != nil {
@@ -1723,7 +1983,7 @@ func (in *EntityTypeSpec) DeepCopy() *EntityTypeSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EntityTypeStatus) DeepCopyInto(out *EntityTypeStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -2645,12 +2905,12 @@ func (in *EnvironmentInitParameters) DeepCopyInto(out *EnvironmentInitParameters
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VersionConfigs != nil {
@@ -2707,6 +2967,11 @@ func (in *EnvironmentList) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EnvironmentObservation) DeepCopyInto(out *EnvironmentObservation) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2776,12 +3041,12 @@ func (in *EnvironmentParameters) DeepCopyInto(out *EnvironmentParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VersionConfigs != nil {
@@ -2824,7 +3089,7 @@ func (in *EnvironmentSpec) DeepCopy() *EnvironmentSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EnvironmentStatus) DeepCopyInto(out *EnvironmentStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4134,12 +4399,12 @@ func (in *FlowInitParameters) DeepCopyInto(out *FlowInitParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TransitionRouteGroups != nil {
@@ -4211,6 +4476,11 @@ func (in *FlowObservation) DeepCopyInto(out *FlowObservation) {
 		in, out := &in.AdvancedSettings, &out.AdvancedSettings
 		*out = new(FlowAdvancedSettingsObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -4346,12 +4616,12 @@ func (in *FlowParameters) DeepCopyInto(out *FlowParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TransitionRouteGroups != nil {
@@ -4405,7 +4675,7 @@ func (in *FlowSpec) DeepCopy() *FlowSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *FlowStatus) DeepCopyInto(out *FlowStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4783,6 +5053,11 @@ func (in *GenericWebServiceInitParameters) DeepCopyInto(out *GenericWebServiceIn
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(ServiceAccountAuthConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -5021,6 +5296,11 @@ func (in *GenericWebServiceObservation) DeepCopyInto(out *GenericWebServiceObser
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(ServiceAccountAuthConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -5120,6 +5400,11 @@ func (in *GenericWebServiceParameters) DeepCopyInto(out *GenericWebServiceParame
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(ServiceAccountAuthConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
@@ -5224,6 +5509,66 @@ func (in *GenericWebServiceSecretVersionsForRequestHeadersParameters) DeepCopy()
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *GenericWebServiceServiceAccountAuthConfigInitParameters) DeepCopyInto(out *GenericWebServiceServiceAccountAuthConfigInitParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new GenericWebServiceServiceAccountAuthConfigInitParameters.
+func (in *GenericWebServiceServiceAccountAuthConfigInitParameters) DeepCopy() *GenericWebServiceServiceAccountAuthConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(GenericWebServiceServiceAccountAuthConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *GenericWebServiceServiceAccountAuthConfigObservation) DeepCopyInto(out *GenericWebServiceServiceAccountAuthConfigObservation) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new GenericWebServiceServiceAccountAuthConfigObservation.
+func (in *GenericWebServiceServiceAccountAuthConfigObservation) DeepCopy() *GenericWebServiceServiceAccountAuthConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(GenericWebServiceServiceAccountAuthConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *GenericWebServiceServiceAccountAuthConfigParameters) DeepCopyInto(out *GenericWebServiceServiceAccountAuthConfigParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new GenericWebServiceServiceAccountAuthConfigParameters.
+func (in *GenericWebServiceServiceAccountAuthConfigParameters) DeepCopy() *GenericWebServiceServiceAccountAuthConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(GenericWebServiceServiceAccountAuthConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GitIntegrationSettingsInitParameters) DeepCopyInto(out *GitIntegrationSettingsInitParameters) {
 	*out = *in
 	if in.GithubSettings != nil {
@@ -5288,7 +5633,7 @@ func (in *GithubSettingsInitParameters) DeepCopyInto(out *GithubSettingsInitPara
 	*out = *in
 	if in.AccessTokenSecretRef != nil {
 		in, out := &in.AccessTokenSecretRef, &out.AccessTokenSecretRef
-		*out = new(v1.LocalSecretKeySelector)
+		*out = new(v2.LocalSecretKeySelector)
 		**out = **in
 	}
 	if in.Branches != nil {
@@ -5375,7 +5720,7 @@ func (in *GithubSettingsParameters) DeepCopyInto(out *GithubSettingsParameters) 
 	*out = *in
 	if in.AccessTokenSecretRef != nil {
 		in, out := &in.AccessTokenSecretRef, &out.AccessTokenSecretRef
-		*out = new(v1.LocalSecretKeySelector)
+		*out = new(v2.LocalSecretKeySelector)
 		**out = **in
 	}
 	if in.Branches != nil {
@@ -6367,12 +6712,12 @@ func (in *IntentInitParameters) DeepCopyInto(out *IntentInitParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Priority != nil {
@@ -6434,6 +6779,11 @@ func (in *IntentList) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *IntentObservation) DeepCopyInto(out *IntentObservation) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -6621,12 +6971,12 @@ func (in *IntentParameters) DeepCopyInto(out *IntentParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Priority != nil {
@@ -6674,7 +7024,7 @@ func (in *IntentSpec) DeepCopy() *IntentSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *IntentStatus) DeepCopyInto(out *IntentStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -6800,12 +7150,12 @@ func (in *KnowledgeConnectorSettingsInitParameters) DeepCopyInto(out *KnowledgeC
 	}
 	if in.TargetFlowRef != nil {
 		in, out := &in.TargetFlowRef, &out.TargetFlowRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetFlowSelector != nil {
 		in, out := &in.TargetFlowSelector, &out.TargetFlowSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPage != nil {
@@ -6894,12 +7244,12 @@ func (in *KnowledgeConnectorSettingsParameters) DeepCopyInto(out *KnowledgeConne
 	}
 	if in.TargetFlowRef != nil {
 		in, out := &in.TargetFlowRef, &out.TargetFlowRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetFlowSelector != nil {
 		in, out := &in.TargetFlowSelector, &out.TargetFlowSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPage != nil {
@@ -7473,12 +7823,12 @@ func (in *KnowledgeConnectorSettingsTriggerFulfillmentInitParameters) DeepCopyIn
 	}
 	if in.WebhookRef != nil {
 		in, out := &in.WebhookRef, &out.WebhookRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WebhookSelector != nil {
 		in, out := &in.WebhookSelector, &out.WebhookSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8205,12 +8555,12 @@ func (in *KnowledgeConnectorSettingsTriggerFulfillmentParameters) DeepCopyInto(o
 	}
 	if in.WebhookRef != nil {
 		in, out := &in.WebhookRef, &out.WebhookRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WebhookSelector != nil {
 		in, out := &in.WebhookSelector, &out.WebhookSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9964,12 +10314,12 @@ func (in *PageInitParameters) DeepCopyInto(out *PageInitParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TransitionRouteGroups != nil {
@@ -10029,12 +10379,12 @@ func (in *PageKnowledgeConnectorSettingsInitParameters) DeepCopyInto(out *PageKn
 	}
 	if in.TargetPageRef != nil {
 		in, out := &in.TargetPageRef, &out.TargetPageRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPageSelector != nil {
 		in, out := &in.TargetPageSelector, &out.TargetPageSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerFulfillment != nil {
@@ -10123,12 +10473,12 @@ func (in *PageKnowledgeConnectorSettingsParameters) DeepCopyInto(out *PageKnowle
 	}
 	if in.TargetPageRef != nil {
 		in, out := &in.TargetPageRef, &out.TargetPageRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPageSelector != nil {
 		in, out := &in.TargetPageSelector, &out.TargetPageSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerFulfillment != nil {
@@ -10199,12 +10549,12 @@ func (in *PageKnowledgeConnectorSettingsTriggerFulfillmentInitParameters) DeepCo
 	}
 	if in.WebhookRef != nil {
 		in, out := &in.WebhookRef, &out.WebhookRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WebhookSelector != nil {
 		in, out := &in.WebhookSelector, &out.WebhookSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -10331,12 +10681,12 @@ func (in *PageKnowledgeConnectorSettingsTriggerFulfillmentParameters) DeepCopyIn
 	}
 	if in.WebhookRef != nil {
 		in, out := &in.WebhookRef, &out.WebhookRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WebhookSelector != nil {
 		in, out := &in.WebhookSelector, &out.WebhookSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -10390,6 +10740,11 @@ func (in *PageObservation) DeepCopyInto(out *PageObservation) {
 		in, out := &in.AdvancedSettings, &out.AdvancedSettings
 		*out = new(PageAdvancedSettingsObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
@@ -10515,12 +10870,12 @@ func (in *PageParameters) DeepCopyInto(out *PageParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TransitionRouteGroups != nil {
@@ -10574,7 +10929,7 @@ func (in *PageSpec) DeepCopy() *PageSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PageStatus) DeepCopyInto(out *PageStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -10613,12 +10968,12 @@ func (in *PageTransitionRoutesInitParameters) DeepCopyInto(out *PageTransitionRo
 	}
 	if in.TargetPageRef != nil {
 		in, out := &in.TargetPageRef, &out.TargetPageRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPageSelector != nil {
 		in, out := &in.TargetPageSelector, &out.TargetPageSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerFulfillment != nil {
@@ -10708,12 +11063,12 @@ func (in *PageTransitionRoutesParameters) DeepCopyInto(out *PageTransitionRoutes
 	}
 	if in.TargetPageRef != nil {
 		in, out := &in.TargetPageRef, &out.TargetPageRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPageSelector != nil {
 		in, out := &in.TargetPageSelector, &out.TargetPageSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerFulfillment != nil {
@@ -11517,6 +11872,66 @@ func (in *PartsParameters) DeepCopy() *PartsParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PersonalizationSettingsInitParameters) DeepCopyInto(out *PersonalizationSettingsInitParameters) {
+	*out = *in
+	if in.DefaultEndUserMetadata != nil {
+		in, out := &in.DefaultEndUserMetadata, &out.DefaultEndUserMetadata
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PersonalizationSettingsInitParameters.
+func (in *PersonalizationSettingsInitParameters) DeepCopy() *PersonalizationSettingsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PersonalizationSettingsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PersonalizationSettingsObservation) DeepCopyInto(out *PersonalizationSettingsObservation) {
+	*out = *in
+	if in.DefaultEndUserMetadata != nil {
+		in, out := &in.DefaultEndUserMetadata, &out.DefaultEndUserMetadata
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PersonalizationSettingsObservation.
+func (in *PersonalizationSettingsObservation) DeepCopy() *PersonalizationSettingsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(PersonalizationSettingsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *PersonalizationSettingsParameters) DeepCopyInto(out *PersonalizationSettingsParameters) {
+	*out = *in
+	if in.DefaultEndUserMetadata != nil {
+		in, out := &in.DefaultEndUserMetadata, &out.DefaultEndUserMetadata
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new PersonalizationSettingsParameters.
+func (in *PersonalizationSettingsParameters) DeepCopy() *PersonalizationSettingsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(PersonalizationSettingsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PlayAudioInitParameters) DeepCopyInto(out *PlayAudioInitParameters) {
 	*out = *in
 	if in.AudioURI != nil {
@@ -11596,12 +12011,12 @@ func (in *RepromptEventHandlersInitParameters) DeepCopyInto(out *RepromptEventHa
 	}
 	if in.TargetFlowRef != nil {
 		in, out := &in.TargetFlowRef, &out.TargetFlowRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetFlowSelector != nil {
 		in, out := &in.TargetFlowSelector, &out.TargetFlowSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPage != nil {
@@ -11611,12 +12026,12 @@ func (in *RepromptEventHandlersInitParameters) DeepCopyInto(out *RepromptEventHa
 	}
 	if in.TargetPageRef != nil {
 		in, out := &in.TargetPageRef, &out.TargetPageRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPageSelector != nil {
 		in, out := &in.TargetPageSelector, &out.TargetPageSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerFulfillment != nil {
@@ -11691,12 +12106,12 @@ func (in *RepromptEventHandlersParameters) DeepCopyInto(out *RepromptEventHandle
 	}
 	if in.TargetFlowRef != nil {
 		in, out := &in.TargetFlowRef, &out.TargetFlowRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetFlowSelector != nil {
 		in, out := &in.TargetFlowSelector, &out.TargetFlowSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPage != nil {
@@ -11706,12 +12121,12 @@ func (in *RepromptEventHandlersParameters) DeepCopyInto(out *RepromptEventHandle
 	}
 	if in.TargetPageRef != nil {
 		in, out := &in.TargetPageRef, &out.TargetPageRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPageSelector != nil {
 		in, out := &in.TargetPageSelector, &out.TargetPageSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerFulfillment != nil {
@@ -11832,12 +12247,12 @@ func (in *RepromptEventHandlersTriggerFulfillmentInitParameters) DeepCopyInto(ou
 	}
 	if in.WebhookRef != nil {
 		in, out := &in.WebhookRef, &out.WebhookRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WebhookSelector != nil {
 		in, out := &in.WebhookSelector, &out.WebhookSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -12517,12 +12932,12 @@ func (in *RepromptEventHandlersTriggerFulfillmentParameters) DeepCopyInto(out *R
 	}
 	if in.WebhookRef != nil {
 		in, out := &in.WebhookRef, &out.WebhookRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WebhookSelector != nil {
 		in, out := &in.WebhookSelector, &out.WebhookSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -12748,6 +13163,66 @@ func (in *SegmentsParameters) DeepCopy() *SegmentsParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceAccountAuthConfigInitParameters) DeepCopyInto(out *ServiceAccountAuthConfigInitParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceAccountAuthConfigInitParameters.
+func (in *ServiceAccountAuthConfigInitParameters) DeepCopy() *ServiceAccountAuthConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceAccountAuthConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceAccountAuthConfigObservation) DeepCopyInto(out *ServiceAccountAuthConfigObservation) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceAccountAuthConfigObservation.
+func (in *ServiceAccountAuthConfigObservation) DeepCopy() *ServiceAccountAuthConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceAccountAuthConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceAccountAuthConfigParameters) DeepCopyInto(out *ServiceAccountAuthConfigParameters) {
+	*out = *in
+	if in.ServiceAccount != nil {
+		in, out := &in.ServiceAccount, &out.ServiceAccount
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceAccountAuthConfigParameters.
+func (in *ServiceAccountAuthConfigParameters) DeepCopy() *ServiceAccountAuthConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceAccountAuthConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ServiceDirectoryGenericWebServiceInitParameters) DeepCopyInto(out *ServiceDirectoryGenericWebServiceInitParameters) {
 	*out = *in
 	if in.AllowedCACerts != nil {
@@ -12819,6 +13294,11 @@ func (in *ServiceDirectoryGenericWebServiceInitParameters) DeepCopyInto(out *Ser
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(GenericWebServiceServiceAccountAuthConfigInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
@@ -12920,6 +13400,11 @@ func (in *ServiceDirectoryGenericWebServiceObservation) DeepCopyInto(out *Servic
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(GenericWebServiceServiceAccountAuthConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
 		*out = new(string)
@@ -13019,6 +13504,11 @@ func (in *ServiceDirectoryGenericWebServiceParameters) DeepCopyInto(out *Service
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.ServiceAccountAuthConfig != nil {
+		in, out := &in.ServiceAccountAuthConfig, &out.ServiceAccountAuthConfig
+		*out = new(GenericWebServiceServiceAccountAuthConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAgentAuth != nil {
 		in, out := &in.ServiceAgentAuth, &out.ServiceAgentAuth
@@ -13704,12 +14194,12 @@ func (in *TransitionRoutesInitParameters) DeepCopyInto(out *TransitionRoutesInit
 	}
 	if in.TargetFlowRef != nil {
 		in, out := &in.TargetFlowRef, &out.TargetFlowRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetFlowSelector != nil {
 		in, out := &in.TargetFlowSelector, &out.TargetFlowSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPage != nil {
@@ -13799,12 +14289,12 @@ func (in *TransitionRoutesParameters) DeepCopyInto(out *TransitionRoutesParamete
 	}
 	if in.TargetFlowRef != nil {
 		in, out := &in.TargetFlowRef, &out.TargetFlowRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetFlowSelector != nil {
 		in, out := &in.TargetFlowSelector, &out.TargetFlowSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPage != nil {
@@ -16068,12 +16558,12 @@ func (in *VersionConfigsInitParameters) DeepCopyInto(out *VersionConfigsInitPara
 	}
 	if in.VersionRef != nil {
 		in, out := &in.VersionRef, &out.VersionRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VersionSelector != nil {
 		in, out := &in.VersionSelector, &out.VersionSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16118,12 +16608,12 @@ func (in *VersionConfigsParameters) DeepCopyInto(out *VersionConfigsParameters) 
 	}
 	if in.VersionRef != nil {
 		in, out := &in.VersionRef, &out.VersionRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VersionSelector != nil {
 		in, out := &in.VersionSelector, &out.VersionSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16158,12 +16648,12 @@ func (in *VersionInitParameters) DeepCopyInto(out *VersionInitParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16278,6 +16768,11 @@ func (in *VersionObservation) DeepCopyInto(out *VersionObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -16347,12 +16842,12 @@ func (in *VersionParameters) DeepCopyInto(out *VersionParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16388,7 +16883,7 @@ func (in *VersionSpec) DeepCopy() *VersionSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *VersionStatus) DeepCopyInto(out *VersionStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -16464,12 +16959,12 @@ func (in *WebhookInitParameters) DeepCopyInto(out *WebhookInitParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecuritySettings != nil {
@@ -16534,6 +17029,11 @@ func (in *WebhookList) DeepCopyObject() runtime.Object {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WebhookObservation) DeepCopyInto(out *WebhookObservation) {
 	*out = *in
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Disabled != nil {
 		in, out := &in.Disabled, &out.Disabled
 		*out = new(bool)
@@ -16641,12 +17141,12 @@ func (in *WebhookParameters) DeepCopyInto(out *WebhookParameters) {
 	}
 	if in.ParentRef != nil {
 		in, out := &in.ParentRef, &out.ParentRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParentSelector != nil {
 		in, out := &in.ParentSelector, &out.ParentSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecuritySettings != nil {
@@ -16697,7 +17197,7 @@ func (in *WebhookSpec) DeepCopy() *WebhookSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WebhookStatus) DeepCopyInto(out *WebhookStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 

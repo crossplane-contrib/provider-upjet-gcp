@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MatchLayer4ConfigsInitParameters struct {
@@ -57,11 +56,11 @@ type MatchSrcSecureTagsInitParameters struct {
 
 	// Reference to a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type MatchSrcSecureTagsObservation struct {
@@ -83,11 +82,11 @@ type MatchSrcSecureTagsParameters struct {
 
 	// Reference to a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type NetworkFirewallPolicyRuleInitParameters struct {
@@ -133,6 +132,21 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
+	// A list of forwarding rules to which this rule applies.
+	// This field allows you to control which load balancers get this rule.
+	// For example, the following are valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
+
+	// References to ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesRefs []v2.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesSelector *v2.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
@@ -141,6 +155,12 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
+
+	// Target types of the firewall policy rule.
+	// Default value is INSTANCES.
+	// When target_type is INTERNAL_MANAGED_LB, target_forwarding_rules must be set
+	// Possible values are: INSTANCES, INTERNAL_MANAGED_LB.
+	TargetType *string `json:"targetType,omitempty" tf:"target_type,omitempty"`
 }
 
 type NetworkFirewallPolicyRuleMatchInitParameters struct {
@@ -153,6 +173,10 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
+
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
 
 	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
@@ -171,17 +195,34 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v2.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v2.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
 
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// References to Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksRefs []v2.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksSelector *v2.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
@@ -205,6 +246,10 @@ type NetworkFirewallPolicyRuleMatchObservation struct {
 	// CIDR IP address range. Maximum number of destination CIDR IP ranges allowed is 5000.
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
 	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
 
@@ -223,6 +268,13 @@ type NetworkFirewallPolicyRuleMatchObservation struct {
 
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
@@ -249,6 +301,11 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	// +kubebuilder:validation:Optional
 	DestIPRanges []*string `json:"destIpRanges,omitempty" tf:"dest_ip_ranges,omitempty"`
 
+	// Network context of the traffic destination.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	// +kubebuilder:validation:Optional
+	DestNetworkContext *string `json:"destNetworkContext,omitempty" tf:"dest_network_context,omitempty"`
+
 	// Region codes whose IP addresses will be used to match for destination of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of dest region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
 	DestRegionCodes []*string `json:"destRegionCodes,omitempty" tf:"dest_region_codes,omitempty"`
@@ -270,11 +327,11 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v2.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v2.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
@@ -283,6 +340,25 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	// CIDR IP address range. Maximum number of source CIDR IP ranges allowed is 5000.
 	// +kubebuilder:validation:Optional
 	SrcIPRanges []*string `json:"srcIpRanges,omitempty" tf:"src_ip_ranges,omitempty"`
+
+	// Network context of the traffic source.
+	// Possible values are: UNSPECIFIED, INTERNET, INTRA_VPC, NON_INTERNET, VPC_NETWORKS.
+	// +kubebuilder:validation:Optional
+	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
+
+	// Networks of the traffic source. It can be either a full or partial url.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
+
+	// References to Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksRefs []v2.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Network in compute to populate srcNetworks.
+	// +kubebuilder:validation:Optional
+	SrcNetworksSelector *v2.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
@@ -305,6 +381,10 @@ type NetworkFirewallPolicyRuleObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description for this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -361,6 +441,11 @@ type NetworkFirewallPolicyRuleObservation struct {
 	// Can be set only if action = 'apply_security_profile_group' and cannot be set for other actions.
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
+	// A list of forwarding rules to which this rule applies.
+	// This field allows you to control which load balancers get this rule.
+	// For example, the following are valid values:
+	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
+
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
@@ -369,6 +454,12 @@ type NetworkFirewallPolicyRuleObservation struct {
 
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
+
+	// Target types of the firewall policy rule.
+	// Default value is INSTANCES.
+	// When target_type is INTERNAL_MANAGED_LB, target_forwarding_rules must be set
+	// Possible values are: INSTANCES, INTERNAL_MANAGED_LB.
+	TargetType *string `json:"targetType,omitempty" tf:"target_type,omitempty"`
 }
 
 type NetworkFirewallPolicyRuleParameters struct {
@@ -406,11 +497,11 @@ type NetworkFirewallPolicyRuleParameters struct {
 
 	// Reference to a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
@@ -443,6 +534,22 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	TLSInspect *bool `json:"tlsInspect,omitempty" tf:"tls_inspect,omitempty"`
 
+	// A list of forwarding rules to which this rule applies.
+	// This field allows you to control which load balancers get this rule.
+	// For example, the following are valid values:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
+
+	// References to ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesRefs []v2.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
+	// +kubebuilder:validation:Optional
+	TargetForwardingRulesSelector *v2.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
 	// targetSecureTag may not be set at the same time as targetServiceAccounts. If neither targetServiceAccounts nor targetSecureTag are specified, the firewall rule applies to all instances on the specified network. Maximum number of target label tags allowed is 256.
@@ -453,6 +560,13 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// A list of service accounts indicating the sets of instances that are applied with this rule.
 	// +kubebuilder:validation:Optional
 	TargetServiceAccounts []*string `json:"targetServiceAccounts,omitempty" tf:"target_service_accounts,omitempty"`
+
+	// Target types of the firewall policy rule.
+	// Default value is INSTANCES.
+	// When target_type is INTERNAL_MANAGED_LB, target_forwarding_rules must be set
+	// Possible values are: INSTANCES, INTERNAL_MANAGED_LB.
+	// +kubebuilder:validation:Optional
+	TargetType *string `json:"targetType,omitempty" tf:"target_type,omitempty"`
 }
 
 type NetworkFirewallPolicyRuleTargetSecureTagsInitParameters struct {
@@ -497,8 +611,8 @@ type NetworkFirewallPolicyRuleSpec struct {
 
 // NetworkFirewallPolicyRuleStatus defines the observed state of NetworkFirewallPolicyRule.
 type NetworkFirewallPolicyRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkFirewallPolicyRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkFirewallPolicyRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

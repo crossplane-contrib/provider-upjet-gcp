@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FolderInitParameters struct {
@@ -31,11 +30,11 @@ type FolderInitParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A map of resource manager tags. Resource manager tag keys and values have the same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456. The field is ignored when empty. The field is immutable and causes resource replacement when  mutated. This field is only set at create time and modifying this field after creation will trigger recreation. To apply tags to an existing resource, see the google_tags_tag_value resource.
 	// +mapType=granular
@@ -44,9 +43,16 @@ type FolderInitParameters struct {
 
 type FolderObservation struct {
 
+	// Optional capabilities configured for this folder.
+	ConfiguredCapabilities []*string `json:"configuredCapabilities,omitempty" tf:"configured_capabilities,omitempty"`
+
 	// Timestamp when the Folder was created. Assigned by the server.
 	// A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// When the field is set to false, deleting the folder is allowed. Default value is true.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -62,6 +68,9 @@ type FolderObservation struct {
 
 	// The lifecycle state of the folder such as ACTIVE or DELETE_REQUESTED.
 	LifecycleState *string `json:"lifecycleState,omitempty" tf:"lifecycle_state,omitempty"`
+
+	// Management Project associated with this folder (if capability is enabled).
+	ManagementProject *string `json:"managementProject,omitempty" tf:"management_project,omitempty"`
 
 	// The resource name of the Folder. Its format is folders/{folder_id}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -95,11 +104,11 @@ type FolderParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A map of resource manager tags. Resource manager tag keys and values have the same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456. The field is ignored when empty. The field is immutable and causes resource replacement when  mutated. This field is only set at create time and modifying this field after creation will trigger recreation. To apply tags to an existing resource, see the google_tags_tag_value resource.
 	// +kubebuilder:validation:Optional
@@ -126,8 +135,8 @@ type FolderSpec struct {
 
 // FolderStatus defines the observed state of Folder.
 type FolderStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FolderObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

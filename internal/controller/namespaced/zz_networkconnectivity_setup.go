@@ -49,3 +49,19 @@ func SetupGated_networkconnectivity(mgr ctrl.Manager, o controller.Options) erro
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_networkconnectivity registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_networkconnectivity(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		group.SetupWebhookWithManager,
+		hub.SetupWebhookWithManager,
+		internalrange.SetupWebhookWithManager,
+		serviceconnectionpolicy.SetupWebhookWithManager,
+		spoke.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

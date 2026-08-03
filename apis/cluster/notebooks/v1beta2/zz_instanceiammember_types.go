@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -49,11 +49,11 @@ type InstanceIAMMemberInitParameters struct {
 
 	// Reference to a Instance in notebooks to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in notebooks to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -93,11 +93,11 @@ type InstanceIAMMemberParameters struct {
 
 	// Reference to a Instance in notebooks to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.Reference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.Reference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in notebooks to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.Selector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -114,8 +114,8 @@ type InstanceIAMMemberParameters struct {
 
 // InstanceIAMMemberSpec defines the desired state of InstanceIAMMember
 type InstanceIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -131,8 +131,8 @@ type InstanceIAMMemberSpec struct {
 
 // InstanceIAMMemberStatus defines the observed state of InstanceIAMMember.
 type InstanceIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

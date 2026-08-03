@@ -20,6 +20,7 @@ spec:
     port: 8080
     zone: us-central1-a
 
+
 ---
 
 apiVersion: compute.gcp.upbound.io/v1beta1
@@ -35,9 +36,10 @@ spec:
   forProvider:
     autoCreateSubnetworks: false
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: Subnetwork
 metadata:
   annotations:
@@ -54,9 +56,10 @@ spec:
         testing.upbound.io/example-name: instance-group-named-port
     region: us-central1
 
+
 ---
 
-apiVersion: container.gcp.upbound.io/v1beta1
+apiVersion: container.gcp.upbound.io/v1beta2
 kind: Cluster
 metadata:
   annotations:

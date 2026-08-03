@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppProfileInitParameters struct {
@@ -53,6 +52,10 @@ type AppProfileObservation struct {
 	// Specifies that this app profile is intended for read-only usage via the Data Boost feature.
 	// Structure is documented below.
 	DataBoostIsolationReadOnly *DataBoostIsolationReadOnlyObservation `json:"dataBoostIsolationReadOnly,omitempty" tf:"data_boost_isolation_read_only,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Long form description of the use case for this app profile.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -113,11 +116,11 @@ type AppProfileParameters struct {
 
 	// Reference to a Instance in bigtable to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	MultiClusterRoutingClusterIds []*string `json:"multiClusterRoutingClusterIds,omitempty" tf:"multi_cluster_routing_cluster_ids,omitempty"`
@@ -242,8 +245,8 @@ type AppProfileSpec struct {
 
 // AppProfileStatus defines the observed state of AppProfile.
 type AppProfileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppProfileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppProfileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppConnectionInitParameters struct {
@@ -27,11 +26,11 @@ type AppConnectionInitParameters struct {
 
 	// References to AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsRefs []v1.NamespacedReference `json:"connectorsRefs,omitempty" tf:"-"`
+	ConnectorsRefs []v2.NamespacedReference `json:"connectorsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsSelector *v1.NamespacedSelector `json:"connectorsSelector,omitempty" tf:"-"`
+	ConnectorsSelector *v2.NamespacedSelector `json:"connectorsSelector,omitempty" tf:"-"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -68,6 +67,10 @@ type AppConnectionObservation struct {
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -123,11 +126,11 @@ type AppConnectionParameters struct {
 
 	// References to AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsRefs []v1.NamespacedReference `json:"connectorsRefs,omitempty" tf:"-"`
+	ConnectorsRefs []v2.NamespacedReference `json:"connectorsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsSelector *v1.NamespacedSelector `json:"connectorsSelector,omitempty" tf:"-"`
+	ConnectorsSelector *v2.NamespacedSelector `json:"connectorsSelector,omitempty" tf:"-"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	// +kubebuilder:validation:Optional
@@ -201,11 +204,11 @@ type GatewayInitParameters struct {
 
 	// Reference to a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewayRef *v1.NamespacedReference `json:"appGatewayRef,omitempty" tf:"-"`
+	AppGatewayRef *v2.NamespacedReference `json:"appGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewaySelector *v1.NamespacedSelector `json:"appGatewaySelector,omitempty" tf:"-"`
+	AppGatewaySelector *v2.NamespacedSelector `json:"appGatewaySelector,omitempty" tf:"-"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
@@ -242,11 +245,11 @@ type GatewayParameters struct {
 
 	// Reference to a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewayRef *v1.NamespacedReference `json:"appGatewayRef,omitempty" tf:"-"`
+	AppGatewayRef *v2.NamespacedReference `json:"appGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewaySelector *v1.NamespacedSelector `json:"appGatewaySelector,omitempty" tf:"-"`
+	AppGatewaySelector *v2.NamespacedSelector `json:"appGatewaySelector,omitempty" tf:"-"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
@@ -274,8 +277,8 @@ type AppConnectionSpec struct {
 
 // AppConnectionStatus defines the observed state of AppConnection.
 type AppConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

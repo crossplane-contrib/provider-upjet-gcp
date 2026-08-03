@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstancesInitParameters struct {
@@ -26,11 +25,11 @@ type InstancesInitParameters struct {
 
 	// Reference to a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineRef *v1.NamespacedReference `json:"virtualMachineRef,omitempty" tf:"-"`
+	VirtualMachineRef *v2.NamespacedReference `json:"virtualMachineRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineSelector *v1.NamespacedSelector `json:"virtualMachineSelector,omitempty" tf:"-"`
+	VirtualMachineSelector *v2.NamespacedSelector `json:"virtualMachineSelector,omitempty" tf:"-"`
 }
 
 type InstancesObservation struct {
@@ -56,17 +55,26 @@ type InstancesParameters struct {
 
 	// Reference to a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineRef *v1.NamespacedReference `json:"virtualMachineRef,omitempty" tf:"-"`
+	VirtualMachineRef *v2.NamespacedReference `json:"virtualMachineRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate virtualMachine.
 	// +kubebuilder:validation:Optional
-	VirtualMachineSelector *v1.NamespacedSelector `json:"virtualMachineSelector,omitempty" tf:"-"`
+	VirtualMachineSelector *v2.NamespacedSelector `json:"virtualMachineSelector,omitempty" tf:"-"`
 }
 
 type LinkedInterconnectAttachmentsInitParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -79,17 +87,26 @@ type LinkedInterconnectAttachmentsInitParameters struct {
 
 	// References to InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type LinkedInterconnectAttachmentsObservation struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -101,8 +118,20 @@ type LinkedInterconnectAttachmentsObservation struct {
 
 type LinkedInterconnectAttachmentsParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	// +kubebuilder:validation:Optional
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	// +kubebuilder:validation:Optional
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
@@ -118,11 +147,11 @@ type LinkedInterconnectAttachmentsParameters struct {
 
 	// References to InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of InterconnectAttachment in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type LinkedProducerVPCNetworkInitParameters struct {
@@ -139,11 +168,11 @@ type LinkedProducerVPCNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/servicenetworking/v1beta1.Connection
@@ -152,11 +181,11 @@ type LinkedProducerVPCNetworkInitParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringRef *v1.NamespacedReference `json:"peeringRef,omitempty" tf:"-"`
+	PeeringRef *v2.NamespacedReference `json:"peeringRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringSelector *v1.NamespacedSelector `json:"peeringSelector,omitempty" tf:"-"`
+	PeeringSelector *v2.NamespacedSelector `json:"peeringSelector,omitempty" tf:"-"`
 }
 
 type LinkedProducerVPCNetworkObservation struct {
@@ -195,11 +224,11 @@ type LinkedProducerVPCNetworkParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/servicenetworking/v1beta1.Connection
@@ -209,17 +238,26 @@ type LinkedProducerVPCNetworkParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringRef *v1.NamespacedReference `json:"peeringRef,omitempty" tf:"-"`
+	PeeringRef *v2.NamespacedReference `json:"peeringRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringSelector *v1.NamespacedSelector `json:"peeringSelector,omitempty" tf:"-"`
+	PeeringSelector *v2.NamespacedSelector `json:"peeringSelector,omitempty" tf:"-"`
 }
 
 type LinkedRouterApplianceInstancesInitParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
@@ -232,8 +270,17 @@ type LinkedRouterApplianceInstancesInitParameters struct {
 
 type LinkedRouterApplianceInstancesObservation struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// The list of router appliance instances
@@ -246,8 +293,20 @@ type LinkedRouterApplianceInstancesObservation struct {
 
 type LinkedRouterApplianceInstancesParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	// +kubebuilder:validation:Optional
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	// +kubebuilder:validation:Optional
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
@@ -276,11 +335,11 @@ type LinkedVPCNetworkInitParameters struct {
 
 	// Reference to a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type LinkedVPCNetworkObservation struct {
@@ -313,17 +372,26 @@ type LinkedVPCNetworkParameters struct {
 
 	// Reference to a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type LinkedVPNTunnelsInitParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -336,17 +404,26 @@ type LinkedVPNTunnelsInitParameters struct {
 
 	// References to VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type LinkedVPNTunnelsObservation struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
 	// A value that controls whether site-to-site data transfer is enabled for these resources. Note that data transfer is available only in supported locations.
@@ -358,8 +435,20 @@ type LinkedVPNTunnelsObservation struct {
 
 type LinkedVPNTunnelsParameters struct {
 
-	// IP ranges allowed to be included during import from hub (does not control transit connectivity).
-	// The only allowed value for now is "ALL_IPV4_RANGES".
+	// Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub.
+	// +kubebuilder:validation:Optional
+	ExcludeExportRanges []*string `json:"excludeExportRanges,omitempty" tf:"exclude_export_ranges,omitempty"`
+
+	// Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub.
+	// +kubebuilder:validation:Optional
+	ExcludeImportRanges []*string `json:"excludeImportRanges,omitempty" tf:"exclude_import_ranges,omitempty"`
+
+	// Dynamic routes fully encompassed by include export ranges are included during export to hub.
+	// +kubebuilder:validation:Optional
+	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
+
+	// Hub routes fully encompassed by include import ranges are included during import from hub.
+	// "ALL_IPV4_RANGES" or IPv4 CIDR ranges are allowed.
 	// +kubebuilder:validation:Optional
 	IncludeImportRanges []*string `json:"includeImportRanges,omitempty" tf:"include_import_ranges,omitempty"`
 
@@ -375,11 +464,11 @@ type LinkedVPNTunnelsParameters struct {
 
 	// References to VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisRefs []v1.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
+	UrisRefs []v2.NamespacedReference `json:"urisRefs,omitempty" tf:"-"`
 
 	// Selector for a list of VPNTunnel in compute to populate uris.
 	// +kubebuilder:validation:Optional
-	UrisSelector *v1.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
+	UrisSelector *v2.NamespacedSelector `json:"urisSelector,omitempty" tf:"-"`
 }
 
 type ReasonsInitParameters struct {
@@ -412,11 +501,11 @@ type SpokeInitParameters struct {
 
 	// Reference to a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networkconnectivity/v1beta1.Hub
@@ -425,11 +514,11 @@ type SpokeInitParameters struct {
 
 	// Reference to a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubRef *v1.NamespacedReference `json:"hubRef,omitempty" tf:"-"`
+	HubRef *v2.NamespacedReference `json:"hubRef,omitempty" tf:"-"`
 
 	// Selector for a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubSelector *v1.NamespacedSelector `json:"hubSelector,omitempty" tf:"-"`
+	HubSelector *v2.NamespacedSelector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -472,6 +561,10 @@ type SpokeObservation struct {
 
 	// Output only. The time the spoke was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -557,11 +650,11 @@ type SpokeParameters struct {
 
 	// Reference to a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.NamespacedReference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a Group in networkconnectivity to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.NamespacedSelector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networkconnectivity/v1beta1.Hub
@@ -571,11 +664,11 @@ type SpokeParameters struct {
 
 	// Reference to a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubRef *v1.NamespacedReference `json:"hubRef,omitempty" tf:"-"`
+	HubRef *v2.NamespacedReference `json:"hubRef,omitempty" tf:"-"`
 
 	// Selector for a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubSelector *v1.NamespacedSelector `json:"hubSelector,omitempty" tf:"-"`
+	HubSelector *v2.NamespacedSelector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -642,8 +735,8 @@ type SpokeSpec struct {
 
 // SpokeStatus defines the observed state of Spoke.
 type SpokeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SpokeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SpokeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CmekSettingsInitParameters struct {
@@ -62,6 +61,10 @@ type FolderBucketConfigObservation struct {
 
 	CmekSettings *CmekSettingsObservation `json:"cmekSettings,omitempty" tf:"cmek_settings,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Describes this bucket.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -108,11 +111,11 @@ type FolderBucketConfigParameters struct {
 
 	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderRef *v1.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
+	FolderRef *v2.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderSelector *v1.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
+	FolderSelector *v2.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
 
 	// A list of indexed fields and related configuration data. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -178,8 +181,8 @@ type FolderBucketConfigSpec struct {
 
 // FolderBucketConfigStatus defines the observed state of FolderBucketConfig.
 type FolderBucketConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderBucketConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FolderBucketConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

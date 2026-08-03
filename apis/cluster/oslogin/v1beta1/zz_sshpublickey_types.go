@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SSHPublicKeyInitParameters struct {
@@ -19,7 +19,7 @@ type SSHPublicKeyInitParameters struct {
 	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
 
 	// Public key text in SSH format, defined by RFC4253 section 6.6.
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// The project ID of the Google Cloud Platform project.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -29,6 +29,10 @@ type SSHPublicKeyInitParameters struct {
 }
 
 type SSHPublicKeyObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An expiration time in microseconds since epoch.
 	ExpirationTimeUsec *string `json:"expirationTimeUsec,omitempty" tf:"expiration_time_usec,omitempty"`
@@ -54,7 +58,7 @@ type SSHPublicKeyParameters struct {
 
 	// Public key text in SSH format, defined by RFC4253 section 6.6.
 	// +kubebuilder:validation:Optional
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// The project ID of the Google Cloud Platform project.
 	// +kubebuilder:validation:Optional
@@ -67,8 +71,8 @@ type SSHPublicKeyParameters struct {
 
 // SSHPublicKeySpec defines the desired state of SSHPublicKey
 type SSHPublicKeySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SSHPublicKeyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SSHPublicKeyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -84,8 +88,8 @@ type SSHPublicKeySpec struct {
 
 // SSHPublicKeyStatus defines the observed state of SSHPublicKey.
 type SSHPublicKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SSHPublicKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SSHPublicKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

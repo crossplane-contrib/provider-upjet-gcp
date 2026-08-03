@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorizationInitParameters struct {
@@ -108,7 +107,7 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	BinaryAuthorization *BinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
-	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
+	// Policy to determine what flags to send on delete.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human readable description of this attached cluster. Cannot be longer
@@ -187,7 +186,7 @@ type ClusterObservation struct {
 	// Output only. The time at which this cluster was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
+	// Policy to determine what flags to send on delete.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human readable description of this attached cluster. Cannot be longer
@@ -296,7 +295,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	BinaryAuthorization *BinaryAuthorizationParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
 
-	// Policy to determine what flags to send on delete. Possible values: DELETE, DELETE_IGNORE_ERRORS
+	// Policy to determine what flags to send on delete.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -625,8 +624,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

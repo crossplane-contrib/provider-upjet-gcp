@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SnapshotEncryptionKeyInitParameters struct {
@@ -25,12 +25,12 @@ type SnapshotEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotEncryptionKeyObservation struct {
@@ -63,13 +63,13 @@ type SnapshotEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotInitParameters struct {
@@ -91,6 +91,10 @@ type SnapshotInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *SnapshotParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -108,6 +112,10 @@ type SnapshotInitParameters struct {
 	// Structure is documented below.
 	SnapshotEncryptionKey *SnapshotEncryptionKeyInitParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
+	// Indicates the type of the snapshot.
+	// Possible values are: ARCHIVE, STANDARD.
+	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
+
 	// A reference to the disk used to create this snapshot.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -121,11 +129,14 @@ type SnapshotInitParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
+
+	// A reference to the instant snapshot used to create this snapshot.
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
 
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
@@ -146,6 +157,10 @@ type SnapshotObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -175,6 +190,10 @@ type SnapshotObservation struct {
 	// snapshot using a customer-supplied encryption key.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *SnapshotParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -198,6 +217,10 @@ type SnapshotObservation struct {
 	// The unique identifier for the resource.
 	SnapshotID *float64 `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// Indicates the type of the snapshot.
+	// Possible values are: ARCHIVE, STANDARD.
+	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
+
 	// A reference to the disk used to create this snapshot.
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
@@ -206,6 +229,9 @@ type SnapshotObservation struct {
 	// key.
 	// Structure is documented below.
 	SourceDiskEncryptionKey *SnapshotSourceDiskEncryptionKeyObservation `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
+	// A reference to the instant snapshot used to create this snapshot.
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
 
 	// A size of the storage used by the snapshot. As snapshots share
 	// storage, this number is expected to change with snapshot
@@ -246,6 +272,11 @@ type SnapshotParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *SnapshotParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -265,6 +296,11 @@ type SnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	SnapshotEncryptionKey *SnapshotEncryptionKeyParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
 
+	// Indicates the type of the snapshot.
+	// Possible values are: ARCHIVE, STANDARD.
+	// +kubebuilder:validation:Optional
+	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
+
 	// A reference to the disk used to create this snapshot.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -280,11 +316,15 @@ type SnapshotParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
+
+	// A reference to the instant snapshot used to create this snapshot.
+	// +kubebuilder:validation:Optional
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
 
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
 	// +kubebuilder:validation:Optional
@@ -293,6 +333,34 @@ type SnapshotParameters struct {
 	// A reference to the zone where the disk is hosted.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type SnapshotParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the snapshot. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type SnapshotParamsObservation struct {
+
+	// Resource manager tags to be bound to the snapshot. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type SnapshotParamsParameters struct {
+
+	// Resource manager tags to be bound to the snapshot. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type SnapshotSourceDiskEncryptionKeyInitParameters struct {
@@ -307,12 +375,12 @@ type SnapshotSourceDiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SnapshotSourceDiskEncryptionKeyObservation struct {
@@ -340,19 +408,19 @@ type SnapshotSourceDiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an encryption key stored in Google Cloud KMS, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 // SnapshotSpec defines the desired state of Snapshot
 type SnapshotSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SnapshotParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SnapshotParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -368,8 +436,8 @@ type SnapshotSpec struct {
 
 // SnapshotStatus defines the observed state of Snapshot.
 type SnapshotStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SnapshotObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SnapshotObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HTTPHealthCheckInitParameters_2 struct {
@@ -63,6 +62,10 @@ type HTTPHealthCheckObservation_2 struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -174,8 +177,8 @@ type HTTPHealthCheckSpec struct {
 
 // HTTPHealthCheckStatus defines the observed state of HTTPHealthCheck.
 type HTTPHealthCheckStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        HTTPHealthCheckObservation_2 `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               HTTPHealthCheckObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

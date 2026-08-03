@@ -9,7 +9,7 @@
 package v1beta1
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -54,6 +54,11 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 			}
 		}
 	}
+	if in.AllPorts != nil {
+		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -67,14 +72,14 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 	}
 	if in.CertificateUrlsRefs != nil {
 		in, out := &in.CertificateUrlsRefs, &out.CertificateUrlsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.CertificateUrlsSelector != nil {
 		in, out := &in.CertificateUrlsSelector, &out.CertificateUrlsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeleteSwgAutogenRouterOnDestroy != nil {
@@ -99,12 +104,12 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 	}
 	if in.GatewaySecurityPolicyRef != nil {
 		in, out := &in.GatewaySecurityPolicyRef, &out.GatewaySecurityPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GatewaySecurityPolicySelector != nil {
 		in, out := &in.GatewaySecurityPolicySelector, &out.GatewaySecurityPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPVersion != nil {
@@ -135,12 +140,12 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Ports != nil {
@@ -181,12 +186,12 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
@@ -252,6 +257,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 			}
 		}
 	}
+	if in.AllPorts != nil {
+		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -271,6 +281,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 	if in.DeleteSwgAutogenRouterOnDestroy != nil {
 		in, out := &in.DeleteSwgAutogenRouterOnDestroy, &out.DeleteSwgAutogenRouterOnDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -433,6 +448,11 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 			}
 		}
 	}
+	if in.AllPorts != nil {
+		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -446,14 +466,14 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 	}
 	if in.CertificateUrlsRefs != nil {
 		in, out := &in.CertificateUrlsRefs, &out.CertificateUrlsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.CertificateUrlsSelector != nil {
 		in, out := &in.CertificateUrlsSelector, &out.CertificateUrlsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeleteSwgAutogenRouterOnDestroy != nil {
@@ -478,12 +498,12 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 	}
 	if in.GatewaySecurityPolicyRef != nil {
 		in, out := &in.GatewaySecurityPolicyRef, &out.GatewaySecurityPolicyRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GatewaySecurityPolicySelector != nil {
 		in, out := &in.GatewaySecurityPolicySelector, &out.GatewaySecurityPolicySelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPVersion != nil {
@@ -519,12 +539,12 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 	}
 	if in.NetworkRef != nil {
 		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkSelector != nil {
 		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Ports != nil {
@@ -565,12 +585,12 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 	}
 	if in.SubnetworkRef != nil {
 		in, out := &in.SubnetworkRef, &out.SubnetworkRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubnetworkSelector != nil {
 		in, out := &in.SubnetworkSelector, &out.SubnetworkSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
@@ -593,7 +613,7 @@ func (in *GatewayParameters) DeepCopy() *GatewayParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GatewaySpec) DeepCopyInto(out *GatewaySpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -611,7 +631,7 @@ func (in *GatewaySpec) DeepCopy() *GatewaySpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GatewayStatus) DeepCopyInto(out *GatewayStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 

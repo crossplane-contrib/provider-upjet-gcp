@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReleaseInitParameters struct {
@@ -24,17 +24,21 @@ type ReleaseInitParameters struct {
 
 	// Reference to a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameRef *v1.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
+	RulesetNameRef *v2.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
 
 	// Selector for a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameSelector *v1.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
+	RulesetNameSelector *v2.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
 }
 
 type ReleaseObservation struct {
 
 	// Output only. Time the release was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Disable the release to keep it from being served. The response code of NOT_FOUND will be given for executables generated from this Release.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -65,17 +69,17 @@ type ReleaseParameters struct {
 
 	// Reference to a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameRef *v1.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
+	RulesetNameRef *v2.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
 
 	// Selector for a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameSelector *v1.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
+	RulesetNameSelector *v2.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
 }
 
 // ReleaseSpec defines the desired state of Release
 type ReleaseSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReleaseParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ReleaseParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -91,8 +95,8 @@ type ReleaseSpec struct {
 
 // ReleaseStatus defines the observed state of Release.
 type ReleaseStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReleaseObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReleaseObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

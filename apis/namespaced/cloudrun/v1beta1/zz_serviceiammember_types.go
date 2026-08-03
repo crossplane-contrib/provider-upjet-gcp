@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -54,11 +53,11 @@ type ServiceIAMMemberInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
@@ -67,11 +66,11 @@ type ServiceIAMMemberInitParameters struct {
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type ServiceIAMMemberObservation struct {
@@ -109,11 +108,11 @@ type ServiceIAMMemberParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -124,11 +123,11 @@ type ServiceIAMMemberParameters struct {
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 // ServiceIAMMemberSpec defines the desired state of ServiceIAMMember
@@ -150,8 +149,8 @@ type ServiceIAMMemberSpec struct {
 
 // ServiceIAMMemberStatus defines the observed state of ServiceIAMMember.
 type ServiceIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

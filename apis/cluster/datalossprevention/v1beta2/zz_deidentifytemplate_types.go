@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllInfoTypesInitParameters struct {
@@ -1785,7 +1785,7 @@ type CryptoDeterministicConfigCryptoKeyUnwrappedInitParameters struct {
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoDeterministicConfigCryptoKeyUnwrappedObservation struct {
@@ -1796,7 +1796,7 @@ type CryptoDeterministicConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoDeterministicConfigInitParameters struct {
@@ -2035,7 +2035,7 @@ type CryptoHashConfigCryptoKeyUnwrappedInitParameters struct {
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoHashConfigCryptoKeyUnwrappedObservation struct {
@@ -2046,7 +2046,7 @@ type CryptoHashConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type CryptoHashConfigInitParameters struct {
@@ -2839,6 +2839,10 @@ type DeidentifyTemplateObservation struct {
 	// Configuration of the deidentify template
 	// Structure is documented below.
 	DeidentifyConfig *DeidentifyConfigObservation `json:"deidentifyConfig,omitempty" tf:"deidentify_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -5912,7 +5916,7 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedInitParam
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedObservation struct {
@@ -5923,7 +5927,7 @@ type PrimitiveTransformationCryptoReplaceFfxFpeConfigCryptoKeyUnwrappedParameter
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationCryptoReplaceFfxFpeConfigInitParameters struct {
@@ -6217,7 +6221,7 @@ type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedInitParameters stru
 
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedObservation struct {
@@ -6228,7 +6232,7 @@ type PrimitiveTransformationDateShiftConfigCryptoKeyUnwrappedParameters struct {
 	// A 128/192/256 bit key.
 	// A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 }
 
 type PrimitiveTransformationDateShiftConfigInitParameters struct {
@@ -8510,8 +8514,8 @@ type WordListParameters struct {
 
 // DeidentifyTemplateSpec defines the desired state of DeidentifyTemplate
 type DeidentifyTemplateSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DeidentifyTemplateParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DeidentifyTemplateParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -8527,8 +8531,8 @@ type DeidentifyTemplateSpec struct {
 
 // DeidentifyTemplateStatus defines the observed state of DeidentifyTemplate.
 type DeidentifyTemplateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DeidentifyTemplateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DeidentifyTemplateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

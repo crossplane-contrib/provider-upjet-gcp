@@ -22,9 +22,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: basic_tag_template
 
+
 ---
 
-apiVersion: datacatalog.gcp.upbound.io/v1beta1
+apiVersion: datacatalog.gcp.upbound.io/v1beta2
 kind: Entry
 metadata:
   annotations:
@@ -41,6 +42,7 @@ spec:
     userSpecifiedSystem: SomethingExternal
     userSpecifiedType: my_custom_type
 
+
 ---
 
 apiVersion: datacatalog.gcp.upbound.io/v1beta1
@@ -56,9 +58,10 @@ spec:
     entryGroupId: my_group
     region: us-central1
 
+
 ---
 
-apiVersion: datacatalog.gcp.upbound.io/v1beta1
+apiVersion: datacatalog.gcp.upbound.io/v1beta2
 kind: TagTemplate
 metadata:
   annotations:

@@ -43,3 +43,17 @@ func SetupGated_redis(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_redis registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_redis(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		cluster.SetupWebhookWithManager,
+		clusterusercreatedconnections.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

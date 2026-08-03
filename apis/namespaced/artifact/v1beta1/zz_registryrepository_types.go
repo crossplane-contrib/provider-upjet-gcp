@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AptRepositoryInitParameters struct {
@@ -106,11 +105,11 @@ type CommonRepositoryInitParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type CommonRepositoryObservation struct {
@@ -129,11 +128,11 @@ type CommonRepositoryParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.NamespacedReference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.NamespacedSelector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type ConditionInitParameters struct {
@@ -629,6 +628,10 @@ type RegistryRepositoryObservation struct {
 	// The time when the repository was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The user-provided description of the repository.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -689,6 +692,9 @@ type RegistryRepositoryObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The repository endpoint, for example: us-docker.pkg.dev/my-proj/my-repo.
+	RegistryURI *string `json:"registryUri,omitempty" tf:"registry_uri,omitempty"`
 
 	// Configuration specific for a Remote Repository.
 	// Structure is documented below.
@@ -975,11 +981,11 @@ type UpstreamPoliciesInitParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.NamespacedReference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.NamespacedReference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.NamespacedSelector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.NamespacedSelector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UpstreamPoliciesObservation struct {
@@ -1014,11 +1020,11 @@ type UpstreamPoliciesParameters struct {
 
 	// Reference to a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.NamespacedReference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.NamespacedReference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.NamespacedSelector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.NamespacedSelector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UsernamePasswordCredentialsInitParameters struct {
@@ -1032,11 +1038,11 @@ type UsernamePasswordCredentialsInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionRef *v1.NamespacedReference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+	PasswordSecretVersionRef *v2.NamespacedReference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionSelector *v1.NamespacedSelector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+	PasswordSecretVersionSelector *v2.NamespacedSelector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
 
 	// The username to access the remote repository.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -1065,11 +1071,11 @@ type UsernamePasswordCredentialsParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionRef *v1.NamespacedReference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+	PasswordSecretVersionRef *v2.NamespacedReference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionSelector *v1.NamespacedSelector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+	PasswordSecretVersionSelector *v2.NamespacedSelector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
 
 	// The username to access the remote repository.
 	// +kubebuilder:validation:Optional
@@ -1204,8 +1210,8 @@ type RegistryRepositorySpec struct {
 
 // RegistryRepositoryStatus defines the observed state of RegistryRepository.
 type RegistryRepositoryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegistryRepositoryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegistryRepositoryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

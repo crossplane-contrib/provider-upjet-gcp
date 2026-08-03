@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkSettingsInitParameters struct {
@@ -56,11 +55,11 @@ type ServiceNetworkSettingsInitParameters struct {
 
 	// Reference to a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type ServiceNetworkSettingsObservation struct {
@@ -100,11 +99,11 @@ type ServiceNetworkSettingsParameters struct {
 
 	// Reference to a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 // ServiceNetworkSettingsSpec defines the desired state of ServiceNetworkSettings
@@ -126,8 +125,8 @@ type ServiceNetworkSettingsSpec struct {
 
 // ServiceNetworkSettingsStatus defines the observed state of ServiceNetworkSettings.
 type ServiceNetworkSettingsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceNetworkSettingsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceNetworkSettingsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

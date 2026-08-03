@@ -20,9 +20,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: region-target-https-proxy
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RegionBackendService
 metadata:
   annotations:
@@ -39,9 +40,10 @@ spec:
     region: us-central1
     timeoutSec: 10
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RegionHealthCheck
 metadata:
   annotations:
@@ -54,6 +56,7 @@ spec:
     httpHealthCheck:
     - port: 80
     region: us-central1
+
 
 ---
 
@@ -78,9 +81,10 @@ spec:
       namespace: upbound-system
     region: us-central1
 
+
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
+apiVersion: compute.gcp.upbound.io/v1beta2
 kind: RegionURLMap
 metadata:
   annotations:
@@ -110,6 +114,7 @@ spec:
           matchLabels:
             testing.upbound.io/example-name: region-target-https-proxy
     region: us-central1
+
 
 ---
 

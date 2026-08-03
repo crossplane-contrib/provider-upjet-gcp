@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GlobalNetworkEndpointGroupInitParameters struct {
@@ -37,6 +37,10 @@ type GlobalNetworkEndpointGroupObservation struct {
 	// The default port used if the port number is not specified in the
 	// network endpoint.
 	DefaultPort *float64 `json:"defaultPort,omitempty" tf:"default_port,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -82,8 +86,8 @@ type GlobalNetworkEndpointGroupParameters struct {
 
 // GlobalNetworkEndpointGroupSpec defines the desired state of GlobalNetworkEndpointGroup
 type GlobalNetworkEndpointGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GlobalNetworkEndpointGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GlobalNetworkEndpointGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -99,8 +103,8 @@ type GlobalNetworkEndpointGroupSpec struct {
 
 // GlobalNetworkEndpointGroupStatus defines the observed state of GlobalNetworkEndpointGroup.
 type GlobalNetworkEndpointGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GlobalNetworkEndpointGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GlobalNetworkEndpointGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

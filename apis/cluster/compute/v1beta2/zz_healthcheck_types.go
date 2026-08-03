@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GRPCHealthCheckInitParameters struct {
@@ -70,6 +70,54 @@ type GRPCHealthCheckParameters struct {
 	// port_name are defined, port takes precedence.
 	// +kubebuilder:validation:Optional
 	PortName *string `json:"portName,omitempty" tf:"port_name,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	// +kubebuilder:validation:Optional
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+}
+
+type GRPCTLSHealthCheckInitParameters struct {
+
+	// The gRPC service name for the health check.
+	// The value of grpcServiceName has the following meanings by convention:
+	GRPCServiceName *string `json:"grpcServiceName,omitempty" tf:"grpc_service_name,omitempty"`
+
+	// The port number for the health check request.
+	// Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+}
+
+type GRPCTLSHealthCheckObservation struct {
+
+	// The gRPC service name for the health check.
+	// The value of grpcServiceName has the following meanings by convention:
+	GRPCServiceName *string `json:"grpcServiceName,omitempty" tf:"grpc_service_name,omitempty"`
+
+	// The port number for the health check request.
+	// Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// Specifies how port is selected for health checking, can be one of the
+	// following values:
+	PortSpecification *string `json:"portSpecification,omitempty" tf:"port_specification,omitempty"`
+}
+
+type GRPCTLSHealthCheckParameters struct {
+
+	// The gRPC service name for the health check.
+	// The value of grpcServiceName has the following meanings by convention:
+	// +kubebuilder:validation:Optional
+	GRPCServiceName *string `json:"grpcServiceName,omitempty" tf:"grpc_service_name,omitempty"`
+
+	// The port number for the health check request.
+	// Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// Specifies how port is selected for health checking, can be one of the
 	// following values:
@@ -317,6 +365,10 @@ type HealthCheckInitParameters struct {
 
 	// A nested object resource.
 	// Structure is documented below.
+	GRPCTLSHealthCheck *GRPCTLSHealthCheckInitParameters `json:"grpcTlsHealthCheck,omitempty" tf:"grpc_tls_health_check,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
 	HTTPHealthCheck *HTTPHealthCheckInitParameters `json:"httpHealthCheck,omitempty" tf:"http_health_check,omitempty"`
 
 	// A nested object resource.
@@ -396,6 +448,10 @@ type HealthCheckObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -403,6 +459,10 @@ type HealthCheckObservation struct {
 	// A nested object resource.
 	// Structure is documented below.
 	GRPCHealthCheck *GRPCHealthCheckObservation `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	GRPCTLSHealthCheck *GRPCTLSHealthCheckObservation `json:"grpcTlsHealthCheck,omitempty" tf:"grpc_tls_health_check,omitempty"`
 
 	// A nested object resource.
 	// Structure is documented below.
@@ -479,6 +539,11 @@ type HealthCheckParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	GRPCHealthCheck *GRPCHealthCheckParameters `json:"grpcHealthCheck,omitempty" tf:"grpc_health_check,omitempty"`
+
+	// A nested object resource.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPCTLSHealthCheck *GRPCTLSHealthCheckParameters `json:"grpcTlsHealthCheck,omitempty" tf:"grpc_tls_health_check,omitempty"`
 
 	// A nested object resource.
 	// Structure is documented below.
@@ -859,8 +924,8 @@ type TCPHealthCheckParameters struct {
 
 // HealthCheckSpec defines the desired state of HealthCheck
 type HealthCheckSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     HealthCheckParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   HealthCheckParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -876,8 +941,8 @@ type HealthCheckSpec struct {
 
 // HealthCheckStatus defines the observed state of HealthCheck.
 type HealthCheckStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        HealthCheckObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               HealthCheckObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

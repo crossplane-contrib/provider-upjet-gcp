@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AssetInitParameters struct {
@@ -43,6 +42,10 @@ type AssetObservation struct {
 
 	// The zone for the resource
 	DataplexZone *string `json:"dataplexZone,omitempty" tf:"dataplex_zone,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the asset.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -107,11 +110,11 @@ type AssetParameters struct {
 
 	// Reference to a Zone in dataplex to populate dataplexZone.
 	// +kubebuilder:validation:Optional
-	DataplexZoneRef *v1.NamespacedReference `json:"dataplexZoneRef,omitempty" tf:"-"`
+	DataplexZoneRef *v2.NamespacedReference `json:"dataplexZoneRef,omitempty" tf:"-"`
 
 	// Selector for a Zone in dataplex to populate dataplexZone.
 	// +kubebuilder:validation:Optional
-	DataplexZoneSelector *v1.NamespacedSelector `json:"dataplexZoneSelector,omitempty" tf:"-"`
+	DataplexZoneSelector *v2.NamespacedSelector `json:"dataplexZoneSelector,omitempty" tf:"-"`
 
 	// Optional. Description of the asset.
 	// +kubebuilder:validation:Optional
@@ -137,11 +140,11 @@ type AssetParameters struct {
 
 	// Reference to a Lake in dataplex to populate lake.
 	// +kubebuilder:validation:Optional
-	LakeRef *v1.NamespacedReference `json:"lakeRef,omitempty" tf:"-"`
+	LakeRef *v2.NamespacedReference `json:"lakeRef,omitempty" tf:"-"`
 
 	// Selector for a Lake in dataplex to populate lake.
 	// +kubebuilder:validation:Optional
-	LakeSelector *v1.NamespacedSelector `json:"lakeSelector,omitempty" tf:"-"`
+	LakeSelector *v2.NamespacedSelector `json:"lakeSelector,omitempty" tf:"-"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required
@@ -431,8 +434,8 @@ type AssetSpec struct {
 
 // AssetStatus defines the observed state of Asset.
 type AssetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AssetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AssetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

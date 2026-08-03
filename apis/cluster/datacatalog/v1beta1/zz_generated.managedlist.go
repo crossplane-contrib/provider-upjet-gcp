@@ -16,15 +16,6 @@ func (l *EntryGroupList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this EntryList.
-func (l *EntryList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this PolicyTagList.
 func (l *PolicyTagList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -36,15 +27,6 @@ func (l *PolicyTagList) GetItems() []resource.Managed {
 
 // GetItems of this TagList.
 func (l *TagList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this TagTemplateList.
-func (l *TagTemplateList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

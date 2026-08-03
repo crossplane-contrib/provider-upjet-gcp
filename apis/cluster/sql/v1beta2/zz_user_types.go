@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PasswordPolicyInitParameters struct {
@@ -93,8 +93,17 @@ type StatusParameters struct {
 
 type UserInitParameters struct {
 
-	// The deletion policy for the user.
-	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
+	// A list of database roles to be assigned to the user.
+	// This option is only available for MySQL 8+ and PostgreSQL instances. You
+	// can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your
+	// own custom roles. Custom roles must be created in the database before
+	// you can assign them. You can create roles using the CREATE ROLE
+	// statement for both MySQL and PostgreSQL.
+	// Note: This property is write-only and will not be read from the API.
+	// Caution: Existing database roles will be overwriten with new values from this field.
+	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
+
+	// Defaults to "DELETE". This is useful
 	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -110,11 +119,11 @@ type UserInitParameters struct {
 
 	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	PasswordPolicy *PasswordPolicyInitParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
@@ -122,17 +131,7 @@ type UserInitParameters struct {
 	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
 	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// The version of the password_wo. For more info see updating write-only attributes.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -149,8 +148,17 @@ type UserInitParameters struct {
 
 type UserObservation struct {
 
-	// The deletion policy for the user.
-	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
+	// A list of database roles to be assigned to the user.
+	// This option is only available for MySQL 8+ and PostgreSQL instances. You
+	// can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your
+	// own custom roles. Custom roles must be created in the database before
+	// you can assign them. You can create roles using the CREATE ROLE
+	// statement for both MySQL and PostgreSQL.
+	// Note: This property is write-only and will not be read from the API.
+	// Caution: Existing database roles will be overwriten with new values from this field.
+	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
+
+	// Defaults to "DELETE". This is useful
 	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -159,6 +167,9 @@ type UserObservation struct {
 	// Can be an IP address. Changing this forces a new resource to be created.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// (read only) IAM email address for MySQL IAM database users.
+	IAMEmail *string `json:"iamEmail,omitempty" tf:"iam_email,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The name of the Cloud SQL instance. Changing this
@@ -166,16 +177,6 @@ type UserObservation struct {
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	PasswordPolicy *PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// The version of the password_wo. For more info see updating write-only attributes.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -194,8 +195,18 @@ type UserObservation struct {
 
 type UserParameters struct {
 
-	// The deletion policy for the user.
-	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
+	// A list of database roles to be assigned to the user.
+	// This option is only available for MySQL 8+ and PostgreSQL instances. You
+	// can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your
+	// own custom roles. Custom roles must be created in the database before
+	// you can assign them. You can create roles using the CREATE ROLE
+	// statement for both MySQL and PostgreSQL.
+	// Note: This property is write-only and will not be read from the API.
+	// Caution: Existing database roles will be overwriten with new values from this field.
+	// +kubebuilder:validation:Optional
+	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
+
+	// Defaults to "DELETE". This is useful
 	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
@@ -214,11 +225,11 @@ type UserParameters struct {
 
 	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	PasswordPolicy *PasswordPolicyParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
@@ -228,19 +239,7 @@ type UserParameters struct {
 	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// The version of the password_wo. For more info see updating write-only attributes.
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -259,8 +258,8 @@ type UserParameters struct {
 
 // UserSpec defines the desired state of User
 type UserSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     UserParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   UserParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -276,8 +275,8 @@ type UserSpec struct {
 
 // UserStatus defines the observed state of User.
 type UserStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        UserObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               UserObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

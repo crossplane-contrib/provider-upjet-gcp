@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GatewayInitParameters struct {
@@ -22,6 +21,12 @@ type GatewayInitParameters struct {
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
@@ -30,11 +35,11 @@ type GatewayInitParameters struct {
 
 	// References to Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsRefs []v1.NamespacedReference `json:"certificateUrlsRefs,omitempty" tf:"-"`
+	CertificateUrlsRefs []v2.NamespacedReference `json:"certificateUrlsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsSelector *v1.NamespacedSelector `json:"certificateUrlsSelector,omitempty" tf:"-"`
+	CertificateUrlsSelector *v2.NamespacedSelector `json:"certificateUrlsSelector,omitempty" tf:"-"`
 
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
@@ -58,11 +63,11 @@ type GatewayInitParameters struct {
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicyRef *v1.NamespacedReference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
+	GatewaySecurityPolicyRef *v2.NamespacedReference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicySelector *v1.NamespacedSelector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+	GatewaySecurityPolicySelector *v2.NamespacedSelector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
 	// The IP Version that will be used by this gateway.
 	// Possible values are: IPV4, IPV6.
@@ -81,14 +86,14 @@ type GatewayInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -97,7 +102,7 @@ type GatewayInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
@@ -117,11 +122,11 @@ type GatewayInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// Immutable. The type of the customer managed gateway.
 	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
@@ -136,6 +141,12 @@ type GatewayObservation struct {
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
@@ -146,6 +157,10 @@ type GatewayObservation struct {
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
 	DeleteSwgAutogenRouterOnDestroy *bool `json:"deleteSwgAutogenRouterOnDestroy,omitempty" tf:"delete_swg_autogen_router_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -186,7 +201,7 @@ type GatewayObservation struct {
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -195,7 +210,7 @@ type GatewayObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
@@ -236,6 +251,13 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	// +kubebuilder:validation:Optional
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
@@ -245,11 +267,11 @@ type GatewayParameters struct {
 
 	// References to Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsRefs []v1.NamespacedReference `json:"certificateUrlsRefs,omitempty" tf:"-"`
+	CertificateUrlsRefs []v2.NamespacedReference `json:"certificateUrlsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsSelector *v1.NamespacedSelector `json:"certificateUrlsSelector,omitempty" tf:"-"`
+	CertificateUrlsSelector *v2.NamespacedSelector `json:"certificateUrlsSelector,omitempty" tf:"-"`
 
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
@@ -277,11 +299,11 @@ type GatewayParameters struct {
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicyRef *v1.NamespacedReference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
+	GatewaySecurityPolicyRef *v2.NamespacedReference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicySelector *v1.NamespacedSelector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+	GatewaySecurityPolicySelector *v2.NamespacedSelector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
 	// The IP Version that will be used by this gateway.
 	// Possible values are: IPV4, IPV6.
@@ -308,14 +330,14 @@ type GatewayParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	// +kubebuilder:validation:Optional
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
@@ -326,7 +348,7 @@ type GatewayParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	// +kubebuilder:validation:Optional
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
@@ -350,11 +372,11 @@ type GatewayParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// Immutable. The type of the customer managed gateway.
 	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
@@ -381,8 +403,8 @@ type GatewaySpec struct {
 
 // GatewayStatus defines the observed state of Gateway.
 type GatewayStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GatewayObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GatewayObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -398,7 +420,6 @@ type GatewayStatus struct {
 type Gateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ports) || (has(self.initProvider) && has(self.initProvider.ports))",message="spec.forProvider.ports is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
 	Spec   GatewaySpec   `json:"spec"`
 	Status GatewayStatus `json:"status,omitempty"`
