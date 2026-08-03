@@ -546,6 +546,23 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			return err
 		}
 	})
+	p.AddResourceConfigurator("google_compute_network_firewall_policy_association", func(r *config.Resource) {
+		// The GCP API returns HTTP 400 (not 404) when an association
+		// with the specified name does not exist on the firewall
+		// policy. The Terraform provider's HandleNotFoundError only
+		// handles 404, so the initial observe call fails instead of
+		// recognizing the resource needs to be created.
+		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/976
+		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
+		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
+			err := origRead(d, meta)
+			if err != nil && strings.Contains(err.Error(), "An association with that name does not exist") {
+				d.SetId("")
+				return nil
+			}
+			return err
+		}
+	})
 	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
 		r.MarkAsRequired("region")
 	})
