@@ -491,8 +491,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// essential
 	//
-	// Imported by using the following format:
-	"google_essential_contacts_contact": config.IdentifierFromProvider,
+	// Imported by using the following format: {resource_type}/{resource_id}/contacts/{contact_id}, e.g. projects/{project_id}/contacts/{contact_id}
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_essential_contacts_contact": identifierFromProviderWithComputedName(),
 
 	// eventarc
 	//
@@ -1135,11 +1136,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// cloudidentity
 	//
 	// Imported by using the following: groups/<group_id>
-	// Please see the cloudIdentity function for details.
-	"google_cloud_identity_group": cloudIdentity(),
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group": identifierFromProviderWithComputedName(),
 	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
-	// Please see the cloudIdentity function for details.
-	"google_cloud_identity_group_membership": cloudIdentity(),
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group_membership": identifierFromProviderWithComputedName(),
 
 	// modelarmor
 	//
@@ -1247,21 +1248,23 @@ func apigeeOrganization() config.ExternalName {
 	return e
 }
 
-// This function configures cloud_identity resources in a special way. The
+// identifierFromProviderWithComputedName configures resources (e.g.
+// cloud_identity resources, essential_contacts_contact) in a special way. The
 // reason this is required is due to the implementation of these resources. In
-// the Read functions, resources are fetched using not only the ID field but
-// also the name field. It is important to note that this field exists only
+// the Read functions, resources are fetched using not the ID field but the
+// name field. It is important to note that this field exists only
 // under the status field. The name field has the same value as the resource ID;
 // therefore, this function sets the name field to the ID value
 // (or external-name — in this case they are equivalent; see IdentifierFromProvider).
 // This ensures that the resource behaves correctly.
 // If this configuration is not applied, although the happy path (create-delete)
 // appears to succeed, the resource fails in scenarios where import or state
-// reconstruction is required (e.g., import, pod restart, etc.) with a "resource
-// already exists" error. This happens because the Read function cannot find the
-// resource when the name field (in status) is empty, and the system attempts to
-// recreate it. This configuration fixes that issue.
-func cloudIdentity() config.ExternalName {
+// reconstruction is required (e.g., import, observe-only, pod restart, etc.)
+// with a "resource already exists" error (or "external resource does not
+// exist" under the Observe management policy). This happens because the Read
+// function cannot find the resource when the name field (in status) is empty,
+// and the system attempts to recreate it. This configuration fixes that issue.
+func identifierFromProviderWithComputedName() config.ExternalName {
 	e := config.IdentifierFromProvider
 	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
 		if externalName == "" {
