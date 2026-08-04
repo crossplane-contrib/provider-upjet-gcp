@@ -258,7 +258,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: us-central1/router-1/interface-1
 	"google_compute_router_interface": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{name}}
-	"google_compute_firewall_policy": config.IdentifierFromProvider,
+	"google_compute_firewall_policy": firewallPolicy(),
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	"google_compute_firewall_policy_association": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
@@ -1213,6 +1213,26 @@ func apigeeOrganization() config.ExternalName {
 		if parts[len(parts)-2] != "organizations" {
 			return
 		}
+		base["name"] = parts[len(parts)-1]
+	}
+	return e
+}
+
+// firewallPolicy configures the external name for
+// google_compute_firewall_policy. The TF ID is
+// locations/global/firewallPolicies/{name}, where `name` is the
+// GCP-allocated numeric id exposed only as a computed attribute. The
+// resource's Read/Update/Delete build their URLs from `name` rather than
+// from the TF ID, so on import / state reconstruction `name` must be
+// seeded from the external-name; otherwise Read GETs the list endpoint
+// and fails with 400 "Required field 'parentId' not specified" (#820).
+func firewallPolicy() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		parts := strings.Split(externalName, "/")
 		base["name"] = parts[len(parts)-1]
 	}
 	return e
