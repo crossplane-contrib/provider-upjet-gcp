@@ -5,6 +5,8 @@
 package compute
 
 import (
+	"errors"
+	"net/http"
 	"strings"
 
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
@@ -13,6 +15,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"google.golang.org/api/googleapi"
 
 	"github.com/upbound/provider-gcp/v2/config/namespaced/common"
 )
@@ -536,15 +539,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 		// initial observe call fails instead of recognizing the resource
 		// needs to be created.
 		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/836
-		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
-		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
-			err := origRead(d, meta)
-			if err != nil && strings.Contains(err.Error(), "does not contain a rule at priority") {
-				d.SetId("")
-				return nil
-			}
-			return err
-		}
+		r.TerraformResource.Read = badRequestAsNotFound(r.TerraformResource.Read, "does not contain a rule at priority") //nolint:staticcheck // upstream resource uses deprecated Read field
 	})
 	p.AddResourceConfigurator("google_compute_network_firewall_policy_association", func(r *config.Resource) {
 		// The GCP API returns HTTP 400 (not 404) when an association
@@ -553,15 +548,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 		// handles 404, so the initial observe call fails instead of
 		// recognizing the resource needs to be created.
 		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/976
-		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
-		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
-			err := origRead(d, meta)
-			if err != nil && strings.Contains(err.Error(), "An association with that name does not exist") {
-				d.SetId("")
-				return nil
-			}
-			return err
-		}
+		r.TerraformResource.Read = badRequestAsNotFound(r.TerraformResource.Read, "An association with that name does not exist") //nolint:staticcheck // upstream resource uses deprecated Read field
 	})
 	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
 		r.MarkAsRequired("region")
@@ -570,6 +557,24 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 		delete(r.TerraformResource.Schema, "private_key_wo")
 		delete(r.TerraformResource.Schema, "private_key_wo_version")
 	})
+}
+
+// badRequestAsNotFound wraps a Terraform resource read function so that an
+// HTTP 400 response whose API error message contains msgSubstring is treated
+// as resource not-found: the ID is cleared and no error is returned. GCP
+// reports no distinctive error reason for such absent sub-resources (only the
+// generic "invalid"), so the structured status code check is combined with a
+// match on the API error message payload.
+func badRequestAsNotFound(read func(*schema.ResourceData, interface{}) error, msgSubstring string) func(*schema.ResourceData, interface{}) error {
+	return func(d *schema.ResourceData, meta interface{}) error {
+		err := read(d, meta)
+		var gerr *googleapi.Error
+		if errors.As(err, &gerr) && gerr.Code == http.StatusBadRequest && strings.Contains(gerr.Message, msgSubstring) {
+			d.SetId("")
+			return nil
+		}
+		return err
+	}
 }
 
 // InstanceGroupExtractor extracts Instance Group from
