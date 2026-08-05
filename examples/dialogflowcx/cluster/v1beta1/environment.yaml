@@ -22,9 +22,10 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: environment
 
+
 ---
 
-apiVersion: dialogflowcx.gcp.upbound.io/v1beta1
+apiVersion: dialogflowcx.gcp.upbound.io/v1beta2
 kind: Agent
 metadata:
   annotations:
@@ -48,6 +49,7 @@ spec:
     - de
     - es
     timeZone: America/New_York
+
 
 ---
 

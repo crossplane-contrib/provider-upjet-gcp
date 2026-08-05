@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ContactInitParameters struct {
@@ -29,6 +29,10 @@ type ContactInitParameters struct {
 }
 
 type ContactObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The email address to send notifications to. This does not need to be a Google account.
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
@@ -70,8 +74,8 @@ type ContactParameters struct {
 
 // ContactSpec defines the desired state of Contact
 type ContactSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ContactParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ContactParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -87,8 +91,8 @@ type ContactSpec struct {
 
 // ContactStatus defines the observed state of Contact.
 type ContactStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ContactObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ContactObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VersionInitParameters struct {
@@ -30,11 +29,11 @@ type VersionInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 }
 
 type VersionNluSettingsInitParameters struct {
@@ -60,6 +59,10 @@ type VersionObservation struct {
 
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the version. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -104,11 +107,11 @@ type VersionParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 }
 
 // VersionSpec defines the desired state of Version
@@ -130,8 +133,8 @@ type VersionSpec struct {
 
 // VersionStatus defines the observed state of Version.
 type VersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

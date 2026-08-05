@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllocatedConnectionsInitParameters struct {
@@ -58,6 +57,10 @@ type AppGatewayObservation struct {
 	// A list of connections allocated for the Gateway.
 	// Structure is documented below.
 	AllocatedConnections []AllocatedConnectionsObservation `json:"allocatedConnections,omitempty" tf:"allocated_connections,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An arbitrary user-provided name for the AppGateway.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -154,8 +157,8 @@ type AppGatewaySpec struct {
 
 // AppGatewayStatus defines the observed state of AppGateway.
 type AppGatewayStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppGatewayObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppGatewayObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

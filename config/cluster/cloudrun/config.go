@@ -40,7 +40,7 @@ func Configure(p *config.Provider) {
 		r.References["service"] = config.Reference{
 			TerraformName: "google_cloud_run_service",
 		}
-		config.MarkAsRequired(r.TerraformResource, "location")
+		r.MarkAsRequired("location")
 	})
 	p.AddResourceConfigurator("google_cloud_run_service_iam_binding", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
@@ -49,7 +49,7 @@ func Configure(p *config.Provider) {
 		r.References["service"] = config.Reference{
 			TerraformName: "google_cloud_run_service",
 		}
-		config.MarkAsRequired(r.TerraformResource, "location")
+		r.MarkAsRequired("location")
 	})
 	p.AddResourceConfigurator("google_cloud_run_service_iam_member", func(r *config.Resource) {
 		r.References["project"] = config.Reference{
@@ -58,7 +58,7 @@ func Configure(p *config.Provider) {
 		r.References["service"] = config.Reference{
 			TerraformName: "google_cloud_run_service",
 		}
-		config.MarkAsRequired(r.TerraformResource, "location")
+		r.MarkAsRequired("location")
 	})
 	p.AddResourceConfigurator("google_cloud_run_v2_job", func(r *config.Resource) {
 		// This prevents an import cycle not allowed error

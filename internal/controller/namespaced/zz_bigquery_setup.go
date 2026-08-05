@@ -91,3 +91,33 @@ func SetupGated_bigquery(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_bigquery registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_bigquery(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		analyticshubdataexchange.SetupWebhookWithManager,
+		analyticshubdataexchangeiammember.SetupWebhookWithManager,
+		analyticshublisting.SetupWebhookWithManager,
+		analyticshublistingsubscription.SetupWebhookWithManager,
+		connection.SetupWebhookWithManager,
+		dataset.SetupWebhookWithManager,
+		datasetaccess.SetupWebhookWithManager,
+		datasetiambinding.SetupWebhookWithManager,
+		datasetiammember.SetupWebhookWithManager,
+		datasetiampolicy.SetupWebhookWithManager,
+		datatransferconfig.SetupWebhookWithManager,
+		job.SetupWebhookWithManager,
+		reservation.SetupWebhookWithManager,
+		reservationassignment.SetupWebhookWithManager,
+		routine.SetupWebhookWithManager,
+		table.SetupWebhookWithManager,
+		tableiambinding.SetupWebhookWithManager,
+		tableiammember.SetupWebhookWithManager,
+		tableiampolicy.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

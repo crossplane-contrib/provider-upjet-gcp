@@ -24,7 +24,7 @@ func (mg *BucketIAMMember) ResolveReferences( // ResolveReferences of this Bucke
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta3", "Bucket", "BucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -44,7 +44,7 @@ func (mg *BucketIAMMember) ResolveReferences( // ResolveReferences of this Bucke
 	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta3", "Bucket", "BucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -76,7 +76,7 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta3", "Bucket", "BucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
@@ -96,7 +96,7 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
+		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta3", "Bucket", "BucketList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}

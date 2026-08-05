@@ -33,7 +33,7 @@ func Configure(p *config.Provider) {
 	})
 
 	p.AddResourceConfigurator("google_dns_record_set", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "managed_zone")
+		r.MarkAsRequired("managed_zone")
 		delete(r.References, "name")
 	})
 }

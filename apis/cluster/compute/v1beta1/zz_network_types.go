@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkInitParameters struct {
@@ -33,6 +33,10 @@ type NetworkInitParameters struct {
 	// Choice of the behavior of inter-regional cost and MED in the BPS algorithm.
 	// Possible values are: DEFAULT, ADD_COST_TO_MED.
 	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
+
+	// If set to true, the bgp_always_compare_med field will be cleared.
+	// If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+	DeleteBGPAlwaysCompareMed *bool `json:"deleteBgpAlwaysCompareMed,omitempty" tf:"delete_bgp_always_compare_med,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
@@ -108,9 +112,17 @@ type NetworkObservation struct {
 	// Possible values are: DEFAULT, ADD_COST_TO_MED.
 	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
 
+	// If set to true, the bgp_always_compare_med field will be cleared.
+	// If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+	DeleteBGPAlwaysCompareMed *bool `json:"deleteBgpAlwaysCompareMed,omitempty" tf:"delete_bgp_always_compare_med,omitempty"`
+
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
 	DeleteDefaultRoutesOnCreate *bool `json:"deleteDefaultRoutesOnCreate,omitempty" tf:"delete_default_routes_on_create,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. The resource must be
 	// recreated to modify this field.
@@ -202,6 +214,11 @@ type NetworkParameters struct {
 	// Possible values are: DEFAULT, ADD_COST_TO_MED.
 	// +kubebuilder:validation:Optional
 	BGPInterRegionCost *string `json:"bgpInterRegionCost,omitempty" tf:"bgp_inter_region_cost,omitempty"`
+
+	// If set to true, the bgp_always_compare_med field will be cleared.
+	// If set to false (the default), bgp_always_compare_med will be set to the value specified in the configuration.
+	// +kubebuilder:validation:Optional
+	DeleteBGPAlwaysCompareMed *bool `json:"deleteBgpAlwaysCompareMed,omitempty" tf:"delete_bgp_always_compare_med,omitempty"`
 
 	// If set to true, default routes (0.0.0.0/0) will be deleted
 	// immediately after network creation. Defaults to false.
@@ -296,8 +313,8 @@ type NetworkParamsParameters struct {
 
 // NetworkSpec defines the desired state of Network
 type NetworkSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -313,8 +330,8 @@ type NetworkSpec struct {
 
 // NetworkStatus defines the observed state of Network.
 type NetworkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

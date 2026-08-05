@@ -5,6 +5,7 @@
 package providerconfig
 
 import (
+	"github.com/crossplane/crossplane-runtime/v2/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
@@ -39,10 +40,19 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // SetupGated adds a controller that reconciles ProviderConfigs by accounting for
 // their current usage.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
-	o.Options.Gate.Register(func() {
+	o.Gate.Register(func() {
 		if err := Setup(mgr, o); err != nil {
 			mgr.GetLogger().Error(err, "unable to setup reconcilers", "gvk", v1beta1.ProviderConfigGroupVersionKind.String())
 		}
 	}, v1beta1.ProviderConfigGroupVersionKind, v1beta1.ProviderConfigUsageGroupVersionKind)
+	return nil
+}
+
+// SetupWebhookWithManager registers the conversion webhook for ProviderConfig.
+func SetupWebhookWithManager(mgr ctrl.Manager) error {
+	if err := ctrl.NewWebhookManagedBy(mgr, &v1beta1.ProviderConfig{}).
+		Complete(); err != nil {
+		return errors.Wrap(err, "cannot register webhook for the kind v1beta1.ProviderConfig")
+	}
 	return nil
 }

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GatewaySecurityPolicyInitParameters struct {
@@ -30,11 +29,11 @@ type GatewaySecurityPolicyInitParameters struct {
 
 	// Reference to a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicyRef *v1.NamespacedReference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
+	TLSInspectionPolicyRef *v2.NamespacedReference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicySelector *v1.NamespacedSelector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
+	TLSInspectionPolicySelector *v2.NamespacedSelector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
 }
 
 type GatewaySecurityPolicyObservation struct {
@@ -43,6 +42,10 @@ type GatewaySecurityPolicyObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z"
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A free-text description of the resource. Max length 1024 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -94,11 +97,11 @@ type GatewaySecurityPolicyParameters struct {
 
 	// Reference to a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicyRef *v1.NamespacedReference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
+	TLSInspectionPolicyRef *v2.NamespacedReference `json:"tlsInspectionPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a TLSInspectionPolicy in networksecurity to populate tlsInspectionPolicy.
 	// +kubebuilder:validation:Optional
-	TLSInspectionPolicySelector *v1.NamespacedSelector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
+	TLSInspectionPolicySelector *v2.NamespacedSelector `json:"tlsInspectionPolicySelector,omitempty" tf:"-"`
 }
 
 // GatewaySecurityPolicySpec defines the desired state of GatewaySecurityPolicy
@@ -120,8 +123,8 @@ type GatewaySecurityPolicySpec struct {
 
 // GatewaySecurityPolicyStatus defines the observed state of GatewaySecurityPolicy.
 type GatewaySecurityPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GatewaySecurityPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GatewaySecurityPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

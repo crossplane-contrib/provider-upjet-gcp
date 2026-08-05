@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorityInitParameters struct {
@@ -69,11 +69,11 @@ type GkeClusterInitParameters struct {
 
 	// Reference to a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkRef *v1.Reference `json:"resourceLinkRef,omitempty" tf:"-"`
+	ResourceLinkRef *v2.Reference `json:"resourceLinkRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkSelector *v1.Selector `json:"resourceLinkSelector,omitempty" tf:"-"`
+	ResourceLinkSelector *v2.Selector `json:"resourceLinkSelector,omitempty" tf:"-"`
 }
 
 type GkeClusterObservation struct {
@@ -98,11 +98,11 @@ type GkeClusterParameters struct {
 
 	// Reference to a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkRef *v1.Reference `json:"resourceLinkRef,omitempty" tf:"-"`
+	ResourceLinkRef *v2.Reference `json:"resourceLinkRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkSelector *v1.Selector `json:"resourceLinkSelector,omitempty" tf:"-"`
+	ResourceLinkSelector *v2.Selector `json:"resourceLinkSelector,omitempty" tf:"-"`
 }
 
 type MembershipInitParameters struct {
@@ -133,6 +133,10 @@ type MembershipObservation struct {
 	// https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
 	// Structure is documented below.
 	Authority *AuthorityObservation `json:"authority,omitempty" tf:"authority,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -198,8 +202,8 @@ type MembershipParameters struct {
 
 // MembershipSpec defines the desired state of Membership
 type MembershipSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MembershipParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   MembershipParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -215,12 +219,13 @@ type MembershipSpec struct {
 
 // MembershipStatus defines the observed state of Membership.
 type MembershipStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MembershipObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MembershipObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Membership is the Schema for the Memberships API. Membership contains information about a member cluster.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

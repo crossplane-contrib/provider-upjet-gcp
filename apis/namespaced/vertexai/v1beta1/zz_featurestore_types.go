@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FeaturestoreEncryptionSpecInitParameters struct {
@@ -65,6 +64,10 @@ type FeaturestoreObservation struct {
 
 	// The timestamp of when the featurestore was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -225,8 +228,8 @@ type FeaturestoreSpec struct {
 
 // FeaturestoreStatus defines the observed state of Featurestore.
 type FeaturestoreStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FeaturestoreObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FeaturestoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

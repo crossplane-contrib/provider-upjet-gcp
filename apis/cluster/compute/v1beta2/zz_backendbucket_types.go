@@ -10,22 +10,22 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackendBucketInitParameters struct {
 
 	// Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
@@ -49,19 +49,25 @@ type BackendBucketInitParameters struct {
 
 	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicyRef *v1.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+	EdgeSecurityPolicyRef *v2.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicySelector *v1.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
+	EdgeSecurityPolicySelector *v2.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
+	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
 	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
 	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Important: CDN cannot be enabled (enableCdn cannot be set to true) when loadBalancingScheme is set to INTERNAL_MANAGED.
 	// Possible values are: INTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -87,6 +93,10 @@ type BackendBucketObservation struct {
 	// Headers that the HTTP/S load balancer should add to proxied responses.
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the resource; provided by the
 	// client when the resource is created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -95,6 +105,7 @@ type BackendBucketObservation struct {
 	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
+	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/global/backendBuckets/{{name}}
@@ -102,8 +113,13 @@ type BackendBucketObservation struct {
 
 	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
 	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Important: CDN cannot be enabled (enableCdn cannot be set to true) when loadBalancingScheme is set to INTERNAL_MANAGED.
 	// Possible values are: INTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -116,17 +132,17 @@ type BackendBucketObservation struct {
 type BackendBucketParameters struct {
 
 	// Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.Reference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.Reference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.Selector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
@@ -155,21 +171,28 @@ type BackendBucketParameters struct {
 
 	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicyRef *v1.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+	EdgeSecurityPolicyRef *v2.Reference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicySelector *v1.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
+	EdgeSecurityPolicySelector *v2.Selector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
+	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	EnableCdn *bool `json:"enableCdn,omitempty" tf:"enable_cdn,omitempty"`
 
 	// The value can only be INTERNAL_MANAGED for cross-region internal layer 7 load balancer.
 	// If loadBalancingScheme is not specified, the backend bucket can be used by classic global external load balancers, or global application external load balancers, or both.
+	// Important: CDN cannot be enabled (enableCdn cannot be set to true) when loadBalancingScheme is set to INTERNAL_MANAGED.
 	// Possible values are: INTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -439,10 +462,38 @@ type NegativeCachingPolicyParameters struct {
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 }
 
+type ParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the backend bucket. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ParamsObservation struct {
+
+	// Resource manager tags to be bound to the backend bucket. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ParamsParameters struct {
+
+	// Resource manager tags to be bound to the backend bucket. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 // BackendBucketSpec defines the desired state of BackendBucket
 type BackendBucketSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackendBucketParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackendBucketParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -458,12 +509,13 @@ type BackendBucketSpec struct {
 
 // BackendBucketStatus defines the observed state of BackendBucket.
 type BackendBucketStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendBucketObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendBucketObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // BackendBucket is the Schema for the BackendBuckets API. Backend buckets allow you to use Google Cloud Storage buckets with HTTP(S) load balancing.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

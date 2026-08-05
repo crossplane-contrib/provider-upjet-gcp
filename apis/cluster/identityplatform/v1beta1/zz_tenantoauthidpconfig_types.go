@@ -10,16 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TenantOAuthIdPConfigInitParameters struct {
 
 	// The client id of an OAuth client.
-	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
-	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -44,14 +44,18 @@ type TenantOAuthIdPConfigInitParameters struct {
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.Reference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.Reference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantOAuthIdPConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -80,11 +84,11 @@ type TenantOAuthIdPConfigParameters struct {
 
 	// The client id of an OAuth client.
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.SecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef *v1.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.SecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
 	// +kubebuilder:validation:Optional
@@ -115,17 +119,17 @@ type TenantOAuthIdPConfigParameters struct {
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.Reference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.Reference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 // TenantOAuthIdPConfigSpec defines the desired state of TenantOAuthIdPConfig
 type TenantOAuthIdPConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TenantOAuthIdPConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TenantOAuthIdPConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -141,8 +145,8 @@ type TenantOAuthIdPConfigSpec struct {
 
 // TenantOAuthIdPConfigStatus defines the observed state of TenantOAuthIdPConfig.
 type TenantOAuthIdPConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TenantOAuthIdPConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TenantOAuthIdPConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

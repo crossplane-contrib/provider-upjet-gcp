@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ImageIAMMemberConditionInitParameters struct {
@@ -49,11 +49,11 @@ type ImageIAMMemberInitParameters struct {
 
 	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
+	ImageRef *v2.Reference `json:"imageRef,omitempty" tf:"-"`
 
 	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
+	ImageSelector *v2.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -89,11 +89,11 @@ type ImageIAMMemberParameters struct {
 
 	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
+	ImageRef *v2.Reference `json:"imageRef,omitempty" tf:"-"`
 
 	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
+	ImageSelector *v2.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -107,8 +107,8 @@ type ImageIAMMemberParameters struct {
 
 // ImageIAMMemberSpec defines the desired state of ImageIAMMember
 type ImageIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImageIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImageIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -124,12 +124,13 @@ type ImageIAMMemberSpec struct {
 
 // ImageIAMMemberStatus defines the observed state of ImageIAMMember.
 type ImageIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ImageIAMMember is the Schema for the ImageIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

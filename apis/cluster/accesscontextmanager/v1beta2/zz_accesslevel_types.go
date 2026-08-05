@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLevelInitParameters struct {
@@ -50,6 +50,10 @@ type AccessLevelObservation struct {
 	// See CEL spec at: https://github.com/google/cel-spec.
 	// Structure is documented below.
 	Custom *CustomObservation `json:"custom,omitempty" tf:"custom,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the AccessLevel and its use. Does not affect behavior.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -581,8 +585,8 @@ type VPCSubnetworkParameters struct {
 
 // AccessLevelSpec defines the desired state of AccessLevel
 type AccessLevelSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccessLevelParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccessLevelParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -598,12 +602,13 @@ type AccessLevelSpec struct {
 
 // AccessLevelStatus defines the observed state of AccessLevel.
 type AccessLevelStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccessLevelObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccessLevelObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // AccessLevel is the Schema for the AccessLevels API. An AccessLevel is a label that can be applied to requests to GCP services, along with a list of requirements necessary for the label to be applied.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

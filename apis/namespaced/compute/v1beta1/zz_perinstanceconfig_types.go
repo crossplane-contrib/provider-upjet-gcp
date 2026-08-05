@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ExternalIPInitParameters struct {
@@ -156,11 +155,11 @@ type PerInstanceConfigInitParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate instanceGroupManager.
 	// +kubebuilder:validation:Optional
-	InstanceGroupManagerRef *v1.NamespacedReference `json:"instanceGroupManagerRef,omitempty" tf:"-"`
+	InstanceGroupManagerRef *v2.NamespacedReference `json:"instanceGroupManagerRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate instanceGroupManager.
 	// +kubebuilder:validation:Optional
-	InstanceGroupManagerSelector *v1.NamespacedSelector `json:"instanceGroupManagerSelector,omitempty" tf:"-"`
+	InstanceGroupManagerSelector *v2.NamespacedSelector `json:"instanceGroupManagerSelector,omitempty" tf:"-"`
 
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:
@@ -197,14 +196,18 @@ type PerInstanceConfigInitParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
-	ZoneRef *v1.NamespacedReference `json:"zoneRef,omitempty" tf:"-"`
+	ZoneRef *v2.NamespacedReference `json:"zoneRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
-	ZoneSelector *v1.NamespacedSelector `json:"zoneSelector,omitempty" tf:"-"`
+	ZoneSelector *v2.NamespacedSelector `json:"zoneSelector,omitempty" tf:"-"`
 }
 
 type PerInstanceConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{zone}}/{{instance_group_manager}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -253,11 +256,11 @@ type PerInstanceConfigParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate instanceGroupManager.
 	// +kubebuilder:validation:Optional
-	InstanceGroupManagerRef *v1.NamespacedReference `json:"instanceGroupManagerRef,omitempty" tf:"-"`
+	InstanceGroupManagerRef *v2.NamespacedReference `json:"instanceGroupManagerRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate instanceGroupManager.
 	// +kubebuilder:validation:Optional
-	InstanceGroupManagerSelector *v1.NamespacedSelector `json:"instanceGroupManagerSelector,omitempty" tf:"-"`
+	InstanceGroupManagerSelector *v2.NamespacedSelector `json:"instanceGroupManagerSelector,omitempty" tf:"-"`
 
 	// The minimal action to perform on the instance during an update.
 	// Default is NONE. Possible values are:
@@ -302,11 +305,11 @@ type PerInstanceConfigParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
-	ZoneRef *v1.NamespacedReference `json:"zoneRef,omitempty" tf:"-"`
+	ZoneRef *v2.NamespacedReference `json:"zoneRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate zone.
 	// +kubebuilder:validation:Optional
-	ZoneSelector *v1.NamespacedSelector `json:"zoneSelector,omitempty" tf:"-"`
+	ZoneSelector *v2.NamespacedSelector `json:"zoneSelector,omitempty" tf:"-"`
 }
 
 type PreservedStateDiskInitParameters struct {
@@ -336,11 +339,11 @@ type PreservedStateDiskInitParameters struct {
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
 type PreservedStateDiskObservation struct {
@@ -398,11 +401,11 @@ type PreservedStateDiskParameters struct {
 
 	// Reference to a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceRef *v1.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
+	SourceRef *v2.NamespacedReference `json:"sourceRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate source.
 	// +kubebuilder:validation:Optional
-	SourceSelector *v1.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
+	SourceSelector *v2.NamespacedSelector `json:"sourceSelector,omitempty" tf:"-"`
 }
 
 type PreservedStateInitParameters struct {
@@ -485,8 +488,8 @@ type PerInstanceConfigSpec struct {
 
 // PerInstanceConfigStatus defines the observed state of PerInstanceConfig.
 type PerInstanceConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PerInstanceConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PerInstanceConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

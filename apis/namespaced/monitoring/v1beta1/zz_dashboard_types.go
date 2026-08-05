@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DashboardInitParameters struct {
@@ -30,6 +29,10 @@ type DashboardObservation struct {
 	// The JSON representation of a dashboard, following the format at https://cloud.google.com/monitoring/api/ref_v3/rest/v1/projects.dashboards.
 	// The representation of an existing dashboard can be found by using the API Explorer
 	DashboardJSON *string `json:"dashboardJson,omitempty" tf:"dashboard_json,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{project_id_or_number}/dashboards/{dashboard_id}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -71,8 +74,8 @@ type DashboardSpec struct {
 
 // DashboardStatus defines the observed state of Dashboard.
 type DashboardStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DashboardObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DashboardObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

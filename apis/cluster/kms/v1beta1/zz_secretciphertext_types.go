@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecretCiphertextInitParameters struct {
 
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AdditionalAuthenticatedDataSecretRef *v1.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
+	AdditionalAuthenticatedDataSecretRef *v2.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
@@ -27,11 +27,11 @@ type SecretCiphertextInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
+	CryptoKeyRef *v2.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+	CryptoKeySelector *v2.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -60,7 +60,7 @@ type SecretCiphertextParameters struct {
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AdditionalAuthenticatedDataSecretRef *v1.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
+	AdditionalAuthenticatedDataSecretRef *v2.SecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
@@ -71,11 +71,11 @@ type SecretCiphertextParameters struct {
 
 	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
+	CryptoKeyRef *v2.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+	CryptoKeySelector *v2.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -85,8 +85,8 @@ type SecretCiphertextParameters struct {
 
 // SecretCiphertextSpec defines the desired state of SecretCiphertext
 type SecretCiphertextSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SecretCiphertextParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SecretCiphertextParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -102,8 +102,8 @@ type SecretCiphertextSpec struct {
 
 // SecretCiphertextStatus defines the observed state of SecretCiphertext.
 type SecretCiphertextStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretCiphertextObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretCiphertextObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

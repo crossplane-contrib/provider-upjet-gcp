@@ -10,121 +10,71 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
-type CertInfoInitParameters struct {
-	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
-
-	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
-
-	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
-
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
-
-	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
-
-	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
-
-	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
-
-	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
-
-	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
-
-	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
-}
-
-type CertInfoObservation struct {
-	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
-
-	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
-
-	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
-
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
-
-	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
-
-	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
-
-	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
-
-	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
-
-	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
-
-	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
-}
-
-type CertInfoParameters struct {
-
-	// +kubebuilder:validation:Optional
-	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
-}
-
 type CertsInfoInitParameters struct {
-	CertInfo []CertInfoInitParameters `json:"certInfo,omitempty" tf:"cert_info,omitempty"`
 }
 
 type CertsInfoObservation struct {
-	CertInfo []CertInfoObservation `json:"certInfo,omitempty" tf:"cert_info,omitempty"`
+	BasicConstraints *string `json:"basicConstraints,omitempty" tf:"basic_constraints,omitempty"`
+
+	ExpiryDate *string `json:"expiryDate,omitempty" tf:"expiry_date,omitempty"`
+
+	IsValid *string `json:"isValid,omitempty" tf:"is_valid,omitempty"`
+
+	Issuer *string `json:"issuer,omitempty" tf:"issuer,omitempty"`
+
+	PublicKey *string `json:"publicKey,omitempty" tf:"public_key,omitempty"`
+
+	SerialNumber *string `json:"serialNumber,omitempty" tf:"serial_number,omitempty"`
+
+	SigAlgName *string `json:"sigAlgName,omitempty" tf:"sig_alg_name,omitempty"`
+
+	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
+
+	SubjectAlternativeNames []*string `json:"subjectAlternativeNames,omitempty" tf:"subject_alternative_names,omitempty"`
+
+	ValidFrom *string `json:"validFrom,omitempty" tf:"valid_from,omitempty"`
+
+	Version *float64 `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type CertsInfoParameters struct {
-
-	// +kubebuilder:validation:Optional
-	CertInfo []CertInfoParameters `json:"certInfo,omitempty" tf:"cert_info,omitempty"`
 }
 
 type KeystoresAliasesKeyCertFileInitParameters struct {
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	CertsInfo *CertsInfoInitParameters `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
+	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
-	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
+
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta2.Organization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in apigee to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in apigee to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 }
 
 type KeystoresAliasesKeyCertFileObservation struct {
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	CertsInfo *CertsInfoObservation `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
+	CertsInfo []CertsInfoObservation `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
 
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
@@ -140,19 +90,19 @@ type KeystoresAliasesKeyCertFileObservation struct {
 type KeystoresAliasesKeyCertFileParameters struct {
 
 	// +kubebuilder:validation:Optional
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	CertsInfo *CertsInfoParameters `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Environment *string `json:"environment" tf:"environment,omitempty"`
+	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Required
-	Keystore *string `json:"keystore" tf:"keystore,omitempty"`
+	// +kubebuilder:validation:Optional
+	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta2.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
@@ -161,20 +111,20 @@ type KeystoresAliasesKeyCertFileParameters struct {
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 }
 
 // KeystoresAliasesKeyCertFileSpec defines the desired state of KeystoresAliasesKeyCertFile
 type KeystoresAliasesKeyCertFileSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KeystoresAliasesKeyCertFileParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KeystoresAliasesKeyCertFileParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -190,8 +140,8 @@ type KeystoresAliasesKeyCertFileSpec struct {
 
 // KeystoresAliasesKeyCertFileStatus defines the observed state of KeystoresAliasesKeyCertFile.
 type KeystoresAliasesKeyCertFileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KeystoresAliasesKeyCertFileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KeystoresAliasesKeyCertFileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -207,7 +157,10 @@ type KeystoresAliasesKeyCertFileStatus struct {
 type KeystoresAliasesKeyCertFile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.alias) || (has(self.initProvider) && has(self.initProvider.alias))",message="spec.forProvider.alias is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cert) || (has(self.initProvider) && has(self.initProvider.cert))",message="spec.forProvider.cert is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.environment) || (has(self.initProvider) && has(self.initProvider.environment))",message="spec.forProvider.environment is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.keystore) || (has(self.initProvider) && has(self.initProvider.keystore))",message="spec.forProvider.keystore is a required parameter"
 	Spec   KeystoresAliasesKeyCertFileSpec   `json:"spec"`
 	Status KeystoresAliasesKeyCertFileStatus `json:"status,omitempty"`
 }

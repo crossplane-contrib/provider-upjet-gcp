@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppEngineInitParameters struct {
@@ -92,11 +92,11 @@ type CloudFunctionInitParameters struct {
 
 	// Reference to a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionRef *v1.Reference `json:"functionRef,omitempty" tf:"-"`
+	FunctionRef *v2.Reference `json:"functionRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionSelector *v1.Selector `json:"functionSelector,omitempty" tf:"-"`
+	FunctionSelector *v2.Selector `json:"functionSelector,omitempty" tf:"-"`
 
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
@@ -134,11 +134,11 @@ type CloudFunctionParameters struct {
 
 	// Reference to a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionRef *v1.Reference `json:"functionRef,omitempty" tf:"-"`
+	FunctionRef *v2.Reference `json:"functionRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionSelector *v1.Selector `json:"functionSelector,omitempty" tf:"-"`
+	FunctionSelector *v2.Selector `json:"functionSelector,omitempty" tf:"-"`
 
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
@@ -160,11 +160,11 @@ type CloudRunInitParameters struct {
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -216,11 +216,11 @@ type CloudRunParameters struct {
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -293,7 +293,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
@@ -303,11 +303,11 @@ type RegionNetworkEndpointGroupInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -326,11 +326,11 @@ type RegionNetworkEndpointGroupInitParameters struct {
 
 	// Reference to a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceRef *v1.Reference `json:"pscTargetServiceRef,omitempty" tf:"-"`
+	PscTargetServiceRef *v2.Reference `json:"pscTargetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceSelector *v1.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
+	PscTargetServiceSelector *v2.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
 
 	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
@@ -340,11 +340,11 @@ type RegionNetworkEndpointGroupInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type RegionNetworkEndpointGroupObservation struct {
@@ -363,6 +363,10 @@ type RegionNetworkEndpointGroupObservation struct {
 	// Only one of cloud_run, app_engine, cloud_function or serverless_deployment may be set.
 	// Structure is documented below.
 	CloudRun *CloudRunObservation `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -434,7 +438,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -446,11 +450,11 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -472,11 +476,11 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// Reference to a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceRef *v1.Reference `json:"pscTargetServiceRef,omitempty" tf:"-"`
+	PscTargetServiceRef *v2.Reference `json:"pscTargetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceSelector *v1.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
+	PscTargetServiceSelector *v2.Selector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
 
 	// A reference to the region where the regional NEGs reside.
 	// +kubebuilder:validation:Required
@@ -491,17 +495,17 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 // RegionNetworkEndpointGroupSpec defines the desired state of RegionNetworkEndpointGroup
 type RegionNetworkEndpointGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionNetworkEndpointGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionNetworkEndpointGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -517,12 +521,13 @@ type RegionNetworkEndpointGroupSpec struct {
 
 // RegionNetworkEndpointGroupStatus defines the observed state of RegionNetworkEndpointGroup.
 type RegionNetworkEndpointGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkEndpointGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkEndpointGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RegionNetworkEndpointGroup is the Schema for the RegionNetworkEndpointGroups API. A regional NEG that can support Serverless Products, proxying traffic to external backends and providing traffic to the PSC port mapping endpoints.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

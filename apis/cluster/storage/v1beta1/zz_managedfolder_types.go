@@ -10,22 +10,22 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ManagedFolderInitParameters struct {
 
 	// The name of the bucket that contains the managed folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects
@@ -45,6 +45,10 @@ type ManagedFolderObservation struct {
 
 	// The timestamp at which this managed folder was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects
@@ -72,17 +76,17 @@ type ManagedFolderObservation struct {
 type ManagedFolderParameters struct {
 
 	// The name of the bucket that contains the managed folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Allows the deletion of a managed folder even if contains
 	// objects. If a non-empty managed folder is deleted, any objects
@@ -99,8 +103,8 @@ type ManagedFolderParameters struct {
 
 // ManagedFolderSpec defines the desired state of ManagedFolder
 type ManagedFolderSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ManagedFolderParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ManagedFolderParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -116,8 +120,8 @@ type ManagedFolderSpec struct {
 
 // ManagedFolderStatus defines the observed state of ManagedFolder.
 type ManagedFolderStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ManagedFolderObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ManagedFolderObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

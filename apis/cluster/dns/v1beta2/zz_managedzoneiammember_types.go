@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -89,8 +89,8 @@ type ManagedZoneIAMMemberParameters struct {
 
 // ManagedZoneIAMMemberSpec defines the desired state of ManagedZoneIAMMember
 type ManagedZoneIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ManagedZoneIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ManagedZoneIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -106,12 +106,13 @@ type ManagedZoneIAMMemberSpec struct {
 
 // ManagedZoneIAMMemberStatus defines the observed state of ManagedZoneIAMMember.
 type ManagedZoneIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ManagedZoneIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ManagedZoneIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // ManagedZoneIAMMember is the Schema for the ManagedZoneIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

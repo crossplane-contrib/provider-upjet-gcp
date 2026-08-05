@@ -49,3 +49,19 @@ func SetupGated_cloudrun(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_cloudrun registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_cloudrun(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		domainmapping.SetupWebhookWithManager,
+		service.SetupWebhookWithManager,
+		serviceiammember.SetupWebhookWithManager,
+		v2job.SetupWebhookWithManager,
+		v2service.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

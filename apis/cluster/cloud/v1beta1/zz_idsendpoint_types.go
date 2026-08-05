@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IdsEndpointInitParameters struct {
@@ -31,11 +31,11 @@ type IdsEndpointInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -53,6 +53,10 @@ type IdsEndpointObservation struct {
 
 	// Creation timestamp in RFC 3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of the endpoint.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -112,11 +116,11 @@ type IdsEndpointParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -135,8 +139,8 @@ type IdsEndpointParameters struct {
 
 // IdsEndpointSpec defines the desired state of IdsEndpoint
 type IdsEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     IdsEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   IdsEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,8 +156,8 @@ type IdsEndpointSpec struct {
 
 // IdsEndpointStatus defines the observed state of IdsEndpoint.
 type IdsEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        IdsEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               IdsEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuxiliaryVersionsInitParameters struct {
@@ -71,11 +70,11 @@ type ConsumersInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type ConsumersObservation struct {
@@ -103,11 +102,11 @@ type ConsumersParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type DataCatalogConfigInitParameters struct {
@@ -375,11 +374,11 @@ type MetastoreServiceEncryptionConfigInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeyRef *v1.NamespacedReference `json:"kmsKeyRef,omitempty" tf:"-"`
+	KMSKeyRef *v2.NamespacedReference `json:"kmsKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeySelector *v1.NamespacedSelector `json:"kmsKeySelector,omitempty" tf:"-"`
+	KMSKeySelector *v2.NamespacedSelector `json:"kmsKeySelector,omitempty" tf:"-"`
 }
 
 type MetastoreServiceEncryptionConfigObservation struct {
@@ -400,11 +399,11 @@ type MetastoreServiceEncryptionConfigParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeyRef *v1.NamespacedReference `json:"kmsKeyRef,omitempty" tf:"-"`
+	KMSKeyRef *v2.NamespacedReference `json:"kmsKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeySelector *v1.NamespacedSelector `json:"kmsKeySelector,omitempty" tf:"-"`
+	KMSKeySelector *v2.NamespacedSelector `json:"kmsKeySelector,omitempty" tf:"-"`
 }
 
 type MetastoreServiceInitParameters struct {
@@ -470,6 +469,12 @@ type MetastoreServiceInitParameters struct {
 	// Structure is documented below.
 	ScheduledBackup *ScheduledBackupInitParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
 	TelemetryConfig *TelemetryConfigInitParameters `json:"telemetryConfig,omitempty" tf:"telemetry_config,omitempty"`
@@ -491,6 +496,10 @@ type MetastoreServiceObservation struct {
 	// Default value is MYSQL.
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Indicates if the dataproc metastore should be protected against accidental deletions.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -569,6 +578,12 @@ type MetastoreServiceObservation struct {
 
 	// Additional information about the current state of the metastore service, if available.
 	StateMessage *string `json:"stateMessage,omitempty" tf:"state_message,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
@@ -671,6 +686,13 @@ type MetastoreServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ScheduledBackup *ScheduledBackupParameters `json:"scheduledBackup,omitempty" tf:"scheduled_backup,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The configuration specifying telemetry settings for the Dataproc Metastore service. If unspecified defaults to JSON.
 	// Structure is documented below.
@@ -879,8 +901,8 @@ type MetastoreServiceSpec struct {
 
 // MetastoreServiceStatus defines the observed state of MetastoreService.
 type MetastoreServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MetastoreServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MetastoreServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceGroupNamedPortInitParameters struct {
@@ -34,6 +34,10 @@ type InstanceGroupNamedPortInitParameters struct {
 }
 
 type InstanceGroupNamedPortObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the instance group.
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
@@ -83,8 +87,8 @@ type InstanceGroupNamedPortParameters struct {
 
 // InstanceGroupNamedPortSpec defines the desired state of InstanceGroupNamedPort
 type InstanceGroupNamedPortSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceGroupNamedPortParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceGroupNamedPortParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -100,8 +104,8 @@ type InstanceGroupNamedPortSpec struct {
 
 // InstanceGroupNamedPortStatus defines the observed state of InstanceGroupNamedPort.
 type InstanceGroupNamedPortStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceGroupNamedPortObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceGroupNamedPortObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

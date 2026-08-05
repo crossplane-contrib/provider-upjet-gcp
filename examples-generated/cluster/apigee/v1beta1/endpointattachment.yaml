@@ -1,0 +1,223 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: EndpointAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: apigee_endpoint_attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: apigee_org
+  name: apigee-org
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    projectId: ${data.google_client_config.current.project}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: psc_ilb_target_service
+  name: psc-ilb-target-service
+spec:
+  forProvider:
+    allPorts: true
+    backendServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: producer_service_backend
+    loadBalancingScheme: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: psc_ilb_network
+    project: ${google_project.project.project_id}
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: psc_ilb_producer_subnetwork
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: apigee_range
+  name: apigee-range
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    prefixLength: 16
+    project: ${data.google_client_config.current.project}
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: HealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: producer_service_health_check
+  name: producer-service-health-check
+spec:
+  forProvider:
+    checkIntervalSec: 1
+    project: ${data.google_client_config.current.project}
+    tcpHealthCheck:
+      port: "80"
+    timeoutSec: 1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: apigee_network
+  name: apigee-network
+spec:
+  forProvider:
+    project: ${data.google_client_config.current.project}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: psc_ilb_network
+  name: psc-ilb-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+    project: ${data.google_client_config.current.project}
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: producer_service_backend
+  name: producer-service-backend
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: producer_service_health_check
+    project: ${data.google_client_config.current.project}
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: ServiceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: psc_ilb_service_attachment
+  name: psc-ilb-service-attachment
+spec:
+  forProvider:
+    connectionPreference: ACCEPT_AUTOMATIC
+    description: A service attachment configured with Terraform
+    enableProxyProtocol: true
+    natSubnetsRefs:
+    - name: psc_ilb_nat
+    project: ${data.google_client_config.current.project}
+    region: us-central1
+    targetServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: psc_ilb_target_service
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: psc_ilb_nat
+  name: psc-ilb-nat
+spec:
+  forProvider:
+    ipCidrRange: 10.0.199.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: psc_ilb_network
+    project: ${data.google_client_config.current.project}
+    purpose: PRIVATE_SERVICE_CONNECT
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: psc_ilb_producer_subnetwork
+  name: psc-ilb-producer-subnetwork
+spec:
+  forProvider:
+    ipCidrRange: 10.0.99.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: psc_ilb_network
+    project: ${data.google_client_config.current.project}
+    region: us-central1
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+  labels:
+    testing.upbound.io/example-name: apigee_vpc_connection
+  name: apigee-vpc-connection
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_network
+    reservedPeeringRangesRefs:
+    - name: apigee_range
+    service: servicenetworking.googleapis.com

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NotificationChannelInitParameters struct {
@@ -60,6 +60,10 @@ type NotificationChannelInitParameters struct {
 }
 
 type NotificationChannelObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional human-readable description of this notification channel. This description may provide additional details, beyond the display name, for the channel. This may not exceed 1024 Unicode characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -175,15 +179,15 @@ type SensitiveLabelsInitParameters struct {
 
 	// An authorization token for a notification channel. Channel types that support this field include: slack
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AuthTokenSecretRef *v1.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
+	AuthTokenSecretRef *v2.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
 
 	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 }
 
 type SensitiveLabelsObservation struct {
@@ -194,23 +198,23 @@ type SensitiveLabelsParameters struct {
 	// An authorization token for a notification channel. Channel types that support this field include: slack
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AuthTokenSecretRef *v1.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
+	AuthTokenSecretRef *v2.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
 
 	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 }
 
 // NotificationChannelSpec defines the desired state of NotificationChannel
 type NotificationChannelSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NotificationChannelParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NotificationChannelParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -226,12 +230,13 @@ type NotificationChannelSpec struct {
 
 // NotificationChannelStatus defines the observed state of NotificationChannel.
 type NotificationChannelStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NotificationChannelObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NotificationChannelObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // NotificationChannel is the Schema for the NotificationChannels API. A NotificationChannel is a medium through which an alert is delivered when a policy violation is detected.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

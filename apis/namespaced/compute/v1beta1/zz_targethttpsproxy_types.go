@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetHTTPSProxyInitParameters struct {
@@ -67,11 +66,11 @@ type TargetHTTPSProxyInitParameters struct {
 
 	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
@@ -108,11 +107,11 @@ type TargetHTTPSProxyInitParameters struct {
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type TargetHTTPSProxyObservation struct {
@@ -132,6 +131,10 @@ type TargetHTTPSProxyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -277,11 +280,11 @@ type TargetHTTPSProxyParameters struct {
 
 	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
@@ -322,11 +325,11 @@ type TargetHTTPSProxyParameters struct {
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 // TargetHTTPSProxySpec defines the desired state of TargetHTTPSProxy
@@ -348,8 +351,8 @@ type TargetHTTPSProxySpec struct {
 
 // TargetHTTPSProxyStatus defines the observed state of TargetHTTPSProxy.
 type TargetHTTPSProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetHTTPSProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetHTTPSProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AptInitParameters struct {
@@ -1098,6 +1097,10 @@ type OsPolicyAssignmentObservation struct {
 	// Output only. Indicates that this revision deletes the OS policy
 	// assignment.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Policy description. Length of the description is
 	// limited to 1024 characters.
@@ -2350,8 +2353,8 @@ type OsPolicyAssignmentSpec struct {
 
 // OsPolicyAssignmentStatus defines the observed state of OsPolicyAssignment.
 type OsPolicyAssignmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        OsPolicyAssignmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               OsPolicyAssignmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

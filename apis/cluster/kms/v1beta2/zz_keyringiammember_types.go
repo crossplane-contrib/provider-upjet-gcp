@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type KeyRingIAMMemberConditionInitParameters struct {
@@ -50,11 +50,11 @@ type KeyRingIAMMemberInitParameters struct {
 
 	// Reference to a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
-	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
+	KeyRingIDRef *v2.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
 
 	// Selector for a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
-	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
+	KeyRingIDSelector *v2.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -87,11 +87,11 @@ type KeyRingIAMMemberParameters struct {
 
 	// Reference to a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
-	KeyRingIDRef *v1.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
+	KeyRingIDRef *v2.Reference `json:"keyRingIdRef,omitempty" tf:"-"`
 
 	// Selector for a KeyRing in kms to populate keyRingId.
 	// +kubebuilder:validation:Optional
-	KeyRingIDSelector *v1.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
+	KeyRingIDSelector *v2.Selector `json:"keyRingIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -102,8 +102,8 @@ type KeyRingIAMMemberParameters struct {
 
 // KeyRingIAMMemberSpec defines the desired state of KeyRingIAMMember
 type KeyRingIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KeyRingIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KeyRingIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -119,12 +119,13 @@ type KeyRingIAMMemberSpec struct {
 
 // KeyRingIAMMemberStatus defines the observed state of KeyRingIAMMember.
 type KeyRingIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KeyRingIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KeyRingIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // KeyRingIAMMember is the Schema for the KeyRingIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

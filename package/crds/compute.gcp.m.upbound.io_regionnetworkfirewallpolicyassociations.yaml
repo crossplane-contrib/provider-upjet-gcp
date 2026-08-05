@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.0
   name: regionnetworkfirewallpolicyassociations.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -407,6 +407,11 @@ spec:
                   attachmentTarget:
                     description: The target that the firewall policy is attached to.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   firewallPolicy:
                     description: The firewall policy of the resource.
                     type: string
@@ -471,6 +476,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

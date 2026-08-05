@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HMACKeyInitParameters struct {
@@ -26,11 +26,11 @@ type HMACKeyInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The state of the key. Can be set to one of ACTIVE, INACTIVE.
 	// Default value is ACTIVE.
@@ -42,6 +42,10 @@ type HMACKeyObservation struct {
 
 	// The access ID of the HMAC Key.
 	AccessID *string `json:"accessId,omitempty" tf:"access_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/hmacKeys/{{access_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -80,11 +84,11 @@ type HMACKeyParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The state of the key. Can be set to one of ACTIVE, INACTIVE.
 	// Default value is ACTIVE.
@@ -95,8 +99,8 @@ type HMACKeyParameters struct {
 
 // HMACKeySpec defines the desired state of HMACKey
 type HMACKeySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     HMACKeyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   HMACKeyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -112,8 +116,8 @@ type HMACKeySpec struct {
 
 // HMACKeyStatus defines the observed state of HMACKey.
 type HMACKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        HMACKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               HMACKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

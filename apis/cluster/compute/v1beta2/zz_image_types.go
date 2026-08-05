@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DbsInitParameters struct {
@@ -91,12 +91,12 @@ type ImageEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageEncryptionKeyObservation struct {
@@ -128,33 +128,33 @@ type ImageEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageGuestOsFeaturesInitParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ImageGuestOsFeaturesObservation struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type ImageGuestOsFeaturesParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
-	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2.
+	// Possible values are: MULTI_IP_SUBNET, SECURE_BOOT, SEV_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS, GVNIC, IDPF, SEV_LIVE_MIGRATABLE, SEV_SNP_CAPABLE, SUSPEND_RESUME_COMPATIBLE, TDX_CAPABLE, SEV_LIVE_MIGRATABLE_V2, SNP_SVSM_CAPABLE.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -196,6 +196,10 @@ type ImageInitParameters struct {
 	// Any applicable license URI.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload.
+	// Structure is documented below.
+	Params *ImageParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -222,11 +226,11 @@ type ImageInitParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
@@ -260,6 +264,10 @@ type ImageObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -305,6 +313,10 @@ type ImageObservation struct {
 
 	// Any applicable license URI.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload.
+	// Structure is documented below.
+	Params *ImageParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -404,6 +416,11 @@ type ImageParameters struct {
 	// +kubebuilder:validation:Optional
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *ImageParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -435,11 +452,11 @@ type ImageParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.Reference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.Selector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
@@ -470,6 +487,46 @@ type ImageParameters struct {
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 }
 
+type ImageParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the image. Tag keys and values have the
+	// same definition as resource manager tags. Keys and values can be either in numeric format,
+	// such as tagKeys/{tag_key_id} and tagValues/{tag_value_id} or in namespaced format such as
+	// {org_id|projectId}/{tag_key_short_name} and {tag_value_short_name}. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ImageParamsObservation struct {
+
+	// Resource manager tags to be bound to the image. Tag keys and values have the
+	// same definition as resource manager tags. Keys and values can be either in numeric format,
+	// such as tagKeys/{tag_key_id} and tagValues/{tag_value_id} or in namespaced format such as
+	// {org_id|projectId}/{tag_key_short_name} and {tag_value_short_name}. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ImageParamsParameters struct {
+
+	// Resource manager tags to be bound to the image. Tag keys and values have the
+	// same definition as resource manager tags. Keys and values can be either in numeric format,
+	// such as tagKeys/{tag_key_id} and tagValues/{tag_value_id} or in namespaced format such as
+	// {org_id|projectId}/{tag_key_short_name} and {tag_value_short_name}. The field is ignored when empty.
+	// The field is immutable and causes resource replacement when mutated. This field is only
+	// set at create time and modifying this field after creation will trigger recreation.
+	// To apply tags to an existing resource, see the google_tags_tag_binding resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 type ImageSourceImageEncryptionKeyInitParameters struct {
 
 	// The self link of the encryption key used to decrypt this resource. Also called KmsKeyName
@@ -487,13 +544,13 @@ type ImageSourceImageEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageSourceImageEncryptionKeyObservation struct {
@@ -531,14 +588,14 @@ type ImageSourceImageEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageSourceSnapshotEncryptionKeyInitParameters struct {
@@ -558,13 +615,13 @@ type ImageSourceSnapshotEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageSourceSnapshotEncryptionKeyObservation struct {
@@ -602,14 +659,14 @@ type ImageSourceSnapshotEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type KeksInitParameters struct {
@@ -817,13 +874,13 @@ type SourceDiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceDiskEncryptionKeyObservation struct {
@@ -861,20 +918,20 @@ type SourceDiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 // ImageSpec defines the desired state of Image
 type ImageSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImageParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImageParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -890,12 +947,13 @@ type ImageSpec struct {
 
 // ImageStatus defines the observed state of Image.
 type ImageStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Image is the Schema for the Images API. Represents an Image resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

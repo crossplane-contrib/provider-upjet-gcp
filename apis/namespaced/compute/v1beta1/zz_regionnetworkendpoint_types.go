@@ -10,11 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionNetworkEndpointInitParameters struct {
+
+	// Client destination port for the GCE_VM_IP_PORTMAP NEG.
+	ClientDestinationPort *float64 `json:"clientDestinationPort,omitempty" tf:"client_destination_port,omitempty"`
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
@@ -23,6 +25,20 @@ type RegionNetworkEndpointInitParameters struct {
 	// IPv4 address external endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_IP_PORT.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The name for a specific VM instance that the IP address belongs to.
+	// This is required for network endpoints of type GCE_VM_IP_PORTMAP.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -40,14 +56,21 @@ type RegionNetworkEndpointInitParameters struct {
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupRef *v1.NamespacedReference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupRef *v2.NamespacedReference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupSelector *v1.NamespacedSelector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupSelector *v2.NamespacedSelector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
 }
 
 type RegionNetworkEndpointObservation struct {
+
+	// Client destination port for the GCE_VM_IP_PORTMAP NEG.
+	ClientDestinationPort *float64 `json:"clientDestinationPort,omitempty" tf:"client_destination_port,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
@@ -59,6 +82,10 @@ type RegionNetworkEndpointObservation struct {
 	// IPv4 address external endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_IP_PORT.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The name for a specific VM instance that the IP address belongs to.
+	// This is required for network endpoints of type GCE_VM_IP_PORTMAP.
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// The unique identifier number for the resource. This identifier is defined by the server.
 	NetworkEndpointID *float64 `json:"networkEndpointId,omitempty" tf:"network_endpoint_id,omitempty"`
@@ -79,6 +106,10 @@ type RegionNetworkEndpointObservation struct {
 
 type RegionNetworkEndpointParameters struct {
 
+	// Client destination port for the GCE_VM_IP_PORTMAP NEG.
+	// +kubebuilder:validation:Optional
+	ClientDestinationPort *float64 `json:"clientDestinationPort,omitempty" tf:"client_destination_port,omitempty"`
+
 	// Fully qualified domain name of network endpoint.
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_FQDN_PORT.
 	// +kubebuilder:validation:Optional
@@ -88,6 +119,21 @@ type RegionNetworkEndpointParameters struct {
 	// This can only be specified when network_endpoint_type of the NEG is INTERNET_IP_PORT.
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The name for a specific VM instance that the IP address belongs to.
+	// This is required for network endpoints of type GCE_VM_IP_PORTMAP.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +kubebuilder:validation:Optional
+	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
+
+	// Reference to a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+
+	// Selector for a Instance in compute to populate instance.
+	// +kubebuilder:validation:Optional
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// +kubebuilder:validation:Optional
@@ -109,11 +155,11 @@ type RegionNetworkEndpointParameters struct {
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupRef *v1.NamespacedReference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupRef *v2.NamespacedReference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupSelector *v1.NamespacedSelector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupSelector *v2.NamespacedSelector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
 }
 
 // RegionNetworkEndpointSpec defines the desired state of RegionNetworkEndpoint
@@ -135,8 +181,8 @@ type RegionNetworkEndpointSpec struct {
 
 // RegionNetworkEndpointStatus defines the observed state of RegionNetworkEndpoint.
 type RegionNetworkEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

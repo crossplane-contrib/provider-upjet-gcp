@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsInitParameters struct {
@@ -146,28 +145,6 @@ type SAMLParameters struct {
 	IdPMetadataXML *string `json:"idpMetadataXml" tf:"idp_metadata_xml,omitempty"`
 }
 
-type TrustAnchorsInitParameters struct {
-
-	// PEM certificate of the PKI used for validation. Must only contain one
-	// ca certificate(either root or intermediate cert).
-	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
-}
-
-type TrustAnchorsObservation struct {
-
-	// PEM certificate of the PKI used for validation. Must only contain one
-	// ca certificate(either root or intermediate cert).
-	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
-}
-
-type TrustAnchorsParameters struct {
-
-	// PEM certificate of the PKI used for validation. Must only contain one
-	// ca certificate(either root or intermediate cert).
-	// +kubebuilder:validation:Optional
-	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
-}
-
 type TrustStoreInitParameters struct {
 
 	// Set of intermediate CA certificates used for building the trust chain to
@@ -180,7 +157,7 @@ type TrustStoreInitParameters struct {
 	// against a given TrustStore. The incoming end entity's certificate
 	// must be chained up to one of the trust anchors here.
 	// Structure is documented below.
-	TrustAnchors []TrustAnchorsInitParameters `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+	TrustAnchors []TrustStoreTrustAnchorsInitParameters `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
 }
 
 type TrustStoreObservation struct {
@@ -195,7 +172,7 @@ type TrustStoreObservation struct {
 	// against a given TrustStore. The incoming end entity's certificate
 	// must be chained up to one of the trust anchors here.
 	// Structure is documented below.
-	TrustAnchors []TrustAnchorsObservation `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
+	TrustAnchors []TrustStoreTrustAnchorsObservation `json:"trustAnchors,omitempty" tf:"trust_anchors,omitempty"`
 }
 
 type TrustStoreParameters struct {
@@ -212,7 +189,29 @@ type TrustStoreParameters struct {
 	// must be chained up to one of the trust anchors here.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	TrustAnchors []TrustAnchorsParameters `json:"trustAnchors" tf:"trust_anchors,omitempty"`
+	TrustAnchors []TrustStoreTrustAnchorsParameters `json:"trustAnchors" tf:"trust_anchors,omitempty"`
+}
+
+type TrustStoreTrustAnchorsInitParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustStoreTrustAnchorsObservation struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+}
+
+type TrustStoreTrustAnchorsParameters struct {
+
+	// PEM certificate of the PKI used for validation. Must only contain one
+	// ca certificate(either root or intermediate cert).
+	// +kubebuilder:validation:Optional
+	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
 }
 
 type WorkloadIdentityPoolProviderInitParameters struct {
@@ -282,6 +281,10 @@ type WorkloadIdentityPoolProviderObservation struct {
 	// An Amazon Web Services identity provider. Not compatible with the property oidc or saml.
 	// Structure is documented below.
 	Aws *AwsObservation `json:"aws,omitempty" tf:"aws,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description for the provider. Cannot exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -386,11 +389,11 @@ type WorkloadIdentityPoolProviderParameters struct {
 
 	// Reference to a WorkloadIdentityPool in iam to populate workloadIdentityPoolId.
 	// +kubebuilder:validation:Optional
-	WorkloadIdentityPoolIDRef *v1.NamespacedReference `json:"workloadIdentityPoolIdRef,omitempty" tf:"-"`
+	WorkloadIdentityPoolIDRef *v2.NamespacedReference `json:"workloadIdentityPoolIdRef,omitempty" tf:"-"`
 
 	// Selector for a WorkloadIdentityPool in iam to populate workloadIdentityPoolId.
 	// +kubebuilder:validation:Optional
-	WorkloadIdentityPoolIDSelector *v1.NamespacedSelector `json:"workloadIdentityPoolIdSelector,omitempty" tf:"-"`
+	WorkloadIdentityPoolIDSelector *v2.NamespacedSelector `json:"workloadIdentityPoolIdSelector,omitempty" tf:"-"`
 
 	// An X.509-type identity provider represents a CA. It is trusted to assert a
 	// client identity if the client has a certificate that chains up to this CA.
@@ -452,8 +455,8 @@ type WorkloadIdentityPoolProviderSpec struct {
 
 // WorkloadIdentityPoolProviderStatus defines the observed state of WorkloadIdentityPoolProvider.
 type WorkloadIdentityPoolProviderStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkloadIdentityPoolProviderObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkloadIdentityPoolProviderObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

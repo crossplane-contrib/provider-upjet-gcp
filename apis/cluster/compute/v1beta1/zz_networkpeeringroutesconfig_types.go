@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkPeeringRoutesConfigInitParameters struct {
@@ -37,11 +37,11 @@ type NetworkPeeringRoutesConfigInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Name of the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkPeering
@@ -49,11 +49,11 @@ type NetworkPeeringRoutesConfigInitParameters struct {
 
 	// Reference to a NetworkPeering in compute to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringRef *v1.Reference `json:"peeringRef,omitempty" tf:"-"`
+	PeeringRef *v2.Reference `json:"peeringRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkPeering in compute to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringSelector *v1.Selector `json:"peeringSelector,omitempty" tf:"-"`
+	PeeringSelector *v2.Selector `json:"peeringSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -121,11 +121,11 @@ type NetworkPeeringRoutesConfigParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Name of the peering.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkPeering
@@ -134,11 +134,11 @@ type NetworkPeeringRoutesConfigParameters struct {
 
 	// Reference to a NetworkPeering in compute to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringRef *v1.Reference `json:"peeringRef,omitempty" tf:"-"`
+	PeeringRef *v2.Reference `json:"peeringRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkPeering in compute to populate peering.
 	// +kubebuilder:validation:Optional
-	PeeringSelector *v1.Selector `json:"peeringSelector,omitempty" tf:"-"`
+	PeeringSelector *v2.Selector `json:"peeringSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -148,8 +148,8 @@ type NetworkPeeringRoutesConfigParameters struct {
 
 // NetworkPeeringRoutesConfigSpec defines the desired state of NetworkPeeringRoutesConfig
 type NetworkPeeringRoutesConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkPeeringRoutesConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkPeeringRoutesConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -165,8 +165,8 @@ type NetworkPeeringRoutesConfigSpec struct {
 
 // NetworkPeeringRoutesConfigStatus defines the observed state of NetworkPeeringRoutesConfig.
 type NetworkPeeringRoutesConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkPeeringRoutesConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkPeeringRoutesConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

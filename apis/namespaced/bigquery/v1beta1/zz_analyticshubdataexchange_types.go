@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AnalyticsHubDataExchangeInitParameters struct {
@@ -58,6 +57,10 @@ type AnalyticsHubDataExchangeObservation struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the data exchange.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -221,8 +224,8 @@ type AnalyticsHubDataExchangeSpec struct {
 
 // AnalyticsHubDataExchangeStatus defines the observed state of AnalyticsHubDataExchange.
 type AnalyticsHubDataExchangeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AnalyticsHubDataExchangeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AnalyticsHubDataExchangeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

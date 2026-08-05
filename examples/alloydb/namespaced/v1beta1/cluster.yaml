@@ -14,3 +14,4 @@ metadata:
 spec:
   forProvider:
     location: us-central1
+    deletionProtection: false

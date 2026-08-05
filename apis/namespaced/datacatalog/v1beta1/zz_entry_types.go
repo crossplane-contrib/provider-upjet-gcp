@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BigqueryDateShardedSpecInitParameters struct {
@@ -76,11 +75,11 @@ type EntryInitParameters struct {
 
 	// Reference to a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupRef *v1.NamespacedReference `json:"entryGroupRef,omitempty" tf:"-"`
+	EntryGroupRef *v2.NamespacedReference `json:"entryGroupRef,omitempty" tf:"-"`
 
 	// Selector for a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupSelector *v1.NamespacedSelector `json:"entryGroupSelector,omitempty" tf:"-"`
+	EntryGroupSelector *v2.NamespacedSelector `json:"entryGroupSelector,omitempty" tf:"-"`
 
 	// The id of the entry to create.
 	EntryID *string `json:"entryId,omitempty" tf:"entry_id,omitempty"`
@@ -131,6 +130,10 @@ type EntryObservation struct {
 	// Specification that applies to a BigQuery table. This is only valid on entries of type TABLE.
 	// Structure is documented below.
 	BigqueryTableSpec []BigqueryTableSpecObservation `json:"bigqueryTableSpec,omitempty" tf:"bigquery_table_spec,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Entry description, which can consist of several sentences or paragraphs that describe entry contents.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -211,11 +214,11 @@ type EntryParameters struct {
 
 	// Reference to a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupRef *v1.NamespacedReference `json:"entryGroupRef,omitempty" tf:"-"`
+	EntryGroupRef *v2.NamespacedReference `json:"entryGroupRef,omitempty" tf:"-"`
 
 	// Selector for a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupSelector *v1.NamespacedSelector `json:"entryGroupSelector,omitempty" tf:"-"`
+	EntryGroupSelector *v2.NamespacedSelector `json:"entryGroupSelector,omitempty" tf:"-"`
 
 	// The id of the entry to create.
 	// +kubebuilder:validation:Optional
@@ -358,8 +361,8 @@ type EntrySpec struct {
 
 // EntryStatus defines the observed state of Entry.
 type EntryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EntryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EntryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

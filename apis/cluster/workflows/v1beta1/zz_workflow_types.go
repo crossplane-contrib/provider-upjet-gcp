@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type WorkflowInitParameters struct {
@@ -69,11 +69,11 @@ type WorkflowInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
@@ -103,6 +103,10 @@ type WorkflowObservation struct {
 	// The KMS key used to encrypt workflow and execution data.
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Defaults to true.
 	// When the field is set to false, deleting the workflow is allowed.
@@ -246,11 +250,11 @@ type WorkflowParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
 	// +kubebuilder:validation:Optional
@@ -271,8 +275,8 @@ type WorkflowParameters struct {
 
 // WorkflowSpec defines the desired state of Workflow
 type WorkflowSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     WorkflowParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   WorkflowParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -288,8 +292,8 @@ type WorkflowSpec struct {
 
 // WorkflowStatus defines the observed state of Workflow.
 type WorkflowStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkflowObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkflowObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

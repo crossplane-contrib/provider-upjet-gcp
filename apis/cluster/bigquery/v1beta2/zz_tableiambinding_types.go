@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TableIAMBindingConditionInitParameters struct {
@@ -49,11 +49,11 @@ type TableIAMBindingInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
@@ -67,11 +67,11 @@ type TableIAMBindingInitParameters struct {
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.Reference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableIAMBindingObservation struct {
@@ -104,11 +104,11 @@ type TableIAMBindingParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -126,17 +126,17 @@ type TableIAMBindingParameters struct {
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.Reference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 // TableIAMBindingSpec defines the desired state of TableIAMBinding
 type TableIAMBindingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TableIAMBindingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TableIAMBindingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,12 +152,13 @@ type TableIAMBindingSpec struct {
 
 // TableIAMBindingStatus defines the observed state of TableIAMBinding.
 type TableIAMBindingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TableIAMBindingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TableIAMBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // TableIAMBinding is the Schema for the TableIAMBindings API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

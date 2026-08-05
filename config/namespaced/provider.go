@@ -7,6 +7,7 @@ package namespaced
 import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/accessapproval"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/accesscontextmanager"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/alloydb"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/apigee"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/beyondcorp"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/bigquery"
@@ -37,6 +38,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/identityplatform"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/kms"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/logging"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/modelarmor"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/monitoring"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/networksecurity"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/notebooks"
@@ -51,8 +53,8 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/spanner"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/sql"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/storage"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/storagetransfer"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/tags"
-	"github.com/upbound/provider-gcp/v2/config/namespaced/tpu"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/vertexai"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/vpcaccess"
 )
@@ -98,15 +100,17 @@ func init() {
 	ProviderConfiguration.AddConfig(sourcerepo.Configure)
 	ProviderConfiguration.AddConfig(spanner.Configure)
 	ProviderConfiguration.AddConfig(storage.Configure)
+	ProviderConfiguration.AddConfig(storagetransfer.Configure)
 	ProviderConfiguration.AddConfig(sql.Configure)
 	ProviderConfiguration.AddConfig(redis.Configure)
 	ProviderConfiguration.AddConfig(bigquery.Configure)
 	ProviderConfiguration.AddConfig(beyondcorp.Configure)
 	ProviderConfiguration.AddConfig(vertexai.Configure)
 	ProviderConfiguration.AddConfig(tags.Configure)
-	ProviderConfiguration.AddConfig(tpu.Configure)
 	ProviderConfiguration.AddConfig(vpcaccess.Configure)
 	ProviderConfiguration.AddConfig(healthcare.Configure)
 	ProviderConfiguration.AddConfig(gkehub.Configure)
+	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
+	ProviderConfiguration.AddConfig(alloydb.Configure)
 }

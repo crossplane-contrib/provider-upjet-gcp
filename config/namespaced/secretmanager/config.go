@@ -13,7 +13,7 @@ import (
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_secret_manager_secret", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "replication")
+		r.MarkAsRequired("replication")
 	})
 
 	p.AddResourceConfigurator("google_secret_manager_secret_iam_member", func(r *config.Resource) {
@@ -29,5 +29,7 @@ func Configure(p *config.Provider) {
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 		r.MetaResource.ArgumentDocs["secret_data"] = `The secret data. Must be no larger than 64KiB.`
+		delete(r.TerraformResource.Schema, "secret_data_wo")
+		delete(r.TerraformResource.Schema, "secret_data_wo_version")
 	})
 }

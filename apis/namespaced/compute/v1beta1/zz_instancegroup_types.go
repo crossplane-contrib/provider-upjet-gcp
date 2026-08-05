@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceGroupInitParameters struct {
@@ -29,11 +28,11 @@ type InstanceGroupInitParameters struct {
 
 	// References to Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
@@ -49,11 +48,11 @@ type InstanceGroupInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -61,6 +60,10 @@ type InstanceGroupInitParameters struct {
 }
 
 type InstanceGroupObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the instance
 	// group.
@@ -115,11 +118,11 @@ type InstanceGroupParameters struct {
 
 	// References to Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
@@ -137,11 +140,11 @@ type InstanceGroupParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -201,8 +204,8 @@ type InstanceGroupSpec struct {
 
 // InstanceGroupStatus defines the observed state of InstanceGroup.
 type InstanceGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceInitParameters struct {
@@ -23,11 +23,14 @@ type InstanceInitParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+
+	// When the field is set to false, deleting the instance is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// A user-visible name for the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -87,6 +90,13 @@ type InstanceObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the instance is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Endpoint for Discovery API
 	DiscoveryEndpoint *string `json:"discoveryEndpoint,omitempty" tf:"discovery_endpoint,omitempty"`
@@ -175,11 +185,15 @@ type InstanceParameters struct {
 
 	// Reference to a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.Reference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in servicenetworking to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.Selector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+
+	// When the field is set to false, deleting the instance is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// A user-visible name for the instance.
 	// +kubebuilder:validation:Optional
@@ -516,8 +530,8 @@ type WeeklyMaintenanceWindowParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -533,12 +547,13 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Instance is the Schema for the Instances API. A Google Cloud Memcache instance.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

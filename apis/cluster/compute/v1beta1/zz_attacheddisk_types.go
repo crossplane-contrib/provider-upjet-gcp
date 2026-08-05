@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AttachedDiskInitParameters struct {
@@ -29,11 +29,11 @@ type AttachedDiskInitParameters struct {
 
 	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.Reference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.Selector `json:"diskSelector,omitempty" tf:"-"`
 
 	// name or self_link of the compute instance that the disk will be attached to.
 	// If the self_link is provided then zone and project are extracted from the
@@ -45,11 +45,11 @@ type AttachedDiskInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The disk interface used for attaching this disk.
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
@@ -69,6 +69,10 @@ type AttachedDiskInitParameters struct {
 }
 
 type AttachedDiskObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Specifies a unique device name of your choice that is
 	// reflected into the /dev/disk/by-id/google-* tree of a Linux operating
@@ -124,11 +128,11 @@ type AttachedDiskParameters struct {
 
 	// Reference to a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.Reference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.Selector `json:"diskSelector,omitempty" tf:"-"`
 
 	// name or self_link of the compute instance that the disk will be attached to.
 	// If the self_link is provided then zone and project are extracted from the
@@ -141,11 +145,11 @@ type AttachedDiskParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The disk interface used for attaching this disk.
 	// +kubebuilder:validation:Optional
@@ -170,8 +174,8 @@ type AttachedDiskParameters struct {
 
 // AttachedDiskSpec defines the desired state of AttachedDisk
 type AttachedDiskSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AttachedDiskParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AttachedDiskParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -187,8 +191,8 @@ type AttachedDiskSpec struct {
 
 // AttachedDiskStatus defines the observed state of AttachedDisk.
 type AttachedDiskStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AttachedDiskObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AttachedDiskObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

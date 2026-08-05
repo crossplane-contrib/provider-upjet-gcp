@@ -40,3 +40,16 @@ func SetupGated_artifact(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_artifact registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_artifact(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		registryrepository.SetupWebhookWithManager,
+		registryrepositoryiammember.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

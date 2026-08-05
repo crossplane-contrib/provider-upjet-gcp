@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SchemaInitParameters struct {
@@ -46,12 +45,19 @@ type SchemaObservation struct {
 	// deleting old revisions.
 	Definition *string `json:"definition,omitempty" tf:"definition,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/schemas/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Output only. The revision ID of the schema.
+	RevisionID *string `json:"revisionId,omitempty" tf:"revision_id,omitempty"`
 
 	// The type of the schema definition
 	// Default value is TYPE_UNSPECIFIED.
@@ -102,8 +108,8 @@ type SchemaSpec struct {
 
 // SchemaStatus defines the observed state of Schema.
 type SchemaStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SchemaObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SchemaObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

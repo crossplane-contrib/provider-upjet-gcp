@@ -24,9 +24,10 @@ spec:
         testing.upbound.io/example-name: certificate_map
     matcher: PRIMARY
 
+
 ---
 
-apiVersion: certificatemanager.gcp.upbound.io/v1beta1
+apiVersion: certificatemanager.gcp.upbound.io/v1beta2
 kind: Certificate
 metadata:
   annotations:
@@ -47,6 +48,7 @@ spec:
       - name: instance2
     scope: DEFAULT
 
+
 ---
 
 apiVersion: certificatemanager.gcp.upbound.io/v1beta1
@@ -64,6 +66,7 @@ spec:
       acc-test: "true"
       terraform: "true"
 
+
 ---
 
 apiVersion: certificatemanager.gcp.upbound.io/v1beta1
@@ -78,6 +81,7 @@ spec:
   forProvider:
     description: The default dnss
     domain: subdomain.hashicorptest.com
+
 
 ---
 

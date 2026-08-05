@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReservationAssignmentInitParameters struct {
@@ -34,6 +33,10 @@ type ReservationAssignmentObservation struct {
 
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -86,11 +89,11 @@ type ReservationAssignmentParameters struct {
 
 	// Reference to a Reservation in bigquery to populate reservation.
 	// +kubebuilder:validation:Optional
-	ReservationRef *v1.NamespacedReference `json:"reservationRef,omitempty" tf:"-"`
+	ReservationRef *v2.NamespacedReference `json:"reservationRef,omitempty" tf:"-"`
 
 	// Selector for a Reservation in bigquery to populate reservation.
 	// +kubebuilder:validation:Optional
-	ReservationSelector *v1.NamespacedSelector `json:"reservationSelector,omitempty" tf:"-"`
+	ReservationSelector *v2.NamespacedSelector `json:"reservationSelector,omitempty" tf:"-"`
 }
 
 // ReservationAssignmentSpec defines the desired state of ReservationAssignment
@@ -112,8 +115,8 @@ type ReservationAssignmentSpec struct {
 
 // ReservationAssignmentStatus defines the observed state of ReservationAssignment.
 type ReservationAssignmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReservationAssignmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReservationAssignmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

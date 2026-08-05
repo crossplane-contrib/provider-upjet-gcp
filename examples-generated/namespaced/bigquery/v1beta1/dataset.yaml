@@ -14,7 +14,7 @@ metadata:
 spec:
   forProvider:
     access:
-    - role: OWNER
+    - role: roles/bigquery.dataOwner
       userByEmailSelector:
         matchLabels:
           testing.upbound.io/example-name: bqowner

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetInstanceInitParameters struct {
@@ -30,11 +30,11 @@ type TargetInstanceInitParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// NAT option controlling how IPs are NAT'ed to the instance.
 	// Currently only NO_NAT (default value) is supported.
@@ -51,6 +51,10 @@ type TargetInstanceObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -102,11 +106,11 @@ type TargetInstanceParameters struct {
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// NAT option controlling how IPs are NAT'ed to the instance.
 	// Currently only NO_NAT (default value) is supported.
@@ -127,8 +131,8 @@ type TargetInstanceParameters struct {
 
 // TargetInstanceSpec defines the desired state of TargetInstance
 type TargetInstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TargetInstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TargetInstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -144,8 +148,8 @@ type TargetInstanceSpec struct {
 
 // TargetInstanceStatus defines the observed state of TargetInstance.
 type TargetInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

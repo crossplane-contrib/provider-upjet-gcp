@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AttestationAuthorityInitParameters struct {
@@ -131,6 +131,10 @@ type NoteObservation struct {
 	// The time this note was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Time of expiration for this note. Leave empty if note does not expire.
 	ExpirationTime *string `json:"expirationTime,omitempty" tf:"expiration_time,omitempty"`
 
@@ -236,8 +240,8 @@ type RelatedURLParameters struct {
 
 // NoteSpec defines the desired state of Note
 type NoteSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NoteParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NoteParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -253,12 +257,13 @@ type NoteSpec struct {
 
 // NoteStatus defines the observed state of Note.
 type NoteStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NoteObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NoteObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Note is the Schema for the Notes API. A Container Analysis note is a high-level piece of metadata that describes a type of analysis that can be done for a resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -13,4 +13,5 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
+    deletionProtection: false
     memorySizeGb: 1

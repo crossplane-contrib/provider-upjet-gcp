@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalingPolicyInitParameters struct {
@@ -38,6 +37,10 @@ type AutoscalingPolicyObservation struct {
 	// Basic algorithm for autoscaling.
 	// Structure is documented below.
 	BasicAlgorithm *BasicAlgorithmObservation `json:"basicAlgorithm,omitempty" tf:"basic_algorithm,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/autoscalingPolicies/{{policy_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -419,8 +422,8 @@ type AutoscalingPolicySpec struct {
 
 // AutoscalingPolicyStatus defines the observed state of AutoscalingPolicy.
 type AutoscalingPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoscalingPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoscalingPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

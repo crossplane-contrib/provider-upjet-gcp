@@ -10,17 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type OAuthIdPConfigInitParameters struct {
 
 	// The client id of an OAuth client.
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
-	ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -46,6 +45,10 @@ type OAuthIdPConfigInitParameters struct {
 }
 
 type OAuthIdPConfigObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -77,11 +80,11 @@ type OAuthIdPConfigParameters struct {
 
 	// The client id of an OAuth client.
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
 	// +kubebuilder:validation:Optional
@@ -160,8 +163,8 @@ type OAuthIdPConfigSpec struct {
 
 // OAuthIdPConfigStatus defines the observed state of OAuthIdPConfig.
 type OAuthIdPConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        OAuthIdPConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               OAuthIdPConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

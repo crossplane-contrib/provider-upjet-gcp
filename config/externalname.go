@@ -12,6 +12,18 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
 
+// terraformPluginFrameworkExternalNameConfigs contains all external
+// name configurations belonging to Terraform Plugin Framework
+// resources to be reconciled under the no-fork architecture for this
+// provider.
+var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName{
+	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
+	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+
+	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
+	"google_storage_notification": config.IdentifierFromProvider,
+}
+
 // terraformPluginSDKExternalNameConfigs contains all external name configurations
 // belonging to Terraform resources to be reconciled under the no-fork
 // architecture for this provider.
@@ -479,8 +491,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// essential
 	//
-	// Imported by using the following format:
-	"google_essential_contacts_contact": config.IdentifierFromProvider,
+	// Imported by using the following format: {resource_type}/{resource_id}/contacts/{contact_id}, e.g. projects/{project_id}/contacts/{contact_id}
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_essential_contacts_contact": identifierFromProviderWithComputedName(),
 
 	// eventarc
 	//
@@ -509,14 +522,21 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// firestore
 	//
+	// Imported by using the following format: projects/{{project}}/databases/{{name}}
+	"google_firestore_database": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/databases/{{ .external_name }}"),
 	// Imported by using the following format: {{name}}
 	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
 	// The Cloud Firestore API is not available for Datastore Mode projects
 	// "google_firestore_document": config.IdentifierFromProvider,
-	// Imported by using the following format: {{name}}
-	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
+	// Imported by using the following format: {{name}}, where name is the
+	// server-generated path projects/{{project}}/databases/{{database}}/collectionGroups/{{collection}}/indexes/{{server_generated_id}}
+	// This resource creates a Firestore Index on a project that already has Firestore enabled
 	// Requires project level IAM permissions
-	// "google_firestore_index": config.IdentifierFromProvider,
+	"google_firestore_index": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/databases/{{database}}/collectionGroups/{{collection}}/fields/{{field}}
+	// This resource creates a Firestore Field on a project that already has Firestore enabled
+	// Requires project level IAM permissions
+	"google_firestore_field": config.TemplatedStringAsIdentifier("field", "projects/{{ .setup.configuration.project }}/databases/{{ .parameters.database }}/collectionGroups/{{ .parameters.collection }}/fields/{{ .external_name }}"),
 
 	// gameservers
 	//
@@ -686,6 +706,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_security_tls_inspection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/tlsInspectionPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/urlLists/{{name}}
 	"google_network_security_url_lists": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/urlLists/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dnsThreatDetectors/{{name}}
+	"google_network_security_dns_threat_detector": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dnsThreatDetectors/{{ .external_name }}"),
 
 	// mlengine
 	//
@@ -843,8 +865,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_storage_object_acl": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/agentPools/{{name}}
 	"google_storage_transfer_agent_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/agentPools/{{ .external_name }}"),
-	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
+	// Imported by using the following {{project}}/{{name}}
+	"google_storage_transfer_job": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
 	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
@@ -958,8 +980,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_apigee_env_references": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/references/{{ .external_name }}"),
 	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
 	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
-	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
 
 	// binaryauthorization
 	//
@@ -1064,11 +1084,6 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/subscriptions/{{subscription_id}}
 	"google_bigquery_analytics_hub_listing_subscription": config.IdentifierFromProvider,
 
-	// tpu
-	//
-	// Imported by using the following projects/{{project}}/locations/{{zone}}/nodes/{{name}}
-	"google_tpu_node": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.zone }}/nodes/{{ .external_name }}"),
-
 	// vpcaccess
 	//
 	// Imported by using the following projects/{{project}}/locations/{{region}}/connectors/{{name}}
@@ -1117,6 +1132,21 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_memorystore_instance": config.TemplatedStringAsIdentifier("instance_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_memorystore_instance_desired_user_created_endpoints": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
+
+	// cloudidentity
+	//
+	// Imported by using the following: groups/<group_id>
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group": identifierFromProviderWithComputedName(),
+	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group_membership": identifierFromProviderWithComputedName(),
+
+	// modelarmor
+	//
+	//
+	"google_model_armor_template":     config.TemplatedStringAsIdentifier("template_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/templates/{{ .external_name }}"),
+	"google_model_armor_floorsetting": config.TemplatedStringAsIdentifier("", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/floorSetting"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations
@@ -1234,6 +1264,33 @@ func firewallPolicy() config.ExternalName {
 		}
 		parts := strings.Split(externalName, "/")
 		base["name"] = parts[len(parts)-1]
+	}
+	return e
+}
+
+// identifierFromProviderWithComputedName configures resources (e.g.
+// cloud_identity resources, essential_contacts_contact) in a special way. The
+// reason this is required is due to the implementation of these resources. In
+// the Read functions, resources are fetched using not the ID field but the
+// name field. It is important to note that this field exists only
+// under the status field. The name field has the same value as the resource ID;
+// therefore, this function sets the name field to the ID value
+// (or external-name — in this case they are equivalent; see IdentifierFromProvider).
+// This ensures that the resource behaves correctly.
+// If this configuration is not applied, although the happy path (create-delete)
+// appears to succeed, the resource fails in scenarios where import or state
+// reconstruction is required (e.g., import, observe-only, pod restart, etc.)
+// with a "resource already exists" error (or "external resource does not
+// exist" under the Observe management policy). This happens because the Read
+// function cannot find the resource when the name field (in status) is empty,
+// and the system attempts to recreate it. This configuration fixes that issue.
+func identifierFromProviderWithComputedName() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		base["name"] = externalName
 	}
 	return e
 }

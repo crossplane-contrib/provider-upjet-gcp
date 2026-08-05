@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: modelarmor.gcp.m.upbound.io/v1beta1
+kind: Template
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelarmor/v1beta1/template
+  labels:
+    testing.upbound.io/example-name: template-basic
+  name: template-basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    filterConfig: {}
+    location: us-central1
+    templateMetadata: {}

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupInitParameters struct {
@@ -28,11 +27,11 @@ type BackupInitParameters struct {
 
 	// Reference to a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// User-provided description of the backup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -77,6 +76,10 @@ type BackupObservation struct {
 	// Output only. Delete time stamp. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-provided description of the backup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -172,11 +175,11 @@ type BackupParameters struct {
 
 	// Reference to a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// User-provided description of the backup.
 	// +kubebuilder:validation:Optional
@@ -283,8 +286,8 @@ type BackupSpec struct {
 
 // BackupStatus defines the observed state of Backup.
 type BackupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SSLCertInitParameters struct {
@@ -26,11 +26,11 @@ type SSLCertInitParameters struct {
 
 	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -49,6 +49,10 @@ type SSLCertObservation struct {
 	// The time when the certificate was created in RFC 3339 format,
 	// for example 2012-11-15T16:19:00.094Z.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The time when the certificate expires in RFC 3339 format,
 	// for example 2012-11-15T16:19:00.094Z.
@@ -83,11 +87,11 @@ type SSLCertParameters struct {
 
 	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -97,8 +101,8 @@ type SSLCertParameters struct {
 
 // SSLCertSpec defines the desired state of SSLCert
 type SSLCertSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SSLCertParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SSLCertParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -114,8 +118,8 @@ type SSLCertSpec struct {
 
 // SSLCertStatus defines the observed state of SSLCert.
 type SSLCertStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SSLCertObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SSLCertObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

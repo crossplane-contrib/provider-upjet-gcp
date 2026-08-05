@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessConditionInitParameters struct {
@@ -169,11 +169,11 @@ type AccessInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailRef *v1.Reference `json:"userByEmailRef,omitempty" tf:"-"`
+	UserByEmailRef *v2.Reference `json:"userByEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailSelector *v1.Selector `json:"userByEmailSelector,omitempty" tf:"-"`
+	UserByEmailSelector *v2.Selector `json:"userByEmailSelector,omitempty" tf:"-"`
 
 	// A view from a different dataset to grant access to. Queries
 	// executed against that view will have read access to tables in
@@ -294,11 +294,11 @@ type AccessParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailRef *v1.Reference `json:"userByEmailRef,omitempty" tf:"-"`
+	UserByEmailRef *v2.Reference `json:"userByEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate userByEmail.
 	// +kubebuilder:validation:Optional
-	UserByEmailSelector *v1.Selector `json:"userByEmailSelector,omitempty" tf:"-"`
+	UserByEmailSelector *v2.Selector `json:"userByEmailSelector,omitempty" tf:"-"`
 
 	// A view from a different dataset to grant access to. Queries
 	// executed against that view will have read access to tables in
@@ -318,11 +318,11 @@ type DatasetDatasetInitParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -346,11 +346,11 @@ type DatasetDatasetParameters struct {
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
@@ -521,6 +521,10 @@ type DatasetObservation struct {
 	// dataset when destroying the resource; otherwise,
 	// destroying the resource will fail if tables are present.
 	DeleteContentsOnDestroy *bool `json:"deleteContentsOnDestroy,omitempty" tf:"delete_contents_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A user-friendly description of the dataset
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -740,11 +744,11 @@ type DefaultEncryptionConfigurationInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type DefaultEncryptionConfigurationObservation struct {
@@ -767,11 +771,11 @@ type DefaultEncryptionConfigurationParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ExternalCatalogDatasetOptionsInitParameters struct {
@@ -853,11 +857,11 @@ type RoutineInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Routine
@@ -866,11 +870,11 @@ type RoutineInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The ID of the routine. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
@@ -880,11 +884,11 @@ type RoutineInitParameters struct {
 
 	// Reference to a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDRef *v1.Reference `json:"routineIdRef,omitempty" tf:"-"`
+	RoutineIDRef *v2.Reference `json:"routineIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDSelector *v1.Selector `json:"routineIdSelector,omitempty" tf:"-"`
+	RoutineIDSelector *v2.Selector `json:"routineIdSelector,omitempty" tf:"-"`
 }
 
 type RoutineObservation struct {
@@ -911,11 +915,11 @@ type RoutineParameters struct {
 
 	// Reference to a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Routine
@@ -925,11 +929,11 @@ type RoutineParameters struct {
 
 	// Reference to a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// The ID of the routine. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
@@ -940,11 +944,11 @@ type RoutineParameters struct {
 
 	// Reference to a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDRef *v1.Reference `json:"routineIdRef,omitempty" tf:"-"`
+	RoutineIDRef *v2.Reference `json:"routineIdRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routineId.
 	// +kubebuilder:validation:Optional
-	RoutineIDSelector *v1.Selector `json:"routineIdSelector,omitempty" tf:"-"`
+	RoutineIDSelector *v2.Selector `json:"routineIdSelector,omitempty" tf:"-"`
 }
 
 type ViewInitParameters struct {
@@ -994,8 +998,8 @@ type ViewParameters struct {
 
 // DatasetSpec defines the desired state of Dataset
 type DatasetSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DatasetParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DatasetParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1011,12 +1015,13 @@ type DatasetSpec struct {
 
 // DatasetStatus defines the observed state of Dataset.
 type DatasetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Dataset is the Schema for the Datasets API. Datasets allow you to organize and control access to your tables.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

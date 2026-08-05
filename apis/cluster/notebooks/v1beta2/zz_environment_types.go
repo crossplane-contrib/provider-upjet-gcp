@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ContainerImageInitParameters struct {
@@ -78,6 +78,10 @@ type EnvironmentObservation struct {
 
 	// Instance creation time
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A brief description of this environment.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -183,8 +187,8 @@ type VMImageParameters struct {
 
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EnvironmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EnvironmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -200,12 +204,13 @@ type EnvironmentSpec struct {
 
 // EnvironmentStatus defines the observed state of Environment.
 type EnvironmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvironmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvironmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Environment is the Schema for the Environments API. A Cloud AI Platform Notebook environment.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

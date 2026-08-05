@@ -10,8 +10,88 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
+
+type AIInferenceInitParameters struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Service account email to be used for generating the OIDC token.
+	// The caller (for subscriptions.create, subscriptions.patch, and
+	// subscriptions.modifyPushConfig RPCs) must have the
+	// iam.serviceAccounts.actAs permission for the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	UnstructuredInference *UnstructuredInferenceInitParameters `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
+type AIInferenceObservation struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// Service account email to be used for generating the OIDC token.
+	// The caller (for subscriptions.create, subscriptions.patch, and
+	// subscriptions.modifyPushConfig RPCs) must have the
+	// iam.serviceAccounts.actAs permission for the service account.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	UnstructuredInference *UnstructuredInferenceObservation `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
+type AIInferenceParameters struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	// +kubebuilder:validation:Optional
+	Endpoint *string `json:"endpoint" tf:"endpoint,omitempty"`
+
+	// Service account email to be used for generating the OIDC token.
+	// The caller (for subscriptions.create, subscriptions.patch, and
+	// subscriptions.modifyPushConfig RPCs) must have the
+	// iam.serviceAccounts.actAs permission for the service account.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UnstructuredInference *UnstructuredInferenceParameters `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
 
 type AvroConfigInitParameters struct {
 
@@ -67,11 +147,11 @@ type BigqueryConfigInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId}
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
@@ -135,11 +215,11 @@ type BigqueryConfigParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The name of the table to which to write data, of the form {projectId}.{datasetId}.{tableId}
 	// +kubebuilder:validation:Optional
@@ -200,11 +280,15 @@ type CloudStorageConfigInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// If set, message data will be written to Cloud Storage in text format.
+	// Structure is documented below.
+	TextConfig *TextConfigInitParameters `json:"textConfig,omitempty" tf:"text_config,omitempty"`
 }
 
 type CloudStorageConfigObservation struct {
@@ -245,6 +329,10 @@ type CloudStorageConfigObservation struct {
 	// (Output)
 	// An output-only field that indicates whether or not the subscription can receive messages.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// If set, message data will be written to Cloud Storage in text format.
+	// Structure is documented below.
+	TextConfig *TextConfigObservation `json:"textConfig,omitempty" tf:"text_config,omitempty"`
 }
 
 type CloudStorageConfigParameters struct {
@@ -295,11 +383,16 @@ type CloudStorageConfigParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// If set, message data will be written to Cloud Storage in text format.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TextConfig *TextConfigParameters `json:"textConfig,omitempty" tf:"text_config,omitempty"`
 }
 
 type DeadLetterPolicyInitParameters struct {
@@ -319,11 +412,11 @@ type DeadLetterPolicyInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate deadLetterTopic.
 	// +kubebuilder:validation:Optional
-	DeadLetterTopicRef *v1.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
+	DeadLetterTopicRef *v2.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate deadLetterTopic.
 	// +kubebuilder:validation:Optional
-	DeadLetterTopicSelector *v1.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
+	DeadLetterTopicSelector *v2.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
 
 	// The maximum number of delivery attempts for any message. The value must be
 	// between 5 and 100.
@@ -378,11 +471,11 @@ type DeadLetterPolicyParameters struct {
 
 	// Reference to a Topic in pubsub to populate deadLetterTopic.
 	// +kubebuilder:validation:Optional
-	DeadLetterTopicRef *v1.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
+	DeadLetterTopicRef *v2.Reference `json:"deadLetterTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate deadLetterTopic.
 	// +kubebuilder:validation:Optional
-	DeadLetterTopicSelector *v1.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
+	DeadLetterTopicSelector *v2.Selector `json:"deadLetterTopicSelector,omitempty" tf:"-"`
 
 	// The maximum number of delivery attempts for any message. The value must be
 	// between 5 and 100.
@@ -461,6 +554,12 @@ type JavascriptUdfParameters struct {
 
 type MessageTransformsInitParameters struct {
 
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	AIInference *AIInferenceInitParameters `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
+
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -473,6 +572,12 @@ type MessageTransformsInitParameters struct {
 
 type MessageTransformsObservation struct {
 
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	AIInference *AIInferenceObservation `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
+
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -484,6 +589,13 @@ type MessageTransformsObservation struct {
 }
 
 type MessageTransformsParameters struct {
+
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AIInference *AIInferenceParameters `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
 
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
@@ -832,6 +944,17 @@ type SubscriptionInitParameters struct {
 	// Structure is documented below.
 	RetryPolicy *RetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
+	// Input only. Resource manager tags to be bound to the subscription. Tag
+	// keys and values have the same definition as resource manager tags. Keys
+	// must be in the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
@@ -840,11 +963,11 @@ type SubscriptionInitParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type SubscriptionObservation struct {
@@ -887,6 +1010,10 @@ type SubscriptionObservation struct {
 	// permission to Acknowledge() messages on this subscription.
 	// Structure is documented below.
 	DeadLetterPolicy *DeadLetterPolicyObservation `json:"deadLetterPolicy,omitempty" tf:"dead_letter_policy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -960,6 +1087,17 @@ type SubscriptionObservation struct {
 	// RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message
 	// Structure is documented below.
 	RetryPolicy *RetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the subscription. Tag
+	// keys and values have the same definition as resource manager tags. Keys
+	// must be in the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -1094,6 +1232,18 @@ type SubscriptionParameters struct {
 	// +kubebuilder:validation:Optional
 	RetryPolicy *RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
+	// Input only. Resource manager tags to be bound to the subscription. Tag
+	// keys and values have the same definition as resource manager tags. Keys
+	// must be in the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
@@ -1103,17 +1253,58 @@ type SubscriptionParameters struct {
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
+}
+
+type TextConfigInitParameters struct {
+}
+
+type TextConfigObservation struct {
+
+	// (Output)
+	// Output only. Placeholder to allow the empty text_config block.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type TextConfigParameters struct {
+}
+
+type UnstructuredInferenceInitParameters struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type UnstructuredInferenceObservation struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type UnstructuredInferenceParameters struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 }
 
 // SubscriptionSpec defines the desired state of Subscription
 type SubscriptionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubscriptionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SubscriptionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1129,12 +1320,13 @@ type SubscriptionSpec struct {
 
 // SubscriptionStatus defines the observed state of Subscription.
 type SubscriptionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SubscriptionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SubscriptionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Subscription is the Schema for the Subscriptions API. A named resource representing the stream of messages from a single, specific topic, to be delivered to the subscribing application.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

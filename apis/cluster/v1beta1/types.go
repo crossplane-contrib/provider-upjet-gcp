@@ -7,29 +7,46 @@ package v1beta1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/upjet/v2/apis/configuration/v1alpha1"
 )
 
 // A ProviderConfigSpec defines the desired state of a ProviderConfig.
 type ProviderConfigSpec struct {
+	// +optional
+	// +kubebuilder:validation:XValidation:rule="!has(self.exponentialFailureRateLimiter) || !has(self.exponentialFailureRateLimiter.baseDelay) || has(self.exponentialFailureRateLimiter.maxDelay) || duration(self.exponentialFailureRateLimiter.baseDelay) <= duration('60s')",message="when maxDelay is omitted it defaults to 60s; baseDelay must be <= 60s"
+	ReconciliationPolicy *v1alpha1.ReconciliationPolicy `json:"reconciliationPolicy,omitempty"`
+
 	// Credentials required to authenticate to this provider.
 	Credentials ProviderCredentials `json:"credentials"`
 
 	// ProjectID is the project name (not numerical ID) of this GCP ProviderConfig.
 	ProjectID string `json:"projectID"`
+
+	// UserProjectOverride enables attributing API requests to the project in
+	// billingProject (or, when that is unset, the resource's project) by
+	// sending the X-Goog-User-Project header, instead of attributing them to
+	// the credential's home project.
+	// +optional
+	UserProjectOverride *bool `json:"userProjectOverride,omitempty"`
+
+	// BillingProject is the project name (not numerical ID) to attribute API
+	// requests to. Only used when userProjectOverride is true.
+	// +optional
+	BillingProject *string `json:"billingProject,omitempty"`
 }
 
 // ProviderCredentials required to authenticate.
 type ProviderCredentials struct {
 	// Source of the provider credentials.
 	// +kubebuilder:validation:Enum=None;Secret;AccessToken;ImpersonateServiceAccount;InjectedIdentity;Environment;Filesystem;Upbound
-	Source xpv1.CredentialsSource `json:"source"`
+	Source xpv2.CredentialsSource `json:"source"`
 
 	// Upbound defines the options for authenticating using Upbound as an
 	// identity provider.
 	Upbound *Upbound `json:"upbound,omitempty"`
 
-	xpv1.CommonCredentialSelectors `json:",inline"`
+	xpv2.CommonCredentialSelectors `json:",inline"`
 	// Use GCP service account impersonation for authentication.
 	ImpersonateServiceAccountSpec `json:"impersonateServiceAccount,omitempty"`
 }
@@ -61,7 +78,7 @@ type Federation struct {
 
 // A ProviderConfigStatus reflects the observed state of a ProviderConfig.
 type ProviderConfigStatus struct {
-	xpv1.ProviderConfigStatus `json:",inline"`
+	xpv2.ProviderConfigStatus `json:",inline"`
 }
 
 // +kubebuilder:object:root=true
@@ -103,7 +120,7 @@ type ProviderConfigUsage struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	xpv1.ProviderConfigUsage `json:",inline"`
+	xpv2.ProviderConfigUsage `json:",inline"`
 }
 
 // +kubebuilder:object:root=true

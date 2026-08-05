@@ -12,7 +12,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 	"github.com/upbound/provider-gcp/v2/config/namespaced/common"
 )
@@ -56,7 +56,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				conn[PublicIPKey] = []byte(a)
 			}
 			if a, ok := attr["root_password"].(string); ok {
-				conn[xpv1.ResourceCredentialsSecretPasswordKey] = []byte(a)
+				conn[xpv2.CredentialsSecretPasswordKey] = []byte(a)
 			}
 			// map
 			if certSlice, ok := attr["server_ca_cert"].([]interface{}); ok && len(certSlice) > 0 {
@@ -80,6 +80,8 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
+		delete(r.TerraformResource.Schema, "root_password_wo")
+		delete(r.TerraformResource.Schema, "root_password_wo_version")
 	})
 	p.AddResourceConfigurator("google_sql_database", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{
@@ -125,6 +127,8 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
+		delete(r.TerraformResource.Schema, "password_wo")
+		delete(r.TerraformResource.Schema, "password_wo_version")
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{

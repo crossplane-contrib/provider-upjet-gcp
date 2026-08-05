@@ -26,9 +26,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: topic
 
+
 ---
 
-apiVersion: pubsub.gcp.upbound.io/v1beta1
+apiVersion: pubsub.gcp.upbound.io/v1beta2
 kind: Topic
 metadata:
   annotations:
@@ -39,9 +40,10 @@ metadata:
 spec:
   forProvider: {}
 
+
 ---
 
-apiVersion: storage.gcp.upbound.io/v1beta1
+apiVersion: storage.gcp.upbound.io/v1beta3
 kind: Bucket
 metadata:
   annotations:
@@ -53,9 +55,10 @@ spec:
   forProvider:
     location: US
 
+
 ---
 
-apiVersion: pubsub.gcp.upbound.io/v1beta1
+apiVersion: pubsub.gcp.upbound.io/v1beta2
 kind: TopicIAMMember
 metadata:
   annotations:

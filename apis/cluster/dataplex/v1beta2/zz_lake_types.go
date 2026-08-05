@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AssetStatusInitParameters struct {
@@ -54,6 +54,10 @@ type LakeObservation struct {
 
 	// Output only. The time when the lake was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Description of the lake.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -167,8 +171,8 @@ type MetastoreStatusParameters struct {
 
 // LakeSpec defines the desired state of Lake
 type LakeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LakeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LakeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -184,12 +188,13 @@ type LakeSpec struct {
 
 // LakeStatus defines the observed state of Lake.
 type LakeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LakeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LakeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Lake is the Schema for the Lakes API. The Dataplex Lake resource
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

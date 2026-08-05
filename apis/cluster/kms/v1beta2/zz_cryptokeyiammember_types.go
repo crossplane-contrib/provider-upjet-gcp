@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -50,11 +50,11 @@ type CryptoKeyIAMMemberInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDRef *v1.Reference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+	CryptoKeyIDRef *v2.Reference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDSelector *v1.Selector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+	CryptoKeyIDSelector *v2.Selector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -87,11 +87,11 @@ type CryptoKeyIAMMemberParameters struct {
 
 	// Reference to a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDRef *v1.Reference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+	CryptoKeyIDRef *v2.Reference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDSelector *v1.Selector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+	CryptoKeyIDSelector *v2.Selector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -102,8 +102,8 @@ type CryptoKeyIAMMemberParameters struct {
 
 // CryptoKeyIAMMemberSpec defines the desired state of CryptoKeyIAMMember
 type CryptoKeyIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CryptoKeyIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CryptoKeyIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -119,12 +119,13 @@ type CryptoKeyIAMMemberSpec struct {
 
 // CryptoKeyIAMMemberStatus defines the observed state of CryptoKeyIAMMember.
 type CryptoKeyIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // CryptoKeyIAMMember is the Schema for the CryptoKeyIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

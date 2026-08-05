@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LocationTagBindingInitParameters struct {
@@ -22,21 +21,25 @@ type LocationTagBindingInitParameters struct {
 	// The full resource name of the resource the TagValue is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// The TagValue of the TagBinding. Must be either in id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagValue
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
 
 	// Reference to a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueRef *v1.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
+	TagValueRef *v2.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueSelector *v1.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
+	TagValueSelector *v2.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
 }
 
 type LocationTagBindingObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format {{location}}/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -44,13 +47,13 @@ type LocationTagBindingObservation struct {
 	// Location of the target resource.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
-	// The generated id for the TagBinding. This is a string of the form: tagBindings/{parent}/{tag-value-name}
+	// The generated id for the TagBinding. This is a string of the form tagBindings/{full-resource-name}/{tag-value-name} or tagBindings/{full-resource-name}/{tag-key-name}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The full resource name of the resource the TagValue is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// The TagValue of the TagBinding. Must be either in id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
 	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
 }
 
@@ -64,7 +67,7 @@ type LocationTagBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
-	// The TagValue of the TagBinding. Must be of the form tagValues/456.
+	// The TagValue of the TagBinding. Must be either in id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagValue
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
@@ -72,11 +75,11 @@ type LocationTagBindingParameters struct {
 
 	// Reference to a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueRef *v1.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
+	TagValueRef *v2.NamespacedReference `json:"tagValueRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate tagValue.
 	// +kubebuilder:validation:Optional
-	TagValueSelector *v1.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
+	TagValueSelector *v2.NamespacedSelector `json:"tagValueSelector,omitempty" tf:"-"`
 }
 
 // LocationTagBindingSpec defines the desired state of LocationTagBinding
@@ -98,8 +101,8 @@ type LocationTagBindingSpec struct {
 
 // LocationTagBindingStatus defines the observed state of LocationTagBinding.
 type LocationTagBindingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LocationTagBindingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LocationTagBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -19,12 +19,14 @@ import (
 	v1beta1beyondcorp "github.com/upbound/provider-gcp/v2/apis/namespaced/beyondcorp/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1"
 	v1beta1bigtable "github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1"
+	v1beta2 "github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta2"
 	v1beta1binaryauthorization "github.com/upbound/provider-gcp/v2/apis/namespaced/binaryauthorization/v1beta1"
 	v1beta1certificatemanager "github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1"
 	v1beta1cloud "github.com/upbound/provider-gcp/v2/apis/namespaced/cloud/v1beta1"
 	v1beta1cloudbuild "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudbuild/v1beta1"
 	v1beta1cloudfunctions "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions/v1beta1"
 	v1beta1cloudfunctions2 "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions2/v1beta1"
+	v1beta1cloudidentity "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudidentity/v1beta1"
 	v1beta1cloudplatform "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1"
 	v1beta1cloudquotas "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudquotas/v1beta1"
 	v1beta1cloudrun "github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1"
@@ -52,6 +54,7 @@ import (
 	v1beta1eventarc "github.com/upbound/provider-gcp/v2/apis/namespaced/eventarc/v1beta1"
 	v1beta1filestore "github.com/upbound/provider-gcp/v2/apis/namespaced/filestore/v1beta1"
 	v1beta1firebaserules "github.com/upbound/provider-gcp/v2/apis/namespaced/firebaserules/v1beta1"
+	v1beta1firestore "github.com/upbound/provider-gcp/v2/apis/namespaced/firestore/v1beta1"
 	v1beta1gemini "github.com/upbound/provider-gcp/v2/apis/namespaced/gemini/v1beta1"
 	v1beta1gke "github.com/upbound/provider-gcp/v2/apis/namespaced/gke/v1beta1"
 	v1beta1gkehub "github.com/upbound/provider-gcp/v2/apis/namespaced/gkehub/v1beta1"
@@ -64,6 +67,7 @@ import (
 	v1beta1memcache "github.com/upbound/provider-gcp/v2/apis/namespaced/memcache/v1beta1"
 	v1beta1memorystore "github.com/upbound/provider-gcp/v2/apis/namespaced/memorystore/v1beta1"
 	v1beta1mlengine "github.com/upbound/provider-gcp/v2/apis/namespaced/mlengine/v1beta1"
+	v1beta1modelarmor "github.com/upbound/provider-gcp/v2/apis/namespaced/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v2/apis/namespaced/monitoring/v1beta1"
 	v1beta1networkconnectivity "github.com/upbound/provider-gcp/v2/apis/namespaced/networkconnectivity/v1beta1"
 	v1beta1networkmanagement "github.com/upbound/provider-gcp/v2/apis/namespaced/networkmanagement/v1beta1"
@@ -82,9 +86,9 @@ import (
 	v1beta1spanner "github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1"
 	v1beta1sql "github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1"
 	v1beta1storage "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1"
+	v1beta2storage "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2"
 	v1beta1storagetransfer "github.com/upbound/provider-gcp/v2/apis/namespaced/storagetransfer/v1beta1"
 	v1beta1tags "github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1"
-	v1beta1tpu "github.com/upbound/provider-gcp/v2/apis/namespaced/tpu/v1beta1"
 	v1alpha1 "github.com/upbound/provider-gcp/v2/apis/namespaced/v1alpha1"
 	v1beta1namespaced "github.com/upbound/provider-gcp/v2/apis/namespaced/v1beta1"
 	v1beta1vertexai "github.com/upbound/provider-gcp/v2/apis/namespaced/vertexai/v1beta1"
@@ -104,12 +108,14 @@ func init() {
 		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
+		v1beta2.SchemeBuilder.AddToScheme,
 		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,
 		v1beta1certificatemanager.SchemeBuilder.AddToScheme,
 		v1beta1cloud.SchemeBuilder.AddToScheme,
 		v1beta1cloudbuild.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions.SchemeBuilder.AddToScheme,
 		v1beta1cloudfunctions2.SchemeBuilder.AddToScheme,
+		v1beta1cloudidentity.SchemeBuilder.AddToScheme,
 		v1beta1cloudplatform.SchemeBuilder.AddToScheme,
 		v1beta1cloudquotas.SchemeBuilder.AddToScheme,
 		v1beta1cloudrun.SchemeBuilder.AddToScheme,
@@ -137,6 +143,7 @@ func init() {
 		v1beta1eventarc.SchemeBuilder.AddToScheme,
 		v1beta1filestore.SchemeBuilder.AddToScheme,
 		v1beta1firebaserules.SchemeBuilder.AddToScheme,
+		v1beta1firestore.SchemeBuilder.AddToScheme,
 		v1beta1gemini.SchemeBuilder.AddToScheme,
 		v1beta1gke.SchemeBuilder.AddToScheme,
 		v1beta1gkehub.SchemeBuilder.AddToScheme,
@@ -149,6 +156,7 @@ func init() {
 		v1beta1memcache.SchemeBuilder.AddToScheme,
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
+		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,
 		v1beta1networkmanagement.SchemeBuilder.AddToScheme,
@@ -167,9 +175,9 @@ func init() {
 		v1beta1spanner.SchemeBuilder.AddToScheme,
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta1storage.SchemeBuilder.AddToScheme,
+		v1beta2storage.SchemeBuilder.AddToScheme,
 		v1beta1storagetransfer.SchemeBuilder.AddToScheme,
 		v1beta1tags.SchemeBuilder.AddToScheme,
-		v1beta1tpu.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1beta1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1vertexai.SchemeBuilder.AddToScheme,

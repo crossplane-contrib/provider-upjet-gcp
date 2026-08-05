@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type URLListsInitParameters struct {
@@ -32,6 +32,10 @@ type URLListsObservation struct {
 	// A timestamp in RFC3339 UTC 'Zulu' format, with nanosecond resolution and up to nine fractional digits.
 	// Examples: '2014-10-02T15:01:23Z' and '2014-10-02T15:01:23.045123456Z'
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Free-text description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -77,8 +81,8 @@ type URLListsParameters struct {
 
 // URLListsSpec defines the desired state of URLLists
 type URLListsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     URLListsParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   URLListsParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -94,8 +98,8 @@ type URLListsSpec struct {
 
 // URLListsStatus defines the observed state of URLLists.
 type URLListsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        URLListsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               URLListsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

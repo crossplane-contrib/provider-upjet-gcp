@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClientIPResolutionConfigInitParameters struct {
@@ -91,6 +91,10 @@ type EnvironmentObservation struct {
 	// The algorithm to resolve IP. This will affect Analytics, API Security, and other features that use the client ip. To remove a client ip resolution config, update the field to an empty value. Example: '{ "clientIpResolutionConfig" = {} }' For more information, see: https://cloud.google.com/apigee/docs/api-platform/system-administration/client-ip-resolution
 	// Structure is documented below.
 	ClientIPResolutionConfig *ClientIPResolutionConfigObservation `json:"clientIpResolutionConfig,omitempty" tf:"client_ip_resolution_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Optional. Deployment type supported by the environment. The deployment type can be
 	// set when creating the environment and cannot be changed. When you enable archive
@@ -184,11 +188,11 @@ type EnvironmentParameters struct {
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.Reference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.Selector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// Key-value pairs that may be used for customizing the environment.
 	// Structure is documented below.
@@ -332,8 +336,8 @@ type PropertyParameters struct {
 
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EnvironmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EnvironmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -349,12 +353,13 @@ type EnvironmentSpec struct {
 
 // EnvironmentStatus defines the observed state of Environment.
 type EnvironmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvironmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvironmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Environment is the Schema for the Environments API. An
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

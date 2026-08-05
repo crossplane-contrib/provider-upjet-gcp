@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DatabaseInitParameters struct {
@@ -77,6 +76,10 @@ type DatabaseObservation struct {
 	// The default time zone for the database. The default time zone must be a valid name
 	// from the tz database. Default value is "America/Los_angeles".
 	DefaultTimeZone *string `json:"defaultTimeZone,omitempty" tf:"default_time_zone,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Defaults to true.
 	// When the field is set to false, deleting the database is allowed.
@@ -159,11 +162,11 @@ type DatabaseParameters struct {
 
 	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -233,8 +236,8 @@ type DatabaseSpec struct {
 
 // DatabaseStatus defines the observed state of Database.
 type DatabaseStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatabaseObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatabaseObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

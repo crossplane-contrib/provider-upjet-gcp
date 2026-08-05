@@ -10,10 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TagKeyInitParameters struct {
+
+	// Regular expression constraint for dynamic tag values, follows RE2 syntax. If present, it implicitly allows dynamic values (constrained by the regex).
+	AllowedValuesRegex *string `json:"allowedValuesRegex,omitempty" tf:"allowed_values_regex,omitempty"`
 
 	// User-assigned description of the TagKey. Must not exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -23,7 +26,7 @@ type TagKeyInitParameters struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Optional. Purpose data cannot be changed once set.
@@ -38,9 +41,16 @@ type TagKeyInitParameters struct {
 
 type TagKeyObservation struct {
 
+	// Regular expression constraint for dynamic tag values, follows RE2 syntax. If present, it implicitly allows dynamic values (constrained by the regex).
+	AllowedValuesRegex *string `json:"allowedValuesRegex,omitempty" tf:"allowed_values_regex,omitempty"`
+
 	// Output only. Creation time.
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-assigned description of the TagKey. Must not exceed 256 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -59,7 +69,7 @@ type TagKeyObservation struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Optional. Purpose data cannot be changed once set.
@@ -78,6 +88,10 @@ type TagKeyObservation struct {
 
 type TagKeyParameters struct {
 
+	// Regular expression constraint for dynamic tag values, follows RE2 syntax. If present, it implicitly allows dynamic values (constrained by the regex).
+	// +kubebuilder:validation:Optional
+	AllowedValuesRegex *string `json:"allowedValuesRegex,omitempty" tf:"allowed_values_regex,omitempty"`
+
 	// User-assigned description of the TagKey. Must not exceed 256 characters.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -88,7 +102,7 @@ type TagKeyParameters struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
@@ -106,8 +120,8 @@ type TagKeyParameters struct {
 
 // TagKeySpec defines the desired state of TagKey
 type TagKeySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TagKeyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TagKeyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -123,8 +137,8 @@ type TagKeySpec struct {
 
 // TagKeyStatus defines the observed state of TagKey.
 type TagKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TagKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TagKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

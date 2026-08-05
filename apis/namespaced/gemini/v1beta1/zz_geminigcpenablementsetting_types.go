@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GeminiGCPEnablementSettingInitParameters struct {
@@ -43,6 +42,10 @@ type GeminiGCPEnablementSettingObservation struct {
 
 	// Create time stamp.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Whether web grounding should be disabled.
 	DisableWebGrounding *bool `json:"disableWebGrounding,omitempty" tf:"disable_web_grounding,omitempty"`
@@ -141,8 +144,8 @@ type GeminiGCPEnablementSettingSpec struct {
 
 // GeminiGCPEnablementSettingStatus defines the observed state of GeminiGCPEnablementSetting.
 type GeminiGCPEnablementSettingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GeminiGCPEnablementSettingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GeminiGCPEnablementSettingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

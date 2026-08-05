@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionTargetHTTPSProxyInitParameters struct {
@@ -43,11 +42,11 @@ type RegionTargetHTTPSProxyInitParameters struct {
 
 	// References to RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the Region SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
@@ -77,11 +76,11 @@ type RegionTargetHTTPSProxyInitParameters struct {
 
 	// Reference to a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type RegionTargetHTTPSProxyObservation struct {
@@ -93,6 +92,10 @@ type RegionTargetHTTPSProxyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -190,11 +193,11 @@ type RegionTargetHTTPSProxyParameters struct {
 
 	// References to RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.NamespacedReference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of RegionSSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.NamespacedSelector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the Region SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
@@ -227,11 +230,11 @@ type RegionTargetHTTPSProxyParameters struct {
 
 	// Reference to a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.NamespacedReference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a RegionURLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.NamespacedSelector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 // RegionTargetHTTPSProxySpec defines the desired state of RegionTargetHTTPSProxy
@@ -253,8 +256,8 @@ type RegionTargetHTTPSProxySpec struct {
 
 // RegionTargetHTTPSProxyStatus defines the observed state of RegionTargetHTTPSProxy.
 type RegionTargetHTTPSProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionTargetHTTPSProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionTargetHTTPSProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdvancedSettingsAudioExportGcsDestinationInitParameters struct {
@@ -419,11 +419,11 @@ type FlowInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A flow's transition route group serve two purposes:
 	// They are responsible for matching the user's first utterances in the flow.
@@ -448,6 +448,10 @@ type FlowObservation struct {
 	// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
 	// Structure is documented below.
 	AdvancedSettings *FlowAdvancedSettingsObservation `json:"advancedSettings,omitempty" tf:"advanced_settings,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the flow. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -567,11 +571,11 @@ type FlowParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A flow's transition route group serve two purposes:
 	// They are responsible for matching the user's first utterances in the flow.
@@ -609,11 +613,11 @@ type KnowledgeConnectorSettingsInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.Reference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
@@ -670,11 +674,11 @@ type KnowledgeConnectorSettingsParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.Reference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
@@ -727,11 +731,11 @@ type KnowledgeConnectorSettingsTriggerFulfillmentInitParameters struct {
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.Reference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.Selector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type KnowledgeConnectorSettingsTriggerFulfillmentObservation struct {
@@ -815,11 +819,11 @@ type KnowledgeConnectorSettingsTriggerFulfillmentParameters struct {
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.Reference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.Selector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type KnowledgeInfoCardInitParameters struct {
@@ -1318,11 +1322,11 @@ type TransitionRoutesInitParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.Reference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
@@ -1381,11 +1385,11 @@ type TransitionRoutesParameters struct {
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.Reference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
@@ -2262,8 +2266,8 @@ type TriggerFulfillmentSetParameterActionsParameters struct {
 
 // FlowSpec defines the desired state of Flow
 type FlowSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FlowParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FlowParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2279,12 +2283,13 @@ type FlowSpec struct {
 
 // FlowStatus defines the observed state of Flow.
 type FlowStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FlowObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FlowObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Flow is the Schema for the Flows API. Flows represents the conversation flows when you build your chatbot agent.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

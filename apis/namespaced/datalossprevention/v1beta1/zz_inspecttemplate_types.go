@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CloudStoragePathInitParameters struct {
@@ -963,6 +962,10 @@ type InspectConfigParameters struct {
 
 type InspectTemplateInitParameters struct {
 
+	// Enables the use of limited-availability built-in infoTypes
+	// in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere.
+	AllowLimitedAvailabilityInfoTypes *bool `json:"allowLimitedAvailabilityInfoTypes,omitempty" tf:"allow_limited_availability_info_types,omitempty"`
+
 	// A description of the inspect template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -983,6 +986,14 @@ type InspectTemplateInitParameters struct {
 }
 
 type InspectTemplateObservation struct {
+
+	// Enables the use of limited-availability built-in infoTypes
+	// in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere.
+	AllowLimitedAvailabilityInfoTypes *bool `json:"allowLimitedAvailabilityInfoTypes,omitempty" tf:"allow_limited_availability_info_types,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the inspect template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1010,6 +1021,11 @@ type InspectTemplateObservation struct {
 }
 
 type InspectTemplateParameters struct {
+
+	// Enables the use of limited-availability built-in infoTypes
+	// in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere.
+	// +kubebuilder:validation:Optional
+	AllowLimitedAvailabilityInfoTypes *bool `json:"allowLimitedAvailabilityInfoTypes,omitempty" tf:"allow_limited_availability_info_types,omitempty"`
 
 	// A description of the inspect template.
 	// +kubebuilder:validation:Optional
@@ -1477,8 +1493,8 @@ type InspectTemplateSpec struct {
 
 // InspectTemplateStatus defines the observed state of InspectTemplate.
 type InspectTemplateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InspectTemplateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InspectTemplateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

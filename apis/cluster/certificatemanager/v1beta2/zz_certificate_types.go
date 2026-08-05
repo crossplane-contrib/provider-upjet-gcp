@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorizationAttemptInfoInitParameters struct {
@@ -80,6 +80,10 @@ type CertificateInitParameters struct {
 }
 
 type CertificateObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -193,11 +197,11 @@ type ManagedInitParameters struct {
 
 	// References to DNSAuthorization in certificatemanager to populate dnsAuthorizations.
 	// +kubebuilder:validation:Optional
-	DNSAuthorizationsRefs []v1.Reference `json:"dnsAuthorizationsRefs,omitempty" tf:"-"`
+	DNSAuthorizationsRefs []v2.Reference `json:"dnsAuthorizationsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DNSAuthorization in certificatemanager to populate dnsAuthorizations.
 	// +kubebuilder:validation:Optional
-	DNSAuthorizationsSelector *v1.Selector `json:"dnsAuthorizationsSelector,omitempty" tf:"-"`
+	DNSAuthorizationsSelector *v2.Selector `json:"dnsAuthorizationsSelector,omitempty" tf:"-"`
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
@@ -207,11 +211,11 @@ type ManagedInitParameters struct {
 
 	// References to DNSAuthorization in certificatemanager to populate domains.
 	// +kubebuilder:validation:Optional
-	DomainsRefs []v1.Reference `json:"domainsRefs,omitempty" tf:"-"`
+	DomainsRefs []v2.Reference `json:"domainsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DNSAuthorization in certificatemanager to populate domains.
 	// +kubebuilder:validation:Optional
-	DomainsSelector *v1.Selector `json:"domainsSelector,omitempty" tf:"-"`
+	DomainsSelector *v2.Selector `json:"domainsSelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
 	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
@@ -259,11 +263,11 @@ type ManagedParameters struct {
 
 	// References to DNSAuthorization in certificatemanager to populate dnsAuthorizations.
 	// +kubebuilder:validation:Optional
-	DNSAuthorizationsRefs []v1.Reference `json:"dnsAuthorizationsRefs,omitempty" tf:"-"`
+	DNSAuthorizationsRefs []v2.Reference `json:"dnsAuthorizationsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DNSAuthorization in certificatemanager to populate dnsAuthorizations.
 	// +kubebuilder:validation:Optional
-	DNSAuthorizationsSelector *v1.Selector `json:"dnsAuthorizationsSelector,omitempty" tf:"-"`
+	DNSAuthorizationsSelector *v2.Selector `json:"dnsAuthorizationsSelector,omitempty" tf:"-"`
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
@@ -274,11 +278,11 @@ type ManagedParameters struct {
 
 	// References to DNSAuthorization in certificatemanager to populate domains.
 	// +kubebuilder:validation:Optional
-	DomainsRefs []v1.Reference `json:"domainsRefs,omitempty" tf:"-"`
+	DomainsRefs []v2.Reference `json:"domainsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DNSAuthorization in certificatemanager to populate domains.
 	// +kubebuilder:validation:Optional
-	DomainsSelector *v1.Selector `json:"domainsSelector,omitempty" tf:"-"`
+	DomainsSelector *v2.Selector `json:"domainsSelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format projects//locations//certificateIssuanceConfigs/*.
 	// If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa.
@@ -311,7 +315,7 @@ type SelfManagedInitParameters struct {
 	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CertificatePemSecretRef *v1.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
+	CertificatePemSecretRef *v2.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
 
 	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
@@ -319,11 +323,11 @@ type SelfManagedInitParameters struct {
 
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PemPrivateKeySecretRef *v1.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
+	PemPrivateKeySecretRef *v2.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PrivateKeyPemSecretRef *v1.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
+	PrivateKeyPemSecretRef *v2.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
 }
 
 type SelfManagedObservation struct {
@@ -339,7 +343,7 @@ type SelfManagedParameters struct {
 	// Leaf certificate comes first, followed by intermediate ones if any.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CertificatePemSecretRef *v1.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
+	CertificatePemSecretRef *v2.SecretKeySelector `json:"certificatePemSecretRef,omitempty" tf:"-"`
 
 	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
@@ -349,18 +353,18 @@ type SelfManagedParameters struct {
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PemPrivateKeySecretRef *v1.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
+	PemPrivateKeySecretRef *v2.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PrivateKeyPemSecretRef *v1.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
+	PrivateKeyPemSecretRef *v2.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
 }
 
 // CertificateSpec defines the desired state of Certificate
 type CertificateSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CertificateParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CertificateParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -376,12 +380,13 @@ type CertificateSpec struct {
 
 // CertificateStatus defines the observed state of Certificate.
 type CertificateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Certificate is the Schema for the Certificates API. Certificate represents a HTTP-reachable backend for a Certificate.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

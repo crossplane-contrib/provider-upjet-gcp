@@ -11,7 +11,7 @@ PROJECT_NAME := provider-$(PROVIDER_NAME)
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)/v2
 
 export TERRAFORM_VERSION := 1.5.5
-export TERRAFORM_PROVIDER_VERSION := 6.47.0
+export TERRAFORM_PROVIDER_VERSION := 7.39.0
 export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google
 export TERRAFORM_DOCS_PATH ?= website/docs/r
@@ -48,10 +48,10 @@ GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 # correctly.
 export GOPRIVATE = github.com/upbound/*
 
-GO_REQUIRED_VERSION ?= 1.21
+GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $2}')
 # GOLANGCILINT_VERSION is inherited from build submodule by default.
 # Uncomment below if you need to override the version.
-GOLANGCILINT_VERSION ?= 1.64.8
+GOLANGCILINT_VERSION ?= 2.12.2
 
 RUN_BUILDTAGGER ?= false
 # if RUN_BUILDTAGGER is set to "true", we will use build constraints
@@ -78,12 +78,12 @@ export SUBPACKAGES := $(SUBPACKAGES)
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.30.0
+KIND_VERSION = v0.32.0
 UPTEST_VERSION = v2.2.0
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 2.0.2
-CROSSPLANE_CLI_VERSION = v2.0.2
+CROSSPLANE_VERSION = 2.3.4
+CROSSPLANE_CLI_VERSION = v2.3.4
 CRDDIFF_VERSION = v0.12.1
 
 export CROSSPLANE_CLI_VERSION := $(CROSSPLANE_CLI_VERSION)
@@ -190,8 +190,10 @@ pull-docs:
 	rm -fR "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))"
 	git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))";
 	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
-	@# remove this because doesn't fit the scraper
-	@rm -fR .work/terraform-provider-google/website/docs/r/model_armor_template.html.markdown
+	@# workaround for fetching fixed docs of model_armor_template. Prior to this version, examples were malformed in the docs
+	@# TODO: remove after TF provider version is bumped v7.27.0+
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" fetch --depth 1 origin v7.27.0
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" checkout FETCH_HEAD -- "$(TERRAFORM_DOCS_PATH)/model_armor_template.html.markdown"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
@@ -230,7 +232,7 @@ local-deploy.%: controlplane.up $(YQ)
 		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
 	done || $(FAIL)
 
-local-deploy: build-provider.monolith local-deploy.monolith
+local-deploy: build-provider.config local-deploy.config
 
 # This target requires the following environment variables to be set:
 # - UPTEST_CLOUD_CREDENTIALS, cloud credentials for the provider being tested, e.g. export UPTEST_CLOUD_CREDENTIALS=$(cat ~/gcp-sa.json)
@@ -409,7 +411,7 @@ build-lint-cache: $(GOLANGCILINT)
 	@# minimum.
 	@(BUILDTAGGER_DOWNLOAD_URL=$(BUILDTAGGER_DOWNLOAD_URL) ./scripts/tag.sh && \
 	(([[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] && $(OK) "Skipping analysis cache build phase because it's already been populated") && \
-	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags activedirectory,configregistry,configprovider,linter_run -v --disable-all --exclude '.*')) || $(FAIL)
+	[[ "${SKIP_LINTER_ANALYSIS}" == "true" ]] || $(GOLANGCILINT) run -v --build-tags activedirectory,configregistry,configprovider,linter_run -v --default none)) || $(FAIL)
 	@$(OK) Running golangci-lint with the analysis cache building phase.
 
 delete-build-tags:

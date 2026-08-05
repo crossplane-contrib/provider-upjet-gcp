@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AwsV4AuthenticationInitParameters struct {
@@ -21,7 +21,7 @@ type AwsV4AuthenticationInitParameters struct {
 	// The access key used for s3 bucket authentication.
 	// Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AccessKeySecretRef *v1.SecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
+	AccessKeySecretRef *v2.SecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
 
 	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
 	AccessKeyVersion *string `json:"accessKeyVersion,omitempty" tf:"access_key_version,omitempty"`
@@ -54,7 +54,7 @@ type AwsV4AuthenticationParameters struct {
 	// Required for updating or creating a backend that uses AWS v4 signature authentication, but will not be returned as part of the configuration when queried with a REST API GET request.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AccessKeySecretRef *v1.SecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
+	AccessKeySecretRef *v2.SecretKeySelector `json:"accessKeySecretRef,omitempty" tf:"-"`
 
 	// The optional version identifier for the access key. You can use this to keep track of different iterations of your access key.
 	// +kubebuilder:validation:Optional
@@ -75,7 +75,7 @@ type BackendInitParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS, IN_FLIGHT.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -114,11 +114,11 @@ type BackendInitParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
@@ -180,7 +180,7 @@ type BackendObservation struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS, IN_FLIGHT.
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
 	// A multiplier applied to the group's maximum servicing capacity
@@ -275,7 +275,7 @@ type BackendParameters struct {
 	// See the Backend Services Overview
 	// for an explanation of load balancing modes.
 	// Default value is UTILIZATION.
-	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS.
+	// Possible values are: UTILIZATION, RATE, CONNECTION, CUSTOM_METRICS, IN_FLIGHT.
 	// +kubebuilder:validation:Optional
 	BalancingMode *string `json:"balancingMode,omitempty" tf:"balancing_mode,omitempty"`
 
@@ -319,11 +319,11 @@ type BackendParameters struct {
 
 	// Reference to a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupRef *v1.Reference `json:"groupRef,omitempty" tf:"-"`
+	GroupRef *v2.Reference `json:"groupRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate group.
 	// +kubebuilder:validation:Optional
-	GroupSelector *v1.Selector `json:"groupSelector,omitempty" tf:"-"`
+	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// The max number of simultaneous connections for the group. Can
 	// be used with either CONNECTION or UTILIZATION balancing modes.
@@ -709,11 +709,11 @@ type BackendServiceInitParameters struct {
 
 	// References to HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
@@ -764,6 +764,10 @@ type BackendServiceInitParameters struct {
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionInitParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *BackendServiceParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Name of backend port. The same name should appear in the instance
 	// groups referenced by this service. Required when the load balancing
@@ -874,6 +878,10 @@ type BackendServiceObservation struct {
 	// +listType=set
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -973,6 +981,10 @@ type BackendServiceObservation struct {
 	// loadBalancingScheme set to INTERNAL_SELF_MANAGED or EXTERNAL_MANAGED.
 	// Structure is documented below.
 	OutlierDetection *OutlierDetectionObservation `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *BackendServiceParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Name of backend port. The same name should appear in the instance
 	// groups referenced by this service. Required when the load balancing
@@ -1143,11 +1155,11 @@ type BackendServiceParameters struct {
 
 	// References to HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// Specifies preference of traffic to the backend (from the proxy and from the client for proxyless gRPC).
 	// Possible values are: IPV4_ONLY, PREFER_IPV6, IPV6_ONLY.
@@ -1206,6 +1218,11 @@ type BackendServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	OutlierDetection *OutlierDetectionParameters `json:"outlierDetection,omitempty" tf:"outlier_detection,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *BackendServiceParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Name of backend port. The same name should appear in the instance
 	// groups referenced by this service. Required when the load balancing
@@ -1266,6 +1283,34 @@ type BackendServiceParameters struct {
 	// The full range of timeout values allowed goes from 1 through 2,147,483,647 seconds.
 	// +kubebuilder:validation:Optional
 	TimeoutSec *float64 `json:"timeoutSec,omitempty" tf:"timeout_sec,omitempty"`
+}
+
+type BackendServiceParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type BackendServiceParamsObservation struct {
+
+	// Resource manager tags to be bound to the backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type BackendServiceParamsParameters struct {
+
+	// Resource manager tags to be bound to the backend service. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type BaseEjectionTimeInitParameters struct {
@@ -1768,7 +1813,7 @@ type IapInitParameters struct {
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
-	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+	Oauth2ClientSecretSecretRef *v2.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IapObservation struct {
@@ -1793,7 +1838,7 @@ type IapParameters struct {
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientSecretSecretRef *v1.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+	Oauth2ClientSecretSecretRef *v2.SecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
 }
 
 type IntervalInitParameters struct {
@@ -2486,8 +2531,8 @@ type TTLParameters struct {
 
 // BackendServiceSpec defines the desired state of BackendService
 type BackendServiceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackendServiceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackendServiceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2503,12 +2548,13 @@ type BackendServiceSpec struct {
 
 // BackendServiceStatus defines the observed state of BackendService.
 type BackendServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // BackendService is the Schema for the BackendServices API. A Backend Service defines a group of virtual machines that will serve traffic for load balancing.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

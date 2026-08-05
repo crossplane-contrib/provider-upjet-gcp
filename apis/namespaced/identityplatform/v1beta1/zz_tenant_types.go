@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClientPermissionsInitParameters struct {
@@ -99,6 +98,10 @@ type TenantObservation struct {
 	// Structure is documented below.
 	Client *TenantClientObservation `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Whether authentication is disabled for the tenant. If true, the users under
 	// the disabled tenant are not allowed to sign-in. Admins of the disabled tenant
 	// are not able to manage its users.
@@ -171,8 +174,8 @@ type TenantSpec struct {
 
 // TenantStatus defines the observed state of Tenant.
 type TenantStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TenantObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TenantObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

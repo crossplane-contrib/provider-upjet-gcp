@@ -7,42 +7,6 @@ package v1beta1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-// GetItems of this CryptoKeyIAMMemberList.
-func (l *CryptoKeyIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this CryptoKeyList.
-func (l *CryptoKeyList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this CryptoKeyVersionList.
-func (l *CryptoKeyVersionList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this KeyRingIAMMemberList.
-func (l *KeyRingIAMMemberList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this KeyRingImportJobList.
 func (l *KeyRingImportJobList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

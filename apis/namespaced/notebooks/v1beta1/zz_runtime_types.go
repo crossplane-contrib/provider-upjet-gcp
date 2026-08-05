@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessConfigInitParameters struct {
@@ -444,6 +443,10 @@ type RuntimeObservation struct {
 	// The config settings for accessing runtime.
 	// Structure is documented below.
 	AccessConfig *AccessConfigObservation `json:"accessConfig,omitempty" tf:"access_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -1058,8 +1061,8 @@ type RuntimeSpec struct {
 
 // RuntimeStatus defines the observed state of Runtime.
 type RuntimeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RuntimeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RuntimeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

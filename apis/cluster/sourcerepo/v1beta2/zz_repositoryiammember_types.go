@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -53,11 +53,11 @@ type RepositoryIAMMemberInitParameters struct {
 
 	// Reference to a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
@@ -95,11 +95,11 @@ type RepositoryIAMMemberParameters struct {
 
 	// Reference to a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a Repository in sourcerepo to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -107,8 +107,8 @@ type RepositoryIAMMemberParameters struct {
 
 // RepositoryIAMMemberSpec defines the desired state of RepositoryIAMMember
 type RepositoryIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RepositoryIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RepositoryIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -124,12 +124,13 @@ type RepositoryIAMMemberSpec struct {
 
 // RepositoryIAMMemberStatus defines the observed state of RepositoryIAMMember.
 type RepositoryIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RepositoryIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RepositoryIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RepositoryIAMMember is the Schema for the RepositoryIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

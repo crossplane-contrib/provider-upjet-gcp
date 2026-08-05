@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionsInitParameters struct {
@@ -60,6 +60,10 @@ type DomainMappingInitParameters struct {
 }
 
 type DomainMappingObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/domainmappings/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -140,11 +144,11 @@ type MetadataInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type MetadataObservation struct {
@@ -238,11 +242,11 @@ type MetadataParameters struct {
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ResourceRecordsInitParameters struct {
@@ -288,11 +292,11 @@ type SpecInitParameters struct {
 
 	// Reference to a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameRef *v1.Reference `json:"routeNameRef,omitempty" tf:"-"`
+	RouteNameRef *v2.Reference `json:"routeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
+	RouteNameSelector *v2.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }
 
 type SpecObservation struct {
@@ -336,11 +340,11 @@ type SpecParameters struct {
 
 	// Reference to a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameRef *v1.Reference `json:"routeNameRef,omitempty" tf:"-"`
+	RouteNameRef *v2.Reference `json:"routeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameSelector *v1.Selector `json:"routeNameSelector,omitempty" tf:"-"`
+	RouteNameSelector *v2.Selector `json:"routeNameSelector,omitempty" tf:"-"`
 }
 
 type StatusInitParameters struct {
@@ -375,8 +379,8 @@ type StatusParameters struct {
 
 // DomainMappingSpec defines the desired state of DomainMapping
 type DomainMappingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DomainMappingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DomainMappingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -392,12 +396,13 @@ type DomainMappingSpec struct {
 
 // DomainMappingStatus defines the observed state of DomainMapping.
 type DomainMappingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DomainMappingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DomainMappingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // DomainMapping is the Schema for the DomainMappings API. Resource to hold the state and status of a user's domain mapping.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

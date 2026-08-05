@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HadoopConfigInitParameters struct {
@@ -222,20 +222,26 @@ type JobInitParameters struct {
 
 	// Reference to a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	Scheduling *SchedulingInitParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
 
 	SparkConfig *SparkConfigInitParameters `json:"sparkConfig,omitempty" tf:"spark_config,omitempty"`
 
 	SparksqlConfig *SparksqlConfigInitParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type JobObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If present, the location of miscellaneous control files which may be used as part of job setup and handling. If not present, control files may be placed in the same location as driver_output_uri.
 	DriverControlsFilesURI *string `json:"driverControlsFilesUri,omitempty" tf:"driver_controls_files_uri,omitempty"`
@@ -292,6 +298,8 @@ type JobObservation struct {
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type JobParameters struct {
@@ -344,11 +352,11 @@ type JobParameters struct {
 
 	// Reference to a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Scheduling *SchedulingParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
@@ -358,6 +366,9 @@ type JobParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SparksqlConfig *SparksqlConfigParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type LoggingConfigInitParameters struct {
@@ -502,11 +513,11 @@ type PlacementInitParameters struct {
 
 	// Reference to a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 }
 
 type PlacementObservation struct {
@@ -530,11 +541,11 @@ type PlacementParameters struct {
 
 	// Reference to a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 }
 
 type PrestoConfigInitParameters struct {
@@ -1038,8 +1049,8 @@ type StatusParameters struct {
 
 // JobSpec defines the desired state of Job
 type JobSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     JobParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   JobParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1055,12 +1066,13 @@ type JobSpec struct {
 
 // JobStatus defines the observed state of Job.
 type JobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Job is the Schema for the Jobs API. Manages a job resource within a Dataproc cluster.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

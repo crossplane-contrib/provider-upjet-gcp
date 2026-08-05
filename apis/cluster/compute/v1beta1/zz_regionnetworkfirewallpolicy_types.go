@@ -10,13 +10,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionNetworkFirewallPolicyInitParameters struct {
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Policy type is used to determine which resources (networks) the policy can be associated with.
+	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
+	// Different policy types may support some of the Firewall Rules features.
+	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY, RDMA_FALCON_POLICY, ULL_POLICY.
+	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -28,6 +34,10 @@ type RegionNetworkFirewallPolicyObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -36,6 +46,12 @@ type RegionNetworkFirewallPolicyObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/firewallPolicies/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Policy type is used to determine which resources (networks) the policy can be associated with.
+	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
+	// Different policy types may support some of the Firewall Rules features.
+	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY, RDMA_FALCON_POLICY, ULL_POLICY.
+	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -63,6 +79,13 @@ type RegionNetworkFirewallPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Policy type is used to determine which resources (networks) the policy can be associated with.
+	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
+	// Different policy types may support some of the Firewall Rules features.
+	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY, RDMA_FALCON_POLICY, ULL_POLICY.
+	// +kubebuilder:validation:Optional
+	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
@@ -75,8 +98,8 @@ type RegionNetworkFirewallPolicyParameters struct {
 
 // RegionNetworkFirewallPolicySpec defines the desired state of RegionNetworkFirewallPolicy
 type RegionNetworkFirewallPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionNetworkFirewallPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionNetworkFirewallPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -92,8 +115,8 @@ type RegionNetworkFirewallPolicySpec struct {
 
 // RegionNetworkFirewallPolicyStatus defines the observed state of RegionNetworkFirewallPolicy.
 type RegionNetworkFirewallPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkFirewallPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkFirewallPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

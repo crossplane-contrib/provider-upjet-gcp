@@ -10,10 +10,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
-type ResponsePolicyGkeClustersInitParameters struct {
+type GkeClustersInitParameters struct {
 
 	// The resource name of the cluster to bind this ManagedZone to.
 	// This should be specified in the format like
@@ -24,14 +24,14 @@ type ResponsePolicyGkeClustersInitParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
-type ResponsePolicyGkeClustersObservation struct {
+type GkeClustersObservation struct {
 
 	// The resource name of the cluster to bind this ManagedZone to.
 	// This should be specified in the format like
@@ -39,7 +39,7 @@ type ResponsePolicyGkeClustersObservation struct {
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 }
 
-type ResponsePolicyGkeClustersParameters struct {
+type GkeClustersParameters struct {
 
 	// The resource name of the cluster to bind this ManagedZone to.
 	// This should be specified in the format like
@@ -51,11 +51,56 @@ type ResponsePolicyGkeClustersParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.Reference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.Selector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+}
+
+type NetworksInitParameters struct {
+
+	// The fully qualified URL of the VPC network to bind to.
+	// This should be formatted like
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+}
+
+type NetworksObservation struct {
+
+	// The fully qualified URL of the VPC network to bind to.
+	// This should be formatted like
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+}
+
+type NetworksParameters struct {
+
+	// The fully qualified URL of the VPC network to bind to.
+	// This should be formatted like
+	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
+
+	// Reference to a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate networkUrl.
+	// +kubebuilder:validation:Optional
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type ResponsePolicyInitParameters struct {
@@ -65,77 +110,36 @@ type ResponsePolicyInitParameters struct {
 
 	// The list of Google Kubernetes Engine clusters that can see this zone.
 	// Structure is documented below.
-	GkeClusters []ResponsePolicyGkeClustersInitParameters `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
+	GkeClusters []GkeClustersInitParameters `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
 
 	// The list of network names specifying networks to which this policy is applied.
 	// Structure is documented below.
-	Networks []ResponsePolicyNetworksInitParameters `json:"networks,omitempty" tf:"networks,omitempty"`
+	Networks []NetworksInitParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 }
 
-type ResponsePolicyNetworksInitParameters struct {
-
-	// The fully qualified URL of the VPC network to bind to.
-	// This should be formatted like
-	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
-	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
-
-	// Reference to a Network in compute to populate networkUrl.
-	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
-
-	// Selector for a Network in compute to populate networkUrl.
-	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
-}
-
-type ResponsePolicyNetworksObservation struct {
-
-	// The fully qualified URL of the VPC network to bind to.
-	// This should be formatted like
-	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
-	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
-}
-
-type ResponsePolicyNetworksParameters struct {
-
-	// The fully qualified URL of the VPC network to bind to.
-	// This should be formatted like
-	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
-	// +kubebuilder:validation:Optional
-	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
-
-	// Reference to a Network in compute to populate networkUrl.
-	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
-
-	// Selector for a Network in compute to populate networkUrl.
-	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
-}
-
 type ResponsePolicyObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the response policy, such as My new response policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The list of Google Kubernetes Engine clusters that can see this zone.
 	// Structure is documented below.
-	GkeClusters []ResponsePolicyGkeClustersObservation `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
+	GkeClusters []GkeClustersObservation `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/responsePolicies/{{response_policy_name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The list of network names specifying networks to which this policy is applied.
 	// Structure is documented below.
-	Networks []ResponsePolicyNetworksObservation `json:"networks,omitempty" tf:"networks,omitempty"`
+	Networks []NetworksObservation `json:"networks,omitempty" tf:"networks,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -151,12 +155,12 @@ type ResponsePolicyParameters struct {
 	// The list of Google Kubernetes Engine clusters that can see this zone.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GkeClusters []ResponsePolicyGkeClustersParameters `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
+	GkeClusters []GkeClustersParameters `json:"gkeClusters,omitempty" tf:"gke_clusters,omitempty"`
 
 	// The list of network names specifying networks to which this policy is applied.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Networks []ResponsePolicyNetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
+	Networks []NetworksParameters `json:"networks,omitempty" tf:"networks,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -166,8 +170,8 @@ type ResponsePolicyParameters struct {
 
 // ResponsePolicySpec defines the desired state of ResponsePolicy
 type ResponsePolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ResponsePolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ResponsePolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -183,8 +187,8 @@ type ResponsePolicySpec struct {
 
 // ResponsePolicyStatus defines the observed state of ResponsePolicy.
 type ResponsePolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ResponsePolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ResponsePolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

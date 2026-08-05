@@ -17,6 +17,7 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: default
     description: bar
+    enable: "TRUE"
     filter:
       cidrRanges:
       - 0.0.0.0/0
@@ -28,6 +29,10 @@ spec:
       - urlSelector:
           matchLabels:
             testing.upbound.io/example-name: mirror
+      subnetworks:
+      - urlSelector:
+          matchLabels:
+            testing.upbound.io/example-name: default
       tags:
       - foo
     network:

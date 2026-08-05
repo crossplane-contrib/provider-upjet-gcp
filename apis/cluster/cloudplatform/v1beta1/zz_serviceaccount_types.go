@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceAccountInitParameters struct {
@@ -32,13 +32,27 @@ type ServiceAccountInitParameters struct {
 
 	// The ID of the project that the service account will be created in.
 	// Defaults to the provider project configuration.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractProjectID()
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountObservation struct {
 
 	// If set to true, skip service account creation if a service account with the same email already exists.
 	CreateIgnoreAlreadyExists *bool `json:"createIgnoreAlreadyExists,omitempty" tf:"create_ignore_already_exists,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A text description of the service account.
 	// Must be less than or equal to 256 UTF-8 bytes.
@@ -97,14 +111,24 @@ type ServiceAccountParameters struct {
 
 	// The ID of the project that the service account will be created in.
 	// Defaults to the provider project configuration.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate project.
+	// +kubebuilder:validation:Optional
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 // ServiceAccountSpec defines the desired state of ServiceAccount
 type ServiceAccountSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceAccountParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceAccountParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -120,8 +144,8 @@ type ServiceAccountSpec struct {
 
 // ServiceAccountStatus defines the observed state of ServiceAccount.
 type ServiceAccountStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAccountObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAccountObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

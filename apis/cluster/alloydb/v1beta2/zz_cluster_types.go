@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomatedBackupPolicyEncryptionConfigInitParameters struct {
@@ -151,6 +151,18 @@ type BackupSourceObservation struct {
 type BackupSourceParameters struct {
 }
 
+type BackupdrBackupSourceInitParameters struct {
+}
+
+type BackupdrBackupSourceObservation struct {
+
+	// The name of the BackupDR backup resource.
+	Backup *string `json:"backup,omitempty" tf:"backup,omitempty"`
+}
+
+type BackupdrBackupSourceParameters struct {
+}
+
 type ClusterEncryptionConfigInitParameters struct {
 
 	// The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME].
@@ -212,11 +224,17 @@ type ClusterInitParameters struct {
 	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
+	// Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+	// Structure is documented below.
+	DataplexConfig *DataplexConfigInitParameters `json:"dataplexConfig,omitempty" tf:"dataplex_config,omitempty"`
+
 	// Policy to determine if the cluster should be deleted forcefully.
 	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
 	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
-	// Possible values: DEFAULT, FORCE
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the cluster is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -228,7 +246,7 @@ type ClusterInitParameters struct {
 	// For Resource freshness validation (https://google.aip.dev/154)
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// Initial user to setup during cluster creation.
+	// Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
 	// Structure is documented below.
 	InitialUser *InitialUserInitParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
@@ -254,11 +272,19 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
 	// Structure is documented below.
 	RestoreBackupSource *RestoreBackupSourceInitParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
 
-	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source',  'restore_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
+	// Structure is documented below.
+	RestoreBackupdrBackupSource *RestoreBackupdrBackupSourceInitParameters `json:"restoreBackupdrBackupSource,omitempty" tf:"restore_backupdr_backup_source,omitempty"`
+
+	// The BackupDR source used for point in time recovery. Conflicts with 'restore_backupdr_backup_source', 'restore_continuous_backup_source' and 'restore_backupdr_backup_source', they can't be set togeter.
+	// Structure is documented below.
+	RestoreBackupdrPitrSource *RestoreBackupdrPitrSourceInitParameters `json:"restoreBackupdrPitrSource,omitempty" tf:"restore_backupdr_pitr_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
 	// Structure is documented below.
 	RestoreContinuousBackupSource *RestoreContinuousBackupSourceInitParameters `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
 
@@ -291,6 +317,10 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	BackupSource []BackupSourceObservation `json:"backupSource,omitempty" tf:"backup_source,omitempty"`
 
+	// Cluster created from a BackupDR backup.
+	// Structure is documented below.
+	BackupdrBackupSource []BackupdrBackupSourceObservation `json:"backupdrBackupSource,omitempty" tf:"backupdr_backup_source,omitempty"`
+
 	// The type of cluster. If not set, defaults to PRIMARY.
 	// Default value is PRIMARY.
 	// Possible values are: PRIMARY, SECONDARY.
@@ -309,11 +339,17 @@ type ClusterObservation struct {
 	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
+	// Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+	// Structure is documented below.
+	DataplexConfig *DataplexConfigObservation `json:"dataplexConfig,omitempty" tf:"dataplex_config,omitempty"`
+
 	// Policy to determine if the cluster should be deleted forcefully.
 	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
 	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
-	// Possible values: DEFAULT, FORCE
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the cluster is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -339,7 +375,7 @@ type ClusterObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Initial user to setup during cluster creation.
+	// Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
 	// Structure is documented below.
 	InitialUser *InitialUserObservation `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
@@ -380,11 +416,19 @@ type ClusterObservation struct {
 	// This can happen due to user-triggered updates or system actions like failover or maintenance.
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
 
-	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
 	// Structure is documented below.
 	RestoreBackupSource *RestoreBackupSourceObservation `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
 
-	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source',  'restore_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
+	// Structure is documented below.
+	RestoreBackupdrBackupSource *RestoreBackupdrBackupSourceObservation `json:"restoreBackupdrBackupSource,omitempty" tf:"restore_backupdr_backup_source,omitempty"`
+
+	// The BackupDR source used for point in time recovery. Conflicts with 'restore_backupdr_backup_source', 'restore_continuous_backup_source' and 'restore_backupdr_backup_source', they can't be set togeter.
+	// Structure is documented below.
+	RestoreBackupdrPitrSource *RestoreBackupdrPitrSourceObservation `json:"restoreBackupdrPitrSource,omitempty" tf:"restore_backupdr_pitr_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
 	// Structure is documented below.
 	RestoreContinuousBackupSource *RestoreContinuousBackupSourceObservation `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
 
@@ -447,12 +491,20 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
+	// Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DataplexConfig *DataplexConfigParameters `json:"dataplexConfig,omitempty" tf:"dataplex_config,omitempty"`
+
 	// Policy to determine if the cluster should be deleted forcefully.
 	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
 	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
-	// Possible values: DEFAULT, FORCE
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// When the field is set to false, deleting the cluster is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// User-settable and human-readable display name for the Cluster.
 	// +kubebuilder:validation:Optional
@@ -467,7 +519,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// Initial user to setup during cluster creation.
+	// Initial user to setup during cluster creation. If unset for new Clusters, a postgres role with null password is created. You will need to create additional users or set the password in order to log in.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InitialUser *InitialUserParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
@@ -503,12 +555,22 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
-	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', both can't be set together.
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RestoreBackupSource *RestoreBackupSourceParameters `json:"restoreBackupSource,omitempty" tf:"restore_backup_source,omitempty"`
 
-	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', both can't be set together.
+	// The source when restoring from a backup. Conflicts with 'restore_continuous_backup_source',  'restore_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestoreBackupdrBackupSource *RestoreBackupdrBackupSourceParameters `json:"restoreBackupdrBackupSource,omitempty" tf:"restore_backupdr_backup_source,omitempty"`
+
+	// The BackupDR source used for point in time recovery. Conflicts with 'restore_backupdr_backup_source', 'restore_continuous_backup_source' and 'restore_backupdr_backup_source', they can't be set togeter.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RestoreBackupdrPitrSource *RestoreBackupdrPitrSourceParameters `json:"restoreBackupdrPitrSource,omitempty" tf:"restore_backupdr_pitr_source,omitempty"`
+
+	// The source when restoring via point in time recovery (PITR). Conflicts with 'restore_backup_source', 'restore_backupdr_backup_source' and 'restore_backupdr_pitr_source', they can't be set together.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RestoreContinuousBackupSource *RestoreContinuousBackupSourceParameters `json:"restoreContinuousBackupSource,omitempty" tf:"restore_continuous_backup_source,omitempty"`
@@ -637,11 +699,30 @@ type ContinuousBackupInfoObservation struct {
 type ContinuousBackupInfoParameters struct {
 }
 
+type DataplexConfigInitParameters struct {
+
+	// Indicates whether Dataplex integration is enabled for the cluster.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DataplexConfigObservation struct {
+
+	// Indicates whether Dataplex integration is enabled for the cluster.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DataplexConfigParameters struct {
+
+	// Indicates whether Dataplex integration is enabled for the cluster.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type InitialUserInitParameters struct {
 
 	// The initial password for the user.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The database username.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
@@ -658,7 +739,7 @@ type InitialUserParameters struct {
 	// The initial password for the user.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef v1.SecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The database username.
 	// +kubebuilder:validation:Optional
@@ -754,11 +835,11 @@ type NetworkConfigInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type NetworkConfigObservation struct {
@@ -788,11 +869,11 @@ type NetworkConfigParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 }
 
 type PscConfigInitParameters struct {
@@ -847,11 +928,11 @@ type RestoreBackupSourceInitParameters struct {
 
 	// Reference to a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameRef *v1.Reference `json:"backupNameRef,omitempty" tf:"-"`
+	BackupNameRef *v2.Reference `json:"backupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameSelector *v1.Selector `json:"backupNameSelector,omitempty" tf:"-"`
+	BackupNameSelector *v2.Selector `json:"backupNameSelector,omitempty" tf:"-"`
 }
 
 type RestoreBackupSourceObservation struct {
@@ -870,11 +951,59 @@ type RestoreBackupSourceParameters struct {
 
 	// Reference to a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameRef *v1.Reference `json:"backupNameRef,omitempty" tf:"-"`
+	BackupNameRef *v2.Reference `json:"backupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Backup in alloydb to populate backupName.
 	// +kubebuilder:validation:Optional
-	BackupNameSelector *v1.Selector `json:"backupNameSelector,omitempty" tf:"-"`
+	BackupNameSelector *v2.Selector `json:"backupNameSelector,omitempty" tf:"-"`
+}
+
+type RestoreBackupdrBackupSourceInitParameters struct {
+
+	// The name of the BackupDR backup that this cluster is restored from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]/backups/[BACKUP_ID]"
+	Backup *string `json:"backup,omitempty" tf:"backup,omitempty"`
+}
+
+type RestoreBackupdrBackupSourceObservation struct {
+
+	// The name of the BackupDR backup that this cluster is restored from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]/backups/[BACKUP_ID]"
+	Backup *string `json:"backup,omitempty" tf:"backup,omitempty"`
+}
+
+type RestoreBackupdrBackupSourceParameters struct {
+
+	// The name of the BackupDR backup that this cluster is restored from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]/backups/[BACKUP_ID]"
+	// +kubebuilder:validation:Optional
+	Backup *string `json:"backup" tf:"backup,omitempty"`
+}
+
+type RestoreBackupdrPitrSourceInitParameters struct {
+
+	// The name of the BackupDR data source that this cluster is restore from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]"
+	DataSource *string `json:"dataSource,omitempty" tf:"data_source,omitempty"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+}
+
+type RestoreBackupdrPitrSourceObservation struct {
+
+	// The name of the BackupDR data source that this cluster is restore from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]"
+	DataSource *string `json:"dataSource,omitempty" tf:"data_source,omitempty"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
+}
+
+type RestoreBackupdrPitrSourceParameters struct {
+
+	// The name of the BackupDR data source that this cluster is restore from. It must be of the format "projects/[PROJECT]/locations/[LOCATION]/backupVaults/[VAULT_ID]/dataSources/[DATASOURCE_ID]"
+	// +kubebuilder:validation:Optional
+	DataSource *string `json:"dataSource" tf:"data_source,omitempty"`
+
+	// The point in time that this cluster is restored to, in RFC 3339 format.
+	// +kubebuilder:validation:Optional
+	PointInTime *string `json:"pointInTime" tf:"point_in_time,omitempty"`
 }
 
 type RestoreContinuousBackupSourceInitParameters struct {
@@ -886,11 +1015,11 @@ type RestoreContinuousBackupSourceInitParameters struct {
 
 	// Reference to a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The point in time that this cluster is restored to, in RFC 3339 format.
 	PointInTime *string `json:"pointInTime,omitempty" tf:"point_in_time,omitempty"`
@@ -915,11 +1044,11 @@ type RestoreContinuousBackupSourceParameters struct {
 
 	// Reference to a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// The point in time that this cluster is restored to, in RFC 3339 format.
 	// +kubebuilder:validation:Optional
@@ -936,11 +1065,11 @@ type SecondaryConfigInitParameters struct {
 
 	// Reference to a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameRef *v1.Reference `json:"primaryClusterNameRef,omitempty" tf:"-"`
+	PrimaryClusterNameRef *v2.Reference `json:"primaryClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameSelector *v1.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
+	PrimaryClusterNameSelector *v2.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
 }
 
 type SecondaryConfigObservation struct {
@@ -961,11 +1090,11 @@ type SecondaryConfigParameters struct {
 
 	// Reference to a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameRef *v1.Reference `json:"primaryClusterNameRef,omitempty" tf:"-"`
+	PrimaryClusterNameRef *v2.Reference `json:"primaryClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate primaryClusterName.
 	// +kubebuilder:validation:Optional
-	PrimaryClusterNameSelector *v1.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
+	PrimaryClusterNameSelector *v2.Selector `json:"primaryClusterNameSelector,omitempty" tf:"-"`
 }
 
 type StartTimeInitParameters struct {
@@ -1146,8 +1275,8 @@ type WeeklyScheduleParameters struct {
 
 // ClusterSpec defines the desired state of Cluster
 type ClusterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ClusterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ClusterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1163,12 +1292,13 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Cluster is the Schema for the Clusters API. A managed alloydb cluster.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

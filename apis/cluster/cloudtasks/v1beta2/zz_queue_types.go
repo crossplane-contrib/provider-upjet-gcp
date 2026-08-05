@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppEngineRoutingOverrideInitParameters struct {
@@ -244,11 +244,11 @@ type OAuthTokenInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type OAuthTokenObservation struct {
@@ -280,11 +280,11 @@ type OAuthTokenParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type OidcTokenInitParameters struct {
@@ -301,11 +301,11 @@ type OidcTokenInitParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type OidcTokenObservation struct {
@@ -335,11 +335,11 @@ type OidcTokenParameters struct {
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type PathOverrideInitParameters struct {
@@ -387,6 +387,9 @@ type QueueInitParameters struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// The desired state of the queue. Use this to pause and resume the queue.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
+
 	// Modifies HTTP target for HTTP tasks.
 	// Structure is documented below.
 	HTTPTarget *HTTPTargetInitParameters `json:"httpTarget,omitempty" tf:"http_target,omitempty"`
@@ -398,11 +401,11 @@ type QueueInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
@@ -423,6 +426,13 @@ type QueueObservation struct {
 	// to App Engine tasks in this queue
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
+	// The desired state of the queue. Use this to pause and resume the queue.
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// Modifies HTTP target for HTTP tasks.
 	// Structure is documented below.
@@ -449,6 +459,9 @@ type QueueObservation struct {
 	// Configuration options for writing logs to Stackdriver Logging.
 	// Structure is documented below.
 	StackdriverLoggingConfig *StackdriverLoggingConfigObservation `json:"stackdriverLoggingConfig,omitempty" tf:"stackdriver_logging_config,omitempty"`
+
+	// The current state of the queue.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
 }
 
 type QueueParameters struct {
@@ -458,6 +471,10 @@ type QueueParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride *AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// The desired state of the queue. Use this to pause and resume the queue.
+	// +kubebuilder:validation:Optional
+	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
 	// Modifies HTTP target for HTTP tasks.
 	// Structure is documented below.
@@ -476,11 +493,11 @@ type QueueParameters struct {
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
@@ -807,8 +824,8 @@ type URIOverrideParameters struct {
 
 // QueueSpec defines the desired state of Queue
 type QueueSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     QueueParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   QueueParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -824,12 +841,13 @@ type QueueSpec struct {
 
 // QueueStatus defines the observed state of Queue.
 type QueueStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        QueueObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               QueueObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Queue is the Schema for the Queues API. A named resource to which messages are sent by publishers.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

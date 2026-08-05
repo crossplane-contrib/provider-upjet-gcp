@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TaxonomyInitParameters struct {
@@ -46,6 +46,10 @@ type TaxonomyObservation struct {
 	// defaults to an empty list.
 	// Each value may be one of: POLICY_TYPE_UNSPECIFIED, FINE_GRAINED_ACCESS_CONTROL.
 	ActivatedPolicyTypes []*string `json:"activatedPolicyTypes,omitempty" tf:"activated_policy_types,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of this taxonomy. It must: contain only unicode characters,
 	// tabs, newlines, carriage returns and page breaks; and be at most 2000 bytes
@@ -108,8 +112,8 @@ type TaxonomyParameters struct {
 
 // TaxonomySpec defines the desired state of Taxonomy
 type TaxonomySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TaxonomyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TaxonomyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -125,8 +129,8 @@ type TaxonomySpec struct {
 
 // TaxonomyStatus defines the observed state of Taxonomy.
 type TaxonomyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TaxonomyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TaxonomyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

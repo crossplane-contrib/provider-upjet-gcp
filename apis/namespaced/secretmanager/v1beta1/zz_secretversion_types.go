@@ -10,15 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecretVersionInitParameters struct {
 
 	// The deletion policy for the secret version. Setting ABANDON allows the resource
 	// to be abandoned rather than deleted. Setting DISABLE allows the resource to be
-	// disabled rather than deleted. Default is DELETE. Possible values are:
+	// disabled rather than deleted.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The current state of the SecretVersion.
@@ -27,28 +26,25 @@ type SecretVersionInitParameters struct {
 	// If set to 'true', the secret data is expected to be base64-encoded string and would be sent as is.
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it is not provided,
+	// the provider project is used
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
-	SecretDataSecretRef *v1.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
-
-	// The secret data. Must be no larger than 64KiB. For more info see updating write-only attributes
-	// Note: This property is write-only and will not be read from the API.
-	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
-
-	// Triggers update of secret data write-only. For more info see updating write-only attributes
-	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
+	SecretDataSecretRef *v2.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type SecretVersionObservation struct {
@@ -58,7 +54,7 @@ type SecretVersionObservation struct {
 
 	// The deletion policy for the secret version. Setting ABANDON allows the resource
 	// to be abandoned rather than deleted. Setting DISABLE allows the resource to be
-	// disabled rather than deleted. Default is DELETE. Possible values are:
+	// disabled rather than deleted.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The time at which the Secret was destroyed. Only present if state is DESTROYED.
@@ -77,15 +73,12 @@ type SecretVersionObservation struct {
 	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it is not provided,
+	// the provider project is used
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Secret Manager secret resource
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
-
-	// The secret data. Must be no larger than 64KiB. For more info see updating write-only attributes
-	// Note: This property is write-only and will not be read from the API.
-	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
-
-	// Triggers update of secret data write-only. For more info see updating write-only attributes
-	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
 
 	// The version of the Secret.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -95,7 +88,7 @@ type SecretVersionParameters struct {
 
 	// The deletion policy for the secret version. Setting ABANDON allows the resource
 	// to be abandoned rather than deleted. Setting DISABLE allows the resource to be
-	// disabled rather than deleted. Default is DELETE. Possible values are:
+	// disabled rather than deleted.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -107,6 +100,11 @@ type SecretVersionParameters struct {
 	// +kubebuilder:validation:Optional
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it is not provided,
+	// the provider project is used
+	// +kubebuilder:validation:Optional
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
@@ -115,24 +113,15 @@ type SecretVersionParameters struct {
 
 	// The secret data. Must be no larger than 64KiB.
 	// +kubebuilder:validation:Optional
-	SecretDataSecretRef *v1.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
-
-	// The secret data. Must be no larger than 64KiB. For more info see updating write-only attributes
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	SecretDataWo *string `json:"secretDataWo,omitempty" tf:"secret_data_wo,omitempty"`
-
-	// Triggers update of secret data write-only. For more info see updating write-only attributes
-	// +kubebuilder:validation:Optional
-	SecretDataWoVersion *float64 `json:"secretDataWoVersion,omitempty" tf:"secret_data_wo_version,omitempty"`
+	SecretDataSecretRef *v2.LocalSecretKeySelector `json:"secretDataSecretRef,omitempty" tf:"-"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 // SecretVersionSpec defines the desired state of SecretVersion
@@ -154,8 +143,8 @@ type SecretVersionSpec struct {
 
 // SecretVersionStatus defines the observed state of SecretVersion.
 type SecretVersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretVersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretVersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

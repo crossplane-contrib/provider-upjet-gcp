@@ -18,7 +18,7 @@ func Configure(p *config.Provider) {
 }
 
 func redisInstance(r *config.Resource) {
-	config.MarkAsRequired(r.TerraformResource, "region")
+	r.MarkAsRequired("region")
 	r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
 		conn := map[string][]byte{}
 		if host, ok := attr["host"].(string); ok {

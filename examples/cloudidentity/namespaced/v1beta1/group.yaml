@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: cloudidentity.gcp.m.upbound.io/v1beta1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudidentity/v1beta1/group
+    upjet.upbound.io/manual-intervention: "Requires a real organization related customer id and domain"
+  labels:
+    testing.upbound.io/example-name: cloud_identity_group_basic
+  name: cloud-identity-group-basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: my-identity-group
+    groupKey:
+      id: my-identity-group-test@<real-domain-for-organization>
+    initialGroupConfig: WITH_INITIAL_OWNER
+    labels:
+      cloudidentity.googleapis.com/groups.discussion_forum: ""
+    parent: customers/<real_organization_related_customer_id>

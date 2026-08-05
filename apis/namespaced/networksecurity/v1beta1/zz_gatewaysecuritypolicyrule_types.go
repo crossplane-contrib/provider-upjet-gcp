@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GatewaySecurityPolicyRuleInitParameters struct {
@@ -57,6 +56,10 @@ type GatewaySecurityPolicyRuleObservation struct {
 	// A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	// Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z"
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Free-text description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -122,11 +125,11 @@ type GatewaySecurityPolicyRuleParameters struct {
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicyRef *v1.NamespacedReference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
+	GatewaySecurityPolicyRef *v2.NamespacedReference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicySelector *v1.NamespacedSelector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+	GatewaySecurityPolicySelector *v2.NamespacedSelector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
 	// The location of the gateway security policy.
 	// +kubebuilder:validation:Required
@@ -170,8 +173,8 @@ type GatewaySecurityPolicyRuleSpec struct {
 
 // GatewaySecurityPolicyRuleStatus defines the observed state of GatewaySecurityPolicyRule.
 type GatewaySecurityPolicyRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GatewaySecurityPolicyRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GatewaySecurityPolicyRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

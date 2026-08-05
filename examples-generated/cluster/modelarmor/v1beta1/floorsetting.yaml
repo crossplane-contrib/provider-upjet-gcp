@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: modelarmor.gcp.upbound.io/v1beta1
+kind: FloorSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelarmor/v1beta1/floorsetting
+  labels:
+    testing.upbound.io/example-name: floorsetting-basic
+  name: floorsetting-basic
+spec:
+  forProvider:
+    filterConfig: {}
+    location: global
+    parent: projects/my-project-name

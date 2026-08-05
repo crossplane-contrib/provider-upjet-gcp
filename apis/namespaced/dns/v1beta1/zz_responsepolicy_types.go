@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ResponsePolicyGkeClustersInitParameters struct {
@@ -25,11 +24,11 @@ type ResponsePolicyGkeClustersInitParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type ResponsePolicyGkeClustersObservation struct {
@@ -52,11 +51,11 @@ type ResponsePolicyGkeClustersParameters struct {
 
 	// Reference to a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameRef *v1.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
+	GkeClusterNameRef *v2.NamespacedReference `json:"gkeClusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate gkeClusterName.
 	// +kubebuilder:validation:Optional
-	GkeClusterNameSelector *v1.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
+	GkeClusterNameSelector *v2.NamespacedSelector `json:"gkeClusterNameSelector,omitempty" tf:"-"`
 }
 
 type ResponsePolicyInitParameters struct {
@@ -88,11 +87,11 @@ type ResponsePolicyNetworksInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type ResponsePolicyNetworksObservation struct {
@@ -115,14 +114,18 @@ type ResponsePolicyNetworksParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 }
 
 type ResponsePolicyObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the response policy, such as My new response policy.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -184,8 +187,8 @@ type ResponsePolicySpec struct {
 
 // ResponsePolicyStatus defines the observed state of ResponsePolicy.
 type ResponsePolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ResponsePolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ResponsePolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

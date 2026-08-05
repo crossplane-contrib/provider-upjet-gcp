@@ -18,6 +18,7 @@ spec:
         testing.upbound.io/example-name: service-perimeter-resource
     resource: projects/987654321
 
+
 ---
 
 apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
@@ -34,9 +35,10 @@ spec:
     parent: organizations/123456789
     title: my policy
 
+
 ---
 
-apiVersion: accesscontextmanager.gcp.upbound.io/v1beta1
+apiVersion: accesscontextmanager.gcp.upbound.io/v1beta2
 kind: ServicePerimeter
 metadata:
   annotations:

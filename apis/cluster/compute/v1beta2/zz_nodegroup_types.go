@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MaintenanceWindowInitParameters struct {
@@ -105,11 +105,11 @@ type NodeGroupInitParameters struct {
 
 	// Reference to a NodeTemplate in compute to populate nodeTemplate.
 	// +kubebuilder:validation:Optional
-	NodeTemplateRef *v1.Reference `json:"nodeTemplateRef,omitempty" tf:"-"`
+	NodeTemplateRef *v2.Reference `json:"nodeTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a NodeTemplate in compute to populate nodeTemplate.
 	// +kubebuilder:validation:Optional
-	NodeTemplateSelector *v1.Selector `json:"nodeTemplateSelector,omitempty" tf:"-"`
+	NodeTemplateSelector *v2.Selector `json:"nodeTemplateSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -130,6 +130,10 @@ type NodeGroupObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -202,11 +206,11 @@ type NodeGroupParameters struct {
 
 	// Reference to a NodeTemplate in compute to populate nodeTemplate.
 	// +kubebuilder:validation:Optional
-	NodeTemplateRef *v1.Reference `json:"nodeTemplateRef,omitempty" tf:"-"`
+	NodeTemplateRef *v2.Reference `json:"nodeTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a NodeTemplate in compute to populate nodeTemplate.
 	// +kubebuilder:validation:Optional
-	NodeTemplateSelector *v1.Selector `json:"nodeTemplateSelector,omitempty" tf:"-"`
+	NodeTemplateSelector *v2.Selector `json:"nodeTemplateSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -232,11 +236,11 @@ type ProjectMapInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate id.
 	// +kubebuilder:validation:Optional
-	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+	IDRef *v2.Reference `json:"idRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate id.
 	// +kubebuilder:validation:Optional
-	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
+	IDSelector *v2.Selector `json:"idSelector,omitempty" tf:"-"`
 
 	// The project id/number should be the same as the key of this project config in the project map.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
@@ -245,11 +249,11 @@ type ProjectMapInitParameters struct {
 
 	// Reference to a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type ProjectMapObservation struct {
@@ -271,11 +275,11 @@ type ProjectMapParameters struct {
 
 	// Reference to a Project in cloudplatform to populate id.
 	// +kubebuilder:validation:Optional
-	IDRef *v1.Reference `json:"idRef,omitempty" tf:"-"`
+	IDRef *v2.Reference `json:"idRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate id.
 	// +kubebuilder:validation:Optional
-	IDSelector *v1.Selector `json:"idSelector,omitempty" tf:"-"`
+	IDSelector *v2.Selector `json:"idSelector,omitempty" tf:"-"`
 
 	// The project id/number should be the same as the key of this project config in the project map.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
@@ -285,11 +289,11 @@ type ProjectMapParameters struct {
 
 	// Reference to a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.Reference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type ShareSettingsInitParameters struct {
@@ -329,8 +333,8 @@ type ShareSettingsParameters struct {
 
 // NodeGroupSpec defines the desired state of NodeGroup
 type NodeGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NodeGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NodeGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -346,12 +350,13 @@ type NodeGroupSpec struct {
 
 // NodeGroupStatus defines the observed state of NodeGroup.
 type NodeGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NodeGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NodeGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // NodeGroup is the Schema for the NodeGroups API. Represents a NodeGroup resource to manage a group of sole-tenant nodes.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

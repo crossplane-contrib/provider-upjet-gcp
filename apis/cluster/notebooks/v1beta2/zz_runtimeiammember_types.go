@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RuntimeIAMMemberConditionInitParameters struct {
@@ -57,11 +57,11 @@ type RuntimeIAMMemberInitParameters struct {
 
 	// Reference to a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameRef *v1.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
+	RuntimeNameRef *v2.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameSelector *v1.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
+	RuntimeNameSelector *v2.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }
 
 type RuntimeIAMMemberObservation struct {
@@ -105,17 +105,17 @@ type RuntimeIAMMemberParameters struct {
 
 	// Reference to a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameRef *v1.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
+	RuntimeNameRef *v2.Reference `json:"runtimeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameSelector *v1.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
+	RuntimeNameSelector *v2.Selector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }
 
 // RuntimeIAMMemberSpec defines the desired state of RuntimeIAMMember
 type RuntimeIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RuntimeIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RuntimeIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -131,12 +131,13 @@ type RuntimeIAMMemberSpec struct {
 
 // RuntimeIAMMemberStatus defines the observed state of RuntimeIAMMember.
 type RuntimeIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RuntimeIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RuntimeIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // RuntimeIAMMember is the Schema for the RuntimeIAMMembers API. <no value>
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

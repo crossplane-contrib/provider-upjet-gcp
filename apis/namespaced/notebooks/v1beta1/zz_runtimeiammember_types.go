@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RuntimeIAMMemberConditionInitParameters struct {
@@ -58,11 +57,11 @@ type RuntimeIAMMemberInitParameters struct {
 
 	// Reference to a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameRef *v1.NamespacedReference `json:"runtimeNameRef,omitempty" tf:"-"`
+	RuntimeNameRef *v2.NamespacedReference `json:"runtimeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameSelector *v1.NamespacedSelector `json:"runtimeNameSelector,omitempty" tf:"-"`
+	RuntimeNameSelector *v2.NamespacedSelector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }
 
 type RuntimeIAMMemberObservation struct {
@@ -106,11 +105,11 @@ type RuntimeIAMMemberParameters struct {
 
 	// Reference to a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameRef *v1.NamespacedReference `json:"runtimeNameRef,omitempty" tf:"-"`
+	RuntimeNameRef *v2.NamespacedReference `json:"runtimeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Runtime in notebooks to populate runtimeName.
 	// +kubebuilder:validation:Optional
-	RuntimeNameSelector *v1.NamespacedSelector `json:"runtimeNameSelector,omitempty" tf:"-"`
+	RuntimeNameSelector *v2.NamespacedSelector `json:"runtimeNameSelector,omitempty" tf:"-"`
 }
 
 // RuntimeIAMMemberSpec defines the desired state of RuntimeIAMMember
@@ -132,8 +131,8 @@ type RuntimeIAMMemberSpec struct {
 
 // RuntimeIAMMemberStatus defines the observed state of RuntimeIAMMember.
 type RuntimeIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RuntimeIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RuntimeIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

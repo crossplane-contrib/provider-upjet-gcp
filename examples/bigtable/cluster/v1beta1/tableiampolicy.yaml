@@ -27,6 +27,7 @@ spec:
     project: ${project.project_id}
     table: table
 
+
 ---
 
 apiVersion: bigtable.gcp.upbound.io/v1beta1
@@ -47,9 +48,10 @@ spec:
       - b
       - c
 
+
 ---
 
-apiVersion: bigtable.gcp.upbound.io/v1beta1
+apiVersion: bigtable.gcp.upbound.io/v1beta2
 kind: Instance
 metadata:
   annotations:

@@ -5,54 +5,54 @@
 
 package v1beta2
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this AgentPool.
-func (mg *AgentPool) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *AgentPool) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this AgentPool.
-func (mg *AgentPool) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *AgentPool) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this AgentPool.
-func (mg *AgentPool) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *AgentPool) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AgentPool.
-func (mg *AgentPool) GetProviderConfigReference() *xpv1.Reference {
+func (mg *AgentPool) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this AgentPool.
-func (mg *AgentPool) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *AgentPool) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this AgentPool.
-func (mg *AgentPool) SetConditions(c ...xpv1.Condition) {
+func (mg *AgentPool) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this AgentPool.
-func (mg *AgentPool) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *AgentPool) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this AgentPool.
-func (mg *AgentPool) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *AgentPool) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AgentPool.
-func (mg *AgentPool) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *AgentPool) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this AgentPool.
-func (mg *AgentPool) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *AgentPool) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

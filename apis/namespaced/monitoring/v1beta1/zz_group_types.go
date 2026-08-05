@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GroupInitParameters struct {
@@ -38,11 +37,11 @@ type GroupInitParameters struct {
 
 	// Reference to a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameRef *v1.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
+	ParentNameRef *v2.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameSelector *v1.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
+	ParentNameSelector *v2.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -50,6 +49,10 @@ type GroupInitParameters struct {
 }
 
 type GroupObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A user-assigned name for this group, used only for display
 	// purposes.
@@ -109,11 +112,11 @@ type GroupParameters struct {
 
 	// Reference to a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameRef *v1.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
+	ParentNameRef *v2.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameSelector *v1.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
+	ParentNameSelector *v2.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -140,8 +143,8 @@ type GroupSpec struct {
 
 // GroupStatus defines the observed state of Group.
 type GroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

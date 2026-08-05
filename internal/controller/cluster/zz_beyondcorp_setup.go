@@ -43,3 +43,17 @@ func SetupGated_beyondcorp(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager_beyondcorp registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_beyondcorp(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		appconnection.SetupWebhookWithManager,
+		appconnector.SetupWebhookWithManager,
+		appgateway.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

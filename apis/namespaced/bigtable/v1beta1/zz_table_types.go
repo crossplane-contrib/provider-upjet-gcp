@@ -10,18 +10,21 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomatedBackupPolicyInitParameters struct {
 	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
+
+	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 
 	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
 type AutomatedBackupPolicyObservation struct {
 	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
+
+	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 
 	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
@@ -30,6 +33,9 @@ type AutomatedBackupPolicyParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Locations []*string `json:"locations,omitempty" tf:"locations,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
@@ -66,7 +72,7 @@ type ColumnFamilyParameters struct {
 
 type TableInitParameters struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument, or set both Retention Period and Frequency properties to "0". To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency properties to "0". When updating an existing table, to modify the Retention Period or Frequency properties of the resource's automated backup policy, set the respective property to a non-zero value. If the automated_backup_policy argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
+	// Defines an automated backup policy for a table, specified by retention_period and frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument or set both retention_period and frequency to "0". To disable automated backup on an existing table that has automated backup enabled, set both retention_period and frequency to "0". When updating an existing table, change the retention_period or frequency by setting the respective property to a non-zero value. The policy also accepts an optional locations list to specify backup storage locations; if locations is omitted, the policy defaults to all clusters in the instance. If the automated_backup_policy argument is not provided on update, the resource's automated backup policy will not be modified.
 	AutomatedBackupPolicy *AutomatedBackupPolicyInitParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -90,7 +96,7 @@ type TableInitParameters struct {
 
 type TableObservation struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument, or set both Retention Period and Frequency properties to "0". To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency properties to "0". When updating an existing table, to modify the Retention Period or Frequency properties of the resource's automated backup policy, set the respective property to a non-zero value. If the automated_backup_policy argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
+	// Defines an automated backup policy for a table, specified by retention_period and frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument or set both retention_period and frequency to "0". To disable automated backup on an existing table that has automated backup enabled, set both retention_period and frequency to "0". When updating an existing table, change the retention_period or frequency by setting the respective property to a non-zero value. The policy also accepts an optional locations list to specify backup storage locations; if locations is omitted, the policy defaults to all clusters in the instance. If the automated_backup_policy argument is not provided on update, the resource's automated backup policy will not be modified.
 	AutomatedBackupPolicy *AutomatedBackupPolicyObservation `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
 	// Duration to retain change stream data for the table. Set to 0 to disable. Must be between 1 and 7 days.
@@ -98,6 +104,10 @@ type TableObservation struct {
 
 	// A group of columns within a table which share a common configuration. This can be specified multiple times. Structure is documented below.
 	ColumnFamily []ColumnFamilyObservation `json:"columnFamily,omitempty" tf:"column_family,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A field to make the table protected against data loss i.e. when set to PROTECTED, deleting the table, the column families in the table, and the instance containing the table would be prohibited. If not provided, deletion protection will be set to UNPROTECTED.
 	DeletionProtection *string `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -120,7 +130,7 @@ type TableObservation struct {
 
 type TableParameters struct {
 
-	// Defines an automated backup policy for a table, specified by Retention Period and Frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument, or set both Retention Period and Frequency properties to "0". To disable automated backup on an existing table that has automated backup enabled, set both Retention Period and Frequency properties to "0". When updating an existing table, to modify the Retention Period or Frequency properties of the resource's automated backup policy, set the respective property to a non-zero value. If the automated_backup_policy argument is not provided in the configuration on update, the resource's automated backup policy will not be modified.
+	// Defines an automated backup policy for a table, specified by retention_period and frequency. To create a table with automated backup disabled, either omit the automated_backup_policy argument or set both retention_period and frequency to "0". To disable automated backup on an existing table that has automated backup enabled, set both retention_period and frequency to "0". When updating an existing table, change the retention_period or frequency by setting the respective property to a non-zero value. The policy also accepts an optional locations list to specify backup storage locations; if locations is omitted, the policy defaults to all clusters in the instance. If the automated_backup_policy argument is not provided on update, the resource's automated backup policy will not be modified.
 	// +kubebuilder:validation:Optional
 	AutomatedBackupPolicy *AutomatedBackupPolicyParameters `json:"automatedBackupPolicy,omitempty" tf:"automated_backup_policy,omitempty"`
 
@@ -143,11 +153,11 @@ type TableParameters struct {
 
 	// Reference to a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -181,8 +191,8 @@ type TableSpec struct {
 
 // TableStatus defines the observed state of Table.
 type TableStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TableObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TableObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

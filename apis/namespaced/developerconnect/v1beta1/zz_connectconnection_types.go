@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorizerCredentialInitParameters struct {
@@ -41,6 +40,57 @@ type AuthorizerCredentialParameters struct {
 	// projects/*/secrets/*/versions/*.
 	// +kubebuilder:validation:Optional
 	UserTokenSecretVersion *string `json:"userTokenSecretVersion" tf:"user_token_secret_version,omitempty"`
+}
+
+type BasicAuthenticationInitParameters struct {
+
+	// The password SecretManager secret version to authenticate as.
+	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
+
+	// (Output)
+	// Output only. The username associated with this token.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type BasicAuthenticationObservation struct {
+
+	// The password SecretManager secret version to authenticate as.
+	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
+
+	// (Output)
+	// Output only. The username associated with this token.
+	Username *string `json:"username,omitempty" tf:"username,omitempty"`
+}
+
+type BasicAuthenticationParameters struct {
+
+	// The password SecretManager secret version to authenticate as.
+	// +kubebuilder:validation:Optional
+	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
+
+	// (Output)
+	// Output only. The username associated with this token.
+	// +kubebuilder:validation:Optional
+	Username *string `json:"username" tf:"username,omitempty"`
+}
+
+type BearerTokenAuthenticationInitParameters struct {
+
+	// The token SecretManager secret version to authenticate as.
+	TokenSecretVersion *string `json:"tokenSecretVersion,omitempty" tf:"token_secret_version,omitempty"`
+}
+
+type BearerTokenAuthenticationObservation struct {
+
+	// The token SecretManager secret version to authenticate as.
+	TokenSecretVersion *string `json:"tokenSecretVersion,omitempty" tf:"token_secret_version,omitempty"`
+}
+
+type BearerTokenAuthenticationParameters struct {
+
+	// The token SecretManager secret version to authenticate as.
+	// +kubebuilder:validation:Optional
+	TokenSecretVersion *string `json:"tokenSecretVersion,omitempty" tf:"token_secret_version,omitempty"`
 }
 
 type BitbucketCloudConfigInitParameters struct {
@@ -161,7 +211,7 @@ type BitbucketDataCenterConfigInitParameters struct {
 	// ServiceDirectoryConfig represents Service Directory configuration for a
 	// connection.
 	// Structure is documented below.
-	ServiceDirectoryConfig *ServiceDirectoryConfigInitParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+	ServiceDirectoryConfig *BitbucketDataCenterConfigServiceDirectoryConfigInitParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
 
 	// Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook
 	// events, formatted as projects/*/secrets/*/versions/*. This is used to
@@ -195,7 +245,7 @@ type BitbucketDataCenterConfigObservation struct {
 	// ServiceDirectoryConfig represents Service Directory configuration for a
 	// connection.
 	// Structure is documented below.
-	ServiceDirectoryConfig *ServiceDirectoryConfigObservation `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+	ServiceDirectoryConfig *BitbucketDataCenterConfigServiceDirectoryConfigObservation `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
 
 	// Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook
 	// events, formatted as projects/*/secrets/*/versions/*. This is used to
@@ -230,7 +280,7 @@ type BitbucketDataCenterConfigParameters struct {
 	// connection.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ServiceDirectoryConfig *ServiceDirectoryConfigParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+	ServiceDirectoryConfig *BitbucketDataCenterConfigServiceDirectoryConfigParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
 
 	// Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook
 	// events, formatted as projects/*/secrets/*/versions/*. This is used to
@@ -266,6 +316,31 @@ type BitbucketDataCenterConfigReadAuthorizerCredentialParameters struct {
 	// projects/*/secrets/*/versions/*.
 	// +kubebuilder:validation:Optional
 	UserTokenSecretVersion *string `json:"userTokenSecretVersion" tf:"user_token_secret_version,omitempty"`
+}
+
+type BitbucketDataCenterConfigServiceDirectoryConfigInitParameters struct {
+
+	// Required. The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type BitbucketDataCenterConfigServiceDirectoryConfigObservation struct {
+
+	// Required. The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type BitbucketDataCenterConfigServiceDirectoryConfigParameters struct {
+
+	// Required. The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service" tf:"service,omitempty"`
 }
 
 type ConnectConnectionInitParameters struct {
@@ -315,6 +390,10 @@ type ConnectConnectionInitParameters struct {
 	// Structure is documented below.
 	GitlabEnterpriseConfig *GitlabEnterpriseConfigInitParameters `json:"gitlabEnterpriseConfig,omitempty" tf:"gitlab_enterprise_config,omitempty"`
 
+	// Configuration for connections to an HTTP service provider.
+	// Structure is documented below.
+	HTTPConfig *HTTPConfigInitParameters `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
+
 	// Optional. Labels as key value pairs
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
@@ -353,6 +432,10 @@ type ConnectConnectionObservation struct {
 	// Output only. [Output only] Delete timestamp
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Optional. If disabled is set to true, functionality is disabled for this connection.
 	// Repository based API methods and webhooks processing for repositories in
 	// this connection will be disabled.
@@ -384,6 +467,10 @@ type ConnectConnectionObservation struct {
 	// Configuration for connections to an instance of GitLab Enterprise.
 	// Structure is documented below.
 	GitlabEnterpriseConfig *GitlabEnterpriseConfigObservation `json:"gitlabEnterpriseConfig,omitempty" tf:"gitlab_enterprise_config,omitempty"`
+
+	// Configuration for connections to an HTTP service provider.
+	// Structure is documented below.
+	HTTPConfig *HTTPConfigObservation `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -484,6 +571,11 @@ type ConnectConnectionParameters struct {
 	// +kubebuilder:validation:Optional
 	GitlabEnterpriseConfig *GitlabEnterpriseConfigParameters `json:"gitlabEnterpriseConfig,omitempty" tf:"gitlab_enterprise_config,omitempty"`
 
+	// Configuration for connections to an HTTP service provider.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPConfig *HTTPConfigParameters `json:"httpConfig,omitempty" tf:"http_config,omitempty"`
+
 	// Optional. Labels as key value pairs
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
@@ -536,11 +628,11 @@ type GithubConfigAuthorizerCredentialInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionRef *v1.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
+	OAuthTokenSecretVersionRef *v2.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionSelector *v1.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
+	OAuthTokenSecretVersionSelector *v2.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubConfigAuthorizerCredentialObservation struct {
@@ -565,11 +657,11 @@ type GithubConfigAuthorizerCredentialParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionRef *v1.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
+	OAuthTokenSecretVersionRef *v2.NamespacedReference `json:"oauthTokenSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate oauthTokenSecretVersion.
 	// +kubebuilder:validation:Optional
-	OAuthTokenSecretVersionSelector *v1.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
+	OAuthTokenSecretVersionSelector *v2.NamespacedSelector `json:"oauthTokenSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubConfigInitParameters struct {
@@ -656,11 +748,11 @@ type GithubEnterpriseConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionRef *v1.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
+	PrivateKeySecretVersionRef *v2.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionSelector *v1.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
+	PrivateKeySecretVersionSelector *v2.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
 
 	// Optional. SSL certificate to use for requests to GitHub Enterprise.
 	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
@@ -678,11 +770,11 @@ type GithubEnterpriseConfigInitParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionRef *v1.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
+	WebhookSecretSecretVersionRef *v2.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionSelector *v1.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
+	WebhookSecretSecretVersionSelector *v2.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubEnterpriseConfigObservation struct {
@@ -749,11 +841,11 @@ type GithubEnterpriseConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionRef *v1.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
+	PrivateKeySecretVersionRef *v2.NamespacedReference `json:"privateKeySecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate privateKeySecretVersion.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretVersionSelector *v1.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
+	PrivateKeySecretVersionSelector *v2.NamespacedSelector `json:"privateKeySecretVersionSelector,omitempty" tf:"-"`
 
 	// Optional. SSL certificate to use for requests to GitHub Enterprise.
 	// +kubebuilder:validation:Optional
@@ -774,11 +866,11 @@ type GithubEnterpriseConfigParameters struct {
 
 	// Reference to a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionRef *v1.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
+	WebhookSecretSecretVersionRef *v2.NamespacedReference `json:"webhookSecretSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate webhookSecretSecretVersion.
 	// +kubebuilder:validation:Optional
-	WebhookSecretSecretVersionSelector *v1.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
+	WebhookSecretSecretVersionSelector *v2.NamespacedSelector `json:"webhookSecretSecretVersionSelector,omitempty" tf:"-"`
 }
 
 type GithubEnterpriseConfigServiceDirectoryConfigInitParameters struct {
@@ -1104,6 +1196,102 @@ type GitlabEnterpriseConfigServiceDirectoryConfigParameters struct {
 	Service *string `json:"service" tf:"service,omitempty"`
 }
 
+type HTTPConfigInitParameters struct {
+
+	// Basic authentication with username and password.
+	// Structure is documented below.
+	BasicAuthentication *BasicAuthenticationInitParameters `json:"basicAuthentication,omitempty" tf:"basic_authentication,omitempty"`
+
+	// Bearer token authentication with a token.
+	// Structure is documented below.
+	BearerTokenAuthentication *BearerTokenAuthenticationInitParameters `json:"bearerTokenAuthentication,omitempty" tf:"bearer_token_authentication,omitempty"`
+
+	// The service provider's https endpoint.
+	HostURI *string `json:"hostUri,omitempty" tf:"host_uri,omitempty"`
+
+	// The SSL certificate to use for requests to the HTTP service provider.
+	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
+
+	// ServiceDirectoryConfig represents Service Directory configuration for a
+	// connection.
+	// Structure is documented below.
+	ServiceDirectoryConfig *HTTPConfigServiceDirectoryConfigInitParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+}
+
+type HTTPConfigObservation struct {
+
+	// Basic authentication with username and password.
+	// Structure is documented below.
+	BasicAuthentication *BasicAuthenticationObservation `json:"basicAuthentication,omitempty" tf:"basic_authentication,omitempty"`
+
+	// Bearer token authentication with a token.
+	// Structure is documented below.
+	BearerTokenAuthentication *BearerTokenAuthenticationObservation `json:"bearerTokenAuthentication,omitempty" tf:"bearer_token_authentication,omitempty"`
+
+	// The service provider's https endpoint.
+	HostURI *string `json:"hostUri,omitempty" tf:"host_uri,omitempty"`
+
+	// The SSL certificate to use for requests to the HTTP service provider.
+	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
+
+	// ServiceDirectoryConfig represents Service Directory configuration for a
+	// connection.
+	// Structure is documented below.
+	ServiceDirectoryConfig *HTTPConfigServiceDirectoryConfigObservation `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+}
+
+type HTTPConfigParameters struct {
+
+	// Basic authentication with username and password.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BasicAuthentication *BasicAuthenticationParameters `json:"basicAuthentication,omitempty" tf:"basic_authentication,omitempty"`
+
+	// Bearer token authentication with a token.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BearerTokenAuthentication *BearerTokenAuthenticationParameters `json:"bearerTokenAuthentication,omitempty" tf:"bearer_token_authentication,omitempty"`
+
+	// The service provider's https endpoint.
+	// +kubebuilder:validation:Optional
+	HostURI *string `json:"hostUri" tf:"host_uri,omitempty"`
+
+	// The SSL certificate to use for requests to the HTTP service provider.
+	// +kubebuilder:validation:Optional
+	SSLCACertificate *string `json:"sslCaCertificate,omitempty" tf:"ssl_ca_certificate,omitempty"`
+
+	// ServiceDirectoryConfig represents Service Directory configuration for a
+	// connection.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServiceDirectoryConfig *HTTPConfigServiceDirectoryConfigParameters `json:"serviceDirectoryConfig,omitempty" tf:"service_directory_config,omitempty"`
+}
+
+type HTTPConfigServiceDirectoryConfigInitParameters struct {
+
+	// Required. The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type HTTPConfigServiceDirectoryConfigObservation struct {
+
+	// Required. The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type HTTPConfigServiceDirectoryConfigParameters struct {
+
+	// Required. The Service Directory service name.
+	// Format:
+	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service" tf:"service,omitempty"`
+}
+
 type InstallationStateInitParameters struct {
 }
 
@@ -1160,31 +1348,6 @@ type ReadAuthorizerCredentialParameters struct {
 	UserTokenSecretVersion *string `json:"userTokenSecretVersion" tf:"user_token_secret_version,omitempty"`
 }
 
-type ServiceDirectoryConfigInitParameters struct {
-
-	// Required. The Service Directory service name.
-	// Format:
-	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
-}
-
-type ServiceDirectoryConfigObservation struct {
-
-	// Required. The Service Directory service name.
-	// Format:
-	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
-}
-
-type ServiceDirectoryConfigParameters struct {
-
-	// Required. The Service Directory service name.
-	// Format:
-	// projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}.
-	// +kubebuilder:validation:Optional
-	Service *string `json:"service" tf:"service,omitempty"`
-}
-
 // ConnectConnectionSpec defines the desired state of ConnectConnection
 type ConnectConnectionSpec struct {
 	v2.ManagedResourceSpec `json:",inline"`
@@ -1204,8 +1367,8 @@ type ConnectConnectionSpec struct {
 
 // ConnectConnectionStatus defines the observed state of ConnectConnection.
 type ConnectConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

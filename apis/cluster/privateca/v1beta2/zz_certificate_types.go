@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdditionalExtensionsObjectIDInitParameters struct {
@@ -108,11 +108,11 @@ type CertificateInitParameters struct {
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateTemplate used to issue this certificate,
 	// in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
@@ -125,11 +125,11 @@ type CertificateInitParameters struct {
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
+	CertificateTemplateRef *v2.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+	CertificateTemplateSelector *v2.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
 	// The config used to create a self-signed X.509 certificate or CSR.
 	// Structure is documented below.
@@ -178,6 +178,10 @@ type CertificateObservation struct {
 	// The time that this resource was created on the server.
 	// This is in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -245,11 +249,11 @@ type CertificateParameters struct {
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateTemplate used to issue this certificate,
 	// in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
@@ -263,11 +267,11 @@ type CertificateParameters struct {
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
+	CertificateTemplateRef *v2.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+	CertificateTemplateSelector *v2.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
 	// The config used to create a self-signed X.509 certificate or CSR.
 	// Structure is documented below.
@@ -301,11 +305,11 @@ type CertificateParameters struct {
 
 	// Reference to a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolRef *v1.Reference `json:"poolRef,omitempty" tf:"-"`
+	PoolRef *v2.Reference `json:"poolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolSelector *v1.Selector `json:"poolSelector,omitempty" tf:"-"`
+	PoolSelector *v2.Selector `json:"poolSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -381,7 +385,7 @@ type ConfigPublicKeyInitParameters struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// Required. A public key. When this is specified in a request, the padding and encoding can be any of the options described by the respective 'KeyType' value. When this is generated by the service, it will always be an RFC 5280 SubjectPublicKeyInfo structure containing an algorithm identifier and a key. A base64-encoded string.
-	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 }
 
 type ConfigPublicKeyObservation struct {
@@ -400,7 +404,7 @@ type ConfigPublicKeyParameters struct {
 
 	// Required. A public key. When this is specified in a request, the padding and encoding can be any of the options described by the respective 'KeyType' value. When this is generated by the service, it will always be an RFC 5280 SubjectPublicKeyInfo structure containing an algorithm identifier and a key. A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 }
 
 type ConfigSubjectKeyIDInitParameters struct {
@@ -1673,8 +1677,8 @@ type X509DescriptionPolicyIdsParameters struct {
 
 // CertificateSpec defines the desired state of Certificate
 type CertificateSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CertificateParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CertificateParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1690,12 +1694,13 @@ type CertificateSpec struct {
 
 // CertificateStatus defines the observed state of Certificate.
 type CertificateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Certificate is the Schema for the Certificates API. A Certificate corresponds to a signed X.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -71,6 +71,26 @@ func (mg *Instance) ResolveReferences( // ResolveReferences of this Instance.
 		mg.Spec.ForProvider.DesiredAutoCreatedEndpoints[i3].NetworkRef = rsp.ResolvedReference
 
 	}
+	{
+		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CAPool", "CAPoolList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServerCAPool),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ServerCAPoolRef,
+			Selector:     mg.Spec.ForProvider.ServerCAPoolSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServerCAPool")
+	}
+	mg.Spec.ForProvider.ServerCAPool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServerCAPoolRef = rsp.ResolvedReference
+
 	if mg.Spec.InitProvider.CrossInstanceReplicationConfig != nil {
 		if mg.Spec.InitProvider.CrossInstanceReplicationConfig.PrimaryInstance != nil {
 			{
@@ -117,6 +137,25 @@ func (mg *Instance) ResolveReferences( // ResolveReferences of this Instance.
 		mg.Spec.InitProvider.DesiredAutoCreatedEndpoints[i3].NetworkRef = rsp.ResolvedReference
 
 	}
+	{
+		m, l, err = apisresolver.GetManagedResource("privateca.gcp.upbound.io", "v1beta2", "CAPool", "CAPoolList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServerCAPool),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ServerCAPoolRef,
+			Selector:     mg.Spec.InitProvider.ServerCAPoolSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServerCAPool")
+	}
+	mg.Spec.InitProvider.ServerCAPool = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServerCAPoolRef = rsp.ResolvedReference
 
 	return nil
 }

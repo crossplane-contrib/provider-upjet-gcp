@@ -68,58 +68,6 @@ func (mg *AspectType) ResolveReferences( // ResolveReferences of this AspectType
 	return nil
 }
 
-// ResolveReferences of this Asset.
-func (mg *Asset) ResolveReferences(ctx context.Context, c client.Reader) error {
-	var m xpresource.Managed
-	var l xpresource.ManagedList
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-	{
-		m, l, err = apisresolver.GetManagedResource("dataplex.gcp.upbound.io", "v1beta1", "Zone", "ZoneList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataplexZone),
-			Extract:      reference.ExternalName(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.ForProvider.DataplexZoneRef,
-			Selector:     mg.Spec.ForProvider.DataplexZoneSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.DataplexZone")
-	}
-	mg.Spec.ForProvider.DataplexZone = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.DataplexZoneRef = rsp.ResolvedReference
-	{
-		m, l, err = apisresolver.GetManagedResource("dataplex.gcp.upbound.io", "v1beta1", "Lake", "LakeList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Lake),
-			Extract:      reference.ExternalName(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.ForProvider.LakeRef,
-			Selector:     mg.Spec.ForProvider.LakeSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Lake")
-	}
-	mg.Spec.ForProvider.Lake = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.LakeRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this LakeIAMPolicy.
 func (mg *LakeIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
@@ -208,38 +156,6 @@ func (mg *LakeIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader)
 	}
 	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this Zone.
-func (mg *Zone) ResolveReferences(ctx context.Context, c client.Reader) error {
-	var m xpresource.Managed
-	var l xpresource.ManagedList
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-	{
-		m, l, err = apisresolver.GetManagedResource("dataplex.gcp.upbound.io", "v1beta1", "Lake", "LakeList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Lake),
-			Extract:      reference.ExternalName(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.ForProvider.LakeRef,
-			Selector:     mg.Spec.ForProvider.LakeSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Lake")
-	}
-	mg.Spec.ForProvider.Lake = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.LakeRef = rsp.ResolvedReference
 
 	return nil
 }

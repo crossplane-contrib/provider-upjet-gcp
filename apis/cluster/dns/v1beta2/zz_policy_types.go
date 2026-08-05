@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AlternativeNameServerConfigInitParameters struct {
@@ -139,11 +139,11 @@ type PolicyNetworksInitParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The id or fully qualified URL of the VPC network to forward queries to.
 	// This should be formatted like projects/{project}/global/networks/{network} or
@@ -167,11 +167,11 @@ type PolicyNetworksParameters struct {
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The id or fully qualified URL of the VPC network to forward queries to.
 	// This should be formatted like projects/{project}/global/networks/{network} or
@@ -191,6 +191,10 @@ type PolicyObservation struct {
 	// Names such as .internal are not available when an alternative name server is specified.
 	// Structure is documented below.
 	AlternativeNameServerConfig *AlternativeNameServerConfigObservation `json:"alternativeNameServerConfig,omitempty" tf:"alternative_name_server_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -283,8 +287,8 @@ type ScopeParameters struct {
 
 // PolicySpec defines the desired state of Policy
 type PolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -300,12 +304,13 @@ type PolicySpec struct {
 
 // PolicyStatus defines the observed state of Policy.
 type PolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Policy is the Schema for the Policys API. A policy is a collection of DNS rules applied to one or more Virtual Private Cloud resources.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DatasetInitParameters struct {
@@ -37,6 +36,10 @@ type DatasetInitParameters struct {
 }
 
 type DatasetObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A nested object resource.
 	// Structure is documented below.
@@ -103,11 +106,11 @@ type EncryptionSpecInitParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type EncryptionSpecObservation struct {
@@ -132,11 +135,11 @@ type EncryptionSpecParameters struct {
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 // DatasetSpec defines the desired state of Dataset
@@ -158,8 +161,8 @@ type DatasetSpec struct {
 
 // DatasetStatus defines the observed state of Dataset.
 type DatasetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

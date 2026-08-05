@@ -25,15 +25,6 @@ func (l *DefaultSupportedIdPConfigList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this InboundSAMLConfigList.
-func (l *InboundSAMLConfigList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this OAuthIdPConfigList.
 func (l *OAuthIdPConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -45,15 +36,6 @@ func (l *OAuthIdPConfigList) GetItems() []resource.Managed {
 
 // GetItems of this TenantDefaultSupportedIdPConfigList.
 func (l *TenantDefaultSupportedIdPConfigList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this TenantInboundSAMLConfigList.
-func (l *TenantInboundSAMLConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

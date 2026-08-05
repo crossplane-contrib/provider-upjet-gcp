@@ -24,6 +24,8 @@ spec:
     matchingCriteria:
     - attribute: type
       value: google.cloud.pubsub.topic.v1.messagePublished
+    retryPolicy:
+      maxAttempts: 1
     transport:
       pubsub:
         topicSelector:

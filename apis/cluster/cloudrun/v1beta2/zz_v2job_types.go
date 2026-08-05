@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BinaryAuthorizationInitParameters struct {
@@ -61,11 +61,11 @@ type CloudSQLInstanceInitParameters struct {
 
 	// References to DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type CloudSQLInstanceObservation struct {
@@ -84,11 +84,11 @@ type CloudSQLInstanceParameters struct {
 
 	// References to DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type ContainersEnvInitParameters struct {
@@ -164,21 +164,21 @@ type ContainersPortsParameters struct {
 
 type ContainersResourcesInitParameters struct {
 
-	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', '6', and '8'. Setting 4 CPU requires at least 2Gi of memory, setting 6 or more CPU requires at least 4Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 }
 
 type ContainersResourcesObservation struct {
 
-	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', '6', and '8'. Setting 4 CPU requires at least 2Gi of memory, setting 6 or more CPU requires at least 4Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
 }
 
 type ContainersResourcesParameters struct {
 
-	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+	// Only memory, CPU, and nvidia.com/gpu are supported. Use key cpu for CPU limit, memory for memory limit, nvidia.com/gpu for gpu limit. Note: The only supported values for CPU are '1', '2', '4', '6', and '8'. Setting 4 CPU requires at least 2Gi of memory, setting 6 or more CPU requires at least 4Gi of memory. The values of the map is string form of the 'quantity' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Limits map[string]*string `json:"limits,omitempty" tf:"limits,omitempty"`
@@ -380,6 +380,9 @@ type ContainersVolumeMountsInitParameters struct {
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
 }
 
 type ContainersVolumeMountsObservation struct {
@@ -389,6 +392,9 @@ type ContainersVolumeMountsObservation struct {
 
 	// Volume's name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
 }
 
 type ContainersVolumeMountsParameters struct {
@@ -400,12 +406,20 @@ type ContainersVolumeMountsParameters struct {
 	// Volume's name.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	// +kubebuilder:validation:Optional
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
 }
 
 type GcsInitParameters struct {
 
 	// Name of the cloud storage bucket to back the volume. The resource service account must have permission to access the bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
+
+	// A list of flags to pass to the gcsfuse command for configuring this volume.
+	// Flags should be passed without leading dashes.
+	MountOptions []*string `json:"mountOptions,omitempty" tf:"mount_options,omitempty"`
 
 	// If true, mount this volume as read-only in all mounts.
 	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
@@ -416,6 +430,10 @@ type GcsObservation struct {
 	// Name of the cloud storage bucket to back the volume. The resource service account must have permission to access the bucket.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
+	// A list of flags to pass to the gcsfuse command for configuring this volume.
+	// Flags should be passed without leading dashes.
+	MountOptions []*string `json:"mountOptions,omitempty" tf:"mount_options,omitempty"`
+
 	// If true, mount this volume as read-only in all mounts.
 	ReadOnly *bool `json:"readOnly,omitempty" tf:"read_only,omitempty"`
 }
@@ -425,6 +443,11 @@ type GcsParameters struct {
 	// Name of the cloud storage bucket to back the volume. The resource service account must have permission to access the bucket.
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket" tf:"bucket,omitempty"`
+
+	// A list of flags to pass to the gcsfuse command for configuring this volume.
+	// Flags should be passed without leading dashes.
+	// +kubebuilder:validation:Optional
+	MountOptions []*string `json:"mountOptions,omitempty" tf:"mount_options,omitempty"`
 
 	// If true, mount this volume as read-only in all mounts.
 	// +kubebuilder:validation:Optional
@@ -1078,7 +1101,7 @@ type V2JobInitParameters struct {
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Job.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1135,6 +1158,10 @@ type V2JobObservation struct {
 	// The deletion time.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the job is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -1161,7 +1188,7 @@ type V2JobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Job.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1249,7 +1276,7 @@ type V2JobParameters struct {
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Job.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1290,7 +1317,7 @@ type V2JobTemplateInitParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -1318,7 +1345,7 @@ type V2JobTemplateObservation struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -1347,7 +1374,7 @@ type V2JobTemplateParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -1445,11 +1472,11 @@ type ValueSourceSecretKeyRefInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -1475,11 +1502,11 @@ type ValueSourceSecretKeyRefParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
@@ -1490,7 +1517,7 @@ type VolumesEmptyDirInitParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1501,7 +1528,7 @@ type VolumesEmptyDirObservation struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1512,7 +1539,7 @@ type VolumesEmptyDirParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	// +kubebuilder:validation:Optional
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
@@ -1576,11 +1603,11 @@ type VolumesSecretInitParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type VolumesSecretObservation struct {
@@ -1616,17 +1643,17 @@ type VolumesSecretParameters struct {
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 // V2JobSpec defines the desired state of V2Job
 type V2JobSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     V2JobParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   V2JobParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1642,12 +1669,13 @@ type V2JobSpec struct {
 
 // V2JobStatus defines the observed state of V2Job.
 type V2JobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        V2JobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               V2JobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // V2Job is the Schema for the V2Jobs API. A Cloud Run Job resource that references a container image which is run to completion.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

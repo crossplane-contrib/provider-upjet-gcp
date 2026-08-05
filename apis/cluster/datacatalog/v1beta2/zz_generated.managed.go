@@ -5,104 +5,104 @@
 
 package v1beta2
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this Entry.
-func (mg *Entry) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *Entry) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this Entry.
-func (mg *Entry) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *Entry) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this Entry.
-func (mg *Entry) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *Entry) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this Entry.
-func (mg *Entry) GetProviderConfigReference() *xpv1.Reference {
+func (mg *Entry) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this Entry.
-func (mg *Entry) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *Entry) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this Entry.
-func (mg *Entry) SetConditions(c ...xpv1.Condition) {
+func (mg *Entry) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this Entry.
-func (mg *Entry) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *Entry) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this Entry.
-func (mg *Entry) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *Entry) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this Entry.
-func (mg *Entry) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *Entry) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this Entry.
-func (mg *Entry) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *Entry) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TagTemplate.
-func (mg *TagTemplate) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TagTemplate) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this TagTemplate.
-func (mg *TagTemplate) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *TagTemplate) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this TagTemplate.
-func (mg *TagTemplate) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TagTemplate) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TagTemplate.
-func (mg *TagTemplate) GetProviderConfigReference() *xpv1.Reference {
+func (mg *TagTemplate) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TagTemplate.
-func (mg *TagTemplate) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *TagTemplate) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TagTemplate.
-func (mg *TagTemplate) SetConditions(c ...xpv1.Condition) {
+func (mg *TagTemplate) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this TagTemplate.
-func (mg *TagTemplate) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *TagTemplate) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this TagTemplate.
-func (mg *TagTemplate) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TagTemplate) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TagTemplate.
-func (mg *TagTemplate) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *TagTemplate) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TagTemplate.
-func (mg *TagTemplate) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *TagTemplate) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

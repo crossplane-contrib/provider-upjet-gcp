@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceAttachmentInitParameters struct {
@@ -22,11 +21,11 @@ type InstanceAttachmentInitParameters struct {
 
 	// Reference to a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentRef *v1.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
+	EnvironmentRef *v2.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentSelector *v1.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
+	EnvironmentSelector *v2.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
 
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
@@ -36,14 +35,18 @@ type InstanceAttachmentInitParameters struct {
 
 	// Reference to a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
 }
 
 type InstanceAttachmentObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The resource ID of the environment.
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
@@ -68,11 +71,11 @@ type InstanceAttachmentParameters struct {
 
 	// Reference to a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentRef *v1.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
+	EnvironmentRef *v2.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentSelector *v1.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
+	EnvironmentSelector *v2.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
 
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
@@ -83,11 +86,11 @@ type InstanceAttachmentParameters struct {
 
 	// Reference to a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
 }
 
 // InstanceAttachmentSpec defines the desired state of InstanceAttachment
@@ -109,8 +112,8 @@ type InstanceAttachmentSpec struct {
 
 // InstanceAttachmentStatus defines the observed state of InstanceAttachment.
 type InstanceAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PolicyTagInitParameters struct {
@@ -35,11 +35,11 @@ type PolicyTagInitParameters struct {
 
 	// Reference to a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagRef *v1.Reference `json:"parentPolicyTagRef,omitempty" tf:"-"`
+	ParentPolicyTagRef *v2.Reference `json:"parentPolicyTagRef,omitempty" tf:"-"`
 
 	// Selector for a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagSelector *v1.Selector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
+	ParentPolicyTagSelector *v2.Selector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
 
 	// Taxonomy the policy tag is associated with
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta1.Taxonomy
@@ -48,17 +48,21 @@ type PolicyTagInitParameters struct {
 
 	// Reference to a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomyRef *v1.Reference `json:"taxonomyRef,omitempty" tf:"-"`
+	TaxonomyRef *v2.Reference `json:"taxonomyRef,omitempty" tf:"-"`
 
 	// Selector for a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomySelector *v1.Selector `json:"taxonomySelector,omitempty" tf:"-"`
+	TaxonomySelector *v2.Selector `json:"taxonomySelector,omitempty" tf:"-"`
 }
 
 type PolicyTagObservation struct {
 
 	// Resource names of child policy tags of this policy tag.
 	ChildPolicyTags []*string `json:"childPolicyTags,omitempty" tf:"child_policy_tags,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of this policy tag. It must: contain only unicode characters, tabs,
 	// newlines, carriage returns and page breaks; and be at most 2000 bytes long when
@@ -112,11 +116,11 @@ type PolicyTagParameters struct {
 
 	// Reference to a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagRef *v1.Reference `json:"parentPolicyTagRef,omitempty" tf:"-"`
+	ParentPolicyTagRef *v2.Reference `json:"parentPolicyTagRef,omitempty" tf:"-"`
 
 	// Selector for a PolicyTag in datacatalog to populate parentPolicyTag.
 	// +kubebuilder:validation:Optional
-	ParentPolicyTagSelector *v1.Selector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
+	ParentPolicyTagSelector *v2.Selector `json:"parentPolicyTagSelector,omitempty" tf:"-"`
 
 	// Taxonomy the policy tag is associated with
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta1.Taxonomy
@@ -126,17 +130,17 @@ type PolicyTagParameters struct {
 
 	// Reference to a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomyRef *v1.Reference `json:"taxonomyRef,omitempty" tf:"-"`
+	TaxonomyRef *v2.Reference `json:"taxonomyRef,omitempty" tf:"-"`
 
 	// Selector for a Taxonomy in datacatalog to populate taxonomy.
 	// +kubebuilder:validation:Optional
-	TaxonomySelector *v1.Selector `json:"taxonomySelector,omitempty" tf:"-"`
+	TaxonomySelector *v2.Selector `json:"taxonomySelector,omitempty" tf:"-"`
 }
 
 // PolicyTagSpec defines the desired state of PolicyTag
 type PolicyTagSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PolicyTagParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PolicyTagParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,8 +156,8 @@ type PolicyTagSpec struct {
 
 // PolicyTagStatus defines the observed state of PolicyTag.
 type PolicyTagStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyTagObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyTagObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

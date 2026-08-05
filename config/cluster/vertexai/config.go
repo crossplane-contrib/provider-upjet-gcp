@@ -12,9 +12,9 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_vertex_ai_index", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 	p.AddResourceConfigurator("google_vertex_ai_tensorboard", func(r *config.Resource) {
-		config.MarkAsRequired(r.TerraformResource, "region")
+		r.MarkAsRequired("region")
 	})
 }

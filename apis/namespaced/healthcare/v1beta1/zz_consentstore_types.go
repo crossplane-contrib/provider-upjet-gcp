@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConsentStoreInitParameters struct {
@@ -24,11 +23,11 @@ type ConsentStoreInitParameters struct {
 
 	// Reference to a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
@@ -62,6 +61,10 @@ type ConsentStoreObservation struct {
 	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	DefaultConsentTTL *string `json:"defaultConsentTtl,omitempty" tf:"default_consent_ttl,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -105,11 +108,11 @@ type ConsentStoreParameters struct {
 
 	// Reference to a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in healthcare to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// Default time to live for consents in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
@@ -157,8 +160,8 @@ type ConsentStoreSpec struct {
 
 // ConsentStoreStatus defines the observed state of ConsentStore.
 type ConsentStoreStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConsentStoreObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConsentStoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

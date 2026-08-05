@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AddressInitParameters struct {
@@ -28,6 +28,12 @@ type AddressInitParameters struct {
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// The PDP must support enhanced IPv4 allocations.
+	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
@@ -52,11 +58,11 @@ type AddressInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM.
@@ -84,11 +90,11 @@ type AddressInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type AddressObservation struct {
@@ -97,6 +103,9 @@ type AddressObservation struct {
 	// The IP address must be inside the specified subnetwork,
 	// if any. Set by the API if undefined.
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// The unique numeric identifier for the resource. This identifier is defined by the server.
+	AddressID *string `json:"addressId,omitempty" tf:"address_id,omitempty"`
 
 	// The type of address to reserve.
 	// Note: if you set this argument's value as INTERNAL you need to leave the network_tier argument unset in that resource block.
@@ -107,6 +116,10 @@ type AddressObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -116,6 +129,12 @@ type AddressObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// The PDP must support enhanced IPv4 allocations.
+	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
@@ -197,6 +216,13 @@ type AddressParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// The PDP must support enhanced IPv4 allocations.
+	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+	// Full resource URL, as in:
+	// +kubebuilder:validation:Optional
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
 	// +kubebuilder:validation:Optional
@@ -224,11 +250,11 @@ type AddressParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The networking tier used for configuring this address. If this field is not
 	// specified, it is assumed to be PREMIUM.
@@ -266,17 +292,17 @@ type AddressParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 // AddressSpec defines the desired state of Address
 type AddressSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AddressParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AddressParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -292,8 +318,8 @@ type AddressSpec struct {
 
 // AddressStatus defines the observed state of Address.
 type AddressStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AddressObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AddressObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AttestationAuthorityNoteInitParameters struct {
@@ -27,11 +27,11 @@ type AttestationAuthorityNoteInitParameters struct {
 
 	// Reference to a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceRef *v1.Reference `json:"noteReferenceRef,omitempty" tf:"-"`
+	NoteReferenceRef *v2.Reference `json:"noteReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceSelector *v1.Selector `json:"noteReferenceSelector,omitempty" tf:"-"`
+	NoteReferenceSelector *v2.Selector `json:"noteReferenceSelector,omitempty" tf:"-"`
 
 	// Public keys that verify attestations signed by this attestor. This
 	// field may be updated.
@@ -93,11 +93,11 @@ type AttestationAuthorityNoteParameters struct {
 
 	// Reference to a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceRef *v1.Reference `json:"noteReferenceRef,omitempty" tf:"-"`
+	NoteReferenceRef *v2.Reference `json:"noteReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a Note in containeranalysis to populate noteReference.
 	// +kubebuilder:validation:Optional
-	NoteReferenceSelector *v1.Selector `json:"noteReferenceSelector,omitempty" tf:"-"`
+	NoteReferenceSelector *v2.Selector `json:"noteReferenceSelector,omitempty" tf:"-"`
 
 	// Public keys that verify attestations signed by this attestor. This
 	// field may be updated.
@@ -131,6 +131,10 @@ type AttestorObservation struct {
 	// A Container Analysis ATTESTATION_AUTHORITY Note, created by the user.
 	// Structure is documented below.
 	AttestationAuthorityNote *AttestationAuthorityNoteObservation `json:"attestationAuthorityNote,omitempty" tf:"attestation_authority_note,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A descriptive comment. This field may be updated. The field may be
 	// displayed in chooser dialogs.
@@ -311,8 +315,8 @@ type PublicKeysParameters struct {
 
 // AttestorSpec defines the desired state of Attestor
 type AttestorSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AttestorParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AttestorParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -328,12 +332,13 @@ type AttestorSpec struct {
 
 // AttestorStatus defines the observed state of Attestor.
 type AttestorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AttestorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AttestorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Attestor is the Schema for the Attestors API. An attestor that attests to container image artifacts.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

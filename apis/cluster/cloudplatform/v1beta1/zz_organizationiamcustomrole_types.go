@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type OrganizationIAMCustomRoleInitParameters struct {
@@ -41,6 +41,10 @@ type OrganizationIAMCustomRoleObservation struct {
 
 	// The current deleted state of the role.
 	Deleted *bool `json:"deleted,omitempty" tf:"deleted,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description for the role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -102,8 +106,8 @@ type OrganizationIAMCustomRoleParameters struct {
 
 // OrganizationIAMCustomRoleSpec defines the desired state of OrganizationIAMCustomRole
 type OrganizationIAMCustomRoleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     OrganizationIAMCustomRoleParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   OrganizationIAMCustomRoleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -119,8 +123,8 @@ type OrganizationIAMCustomRoleSpec struct {
 
 // OrganizationIAMCustomRoleStatus defines the observed state of OrganizationIAMCustomRole.
 type OrganizationIAMCustomRoleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        OrganizationIAMCustomRoleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               OrganizationIAMCustomRoleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
