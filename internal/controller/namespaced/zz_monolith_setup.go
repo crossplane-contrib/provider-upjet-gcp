@@ -380,6 +380,7 @@ import (
 	connectionservicenetworking "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/servicenetworking/connection"
 	repository "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sourcerepo/repository"
 	repositoryiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sourcerepo/repositoryiammember"
+	backupschedule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/backupschedule"
 	databasespanner "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/database"
 	databaseiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/databaseiammember"
 	instancespanner "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/instance"
@@ -792,6 +793,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connectionservicenetworking.Setup,
 		repository.Setup,
 		repositoryiammember.Setup,
+		backupschedule.Setup,
 		databasespanner.Setup,
 		databaseiammember.Setup,
 		instancespanner.Setup,
@@ -1210,6 +1212,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connectionservicenetworking.SetupGated,
 		repository.SetupGated,
 		repositoryiammember.SetupGated,
+		backupschedule.SetupGated,
 		databasespanner.SetupGated,
 		databaseiammember.SetupGated,
 		instancespanner.SetupGated,
@@ -1627,6 +1630,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		connectionservicenetworking.SetupWebhookWithManager,
 		repository.SetupWebhookWithManager,
 		repositoryiammember.SetupWebhookWithManager,
+		backupschedule.SetupWebhookWithManager,
 		databasespanner.SetupWebhookWithManager,
 		databaseiammember.SetupWebhookWithManager,
 		instancespanner.SetupWebhookWithManager,

@@ -827,6 +827,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_spanner_instance_iam_member": config.IdentifierFromProvider,
 	// google_spanner_database_iam_member.database "project-name/instance-name/database-name roles/viewer user:foo@example.com"
 	"google_spanner_database_iam_member": config.IdentifierFromProvider,
+	// google_spanner_backup_schedule "projects/{{project}}/instances/{{instance}}/databases/{{database}}/backupSchedules/{{name}}"
+	"google_spanner_backup_schedule": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .parameters.database }}/backupSchedules/{{ .external_name }}"),
 
 	// sql
 	//
