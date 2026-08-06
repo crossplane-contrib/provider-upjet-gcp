@@ -1,0 +1,65 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: spanner.gcp.upbound.io/v1beta1
+kind: BackupSchedule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta1/backupschedule
+  labels:
+    testing.upbound.io/example-name: full-backup
+  name: full-backup
+spec:
+  forProvider:
+    databaseSelector:
+      matchLabels:
+        testing.upbound.io/example-name: database
+    encryptionConfig:
+      encryptionType: USE_DATABASE_ENCRYPTION
+    fullBackupSpec: {}
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    retentionDuration: 31620000s
+    spec:
+      cronSpec:
+        text: 0 12 * * *
+
+---
+
+apiVersion: spanner.gcp.upbound.io/v1beta2
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta1/backupschedule
+  labels:
+    testing.upbound.io/example-name: database
+  name: database
+spec:
+  forProvider:
+    ddl:
+    - CREATE TABLE t1 (t1 INT64 NOT NULL,) PRIMARY KEY(t1)
+    - CREATE TABLE t2 (t2 INT64 NOT NULL,) PRIMARY KEY(t2)
+    deletionProtection: false
+    instanceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    versionRetentionPeriod: 3d
+
+---
+
+apiVersion: spanner.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: spanner/v1beta1/backupschedule
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    config: regional-europe-west1
+    displayName: main
+    processingUnits: 100
+    forceDestroy: true

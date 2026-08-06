@@ -113,6 +113,7 @@ import (
 	v1beta1servicenetworking "github.com/upbound/provider-gcp/v2/apis/cluster/servicenetworking/v1beta1"
 	v1beta1sourcerepo "github.com/upbound/provider-gcp/v2/apis/cluster/sourcerepo/v1beta1"
 	v1beta2sourcerepo "github.com/upbound/provider-gcp/v2/apis/cluster/sourcerepo/v1beta2"
+	v1beta1spanner "github.com/upbound/provider-gcp/v2/apis/cluster/spanner/v1beta1"
 	v1beta2spanner "github.com/upbound/provider-gcp/v2/apis/cluster/spanner/v1beta2"
 	v1beta1sql "github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta1"
 	v1beta2sql "github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2"
@@ -235,6 +236,7 @@ func init() {
 		v1beta1servicenetworking.SchemeBuilder.AddToScheme,
 		v1beta1sourcerepo.SchemeBuilder.AddToScheme,
 		v1beta2sourcerepo.SchemeBuilder.AddToScheme,
+		v1beta1spanner.SchemeBuilder.AddToScheme,
 		v1beta2spanner.SchemeBuilder.AddToScheme,
 		v1beta1sql.SchemeBuilder.AddToScheme,
 		v1beta2sql.SchemeBuilder.AddToScheme,
