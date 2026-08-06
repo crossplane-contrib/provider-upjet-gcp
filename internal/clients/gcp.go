@@ -21,6 +21,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	transporttpg "github.com/hashicorp/terraform-provider-google/google/transport"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -229,6 +230,13 @@ func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
 		return errors.Errorf("failed to configure the provider: %v", diag)
 	}
 	ps.Meta = p.Meta()
+	// The framework provider must wrap this just-configured provider copy:
+	// upstream's FrameworkProvider.Configure ignores the configuration it
+	// receives and reads Primary.Meta() instead, so wrapping the shared
+	// module-level instance would yield a nil meta and panic, while wrapping
+	// the per-reconcile copy also preserves the ProviderConfig isolation
+	// described above.
+	ps.FrameworkProvider = fwprovider.New(&p)
 	if config, ok := ps.Meta.(*transporttpg.Config); ok && config.Client != nil {
 		base := config.Client.Transport
 		if base == nil {
