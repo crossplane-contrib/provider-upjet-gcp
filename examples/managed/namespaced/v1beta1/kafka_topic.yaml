@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managed.gcp.m.upbound.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: example4
+  namespace: default
+spec:
+  forProvider:
+    cluster: my-cluster
+    configs:
+      cleanup.policy: delete
+      compression.type: producer
+      min.insync.replicas: "2"
+    location: europe-north1
+    partitionCount: 4
+    replicationFactor: 3
+  providerConfigRef:
+    name: default
+    kind: ProviderConfig
