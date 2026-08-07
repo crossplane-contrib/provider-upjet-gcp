@@ -109,6 +109,9 @@ import (
 	service "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/serviceiammember"
 	v2job "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2job"
+	v2jobiambinding "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2jobiambinding"
+	v2jobiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2jobiammember"
+	v2jobiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2jobiampolicy"
 	v2service "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2service"
 	jobcloudscheduler "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudtasks/queue"
@@ -522,6 +525,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		service.Setup,
 		serviceiammember.Setup,
 		v2job.Setup,
+		v2jobiambinding.Setup,
+		v2jobiammember.Setup,
+		v2jobiampolicy.Setup,
 		v2service.Setup,
 		jobcloudscheduler.Setup,
 		queue.Setup,
@@ -941,6 +947,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		service.SetupGated,
 		serviceiammember.SetupGated,
 		v2job.SetupGated,
+		v2jobiambinding.SetupGated,
+		v2jobiammember.SetupGated,
+		v2jobiampolicy.SetupGated,
 		v2service.SetupGated,
 		jobcloudscheduler.SetupGated,
 		queue.SetupGated,
@@ -1359,6 +1368,9 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		service.SetupWebhookWithManager,
 		serviceiammember.SetupWebhookWithManager,
 		v2job.SetupWebhookWithManager,
+		v2jobiambinding.SetupWebhookWithManager,
+		v2jobiammember.SetupWebhookWithManager,
+		v2jobiampolicy.SetupWebhookWithManager,
 		v2service.SetupWebhookWithManager,
 		jobcloudscheduler.SetupWebhookWithManager,
 		queue.SetupWebhookWithManager,
