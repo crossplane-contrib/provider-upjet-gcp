@@ -21,6 +21,7 @@ require (
 	github.com/hashicorp/terraform-provider-google v1.20.1-0.20260630172028-e40b75688dfe
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.23.2
+	google.golang.org/api v0.285.0
 	google.golang.org/grpc v1.82.1
 	k8s.io/api v0.35.3
 	k8s.io/apiextensions-apiserver v0.35.0
@@ -194,7 +195,6 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	golang.org/x/tools v0.47.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
-	google.golang.org/api v0.285.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20260319201613-d00831a3d3e7 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260414002931-afd174a4e478 // indirect
