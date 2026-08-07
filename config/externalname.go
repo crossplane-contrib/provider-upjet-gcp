@@ -27,20 +27,13 @@ var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName
 
 // apigeeKeystoresAliasesKeyCertFile returns the external-name configuration
 // for the google_apigee_keystores_aliases_key_cert_file Terraform resource.
-// Ideally this resource would use TemplatedStringAsIdentifier("alias", ...),
-// and such a configuration used to sit in the framework external-name table —
-// but it was never actually applied (the table was not wired into
-// resourceConfigurator), so the shipped CRD keeps alias as a spec field.
-// Activating the templated configuration now would remove alias from the
-// spec, a breaking API change; the configuration is therefore kept
-// unnormalized on an IdentifierFromProvider base.
 // The upstream plugin-framework Read implementation surfaces API 404s as
 // error-severity diagnostics instead of removing the resource from state
 // (fwtransport.SendRequest appends the error to diags), so without the
 // suppression below every pre-create Observe fails and the resource can
 // never be created.
 func apigeeKeystoresAliasesKeyCertFile() config.ExternalName {
-	e := config.IdentifierFromProvider
+	e := config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}")
 	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
 		for _, d := range diags {
 			if d.Severity == tfprotov6.DiagnosticSeverityError &&
