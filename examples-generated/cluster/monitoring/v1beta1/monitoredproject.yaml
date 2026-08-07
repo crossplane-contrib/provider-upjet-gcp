@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: monitoring.gcp.upbound.io/v1beta1
+kind: MonitoredProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/monitoredproject
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    metricsScope: my-project-name
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/monitoredproject
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    deletionPolicy: DELETE
+    name: m-id-display
+    orgId: "123456789"
+    projectId: m-id
