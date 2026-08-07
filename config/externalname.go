@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 
 	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
@@ -18,10 +19,56 @@ import (
 // provider.
 var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	"google_apigee_keystores_aliases_key_cert_file": apigeeKeystoresAliasesKeyCertFile(),
 
-	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
+	// Imported by using the following {{bucket}}/notificationConfigs/{{id}}
+	"google_storage_notification": storageNotification(),
+}
+
+// apigeeKeystoresAliasesKeyCertFile returns the external-name configuration
+// for the google_apigee_keystores_aliases_key_cert_file Terraform resource.
+// The upstream plugin-framework Read implementation surfaces API 404s as
+// error-severity diagnostics instead of removing the resource from state
+// (fwtransport.SendRequest appends the error to diags), so without the
+// suppression below every pre-create Observe fails and the resource can
+// never be created.
+func apigeeKeystoresAliasesKeyCertFile() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}")
+	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
+		for _, d := range diags {
+			if d.Severity == tfprotov6.DiagnosticSeverityError &&
+				d.Summary == "Error when sending HTTP request: " &&
+				(strings.Contains(d.Detail, "googleapi: Error 404:") || strings.Contains(d.Detail, "googleapi: got HTTP response code 404")) {
+				return true
+			}
+		}
+		return false
+	}
+	return e
+}
+
+// storageNotification returns the external-name configuration for the
+// google_storage_notification Terraform resource. The notification id is
+// server-generated, so before creation there is no way to construct the
+// Terraform resource ID ({{bucket}}/notificationConfigs/{{id}}) and the
+// upstream plugin-framework Read implementation rejects the empty ID with
+// an error-severity diagnostic instead of reporting "resource not found".
+// The suppression below matches only the empty-ID variant of that
+// diagnostic; a malformed non-empty external name still surfaces as an
+// error.
+func storageNotification() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
+		for _, d := range diags {
+			if d.Severity == tfprotov6.DiagnosticSeverityError &&
+				d.Summary == "Invalid resource ID" &&
+				strings.HasSuffix(d.Detail, "got ''") {
+				return true
+			}
+		}
+		return false
+	}
+	return e
 }
 
 // terraformPluginSDKExternalNameConfigs contains all external name configurations
@@ -1298,16 +1345,18 @@ func identifierFromProviderWithComputedName() config.ExternalName {
 }
 
 // resourceConfigurator applies all external name configs
-// listed in the table terraformPluginSDKExternalNameConfigs and
+// listed in the tables terraformPluginSDKExternalNameConfigs,
+// terraformPluginFrameworkExternalNameConfigs and
 // cliReconciledExternalNameConfigs and sets the version
-// of those resources to v1beta1. For those resource in
-// terraformPluginSDKExternalNameConfigs, it also sets
-// config.Resource.UseNoForkClient to `true`.
+// of those resources to v1beta1.
 func resourceConfigurator() config.ResourceOption {
 	return func(r *config.Resource) {
 		// if configured both for the no-fork and CLI based architectures,
 		// no-fork configuration prevails
 		e, configured := terraformPluginSDKExternalNameConfigs[r.Name]
+		if !configured {
+			e, configured = terraformPluginFrameworkExternalNameConfigs[r.Name]
+		}
 		if !configured {
 			e, configured = cliReconciledExternalNameConfigs[r.Name]
 		}
