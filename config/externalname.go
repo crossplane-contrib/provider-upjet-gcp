@@ -33,10 +33,7 @@ var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName
 // resourceConfigurator), so the shipped CRD keeps alias as a spec field.
 // Activating the templated configuration now would remove alias from the
 // spec, a breaking API change; the configuration is therefore kept
-// unnormalized on an IdentifierFromProvider base. The upstream resource's
-// Read builds its request URL from the alias/org_id/environment/keystore
-// attributes rather than the Terraform ID, so this works for import and
-// state reconstruction as well.
+// unnormalized on an IdentifierFromProvider base.
 // The upstream plugin-framework Read implementation surfaces API 404s as
 // error-severity diagnostics instead of removing the resource from state
 // (fwtransport.SendRequest appends the error to diags), so without the

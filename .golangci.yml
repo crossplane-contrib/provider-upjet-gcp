@@ -145,6 +145,10 @@ linters:
       - path: .*config\.go
         linters:
           - goconst
+      # Ease goconst warnings on externalname.go files as they target terraform resource names and terraform errors.
+      - path: .*externalname.*\.go
+        linters:
+          - goconst
 
 issues:
   new: false
