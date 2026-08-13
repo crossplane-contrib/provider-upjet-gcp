@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertsInfoInitParameters struct {
@@ -45,34 +44,14 @@ type CertsInfoParameters struct {
 }
 
 type KeystoresAliasesKeyCertFileInitParameters struct {
-	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
-
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
+	KeySecretRef *v2.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
-	KeySecretRef *v1.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
-
-	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
-
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
-	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
-
-	// Reference to a Organization in apigee to populate orgId.
-	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
-
-	// Selector for a Organization in apigee to populate orgId.
-	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
-
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 }
 
 type KeystoresAliasesKeyCertFileObservation struct {
-	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
-
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
 	CertsInfo []CertsInfoObservation `json:"certsInfo,omitempty" tf:"certs_info,omitempty"`
@@ -91,35 +70,32 @@ type KeystoresAliasesKeyCertFileObservation struct {
 type KeystoresAliasesKeyCertFileParameters struct {
 
 	// +kubebuilder:validation:Optional
-	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
-
-	// +kubebuilder:validation:Optional
 	Cert *string `json:"cert,omitempty" tf:"cert,omitempty"`
 
-	// +kubebuilder:validation:Optional
-	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
+	// +kubebuilder:validation:Required
+	Environment *string `json:"environment" tf:"environment,omitempty"`
 
 	// +kubebuilder:validation:Optional
-	KeySecretRef *v1.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
-	// +kubebuilder:validation:Optional
-	Keystore *string `json:"keystore,omitempty" tf:"keystore,omitempty"`
+	// +kubebuilder:validation:Required
+	Keystore *string `json:"keystore" tf:"keystore,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 }
 
 // KeystoresAliasesKeyCertFileSpec defines the desired state of KeystoresAliasesKeyCertFile
@@ -141,8 +117,8 @@ type KeystoresAliasesKeyCertFileSpec struct {
 
 // KeystoresAliasesKeyCertFileStatus defines the observed state of KeystoresAliasesKeyCertFile.
 type KeystoresAliasesKeyCertFileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KeystoresAliasesKeyCertFileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KeystoresAliasesKeyCertFileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -158,10 +134,7 @@ type KeystoresAliasesKeyCertFileStatus struct {
 type KeystoresAliasesKeyCertFile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.alias) || (has(self.initProvider) && has(self.initProvider.alias))",message="spec.forProvider.alias is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.cert) || (has(self.initProvider) && has(self.initProvider.cert))",message="spec.forProvider.cert is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.environment) || (has(self.initProvider) && has(self.initProvider.environment))",message="spec.forProvider.environment is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.keystore) || (has(self.initProvider) && has(self.initProvider.keystore))",message="spec.forProvider.keystore is a required parameter"
 	Spec   KeystoresAliasesKeyCertFileSpec   `json:"spec"`
 	Status KeystoresAliasesKeyCertFileStatus `json:"status,omitempty"`
 }

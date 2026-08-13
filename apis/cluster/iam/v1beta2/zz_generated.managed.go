@@ -5,54 +5,54 @@
 
 package v1beta2
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *WorkloadIdentityPoolProvider) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *WorkloadIdentityPoolProvider) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *WorkloadIdentityPoolProvider) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv1.Reference {
+func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *WorkloadIdentityPoolProvider) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetConditions(c ...xpv1.Condition) {
+func (mg *WorkloadIdentityPoolProvider) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *WorkloadIdentityPoolProvider) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *WorkloadIdentityPoolProvider) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *WorkloadIdentityPoolProvider) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

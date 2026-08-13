@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllowByDefaultInitParameters struct {
@@ -161,17 +161,17 @@ type ConfigInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Configuration related to quotas.
 	// Structure is documented below.
@@ -274,18 +274,18 @@ type ConfigParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Configuration related to quotas.
 	// Structure is documented below.
@@ -842,8 +842,8 @@ type TriggersParameters struct {
 
 // ConfigSpec defines the desired state of Config
 type ConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -859,8 +859,8 @@ type ConfigSpec struct {
 
 // ConfigStatus defines the observed state of Config.
 type ConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

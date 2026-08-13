@@ -51,6 +51,11 @@ spec:
           spec:
             description: A ProviderConfigSpec defines the desired state of a ProviderConfig.
             properties:
+              billingProject:
+                description: |-
+                  BillingProject is the project name (not numerical ID) to attribute API
+                  requests to. Only used when userProjectOverride is true.
+                type: string
               credentials:
                 description: Credentials required to authenticate to this provider.
                 properties:
@@ -185,6 +190,13 @@ spec:
                   rule: '!has(self.exponentialFailureRateLimiter) || !has(self.exponentialFailureRateLimiter.baseDelay)
                     || has(self.exponentialFailureRateLimiter.maxDelay) || duration(self.exponentialFailureRateLimiter.baseDelay)
                     <= duration(''60s'')'
+              userProjectOverride:
+                description: |-
+                  UserProjectOverride enables attributing API requests to the project in
+                  billingProject (or, when that is unset, the resource's project) by
+                  sending the X-Goog-User-Project header, instead of attributing them to
+                  the credential's home project.
+                type: boolean
             required:
             - credentials
             - projectID

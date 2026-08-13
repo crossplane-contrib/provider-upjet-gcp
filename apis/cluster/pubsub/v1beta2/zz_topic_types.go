@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AIInferenceUnstructuredInferenceInitParameters struct {
@@ -580,17 +580,17 @@ type MessageTransformsAIInferenceInitParameters struct {
 
 	// The service account to use to make prediction requests against
 	// endpoints.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// Configuration for making inferences using arbitrary JSON payloads.
 	// Structure is documented below.
@@ -625,18 +625,18 @@ type MessageTransformsAIInferenceParameters struct {
 
 	// The service account to use to make prediction requests against
 	// endpoints.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// Configuration for making inferences using arbitrary JSON payloads.
 	// Structure is documented below.
@@ -721,30 +721,30 @@ type SchemaSettingsInitParameters struct {
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
 
 	// Reference to a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDRef *v1.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
+	FirstRevisionIDRef *v2.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDSelector *v1.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
+	FirstRevisionIDSelector *v2.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
 
 	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
 
 	// Reference to a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDRef *v1.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
+	LastRevisionIDRef *v2.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDSelector *v1.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
+	LastRevisionIDSelector *v2.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
@@ -782,32 +782,32 @@ type SchemaSettingsParameters struct {
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	// +kubebuilder:validation:Optional
 	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
 
 	// Reference to a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDRef *v1.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
+	FirstRevisionIDRef *v2.Reference `json:"firstRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate firstRevisionId.
 	// +kubebuilder:validation:Optional
-	FirstRevisionIDSelector *v1.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
+	FirstRevisionIDSelector *v2.Selector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
 
 	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	// +kubebuilder:validation:Optional
 	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
 
 	// Reference to a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDRef *v1.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
+	LastRevisionIDRef *v2.Reference `json:"lastRevisionIdRef,omitempty" tf:"-"`
 
 	// Selector for a Schema in pubsub to populate lastRevisionId.
 	// +kubebuilder:validation:Optional
-	LastRevisionIDSelector *v1.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
+	LastRevisionIDSelector *v2.Selector `json:"lastRevisionIdSelector,omitempty" tf:"-"`
 
 	// The name of the schema that messages published should be
 	// validated against. Format is projects/{project}/schemas/{schema}.
@@ -853,17 +853,17 @@ type TopicInitParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this Topic.
 	// +mapType=granular
@@ -1053,18 +1053,18 @@ type TopicParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to this Topic.
 	// +kubebuilder:validation:Optional
@@ -1120,8 +1120,8 @@ type TopicParameters struct {
 
 // TopicSpec defines the desired state of Topic
 type TopicSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TopicParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TopicParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1137,8 +1137,8 @@ type TopicSpec struct {
 
 // TopicStatus defines the observed state of Topic.
 type TopicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TopicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TopicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

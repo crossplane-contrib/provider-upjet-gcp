@@ -5,124 +5,124 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConnectAccountConnector) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConnectAccountConnector) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *ConnectAccountConnector) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *ConnectAccountConnector) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetConditions(c ...xpv1.Condition) {
+func (mg *ConnectAccountConnector) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConnectAccountConnector) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *ConnectAccountConnector) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConnectAccountConnector.
-func (mg *ConnectAccountConnector) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *ConnectAccountConnector) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ConnectConnection.
-func (mg *ConnectConnection) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConnectConnection) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this ConnectConnection.
-func (mg *ConnectConnection) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConnectConnection) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConnectConnection.
-func (mg *ConnectConnection) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *ConnectConnection) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConnectConnection.
-func (mg *ConnectConnection) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *ConnectConnection) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConnectConnection.
-func (mg *ConnectConnection) SetConditions(c ...xpv1.Condition) {
+func (mg *ConnectConnection) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this ConnectConnection.
-func (mg *ConnectConnection) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConnectConnection) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConnectConnection.
-func (mg *ConnectConnection) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *ConnectConnection) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConnectConnection.
-func (mg *ConnectConnection) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *ConnectConnection) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConnectGitRepositoryLink) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConnectGitRepositoryLink) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *ConnectGitRepositoryLink) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *ConnectGitRepositoryLink) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetConditions(c ...xpv1.Condition) {
+func (mg *ConnectGitRepositoryLink) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConnectGitRepositoryLink) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *ConnectGitRepositoryLink) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConnectGitRepositoryLink.
-func (mg *ConnectGitRepositoryLink) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *ConnectGitRepositoryLink) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppEngineHTTPTargetInitParameters struct {
@@ -516,16 +515,16 @@ type PubsubTargetInitParameters struct {
 	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
 	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameRef *v1.NamespacedReference `json:"topicNameRef,omitempty" tf:"-"`
+	TopicNameRef *v2.NamespacedReference `json:"topicNameRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameSelector *v1.NamespacedSelector `json:"topicNameSelector,omitempty" tf:"-"`
+	TopicNameSelector *v2.NamespacedSelector `json:"topicNameSelector,omitempty" tf:"-"`
 }
 
 type PubsubTargetObservation struct {
@@ -565,17 +564,17 @@ type PubsubTargetParameters struct {
 	// messages will be published when a job is delivered. ~>NOTE:
 	// The topic name must be in the same format as required by PubSub's
 	// PublishRequest.name, e.g. projects/my-project/topics/my-topic.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameRef *v1.NamespacedReference `json:"topicNameRef,omitempty" tf:"-"`
+	TopicNameRef *v2.NamespacedReference `json:"topicNameRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameSelector *v1.NamespacedSelector `json:"topicNameSelector,omitempty" tf:"-"`
+	TopicNameSelector *v2.NamespacedSelector `json:"topicNameSelector,omitempty" tf:"-"`
 }
 
 type RetryConfigInitParameters struct {
@@ -683,8 +682,8 @@ type JobSpec struct {
 
 // JobStatus defines the observed state of Job.
 type JobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

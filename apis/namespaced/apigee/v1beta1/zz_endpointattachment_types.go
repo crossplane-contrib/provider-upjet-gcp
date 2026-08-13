@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EndpointAttachmentInitParameters struct {
@@ -21,17 +20,17 @@ type EndpointAttachmentInitParameters struct {
 
 	// The resource URL of the service attachment in the format:
 	// projects/*/regions/*/serviceAttachments/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ServiceAttachment
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
 
 	// Reference to a ServiceAttachment in compute to populate serviceAttachment.
 	// +kubebuilder:validation:Optional
-	ServiceAttachmentRef *v1.NamespacedReference `json:"serviceAttachmentRef,omitempty" tf:"-"`
+	ServiceAttachmentRef *v2.NamespacedReference `json:"serviceAttachmentRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAttachment in compute to populate serviceAttachment.
 	// +kubebuilder:validation:Optional
-	ServiceAttachmentSelector *v1.NamespacedSelector `json:"serviceAttachmentSelector,omitempty" tf:"-"`
+	ServiceAttachmentSelector *v2.NamespacedSelector `json:"serviceAttachmentSelector,omitempty" tf:"-"`
 }
 
 type EndpointAttachmentObservation struct {
@@ -79,18 +78,18 @@ type EndpointAttachmentParameters struct {
 
 	// The resource URL of the service attachment in the format:
 	// projects/*/regions/*/serviceAttachments/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ServiceAttachment
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
 
 	// Reference to a ServiceAttachment in compute to populate serviceAttachment.
 	// +kubebuilder:validation:Optional
-	ServiceAttachmentRef *v1.NamespacedReference `json:"serviceAttachmentRef,omitempty" tf:"-"`
+	ServiceAttachmentRef *v2.NamespacedReference `json:"serviceAttachmentRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAttachment in compute to populate serviceAttachment.
 	// +kubebuilder:validation:Optional
-	ServiceAttachmentSelector *v1.NamespacedSelector `json:"serviceAttachmentSelector,omitempty" tf:"-"`
+	ServiceAttachmentSelector *v2.NamespacedSelector `json:"serviceAttachmentSelector,omitempty" tf:"-"`
 }
 
 // EndpointAttachmentSpec defines the desired state of EndpointAttachment
@@ -112,8 +111,8 @@ type EndpointAttachmentSpec struct {
 
 // EndpointAttachmentStatus defines the observed state of EndpointAttachment.
 type EndpointAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EndpointAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EndpointAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

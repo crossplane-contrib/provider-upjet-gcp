@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectSinkBigqueryOptionsInitParameters struct {
@@ -103,17 +102,17 @@ type ProjectSinkInitParameters struct {
 	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentityRef *v1.NamespacedReference `json:"customWriterIdentityRef,omitempty" tf:"-"`
+	CustomWriterIdentityRef *v2.NamespacedReference `json:"customWriterIdentityRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentitySelector *v1.NamespacedSelector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+	CustomWriterIdentitySelector *v2.NamespacedSelector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -201,18 +200,18 @@ type ProjectSinkParameters struct {
 	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentityRef *v1.NamespacedReference `json:"customWriterIdentityRef,omitempty" tf:"-"`
+	CustomWriterIdentityRef *v2.NamespacedReference `json:"customWriterIdentityRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate customWriterIdentity.
 	// +kubebuilder:validation:Optional
-	CustomWriterIdentitySelector *v1.NamespacedSelector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
+	CustomWriterIdentitySelector *v2.NamespacedSelector `json:"customWriterIdentitySelector,omitempty" tf:"-"`
 
 	// A description of this sink. The maximum length of the description is 8000 characters.
 	// +kubebuilder:validation:Optional
@@ -267,8 +266,8 @@ type ProjectSinkSpec struct {
 
 // ProjectSinkStatus defines the observed state of ProjectSink.
 type ProjectSinkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectSinkObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectSinkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

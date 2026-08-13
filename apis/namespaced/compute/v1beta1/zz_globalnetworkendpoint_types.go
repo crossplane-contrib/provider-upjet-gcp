@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GlobalNetworkEndpointInitParameters struct {
@@ -21,16 +20,16 @@ type GlobalNetworkEndpointInitParameters struct {
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
 	// The global network endpoint group this endpoint is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.GlobalNetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.GlobalNetworkEndpointGroup
 	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup,omitempty" tf:"global_network_endpoint_group,omitempty"`
 
 	// Reference to a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	GlobalNetworkEndpointGroupRef *v1.NamespacedReference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
+	GlobalNetworkEndpointGroupRef *v2.NamespacedReference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	GlobalNetworkEndpointGroupSelector *v1.NamespacedSelector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	GlobalNetworkEndpointGroupSelector *v2.NamespacedSelector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
@@ -78,17 +77,17 @@ type GlobalNetworkEndpointParameters struct {
 	Fqdn *string `json:"fqdn,omitempty" tf:"fqdn,omitempty"`
 
 	// The global network endpoint group this endpoint is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.GlobalNetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.GlobalNetworkEndpointGroup
 	// +kubebuilder:validation:Optional
 	GlobalNetworkEndpointGroup *string `json:"globalNetworkEndpointGroup,omitempty" tf:"global_network_endpoint_group,omitempty"`
 
 	// Reference to a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	GlobalNetworkEndpointGroupRef *v1.NamespacedReference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
+	GlobalNetworkEndpointGroupRef *v2.NamespacedReference `json:"globalNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a GlobalNetworkEndpointGroup in compute to populate globalNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	GlobalNetworkEndpointGroupSelector *v1.NamespacedSelector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	GlobalNetworkEndpointGroupSelector *v2.NamespacedSelector `json:"globalNetworkEndpointGroupSelector,omitempty" tf:"-"`
 
 	// IPv4 address external endpoint.
 	// +kubebuilder:validation:Optional
@@ -123,8 +122,8 @@ type GlobalNetworkEndpointSpec struct {
 
 // GlobalNetworkEndpointStatus defines the observed state of GlobalNetworkEndpoint.
 type GlobalNetworkEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GlobalNetworkEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GlobalNetworkEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CloudRunServiceInitParameters struct {
@@ -22,16 +22,16 @@ type CloudRunServiceInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Required. Name of the GKE service.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudrun/v1beta2.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudrun/v1beta2.Service
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type CloudRunServiceObservation struct {
@@ -57,17 +57,17 @@ type CloudRunServiceParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Required. Name of the GKE service.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudrun/v1beta2.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudrun/v1beta2.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type DestinationInitParameters struct {
@@ -281,17 +281,17 @@ type NetworkConfigParameters struct {
 type PubsubInitParameters struct {
 
 	// Optional. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}. You may set an existing topic for triggers of the type google.cloud.pubsub.topic.v1.messagePublished only. The topic you provide here will not be deleted by Eventarc at trigger deletion.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubObservation struct {
@@ -307,18 +307,18 @@ type PubsubObservation struct {
 type PubsubParameters struct {
 
 	// Optional. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: projects/{PROJECT_ID}/topics/{TOPIC_NAME}. You may set an existing topic for triggers of the type google.cloud.pubsub.topic.v1.messagePublished only. The topic you provide here will not be deleted by Eventarc at trigger deletion.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.Reference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.Reference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.Selector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.Selector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type RetryPolicyInitParameters struct {
@@ -531,8 +531,8 @@ type TriggerParameters struct {
 
 // TriggerSpec defines the desired state of Trigger
 type TriggerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TriggerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TriggerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -548,8 +548,8 @@ type TriggerSpec struct {
 
 // TriggerStatus defines the observed state of Trigger.
 type TriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

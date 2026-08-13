@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DataTransferConfigInitParameters struct {
@@ -26,16 +26,16 @@ type DataTransferConfigInitParameters struct {
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
 
 	// The BigQuery target dataset id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDRef *v1.Reference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
+	DestinationDatasetIDRef *v2.Reference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDSelector *v1.Selector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
+	DestinationDatasetIDSelector *v2.Selector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
 
 	// When set to true, no runs are scheduled for a given transfer.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -186,7 +186,7 @@ type DataTransferConfigObservation struct {
 	// Credentials may not be specified in both locations and will cause an error. Changing from one location
 	// to a different credential configuration in the config will require an apply to update state.
 	// Structure is documented below.
-	SensitiveParams *SensitiveParamsObservation `json:"sensitiveParams,omitempty" tf:"sensitive_params,omitempty"`
+	SensitiveParams *SensitiveParamsParameters `json:"sensitiveParams,omitempty" tf:"sensitive_params,omitempty"`
 
 	// Service account email. If this field is set, transfer config will
 	// be created with this service account credentials. It requires that
@@ -209,17 +209,17 @@ type DataTransferConfigParameters struct {
 	DataSourceID *string `json:"dataSourceId,omitempty" tf:"data_source_id,omitempty"`
 
 	// The BigQuery target dataset id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DestinationDatasetID *string `json:"destinationDatasetId,omitempty" tf:"destination_dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDRef *v1.Reference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
+	DestinationDatasetIDRef *v2.Reference `json:"destinationDatasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate destinationDatasetId.
 	// +kubebuilder:validation:Optional
-	DestinationDatasetIDSelector *v1.Selector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
+	DestinationDatasetIDSelector *v2.Selector `json:"destinationDatasetIdSelector,omitempty" tf:"-"`
 
 	// When set to true, no runs are scheduled for a given transfer.
 	// +kubebuilder:validation:Optional
@@ -319,17 +319,17 @@ type EmailPreferencesParameters struct {
 type EncryptionConfigurationInitParameters struct {
 
 	// The name of the KMS key used for encrypting BigQuery data.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type EncryptionConfigurationObservation struct {
@@ -341,18 +341,18 @@ type EncryptionConfigurationObservation struct {
 type EncryptionConfigurationParameters struct {
 
 	// The name of the KMS key used for encrypting BigQuery data.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ScheduleOptionsInitParameters struct {
@@ -431,24 +431,10 @@ type SensitiveParamsInitParameters struct {
 
 	// The Secret Access Key of the AWS account transferring data from.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
-
-	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is write-only and will not be read from the API.
-	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
-
-	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
-	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
+	SecretAccessKeySecretRef *v2.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 }
 
 type SensitiveParamsObservation struct {
-
-	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is write-only and will not be read from the API.
-	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
-
-	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
-	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
 }
 
 type SensitiveParamsParameters struct {
@@ -456,22 +442,13 @@ type SensitiveParamsParameters struct {
 	// The Secret Access Key of the AWS account transferring data from.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	SecretAccessKeySecretRef *v1.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
-
-	// The Secret Access Key of the AWS account transferring data from.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	SecretAccessKeyWo *string `json:"secretAccessKeyWo,omitempty" tf:"secret_access_key_wo,omitempty"`
-
-	// The version of the sensitive params - used to trigger updates of the write-only params. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	SecretAccessKeyWoVersion *float64 `json:"secretAccessKeyWoVersion,omitempty" tf:"secret_access_key_wo_version,omitempty"`
+	SecretAccessKeySecretRef *v2.SecretKeySelector `json:"secretAccessKeySecretRef,omitempty" tf:"-"`
 }
 
 // DataTransferConfigSpec defines the desired state of DataTransferConfig
 type DataTransferConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DataTransferConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DataTransferConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -487,8 +464,8 @@ type DataTransferConfigSpec struct {
 
 // DataTransferConfigStatus defines the observed state of DataTransferConfig.
 type DataTransferConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DataTransferConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DataTransferConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

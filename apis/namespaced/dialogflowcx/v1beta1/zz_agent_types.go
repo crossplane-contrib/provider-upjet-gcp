@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdvancedSettingsInitParameters struct {
@@ -536,7 +535,7 @@ type GithubSettingsInitParameters struct {
 
 	// The access token used to authenticate the access to the GitHub repository.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AccessTokenSecretRef *v1.LocalSecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
+	AccessTokenSecretRef *v2.LocalSecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
 
 	// A list of branches configured to be used from Dialogflow.
 	Branches []*string `json:"branches,omitempty" tf:"branches,omitempty"`
@@ -571,7 +570,7 @@ type GithubSettingsParameters struct {
 	// The access token used to authenticate the access to the GitHub repository.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AccessTokenSecretRef *v1.LocalSecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
+	AccessTokenSecretRef *v2.LocalSecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
 
 	// A list of branches configured to be used from Dialogflow.
 	// +kubebuilder:validation:Optional
@@ -775,8 +774,8 @@ type AgentSpec struct {
 
 // AgentStatus defines the observed state of Agent.
 type AgentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AgentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AgentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

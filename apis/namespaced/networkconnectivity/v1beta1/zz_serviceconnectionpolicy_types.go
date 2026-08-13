@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ErrorInfoInitParameters struct {
@@ -74,17 +73,17 @@ type PscConfigInitParameters struct {
 	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetworks []*string `json:"subnetworks,omitempty" tf:"subnetworks,omitempty"`
 
 	// References to Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksRefs []v1.NamespacedReference `json:"subnetworksRefs,omitempty" tf:"-"`
+	SubnetworksRefs []v2.NamespacedReference `json:"subnetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksSelector *v1.NamespacedSelector `json:"subnetworksSelector,omitempty" tf:"-"`
+	SubnetworksSelector *v2.NamespacedSelector `json:"subnetworksSelector,omitempty" tf:"-"`
 }
 
 type PscConfigObservation struct {
@@ -137,18 +136,18 @@ type PscConfigParameters struct {
 	ProducerInstanceLocation *string `json:"producerInstanceLocation,omitempty" tf:"producer_instance_location,omitempty"`
 
 	// IDs of the subnetworks or fully qualified identifiers for the subnetworks
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetworks []*string `json:"subnetworks,omitempty" tf:"subnetworks,omitempty"`
 
 	// References to Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksRefs []v1.NamespacedReference `json:"subnetworksRefs,omitempty" tf:"-"`
+	SubnetworksRefs []v2.NamespacedReference `json:"subnetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate subnetworks.
 	// +kubebuilder:validation:Optional
-	SubnetworksSelector *v1.NamespacedSelector `json:"subnetworksSelector,omitempty" tf:"-"`
+	SubnetworksSelector *v2.NamespacedSelector `json:"subnetworksSelector,omitempty" tf:"-"`
 }
 
 type PscConnectionsInitParameters struct {
@@ -202,17 +201,17 @@ type ServiceConnectionPolicyInitParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -305,18 +304,18 @@ type ServiceConnectionPolicyParameters struct {
 	Location *string `json:"location" tf:"location,omitempty"`
 
 	// The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -354,8 +353,8 @@ type ServiceConnectionPolicySpec struct {
 
 // ServiceConnectionPolicyStatus defines the observed state of ServiceConnectionPolicy.
 type ServiceConnectionPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceConnectionPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceConnectionPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -48,17 +48,17 @@ type MembershipIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/gkehub/v1beta2.Membership
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/gkehub/v1beta2.Membership
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
 
 	// Reference to a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDRef *v1.Reference `json:"membershipIdRef,omitempty" tf:"-"`
+	MembershipIDRef *v2.Reference `json:"membershipIdRef,omitempty" tf:"-"`
 
 	// Selector for a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDSelector *v1.Selector `json:"membershipIdSelector,omitempty" tf:"-"`
+	MembershipIDSelector *v2.Selector `json:"membershipIdSelector,omitempty" tf:"-"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -94,18 +94,18 @@ type MembershipIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/gkehub/v1beta2.Membership
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/gkehub/v1beta2.Membership
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	MembershipID *string `json:"membershipId,omitempty" tf:"membership_id,omitempty"`
 
 	// Reference to a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDRef *v1.Reference `json:"membershipIdRef,omitempty" tf:"-"`
+	MembershipIDRef *v2.Reference `json:"membershipIdRef,omitempty" tf:"-"`
 
 	// Selector for a Membership in gkehub to populate membershipId.
 	// +kubebuilder:validation:Optional
-	MembershipIDSelector *v1.Selector `json:"membershipIdSelector,omitempty" tf:"-"`
+	MembershipIDSelector *v2.Selector `json:"membershipIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -116,8 +116,8 @@ type MembershipIAMMemberParameters struct {
 
 // MembershipIAMMemberSpec defines the desired state of MembershipIAMMember
 type MembershipIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MembershipIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   MembershipIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -133,8 +133,8 @@ type MembershipIAMMemberSpec struct {
 
 // MembershipIAMMemberStatus defines the observed state of MembershipIAMMember.
 type MembershipIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MembershipIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MembershipIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

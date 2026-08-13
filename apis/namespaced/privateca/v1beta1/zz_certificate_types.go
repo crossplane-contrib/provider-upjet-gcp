@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdditionalExtensionsObjectIDInitParameters struct {
@@ -104,33 +103,33 @@ type CertificateInitParameters struct {
 	// a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
 	// argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
 	// should be set to my-ca.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CertificateAuthority
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateTemplate used to issue this certificate,
 	// in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
 	// the caller must have the necessary permission to use this template. If this is
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateRef *v1.NamespacedReference `json:"certificateTemplateRef,omitempty" tf:"-"`
+	CertificateTemplateRef *v2.NamespacedReference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateSelector *v1.NamespacedSelector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+	CertificateTemplateSelector *v2.NamespacedSelector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
 	// The config used to create a self-signed X.509 certificate or CSR.
 	// Structure is documented below.
@@ -244,35 +243,35 @@ type CertificateParameters struct {
 	// a Certificate Authority with resource name projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca,
 	// argument pool should be set to projects/my-project/locations/us-central1/caPools/my-pool, argument certificate_authority
 	// should be set to my-ca.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CertificateAuthority
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.NamespacedReference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.NamespacedSelector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// The resource name for a CertificateTemplate used to issue this certificate,
 	// in the format projects/*/locations/*/certificateTemplates/*. If this is specified,
 	// the caller must have the necessary permission to use this template. If this is
 	// omitted, no template will be used. This template must be in the same location
 	// as the Certificate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CertificateTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateRef *v1.NamespacedReference `json:"certificateTemplateRef,omitempty" tf:"-"`
+	CertificateTemplateRef *v2.NamespacedReference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateSelector *v1.NamespacedSelector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+	CertificateTemplateSelector *v2.NamespacedSelector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
 	// The config used to create a self-signed X.509 certificate or CSR.
 	// Structure is documented below.
@@ -300,17 +299,17 @@ type CertificateParameters struct {
 	PemCsr *string `json:"pemCsr,omitempty" tf:"pem_csr,omitempty"`
 
 	// The name of the CaPool this Certificate belongs to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CAPool
 	// +kubebuilder:validation:Optional
 	Pool *string `json:"pool,omitempty" tf:"pool,omitempty"`
 
 	// Reference to a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolRef *v1.NamespacedReference `json:"poolRef,omitempty" tf:"-"`
+	PoolRef *v2.NamespacedReference `json:"poolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolSelector *v1.NamespacedSelector `json:"poolSelector,omitempty" tf:"-"`
+	PoolSelector *v2.NamespacedSelector `json:"poolSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -386,7 +385,7 @@ type ConfigPublicKeyInitParameters struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// Required. A public key. When this is specified in a request, the padding and encoding can be any of the options described by the respective 'KeyType' value. When this is generated by the service, it will always be an RFC 5280 SubjectPublicKeyInfo structure containing an algorithm identifier and a key. A base64-encoded string.
-	KeySecretRef *v1.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 }
 
 type ConfigPublicKeyObservation struct {
@@ -405,7 +404,7 @@ type ConfigPublicKeyParameters struct {
 
 	// Required. A public key. When this is specified in a request, the padding and encoding can be any of the options described by the respective 'KeyType' value. When this is generated by the service, it will always be an RFC 5280 SubjectPublicKeyInfo structure containing an algorithm identifier and a key. A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	KeySecretRef *v1.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.LocalSecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 }
 
 type ConfigSubjectKeyIDInitParameters struct {
@@ -1695,8 +1694,8 @@ type CertificateSpec struct {
 
 // CertificateStatus defines the observed state of Certificate.
 type CertificateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdvertisedIPRangesInitParameters struct {
@@ -245,17 +245,17 @@ type RouterInitParameters struct {
 	Md5AuthenticationKeys *Md5AuthenticationKeysInitParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
 	// A reference to the network to which this router belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -333,18 +333,18 @@ type RouterParameters struct {
 	Md5AuthenticationKeys *Md5AuthenticationKeysParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
 	// A reference to the network to which this router belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -391,8 +391,8 @@ type RouterParamsParameters struct {
 
 // RouterSpec defines the desired state of Router
 type RouterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RouterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RouterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -408,8 +408,8 @@ type RouterSpec struct {
 
 // RouterStatus defines the observed state of Router.
 type RouterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AnalyticsHubListingInitParameters struct {
@@ -175,18 +174,18 @@ type AnalyticsHubListingParameters struct {
 	Categories []*string `json:"categories,omitempty" tf:"categories,omitempty"`
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_exchange_id",false)
 	// +kubebuilder:validation:Optional
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// Details of the data provider who owns the source data.
 	// Structure is documented below.
@@ -258,17 +257,17 @@ type AnalyticsHubListingParameters struct {
 type BigqueryDatasetInitParameters struct {
 
 	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Dataset
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// A list of regions where the publisher has created shared dataset replicas.
 	// +listType=set
@@ -302,18 +301,18 @@ type BigqueryDatasetObservation struct {
 type BigqueryDatasetParameters struct {
 
 	// Resource name of the dataset source for this listing. e.g. projects/myproject/datasets/123
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Dataset
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Dataset *string `json:"dataset,omitempty" tf:"dataset,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetRef *v1.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
+	DatasetRef *v2.NamespacedReference `json:"datasetRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate dataset.
 	// +kubebuilder:validation:Optional
-	DatasetSelector *v1.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
+	DatasetSelector *v2.NamespacedSelector `json:"datasetSelector,omitempty" tf:"-"`
 
 	// A list of regions where the publisher has created shared dataset replicas.
 	// +kubebuilder:validation:Optional
@@ -446,17 +445,17 @@ type PubsubTopicInitParameters struct {
 	DataAffinityRegions []*string `json:"dataAffinityRegions,omitempty" tf:"data_affinity_regions,omitempty"`
 
 	// Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubTopicObservation struct {
@@ -479,18 +478,18 @@ type PubsubTopicParameters struct {
 	DataAffinityRegions []*string `json:"dataAffinityRegions,omitempty" tf:"data_affinity_regions,omitempty"`
 
 	// Resource name of the Pub/Sub topic source for this listing. e.g. projects/myproject/topics/topicId
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type RestrictedExportConfigInitParameters struct {
@@ -529,30 +528,30 @@ type RestrictedExportConfigParameters struct {
 type SelectedResourcesInitParameters struct {
 
 	// Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId} Example:"projects/test_project/datasets/test_dataset/routines/test_routine"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Routine
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Routine
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Routine *string `json:"routine,omitempty" tf:"routine,omitempty"`
 
 	// Reference to a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineRef *v1.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
+	RoutineRef *v2.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineSelector *v1.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
+	RoutineSelector *v2.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
 
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// Reference to a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type SelectedResourcesObservation struct {
@@ -567,32 +566,32 @@ type SelectedResourcesObservation struct {
 type SelectedResourcesParameters struct {
 
 	// Format: For routine: projects/{projectId}/datasets/{datasetId}/routines/{routineId} Example:"projects/test_project/datasets/test_dataset/routines/test_routine"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Routine
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Routine
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Routine *string `json:"routine,omitempty" tf:"routine,omitempty"`
 
 	// Reference to a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineRef *v1.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
+	RoutineRef *v2.NamespacedReference `json:"routineRef,omitempty" tf:"-"`
 
 	// Selector for a Routine in bigquery to populate routine.
 	// +kubebuilder:validation:Optional
-	RoutineSelector *v1.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
+	RoutineSelector *v2.NamespacedSelector `json:"routineSelector,omitempty" tf:"-"`
 
 	// Format: For table: projects/{projectId}/datasets/{datasetId}/tables/{tableId} Example:"projects/test_project/datasets/test_dataset/tables/test_table"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Table
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// Reference to a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 // AnalyticsHubListingSpec defines the desired state of AnalyticsHubListing
@@ -614,8 +613,8 @@ type AnalyticsHubListingSpec struct {
 
 // AnalyticsHubListingStatus defines the observed state of AnalyticsHubListing.
 type AnalyticsHubListingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AnalyticsHubListingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AnalyticsHubListingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type OrganizationInitParameters struct {
@@ -30,17 +29,17 @@ type OrganizationInitParameters struct {
 	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
 	// See Getting started with the Service Networking API.
 	// Valid only when RuntimeType is set to CLOUD. The value can be updated only when there are no runtime instances. For example: "default".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
 	// Reference to a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// Billing type of the Apigee organization. See Apigee pricing.
 	BillingType *string `json:"billingType,omitempty" tf:"billing_type,omitempty"`
@@ -81,17 +80,17 @@ type OrganizationInitParameters struct {
 	// Update is not allowed after the organization is created.
 	// If not specified, a Google-Managed encryption key will be used.
 	// Valid only when RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	RuntimeDatabaseEncryptionKeyName *string `json:"runtimeDatabaseEncryptionKeyName,omitempty" tf:"runtime_database_encryption_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameRef *v1.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameRef *v2.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameSelector *v1.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameSelector *v2.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
@@ -204,18 +203,18 @@ type OrganizationParameters struct {
 	// Compute Engine network used for Service Networking to be peered with Apigee runtime instances.
 	// See Getting started with the Service Networking API.
 	// Valid only when RuntimeType is set to CLOUD. The value can be updated only when there are no runtime instances. For example: "default".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
 	// Reference to a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// Billing type of the Apigee organization. See Apigee pricing.
 	// +kubebuilder:validation:Optional
@@ -264,18 +263,18 @@ type OrganizationParameters struct {
 	// Update is not allowed after the organization is created.
 	// If not specified, a Google-Managed encryption key will be used.
 	// Valid only when RuntimeType is CLOUD. For example: projects/foo/locations/us/keyRings/bar/cryptoKeys/baz.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	RuntimeDatabaseEncryptionKeyName *string `json:"runtimeDatabaseEncryptionKeyName,omitempty" tf:"runtime_database_encryption_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameRef *v1.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameRef *v2.NamespacedReference `json:"runtimeDatabaseEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate runtimeDatabaseEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	RuntimeDatabaseEncryptionKeyNameSelector *v1.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
+	RuntimeDatabaseEncryptionKeyNameSelector *v2.NamespacedSelector `json:"runtimeDatabaseEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Runtime type of the Apigee organization based on the Apigee subscription purchased.
 	// Default value is CLOUD.
@@ -354,8 +353,8 @@ type OrganizationSpec struct {
 
 // OrganizationStatus defines the observed state of Organization.
 type OrganizationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        OrganizationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               OrganizationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

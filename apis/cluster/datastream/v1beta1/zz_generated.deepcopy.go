@@ -9,7 +9,7 @@
 package v1beta1
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -671,12 +671,12 @@ func (in *BlmtConfigInitParameters) DeepCopyInto(out *BlmtConfigInitParameters) 
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ConnectionName != nil {
@@ -761,12 +761,12 @@ func (in *BlmtConfigParameters) DeepCopyInto(out *BlmtConfigParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ConnectionName != nil {
@@ -1459,12 +1459,12 @@ func (in *DestinationConfigInitParameters) DeepCopyInto(out *DestinationConfigIn
 	}
 	if in.DestinationConnectionProfileRef != nil {
 		in, out := &in.DestinationConnectionProfileRef, &out.DestinationConnectionProfileRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DestinationConnectionProfileSelector != nil {
 		in, out := &in.DestinationConnectionProfileSelector, &out.DestinationConnectionProfileSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GcsDestinationConfig != nil {
@@ -1529,12 +1529,12 @@ func (in *DestinationConfigParameters) DeepCopyInto(out *DestinationConfigParame
 	}
 	if in.DestinationConnectionProfileRef != nil {
 		in, out := &in.DestinationConnectionProfileRef, &out.DestinationConnectionProfileRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DestinationConnectionProfileSelector != nil {
 		in, out := &in.DestinationConnectionProfileSelector, &out.DestinationConnectionProfileSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GcsDestinationConfig != nil {
@@ -9118,12 +9118,12 @@ func (in *SingleTargetDatasetInitParameters) DeepCopyInto(out *SingleTargetDatas
 	}
 	if in.DatasetIDRef != nil {
 		in, out := &in.DatasetIDRef, &out.DatasetIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DatasetIDSelector != nil {
 		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9168,12 +9168,12 @@ func (in *SingleTargetDatasetParameters) DeepCopyInto(out *SingleTargetDatasetPa
 	}
 	if in.DatasetIDRef != nil {
 		in, out := &in.DatasetIDRef, &out.DatasetIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DatasetIDSelector != nil {
 		in, out := &in.DatasetIDSelector, &out.DatasetIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9228,12 +9228,12 @@ func (in *SourceConfigInitParameters) DeepCopyInto(out *SourceConfigInitParamete
 	}
 	if in.SourceConnectionProfileRef != nil {
 		in, out := &in.SourceConnectionProfileRef, &out.SourceConnectionProfileRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceConnectionProfileSelector != nil {
 		in, out := &in.SourceConnectionProfileSelector, &out.SourceConnectionProfileSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SpannerSourceConfig != nil {
@@ -9348,12 +9348,12 @@ func (in *SourceConfigParameters) DeepCopyInto(out *SourceConfigParameters) {
 	}
 	if in.SourceConnectionProfileRef != nil {
 		in, out := &in.SourceConnectionProfileRef, &out.SourceConnectionProfileRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceConnectionProfileSelector != nil {
 		in, out := &in.SourceConnectionProfileSelector, &out.SourceConnectionProfileSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SpannerSourceConfig != nil {
@@ -9388,12 +9388,12 @@ func (in *SourceHierarchyDatasetsInitParameters) DeepCopyInto(out *SourceHierarc
 	}
 	if in.ProjectIDRef != nil {
 		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectIDSelector != nil {
 		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9448,12 +9448,12 @@ func (in *SourceHierarchyDatasetsParameters) DeepCopyInto(out *SourceHierarchyDa
 	}
 	if in.ProjectIDRef != nil {
 		in, out := &in.ProjectIDRef, &out.ProjectIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectIDSelector != nil {
 		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -10474,7 +10474,7 @@ func (in *StreamParameters) DeepCopy() *StreamParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *StreamSpec) DeepCopyInto(out *StreamSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -10492,7 +10492,7 @@ func (in *StreamSpec) DeepCopy() *StreamSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *StreamStatus) DeepCopyInto(out *StreamStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 

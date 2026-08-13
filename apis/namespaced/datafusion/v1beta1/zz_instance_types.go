@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AcceleratorsInitParameters struct {
@@ -52,17 +51,17 @@ type AcceleratorsParameters struct {
 type CryptoKeyConfigInitParameters struct {
 
 	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KeyReference *string `json:"keyReference,omitempty" tf:"key_reference,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceRef *v1.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
+	KeyReferenceRef *v2.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceSelector *v1.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
+	KeyReferenceSelector *v2.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
 }
 
 type CryptoKeyConfigObservation struct {
@@ -74,18 +73,18 @@ type CryptoKeyConfigObservation struct {
 type CryptoKeyConfigParameters struct {
 
 	// The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects//locations//keyRings//cryptoKeys/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyReference *string `json:"keyReference,omitempty" tf:"key_reference,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceRef *v1.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
+	KeyReferenceRef *v2.NamespacedReference `json:"keyReferenceRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate keyReference.
 	// +kubebuilder:validation:Optional
-	KeyReferenceSelector *v1.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
+	KeyReferenceSelector *v2.NamespacedSelector `json:"keyReferenceSelector,omitempty" tf:"-"`
 }
 
 type EventPublishConfigInitParameters struct {
@@ -94,17 +93,17 @@ type EventPublishConfigInitParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type EventPublishConfigObservation struct {
@@ -123,18 +122,18 @@ type EventPublishConfigParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// The resource name of the Pub/Sub topic. Format: projects/{projectId}/topics/{topic_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type InstanceInitParameters struct {
@@ -721,8 +720,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessUrlsInitParameters struct {
@@ -352,17 +352,17 @@ type CertificateAuthorityParameters struct {
 	PemCACertificate *string `json:"pemCaCertificate,omitempty" tf:"pem_ca_certificate,omitempty"`
 
 	// The name of the CaPool this Certificate Authority belongs to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CAPool
 	// +kubebuilder:validation:Optional
 	Pool *string `json:"pool,omitempty" tf:"pool,omitempty"`
 
 	// Reference to a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolRef *v1.Reference `json:"poolRef,omitempty" tf:"-"`
+	PoolRef *v2.Reference `json:"poolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate pool.
 	// +kubebuilder:validation:Optional
-	PoolSelector *v1.Selector `json:"poolSelector,omitempty" tf:"-"`
+	PoolSelector *v2.Selector `json:"poolSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -1270,17 +1270,17 @@ type SubordinateConfigInitParameters struct {
 	// subordinate CertificateAuthority. This field is used for information
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CertificateAuthority
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
@@ -1308,18 +1308,18 @@ type SubordinateConfigParameters struct {
 	// subordinate CertificateAuthority. This field is used for information
 	// and usability purposes only. The resource name is in the format
 	// projects/*/locations/*/caPools/*/certificateAuthorities/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateAuthority
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CertificateAuthority
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	CertificateAuthority *string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// Reference to a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthorityRef *v1.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
+	CertificateAuthorityRef *v2.Reference `json:"certificateAuthorityRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateAuthority in privateca to populate certificateAuthority.
 	// +kubebuilder:validation:Optional
-	CertificateAuthoritySelector *v1.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
+	CertificateAuthoritySelector *v2.Selector `json:"certificateAuthoritySelector,omitempty" tf:"-"`
 
 	// Contains the PEM certificate chain for the issuers of this CertificateAuthority,
 	// but not pem certificate for this CA itself.
@@ -1359,8 +1359,8 @@ type UserDefinedAccessUrlsParameters struct {
 
 // CertificateAuthoritySpec defines the desired state of CertificateAuthority
 type CertificateAuthoritySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CertificateAuthorityParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CertificateAuthorityParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1376,8 +1376,8 @@ type CertificateAuthoritySpec struct {
 
 // CertificateAuthorityStatus defines the observed state of CertificateAuthority.
 type CertificateAuthorityStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateAuthorityObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateAuthorityObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

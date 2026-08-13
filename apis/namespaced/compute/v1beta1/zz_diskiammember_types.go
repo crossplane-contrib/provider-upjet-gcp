@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -47,16 +46,16 @@ type DiskIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Disk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -91,17 +90,17 @@ type DiskIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Disk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -132,8 +131,8 @@ type DiskIAMMemberSpec struct {
 
 // DiskIAMMemberStatus defines the observed state of DiskIAMMember.
 type DiskIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DiskIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DiskIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

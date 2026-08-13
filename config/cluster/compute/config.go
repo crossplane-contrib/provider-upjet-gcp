@@ -14,12 +14,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	"github.com/upbound/provider-gcp/v2/config/cluster/common"
+	"github.com/upbound/provider-gcp/v3/config/cluster/common"
 )
 
 const (
 	// SelfPackagePath is the golang path for this package.
-	SelfPackagePath = "github.com/upbound/provider-gcp/v2/config/cluster/compute"
+	SelfPackagePath = "github.com/upbound/provider-gcp/v3/config/cluster/compute"
 )
 
 var (
@@ -342,6 +342,10 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_region_instance_group_manager",
 			Extractor:     PathInstanceGroupExtractor,
 		}
+		r.References["security_policy"] = config.Reference{
+			TerraformName: "google_compute_region_security_policy",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
 		r.MarkAsRequired("region")
 	})
 
@@ -408,6 +412,8 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_region_ssl_certificate", func(r *config.Resource) {
 		r.MarkAsRequired("region")
+		delete(r.TerraformResource.Schema, "private_key_wo")
+		delete(r.TerraformResource.Schema, "private_key_wo_version")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_https_proxy", func(r *config.Resource) {
@@ -436,7 +442,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_instance_group_named_port", func(r *config.Resource) {
 		// Note(donovanmuller): see https://github.com/upbound/official-providers/issues/597
 		// r.References["group"] = config.Reference{
-		// 	Type:      "github.com/upbound/provider-gcp/v2/apis/cluster/container/v1beta1.Cluster",
+		// 	Type:      "github.com/upbound/provider-gcp/v3/apis/cluster/container/v1beta1.Cluster",
 		// 	Extractor: PathClusterInstanceGroupExtractor,
 		// }
 	})
@@ -464,6 +470,8 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_ha_vpn_gateway",
 		}
 		r.MarkAsRequired("region")
+		delete(r.TerraformResource.Schema, "shared_secret_wo")
+		delete(r.TerraformResource.Schema, "shared_secret_wo_version")
 	})
 
 	p.AddResourceConfigurator("google_compute_target_https_proxy", func(r *config.Resource) {
@@ -522,9 +530,28 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 		r.References["match.src_secure_tags.name"] = config.Reference{
 			TerraformName: "google_tags_tag_value",
 		}
+		// The GCP API returns HTTP 400 (not 404) when a firewall policy
+		// rule at the specified priority does not exist. The Terraform
+		// provider's HandleNotFoundError only handles 404, so the
+		// initial observe call fails instead of recognizing the resource
+		// needs to be created.
+		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/836
+		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
+		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
+			err := origRead(d, meta)
+			if err != nil && strings.Contains(err.Error(), "does not contain a rule at priority") {
+				d.SetId("")
+				return nil
+			}
+			return err
+		}
 	})
 	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
 		r.MarkAsRequired("region")
+	})
+	p.AddResourceConfigurator("google_compute_ssl_certificate", func(r *config.Resource) {
+		delete(r.TerraformResource.Schema, "private_key_wo")
+		delete(r.TerraformResource.Schema, "private_key_wo_version")
 	})
 }
 

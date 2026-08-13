@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DirectoryServicesInitParameters struct {
@@ -238,17 +238,17 @@ type InstanceInitParameters struct {
 	InitialReplication *InitialReplicationInitParameters `json:"initialReplication,omitempty" tf:"initial_replication,omitempty"`
 
 	// KMS key name used for data encryption.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// Resource labels to represent user-provided metadata.
 	// +mapType=granular
@@ -441,18 +441,18 @@ type InstanceParameters struct {
 	InitialReplication *InitialReplicationParameters `json:"initialReplication,omitempty" tf:"initial_replication,omitempty"`
 
 	// KMS key name used for data encryption.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.Reference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.Selector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 
 	// Resource labels to represent user-provided metadata.
 	// +kubebuilder:validation:Optional
@@ -908,8 +908,8 @@ type ReplicasParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -925,8 +925,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

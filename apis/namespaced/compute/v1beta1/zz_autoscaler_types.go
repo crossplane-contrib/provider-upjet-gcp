@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalerInitParameters struct {
@@ -32,17 +31,17 @@ type AutoscalerInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type AutoscalerObservation struct {
@@ -103,18 +102,18 @@ type AutoscalerParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
 
 	// URL of the zone where the instance group resides.
 	// +kubebuilder:validation:Required
@@ -706,8 +705,8 @@ type AutoscalerSpec struct {
 
 // AutoscalerStatus defines the observed state of Autoscaler.
 type AutoscalerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoscalerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoscalerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

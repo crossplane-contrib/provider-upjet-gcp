@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SharedVPCServiceProjectInitParameters struct {
@@ -20,30 +19,30 @@ type SharedVPCServiceProjectInitParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractProjectID()
 	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate hostProject.
 	// +kubebuilder:validation:Optional
-	HostProjectRef *v1.NamespacedReference `json:"hostProjectRef,omitempty" tf:"-"`
+	HostProjectRef *v2.NamespacedReference `json:"hostProjectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate hostProject.
 	// +kubebuilder:validation:Optional
-	HostProjectSelector *v1.NamespacedSelector `json:"hostProjectSelector,omitempty" tf:"-"`
+	HostProjectSelector *v2.NamespacedSelector `json:"hostProjectSelector,omitempty" tf:"-"`
 
 	// The ID of the project that will serve as a Shared VPC service project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractProjectID()
 	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate serviceProject.
 	// +kubebuilder:validation:Optional
-	ServiceProjectRef *v1.NamespacedReference `json:"serviceProjectRef,omitempty" tf:"-"`
+	ServiceProjectRef *v2.NamespacedReference `json:"serviceProjectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate serviceProject.
 	// +kubebuilder:validation:Optional
-	ServiceProjectSelector *v1.NamespacedSelector `json:"serviceProjectSelector,omitempty" tf:"-"`
+	ServiceProjectSelector *v2.NamespacedSelector `json:"serviceProjectSelector,omitempty" tf:"-"`
 }
 
 type SharedVPCServiceProjectObservation struct {
@@ -68,32 +67,32 @@ type SharedVPCServiceProjectParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate hostProject.
 	// +kubebuilder:validation:Optional
-	HostProjectRef *v1.NamespacedReference `json:"hostProjectRef,omitempty" tf:"-"`
+	HostProjectRef *v2.NamespacedReference `json:"hostProjectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate hostProject.
 	// +kubebuilder:validation:Optional
-	HostProjectSelector *v1.NamespacedSelector `json:"hostProjectSelector,omitempty" tf:"-"`
+	HostProjectSelector *v2.NamespacedSelector `json:"hostProjectSelector,omitempty" tf:"-"`
 
 	// The ID of the project that will serve as a Shared VPC service project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate serviceProject.
 	// +kubebuilder:validation:Optional
-	ServiceProjectRef *v1.NamespacedReference `json:"serviceProjectRef,omitempty" tf:"-"`
+	ServiceProjectRef *v2.NamespacedReference `json:"serviceProjectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate serviceProject.
 	// +kubebuilder:validation:Optional
-	ServiceProjectSelector *v1.NamespacedSelector `json:"serviceProjectSelector,omitempty" tf:"-"`
+	ServiceProjectSelector *v2.NamespacedSelector `json:"serviceProjectSelector,omitempty" tf:"-"`
 }
 
 // SharedVPCServiceProjectSpec defines the desired state of SharedVPCServiceProject
@@ -115,8 +114,8 @@ type SharedVPCServiceProjectSpec struct {
 
 // SharedVPCServiceProjectStatus defines the observed state of SharedVPCServiceProject.
 type SharedVPCServiceProjectStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SharedVPCServiceProjectObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SharedVPCServiceProjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

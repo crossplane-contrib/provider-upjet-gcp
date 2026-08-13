@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NotificationChannelInitParameters struct {
@@ -107,7 +107,7 @@ type NotificationChannelObservation struct {
 	// Credentials may not be specified in both locations and will cause an error. Changing from one location
 	// to a different credential configuration in the config will require an apply to update state.
 	// Structure is documented below.
-	SensitiveLabels *SensitiveLabelsObservation `json:"sensitiveLabels,omitempty" tf:"sensitive_labels,omitempty"`
+	SensitiveLabels *SensitiveLabelsParameters `json:"sensitiveLabels,omitempty" tf:"sensitive_labels,omitempty"`
 
 	// The type of the notification channel. This field matches the value of the NotificationChannelDescriptor.type field. See https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.notificationChannelDescriptors/list to get the list of valid values such as "email", "slack", etc...
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -179,60 +179,18 @@ type SensitiveLabelsInitParameters struct {
 
 	// An authorization token for a notification channel. Channel types that support this field include: slack
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AuthTokenSecretRef *v1.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
-
-	// An authorization token for a notification channel. Channel types that support this field include: slack
-	// Note: This property is write-only and will not be read from the API.
-	AuthTokenWo *string `json:"authTokenWo,omitempty" tf:"auth_token_wo,omitempty"`
-
-	// Triggers update of auth_token_wo write-only. Increment this value when an update to auth_token_wo is needed. For more info see updating write-only arguments
-	AuthTokenWoVersion *string `json:"authTokenWoVersion,omitempty" tf:"auth_token_wo_version,omitempty"`
+	AuthTokenSecretRef *v2.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
 
 	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
-
-	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
-	// Note: This property is write-only and will not be read from the API.
-	ServiceKeyWo *string `json:"serviceKeyWo,omitempty" tf:"service_key_wo,omitempty"`
-
-	// Triggers update of service_key_wo write-only. Increment this value when an update to service_key_wo is needed. For more info see updating write-only arguments
-	ServiceKeyWoVersion *string `json:"serviceKeyWoVersion,omitempty" tf:"service_key_wo_version,omitempty"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 }
 
 type SensitiveLabelsObservation struct {
-
-	// An authorization token for a notification channel. Channel types that support this field include: slack
-	// Note: This property is write-only and will not be read from the API.
-	AuthTokenWo *string `json:"authTokenWo,omitempty" tf:"auth_token_wo,omitempty"`
-
-	// Triggers update of auth_token_wo write-only. Increment this value when an update to auth_token_wo is needed. For more info see updating write-only arguments
-	AuthTokenWoVersion *string `json:"authTokenWoVersion,omitempty" tf:"auth_token_wo_version,omitempty"`
-
-	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
-	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
-	// Note: This property is write-only and will not be read from the API.
-	ServiceKeyWo *string `json:"serviceKeyWo,omitempty" tf:"service_key_wo,omitempty"`
-
-	// Triggers update of service_key_wo write-only. Increment this value when an update to service_key_wo is needed. For more info see updating write-only arguments
-	ServiceKeyWoVersion *string `json:"serviceKeyWoVersion,omitempty" tf:"service_key_wo_version,omitempty"`
 }
 
 type SensitiveLabelsParameters struct {
@@ -240,50 +198,23 @@ type SensitiveLabelsParameters struct {
 	// An authorization token for a notification channel. Channel types that support this field include: slack
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AuthTokenSecretRef *v1.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
-
-	// An authorization token for a notification channel. Channel types that support this field include: slack
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	AuthTokenWo *string `json:"authTokenWo,omitempty" tf:"auth_token_wo,omitempty"`
-
-	// Triggers update of auth_token_wo write-only. Increment this value when an update to auth_token_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	AuthTokenWoVersion *string `json:"authTokenWoVersion,omitempty" tf:"auth_token_wo_version,omitempty"`
+	AuthTokenSecretRef *v2.SecretKeySelector `json:"authTokenSecretRef,omitempty" tf:"-"`
 
 	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// An password for a notification channel. Channel types that support this field include: webhook_basicauth
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ServiceKeySecretRef *v1.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
-
-	// An servicekey token for a notification channel. Channel types that support this field include: pagerduty
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	ServiceKeyWo *string `json:"serviceKeyWo,omitempty" tf:"service_key_wo,omitempty"`
-
-	// Triggers update of service_key_wo write-only. Increment this value when an update to service_key_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	ServiceKeyWoVersion *string `json:"serviceKeyWoVersion,omitempty" tf:"service_key_wo_version,omitempty"`
+	ServiceKeySecretRef *v2.SecretKeySelector `json:"serviceKeySecretRef,omitempty" tf:"-"`
 }
 
 // NotificationChannelSpec defines the desired state of NotificationChannel
 type NotificationChannelSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NotificationChannelParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NotificationChannelParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -299,8 +230,8 @@ type NotificationChannelSpec struct {
 
 // NotificationChannelStatus defines the observed state of NotificationChannel.
 type NotificationChannelStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NotificationChannelObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NotificationChannelObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

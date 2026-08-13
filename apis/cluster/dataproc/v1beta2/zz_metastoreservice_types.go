@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuxiliaryVersionsInitParameters struct {
@@ -64,17 +64,17 @@ type ConsumersInitParameters struct {
 	// It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network.
 	// There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:
 	// `projects/{projectNumber}/regions/{region_id}/subnetworks/{subnetwork_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type ConsumersObservation struct {
@@ -95,18 +95,18 @@ type ConsumersParameters struct {
 	// It is accessible to hosts in the subnet and to all hosts in a subnet in the same region and same network.
 	// There must be at least one IP address available in the subnet's primary range. The subnet is specified in the following form:
 	// `projects/{projectNumber}/regions/{region_id}/subnetworks/{subnetwork_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type DataCatalogConfigInitParameters struct {
@@ -368,17 +368,17 @@ type MetastoreServiceEncryptionConfigInitParameters struct {
 
 	// The fully qualified customer provided Cloud KMS key name to use for customer data encryption.
 	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeyRef *v1.Reference `json:"kmsKeyRef,omitempty" tf:"-"`
+	KMSKeyRef *v2.Reference `json:"kmsKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeySelector *v1.Selector `json:"kmsKeySelector,omitempty" tf:"-"`
+	KMSKeySelector *v2.Selector `json:"kmsKeySelector,omitempty" tf:"-"`
 }
 
 type MetastoreServiceEncryptionConfigObservation struct {
@@ -392,18 +392,18 @@ type MetastoreServiceEncryptionConfigParameters struct {
 
 	// The fully qualified customer provided Cloud KMS key name to use for customer data encryption.
 	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeyRef *v1.Reference `json:"kmsKeyRef,omitempty" tf:"-"`
+	KMSKeyRef *v2.Reference `json:"kmsKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKey.
 	// +kubebuilder:validation:Optional
-	KMSKeySelector *v1.Selector `json:"kmsKeySelector,omitempty" tf:"-"`
+	KMSKeySelector *v2.Selector `json:"kmsKeySelector,omitempty" tf:"-"`
 }
 
 type MetastoreServiceInitParameters struct {
@@ -884,8 +884,8 @@ type TelemetryConfigParameters struct {
 
 // MetastoreServiceSpec defines the desired state of MetastoreService
 type MetastoreServiceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MetastoreServiceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   MetastoreServiceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -901,8 +901,8 @@ type MetastoreServiceSpec struct {
 
 // MetastoreServiceStatus defines the observed state of MetastoreService.
 type MetastoreServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MetastoreServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MetastoreServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

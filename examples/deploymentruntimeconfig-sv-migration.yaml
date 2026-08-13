@@ -1,0 +1,105 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# DeploymentRuntimeConfig that adds a storage version migration init container.
+# Apply this before or alongside the Provider resource when upgrading from a
+# release that carries v1beta1 CRDs to one where v1beta2 is the storage version.
+#
+# Reference it from your Provider via:
+#   spec:
+#     runtimeConfigRef:
+#       name: sv-migration
+#
+# NOTE: Do NOT apply this DRC to the family/config provider package. That
+# package has no managed resources with version history and does not generate
+# the init subcommand, so the init container would fail to start.
+#
+# The init container image must match the provider package image being deployed.
+# Update the image tag whenever you upgrade the provider.
+#
+# RBAC NOTE:
+#   The init container runs under the provider's ServiceAccount. To fully
+#   complete the migration it needs permission to patch customresourcedefinitions/status
+#   (so it can remove the old version from status.storedVersions). This permission
+#   is not granted by Crossplane's RBAC manager by default.
+#
+#   Without it, the object-level migration still succeeds (all v1beta1 objects
+#   are patched and re-stored as v1beta2), but status.storedVersions is not
+#   cleared. The init container logs a warning and continues rather than failing.
+#
+#   To grant the missing permission, apply the ClusterRole and ClusterRoleBinding
+#   defined at the bottom of this file. They bind to the ServiceAccount whose
+#   name is fixed via spec.serviceAccountTemplate.metadata.name below ("sv-migration-sa").
+#   By pinning the SA name in the DRC we can pre-create the binding without
+#   knowing the ephemeral revision name that Crossplane would otherwise assign.
+#   Without this DRC, the SA would be named after the provider revision
+#   (e.g. provider-gcp-storage-abc1234) and would change on every upgrade.
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: sv-migration
+spec:
+  serviceAccountTemplate:
+    metadata:
+      # Pinning the SA name makes the ClusterRoleBinding below stable across
+      # provider upgrades. Change this per sub-provider if needed.
+      name: sv-migration-sa
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              # Must match the provider package image being deployed.
+              image: xpkg.upbound.io/upbound/provider-gcp-storage:v3.0.0
+              args:
+                - --debug
+          initContainers:
+            - name: sv-migrator
+              # Must match the provider package image being deployed.
+              image: xpkg.upbound.io/upbound/provider-gcp-storage:v3.0.0
+              args:
+                - init
+                - --debug
+              securityContext:
+                runAsUser: 2000
+                runAsGroup: 2000
+                allowPrivilegeEscalation: false
+                privileged: false
+                runAsNonRoot: true
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+---
+# ClusterRole granting permission to patch CRD status.
+# Required for the init container to clear status.storedVersions after migration.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: provider-gcp-crd-status-patcher
+rules:
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions/status"]
+    verbs: ["patch"]
+---
+# Binds the ClusterRole to the ServiceAccount named above.
+# Adjust the namespace to match where Crossplane is installed
+# (typically upbound-system or crossplane-system).
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: provider-gcp-crd-status-patcher
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: provider-gcp-crd-status-patcher
+subjects:
+  - kind: ServiceAccount
+    name: sv-migration-sa
+    namespace: upbound-system

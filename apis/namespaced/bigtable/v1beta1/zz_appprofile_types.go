@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppProfileInitParameters struct {
@@ -111,17 +110,17 @@ type AppProfileParameters struct {
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the instance to create the app profile within.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in bigtable to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	MultiClusterRoutingClusterIds []*string `json:"multiClusterRoutingClusterIds,omitempty" tf:"multi_cluster_routing_cluster_ids,omitempty"`
@@ -246,8 +245,8 @@ type AppProfileSpec struct {
 
 // AppProfileStatus defines the observed state of AppProfile.
 type AppProfileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppProfileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppProfileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

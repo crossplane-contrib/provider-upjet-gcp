@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NluSettingsInitParameters struct {
@@ -42,17 +42,17 @@ type VersionInitParameters struct {
 
 	// The Flow to create an Version for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 }
 
 type VersionObservation struct {
@@ -100,24 +100,24 @@ type VersionParameters struct {
 
 	// The Flow to create an Version for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 }
 
 // VersionSpec defines the desired state of Version
 type VersionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VersionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VersionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -133,8 +133,8 @@ type VersionSpec struct {
 
 // VersionStatus defines the observed state of Version.
 type VersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

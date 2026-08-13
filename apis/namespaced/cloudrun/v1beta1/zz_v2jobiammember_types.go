@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type V2JobIAMMemberConditionInitParameters struct {
@@ -49,27 +48,27 @@ type V2JobIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1.V2Job
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudrun/v1beta1.V2Job
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a V2Job in cloudrun to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a V2Job in cloudrun to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
@@ -103,29 +102,29 @@ type V2JobIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1.V2Job
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudrun/v1beta1.V2Job
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a V2Job in cloudrun to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a V2Job in cloudrun to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -150,7 +149,7 @@ type V2JobIAMMemberSpec struct {
 
 // V2JobIAMMemberStatus defines the observed state of V2JobIAMMember.
 type V2JobIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
+	v2.ManagedResourceStatus `json:",inline"`
 	AtProvider        V2JobIAMMemberObservation `json:"atProvider,omitempty"`
 }
 

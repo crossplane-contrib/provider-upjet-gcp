@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConfigMapRefInitParameters struct {
@@ -1019,16 +1019,16 @@ type SecretInitParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
+	SecretNameRef *v2.Reference `json:"secretNameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
+	SecretNameSelector *v2.Selector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretKeyRefInitParameters struct {
@@ -1038,16 +1038,16 @@ type SecretKeyRefInitParameters struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretKeyRefObservation struct {
@@ -1068,17 +1068,17 @@ type SecretKeyRefParameters struct {
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SecretObservation struct {
@@ -1136,17 +1136,17 @@ type SecretParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameRef *v1.Reference `json:"secretNameRef,omitempty" tf:"-"`
+	SecretNameRef *v2.Reference `json:"secretNameRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secretName.
 	// +kubebuilder:validation:Optional
-	SecretNameSelector *v1.Selector `json:"secretNameSelector,omitempty" tf:"-"`
+	SecretNameSelector *v2.Selector `json:"secretNameSelector,omitempty" tf:"-"`
 }
 
 type SecretRefInitParameters struct {
@@ -1254,16 +1254,16 @@ type ServiceMetadataInitParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number. It will default to the resource's project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ServiceMetadataObservation struct {
@@ -1340,17 +1340,17 @@ type ServiceMetadataParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number. It will default to the resource's project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ServiceObservation struct {
@@ -2228,8 +2228,8 @@ type VolumesParameters struct {
 
 // ServiceSpec defines the desired state of Service
 type ServiceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2245,8 +2245,8 @@ type ServiceSpec struct {
 
 // ServiceStatus defines the observed state of Service.
 type ServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

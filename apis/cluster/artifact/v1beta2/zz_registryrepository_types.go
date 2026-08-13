@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AptRepositoryInitParameters struct {
@@ -99,17 +99,17 @@ type CleanupPoliciesParameters struct {
 type CommonRepositoryInitParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 
 	// Reference to a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.Reference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.Selector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type CommonRepositoryObservation struct {
@@ -121,18 +121,18 @@ type CommonRepositoryObservation struct {
 type CommonRepositoryParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 
 	// Reference to a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URIRef *v1.Reference `json:"uriRef,omitempty" tf:"-"`
+	URIRef *v2.Reference `json:"uriRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate uri.
 	// +kubebuilder:validation:Optional
-	URISelector *v1.Selector `json:"uriSelector,omitempty" tf:"-"`
+	URISelector *v2.Selector `json:"uriSelector,omitempty" tf:"-"`
 }
 
 type ConditionInitParameters struct {
@@ -975,17 +975,17 @@ type UpstreamPoliciesInitParameters struct {
 
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// Reference to a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UpstreamPoliciesObservation struct {
@@ -1013,18 +1013,18 @@ type UpstreamPoliciesParameters struct {
 
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
 	// Reference to a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
+	RepositoryRef *v2.Reference `json:"repositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate repository.
 	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
+	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 }
 
 type UsernamePasswordCredentialsInitParameters struct {
@@ -1032,17 +1032,17 @@ type UsernamePasswordCredentialsInitParameters struct {
 	// The Secret Manager key version that holds the password to access the
 	// remote repository. Must be in the format of
 	// projects/{project}/secrets/{secret}/versions/{version}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
 
 	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionRef *v1.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+	PasswordSecretVersionRef *v2.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionSelector *v1.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+	PasswordSecretVersionSelector *v2.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
 
 	// The username to access the remote repository.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -1064,18 +1064,18 @@ type UsernamePasswordCredentialsParameters struct {
 	// The Secret Manager key version that holds the password to access the
 	// remote repository. Must be in the format of
 	// projects/{project}/secrets/{secret}/versions/{version}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
 
 	// Reference to a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionRef *v1.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
+	PasswordSecretVersionRef *v2.Reference `json:"passwordSecretVersionRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate passwordSecretVersion.
 	// +kubebuilder:validation:Optional
-	PasswordSecretVersionSelector *v1.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
+	PasswordSecretVersionSelector *v2.Selector `json:"passwordSecretVersionSelector,omitempty" tf:"-"`
 
 	// The username to access the remote repository.
 	// +kubebuilder:validation:Optional
@@ -1193,8 +1193,8 @@ type YumRepositoryPublicRepositoryParameters struct {
 
 // RegistryRepositorySpec defines the desired state of RegistryRepository
 type RegistryRepositorySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegistryRepositoryParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegistryRepositoryParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1210,8 +1210,8 @@ type RegistryRepositorySpec struct {
 
 // RegistryRepositoryStatus defines the observed state of RegistryRepository.
 type RegistryRepositoryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegistryRepositoryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegistryRepositoryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TopicIAMMemberConditionInitParameters struct {
@@ -51,16 +50,16 @@ type TopicIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type TopicIAMMemberObservation struct {
@@ -93,17 +92,17 @@ type TopicIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 // TopicIAMMemberSpec defines the desired state of TopicIAMMember
@@ -125,8 +124,8 @@ type TopicIAMMemberSpec struct {
 
 // TopicIAMMemberStatus defines the observed state of TopicIAMMember.
 type TopicIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TopicIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TopicIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

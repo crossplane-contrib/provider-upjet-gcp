@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetHTTPProxyInitParameters struct {
@@ -39,17 +39,17 @@ type TargetHTTPProxyInitParameters struct {
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.URLMap
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.URLMap
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type TargetHTTPProxyObservation struct {
@@ -134,24 +134,24 @@ type TargetHTTPProxyParameters struct {
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.URLMap
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.URLMap
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 // TargetHTTPProxySpec defines the desired state of TargetHTTPProxy
 type TargetHTTPProxySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TargetHTTPProxyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TargetHTTPProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -167,8 +167,8 @@ type TargetHTTPProxySpec struct {
 
 // TargetHTTPProxyStatus defines the observed state of TargetHTTPProxy.
 type TargetHTTPProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetHTTPProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetHTTPProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

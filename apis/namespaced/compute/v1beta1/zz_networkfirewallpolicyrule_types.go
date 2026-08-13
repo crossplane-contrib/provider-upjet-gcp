@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MatchLayer4ConfigsInitParameters struct {
@@ -52,16 +51,16 @@ type MatchLayer4ConfigsParameters struct {
 type MatchSrcSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/tags/v1beta1.TagValue
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type MatchSrcSecureTagsObservation struct {
@@ -77,17 +76,17 @@ type MatchSrcSecureTagsObservation struct {
 type MatchSrcSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/tags/v1beta1.TagValue
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a TagValue in tags to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type NetworkFirewallPolicyRuleInitParameters struct {
@@ -136,17 +135,17 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 	// A list of forwarding rules to which this rule applies.
 	// This field allows you to control which load balancers get this rule.
 	// For example, the following are valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
 
 	// References to ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesRefs []v1.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+	TargetForwardingRulesRefs []v2.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesSelector *v1.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+	TargetForwardingRulesSelector *v2.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
 
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
@@ -190,17 +189,17 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 	Layer4Configs []MatchLayer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1.AddressGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v2.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v2.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
@@ -213,17 +212,17 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
 
 	// Networks of the traffic source. It can be either a full or partial url.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
 
 	// References to Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksRefs []v1.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
+	SrcNetworksRefs []v2.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksSelector *v1.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
+	SrcNetworksSelector *v2.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	SrcRegionCodes []*string `json:"srcRegionCodes,omitempty" tf:"src_region_codes,omitempty"`
@@ -321,18 +320,18 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	Layer4Configs []MatchLayer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1.AddressGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
 	// References to AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
+	SrcAddressGroupsRefs []v2.NamespacedReference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
 	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
+	SrcAddressGroupsSelector *v2.NamespacedSelector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
@@ -348,18 +347,18 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
 
 	// Networks of the traffic source. It can be either a full or partial url.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
 
 	// References to Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksRefs []v1.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
+	SrcNetworksRefs []v2.NamespacedReference `json:"srcNetworksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Network in compute to populate srcNetworks.
 	// +kubebuilder:validation:Optional
-	SrcNetworksSelector *v1.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
+	SrcNetworksSelector *v2.NamespacedSelector `json:"srcNetworksSelector,omitempty" tf:"-"`
 
 	// Region codes whose IP addresses will be used to match for source of traffic. Should be specified as 2 letter country code defined as per ISO 3166 alpha-2 country codes. ex."US" Maximum number of source region codes allowed is 5000.
 	// +kubebuilder:validation:Optional
@@ -492,17 +491,17 @@ type NetworkFirewallPolicyRuleParameters struct {
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// The firewall policy of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.NetworkFirewallPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.NetworkFirewallPolicy
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// Reference to a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.NamespacedReference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.NamespacedSelector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// A match condition that incoming traffic is evaluated against. If it evaluates to true, the corresponding 'action' is enforced.
 	// Structure is documented below.
@@ -538,18 +537,18 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// A list of forwarding rules to which this rule applies.
 	// This field allows you to control which load balancers get this rule.
 	// For example, the following are valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
 
 	// References to ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesRefs []v1.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
+	TargetForwardingRulesRefs []v2.NamespacedReference `json:"targetForwardingRulesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ForwardingRule in compute to populate targetForwardingRules.
 	// +kubebuilder:validation:Optional
-	TargetForwardingRulesSelector *v1.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
+	TargetForwardingRulesSelector *v2.NamespacedSelector `json:"targetForwardingRulesSelector,omitempty" tf:"-"`
 
 	// A list of secure tags that controls which instances the firewall rule applies to.
 	// If targetSecureTag are specified, then the firewall rule applies only to instances in the VPC network that have one of those EFFECTIVE secure tags, if all the targetSecureTag are in INEFFECTIVE state, then this rule will be ignored.
@@ -612,8 +611,8 @@ type NetworkFirewallPolicyRuleSpec struct {
 
 // NetworkFirewallPolicyRuleStatus defines the observed state of NetworkFirewallPolicyRule.
 type NetworkFirewallPolicyRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkFirewallPolicyRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkFirewallPolicyRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

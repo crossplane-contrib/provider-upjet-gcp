@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GroupInitParameters struct {
@@ -32,17 +31,17 @@ type GroupInitParameters struct {
 	// The name of the group's parent, if it has one. The format is
 	// "projects/{project_id_or_number}/groups/{group_id}". For
 	// groups with no parent, parentName is the empty string, "".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/monitoring/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	ParentName *string `json:"parentName,omitempty" tf:"parent_name,omitempty"`
 
 	// Reference to a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameRef *v1.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
+	ParentNameRef *v2.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameSelector *v1.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
+	ParentNameSelector *v2.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -106,18 +105,18 @@ type GroupParameters struct {
 	// The name of the group's parent, if it has one. The format is
 	// "projects/{project_id_or_number}/groups/{group_id}". For
 	// groups with no parent, parentName is the empty string, "".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/monitoring/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	ParentName *string `json:"parentName,omitempty" tf:"parent_name,omitempty"`
 
 	// Reference to a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameRef *v1.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
+	ParentNameRef *v2.NamespacedReference `json:"parentNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate parentName.
 	// +kubebuilder:validation:Optional
-	ParentNameSelector *v1.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
+	ParentNameSelector *v2.NamespacedSelector `json:"parentNameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -144,8 +143,8 @@ type GroupSpec struct {
 
 // GroupStatus defines the observed state of Group.
 type GroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppConnectorInitParameters struct {
@@ -123,17 +122,17 @@ type PrincipalInfoParameters struct {
 type ServiceAccountInitParameters struct {
 
 	// Email address of the service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountObservation struct {
@@ -145,18 +144,18 @@ type ServiceAccountObservation struct {
 type ServiceAccountParameters struct {
 
 	// Email address of the service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.NamespacedReference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.NamespacedSelector `json:"emailSelector,omitempty" tf:"-"`
 }
 
 // AppConnectorSpec defines the desired state of AppConnector
@@ -178,8 +177,8 @@ type AppConnectorSpec struct {
 
 // AppConnectorStatus defines the observed state of AppConnector.
 type AppConnectorStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppConnectorObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppConnectorObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

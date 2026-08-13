@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupGeoHealthCheckedTargetsInitParameters struct {
@@ -393,17 +393,17 @@ type PrimaryInitParameters struct {
 type PrimaryInternalLoadBalancersInitParameters struct {
 
 	// The frontend IP address of the load balancer.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("ip_address",false)
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	IPProtocol *string `json:"ipProtocol,omitempty" tf:"ip_protocol,omitempty"`
@@ -412,47 +412,47 @@ type PrimaryInternalLoadBalancersInitParameters struct {
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// The configured port of the load balancer.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The region of the load balancer. Only needed for regional load balancers.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 }
 
 type PrimaryInternalLoadBalancersObservation struct {
@@ -483,18 +483,18 @@ type PrimaryInternalLoadBalancersObservation struct {
 type PrimaryInternalLoadBalancersParameters struct {
 
 	// The frontend IP address of the load balancer.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("ip_address",false)
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The configured IP protocol of the load balancer. This value is case-sensitive. Possible values: ["tcp", "udp"]
 	// +kubebuilder:validation:Optional
@@ -505,18 +505,18 @@ type PrimaryInternalLoadBalancersParameters struct {
 	LoadBalancerType *string `json:"loadBalancerType,omitempty" tf:"load_balancer_type,omitempty"`
 
 	// The fully qualified url of the network in which the load balancer belongs. This should be formatted like projects/{project}/global/networks/{network} or https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.Reference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.Reference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.Selector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// The configured port of the load balancer.
 	// +kubebuilder:validation:Optional
@@ -524,32 +524,32 @@ type PrimaryInternalLoadBalancersParameters struct {
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The region of the load balancer. Only needed for regional load balancers.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 }
 
 type PrimaryObservation struct {
@@ -578,16 +578,16 @@ type RecordSetInitParameters struct {
 
 	// The name of the zone in which this record set will
 	// reside.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dns/v1beta2.ManagedZone
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dns/v1beta2.ManagedZone
 	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
 
 	// Reference to a ManagedZone in dns to populate managedZone.
 	// +kubebuilder:validation:Optional
-	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
+	ManagedZoneRef *v2.Reference `json:"managedZoneRef,omitempty" tf:"-"`
 
 	// Selector for a ManagedZone in dns to populate managedZone.
 	// +kubebuilder:validation:Optional
-	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
+	ManagedZoneSelector *v2.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -652,17 +652,17 @@ type RecordSetParameters struct {
 
 	// The name of the zone in which this record set will
 	// reside.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dns/v1beta2.ManagedZone
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dns/v1beta2.ManagedZone
 	// +kubebuilder:validation:Optional
 	ManagedZone *string `json:"managedZone,omitempty" tf:"managed_zone,omitempty"`
 
 	// Reference to a ManagedZone in dns to populate managedZone.
 	// +kubebuilder:validation:Optional
-	ManagedZoneRef *v1.Reference `json:"managedZoneRef,omitempty" tf:"-"`
+	ManagedZoneRef *v2.Reference `json:"managedZoneRef,omitempty" tf:"-"`
 
 	// Selector for a ManagedZone in dns to populate managedZone.
 	// +kubebuilder:validation:Optional
-	ManagedZoneSelector *v1.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
+	ManagedZoneSelector *v2.Selector `json:"managedZoneSelector,omitempty" tf:"-"`
 
 	// The DNS name this record set will apply to.
 	// +kubebuilder:validation:Optional
@@ -703,17 +703,17 @@ type RoutingPolicyInitParameters struct {
 	Geo []GeoInitParameters `json:"geo,omitempty" tf:"geo,omitempty"`
 
 	// Specifies the health check (used with external endpoints).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.HealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.Reference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.Reference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
 	// Structure is documented below.
@@ -757,18 +757,18 @@ type RoutingPolicyParameters struct {
 	Geo []GeoParameters `json:"geo,omitempty" tf:"geo,omitempty"`
 
 	// Specifies the health check (used with external endpoints).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.HealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.HealthCheck
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.Reference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.Reference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.Selector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The configuration for a failover policy with global to regional failover. Queries are responded to with the global primary targets, but if none of the primary targets are healthy, then we fallback to a regional failover policy.
 	// Structure is documented below.
@@ -939,8 +939,8 @@ type WrrParameters struct {
 
 // RecordSetSpec defines the desired state of RecordSet
 type RecordSetSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RecordSetParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RecordSetParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -956,8 +956,8 @@ type RecordSetSpec struct {
 
 // RecordSetStatus defines the observed state of RecordSet.
 type RecordSetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RecordSetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RecordSetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

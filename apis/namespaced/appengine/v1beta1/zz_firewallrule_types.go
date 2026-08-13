@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FirewallRuleInitParameters struct {
@@ -32,17 +31,17 @@ type FirewallRuleInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/appengine/v1beta1.Application
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/appengine/v1beta1.Application
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Application in appengine to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Application in appengine to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
 	SourceRange *string `json:"sourceRange,omitempty" tf:"source_range,omitempty"`
@@ -100,18 +99,18 @@ type FirewallRuleParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/appengine/v1beta1.Application
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/appengine/v1beta1.Application
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Application in appengine to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Application in appengine to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// IP address or range, defined using CIDR notation, of requests that this rule applies to.
 	// +kubebuilder:validation:Optional
@@ -137,8 +136,8 @@ type FirewallRuleSpec struct {
 
 // FirewallRuleStatus defines the observed state of FirewallRule.
 type FirewallRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FirewallRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FirewallRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

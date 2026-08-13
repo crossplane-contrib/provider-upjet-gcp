@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectBucketConfigCmekSettingsInitParameters struct {
@@ -22,17 +21,17 @@ type ProjectBucketConfigCmekSettingsInitParameters struct {
 	// To enable CMEK for the bucket, set this field to a valid kmsKeyName for which the associated service account has the required cloudkms.cryptoKeyEncrypterDecrypter roles assigned for the key.
 	// The Cloud KMS key used by the bucket can be updated by changing the kmsKeyName to a new valid key name. Encryption operations that are in progress will be completed with the key that was in use when they started. Decryption operations will be completed using the key that was used at the time of encryption unless access to that key has been revoked.
 	// See Enabling CMEK for Logging Buckets for more information.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ProjectBucketConfigCmekSettingsObservation struct {
@@ -70,18 +69,18 @@ type ProjectBucketConfigCmekSettingsParameters struct {
 	// To enable CMEK for the bucket, set this field to a valid kmsKeyName for which the associated service account has the required cloudkms.cryptoKeyEncrypterDecrypter roles assigned for the key.
 	// The Cloud KMS key used by the bucket can be updated by changing the kmsKeyName to a new valid key name. Encryption operations that are in progress will be completed with the key that was in use when they started. Decryption operations will be completed using the key that was used at the time of encryption unless access to that key has been revoked.
 	// See Enabling CMEK for Logging Buckets for more information.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type ProjectBucketConfigIndexConfigsInitParameters struct {
@@ -211,18 +210,18 @@ type ProjectBucketConfigParameters struct {
 	Locked *bool `json:"locked,omitempty" tf:"locked,omitempty"`
 
 	// The parent resource that contains the logging bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Logs will be retained by default for this amount of time, after which they will automatically be deleted. The minimum retention period is 1 day. If this value is set to zero at bucket creation time, the default time of 30 days will be used.
 	// +kubebuilder:validation:Optional
@@ -248,8 +247,8 @@ type ProjectBucketConfigSpec struct {
 
 // ProjectBucketConfigStatus defines the observed state of ProjectBucketConfig.
 type ProjectBucketConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectBucketConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectBucketConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

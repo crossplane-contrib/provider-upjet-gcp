@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppConnectionInitParameters struct {
@@ -20,17 +20,17 @@ type AppConnectionInitParameters struct {
 	ApplicationEndpoint *ApplicationEndpointInitParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta2.AppConnector
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta2.AppConnector
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
 	// References to AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsRefs []v1.Reference `json:"connectorsRefs,omitempty" tf:"-"`
+	ConnectorsRefs []v2.Reference `json:"connectorsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsSelector *v1.Selector `json:"connectorsSelector,omitempty" tf:"-"`
+	ConnectorsSelector *v2.Selector `json:"connectorsSelector,omitempty" tf:"-"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -119,18 +119,18 @@ type AppConnectionParameters struct {
 	ApplicationEndpoint *ApplicationEndpointParameters `json:"applicationEndpoint,omitempty" tf:"application_endpoint,omitempty"`
 
 	// List of AppConnectors that are authorised to be associated with this AppConnection
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta2.AppConnector
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta2.AppConnector
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Connectors []*string `json:"connectors,omitempty" tf:"connectors,omitempty"`
 
 	// References to AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsRefs []v1.Reference `json:"connectorsRefs,omitempty" tf:"-"`
+	ConnectorsRefs []v2.Reference `json:"connectorsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AppConnector in beyondcorp to populate connectors.
 	// +kubebuilder:validation:Optional
-	ConnectorsSelector *v1.Selector `json:"connectorsSelector,omitempty" tf:"-"`
+	ConnectorsSelector *v2.Selector `json:"connectorsSelector,omitempty" tf:"-"`
 
 	// An arbitrary user-provided name for the AppConnection.
 	// +kubebuilder:validation:Optional
@@ -198,17 +198,17 @@ type ApplicationEndpointParameters struct {
 type GatewayInitParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta1.AppGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta1.AppGateway
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 
 	// Reference to a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewayRef *v1.Reference `json:"appGatewayRef,omitempty" tf:"-"`
+	AppGatewayRef *v2.Reference `json:"appGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewaySelector *v1.Selector `json:"appGatewaySelector,omitempty" tf:"-"`
+	AppGatewaySelector *v2.Selector `json:"appGatewaySelector,omitempty" tf:"-"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
@@ -238,18 +238,18 @@ type GatewayObservation struct {
 type GatewayParameters struct {
 
 	// AppGateway name in following format: projects/{project_id}/locations/{locationId}/appgateways/{gateway_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/beyondcorp/v1beta1.AppGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta1.AppGateway
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AppGateway *string `json:"appGateway,omitempty" tf:"app_gateway,omitempty"`
 
 	// Reference to a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewayRef *v1.Reference `json:"appGatewayRef,omitempty" tf:"-"`
+	AppGatewayRef *v2.Reference `json:"appGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a AppGateway in beyondcorp to populate appGateway.
 	// +kubebuilder:validation:Optional
-	AppGatewaySelector *v1.Selector `json:"appGatewaySelector,omitempty" tf:"-"`
+	AppGatewaySelector *v2.Selector `json:"appGatewaySelector,omitempty" tf:"-"`
 
 	// The type of hosting used by the gateway. Refer to
 	// https://cloud.google.com/beyondcorp/docs/reference/rest/v1/projects.locations.appConnections#Type_1
@@ -260,8 +260,8 @@ type GatewayParameters struct {
 
 // AppConnectionSpec defines the desired state of AppConnection
 type AppConnectionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AppConnectionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AppConnectionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -277,8 +277,8 @@ type AppConnectionSpec struct {
 
 // AppConnectionStatus defines the observed state of AppConnection.
 type AppConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AppConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AppConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

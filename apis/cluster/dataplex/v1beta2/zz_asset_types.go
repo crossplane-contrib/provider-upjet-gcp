@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AssetInitParameters struct {
@@ -104,17 +104,17 @@ type AssetObservation struct {
 type AssetParameters struct {
 
 	// The zone for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Zone
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataplex/v1beta2.Zone
 	// +kubebuilder:validation:Optional
 	DataplexZone *string `json:"dataplexZone,omitempty" tf:"dataplex_zone,omitempty"`
 
 	// Reference to a Zone in dataplex to populate dataplexZone.
 	// +kubebuilder:validation:Optional
-	DataplexZoneRef *v1.Reference `json:"dataplexZoneRef,omitempty" tf:"-"`
+	DataplexZoneRef *v2.Reference `json:"dataplexZoneRef,omitempty" tf:"-"`
 
 	// Selector for a Zone in dataplex to populate dataplexZone.
 	// +kubebuilder:validation:Optional
-	DataplexZoneSelector *v1.Selector `json:"dataplexZoneSelector,omitempty" tf:"-"`
+	DataplexZoneSelector *v2.Selector `json:"dataplexZoneSelector,omitempty" tf:"-"`
 
 	// Optional. Description of the asset.
 	// +kubebuilder:validation:Optional
@@ -134,17 +134,17 @@ type AssetParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The lake for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataplex/v1beta2.Lake
 	// +kubebuilder:validation:Optional
 	Lake *string `json:"lake,omitempty" tf:"lake,omitempty"`
 
 	// Reference to a Lake in dataplex to populate lake.
 	// +kubebuilder:validation:Optional
-	LakeRef *v1.Reference `json:"lakeRef,omitempty" tf:"-"`
+	LakeRef *v2.Reference `json:"lakeRef,omitempty" tf:"-"`
 
 	// Selector for a Lake in dataplex to populate lake.
 	// +kubebuilder:validation:Optional
-	LakeSelector *v1.Selector `json:"lakeSelector,omitempty" tf:"-"`
+	LakeSelector *v2.Selector `json:"lakeSelector,omitempty" tf:"-"`
 
 	// The location for the resource
 	// +kubebuilder:validation:Required
@@ -417,8 +417,8 @@ type StatsParameters struct {
 
 // AssetSpec defines the desired state of Asset
 type AssetSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AssetParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AssetParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -434,8 +434,8 @@ type AssetSpec struct {
 
 // AssetStatus defines the observed state of Asset.
 type AssetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AssetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AssetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

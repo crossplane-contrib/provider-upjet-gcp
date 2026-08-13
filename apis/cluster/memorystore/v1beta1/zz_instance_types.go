@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AofConfigInitParameters struct {
@@ -165,17 +165,17 @@ type CrossInstanceReplicationConfigParameters struct {
 type CrossInstanceReplicationConfigPrimaryInstanceInitParameters struct {
 
 	// The full resource path of the Nth instance in the format: projects/{project}/locations/{region}/instance/{instance-id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/memorystore/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/memorystore/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 }
 
 type CrossInstanceReplicationConfigPrimaryInstanceObservation struct {
@@ -190,18 +190,18 @@ type CrossInstanceReplicationConfigPrimaryInstanceObservation struct {
 type CrossInstanceReplicationConfigPrimaryInstanceParameters struct {
 
 	// The full resource path of the Nth instance in the format: projects/{project}/locations/{region}/instance/{instance-id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/memorystore/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/memorystore/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in memorystore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 }
 
 type DesiredAutoCreatedEndpointsInitParameters struct {
@@ -209,17 +209,17 @@ type DesiredAutoCreatedEndpointsInitParameters struct {
 	// (Output)
 	// Output only. The consumer network where the IP address resides, in the form of
 	// projects/{project_id}/global/networks/{network_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// (Output)
 	// Output only. The consumer project_id where the forwarding rule is created from.
@@ -243,18 +243,18 @@ type DesiredAutoCreatedEndpointsParameters struct {
 	// (Output)
 	// Output only. The consumer network where the IP address resides, in the form of
 	// projects/{project_id}/global/networks/{network_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// (Output)
 	// Output only. The consumer project_id where the forwarding rule is created from.
@@ -478,17 +478,17 @@ type InstanceInitParameters struct {
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
 	// as the server_ca_mode.
 	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CAPool
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
@@ -817,18 +817,18 @@ type InstanceParameters struct {
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
 	// as the server_ca_mode.
 	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CAPool
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
 
 	// Reference to a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+	ServerCAPoolRef *v2.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
 
 	// Selector for a CAPool in privateca to populate serverCaPool.
 	// +kubebuilder:validation:Optional
-	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+	ServerCAPoolSelector *v2.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	// +kubebuilder:validation:Optional
@@ -1465,8 +1465,8 @@ type ZoneDistributionConfigParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1482,8 +1482,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

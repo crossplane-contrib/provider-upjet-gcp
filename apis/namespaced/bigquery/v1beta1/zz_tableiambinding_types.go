@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TableIAMBindingConditionInitParameters struct {
@@ -45,16 +44,16 @@ type TableIAMBindingConditionParameters struct {
 type TableIAMBindingInitParameters struct {
 	Condition *TableIAMBindingConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Dataset
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
@@ -63,16 +62,16 @@ type TableIAMBindingInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Table
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableIAMBindingObservation struct {
@@ -99,17 +98,17 @@ type TableIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *TableIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -121,17 +120,17 @@ type TableIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.Table
 	// +kubebuilder:validation:Optional
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.NamespacedReference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.NamespacedSelector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 // TableIAMBindingSpec defines the desired state of TableIAMBinding
@@ -153,8 +152,8 @@ type TableIAMBindingSpec struct {
 
 // TableIAMBindingStatus defines the observed state of TableIAMBinding.
 type TableIAMBindingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TableIAMBindingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TableIAMBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

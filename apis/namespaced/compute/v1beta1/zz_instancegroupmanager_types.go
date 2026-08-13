@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllInstancesConfigInitParameters struct {
@@ -52,17 +51,17 @@ type AllInstancesConfigParameters struct {
 type AutoHealingPoliciesInitParameters struct {
 
 	// The health check resource that signals autohealing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
@@ -82,18 +81,18 @@ type AutoHealingPoliciesObservation struct {
 type AutoHealingPoliciesParameters struct {
 
 	// The health check resource that signals autohealing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckRef *v1.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
+	HealthCheckRef *v2.NamespacedReference `json:"healthCheckRef,omitempty" tf:"-"`
 
 	// Selector for a HealthCheck in compute to populate healthCheck.
 	// +kubebuilder:validation:Optional
-	HealthCheckSelector *v1.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
+	HealthCheckSelector *v2.NamespacedSelector `json:"healthCheckSelector,omitempty" tf:"-"`
 
 	// The number of seconds that the managed instance group waits before
 	// it applies autohealing policies to new instances or recently recreated instances. Between 0 and 3600.
@@ -160,18 +159,18 @@ type InstanceGroupManagerInitParameters struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// References to TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsRefs []v1.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
+	TargetPoolsRefs []v2.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsSelector *v1.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
+	TargetPoolsSelector *v2.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
@@ -435,19 +434,19 @@ type InstanceGroupManagerParameters struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
 	// References to TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsRefs []v1.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
+	TargetPoolsRefs []v2.NamespacedReference `json:"targetPoolsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of TargetPool in compute to populate targetPools.
 	// +kubebuilder:validation:Optional
-	TargetPoolsSelector *v1.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
+	TargetPoolsSelector *v2.NamespacedSelector `json:"targetPoolsSelector,omitempty" tf:"-"`
 
 	// The target number of running instances for this managed
 	// instance group. This value will fight with autoscaler settings when set, and generally shouldn't be set
@@ -550,17 +549,17 @@ type PerInstanceConfigsParameters struct {
 type ResourcePoliciesInitParameters struct {
 
 	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 
 	// Reference to a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicyRef *v1.NamespacedReference `json:"workloadPolicyRef,omitempty" tf:"-"`
+	WorkloadPolicyRef *v2.NamespacedReference `json:"workloadPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicySelector *v1.NamespacedSelector `json:"workloadPolicySelector,omitempty" tf:"-"`
+	WorkloadPolicySelector *v2.NamespacedSelector `json:"workloadPolicySelector,omitempty" tf:"-"`
 }
 
 type ResourcePoliciesObservation struct {
@@ -572,18 +571,18 @@ type ResourcePoliciesObservation struct {
 type ResourcePoliciesParameters struct {
 
 	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 
 	// Reference to a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicyRef *v1.NamespacedReference `json:"workloadPolicyRef,omitempty" tf:"-"`
+	WorkloadPolicyRef *v2.NamespacedReference `json:"workloadPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate workloadPolicy.
 	// +kubebuilder:validation:Optional
-	WorkloadPolicySelector *v1.NamespacedSelector `json:"workloadPolicySelector,omitempty" tf:"-"`
+	WorkloadPolicySelector *v2.NamespacedSelector `json:"workloadPolicySelector,omitempty" tf:"-"`
 }
 
 type StandbyPolicyInitParameters struct {
@@ -899,17 +898,17 @@ type UpdatePolicyParameters struct {
 type VersionInitParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateRef *v1.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
+	InstanceTemplateRef *v2.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateSelector *v1.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
+	InstanceTemplateSelector *v2.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -933,18 +932,18 @@ type VersionObservation struct {
 type VersionParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateRef *v1.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
+	InstanceTemplateRef *v2.NamespacedReference `json:"instanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate instanceTemplate.
 	// +kubebuilder:validation:Optional
-	InstanceTemplateSelector *v1.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
+	InstanceTemplateSelector *v2.NamespacedSelector `json:"instanceTemplateSelector,omitempty" tf:"-"`
 
 	// - Version name.
 	// +kubebuilder:validation:Optional
@@ -984,8 +983,8 @@ type InstanceGroupManagerSpec struct {
 
 // InstanceGroupManagerStatus defines the observed state of InstanceGroupManager.
 type InstanceGroupManagerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceGroupManagerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceGroupManagerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

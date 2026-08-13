@@ -5,104 +5,104 @@
 
 package v1beta2
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this Secret.
-func (mg *Secret) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *Secret) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this Secret.
-func (mg *Secret) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *Secret) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this Secret.
-func (mg *Secret) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *Secret) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this Secret.
-func (mg *Secret) GetProviderConfigReference() *xpv1.Reference {
+func (mg *Secret) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this Secret.
-func (mg *Secret) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *Secret) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this Secret.
-func (mg *Secret) SetConditions(c ...xpv1.Condition) {
+func (mg *Secret) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this Secret.
-func (mg *Secret) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *Secret) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this Secret.
-func (mg *Secret) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *Secret) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this Secret.
-func (mg *Secret) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *Secret) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this Secret.
-func (mg *Secret) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *Secret) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this SecretIAMMember.
-func (mg *SecretIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *SecretIAMMember) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this SecretIAMMember.
-func (mg *SecretIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *SecretIAMMember) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this SecretIAMMember.
-func (mg *SecretIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *SecretIAMMember) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this SecretIAMMember.
-func (mg *SecretIAMMember) GetProviderConfigReference() *xpv1.Reference {
+func (mg *SecretIAMMember) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this SecretIAMMember.
-func (mg *SecretIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *SecretIAMMember) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this SecretIAMMember.
-func (mg *SecretIAMMember) SetConditions(c ...xpv1.Condition) {
+func (mg *SecretIAMMember) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this SecretIAMMember.
-func (mg *SecretIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *SecretIAMMember) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this SecretIAMMember.
-func (mg *SecretIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *SecretIAMMember) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this SecretIAMMember.
-func (mg *SecretIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *SecretIAMMember) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this SecretIAMMember.
-func (mg *SecretIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *SecretIAMMember) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

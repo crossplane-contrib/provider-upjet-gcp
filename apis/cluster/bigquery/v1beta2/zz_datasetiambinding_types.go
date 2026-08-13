@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DatasetIAMBindingConditionInitParameters struct {
@@ -72,17 +72,17 @@ type DatasetIAMBindingParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *DatasetIAMBindingConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -97,8 +97,8 @@ type DatasetIAMBindingParameters struct {
 
 // DatasetIAMBindingSpec defines the desired state of DatasetIAMBinding
 type DatasetIAMBindingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DatasetIAMBindingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DatasetIAMBindingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -114,8 +114,8 @@ type DatasetIAMBindingSpec struct {
 
 // DatasetIAMBindingStatus defines the observed state of DatasetIAMBinding.
 type DatasetIAMBindingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetIAMBindingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetIAMBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

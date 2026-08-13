@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -156,18 +155,18 @@ type PolicyParameters struct {
 	DryRunSpec *DryRunSpecParameters `json:"dryRunSpec,omitempty" tf:"dry_run_spec,omitempty"`
 
 	// The parent of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Basic information about the Organization Policy.
 	// Structure is documented below.
@@ -501,8 +500,8 @@ type PolicySpec struct {
 
 // PolicyStatus defines the observed state of Policy.
 type PolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

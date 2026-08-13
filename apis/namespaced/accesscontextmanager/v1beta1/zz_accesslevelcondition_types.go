@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLevelConditionDevicePolicyInitParameters struct {
@@ -107,17 +106,17 @@ type AccessLevelConditionDevicePolicyParameters struct {
 type AccessLevelConditionInitParameters struct {
 
 	// The name of the Access Level to add this condition to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/accesscontextmanager/v1beta1.AccessLevel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
+	AccessLevelRef *v2.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
 
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+	AccessLevelSelector *v2.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
@@ -235,18 +234,18 @@ type AccessLevelConditionObservation struct {
 type AccessLevelConditionParameters struct {
 
 	// The name of the Access Level to add this condition to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/accesscontextmanager/v1beta1.AccessLevel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/accesscontextmanager/v1beta1.AccessLevel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
 	// Reference to a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelRef *v1.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
+	AccessLevelRef *v2.NamespacedReference `json:"accessLevelRef,omitempty" tf:"-"`
 
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
-	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+	AccessLevelSelector *v2.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
 	// Device specific restrictions, all restrictions must hold for
 	// the Condition to be true. If not specified, all devices are
@@ -412,8 +411,8 @@ type AccessLevelConditionSpec struct {
 
 // AccessLevelConditionStatus defines the observed state of AccessLevelCondition.
 type AccessLevelConditionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccessLevelConditionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccessLevelConditionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

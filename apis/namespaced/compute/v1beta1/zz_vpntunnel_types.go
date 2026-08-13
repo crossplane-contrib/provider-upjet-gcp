@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CipherSuiteInitParameters struct {
@@ -169,7 +168,7 @@ type VPNTunnelInitParameters struct {
 	Params *VPNTunnelParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ExternalVPNGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ExternalVPNGateway
 	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
 
 	// The interface ID of the external VPN gateway to which this VPN tunnel is connected.
@@ -177,11 +176,11 @@ type VPNTunnelInitParameters struct {
 
 	// Reference to a ExternalVPNGateway in compute to populate peerExternalGateway.
 	// +kubebuilder:validation:Optional
-	PeerExternalGatewayRef *v1.NamespacedReference `json:"peerExternalGatewayRef,omitempty" tf:"-"`
+	PeerExternalGatewayRef *v2.NamespacedReference `json:"peerExternalGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a ExternalVPNGateway in compute to populate peerExternalGateway.
 	// +kubebuilder:validation:Optional
-	PeerExternalGatewaySelector *v1.NamespacedSelector `json:"peerExternalGatewaySelector,omitempty" tf:"-"`
+	PeerExternalGatewaySelector *v2.NamespacedSelector `json:"peerExternalGatewaySelector,omitempty" tf:"-"`
 
 	// URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.
 	// If provided, the VPN tunnel will automatically use the same vpn_gateway_interface
@@ -204,48 +203,40 @@ type VPNTunnelInitParameters struct {
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Router
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
 
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	SharedSecretSecretRef *v1.LocalSecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
-
-	// Shared secret used to set the secure session between the Cloud VPN
-	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API.
-	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
-
-	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
-	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
+	SharedSecretSecretRef *v2.LocalSecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.VPNGateway
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
 
 	// Reference to a VPNGateway in compute to populate targetVpnGateway.
 	// +kubebuilder:validation:Optional
-	TargetVPNGatewayRef *v1.NamespacedReference `json:"targetVpnGatewayRef,omitempty" tf:"-"`
+	TargetVPNGatewayRef *v2.NamespacedReference `json:"targetVpnGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a VPNGateway in compute to populate targetVpnGateway.
 	// +kubebuilder:validation:Optional
-	TargetVPNGatewaySelector *v1.NamespacedSelector `json:"targetVpnGatewaySelector,omitempty" tf:"-"`
+	TargetVPNGatewaySelector *v2.NamespacedSelector `json:"targetVpnGatewaySelector,omitempty" tf:"-"`
 
 	// URL of the VPN gateway with which this VPN tunnel is associated.
 	// This must be used if a High Availability VPN gateway resource is created.
 	// This field must reference a google_compute_ha_vpn_gateway resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HaVPNGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.HaVPNGateway
 	VPNGateway *string `json:"vpnGateway,omitempty" tf:"vpn_gateway,omitempty"`
 
 	// The interface ID of the VPN gateway with which this VPN tunnel is associated.
@@ -253,11 +244,11 @@ type VPNTunnelInitParameters struct {
 
 	// Reference to a HaVPNGateway in compute to populate vpnGateway.
 	// +kubebuilder:validation:Optional
-	VPNGatewayRef *v1.NamespacedReference `json:"vpnGatewayRef,omitempty" tf:"-"`
+	VPNGatewayRef *v2.NamespacedReference `json:"vpnGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a HaVPNGateway in compute to populate vpnGateway.
 	// +kubebuilder:validation:Optional
-	VPNGatewaySelector *v1.NamespacedSelector `json:"vpnGatewaySelector,omitempty" tf:"-"`
+	VPNGatewaySelector *v2.NamespacedSelector `json:"vpnGatewaySelector,omitempty" tf:"-"`
 }
 
 type VPNTunnelObservation struct {
@@ -349,14 +340,6 @@ type VPNTunnelObservation struct {
 	// Hash of the shared secret.
 	SharedSecretHash *string `json:"sharedSecretHash,omitempty" tf:"shared_secret_hash,omitempty"`
 
-	// Shared secret used to set the secure session between the Cloud VPN
-	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API.
-	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
-
-	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
-	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
-
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
 	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
@@ -416,7 +399,7 @@ type VPNTunnelParameters struct {
 	Params *VPNTunnelParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ExternalVPNGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ExternalVPNGateway
 	// +kubebuilder:validation:Optional
 	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
 
@@ -426,11 +409,11 @@ type VPNTunnelParameters struct {
 
 	// Reference to a ExternalVPNGateway in compute to populate peerExternalGateway.
 	// +kubebuilder:validation:Optional
-	PeerExternalGatewayRef *v1.NamespacedReference `json:"peerExternalGatewayRef,omitempty" tf:"-"`
+	PeerExternalGatewayRef *v2.NamespacedReference `json:"peerExternalGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a ExternalVPNGateway in compute to populate peerExternalGateway.
 	// +kubebuilder:validation:Optional
-	PeerExternalGatewaySelector *v1.NamespacedSelector `json:"peerExternalGatewaySelector,omitempty" tf:"-"`
+	PeerExternalGatewaySelector *v2.NamespacedSelector `json:"peerExternalGatewaySelector,omitempty" tf:"-"`
 
 	// URL of the peer side HA GCP VPN gateway to which this VPN tunnel is connected.
 	// If provided, the VPN tunnel will automatically use the same vpn_gateway_interface
@@ -461,53 +444,43 @@ type VPNTunnelParameters struct {
 	RemoteTrafficSelector []*string `json:"remoteTrafficSelector,omitempty" tf:"remote_traffic_selector,omitempty"`
 
 	// URL of router resource to be used for dynamic routing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
 
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	SharedSecretSecretRef *v1.LocalSecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
-
-	// Shared secret used to set the secure session between the Cloud VPN
-	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
-
-	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
+	SharedSecretSecretRef *v2.LocalSecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.VPNGateway
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
 
 	// Reference to a VPNGateway in compute to populate targetVpnGateway.
 	// +kubebuilder:validation:Optional
-	TargetVPNGatewayRef *v1.NamespacedReference `json:"targetVpnGatewayRef,omitempty" tf:"-"`
+	TargetVPNGatewayRef *v2.NamespacedReference `json:"targetVpnGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a VPNGateway in compute to populate targetVpnGateway.
 	// +kubebuilder:validation:Optional
-	TargetVPNGatewaySelector *v1.NamespacedSelector `json:"targetVpnGatewaySelector,omitempty" tf:"-"`
+	TargetVPNGatewaySelector *v2.NamespacedSelector `json:"targetVpnGatewaySelector,omitempty" tf:"-"`
 
 	// URL of the VPN gateway with which this VPN tunnel is associated.
 	// This must be used if a High Availability VPN gateway resource is created.
 	// This field must reference a google_compute_ha_vpn_gateway resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HaVPNGateway
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.HaVPNGateway
 	// +kubebuilder:validation:Optional
 	VPNGateway *string `json:"vpnGateway,omitempty" tf:"vpn_gateway,omitempty"`
 
@@ -517,11 +490,11 @@ type VPNTunnelParameters struct {
 
 	// Reference to a HaVPNGateway in compute to populate vpnGateway.
 	// +kubebuilder:validation:Optional
-	VPNGatewayRef *v1.NamespacedReference `json:"vpnGatewayRef,omitempty" tf:"-"`
+	VPNGatewayRef *v2.NamespacedReference `json:"vpnGatewayRef,omitempty" tf:"-"`
 
 	// Selector for a HaVPNGateway in compute to populate vpnGateway.
 	// +kubebuilder:validation:Optional
-	VPNGatewaySelector *v1.NamespacedSelector `json:"vpnGatewaySelector,omitempty" tf:"-"`
+	VPNGatewaySelector *v2.NamespacedSelector `json:"vpnGatewaySelector,omitempty" tf:"-"`
 }
 
 type VPNTunnelParamsInitParameters struct {
@@ -571,8 +544,8 @@ type VPNTunnelSpec struct {
 
 // VPNTunnelStatus defines the observed state of VPNTunnel.
 type VPNTunnelStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VPNTunnelObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VPNTunnelObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

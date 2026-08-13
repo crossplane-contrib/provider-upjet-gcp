@@ -10,37 +10,36 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceAttachmentInitParameters struct {
 
 	// The resource ID of the environment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Environment
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// Reference to a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentRef *v1.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
+	EnvironmentRef *v2.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentSelector *v1.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
+	EnvironmentSelector *v2.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
 
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
 }
 
 type InstanceAttachmentObservation struct {
@@ -66,32 +65,32 @@ type InstanceAttachmentObservation struct {
 type InstanceAttachmentParameters struct {
 
 	// The resource ID of the environment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Environment
 	// +kubebuilder:validation:Optional
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// Reference to a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentRef *v1.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
+	EnvironmentRef *v2.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentSelector *v1.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
+	EnvironmentSelector *v2.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
 
 	// The Apigee instance associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/instances/{{instance_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.NamespacedReference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in apigee to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.NamespacedSelector `json:"instanceIdSelector,omitempty" tf:"-"`
 }
 
 // InstanceAttachmentSpec defines the desired state of InstanceAttachment
@@ -113,8 +112,8 @@ type InstanceAttachmentSpec struct {
 
 // InstanceAttachmentStatus defines the observed state of InstanceAttachment.
 type InstanceAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

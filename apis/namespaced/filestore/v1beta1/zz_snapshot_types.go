@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SnapshotInitParameters struct {
@@ -80,17 +79,17 @@ type SnapshotParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The resource name of the filestore instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/filestore/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/filestore/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in filestore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in filestore to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Resource labels to represent user-provided metadata.
 	// +kubebuilder:validation:Optional
@@ -126,8 +125,8 @@ type SnapshotSpec struct {
 
 // SnapshotStatus defines the observed state of Snapshot.
 type SnapshotStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SnapshotObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SnapshotObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -5,154 +5,154 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this FolderExclusion.
-func (mg *FolderExclusion) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *FolderExclusion) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this FolderExclusion.
-func (mg *FolderExclusion) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *FolderExclusion) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this FolderExclusion.
-func (mg *FolderExclusion) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *FolderExclusion) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this FolderExclusion.
-func (mg *FolderExclusion) GetProviderConfigReference() *xpv1.Reference {
+func (mg *FolderExclusion) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this FolderExclusion.
-func (mg *FolderExclusion) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *FolderExclusion) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this FolderExclusion.
-func (mg *FolderExclusion) SetConditions(c ...xpv1.Condition) {
+func (mg *FolderExclusion) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this FolderExclusion.
-func (mg *FolderExclusion) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *FolderExclusion) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this FolderExclusion.
-func (mg *FolderExclusion) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *FolderExclusion) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this FolderExclusion.
-func (mg *FolderExclusion) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *FolderExclusion) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this FolderExclusion.
-func (mg *FolderExclusion) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *FolderExclusion) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this LogView.
-func (mg *LogView) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *LogView) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this LogView.
-func (mg *LogView) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *LogView) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this LogView.
-func (mg *LogView) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *LogView) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this LogView.
-func (mg *LogView) GetProviderConfigReference() *xpv1.Reference {
+func (mg *LogView) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this LogView.
-func (mg *LogView) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *LogView) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this LogView.
-func (mg *LogView) SetConditions(c ...xpv1.Condition) {
+func (mg *LogView) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this LogView.
-func (mg *LogView) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *LogView) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this LogView.
-func (mg *LogView) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *LogView) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this LogView.
-func (mg *LogView) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *LogView) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this LogView.
-func (mg *LogView) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *LogView) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ProjectExclusion.
-func (mg *ProjectExclusion) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ProjectExclusion) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ProjectExclusion.
-func (mg *ProjectExclusion) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ProjectExclusion) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ProjectExclusion.
-func (mg *ProjectExclusion) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ProjectExclusion) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ProjectExclusion.
-func (mg *ProjectExclusion) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ProjectExclusion) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ProjectExclusion.
-func (mg *ProjectExclusion) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ProjectExclusion) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ProjectExclusion.
-func (mg *ProjectExclusion) SetConditions(c ...xpv1.Condition) {
+func (mg *ProjectExclusion) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ProjectExclusion.
-func (mg *ProjectExclusion) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ProjectExclusion) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ProjectExclusion.
-func (mg *ProjectExclusion) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ProjectExclusion) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ProjectExclusion.
-func (mg *ProjectExclusion) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ProjectExclusion) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ProjectExclusion.
-func (mg *ProjectExclusion) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ProjectExclusion) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

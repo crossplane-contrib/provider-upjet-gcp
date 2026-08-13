@@ -10,13 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkConfigInitParameters struct {
 
 	// Immutable. The network definition that the workers are peered to. If this section is left empty, the workers will be peered to WorkerPool.project_id on the service producer network. Must be in the format projects/{project}/global/networks/{network}, where {project} is a project number, such as 12345, and {network} is the name of a VPC network in the project. See (https://cloud.google.com/cloud-build/docs/custom-workers/set-up-custom-worker-pool-environment#understanding_the_network_configuration_options)
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PeeredNetwork *string `json:"peeredNetwork,omitempty" tf:"peered_network,omitempty"`
 
@@ -25,11 +25,11 @@ type NetworkConfigInitParameters struct {
 
 	// Reference to a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkRef *v1.Reference `json:"peeredNetworkRef,omitempty" tf:"-"`
+	PeeredNetworkRef *v2.Reference `json:"peeredNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkSelector *v1.Selector `json:"peeredNetworkSelector,omitempty" tf:"-"`
+	PeeredNetworkSelector *v2.Selector `json:"peeredNetworkSelector,omitempty" tf:"-"`
 }
 
 type NetworkConfigObservation struct {
@@ -44,7 +44,7 @@ type NetworkConfigObservation struct {
 type NetworkConfigParameters struct {
 
 	// Immutable. The network definition that the workers are peered to. If this section is left empty, the workers will be peered to WorkerPool.project_id on the service producer network. Must be in the format projects/{project}/global/networks/{network}, where {project} is a project number, such as 12345, and {network} is the name of a VPC network in the project. See (https://cloud.google.com/cloud-build/docs/custom-workers/set-up-custom-worker-pool-environment#understanding_the_network_configuration_options)
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PeeredNetwork *string `json:"peeredNetwork,omitempty" tf:"peered_network,omitempty"`
@@ -55,11 +55,11 @@ type NetworkConfigParameters struct {
 
 	// Reference to a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkRef *v1.Reference `json:"peeredNetworkRef,omitempty" tf:"-"`
+	PeeredNetworkRef *v2.Reference `json:"peeredNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate peeredNetwork.
 	// +kubebuilder:validation:Optional
-	PeeredNetworkSelector *v1.Selector `json:"peeredNetworkSelector,omitempty" tf:"-"`
+	PeeredNetworkSelector *v2.Selector `json:"peeredNetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateServiceConnectInitParameters struct {
@@ -232,8 +232,8 @@ type WorkerPoolParameters struct {
 
 // WorkerPoolSpec defines the desired state of WorkerPool
 type WorkerPoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     WorkerPoolParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   WorkerPoolParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -249,8 +249,8 @@ type WorkerPoolSpec struct {
 
 // WorkerPoolStatus defines the observed state of WorkerPool.
 type WorkerPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkerPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkerPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

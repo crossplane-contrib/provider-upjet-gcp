@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VPNGatewayInitParameters struct {
@@ -20,17 +19,17 @@ type VPNGatewayInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -84,18 +83,18 @@ type VPNGatewayParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The network this VPN gateway is accepting traffic for.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -159,8 +158,8 @@ type VPNGatewaySpec struct {
 
 // VPNGatewayStatus defines the observed state of VPNGateway.
 type VPNGatewayStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VPNGatewayObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VPNGatewayObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

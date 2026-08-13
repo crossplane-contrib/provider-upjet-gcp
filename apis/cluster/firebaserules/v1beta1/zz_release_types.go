@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReleaseInitParameters struct {
@@ -19,16 +19,16 @@ type ReleaseInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/firebaserules/v1beta2.Ruleset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/firebaserules/v1beta2.Ruleset
 	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
 
 	// Reference to a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameRef *v1.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
+	RulesetNameRef *v2.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
 
 	// Selector for a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameSelector *v1.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
+	RulesetNameSelector *v2.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
 }
 
 type ReleaseObservation struct {
@@ -63,23 +63,23 @@ type ReleaseParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Name of the Ruleset referred to by this Release. The Ruleset must exist for the Release to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/firebaserules/v1beta2.Ruleset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/firebaserules/v1beta2.Ruleset
 	// +kubebuilder:validation:Optional
 	RulesetName *string `json:"rulesetName,omitempty" tf:"ruleset_name,omitempty"`
 
 	// Reference to a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameRef *v1.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
+	RulesetNameRef *v2.Reference `json:"rulesetNameRef,omitempty" tf:"-"`
 
 	// Selector for a Ruleset in firebaserules to populate rulesetName.
 	// +kubebuilder:validation:Optional
-	RulesetNameSelector *v1.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
+	RulesetNameSelector *v2.Selector `json:"rulesetNameSelector,omitempty" tf:"-"`
 }
 
 // ReleaseSpec defines the desired state of Release
 type ReleaseSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReleaseParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ReleaseParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -95,8 +95,8 @@ type ReleaseSpec struct {
 
 // ReleaseStatus defines the observed state of Release.
 type ReleaseStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReleaseObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReleaseObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

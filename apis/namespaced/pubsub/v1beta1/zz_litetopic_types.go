@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CapacityInitParameters struct {
@@ -163,16 +162,16 @@ type PartitionConfigParameters struct {
 type ReservationConfigInitParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.LiteReservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.LiteReservation
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationRef *v1.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
+	ThroughputReservationRef *v2.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
 
 	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationSelector *v1.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
+	ThroughputReservationSelector *v2.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type ReservationConfigObservation struct {
@@ -184,17 +183,17 @@ type ReservationConfigObservation struct {
 type ReservationConfigParameters struct {
 
 	// The Reservation to use for this topic's throughput capacity.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.LiteReservation
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.LiteReservation
 	// +kubebuilder:validation:Optional
 	ThroughputReservation *string `json:"throughputReservation,omitempty" tf:"throughput_reservation,omitempty"`
 
 	// Reference to a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationRef *v1.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
+	ThroughputReservationRef *v2.NamespacedReference `json:"throughputReservationRef,omitempty" tf:"-"`
 
 	// Selector for a LiteReservation in pubsub to populate throughputReservation.
 	// +kubebuilder:validation:Optional
-	ThroughputReservationSelector *v1.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
+	ThroughputReservationSelector *v2.NamespacedSelector `json:"throughputReservationSelector,omitempty" tf:"-"`
 }
 
 type RetentionConfigInitParameters struct {
@@ -260,8 +259,8 @@ type LiteTopicSpec struct {
 
 // LiteTopicStatus defines the observed state of LiteTopic.
 type LiteTopicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LiteTopicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LiteTopicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

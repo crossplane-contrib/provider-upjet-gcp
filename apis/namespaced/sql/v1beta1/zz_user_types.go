@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PasswordPolicyInitParameters struct {
@@ -115,16 +114,16 @@ type UserInitParameters struct {
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.DatabaseInstance
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	PasswordPolicy *PasswordPolicyInitParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
@@ -132,16 +131,7 @@ type UserInitParameters struct {
 	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
 	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -188,15 +178,6 @@ type UserObservation struct {
 
 	PasswordPolicy *PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
-
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -238,17 +219,17 @@ type UserParameters struct {
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	PasswordPolicy *PasswordPolicyParameters `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
@@ -258,18 +239,7 @@ type UserParameters struct {
 	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
 	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password for the user. Can be updated. For Postgres
-	// instances this is a Required field, unless type is set to either CLOUD_IAM_USER
-	// or CLOUD_IAM_SERVICE_ACCOUNT. Don't set this field for CLOUD_IAM_USER
-	// and CLOUD_IAM_SERVICE_ACCOUNT user types for any Cloud SQL instance.
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -305,8 +275,8 @@ type UserSpec struct {
 
 // UserStatus defines the observed state of User.
 type UserStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        UserObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               UserObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectDefaultServiceAccountsInitParameters struct {
@@ -19,16 +19,16 @@ type ProjectDefaultServiceAccountsInitParameters struct {
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The project ID where service accounts are created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The action to be performed in the default service accounts on the resource destroy.
 	// Valid values are NONE, REVERT and REVERT_AND_IGNORE_FAILURE. It is applied for any action but in the DEPRIVILEGE.
@@ -65,17 +65,17 @@ type ProjectDefaultServiceAccountsParameters struct {
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// The project ID where service accounts are created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The action to be performed in the default service accounts on the resource destroy.
 	// Valid values are NONE, REVERT and REVERT_AND_IGNORE_FAILURE. It is applied for any action but in the DEPRIVILEGE.
@@ -87,8 +87,8 @@ type ProjectDefaultServiceAccountsParameters struct {
 
 // ProjectDefaultServiceAccountsSpec defines the desired state of ProjectDefaultServiceAccounts
 type ProjectDefaultServiceAccountsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectDefaultServiceAccountsParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProjectDefaultServiceAccountsParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -104,8 +104,8 @@ type ProjectDefaultServiceAccountsSpec struct {
 
 // ProjectDefaultServiceAccountsStatus defines the observed state of ProjectDefaultServiceAccounts.
 type ProjectDefaultServiceAccountsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectDefaultServiceAccountsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectDefaultServiceAccountsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -8,7 +8,7 @@
 
 PROVIDER_NAME := gcp
 PROJECT_NAME := provider-$(PROVIDER_NAME)
-PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)/v2
+PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)/v3
 
 export TERRAFORM_VERSION := 1.5.5
 export TERRAFORM_PROVIDER_VERSION := 7.39.0
@@ -51,7 +51,7 @@ export GOPRIVATE = github.com/upbound/*
 GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $2}')
 # GOLANGCILINT_VERSION is inherited from build submodule by default.
 # Uncomment below if you need to override the version.
-GOLANGCILINT_VERSION ?= 2.11.3
+GOLANGCILINT_VERSION ?= 2.12.2
 
 RUN_BUILDTAGGER ?= false
 # if RUN_BUILDTAGGER is set to "true", we will use build constraints
@@ -82,8 +82,8 @@ KIND_VERSION = v0.32.0
 UPTEST_VERSION = v2.2.0
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 2.3.2
-CROSSPLANE_CLI_VERSION = v2.3.2
+CROSSPLANE_VERSION = 2.3.4
+CROSSPLANE_CLI_VERSION = v2.3.4
 CRDDIFF_VERSION = v0.12.1
 
 export CROSSPLANE_CLI_VERSION := $(CROSSPLANE_CLI_VERSION)
@@ -232,7 +232,7 @@ local-deploy.%: controlplane.up $(YQ)
 		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
 	done || $(FAIL)
 
-local-deploy: build-provider.monolith local-deploy.monolith
+local-deploy: build-provider.config local-deploy.config
 
 # This target requires the following environment variables to be set:
 # - UPTEST_CLOUD_CREDENTIALS, cloud credentials for the provider being tested, e.g. export UPTEST_CLOUD_CREDENTIALS=$(cat ~/gcp-sa.json)

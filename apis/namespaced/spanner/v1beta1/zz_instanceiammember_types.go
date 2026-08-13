@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceIAMMemberConditionInitParameters struct {
@@ -45,17 +44,17 @@ type InstanceIAMMemberConditionParameters struct {
 type InstanceIAMMemberInitParameters struct {
 	Condition *InstanceIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1.Instance
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/spanner/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -85,18 +84,18 @@ type InstanceIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *InstanceIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/spanner/v1beta1.Instance
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/spanner/v1beta1.Instance
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.NamespacedReference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in spanner to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.NamespacedSelector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -127,8 +126,8 @@ type InstanceIAMMemberSpec struct {
 
 // InstanceIAMMemberStatus defines the observed state of InstanceIAMMember.
 type InstanceIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

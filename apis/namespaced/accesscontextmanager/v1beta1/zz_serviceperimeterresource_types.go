@@ -10,24 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServicePerimeterResourceInitParameters struct {
 
 	// The name of the Service Perimeter to add this resource to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	PerimeterName *string `json:"perimeterName,omitempty" tf:"perimeter_name,omitempty"`
 
 	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameRef *v1.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
+	PerimeterNameRef *v2.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
 
 	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameSelector *v1.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
+	PerimeterNameSelector *v2.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
 
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
@@ -62,18 +61,18 @@ type ServicePerimeterResourceObservation struct {
 type ServicePerimeterResourceParameters struct {
 
 	// The name of the Service Perimeter to add this resource to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/accesscontextmanager/v1beta1.ServicePerimeter
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	PerimeterName *string `json:"perimeterName,omitempty" tf:"perimeter_name,omitempty"`
 
 	// Reference to a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameRef *v1.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
+	PerimeterNameRef *v2.NamespacedReference `json:"perimeterNameRef,omitempty" tf:"-"`
 
 	// Selector for a ServicePerimeter in accesscontextmanager to populate perimeterName.
 	// +kubebuilder:validation:Optional
-	PerimeterNameSelector *v1.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
+	PerimeterNameSelector *v2.NamespacedSelector `json:"perimeterNameSelector,omitempty" tf:"-"`
 
 	// A GCP resource that is inside of the service perimeter.
 	// Currently only projects are allowed.
@@ -101,8 +100,8 @@ type ServicePerimeterResourceSpec struct {
 
 // ServicePerimeterResourceStatus defines the observed state of ServicePerimeterResource.
 type ServicePerimeterResourceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServicePerimeterResourceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServicePerimeterResourceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

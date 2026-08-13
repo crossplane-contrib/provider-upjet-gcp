@@ -5,54 +5,54 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this QuotaPreference.
-func (mg *QuotaPreference) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *QuotaPreference) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this QuotaPreference.
-func (mg *QuotaPreference) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *QuotaPreference) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this QuotaPreference.
-func (mg *QuotaPreference) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *QuotaPreference) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this QuotaPreference.
-func (mg *QuotaPreference) GetProviderConfigReference() *xpv1.Reference {
+func (mg *QuotaPreference) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this QuotaPreference.
-func (mg *QuotaPreference) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *QuotaPreference) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this QuotaPreference.
-func (mg *QuotaPreference) SetConditions(c ...xpv1.Condition) {
+func (mg *QuotaPreference) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this QuotaPreference.
-func (mg *QuotaPreference) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *QuotaPreference) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this QuotaPreference.
-func (mg *QuotaPreference) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *QuotaPreference) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this QuotaPreference.
-func (mg *QuotaPreference) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *QuotaPreference) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this QuotaPreference.
-func (mg *QuotaPreference) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *QuotaPreference) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

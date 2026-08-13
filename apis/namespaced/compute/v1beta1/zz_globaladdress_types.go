@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GlobalAddressInitParameters struct {
@@ -39,17 +38,17 @@ type GlobalAddressInitParameters struct {
 	// must be in RFC1918 space. The network cannot be deleted if there are
 	// any reserved IP ranges referring to it.
 	// This should only be set when using an Internal address.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
@@ -162,18 +161,18 @@ type GlobalAddressParameters struct {
 	// must be in RFC1918 space. The network cannot be deleted if there are
 	// any reserved IP ranges referring to it.
 	// This should only be set when using an Internal address.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The prefix length of the IP range. If not present, it means the
 	// address field is a single IP address.
@@ -211,8 +210,8 @@ type GlobalAddressSpec struct {
 
 // GlobalAddressStatus defines the observed state of GlobalAddress.
 type GlobalAddressStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GlobalAddressObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GlobalAddressObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

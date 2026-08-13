@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectionInitParameters struct {
@@ -20,31 +20,31 @@ type ConnectionInitParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
 	// is already established will not reallocate already provisioned service producer subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.GlobalAddress
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.GlobalAddress
 	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
 
 	// References to GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesRefs []v1.Reference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
+	ReservedPeeringRangesRefs []v2.Reference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesSelector *v1.Selector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
+	ReservedPeeringRangesSelector *v2.Selector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
 
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
@@ -91,33 +91,33 @@ type ConnectionParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Name of VPC network connected with service producers using VPC peering.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Named IP address range(s) of PEERING type reserved for
 	// this service provider. Note that invoking this method with a different range when connection
 	// is already established will not reallocate already provisioned service producer subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.GlobalAddress
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.GlobalAddress
 	// +kubebuilder:validation:Optional
 	ReservedPeeringRanges []*string `json:"reservedPeeringRanges,omitempty" tf:"reserved_peering_ranges,omitempty"`
 
 	// References to GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesRefs []v1.Reference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
+	ReservedPeeringRangesRefs []v2.Reference `json:"reservedPeeringRangesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of GlobalAddress in compute to populate reservedPeeringRanges.
 	// +kubebuilder:validation:Optional
-	ReservedPeeringRangesSelector *v1.Selector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
+	ReservedPeeringRangesSelector *v2.Selector `json:"reservedPeeringRangesSelector,omitempty" tf:"-"`
 
 	// Provider peering service that is managing peering connectivity for a
 	// service provider organization. For Google services that support this functionality it is
@@ -132,8 +132,8 @@ type ConnectionParameters struct {
 
 // ConnectionSpec defines the desired state of Connection
 type ConnectionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConnectionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConnectionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -149,8 +149,8 @@ type ConnectionSpec struct {
 
 // ConnectionStatus defines the observed state of Connection.
 type ConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

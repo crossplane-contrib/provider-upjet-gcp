@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionNetworkEndpointInitParameters struct {
@@ -28,17 +28,17 @@ type RegionNetworkEndpointInitParameters struct {
 
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORTMAP.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -51,16 +51,16 @@ type RegionNetworkEndpointInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The network endpoint group this endpoint is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionNetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionNetworkEndpointGroup
 	RegionNetworkEndpointGroup *string `json:"regionNetworkEndpointGroup,omitempty" tf:"region_network_endpoint_group,omitempty"`
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupRef *v1.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupRef *v2.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupSelector *v1.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupSelector *v2.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
 }
 
 type RegionNetworkEndpointObservation struct {
@@ -122,18 +122,18 @@ type RegionNetworkEndpointParameters struct {
 
 	// The name for a specific VM instance that the IP address belongs to.
 	// This is required for network endpoints of type GCE_VM_IP_PORTMAP.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceRef *v1.Reference `json:"instanceRef,omitempty" tf:"-"`
+	InstanceRef *v2.Reference `json:"instanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instance.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// Port number of network endpoint.
 	// +kubebuilder:validation:Optional
@@ -149,23 +149,23 @@ type RegionNetworkEndpointParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The network endpoint group this endpoint is part of.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionNetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionNetworkEndpointGroup
 	// +kubebuilder:validation:Optional
 	RegionNetworkEndpointGroup *string `json:"regionNetworkEndpointGroup,omitempty" tf:"region_network_endpoint_group,omitempty"`
 
 	// Reference to a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupRef *v1.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupRef *v2.Reference `json:"regionNetworkEndpointGroupRef,omitempty" tf:"-"`
 
 	// Selector for a RegionNetworkEndpointGroup in compute to populate regionNetworkEndpointGroup.
 	// +kubebuilder:validation:Optional
-	RegionNetworkEndpointGroupSelector *v1.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
+	RegionNetworkEndpointGroupSelector *v2.Selector `json:"regionNetworkEndpointGroupSelector,omitempty" tf:"-"`
 }
 
 // RegionNetworkEndpointSpec defines the desired state of RegionNetworkEndpoint
 type RegionNetworkEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionNetworkEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionNetworkEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -181,8 +181,8 @@ type RegionNetworkEndpointSpec struct {
 
 // RegionNetworkEndpointStatus defines the observed state of RegionNetworkEndpoint.
 type RegionNetworkEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

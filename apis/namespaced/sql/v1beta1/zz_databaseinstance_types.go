@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ActiveDirectoryConfigInitParameters struct {
@@ -510,13 +509,7 @@ type DatabaseInstanceInitParameters struct {
 	RestoreBackupContext *RestoreBackupContextInitParameters `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
-	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
-
-	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
-	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
-
-	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
-	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
+	RootPasswordSecretRef *v2.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
@@ -632,12 +625,6 @@ type DatabaseInstanceObservation struct {
 	// block during resource creation/update will trigger the restore action after the resource is created/updated.
 	RestoreBackupContext *RestoreBackupContextObservation `json:"restoreBackupContext,omitempty" tf:"restore_backup_context,omitempty"`
 
-	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
-	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
-
-	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
-	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
-
 	// The URI of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -740,15 +727,7 @@ type DatabaseInstanceParameters struct {
 
 	// Initial root password. Can be updated. Required for MS SQL Server.
 	// +kubebuilder:validation:Optional
-	RootPasswordSecretRef *v1.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
-
-	// Initial root password. Can be updated. Required for MS SQL Server. Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	RootPasswordWo *string `json:"rootPasswordWo,omitempty" tf:"root_password_wo,omitempty"`
-
-	// Triggers update of root_password_wo write-only. Increment this value when an update to root_password_wo is needed. For more info see updating write-only arguments
-	// +kubebuilder:validation:Optional
-	RootPasswordWoVersion *string `json:"rootPasswordWoVersion,omitempty" tf:"root_password_wo_version,omitempty"`
+	RootPasswordSecretRef *v2.LocalSecretKeySelector `json:"rootPasswordSecretRef,omitempty" tf:"-"`
 
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
@@ -931,17 +910,17 @@ type IPConfigurationInitParameters struct {
 	// Specifying a network enables private IP.
 	// At least ipv4_enabled must be enabled or a private_network must be configured.
 	// This setting can be updated, but it cannot be removed after it is set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
 	// Reference to a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkRef *v1.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
+	PrivateNetworkRef *v2.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkSelector *v1.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
+	PrivateNetworkSelector *v2.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
 	PscConfig []PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
@@ -1028,18 +1007,18 @@ type IPConfigurationParameters struct {
 	// Specifying a network enables private IP.
 	// At least ipv4_enabled must be enabled or a private_network must be configured.
 	// This setting can be updated, but it cannot be removed after it is set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
 	// Reference to a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkRef *v1.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
+	PrivateNetworkRef *v2.NamespacedReference `json:"privateNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate privateNetwork.
 	// +kubebuilder:validation:Optional
-	PrivateNetworkSelector *v1.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
+	PrivateNetworkSelector *v2.NamespacedSelector `json:"privateNetworkSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	PscConfig []PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
@@ -1579,7 +1558,7 @@ type ReplicaConfigurationInitParameters struct {
 	MasterHeartbeatPeriod *float64 `json:"masterHeartbeatPeriod,omitempty" tf:"master_heartbeat_period,omitempty"`
 
 	// Password for the replication connection.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Permissible ciphers for use in SSL encryption.
 	SSLCipher *string `json:"sslCipher,omitempty" tf:"ssl_cipher,omitempty"`
@@ -1687,7 +1666,7 @@ type ReplicaConfigurationParameters struct {
 
 	// Password for the replication connection.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Permissible ciphers for use in SSL encryption.
 	// +kubebuilder:validation:Optional
@@ -2300,8 +2279,8 @@ type DatabaseInstanceSpec struct {
 
 // DatabaseInstanceStatus defines the observed state of DatabaseInstance.
 type DatabaseInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatabaseInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatabaseInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

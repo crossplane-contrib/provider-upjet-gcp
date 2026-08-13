@@ -10,36 +10,35 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ObjectACLInitParameters struct {
 
 	// The name of the bucket the object is stored in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The name of the object to apply the acl to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The "canned" predefined ACL to apply. Must be set if role_entity is not.
 	PredefinedACL *string `json:"predefinedAcl,omitempty" tf:"predefined_acl,omitempty"`
@@ -76,31 +75,31 @@ type ObjectACLObservation struct {
 type ObjectACLParameters struct {
 
 	// The name of the bucket the object is stored in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The name of the object to apply the acl to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The "canned" predefined ACL to apply. Must be set if role_entity is not.
 	// +kubebuilder:validation:Optional
@@ -132,8 +131,8 @@ type ObjectACLSpec struct {
 
 // ObjectACLStatus defines the observed state of ObjectACL.
 type ObjectACLStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ObjectACLObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ObjectACLObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

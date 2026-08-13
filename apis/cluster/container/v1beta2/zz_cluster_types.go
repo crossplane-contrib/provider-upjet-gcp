@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccurateTimeConfigInitParameters struct {
@@ -1507,8 +1507,8 @@ type ClusterInitParameters struct {
 	// The name or self_link of the Google Compute Engine
 	// network to which the cluster is connected. For Shared VPC, set this to the self link of the
 	// shared network.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Network bandwidth tier configuration. Structure is documented below.
@@ -1521,11 +1521,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Determines whether alias IPs or routes will be used for pod IPs in the cluster.
 	// Options are VPC_NATIVE or ROUTES. VPC_NATIVE enables IP aliasing. Newly created clusters will default to VPC_NATIVE.
@@ -1625,17 +1625,17 @@ type ClusterInitParameters struct {
 
 	// The name or self_link of the Google Compute Engine
 	// subnetwork in which the cluster's instances are launched.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The custom keys configuration of the cluster Structure is documented below.
 	UserManagedKeysConfig *UserManagedKeysConfigInitParameters `json:"userManagedKeysConfig,omitempty" tf:"user_managed_keys_config,omitempty"`
@@ -2332,8 +2332,8 @@ type ClusterParameters struct {
 	// The name or self_link of the Google Compute Engine
 	// network to which the cluster is connected. For Shared VPC, set this to the self link of the
 	// shared network.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -2349,11 +2349,11 @@ type ClusterParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Determines whether alias IPs or routes will be used for pod IPs in the cluster.
 	// Options are VPC_NATIVE or ROUTES. VPC_NATIVE enables IP aliasing. Newly created clusters will default to VPC_NATIVE.
@@ -2475,18 +2475,18 @@ type ClusterParameters struct {
 
 	// The name or self_link of the Google Compute Engine
 	// subnetwork in which the cluster's instances are launched.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The custom keys configuration of the cluster Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -5978,17 +5978,17 @@ type NodeConfigInitParameters struct {
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance options. Structure is documented below.
 	ShieldedInstanceConfig *NodeConfigShieldedInstanceConfigInitParameters `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -6582,18 +6582,18 @@ type NodeConfigParameters struct {
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Shielded Instance options. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -7484,17 +7484,17 @@ type PrivateClusterConfigInitParameters struct {
 	MasterIPv4CidrBlock *string `json:"masterIpv4CidrBlock,omitempty" tf:"master_ipv4_cidr_block,omitempty"`
 
 	// Subnetwork in cluster's network where master's endpoint will be provisioned.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkRef *v1.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkRef *v2.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkSelector *v1.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkSelector *v2.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateClusterConfigObservation struct {
@@ -7569,18 +7569,18 @@ type PrivateClusterConfigParameters struct {
 	MasterIPv4CidrBlock *string `json:"masterIpv4CidrBlock,omitempty" tf:"master_ipv4_cidr_block,omitempty"`
 
 	// Subnetwork in cluster's network where master's endpoint will be provisioned.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	PrivateEndpointSubnetwork *string `json:"privateEndpointSubnetwork,omitempty" tf:"private_endpoint_subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkRef *v1.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkRef *v2.Reference `json:"privateEndpointSubnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate privateEndpointSubnetwork.
 	// +kubebuilder:validation:Optional
-	PrivateEndpointSubnetworkSelector *v1.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
+	PrivateEndpointSubnetworkSelector *v2.Selector `json:"privateEndpointSubnetworkSelector,omitempty" tf:"-"`
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
@@ -8972,8 +8972,8 @@ type WritableCgroupsParameters struct {
 
 // ClusterSpec defines the desired state of Cluster
 type ClusterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ClusterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ClusterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -8989,8 +8989,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type WorkflowInitParameters struct {
@@ -64,17 +63,17 @@ type WorkflowInitParameters struct {
 	// The {account} value can be the email address or the unique_id of the service account.
 	// If not provided, workflow will use the project's default service account.
 	// Modifying this field for an existing workflow results in a new workflow revision.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
@@ -244,18 +243,18 @@ type WorkflowParameters struct {
 	// The {account} value can be the email address or the unique_id of the service account.
 	// If not provided, workflow will use the project's default service account.
 	// Modifying this field for an existing workflow results in a new workflow revision.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
 	// +kubebuilder:validation:Optional
@@ -293,8 +292,8 @@ type WorkflowSpec struct {
 
 // WorkflowStatus defines the observed state of Workflow.
 type WorkflowStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WorkflowObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WorkflowObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

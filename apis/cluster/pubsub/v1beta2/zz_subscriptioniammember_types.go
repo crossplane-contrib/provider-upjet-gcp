@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -50,16 +50,16 @@ type SubscriptionIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Subscription
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
 	// Reference to a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
-	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
+	SubscriptionRef *v2.Reference `json:"subscriptionRef,omitempty" tf:"-"`
 
 	// Selector for a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
-	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
+	SubscriptionSelector *v2.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
 }
 
 type SubscriptionIAMMemberObservation struct {
@@ -92,23 +92,23 @@ type SubscriptionIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Subscription
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Subscription
 	// +kubebuilder:validation:Optional
 	Subscription *string `json:"subscription,omitempty" tf:"subscription,omitempty"`
 
 	// Reference to a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
-	SubscriptionRef *v1.Reference `json:"subscriptionRef,omitempty" tf:"-"`
+	SubscriptionRef *v2.Reference `json:"subscriptionRef,omitempty" tf:"-"`
 
 	// Selector for a Subscription in pubsub to populate subscription.
 	// +kubebuilder:validation:Optional
-	SubscriptionSelector *v1.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
+	SubscriptionSelector *v2.Selector `json:"subscriptionSelector,omitempty" tf:"-"`
 }
 
 // SubscriptionIAMMemberSpec defines the desired state of SubscriptionIAMMember
 type SubscriptionIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubscriptionIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SubscriptionIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -124,8 +124,8 @@ type SubscriptionIAMMemberSpec struct {
 
 // SubscriptionIAMMemberStatus defines the observed state of SubscriptionIAMMember.
 type SubscriptionIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SubscriptionIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SubscriptionIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ApprovalConfigInitParameters struct {
@@ -1195,17 +1194,17 @@ type PubsubConfigInitParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The name of the topic from which this subscription is receiving messages.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubConfigObservation struct {
@@ -1233,18 +1232,18 @@ type PubsubConfigParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The name of the topic from which this subscription is receiving messages.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PullRequestInitParameters struct {
@@ -2294,17 +2293,17 @@ type TriggerInitParameters struct {
 	// If no service account is set, then the standard Cloud Build service account
 	// ([PROJECT_NUM]@system.gserviceaccount.com) will be used instead.
 	// Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The repo and ref of the repository from which to build.
 	// This field is used only for those triggers that do not respond to SCM events.
@@ -2579,18 +2578,18 @@ type TriggerParameters struct {
 	// If no service account is set, then the standard Cloud Build service account
 	// ([PROJECT_NUM]@system.gserviceaccount.com) will be used instead.
 	// Format: projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The repo and ref of the repository from which to build.
 	// This field is used only for those triggers that do not respond to SCM events.
@@ -2765,17 +2764,17 @@ type VolumesParameters struct {
 type WebhookConfigInitParameters struct {
 
 	// Resource name for the secret required as a URL parameter.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type WebhookConfigObservation struct {
@@ -2792,18 +2791,18 @@ type WebhookConfigObservation struct {
 type WebhookConfigParameters struct {
 
 	// Resource name for the secret required as a URL parameter.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.NamespacedReference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a SecretVersion in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.NamespacedSelector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 // TriggerSpec defines the desired state of Trigger
@@ -2825,8 +2824,8 @@ type TriggerSpec struct {
 
 // TriggerStatus defines the observed state of Trigger.
 type TriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

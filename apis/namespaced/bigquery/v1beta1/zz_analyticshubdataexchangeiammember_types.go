@@ -10,23 +10,22 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AnalyticsHubDataExchangeIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
@@ -60,17 +59,17 @@ type AnalyticsHubDataExchangeIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1.AnalyticsHubDataExchange
 	// +kubebuilder:validation:Optional
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
 
 	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDRef *v1.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+	DataExchangeIDRef *v2.NamespacedReference `json:"dataExchangeIdRef,omitempty" tf:"-"`
 
 	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
 	// +kubebuilder:validation:Optional
-	DataExchangeIDSelector *v1.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
+	DataExchangeIDSelector *v2.NamespacedSelector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
@@ -132,8 +131,8 @@ type AnalyticsHubDataExchangeIAMMemberSpec struct {
 
 // AnalyticsHubDataExchangeIAMMemberStatus defines the observed state of AnalyticsHubDataExchangeIAMMember.
 type AnalyticsHubDataExchangeIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AnalyticsHubDataExchangeIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AnalyticsHubDataExchangeIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GatewayInitParameters struct {
@@ -29,17 +29,17 @@ type GatewayInitParameters struct {
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta2.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta2.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
 
 	// References to Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsRefs []v1.Reference `json:"certificateUrlsRefs,omitempty" tf:"-"`
+	CertificateUrlsRefs []v2.Reference `json:"certificateUrlsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsSelector *v1.Selector `json:"certificateUrlsSelector,omitempty" tf:"-"`
+	CertificateUrlsSelector *v2.Selector `json:"certificateUrlsSelector,omitempty" tf:"-"`
 
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
@@ -57,17 +57,17 @@ type GatewayInitParameters struct {
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.GatewaySecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicyRef *v1.Reference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
+	GatewaySecurityPolicyRef *v2.Reference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+	GatewaySecurityPolicySelector *v2.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
 	// The IP Version that will be used by this gateway.
 	// Possible values are: IPV4, IPV6.
@@ -80,17 +80,17 @@ type GatewayInitParameters struct {
 	// The relative resource name identifying the VPC network that is using this configuration.
 	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
 	// The proxy binds to the specified ports.
@@ -116,17 +116,17 @@ type GatewayInitParameters struct {
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// Immutable. The type of the customer managed gateway.
 	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
@@ -260,18 +260,18 @@ type GatewayParameters struct {
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta2.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta2.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
 
 	// References to Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsRefs []v1.Reference `json:"certificateUrlsRefs,omitempty" tf:"-"`
+	CertificateUrlsRefs []v2.Reference `json:"certificateUrlsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Certificate in certificatemanager to populate certificateUrls.
 	// +kubebuilder:validation:Optional
-	CertificateUrlsSelector *v1.Selector `json:"certificateUrlsSelector,omitempty" tf:"-"`
+	CertificateUrlsSelector *v2.Selector `json:"certificateUrlsSelector,omitempty" tf:"-"`
 
 	// When deleting a gateway of type 'SECURE_WEB_GATEWAY', this boolean option will also delete auto generated router by the gateway creation.
 	// If there is no other gateway of type 'SECURE_WEB_GATEWAY' remaining for that region and network it will be deleted.
@@ -292,18 +292,18 @@ type GatewayParameters struct {
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.GatewaySecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 
 	// Reference to a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicyRef *v1.Reference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
+	GatewaySecurityPolicyRef *v2.Reference `json:"gatewaySecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a GatewaySecurityPolicy in networksecurity to populate gatewaySecurityPolicy.
 	// +kubebuilder:validation:Optional
-	GatewaySecurityPolicySelector *v1.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
+	GatewaySecurityPolicySelector *v2.Selector `json:"gatewaySecurityPolicySelector,omitempty" tf:"-"`
 
 	// The IP Version that will be used by this gateway.
 	// Possible values are: IPV4, IPV6.
@@ -323,18 +323,18 @@ type GatewayParameters struct {
 	// The relative resource name identifying the VPC network that is using this configuration.
 	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
 	// The proxy binds to the specified ports.
@@ -365,18 +365,18 @@ type GatewayParameters struct {
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// Immutable. The type of the customer managed gateway.
 	// Possible values are: OPEN_MESH, SECURE_WEB_GATEWAY.
@@ -386,8 +386,8 @@ type GatewayParameters struct {
 
 // GatewaySpec defines the desired state of Gateway
 type GatewaySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GatewayParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GatewayParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -403,8 +403,8 @@ type GatewaySpec struct {
 
 // GatewayStatus defines the observed state of Gateway.
 type GatewayStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GatewayObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GatewayObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

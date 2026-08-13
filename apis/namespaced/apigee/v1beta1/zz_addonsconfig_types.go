@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type APISecurityConfigInitParameters struct {
@@ -118,17 +117,17 @@ type AddonsConfigInitParameters struct {
 	AddonsConfig *AddonsConfigAddonsConfigInitParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
 	// Name of the Apigee organization.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Org *string `json:"org,omitempty" tf:"org,omitempty"`
 
 	// Reference to a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgRef *v1.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
+	OrgRef *v2.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgSelector *v1.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
+	OrgSelector *v2.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
 }
 
 type AddonsConfigObservation struct {
@@ -156,18 +155,18 @@ type AddonsConfigParameters struct {
 	AddonsConfig *AddonsConfigAddonsConfigParameters `json:"addonsConfig,omitempty" tf:"addons_config,omitempty"`
 
 	// Name of the Apigee organization.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Org *string `json:"org,omitempty" tf:"org,omitempty"`
 
 	// Reference to a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgRef *v1.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
+	OrgRef *v2.NamespacedReference `json:"orgRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate org.
 	// +kubebuilder:validation:Optional
-	OrgSelector *v1.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
+	OrgSelector *v2.NamespacedSelector `json:"orgSelector,omitempty" tf:"-"`
 }
 
 type AdvancedAPIOpsConfigInitParameters struct {
@@ -269,8 +268,8 @@ type AddonsConfigSpec struct {
 
 // AddonsConfigStatus defines the observed state of AddonsConfig.
 type AddonsConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AddonsConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AddonsConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

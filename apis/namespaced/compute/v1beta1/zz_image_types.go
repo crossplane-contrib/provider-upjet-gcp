@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DbsInitParameters struct {
@@ -92,12 +91,12 @@ type ImageEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageEncryptionKeyObservation struct {
@@ -129,13 +128,13 @@ type ImageEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageGuestOsFeaturesInitParameters struct {
@@ -216,7 +215,7 @@ type ImageInitParameters struct {
 	// The source disk to create this image based on.
 	// You must provide either this property or the
 	// rawDisk.source property but not both to create an image.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
@@ -227,11 +226,11 @@ type ImageInitParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
@@ -440,7 +439,7 @@ type ImageParameters struct {
 	// The source disk to create this image based on.
 	// You must provide either this property or the
 	// rawDisk.source property but not both to create an image.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
@@ -453,11 +452,11 @@ type ImageParameters struct {
 
 	// Reference to a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskRef *v1.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
+	SourceDiskRef *v2.NamespacedReference `json:"sourceDiskRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in compute to populate sourceDisk.
 	// +kubebuilder:validation:Optional
-	SourceDiskSelector *v1.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
+	SourceDiskSelector *v2.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
 	// URL of the source image used to create this image. In order to create an image, you must provide the full or partial
 	// URL of one of the following:
@@ -545,13 +544,13 @@ type ImageSourceImageEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageSourceImageEncryptionKeyObservation struct {
@@ -589,14 +588,14 @@ type ImageSourceImageEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageSourceSnapshotEncryptionKeyInitParameters struct {
@@ -616,13 +615,13 @@ type ImageSourceSnapshotEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type ImageSourceSnapshotEncryptionKeyObservation struct {
@@ -660,14 +659,14 @@ type ImageSourceSnapshotEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type KeksInitParameters struct {
@@ -875,13 +874,13 @@ type SourceDiskEncryptionKeyInitParameters struct {
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceDiskEncryptionKeyObservation struct {
@@ -919,14 +918,14 @@ type SourceDiskEncryptionKeyParameters struct {
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.LocalSecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
 	// customer-supplied encryption key to either encrypt or decrypt
 	// this resource. You can provide either the rawKey or the rsaEncryptedKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.LocalSecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 // ImageSpec defines the desired state of Image
@@ -948,8 +947,8 @@ type ImageSpec struct {
 
 // ImageStatus defines the observed state of Image.
 type ImageStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

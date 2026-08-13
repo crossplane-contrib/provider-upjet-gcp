@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeleteAfterDurationInitParameters struct {
@@ -521,17 +520,17 @@ type ReservationSpecificReservationInitParameters struct {
 
 	// Specifies the instance template to create the reservation. If you use this field, you must exclude the
 	// instanceProperties field.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ReservationSpecificReservationObservation struct {
@@ -569,18 +568,18 @@ type ReservationSpecificReservationParameters struct {
 
 	// Specifies the instance template to create the reservation. If you use this field, you must exclude the
 	// instanceProperties field.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateRef *v1.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
+	SourceInstanceTemplateRef *v2.NamespacedReference `json:"sourceInstanceTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a InstanceTemplate in compute to populate sourceInstanceTemplate.
 	// +kubebuilder:validation:Optional
-	SourceInstanceTemplateSelector *v1.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
+	SourceInstanceTemplateSelector *v2.NamespacedSelector `json:"sourceInstanceTemplateSelector,omitempty" tf:"-"`
 }
 
 type ResourceStatusInitParameters struct {
@@ -718,8 +717,8 @@ type ReservationSpec struct {
 
 // ReservationStatus defines the observed state of Reservation.
 type ReservationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReservationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReservationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

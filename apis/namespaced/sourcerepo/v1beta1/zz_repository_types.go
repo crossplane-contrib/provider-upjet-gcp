@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PubsubConfigsInitParameters struct {
@@ -23,30 +22,30 @@ type PubsubConfigsInitParameters struct {
 	// This service account needs to be in the same project as the PubsubConfig. When added,
 	// the caller needs to have iam.serviceAccounts.actAs permission on this service account.
 	// If unspecified, it defaults to the compute engine default service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The identifier for this object. Format specified above.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type PubsubConfigsObservation struct {
@@ -74,32 +73,32 @@ type PubsubConfigsParameters struct {
 	// This service account needs to be in the same project as the PubsubConfig. When added,
 	// the caller needs to have iam.serviceAccounts.actAs permission on this service account.
 	// If unspecified, it defaults to the compute engine default service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The identifier for this object. Format specified above.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type RepositoryInitParameters struct {
@@ -182,8 +181,8 @@ type RepositorySpec struct {
 
 // RepositoryStatus defines the observed state of Repository.
 type RepositoryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RepositoryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RepositoryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

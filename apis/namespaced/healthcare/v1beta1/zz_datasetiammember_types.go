@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -45,16 +44,16 @@ type ConditionParameters struct {
 type DatasetIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/healthcare/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/healthcare/v1beta1.Dataset
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in healthcare to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in healthcare to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -80,17 +79,17 @@ type DatasetIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/healthcare/v1beta1.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/healthcare/v1beta1.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in healthcare to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.NamespacedReference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in healthcare to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.NamespacedSelector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -118,8 +117,8 @@ type DatasetIAMMemberSpec struct {
 
 // DatasetIAMMemberStatus defines the observed state of DatasetIAMMember.
 type DatasetIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

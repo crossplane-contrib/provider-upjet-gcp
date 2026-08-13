@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FieldsInitParameters struct {
@@ -107,32 +107,32 @@ type TagInitParameters struct {
 
 	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
 	// all entries in that group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.Entry
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta2.Entry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// The resource name of the tag template that this tag uses. Example:
 	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	// This field cannot be modified after creation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.TagTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta2.TagTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Template *string `json:"template,omitempty" tf:"template,omitempty"`
 
 	// Reference to a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateRef *v1.Reference `json:"templateRef,omitempty" tf:"-"`
+	TemplateRef *v2.Reference `json:"templateRef,omitempty" tf:"-"`
 
 	// Selector for a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateSelector *v1.Selector `json:"templateSelector,omitempty" tf:"-"`
+	TemplateSelector *v2.Selector `json:"templateSelector,omitempty" tf:"-"`
 }
 
 type TagObservation struct {
@@ -191,40 +191,40 @@ type TagParameters struct {
 
 	// The name of the parent this tag is attached to. This can be the name of an entry or an entry group. If an entry group, the tag will be attached to
 	// all entries in that group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.Entry
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta2.Entry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Entry in datacatalog to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// The resource name of the tag template that this tag uses. Example:
 	// projects/{project_id}/locations/{location}/tagTemplates/{tagTemplateId}
 	// This field cannot be modified after creation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta2.TagTemplate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta2.TagTemplate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Template *string `json:"template,omitempty" tf:"template,omitempty"`
 
 	// Reference to a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateRef *v1.Reference `json:"templateRef,omitempty" tf:"-"`
+	TemplateRef *v2.Reference `json:"templateRef,omitempty" tf:"-"`
 
 	// Selector for a TagTemplate in datacatalog to populate template.
 	// +kubebuilder:validation:Optional
-	TemplateSelector *v1.Selector `json:"templateSelector,omitempty" tf:"-"`
+	TemplateSelector *v2.Selector `json:"templateSelector,omitempty" tf:"-"`
 }
 
 // TagSpec defines the desired state of Tag
 type TagSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TagParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TagParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -240,8 +240,8 @@ type TagSpec struct {
 
 // TagStatus defines the observed state of Tag.
 type TagStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TagObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TagObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

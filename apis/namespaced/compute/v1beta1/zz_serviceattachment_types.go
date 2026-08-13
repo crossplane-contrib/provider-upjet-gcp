@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectedEndpointsInitParameters struct {
@@ -62,17 +61,17 @@ type ConsumerAcceptListsInitParameters struct {
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// A project that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -112,18 +111,18 @@ type ConsumerAcceptListsParameters struct {
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
 	// Reference to a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLRef *v1.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
+	NetworkURLRef *v2.NamespacedReference `json:"networkUrlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate networkUrl.
 	// +kubebuilder:validation:Optional
-	NetworkURLSelector *v1.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
+	NetworkURLSelector *v2.NamespacedSelector `json:"networkUrlSelector,omitempty" tf:"-"`
 
 	// A project that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -178,16 +177,16 @@ type ServiceAttachmentInitParameters struct {
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
 	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsRefs []v1.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
+	NATSubnetsRefs []v2.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsSelector *v1.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
+	NATSubnetsSelector *v2.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -217,17 +216,17 @@ type ServiceAttachmentInitParameters struct {
 	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
 
 	// The URL of a service serving the endpoint identified by this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceRef *v1.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
+	TargetServiceRef *v2.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceSelector *v1.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
+	TargetServiceSelector *v2.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 type ServiceAttachmentObservation struct {
@@ -355,17 +354,17 @@ type ServiceAttachmentParameters struct {
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty" tf:"enable_proxy_protocol,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
 	// References to Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsRefs []v1.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
+	NATSubnetsRefs []v2.NamespacedReference `json:"natSubnetsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate natSubnets.
 	// +kubebuilder:validation:Optional
-	NATSubnetsSelector *v1.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
+	NATSubnetsSelector *v2.NamespacedSelector `json:"natSubnetsSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -404,18 +403,18 @@ type ServiceAttachmentParameters struct {
 	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
 
 	// The URL of a service serving the endpoint identified by this service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceRef *v1.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
+	TargetServiceRef *v2.NamespacedReference `json:"targetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate targetService.
 	// +kubebuilder:validation:Optional
-	TargetServiceSelector *v1.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
+	TargetServiceSelector *v2.NamespacedSelector `json:"targetServiceSelector,omitempty" tf:"-"`
 }
 
 // ServiceAttachmentSpec defines the desired state of ServiceAttachment
@@ -437,8 +436,8 @@ type ServiceAttachmentSpec struct {
 
 // ServiceAttachmentStatus defines the observed state of ServiceAttachment.
 type ServiceAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

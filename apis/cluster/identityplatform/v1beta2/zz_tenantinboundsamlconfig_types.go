@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type IdPConfigIdPCertificatesInitParameters struct {
 
 	// (Output)
 	// The x509 certificate
-	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IdPConfigIdPCertificatesObservation struct {
@@ -28,7 +28,7 @@ type IdPConfigIdPCertificatesParameters struct {
 	// (Output)
 	// The x509 certificate
 	// +kubebuilder:validation:Optional
-	X509CertificateSecretRef *v1.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
+	X509CertificateSecretRef *v2.SecretKeySelector `json:"x509CertificateSecretRef,omitempty" tf:"-"`
 }
 
 type SpConfigSpCertificatesInitParameters struct {
@@ -123,17 +123,17 @@ type TenantInboundSAMLConfigInitParameters struct {
 	SpConfig *TenantInboundSAMLConfigSpConfigInitParameters `json:"spConfig,omitempty" tf:"sp_config,omitempty"`
 
 	// The name of the tenant where this inbound SAML config resource exists
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.Reference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.Reference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantInboundSAMLConfigObservation struct {
@@ -206,18 +206,18 @@ type TenantInboundSAMLConfigParameters struct {
 	SpConfig *TenantInboundSAMLConfigSpConfigParameters `json:"spConfig,omitempty" tf:"sp_config,omitempty"`
 
 	// The name of the tenant where this inbound SAML config resource exists
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.Reference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.Reference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.Selector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.Selector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantInboundSAMLConfigSpConfigInitParameters struct {
@@ -256,8 +256,8 @@ type TenantInboundSAMLConfigSpConfigParameters struct {
 
 // TenantInboundSAMLConfigSpec defines the desired state of TenantInboundSAMLConfig
 type TenantInboundSAMLConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TenantInboundSAMLConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TenantInboundSAMLConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -273,8 +273,8 @@ type TenantInboundSAMLConfigSpec struct {
 
 // TenantInboundSAMLConfigStatus defines the observed state of TenantInboundSAMLConfig.
 type TenantInboundSAMLConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TenantInboundSAMLConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TenantInboundSAMLConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

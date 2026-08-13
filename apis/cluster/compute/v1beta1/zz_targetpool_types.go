@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetPoolInitParameters struct {
@@ -28,16 +28,16 @@ type TargetPoolInitParameters struct {
 
 	// List of zero or one health check name or self_link. Only
 	// legacy google_compute_http_health_check is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.HTTPHealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.HTTPHealthCheck
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// References to HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
@@ -118,17 +118,17 @@ type TargetPoolParameters struct {
 
 	// List of zero or one health check name or self_link. Only
 	// legacy google_compute_http_health_check is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.HTTPHealthCheck
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.HTTPHealthCheck
 	// +kubebuilder:validation:Optional
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
 	// References to HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksRefs []v1.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
+	HealthChecksRefs []v2.Reference `json:"healthChecksRefs,omitempty" tf:"-"`
 
 	// Selector for a list of HTTPHealthCheck in compute to populate healthChecks.
 	// +kubebuilder:validation:Optional
-	HealthChecksSelector *v1.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
+	HealthChecksSelector *v2.Selector `json:"healthChecksSelector,omitempty" tf:"-"`
 
 	// List of instances in the pool. They can be given as
 	// URLs, or in the form of "zone/name".
@@ -155,8 +155,8 @@ type TargetPoolParameters struct {
 
 // TargetPoolSpec defines the desired state of TargetPool
 type TargetPoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TargetPoolParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TargetPoolParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -172,8 +172,8 @@ type TargetPoolSpec struct {
 
 // TargetPoolStatus defines the observed state of TargetPool.
 type TargetPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

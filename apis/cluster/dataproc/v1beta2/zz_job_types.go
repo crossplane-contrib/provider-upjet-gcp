@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type HadoopConfigInitParameters struct {
@@ -216,17 +216,17 @@ type JobInitParameters struct {
 
 	// The Cloud Dataproc region. This essentially determines which clusters are available
 	// for this job to be submitted to. If not specified, defaults to global.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataproc/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataproc/v1beta2.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	Scheduling *SchedulingInitParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
 
@@ -345,18 +345,18 @@ type JobParameters struct {
 
 	// The Cloud Dataproc region. This essentially determines which clusters are available
 	// for this job to be submitted to. If not specified, defaults to global.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataproc/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataproc/v1beta2.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Scheduling *SchedulingParameters `json:"scheduling,omitempty" tf:"scheduling,omitempty"`
@@ -507,17 +507,17 @@ type PlacementInitParameters struct {
 
 	// The name of the cluster where the job
 	// will be submitted.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataproc/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataproc/v1beta2.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 }
 
 type PlacementObservation struct {
@@ -534,18 +534,18 @@ type PlacementParameters struct {
 
 	// The name of the cluster where the job
 	// will be submitted.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataproc/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataproc/v1beta2.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Reference to a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.Reference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.Reference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in dataproc to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.Selector `json:"clusterNameSelector,omitempty" tf:"-"`
 }
 
 type PrestoConfigInitParameters struct {
@@ -1049,8 +1049,8 @@ type StatusParameters struct {
 
 // JobSpec defines the desired state of Job
 type JobSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     JobParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   JobParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1066,8 +1066,8 @@ type JobSpec struct {
 
 // JobStatus defines the observed state of Job.
 type JobStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

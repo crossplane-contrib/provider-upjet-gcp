@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomaticUpdatePolicyInitParameters struct {
@@ -29,17 +29,17 @@ type BuildConfigInitParameters struct {
 	AutomaticUpdatePolicy *AutomaticUpdatePolicyInitParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 
 	// Reference to a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositoryRef *v1.Reference `json:"dockerRepositoryRef,omitempty" tf:"-"`
+	DockerRepositoryRef *v2.Reference `json:"dockerRepositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositorySelector *v1.Selector `json:"dockerRepositorySelector,omitempty" tf:"-"`
+	DockerRepositorySelector *v2.Selector `json:"dockerRepositorySelector,omitempty" tf:"-"`
 
 	// The name of the function (as defined in source code) that will be executed.
 	// Defaults to the resource name suffix, if not specified. For backward
@@ -61,34 +61,34 @@ type BuildConfigInitParameters struct {
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The fully-qualified name of the service account to be used for building the container.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.
 	Source *SourceInitParameters `json:"source,omitempty" tf:"source,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudbuild/v1beta2.WorkerPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudbuild/v1beta2.WorkerPool
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
 
 	// Reference to a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolRef *v1.Reference `json:"workerPoolRef,omitempty" tf:"-"`
+	WorkerPoolRef *v2.Reference `json:"workerPoolRef,omitempty" tf:"-"`
 
 	// Selector for a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolSelector *v1.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
+	WorkerPoolSelector *v2.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
 type BuildConfigObservation struct {
@@ -143,18 +143,18 @@ type BuildConfigParameters struct {
 	AutomaticUpdatePolicy *AutomaticUpdatePolicyParameters `json:"automaticUpdatePolicy,omitempty" tf:"automatic_update_policy,omitempty"`
 
 	// User managed repository created in Artifact Registry optionally with a customer managed encryption key.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/artifact/v1beta2.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DockerRepository *string `json:"dockerRepository,omitempty" tf:"docker_repository,omitempty"`
 
 	// Reference to a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositoryRef *v1.Reference `json:"dockerRepositoryRef,omitempty" tf:"-"`
+	DockerRepositoryRef *v2.Reference `json:"dockerRepositoryRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryRepository in artifact to populate dockerRepository.
 	// +kubebuilder:validation:Optional
-	DockerRepositorySelector *v1.Selector `json:"dockerRepositorySelector,omitempty" tf:"-"`
+	DockerRepositorySelector *v2.Selector `json:"dockerRepositorySelector,omitempty" tf:"-"`
 
 	// The name of the function (as defined in source code) that will be executed.
 	// Defaults to the resource name suffix, if not specified. For backward
@@ -180,18 +180,18 @@ type BuildConfigParameters struct {
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The fully-qualified name of the service account to be used for building the container.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The location of the function source code.
 	// Structure is documented below.
@@ -199,18 +199,18 @@ type BuildConfigParameters struct {
 	Source *SourceParameters `json:"source,omitempty" tf:"source,omitempty"`
 
 	// Name of the Cloud Build Custom Worker Pool that should be used to build the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudbuild/v1beta2.WorkerPool
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudbuild/v1beta2.WorkerPool
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
 
 	// Reference to a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolRef *v1.Reference `json:"workerPoolRef,omitempty" tf:"-"`
+	WorkerPoolRef *v2.Reference `json:"workerPoolRef,omitempty" tf:"-"`
 
 	// Selector for a WorkerPool in cloudbuild to populate workerPool.
 	// +kubebuilder:validation:Optional
-	WorkerPoolSelector *v1.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
+	WorkerPoolSelector *v2.Selector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
 type DirectVPCNetworkInterfaceInitParameters struct {
@@ -268,16 +268,16 @@ type EventFiltersInitParameters struct {
 
 	// Required. The value for the attribute.
 	// If the operator field is set as match-path-pattern, this value can be a path pattern instead of an exact value.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
 	// Reference to a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueRef *v1.Reference `json:"valueRef,omitempty" tf:"-"`
+	ValueRef *v2.Reference `json:"valueRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueSelector *v1.Selector `json:"valueSelector,omitempty" tf:"-"`
+	ValueSelector *v2.Selector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 type EventFiltersObservation struct {
@@ -317,17 +317,17 @@ type EventFiltersParameters struct {
 
 	// Required. The value for the attribute.
 	// If the operator field is set as match-path-pattern, this value can be a path pattern instead of an exact value.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
 	// Reference to a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueRef *v1.Reference `json:"valueRef,omitempty" tf:"-"`
+	ValueRef *v2.Reference `json:"valueRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate value.
 	// +kubebuilder:validation:Optional
-	ValueSelector *v1.Selector `json:"valueSelector,omitempty" tf:"-"`
+	ValueSelector *v2.Selector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 type EventTriggerInitParameters struct {
@@ -341,17 +341,17 @@ type EventTriggerInitParameters struct {
 
 	// The name of a Pub/Sub topic in the same project that will be used
 	// as the transport topic for the event delivery.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicRef *v1.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
+	PubsubTopicRef *v2.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicSelector *v1.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+	PubsubTopicSelector *v2.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
@@ -361,17 +361,17 @@ type EventTriggerInitParameters struct {
 	// Optional. The email of the trigger's service account. The service account
 	// must have permission to invoke Cloud Run services. If empty, defaults to the
 	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The region that the trigger will be in. The trigger will only receive
 	// events originating in this region. It can be the same
@@ -427,18 +427,18 @@ type EventTriggerParameters struct {
 
 	// The name of a Pub/Sub topic in the same project that will be used
 	// as the transport topic for the event delivery.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicRef *v1.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
+	PubsubTopicRef *v2.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in pubsub to populate pubsubTopic.
 	// +kubebuilder:validation:Optional
-	PubsubTopicSelector *v1.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
+	PubsubTopicSelector *v2.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 
 	// Describes the retry policy in case of function's execution failure.
 	// Retried execution is charged as any other execution.
@@ -449,18 +449,18 @@ type EventTriggerParameters struct {
 	// Optional. The email of the trigger's service account. The service account
 	// must have permission to invoke Cloud Run services. If empty, defaults to the
 	// Compute Engine default service account: {project_number}-compute@developer.gserviceaccount.com.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The region that the trigger will be in. The trigger will only receive
 	// events originating in this region. It can be the same
@@ -712,16 +712,16 @@ type SecretEnvironmentVariablesInitParameters struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -753,17 +753,17 @@ type SecretEnvironmentVariablesParameters struct {
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// Version of the secret (version number or the string 'latest'). It is preferable to use latest version with secret volumes as secret value changes are reflected immediately.
 	// +kubebuilder:validation:Optional
@@ -779,16 +779,16 @@ type SecretVolumesInitParameters struct {
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// List of secret versions to mount for this secret. If empty, the latest version of the secret will be made available in a file named after the secret under the mount point.'
 	// Structure is documented below.
@@ -822,17 +822,17 @@ type SecretVolumesParameters struct {
 	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 
 	// Name of the secret in secret manager (not the full resource name).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// List of secret versions to mount for this secret. If empty, the latest version of the secret will be made available in a file named after the secret under the mount point.'
 	// Structure is documented below.
@@ -893,17 +893,17 @@ type ServiceConfigInitParameters struct {
 	SecretVolumes []SecretVolumesInitParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
 
 	// The email of the service account for this function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The function execution timeout. Execution is considered failed and
 	// can be terminated if the function is not completed at the end of the
@@ -1064,18 +1064,18 @@ type ServiceConfigParameters struct {
 	SecretVolumes []SecretVolumesParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
 
 	// The email of the service account for this function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 
 	// The function execution timeout. Execution is considered failed and
 	// can be terminated if the function is not completed at the end of the
@@ -1131,33 +1131,33 @@ type SourceParameters struct {
 type StorageSourceInitParameters struct {
 
 	// Google Cloud Storage bucket containing the source
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Google Cloud Storage generation for the object. If the generation
 	// is omitted, the latest generation will be used.
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Google Cloud Storage object containing the source.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta2.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.Reference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.Reference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.Selector `json:"objectSelector,omitempty" tf:"-"`
 }
 
 type StorageSourceObservation struct {
@@ -1176,17 +1176,17 @@ type StorageSourceObservation struct {
 type StorageSourceParameters struct {
 
 	// Google Cloud Storage bucket containing the source
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Google Cloud Storage generation for the object. If the generation
 	// is omitted, the latest generation will be used.
@@ -1194,18 +1194,18 @@ type StorageSourceParameters struct {
 	Generation *float64 `json:"generation,omitempty" tf:"generation,omitempty"`
 
 	// Google Cloud Storage object containing the source.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta2.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta2.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.Reference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.Reference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.Selector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.Selector `json:"objectSelector,omitempty" tf:"-"`
 }
 
 type VersionsInitParameters struct {
@@ -1239,8 +1239,8 @@ type VersionsParameters struct {
 
 // FunctionSpec defines the desired state of Function
 type FunctionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FunctionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FunctionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1256,8 +1256,8 @@ type FunctionSpec struct {
 
 // FunctionStatus defines the observed state of Function.
 type FunctionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FunctionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FunctionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

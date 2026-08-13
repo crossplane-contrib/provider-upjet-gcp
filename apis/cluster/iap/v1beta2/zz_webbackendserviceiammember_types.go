@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type WebBackendServiceIAMMemberConditionInitParameters struct {
@@ -50,16 +50,16 @@ type WebBackendServiceIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	WebBackendService *string `json:"webBackendService,omitempty" tf:"web_backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate webBackendService.
 	// +kubebuilder:validation:Optional
-	WebBackendServiceRef *v1.Reference `json:"webBackendServiceRef,omitempty" tf:"-"`
+	WebBackendServiceRef *v2.Reference `json:"webBackendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate webBackendService.
 	// +kubebuilder:validation:Optional
-	WebBackendServiceSelector *v1.Selector `json:"webBackendServiceSelector,omitempty" tf:"-"`
+	WebBackendServiceSelector *v2.Selector `json:"webBackendServiceSelector,omitempty" tf:"-"`
 }
 
 type WebBackendServiceIAMMemberObservation struct {
@@ -92,23 +92,23 @@ type WebBackendServiceIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +kubebuilder:validation:Optional
 	WebBackendService *string `json:"webBackendService,omitempty" tf:"web_backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate webBackendService.
 	// +kubebuilder:validation:Optional
-	WebBackendServiceRef *v1.Reference `json:"webBackendServiceRef,omitempty" tf:"-"`
+	WebBackendServiceRef *v2.Reference `json:"webBackendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate webBackendService.
 	// +kubebuilder:validation:Optional
-	WebBackendServiceSelector *v1.Selector `json:"webBackendServiceSelector,omitempty" tf:"-"`
+	WebBackendServiceSelector *v2.Selector `json:"webBackendServiceSelector,omitempty" tf:"-"`
 }
 
 // WebBackendServiceIAMMemberSpec defines the desired state of WebBackendServiceIAMMember
 type WebBackendServiceIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     WebBackendServiceIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   WebBackendServiceIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -124,8 +124,8 @@ type WebBackendServiceIAMMemberSpec struct {
 
 // WebBackendServiceIAMMemberStatus defines the observed state of WebBackendServiceIAMMember.
 type WebBackendServiceIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WebBackendServiceIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WebBackendServiceIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

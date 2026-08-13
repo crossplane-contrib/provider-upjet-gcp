@@ -10,23 +10,22 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackendBucketInitParameters struct {
 
 	// Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
@@ -44,17 +43,17 @@ type BackendBucketInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The security policy associated with this backend bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.SecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.SecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
 
 	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicyRef *v1.NamespacedReference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+	EdgeSecurityPolicyRef *v2.NamespacedReference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicySelector *v1.NamespacedSelector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
+	EdgeSecurityPolicySelector *v2.NamespacedSelector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
 	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
@@ -133,17 +132,17 @@ type BackendBucketObservation struct {
 type BackendBucketParameters struct {
 
 	// Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameRef *v1.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
+	BucketNameRef *v2.NamespacedReference `json:"bucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucketName.
 	// +kubebuilder:validation:Optional
-	BucketNameSelector *v1.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
+	BucketNameSelector *v2.NamespacedSelector `json:"bucketNameSelector,omitempty" tf:"-"`
 
 	// Cloud CDN configuration for this Backend Bucket.
 	// Structure is documented below.
@@ -165,18 +164,18 @@ type BackendBucketParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The security policy associated with this backend bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.SecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.SecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EdgeSecurityPolicy *string `json:"edgeSecurityPolicy,omitempty" tf:"edge_security_policy,omitempty"`
 
 	// Reference to a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicyRef *v1.NamespacedReference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
+	EdgeSecurityPolicyRef *v2.NamespacedReference `json:"edgeSecurityPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in compute to populate edgeSecurityPolicy.
 	// +kubebuilder:validation:Optional
-	EdgeSecurityPolicySelector *v1.NamespacedSelector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
+	EdgeSecurityPolicySelector *v2.NamespacedSelector `json:"edgeSecurityPolicySelector,omitempty" tf:"-"`
 
 	// If true, enable Cloud CDN for this BackendBucket.
 	// Note: This cannot be set to true when loadBalancingScheme is set to INTERNAL_MANAGED.
@@ -510,8 +509,8 @@ type BackendBucketSpec struct {
 
 // BackendBucketStatus defines the observed state of BackendBucket.
 type BackendBucketStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendBucketObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendBucketObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

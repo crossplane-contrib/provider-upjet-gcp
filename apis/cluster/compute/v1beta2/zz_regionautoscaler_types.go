@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalingPolicyCPUUtilizationInitParameters struct {
@@ -562,17 +562,17 @@ type RegionAutoscalerInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type RegionAutoscalerObservation struct {
@@ -637,18 +637,18 @@ type RegionAutoscalerParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// URL of the managed instance group that this autoscaler will scale.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.Reference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.Reference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a RegionInstanceGroupManager in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.Selector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.Selector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type ScaleInControlMaxScaledInReplicasInitParameters struct {
@@ -688,8 +688,8 @@ type ScaleInControlMaxScaledInReplicasParameters struct {
 
 // RegionAutoscalerSpec defines the desired state of RegionAutoscaler
 type RegionAutoscalerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionAutoscalerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionAutoscalerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -705,8 +705,8 @@ type RegionAutoscalerSpec struct {
 
 // RegionAutoscalerStatus defines the observed state of RegionAutoscaler.
 type RegionAutoscalerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionAutoscalerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionAutoscalerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

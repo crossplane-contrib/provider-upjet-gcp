@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RouterInterfaceInitParameters struct {
@@ -50,16 +49,16 @@ type RouterInterfaceInitParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Router
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The URI of the subnetwork resource that this interface
 	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
@@ -68,16 +67,16 @@ type RouterInterfaceInitParameters struct {
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
 	// one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.VPNTunnel
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
 
 	// Reference to a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelRef *v1.NamespacedReference `json:"vpnTunnelRef,omitempty" tf:"-"`
+	VPNTunnelRef *v2.NamespacedReference `json:"vpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelSelector *v1.NamespacedSelector `json:"vpnTunnelSelector,omitempty" tf:"-"`
+	VPNTunnelSelector *v2.NamespacedSelector `json:"vpnTunnelSelector,omitempty" tf:"-"`
 }
 
 type RouterInterfaceObservation struct {
@@ -179,17 +178,17 @@ type RouterInterfaceParameters struct {
 
 	// The name of the router this interface will be attached to.
 	// Changing this forces a new interface to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.NamespacedReference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.NamespacedSelector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The URI of the subnetwork resource that this interface
 	// belongs to, which must be in the same region as the Cloud Router. When you establish a BGP session to a VM instance using this interface, the VM instance must belong to the same subnetwork as the subnetwork specified here. Changing this forces a new interface to be created. Only one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
@@ -199,17 +198,17 @@ type RouterInterfaceParameters struct {
 	// The name or resource link to the VPN tunnel this
 	// interface will be linked to. Changing this forces a new interface to be created. Only
 	// one of vpn_tunnel, interconnect_attachment or subnetwork can be specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.VPNTunnel
 	// +kubebuilder:validation:Optional
 	VPNTunnel *string `json:"vpnTunnel,omitempty" tf:"vpn_tunnel,omitempty"`
 
 	// Reference to a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelRef *v1.NamespacedReference `json:"vpnTunnelRef,omitempty" tf:"-"`
+	VPNTunnelRef *v2.NamespacedReference `json:"vpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate vpnTunnel.
 	// +kubebuilder:validation:Optional
-	VPNTunnelSelector *v1.NamespacedSelector `json:"vpnTunnelSelector,omitempty" tf:"-"`
+	VPNTunnelSelector *v2.NamespacedSelector `json:"vpnTunnelSelector,omitempty" tf:"-"`
 }
 
 // RouterInterfaceSpec defines the desired state of RouterInterface
@@ -231,8 +230,8 @@ type RouterInterfaceSpec struct {
 
 // RouterInterfaceStatus defines the observed state of RouterInterface.
 type RouterInterfaceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouterInterfaceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouterInterfaceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

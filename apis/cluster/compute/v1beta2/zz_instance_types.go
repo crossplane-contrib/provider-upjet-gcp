@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessConfigInitParameters struct {
@@ -182,12 +182,12 @@ type AttachedDiskInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
-	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
-	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
@@ -259,13 +259,13 @@ type AttachedDiskParameters struct {
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	// +kubebuilder:validation:Optional
@@ -310,11 +310,11 @@ type BootDiskInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
-	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
-	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	DiskEncryptionServiceAccount *string `json:"diskEncryptionServiceAccount,omitempty" tf:"disk_encryption_service_account,omitempty"`
@@ -419,12 +419,12 @@ type BootDiskParameters struct {
 	// to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// may be set.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRawSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRawSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRawSecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to encrypt this disk. Only one of kms_key_self_link, disk_encryption_key_rsa and disk_encryption_key_raw
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyRsaSecretRef *v1.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
+	DiskEncryptionKeyRsaSecretRef *v2.SecretKeySelector `json:"diskEncryptionKeyRsaSecretRef,omitempty" tf:"-"`
 
 	// The service account being used for the encryption request for the given KMS key. If absent, the Compute Engine default service account is used.
 	// +kubebuilder:validation:Optional
@@ -622,16 +622,16 @@ type InitializeParamsInitParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Image
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
+	ImageRef *v2.Reference `json:"imageRef,omitempty" tf:"-"`
 
 	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
+	ImageSelector *v2.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -781,17 +781,17 @@ type InitializeParamsParameters struct {
 	// google_compute_image data source.
 	// For instance, the image centos-6-v20180104 includes its family name centos-6.
 	// These images can be referred by family name here.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Image
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Image
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Reference to a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageRef *v1.Reference `json:"imageRef,omitempty" tf:"-"`
+	ImageRef *v2.Reference `json:"imageRef,omitempty" tf:"-"`
 
 	// Selector for a Image in compute to populate image.
 	// +kubebuilder:validation:Optional
-	ImageSelector *v1.Selector `json:"imageSelector,omitempty" tf:"-"`
+	ImageSelector *v2.Selector `json:"imageSelector,omitempty" tf:"-"`
 
 	// A map of key/value label pairs to assign to the instance.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -874,12 +874,12 @@ type InitializeParamsSourceImageEncryptionKeyInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InitializeParamsSourceImageEncryptionKeyObservation struct {
@@ -916,13 +916,13 @@ type InitializeParamsSourceImageEncryptionKeyParameters struct {
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
@@ -940,12 +940,12 @@ type InitializeParamsSourceSnapshotEncryptionKeyInitParameters struct {
 	// encoded in RFC 4648 base64
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InitializeParamsSourceSnapshotEncryptionKeyObservation struct {
@@ -982,13 +982,13 @@ type InitializeParamsSourceSnapshotEncryptionKeyParameters struct {
 	// to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
+	RawKeySecretRef *v2.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 
 	// Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit [customer-supplied encryption key]
 	// (https://cloud.google.com/compute/docs/disks/customer-supplied-encryption) to decrypt the given image. Only one of kms_key_self_link, rsa_encrypted_key and raw_key
 	// may be set.
 	// +kubebuilder:validation:Optional
-	RsaEncryptedKeySecretRef *v1.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
+	RsaEncryptedKeySecretRef *v2.SecretKeySelector `json:"rsaEncryptedKeySecretRef,omitempty" tf:"-"`
 }
 
 type InstanceEncryptionKeyInitParameters struct {
@@ -1641,8 +1641,8 @@ type NetworkInterfaceInitParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
@@ -1654,11 +1654,11 @@ type NetworkInterfaceInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA, IDPF
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
@@ -1676,8 +1676,8 @@ type NetworkInterfaceInitParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The project in which the subnetwork belongs.
@@ -1688,11 +1688,11 @@ type NetworkInterfaceInitParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
 	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
@@ -1810,8 +1810,8 @@ type NetworkInterfaceParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Either network or subnetwork must be provided. If network isn't provided it will
 	// be inferred from the subnetwork.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -1826,11 +1826,11 @@ type NetworkInterfaceParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA, IDPF
 	// +kubebuilder:validation:Optional
@@ -1851,8 +1851,8 @@ type NetworkInterfaceParameters struct {
 	// legacy mode, do not specify this field. If the
 	// network is in auto subnet mode, specifying the subnetwork is optional. If the network is
 	// in custom subnet mode, specifying the subnetwork is required.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -1865,11 +1865,11 @@ type NetworkInterfaceParameters struct {
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.Reference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.Reference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
 	// +kubebuilder:validation:Optional
@@ -2211,17 +2211,17 @@ type ServiceAccountInitParameters struct {
 
 	// The service account e-mail address.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.Reference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
@@ -2249,18 +2249,18 @@ type ServiceAccountParameters struct {
 
 	// The service account e-mail address.
 	// Note: allow_stopping_for_update must be set to true or your instance must have a desired_status of TERMINATED in order to update this field.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailRef *v1.Reference `json:"emailRef,omitempty" tf:"-"`
+	EmailRef *v2.Reference `json:"emailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate email.
 	// +kubebuilder:validation:Optional
-	EmailSelector *v1.Selector `json:"emailSelector,omitempty" tf:"-"`
+	EmailSelector *v2.Selector `json:"emailSelector,omitempty" tf:"-"`
 
 	// A list of service scopes. Both OAuth2 URLs and gcloud
 	// short names are supported. To allow full access to all Cloud APIs, use the
@@ -2350,8 +2350,8 @@ type SpecificReservationParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2367,8 +2367,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

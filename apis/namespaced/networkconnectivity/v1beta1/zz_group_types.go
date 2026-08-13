@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoAcceptInitParameters struct {
@@ -118,18 +117,18 @@ type GroupParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The name of the hub. Hub names must be unique. They use the following form: projects/{projectNumber}/locations/global/hubs/{hubId}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networkconnectivity/v1beta1.Hub
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networkconnectivity/v1beta1.Hub
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
 
 	// Reference to a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubRef *v1.NamespacedReference `json:"hubRef,omitempty" tf:"-"`
+	HubRef *v2.NamespacedReference `json:"hubRef,omitempty" tf:"-"`
 
 	// Selector for a Hub in networkconnectivity to populate hub.
 	// +kubebuilder:validation:Optional
-	HubSelector *v1.NamespacedSelector `json:"hubSelector,omitempty" tf:"-"`
+	HubSelector *v2.NamespacedSelector `json:"hubSelector,omitempty" tf:"-"`
 
 	// Optional labels in key:value format. For more information about labels, see Requirements for labels.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -163,8 +162,8 @@ type GroupSpec struct {
 
 // GroupStatus defines the observed state of Group.
 type GroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -5,124 +5,124 @@
 
 package v1beta2
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this TableIAMBinding.
-func (mg *TableIAMBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TableIAMBinding) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this TableIAMBinding.
-func (mg *TableIAMBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TableIAMBinding) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TableIAMBinding.
-func (mg *TableIAMBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *TableIAMBinding) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TableIAMBinding.
-func (mg *TableIAMBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *TableIAMBinding) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TableIAMBinding.
-func (mg *TableIAMBinding) SetConditions(c ...xpv1.Condition) {
+func (mg *TableIAMBinding) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this TableIAMBinding.
-func (mg *TableIAMBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TableIAMBinding) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TableIAMBinding.
-func (mg *TableIAMBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *TableIAMBinding) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TableIAMBinding.
-func (mg *TableIAMBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *TableIAMBinding) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TableIAMMember.
-func (mg *TableIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TableIAMMember) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this TableIAMMember.
-func (mg *TableIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TableIAMMember) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TableIAMMember.
-func (mg *TableIAMMember) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *TableIAMMember) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TableIAMMember.
-func (mg *TableIAMMember) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *TableIAMMember) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TableIAMMember.
-func (mg *TableIAMMember) SetConditions(c ...xpv1.Condition) {
+func (mg *TableIAMMember) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this TableIAMMember.
-func (mg *TableIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TableIAMMember) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TableIAMMember.
-func (mg *TableIAMMember) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *TableIAMMember) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TableIAMMember.
-func (mg *TableIAMMember) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *TableIAMMember) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TableIAMPolicy.
-func (mg *TableIAMPolicy) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TableIAMPolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this TableIAMPolicy.
-func (mg *TableIAMPolicy) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TableIAMPolicy) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TableIAMPolicy.
-func (mg *TableIAMPolicy) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *TableIAMPolicy) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TableIAMPolicy.
-func (mg *TableIAMPolicy) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *TableIAMPolicy) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TableIAMPolicy.
-func (mg *TableIAMPolicy) SetConditions(c ...xpv1.Condition) {
+func (mg *TableIAMPolicy) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this TableIAMPolicy.
-func (mg *TableIAMPolicy) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TableIAMPolicy) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TableIAMPolicy.
-func (mg *TableIAMPolicy) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *TableIAMPolicy) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TableIAMPolicy.
-func (mg *TableIAMPolicy) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *TableIAMPolicy) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

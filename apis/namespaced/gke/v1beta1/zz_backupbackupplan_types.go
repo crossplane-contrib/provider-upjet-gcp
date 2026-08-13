@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupBackupPlanInitParameters struct {
@@ -25,17 +24,17 @@ type BackupBackupPlanInitParameters struct {
 	BackupSchedule *BackupScheduleInitParameters `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
 	// The source cluster from which Backups will be created via this BackupPlan.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
@@ -153,18 +152,18 @@ type BackupBackupPlanParameters struct {
 	BackupSchedule *BackupScheduleParameters `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
 	// The source cluster from which Backups will be created via this BackupPlan.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.NamespacedReference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.NamespacedSelector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// This flag indicates whether this BackupPlan has been deactivated.
 	// Setting this field to True locks the BackupPlan such that no further updates will be allowed
@@ -403,17 +402,17 @@ type DaysOfWeekParameters struct {
 type EncryptionKeyInitParameters struct {
 
 	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeyRef *v1.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+	GCPKMSEncryptionKeyRef *v2.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeySelector *v1.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+	GCPKMSEncryptionKeySelector *v2.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type EncryptionKeyObservation struct {
@@ -425,18 +424,18 @@ type EncryptionKeyObservation struct {
 type EncryptionKeyParameters struct {
 
 	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeyRef *v1.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
+	GCPKMSEncryptionKeyRef *v2.NamespacedReference `json:"gcpKmsEncryptionKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate gcpKmsEncryptionKey.
 	// +kubebuilder:validation:Optional
-	GCPKMSEncryptionKeySelector *v1.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
+	GCPKMSEncryptionKeySelector *v2.NamespacedSelector `json:"gcpKmsEncryptionKeySelector,omitempty" tf:"-"`
 }
 
 type ExclusionWindowsInitParameters struct {
@@ -902,8 +901,8 @@ type BackupBackupPlanSpec struct {
 
 // BackupBackupPlanStatus defines the observed state of BackupBackupPlan.
 type BackupBackupPlanStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupBackupPlanObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupBackupPlanObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

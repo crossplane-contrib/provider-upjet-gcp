@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AsPathsInitParameters struct {
@@ -59,16 +58,16 @@ type RouteInitParameters struct {
 	DestRange *string `json:"destRange,omitempty" tf:"dest_range,omitempty"`
 
 	// The network that this route applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
@@ -84,17 +83,17 @@ type RouteInitParameters struct {
 	// With the GA provider you can only specify the forwarding
 	// rule as a partial or full URL. For example, the following
 	// are all valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbRef *v1.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
+	NextHopIlbRef *v2.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbSelector *v1.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
+	NextHopIlbSelector *v2.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
 
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
@@ -104,16 +103,16 @@ type RouteInitParameters struct {
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.VPNTunnel
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
 
 	// Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelRef *v1.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
+	NextHopVPNTunnelRef *v2.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelSelector *v1.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
+	NextHopVPNTunnelSelector *v2.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -251,17 +250,17 @@ type RouteParameters struct {
 	DestRange *string `json:"destRange,omitempty" tf:"dest_range,omitempty"`
 
 	// The network that this route applies to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// URL to a gateway that should handle matching packets.
 	// Currently, you can only specify the internet gateway, using a full or
@@ -279,18 +278,18 @@ type RouteParameters struct {
 	// With the GA provider you can only specify the forwarding
 	// rule as a partial or full URL. For example, the following
 	// are all valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NextHopIlb *string `json:"nextHopIlb,omitempty" tf:"next_hop_ilb,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbRef *v1.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
+	NextHopIlbRef *v2.NamespacedReference `json:"nextHopIlbRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate nextHopIlb.
 	// +kubebuilder:validation:Optional
-	NextHopIlbSelector *v1.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
+	NextHopIlbSelector *v2.NamespacedSelector `json:"nextHopIlbSelector,omitempty" tf:"-"`
 
 	// URL to an instance that should handle matching packets.
 	// You can specify this as a full or partial URL. For example:
@@ -302,17 +301,17 @@ type RouteParameters struct {
 	NextHopInstanceZone *string `json:"nextHopInstanceZone,omitempty" tf:"next_hop_instance_zone,omitempty"`
 
 	// URL to a VpnTunnel that should handle matching packets.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.VPNTunnel
 	// +kubebuilder:validation:Optional
 	NextHopVPNTunnel *string `json:"nextHopVpnTunnel,omitempty" tf:"next_hop_vpn_tunnel,omitempty"`
 
 	// Reference to a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelRef *v1.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
+	NextHopVPNTunnelRef *v2.NamespacedReference `json:"nextHopVpnTunnelRef,omitempty" tf:"-"`
 
 	// Selector for a VPNTunnel in compute to populate nextHopVpnTunnel.
 	// +kubebuilder:validation:Optional
-	NextHopVPNTunnelSelector *v1.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
+	NextHopVPNTunnelSelector *v2.NamespacedSelector `json:"nextHopVpnTunnelSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -418,8 +417,8 @@ type RouteSpec struct {
 
 // RouteStatus defines the observed state of Route.
 type RouteStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouteObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouteObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

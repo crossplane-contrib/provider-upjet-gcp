@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthorityInitParameters struct {
@@ -64,17 +63,17 @@ type GkeClusterInitParameters struct {
 	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
 
 	// Reference to a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkRef *v1.NamespacedReference `json:"resourceLinkRef,omitempty" tf:"-"`
+	ResourceLinkRef *v2.NamespacedReference `json:"resourceLinkRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkSelector *v1.NamespacedSelector `json:"resourceLinkSelector,omitempty" tf:"-"`
+	ResourceLinkSelector *v2.NamespacedSelector `json:"resourceLinkSelector,omitempty" tf:"-"`
 }
 
 type GkeClusterObservation struct {
@@ -92,18 +91,18 @@ type GkeClusterParameters struct {
 	// For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster.
 	// It can be at the most 1000 characters in length.googleapis.com/${google_container_cluster.my-cluster.id}" or
 	// google_container_cluster.my-cluster.id.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourceLink *string `json:"resourceLink,omitempty" tf:"resource_link,omitempty"`
 
 	// Reference to a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkRef *v1.NamespacedReference `json:"resourceLinkRef,omitempty" tf:"-"`
+	ResourceLinkRef *v2.NamespacedReference `json:"resourceLinkRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate resourceLink.
 	// +kubebuilder:validation:Optional
-	ResourceLinkSelector *v1.NamespacedSelector `json:"resourceLinkSelector,omitempty" tf:"-"`
+	ResourceLinkSelector *v2.NamespacedSelector `json:"resourceLinkSelector,omitempty" tf:"-"`
 }
 
 type MembershipInitParameters struct {
@@ -220,8 +219,8 @@ type MembershipSpec struct {
 
 // MembershipStatus defines the observed state of Membership.
 type MembershipStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MembershipObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MembershipObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

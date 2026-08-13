@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceIAMMemberConditionInitParameters struct {
@@ -45,16 +44,16 @@ type InstanceIAMMemberConditionParameters struct {
 type InstanceIAMMemberInitParameters struct {
 	Condition *InstanceIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Instance
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Reference to a Instance in compute to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -88,17 +87,17 @@ type InstanceIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *InstanceIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Reference to a Instance in compute to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -132,8 +131,8 @@ type InstanceIAMMemberSpec struct {
 
 // InstanceIAMMemberStatus defines the observed state of InstanceIAMMember.
 type InstanceIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

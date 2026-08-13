@@ -5,54 +5,54 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this AppGateway.
-func (mg *AppGateway) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *AppGateway) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this AppGateway.
-func (mg *AppGateway) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *AppGateway) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this AppGateway.
-func (mg *AppGateway) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *AppGateway) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AppGateway.
-func (mg *AppGateway) GetProviderConfigReference() *xpv1.Reference {
+func (mg *AppGateway) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this AppGateway.
-func (mg *AppGateway) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *AppGateway) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this AppGateway.
-func (mg *AppGateway) SetConditions(c ...xpv1.Condition) {
+func (mg *AppGateway) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this AppGateway.
-func (mg *AppGateway) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *AppGateway) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this AppGateway.
-func (mg *AppGateway) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *AppGateway) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AppGateway.
-func (mg *AppGateway) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *AppGateway) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this AppGateway.
-func (mg *AppGateway) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *AppGateway) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

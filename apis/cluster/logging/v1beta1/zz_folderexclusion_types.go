@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FolderExclusionInitParameters struct {
@@ -69,24 +69,24 @@ type FolderExclusionParameters struct {
 
 	// The folder to be exported to the sink. Note that either [FOLDER_ID] or "folders/[FOLDER_ID]" is
 	// accepted.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderRef *v1.Reference `json:"folderRef,omitempty" tf:"-"`
+	FolderRef *v2.Reference `json:"folderRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderSelector *v1.Selector `json:"folderSelector,omitempty" tf:"-"`
+	FolderSelector *v2.Selector `json:"folderSelector,omitempty" tf:"-"`
 }
 
 // FolderExclusionSpec defines the desired state of FolderExclusion
 type FolderExclusionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FolderExclusionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FolderExclusionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -102,8 +102,8 @@ type FolderExclusionSpec struct {
 
 // FolderExclusionStatus defines the observed state of FolderExclusion.
 type FolderExclusionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderExclusionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FolderExclusionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppEngineInitParameters struct {
@@ -88,16 +87,16 @@ type CloudFunctionInitParameters struct {
 	// A user-defined name of the Cloud Function.
 	// The function name is case-sensitive and must be 1-63 characters long.
 	// Example value: "func1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions/v1beta1.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudfunctions/v1beta1.Function
 	Function *string `json:"function,omitempty" tf:"function,omitempty"`
 
 	// Reference to a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionRef *v1.NamespacedReference `json:"functionRef,omitempty" tf:"-"`
+	FunctionRef *v2.NamespacedReference `json:"functionRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionSelector *v1.NamespacedSelector `json:"functionSelector,omitempty" tf:"-"`
+	FunctionSelector *v2.NamespacedSelector `json:"functionSelector,omitempty" tf:"-"`
 
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
@@ -129,17 +128,17 @@ type CloudFunctionParameters struct {
 	// A user-defined name of the Cloud Function.
 	// The function name is case-sensitive and must be 1-63 characters long.
 	// Example value: "func1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions/v1beta1.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudfunctions/v1beta1.Function
 	// +kubebuilder:validation:Optional
 	Function *string `json:"function,omitempty" tf:"function,omitempty"`
 
 	// Reference to a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionRef *v1.NamespacedReference `json:"functionRef,omitempty" tf:"-"`
+	FunctionRef *v2.NamespacedReference `json:"functionRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions to populate function.
 	// +kubebuilder:validation:Optional
-	FunctionSelector *v1.NamespacedSelector `json:"functionSelector,omitempty" tf:"-"`
+	FunctionSelector *v2.NamespacedSelector `json:"functionSelector,omitempty" tf:"-"`
 
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
@@ -156,16 +155,16 @@ type CloudRunInitParameters struct {
 	// Cloud Run service is the main resource of Cloud Run.
 	// The service must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "run-service".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudrun/v1beta1.Service
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -211,17 +210,17 @@ type CloudRunParameters struct {
 	// Cloud Run service is the main resource of Cloud Run.
 	// The service must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "run-service".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -293,7 +292,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// This field is only used for PSC and INTERNET NEGs.
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -304,11 +303,11 @@ type RegionNetworkEndpointGroupInitParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -321,31 +320,31 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ServiceAttachment
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
 	// Reference to a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceRef *v1.NamespacedReference `json:"pscTargetServiceRef,omitempty" tf:"-"`
+	PscTargetServiceRef *v2.NamespacedReference `json:"pscTargetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceSelector *v1.NamespacedSelector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
+	PscTargetServiceSelector *v2.NamespacedSelector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
 
 	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 type RegionNetworkEndpointGroupObservation struct {
@@ -438,7 +437,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// This field is only used for PSC and INTERNET NEGs.
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -451,11 +450,11 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -470,18 +469,18 @@ type RegionNetworkEndpointGroupParameters struct {
 	// This field is only used for PSC and INTERNET NEGs.
 	// The target service url used to set up private service connection to
 	// a Google API or a PSC Producer Service Attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ServiceAttachment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ServiceAttachment
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	PscTargetService *string `json:"pscTargetService,omitempty" tf:"psc_target_service,omitempty"`
 
 	// Reference to a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceRef *v1.NamespacedReference `json:"pscTargetServiceRef,omitempty" tf:"-"`
+	PscTargetServiceRef *v2.NamespacedReference `json:"pscTargetServiceRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAttachment in compute to populate pscTargetService.
 	// +kubebuilder:validation:Optional
-	PscTargetServiceSelector *v1.NamespacedSelector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
+	PscTargetServiceSelector *v2.NamespacedSelector `json:"pscTargetServiceSelector,omitempty" tf:"-"`
 
 	// A reference to the region where the regional NEGs reside.
 	// +kubebuilder:validation:Required
@@ -489,18 +488,18 @@ type RegionNetworkEndpointGroupParameters struct {
 
 	// This field is only used for PSC NEGs.
 	// Optional URL of the subnetwork to which all network endpoints in the NEG belong.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 }
 
 // RegionNetworkEndpointGroupSpec defines the desired state of RegionNetworkEndpointGroup
@@ -522,8 +521,8 @@ type RegionNetworkEndpointGroupSpec struct {
 
 // RegionNetworkEndpointGroupStatus defines the observed state of RegionNetworkEndpointGroup.
 type RegionNetworkEndpointGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionNetworkEndpointGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionNetworkEndpointGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

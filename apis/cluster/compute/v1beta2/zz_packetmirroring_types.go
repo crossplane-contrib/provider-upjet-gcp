@@ -10,23 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CollectorIlbInitParameters struct {
 
 	// The URL of the forwarding rule.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type CollectorIlbObservation struct {
@@ -38,18 +38,18 @@ type CollectorIlbObservation struct {
 type CollectorIlbParameters struct {
 
 	// The URL of the forwarding rule.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type FilterInitParameters struct {
@@ -103,17 +103,17 @@ type FilterParameters struct {
 type InstancesInitParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type InstancesObservation struct {
@@ -125,18 +125,18 @@ type InstancesObservation struct {
 type InstancesParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type MirroredResourcesInitParameters struct {
@@ -187,17 +187,17 @@ type MirroredResourcesParameters struct {
 type NetworkInitParameters struct {
 
 	// The full self_link URL of the network where this rule is active.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type NetworkObservation struct {
@@ -209,18 +209,18 @@ type NetworkObservation struct {
 type NetworkParameters struct {
 
 	// The full self_link URL of the network where this rule is active.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type PacketMirroringInitParameters struct {
@@ -373,17 +373,17 @@ type PacketMirroringParameters struct {
 type SubnetworksInitParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type SubnetworksObservation struct {
@@ -395,24 +395,24 @@ type SubnetworksObservation struct {
 type SubnetworksParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+	URLRef *v2.Reference `json:"urlRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate url.
 	// +kubebuilder:validation:Optional
-	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
+	URLSelector *v2.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 // PacketMirroringSpec defines the desired state of PacketMirroring
 type PacketMirroringSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PacketMirroringParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PacketMirroringParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -428,8 +428,8 @@ type PacketMirroringSpec struct {
 
 // PacketMirroringStatus defines the observed state of PacketMirroring.
 type PacketMirroringStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PacketMirroringObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PacketMirroringObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

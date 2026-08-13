@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceInitParameters struct {
@@ -30,17 +29,17 @@ type InstanceInitParameters struct {
 	// The full name of the Google Compute Engine network to which the
 	// instance is connected. If left unspecified, the default network
 	// will be used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
 	// Reference to a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// The connection mode of the Redis instance.
 	// Default value is DIRECT_PEERING.
@@ -49,17 +48,17 @@ type InstanceInitParameters struct {
 
 	// Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
 	// instance. If this is provided, CMEK is enabled.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CustomerManagedKey *string `json:"customerManagedKey,omitempty" tf:"customer_managed_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate customerManagedKey.
 	// +kubebuilder:validation:Optional
-	CustomerManagedKeyRef *v1.NamespacedReference `json:"customerManagedKeyRef,omitempty" tf:"-"`
+	CustomerManagedKeyRef *v2.NamespacedReference `json:"customerManagedKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate customerManagedKey.
 	// +kubebuilder:validation:Optional
-	CustomerManagedKeySelector *v1.NamespacedSelector `json:"customerManagedKeySelector,omitempty" tf:"-"`
+	CustomerManagedKeySelector *v2.NamespacedSelector `json:"customerManagedKeySelector,omitempty" tf:"-"`
 
 	// When the field is set to false, deleting the instance is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -416,18 +415,18 @@ type InstanceParameters struct {
 	// The full name of the Google Compute Engine network to which the
 	// instance is connected. If left unspecified, the default network
 	// will be used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AuthorizedNetwork *string `json:"authorizedNetwork,omitempty" tf:"authorized_network,omitempty"`
 
 	// Reference to a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkRef *v1.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
+	AuthorizedNetworkRef *v2.NamespacedReference `json:"authorizedNetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate authorizedNetwork.
 	// +kubebuilder:validation:Optional
-	AuthorizedNetworkSelector *v1.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
+	AuthorizedNetworkSelector *v2.NamespacedSelector `json:"authorizedNetworkSelector,omitempty" tf:"-"`
 
 	// The connection mode of the Redis instance.
 	// Default value is DIRECT_PEERING.
@@ -437,18 +436,18 @@ type InstanceParameters struct {
 
 	// Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
 	// instance. If this is provided, CMEK is enabled.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CustomerManagedKey *string `json:"customerManagedKey,omitempty" tf:"customer_managed_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate customerManagedKey.
 	// +kubebuilder:validation:Optional
-	CustomerManagedKeyRef *v1.NamespacedReference `json:"customerManagedKeyRef,omitempty" tf:"-"`
+	CustomerManagedKeyRef *v2.NamespacedReference `json:"customerManagedKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate customerManagedKey.
 	// +kubebuilder:validation:Optional
-	CustomerManagedKeySelector *v1.NamespacedSelector `json:"customerManagedKeySelector,omitempty" tf:"-"`
+	CustomerManagedKeySelector *v2.NamespacedSelector `json:"customerManagedKeySelector,omitempty" tf:"-"`
 
 	// When the field is set to false, deleting the instance is allowed.
 	// +kubebuilder:validation:Optional
@@ -769,8 +768,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

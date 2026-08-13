@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupInitParameters struct {
@@ -31,17 +30,17 @@ type BackupInitParameters struct {
 	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
 
 	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/filestore/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/filestore/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SourceInstance *string `json:"sourceInstance,omitempty" tf:"source_instance,omitempty"`
 
 	// Reference to a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
-	SourceInstanceRef *v1.NamespacedReference `json:"sourceInstanceRef,omitempty" tf:"-"`
+	SourceInstanceRef *v2.NamespacedReference `json:"sourceInstanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
-	SourceInstanceSelector *v1.NamespacedSelector `json:"sourceInstanceSelector,omitempty" tf:"-"`
+	SourceInstanceSelector *v2.NamespacedSelector `json:"sourceInstanceSelector,omitempty" tf:"-"`
 
 	// A map of resource manager tags.
 	// Resource manager tag keys and values have the same definition as resource manager tags.
@@ -143,18 +142,18 @@ type BackupParameters struct {
 	SourceFileShare *string `json:"sourceFileShare,omitempty" tf:"source_file_share,omitempty"`
 
 	// The resource name of the source Cloud Filestore instance, in the format projects/{projectId}/locations/{locationId}/instances/{instanceId}, used to create this backup.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/filestore/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/filestore/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceInstance *string `json:"sourceInstance,omitempty" tf:"source_instance,omitempty"`
 
 	// Reference to a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
-	SourceInstanceRef *v1.NamespacedReference `json:"sourceInstanceRef,omitempty" tf:"-"`
+	SourceInstanceRef *v2.NamespacedReference `json:"sourceInstanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in filestore to populate sourceInstance.
 	// +kubebuilder:validation:Optional
-	SourceInstanceSelector *v1.NamespacedSelector `json:"sourceInstanceSelector,omitempty" tf:"-"`
+	SourceInstanceSelector *v2.NamespacedSelector `json:"sourceInstanceSelector,omitempty" tf:"-"`
 
 	// A map of resource manager tags.
 	// Resource manager tag keys and values have the same definition as resource manager tags.
@@ -184,8 +183,8 @@ type BackupSpec struct {
 
 // BackupStatus defines the observed state of Backup.
 type BackupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

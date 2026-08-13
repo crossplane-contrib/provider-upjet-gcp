@@ -12,9 +12,9 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
-	common "github.com/upbound/provider-gcp/v2/config/namespaced/common"
-	compute "github.com/upbound/provider-gcp/v2/config/namespaced/compute"
-	apisresolver "github.com/upbound/provider-gcp/v2/internal/apis"
+	common "github.com/upbound/provider-gcp/v3/config/namespaced/common"
+	compute "github.com/upbound/provider-gcp/v3/config/namespaced/compute"
+	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -4134,6 +4134,26 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "RegionSecurityPolicy", "RegionSecurityPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityPolicy),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.SecurityPolicyRef,
+			Selector:     mg.Spec.ForProvider.SecurityPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecurityPolicy")
+	}
+	mg.Spec.ForProvider.SecurityPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecurityPolicyRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Backend); i3++ {
 		{
@@ -4246,6 +4266,26 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "RegionSecurityPolicy", "RegionSecurityPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityPolicy),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.SecurityPolicyRef,
+			Selector:     mg.Spec.InitProvider.SecurityPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecurityPolicy")
+	}
+	mg.Spec.InitProvider.SecurityPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecurityPolicyRef = rsp.ResolvedReference
 
 	return nil
 }

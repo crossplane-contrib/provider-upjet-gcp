@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BigqueryDateShardedSpecInitParameters struct {
@@ -69,17 +69,17 @@ type EntryInitParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The name of the entry group this entry is in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta1.EntryGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta1.EntryGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
 
 	// Reference to a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupRef *v1.Reference `json:"entryGroupRef,omitempty" tf:"-"`
+	EntryGroupRef *v2.Reference `json:"entryGroupRef,omitempty" tf:"-"`
 
 	// Selector for a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupSelector *v1.Selector `json:"entryGroupSelector,omitempty" tf:"-"`
+	EntryGroupSelector *v2.Selector `json:"entryGroupSelector,omitempty" tf:"-"`
 
 	// The id of the entry to create.
 	EntryID *string `json:"entryId,omitempty" tf:"entry_id,omitempty"`
@@ -207,18 +207,18 @@ type EntryParameters struct {
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
 	// The name of the entry group this entry is in.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datacatalog/v1beta1.EntryGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta1.EntryGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EntryGroup *string `json:"entryGroup,omitempty" tf:"entry_group,omitempty"`
 
 	// Reference to a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupRef *v1.Reference `json:"entryGroupRef,omitempty" tf:"-"`
+	EntryGroupRef *v2.Reference `json:"entryGroupRef,omitempty" tf:"-"`
 
 	// Selector for a EntryGroup in datacatalog to populate entryGroup.
 	// +kubebuilder:validation:Optional
-	EntryGroupSelector *v1.Selector `json:"entryGroupSelector,omitempty" tf:"-"`
+	EntryGroupSelector *v2.Selector `json:"entryGroupSelector,omitempty" tf:"-"`
 
 	// The id of the entry to create.
 	// +kubebuilder:validation:Optional
@@ -344,8 +344,8 @@ type ViewSpecParameters struct {
 
 // EntrySpec defines the desired state of Entry
 type EntrySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EntryParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EntryParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -361,8 +361,8 @@ type EntrySpec struct {
 
 // EntryStatus defines the observed state of Entry.
 type EntryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EntryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EntryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

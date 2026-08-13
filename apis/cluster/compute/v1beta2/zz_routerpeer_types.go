@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BfdInitParameters struct {
@@ -132,7 +132,7 @@ type CustomLearnedIPRangesParameters struct {
 type Md5AuthenticationKeyInitParameters struct {
 
 	// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can only contain printable ASCII characters
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// Name used to identify the key. Must be unique within a router. Must comply with RFC1035.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -148,7 +148,7 @@ type Md5AuthenticationKeyParameters struct {
 
 	// The MD5 authentication key for this BGP peer. Maximum length is 80 characters. Can only contain printable ASCII characters
 	// +kubebuilder:validation:Optional
-	KeySecretRef v1.SecretKeySelector `json:"keySecretRef" tf:"-"`
+	KeySecretRef v2.SecretKeySelector `json:"keySecretRef" tf:"-"`
 
 	// Name used to identify the key. Must be unique within a router. Must comply with RFC1035.
 	// +kubebuilder:validation:Optional
@@ -262,17 +262,17 @@ type RouterPeerInitParameters struct {
 	ImportPolicies []*string `json:"importPolicies,omitempty" tf:"import_policies,omitempty"`
 
 	// Name of the interface the BGP peer is associated with.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RouterInterface
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.RouterInterface
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// Reference to a RouterInterface in compute to populate interface.
 	// +kubebuilder:validation:Optional
-	InterfaceRef *v1.Reference `json:"interfaceRef,omitempty" tf:"-"`
+	InterfaceRef *v2.Reference `json:"interfaceRef,omitempty" tf:"-"`
 
 	// Selector for a RouterInterface in compute to populate interface.
 	// +kubebuilder:validation:Optional
-	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
+	InterfaceSelector *v2.Selector `json:"interfaceSelector,omitempty" tf:"-"`
 
 	// Configuration for MD5 authentication on the BGP session.
 	// Structure is documented below.
@@ -284,17 +284,17 @@ type RouterPeerInitParameters struct {
 
 	// IP address of the BGP interface outside Google Cloud Platform.
 	// Only IPv4 is supported. Required if ip_address is set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
 	PeerIPAddress *string `json:"peerIpAddress,omitempty" tf:"peer_ip_address,omitempty"`
 
 	// Reference to a Address in compute to populate peerIpAddress.
 	// +kubebuilder:validation:Optional
-	PeerIPAddressRef *v1.Reference `json:"peerIpAddressRef,omitempty" tf:"-"`
+	PeerIPAddressRef *v2.Reference `json:"peerIpAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate peerIpAddress.
 	// +kubebuilder:validation:Optional
-	PeerIPAddressSelector *v1.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
+	PeerIPAddressSelector *v2.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
 
 	// IPv4 address of the BGP interface outside Google Cloud Platform.
 	PeerIPv4NexthopAddress *string `json:"peerIpv4NexthopAddress,omitempty" tf:"peer_ipv4_nexthop_address,omitempty"`
@@ -311,33 +311,33 @@ type RouterPeerInitParameters struct {
 
 	// Region where the router and BgpPeer reside.
 	// If it is not provided, the provider region is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Router
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a Router in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	// The URI of the VM instance that is used as third-party router appliances
 	// such as Next Gen Firewalls, Virtual Routers, or Router Appliances.
 	// The VM instance must be located in zones contained in the same region as
 	// this Cloud Router. The VM instance is the peer side of the BGP session.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	RouterApplianceInstance *string `json:"routerApplianceInstance,omitempty" tf:"router_appliance_instance,omitempty"`
 
 	// Reference to a Instance in compute to populate routerApplianceInstance.
 	// +kubebuilder:validation:Optional
-	RouterApplianceInstanceRef *v1.Reference `json:"routerApplianceInstanceRef,omitempty" tf:"-"`
+	RouterApplianceInstanceRef *v2.Reference `json:"routerApplianceInstanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate routerApplianceInstance.
 	// +kubebuilder:validation:Optional
-	RouterApplianceInstanceSelector *v1.Selector `json:"routerApplianceInstanceSelector,omitempty" tf:"-"`
+	RouterApplianceInstanceSelector *v2.Selector `json:"routerApplianceInstanceSelector,omitempty" tf:"-"`
 
 	// The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
 	// This value has to be set true to force the advertised_route_priority to be 0.
@@ -576,18 +576,18 @@ type RouterPeerParameters struct {
 	ImportPolicies []*string `json:"importPolicies,omitempty" tf:"import_policies,omitempty"`
 
 	// Name of the interface the BGP peer is associated with.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RouterInterface
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.RouterInterface
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Interface *string `json:"interface,omitempty" tf:"interface,omitempty"`
 
 	// Reference to a RouterInterface in compute to populate interface.
 	// +kubebuilder:validation:Optional
-	InterfaceRef *v1.Reference `json:"interfaceRef,omitempty" tf:"-"`
+	InterfaceRef *v2.Reference `json:"interfaceRef,omitempty" tf:"-"`
 
 	// Selector for a RouterInterface in compute to populate interface.
 	// +kubebuilder:validation:Optional
-	InterfaceSelector *v1.Selector `json:"interfaceSelector,omitempty" tf:"-"`
+	InterfaceSelector *v2.Selector `json:"interfaceSelector,omitempty" tf:"-"`
 
 	// Configuration for MD5 authentication on the BGP session.
 	// Structure is documented below.
@@ -601,18 +601,18 @@ type RouterPeerParameters struct {
 
 	// IP address of the BGP interface outside Google Cloud Platform.
 	// Only IPv4 is supported. Required if ip_address is set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
 	// +kubebuilder:validation:Optional
 	PeerIPAddress *string `json:"peerIpAddress,omitempty" tf:"peer_ip_address,omitempty"`
 
 	// Reference to a Address in compute to populate peerIpAddress.
 	// +kubebuilder:validation:Optional
-	PeerIPAddressRef *v1.Reference `json:"peerIpAddressRef,omitempty" tf:"-"`
+	PeerIPAddressRef *v2.Reference `json:"peerIpAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate peerIpAddress.
 	// +kubebuilder:validation:Optional
-	PeerIPAddressSelector *v1.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
+	PeerIPAddressSelector *v2.Selector `json:"peerIpAddressSelector,omitempty" tf:"-"`
 
 	// IPv4 address of the BGP interface outside Google Cloud Platform.
 	// +kubebuilder:validation:Optional
@@ -632,21 +632,21 @@ type RouterPeerParameters struct {
 
 	// Region where the router and BgpPeer reside.
 	// If it is not provided, the provider region is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Router
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("region",false)
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// Reference to a Router in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionRef *v1.Reference `json:"regionRef,omitempty" tf:"-"`
+	RegionRef *v2.Reference `json:"regionRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate region.
 	// +kubebuilder:validation:Optional
-	RegionSelector *v1.Selector `json:"regionSelector,omitempty" tf:"-"`
+	RegionSelector *v2.Selector `json:"regionSelector,omitempty" tf:"-"`
 
 	// The name of the Cloud Router in which this BgpPeer will be configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
@@ -654,26 +654,26 @@ type RouterPeerParameters struct {
 	// such as Next Gen Firewalls, Virtual Routers, or Router Appliances.
 	// The VM instance must be located in zones contained in the same region as
 	// this Cloud Router. The VM instance is the peer side of the BGP session.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	RouterApplianceInstance *string `json:"routerApplianceInstance,omitempty" tf:"router_appliance_instance,omitempty"`
 
 	// Reference to a Instance in compute to populate routerApplianceInstance.
 	// +kubebuilder:validation:Optional
-	RouterApplianceInstanceRef *v1.Reference `json:"routerApplianceInstanceRef,omitempty" tf:"-"`
+	RouterApplianceInstanceRef *v2.Reference `json:"routerApplianceInstanceRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in compute to populate routerApplianceInstance.
 	// +kubebuilder:validation:Optional
-	RouterApplianceInstanceSelector *v1.Selector `json:"routerApplianceInstanceSelector,omitempty" tf:"-"`
+	RouterApplianceInstanceSelector *v2.Selector `json:"routerApplianceInstanceSelector,omitempty" tf:"-"`
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.Reference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// The user-defined zero-advertised-route-priority for a advertised-route-priority in BGP session.
 	// This value has to be set true to force the advertised_route_priority to be 0.
@@ -688,8 +688,8 @@ type RouterPeerParameters struct {
 
 // RouterPeerSpec defines the desired state of RouterPeer
 type RouterPeerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RouterPeerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RouterPeerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -705,8 +705,8 @@ type RouterPeerSpec struct {
 
 // RouterPeerStatus defines the observed state of RouterPeer.
 type RouterPeerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouterPeerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouterPeerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

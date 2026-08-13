@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AttestationInitParameters struct {
@@ -89,17 +89,17 @@ type CryptoKeyVersionInitParameters struct {
 
 	// The name of the cryptoKey associated with the CryptoKeyVersions.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
+	CryptoKeyRef *v2.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+	CryptoKeySelector *v2.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
 	// Structure is documented below.
@@ -155,18 +155,18 @@ type CryptoKeyVersionParameters struct {
 
 	// The name of the cryptoKey associated with the CryptoKeyVersions.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyring}}/cryptoKeys/{{cryptoKey}}'
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/kms/v1beta2.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeyRef *v1.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
+	CryptoKeyRef *v2.Reference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeySelector *v1.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
+	CryptoKeySelector *v2.Selector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels.
 	// Structure is documented below.
@@ -197,8 +197,8 @@ type ExternalProtectionLevelOptionsParameters struct {
 
 // CryptoKeyVersionSpec defines the desired state of CryptoKeyVersion
 type CryptoKeyVersionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CryptoKeyVersionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CryptoKeyVersionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -214,8 +214,8 @@ type CryptoKeyVersionSpec struct {
 
 // CryptoKeyVersionStatus defines the observed state of CryptoKeyVersion.
 type CryptoKeyVersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CryptoKeyVersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CryptoKeyVersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

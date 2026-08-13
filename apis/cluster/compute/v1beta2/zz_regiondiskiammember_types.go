@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionDiskIAMMemberConditionInitParameters struct {
@@ -46,16 +46,16 @@ type RegionDiskIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionDisk
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a RegionDisk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
@@ -90,17 +90,17 @@ type RegionDiskIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionDisk
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a RegionDisk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -114,8 +114,8 @@ type RegionDiskIAMMemberParameters struct {
 
 // RegionDiskIAMMemberSpec defines the desired state of RegionDiskIAMMember
 type RegionDiskIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionDiskIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionDiskIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -131,8 +131,8 @@ type RegionDiskIAMMemberSpec struct {
 
 // RegionDiskIAMMemberStatus defines the observed state of RegionDiskIAMMember.
 type RegionDiskIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionDiskIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionDiskIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

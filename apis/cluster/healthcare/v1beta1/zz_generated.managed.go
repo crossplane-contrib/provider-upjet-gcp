@@ -5,104 +5,104 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this ConsentStore.
-func (mg *ConsentStore) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ConsentStore) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ConsentStore.
-func (mg *ConsentStore) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ConsentStore) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ConsentStore.
-func (mg *ConsentStore) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ConsentStore) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ConsentStore.
-func (mg *ConsentStore) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ConsentStore) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ConsentStore.
-func (mg *ConsentStore) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ConsentStore) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ConsentStore.
-func (mg *ConsentStore) SetConditions(c ...xpv1.Condition) {
+func (mg *ConsentStore) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ConsentStore.
-func (mg *ConsentStore) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ConsentStore) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ConsentStore.
-func (mg *ConsentStore) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ConsentStore) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ConsentStore.
-func (mg *ConsentStore) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ConsentStore) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ConsentStore.
-func (mg *ConsentStore) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ConsentStore) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this Dataset.
-func (mg *Dataset) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *Dataset) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this Dataset.
-func (mg *Dataset) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *Dataset) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this Dataset.
-func (mg *Dataset) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *Dataset) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this Dataset.
-func (mg *Dataset) GetProviderConfigReference() *xpv1.Reference {
+func (mg *Dataset) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this Dataset.
-func (mg *Dataset) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *Dataset) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this Dataset.
-func (mg *Dataset) SetConditions(c ...xpv1.Condition) {
+func (mg *Dataset) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this Dataset.
-func (mg *Dataset) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *Dataset) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this Dataset.
-func (mg *Dataset) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *Dataset) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this Dataset.
-func (mg *Dataset) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *Dataset) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this Dataset.
-func (mg *Dataset) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *Dataset) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

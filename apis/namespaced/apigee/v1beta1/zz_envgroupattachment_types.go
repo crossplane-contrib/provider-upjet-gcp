@@ -10,37 +10,36 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvgroupAttachmentInitParameters struct {
 
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Envgroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Envgroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
 
 	// Reference to a Envgroup in apigee to populate envgroupId.
 	// +kubebuilder:validation:Optional
-	EnvgroupIDRef *v1.NamespacedReference `json:"envgroupIdRef,omitempty" tf:"-"`
+	EnvgroupIDRef *v2.NamespacedReference `json:"envgroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a Envgroup in apigee to populate envgroupId.
 	// +kubebuilder:validation:Optional
-	EnvgroupIDSelector *v1.NamespacedSelector `json:"envgroupIdSelector,omitempty" tf:"-"`
+	EnvgroupIDSelector *v2.NamespacedSelector `json:"envgroupIdSelector,omitempty" tf:"-"`
 
 	// The resource ID of the environment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Environment
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// Reference to a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentRef *v1.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
+	EnvironmentRef *v2.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentSelector *v1.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
+	EnvironmentSelector *v2.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
 }
 
 type EnvgroupAttachmentObservation struct {
@@ -67,31 +66,31 @@ type EnvgroupAttachmentParameters struct {
 
 	// The Apigee environment group associated with the Apigee environment,
 	// in the format organizations/{{org_name}}/envgroups/{{envgroup_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Envgroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Envgroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EnvgroupID *string `json:"envgroupId,omitempty" tf:"envgroup_id,omitempty"`
 
 	// Reference to a Envgroup in apigee to populate envgroupId.
 	// +kubebuilder:validation:Optional
-	EnvgroupIDRef *v1.NamespacedReference `json:"envgroupIdRef,omitempty" tf:"-"`
+	EnvgroupIDRef *v2.NamespacedReference `json:"envgroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a Envgroup in apigee to populate envgroupId.
 	// +kubebuilder:validation:Optional
-	EnvgroupIDSelector *v1.NamespacedSelector `json:"envgroupIdSelector,omitempty" tf:"-"`
+	EnvgroupIDSelector *v2.NamespacedSelector `json:"envgroupIdSelector,omitempty" tf:"-"`
 
 	// The resource ID of the environment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Environment
 	// +kubebuilder:validation:Optional
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
 	// Reference to a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentRef *v1.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
+	EnvironmentRef *v2.NamespacedReference `json:"environmentRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate environment.
 	// +kubebuilder:validation:Optional
-	EnvironmentSelector *v1.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
+	EnvironmentSelector *v2.NamespacedSelector `json:"environmentSelector,omitempty" tf:"-"`
 }
 
 // EnvgroupAttachmentSpec defines the desired state of EnvgroupAttachment
@@ -113,8 +112,8 @@ type EnvgroupAttachmentSpec struct {
 
 // EnvgroupAttachmentStatus defines the observed state of EnvgroupAttachment.
 type EnvgroupAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvgroupAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvgroupAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

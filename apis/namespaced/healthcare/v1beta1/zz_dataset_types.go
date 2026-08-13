@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DatasetInitParameters struct {
@@ -101,17 +100,17 @@ type EncryptionSpecInitParameters struct {
 	// encryption and the dataset must be in the same location. If empty, the default Google encryption
 	// key will be used to secure this dataset. The format is
 	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 type EncryptionSpecObservation struct {
@@ -129,18 +128,18 @@ type EncryptionSpecParameters struct {
 	// encryption and the dataset must be in the same location. If empty, the default Google encryption
 	// key will be used to secure this dataset. The format is
 	// projects/{projectId}/locations/{locationId}/keyRings/{keyRingId}/cryptoKeys/{keyId}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameRef *v1.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
+	KMSKeyNameRef *v2.NamespacedReference `json:"kmsKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate kmsKeyName.
 	// +kubebuilder:validation:Optional
-	KMSKeyNameSelector *v1.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
+	KMSKeyNameSelector *v2.NamespacedSelector `json:"kmsKeyNameSelector,omitempty" tf:"-"`
 }
 
 // DatasetSpec defines the desired state of Dataset
@@ -162,8 +161,8 @@ type DatasetSpec struct {
 
 // DatasetStatus defines the observed state of Dataset.
 type DatasetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatasetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatasetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

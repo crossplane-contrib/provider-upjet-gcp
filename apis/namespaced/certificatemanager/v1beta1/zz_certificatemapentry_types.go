@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertificateMapEntryInitParameters struct {
@@ -19,17 +18,17 @@ type CertificateMapEntryInitParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/certificatemanager/v1beta1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
 	// References to Certificate in certificatemanager to populate certificates.
 	// +kubebuilder:validation:Optional
-	CertificatesRefs []v1.NamespacedReference `json:"certificatesRefs,omitempty" tf:"-"`
+	CertificatesRefs []v2.NamespacedReference `json:"certificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Certificate in certificatemanager to populate certificates.
 	// +kubebuilder:validation:Optional
-	CertificatesSelector *v1.NamespacedSelector `json:"certificatesSelector,omitempty" tf:"-"`
+	CertificatesSelector *v2.NamespacedSelector `json:"certificatesSelector,omitempty" tf:"-"`
 
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -119,18 +118,18 @@ type CertificateMapEntryParameters struct {
 	// A set of Certificates defines for the given hostname.
 	// There can be defined up to fifteen certificates in each Certificate Map Entry.
 	// Each certificate must match pattern projects//locations//certificates/*.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/certificatemanager/v1beta1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Certificates []*string `json:"certificates,omitempty" tf:"certificates,omitempty"`
 
 	// References to Certificate in certificatemanager to populate certificates.
 	// +kubebuilder:validation:Optional
-	CertificatesRefs []v1.NamespacedReference `json:"certificatesRefs,omitempty" tf:"-"`
+	CertificatesRefs []v2.NamespacedReference `json:"certificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Certificate in certificatemanager to populate certificates.
 	// +kubebuilder:validation:Optional
-	CertificatesSelector *v1.NamespacedSelector `json:"certificatesSelector,omitempty" tf:"-"`
+	CertificatesSelector *v2.NamespacedSelector `json:"certificatesSelector,omitempty" tf:"-"`
 
 	// A human-readable description of the resource.
 	// +kubebuilder:validation:Optional
@@ -150,17 +149,17 @@ type CertificateMapEntryParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// A map entry that is inputted into the certificate map
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.CertificateMap
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/certificatemanager/v1beta1.CertificateMap
 	// +kubebuilder:validation:Optional
 	Map *string `json:"map,omitempty" tf:"map,omitempty"`
 
 	// Reference to a CertificateMap in certificatemanager to populate map.
 	// +kubebuilder:validation:Optional
-	MapRef *v1.NamespacedReference `json:"mapRef,omitempty" tf:"-"`
+	MapRef *v2.NamespacedReference `json:"mapRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateMap in certificatemanager to populate map.
 	// +kubebuilder:validation:Optional
-	MapSelector *v1.NamespacedSelector `json:"mapSelector,omitempty" tf:"-"`
+	MapSelector *v2.NamespacedSelector `json:"mapSelector,omitempty" tf:"-"`
 
 	// A predefined matcher for particular cases, other than SNI selection
 	// +kubebuilder:validation:Optional
@@ -191,8 +190,8 @@ type CertificateMapEntrySpec struct {
 
 // CertificateMapEntryStatus defines the observed state of CertificateMapEntry.
 type CertificateMapEntryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateMapEntryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateMapEntryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

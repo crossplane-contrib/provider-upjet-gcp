@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BuildConfigInitParameters struct {
@@ -448,16 +448,16 @@ type EnvValueSourceSecretKeyRefInitParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -477,17 +477,17 @@ type EnvValueSourceSecretKeyRefParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 
 	// The Cloud Secret Manager secret version. Can be 'latest' for the latest value or an integer for a specific version.
 	// +kubebuilder:validation:Optional
@@ -1228,16 +1228,16 @@ type TemplateVolumesSecretInitParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type TemplateVolumesSecretObservation struct {
@@ -1267,17 +1267,17 @@ type TemplateVolumesSecretParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretRef *v1.Reference `json:"secretRef,omitempty" tf:"-"`
+	SecretRef *v2.Reference `json:"secretRef,omitempty" tf:"-"`
 
 	// Selector for a Secret in secretmanager to populate secret.
 	// +kubebuilder:validation:Optional
-	SecretSelector *v1.Selector `json:"secretSelector,omitempty" tf:"-"`
+	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
 type TrafficStatusesInitParameters struct {
@@ -2375,18 +2375,18 @@ type VPCAccessNetworkInterfacesParameters struct {
 type VolumesCloudSQLInstanceInitParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/sql/v1beta2.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// References to DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type VolumesCloudSQLInstanceObservation struct {
@@ -2399,7 +2399,7 @@ type VolumesCloudSQLInstanceObservation struct {
 type VolumesCloudSQLInstanceParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/sql/v1beta2.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -2407,26 +2407,26 @@ type VolumesCloudSQLInstanceParameters struct {
 
 	// References to DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.Reference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.Reference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of DatabaseInstance in sql to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.Selector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.Selector `json:"instancesSelector,omitempty" tf:"-"`
 }
 
 type VolumesGcsInitParameters struct {
 
 	// The Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// A list of flags to pass to the gcsfuse command for configuring this volume.
 	// Flags should be passed without leading dashes.
@@ -2452,17 +2452,17 @@ type VolumesGcsObservation struct {
 type VolumesGcsParameters struct {
 
 	// The Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// A list of flags to pass to the gcsfuse command for configuring this volume.
 	// Flags should be passed without leading dashes.
@@ -2515,8 +2515,8 @@ type VolumesSecretItemsParameters struct {
 
 // V2ServiceSpec defines the desired state of V2Service
 type V2ServiceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     V2ServiceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   V2ServiceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2532,8 +2532,8 @@ type V2ServiceSpec struct {
 
 // V2ServiceStatus defines the observed state of V2Service.
 type V2ServiceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        V2ServiceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               V2ServiceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,23 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkFirewallPolicyAssociationInitParameters struct {
 
 	// The target that the firewall policy is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
 	// Reference to a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
+	AttachmentTargetRef *v2.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+	AttachmentTargetSelector *v2.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -59,32 +59,32 @@ type NetworkFirewallPolicyAssociationObservation struct {
 type NetworkFirewallPolicyAssociationParameters struct {
 
 	// The target that the firewall policy is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
 
 	// Reference to a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
+	AttachmentTargetRef *v2.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate attachmentTarget.
 	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
+	AttachmentTargetSelector *v2.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkFirewallPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.NetworkFirewallPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
 	// Reference to a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicyRef *v1.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
+	FirewallPolicyRef *v2.Reference `json:"firewallPolicyRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkFirewallPolicy in compute to populate firewallPolicy.
 	// +kubebuilder:validation:Optional
-	FirewallPolicySelector *v1.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
+	FirewallPolicySelector *v2.Selector `json:"firewallPolicySelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -94,8 +94,8 @@ type NetworkFirewallPolicyAssociationParameters struct {
 
 // NetworkFirewallPolicyAssociationSpec defines the desired state of NetworkFirewallPolicyAssociation
 type NetworkFirewallPolicyAssociationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkFirewallPolicyAssociationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkFirewallPolicyAssociationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -111,8 +111,8 @@ type NetworkFirewallPolicyAssociationSpec struct {
 
 // NetworkFirewallPolicyAssociationStatus defines the observed state of NetworkFirewallPolicyAssociation.
 type NetworkFirewallPolicyAssociationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkFirewallPolicyAssociationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkFirewallPolicyAssociationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

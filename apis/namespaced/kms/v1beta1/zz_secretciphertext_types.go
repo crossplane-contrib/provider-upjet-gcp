@@ -10,29 +10,28 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecretCiphertextInitParameters struct {
 
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AdditionalAuthenticatedDataSecretRef *v1.LocalSecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
+	AdditionalAuthenticatedDataSecretRef *v2.LocalSecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeyRef *v1.NamespacedReference `json:"cryptoKeyRef,omitempty" tf:"-"`
+	CryptoKeyRef *v2.NamespacedReference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeySelector *v1.NamespacedSelector `json:"cryptoKeySelector,omitempty" tf:"-"`
+	CryptoKeySelector *v2.NamespacedSelector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -61,22 +60,22 @@ type SecretCiphertextParameters struct {
 	// The additional authenticated data used for integrity checks during encryption and decryption.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AdditionalAuthenticatedDataSecretRef *v1.LocalSecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
+	AdditionalAuthenticatedDataSecretRef *v2.LocalSecretKeySelector `json:"additionalAuthenticatedDataSecretRef,omitempty" tf:"-"`
 
 	// The full name of the CryptoKey that will be used to encrypt the provided plaintext.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{cryptoKey}}'
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CryptoKey *string `json:"cryptoKey,omitempty" tf:"crypto_key,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeyRef *v1.NamespacedReference `json:"cryptoKeyRef,omitempty" tf:"-"`
+	CryptoKeyRef *v2.NamespacedReference `json:"cryptoKeyRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKey.
 	// +kubebuilder:validation:Optional
-	CryptoKeySelector *v1.NamespacedSelector `json:"cryptoKeySelector,omitempty" tf:"-"`
+	CryptoKeySelector *v2.NamespacedSelector `json:"cryptoKeySelector,omitempty" tf:"-"`
 
 	// The plaintext to be encrypted.
 	// Note: This property is sensitive and will not be displayed in the plan.
@@ -103,8 +102,8 @@ type SecretCiphertextSpec struct {
 
 // SecretCiphertextStatus defines the observed state of SecretCiphertext.
 type SecretCiphertextStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretCiphertextObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretCiphertextObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

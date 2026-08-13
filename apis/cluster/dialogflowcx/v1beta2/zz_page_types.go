@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EntryFulfillmentConditionalCasesInitParameters struct {
@@ -1975,17 +1975,17 @@ type PageInitParameters struct {
 
 	// The flow to create a page for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Ordered list of TransitionRouteGroups associated with the page. Transition route groups must be unique within a page.
 	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
@@ -2021,17 +2021,17 @@ type PageKnowledgeConnectorSettingsInitParameters struct {
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.Reference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to be triggered.
 	// When the answers from the Knowledge Connector are selected by Dialogflow, you can utitlize the request scoped parameter $request.knowledge.answers (contains up to the 5 highest confidence answers) and $request.knowledge.questions (contains the corresponding questions) to construct the fulfillment.
@@ -2082,18 +2082,18 @@ type PageKnowledgeConnectorSettingsParameters struct {
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.Reference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to be triggered.
 	// When the answers from the Knowledge Connector are selected by Dialogflow, you can utitlize the request scoped parameter $request.knowledge.answers (contains up to the 5 highest confidence answers) and $request.knowledge.questions (contains the corresponding questions) to construct the fulfillment.
@@ -2132,17 +2132,17 @@ type PageKnowledgeConnectorSettingsTriggerFulfillmentInitParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.Reference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.Selector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type PageKnowledgeConnectorSettingsTriggerFulfillmentObservation struct {
@@ -2215,18 +2215,18 @@ type PageKnowledgeConnectorSettingsTriggerFulfillmentParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.Reference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.Selector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type PageObservation struct {
@@ -2351,18 +2351,18 @@ type PageParameters struct {
 
 	// The flow to create a page for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Ordered list of TransitionRouteGroups associated with the page. Transition route groups must be unique within a page.
 	// If multiple transition routes within a page scope refer to the same intent, then the precedence order is: page's transition route -> page's transition route group -> flow's transition routes.
@@ -2400,17 +2400,17 @@ type PageTransitionRoutesInitParameters struct {
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.Reference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -2463,18 +2463,18 @@ type PageTransitionRoutesParameters struct {
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.Reference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -2893,31 +2893,31 @@ type RepromptEventHandlersInitParameters struct {
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.Reference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.Reference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -2954,33 +2954,33 @@ type RepromptEventHandlersParameters struct {
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.Reference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.Reference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.Selector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
 	// Reference to a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageRef *v1.Reference `json:"targetPageRef,omitempty" tf:"-"`
+	TargetPageRef *v2.Reference `json:"targetPageRef,omitempty" tf:"-"`
 
 	// Selector for a Page in dialogflowcx to populate targetPage.
 	// +kubebuilder:validation:Optional
-	TargetPageSelector *v1.Selector `json:"targetPageSelector,omitempty" tf:"-"`
+	TargetPageSelector *v2.Selector `json:"targetPageSelector,omitempty" tf:"-"`
 
 	// The fulfillment to call when the condition is satisfied. At least one of triggerFulfillment and target must be specified. When both are defined, triggerFulfillment is executed first.
 	// Structure is documented below.
@@ -3031,17 +3031,17 @@ type RepromptEventHandlersTriggerFulfillmentInitParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.Reference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.Selector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type RepromptEventHandlersTriggerFulfillmentMessagesConversationSuccessInitParameters struct {
@@ -3340,18 +3340,18 @@ type RepromptEventHandlersTriggerFulfillmentParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.Reference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.Reference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.Selector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.Selector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type RepromptEventHandlersTriggerFulfillmentSetParameterActionsInitParameters struct {
@@ -3521,8 +3521,8 @@ type TransitionRoutesTriggerFulfillmentMessagesTextParameters struct {
 
 // PageSpec defines the desired state of Page
 type PageSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     PageParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   PageParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -3538,8 +3538,8 @@ type PageSpec struct {
 
 // PageStatus defines the observed state of Page.
 type PageStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PageObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

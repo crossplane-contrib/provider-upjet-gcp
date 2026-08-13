@@ -10,17 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TenantOAuthIdPConfigInitParameters struct {
 
 	// The client id of an OAuth client.
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
-	ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -39,17 +38,17 @@ type TenantOAuthIdPConfigInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the tenant where this OIDC IDP configuration resource exists
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 type TenantOAuthIdPConfigObservation struct {
@@ -85,11 +84,11 @@ type TenantOAuthIdPConfigParameters struct {
 
 	// The client id of an OAuth client.
 	// +kubebuilder:validation:Optional
-	ClientIDSecretRef v1.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
+	ClientIDSecretRef v2.LocalSecretKeySelector `json:"clientIdSecretRef" tf:"-"`
 
 	// The client secret of the OAuth client, to enable OIDC code flow.
 	// +kubebuilder:validation:Optional
-	ClientSecretSecretRef *v1.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
+	ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"clientSecretSecretRef,omitempty" tf:"-"`
 
 	// Human friendly display name.
 	// +kubebuilder:validation:Optional
@@ -113,18 +112,18 @@ type TenantOAuthIdPConfigParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the tenant where this OIDC IDP configuration resource exists
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/identityplatform/v1beta1.Tenant
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/identityplatform/v1beta1.Tenant
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Tenant *string `json:"tenant,omitempty" tf:"tenant,omitempty"`
 
 	// Reference to a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantRef *v1.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
+	TenantRef *v2.NamespacedReference `json:"tenantRef,omitempty" tf:"-"`
 
 	// Selector for a Tenant in identityplatform to populate tenant.
 	// +kubebuilder:validation:Optional
-	TenantSelector *v1.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
+	TenantSelector *v2.NamespacedSelector `json:"tenantSelector,omitempty" tf:"-"`
 }
 
 // TenantOAuthIdPConfigSpec defines the desired state of TenantOAuthIdPConfig
@@ -146,8 +145,8 @@ type TenantOAuthIdPConfigSpec struct {
 
 // TenantOAuthIdPConfigStatus defines the observed state of TenantOAuthIdPConfig.
 type TenantOAuthIdPConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TenantOAuthIdPConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TenantOAuthIdPConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

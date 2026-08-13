@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CachePolicyCacheKeyPolicyInitParameters struct {
@@ -788,17 +788,17 @@ type CustomErrorResponsePolicyInitParameters struct {
 	// global/backendBuckets/myBackendBucket
 	// If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
 	// If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ErrorService *string `json:"errorService,omitempty" tf:"error_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceRef *v1.Reference `json:"errorServiceRef,omitempty" tf:"-"`
+	ErrorServiceRef *v2.Reference `json:"errorServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
+	ErrorServiceSelector *v2.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
 type CustomErrorResponsePolicyObservation struct {
@@ -835,18 +835,18 @@ type CustomErrorResponsePolicyParameters struct {
 	// global/backendBuckets/myBackendBucket
 	// If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
 	// If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ErrorService *string `json:"errorService,omitempty" tf:"error_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceRef *v1.Reference `json:"errorServiceRef,omitempty" tf:"-"`
+	ErrorServiceRef *v2.Reference `json:"errorServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
+	ErrorServiceSelector *v2.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
 type DefaultCustomErrorResponsePolicyErrorResponseRuleInitParameters struct {
@@ -906,17 +906,17 @@ type DefaultCustomErrorResponsePolicyInitParameters struct {
 	// global/backendBuckets/myBackendBucket
 	// If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
 	// If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ErrorService *string `json:"errorService,omitempty" tf:"error_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceRef *v1.Reference `json:"errorServiceRef,omitempty" tf:"-"`
+	ErrorServiceRef *v2.Reference `json:"errorServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
+	ErrorServiceSelector *v2.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
 type DefaultCustomErrorResponsePolicyObservation struct {
@@ -953,18 +953,18 @@ type DefaultCustomErrorResponsePolicyParameters struct {
 	// global/backendBuckets/myBackendBucket
 	// If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
 	// If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ErrorService *string `json:"errorService,omitempty" tf:"error_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceRef *v1.Reference `json:"errorServiceRef,omitempty" tf:"-"`
+	ErrorServiceRef *v2.Reference `json:"errorServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
+	ErrorServiceSelector *v2.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
 type DefaultRouteActionCachePolicyCacheKeyPolicyInitParameters struct {
@@ -2258,17 +2258,17 @@ type PathMatcherDefaultCustomErrorResponsePolicyInitParameters struct {
 	// global/backendBuckets/myBackendBucket
 	// If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
 	// If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ErrorService *string `json:"errorService,omitempty" tf:"error_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceRef *v1.Reference `json:"errorServiceRef,omitempty" tf:"-"`
+	ErrorServiceRef *v2.Reference `json:"errorServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
+	ErrorServiceSelector *v2.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
 type PathMatcherDefaultCustomErrorResponsePolicyObservation struct {
@@ -2305,18 +2305,18 @@ type PathMatcherDefaultCustomErrorResponsePolicyParameters struct {
 	// global/backendBuckets/myBackendBucket
 	// If errorService is not specified at lower levels like pathMatcher, pathRule and routeRule, an errorService specified at a higher level in the UrlMap will be used. If UrlMap.defaultCustomErrorResponsePolicy contains one or more errorResponseRules[], it must specify errorService.
 	// If load balancer cannot reach the backendBucket, a simple Not Found Error will be returned, with the original response code (or overrideResponseCode if configured).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ErrorService *string `json:"errorService,omitempty" tf:"error_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceRef *v1.Reference `json:"errorServiceRef,omitempty" tf:"-"`
+	ErrorServiceRef *v2.Reference `json:"errorServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate errorService.
 	// +kubebuilder:validation:Optional
-	ErrorServiceSelector *v1.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
+	ErrorServiceSelector *v2.Selector `json:"errorServiceSelector,omitempty" tf:"-"`
 }
 
 type PathMatcherDefaultRouteActionCorsPolicyInitParameters struct {
@@ -2606,17 +2606,17 @@ type PathMatcherDefaultRouteActionRequestMirrorPolicyInitParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type PathMatcherDefaultRouteActionRequestMirrorPolicyObservation struct {
@@ -2632,18 +2632,18 @@ type PathMatcherDefaultRouteActionRequestMirrorPolicyParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyInitParameters struct {
@@ -3033,17 +3033,17 @@ type PathMatcherPathRuleInitParameters struct {
 	RouteAction *PathRuleRouteActionInitParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
 
 	// The backend service or backend bucket link that should be matched by this test.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -3110,18 +3110,18 @@ type PathMatcherPathRuleParameters struct {
 	RouteAction *PathRuleRouteActionParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
 
 	// The backend service or backend bucket link that should be matched by this test.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -3326,17 +3326,17 @@ type PathMatcherRouteRulesInitParameters struct {
 	RouteAction *PathMatcherRouteRulesRouteActionInitParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
 
 	// The backend service or backend bucket link that should be matched by this test.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a BackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -3441,18 +3441,18 @@ type PathMatcherRouteRulesParameters struct {
 	RouteAction *PathMatcherRouteRulesRouteActionParameters `json:"routeAction,omitempty" tf:"route_action,omitempty"`
 
 	// The backend service or backend bucket link that should be matched by this test.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a BackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// When this rule is matched, the request is redirected to a URL specified by
 	// urlRedirect. If urlRedirect is specified, service or routeAction must not be
@@ -4916,17 +4916,17 @@ type PathRuleRouteActionRequestMirrorPolicyInitParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type PathRuleRouteActionRequestMirrorPolicyObservation struct {
@@ -4942,18 +4942,18 @@ type PathRuleRouteActionRequestMirrorPolicyParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type PathRuleRouteActionRetryPolicyInitParameters struct {
@@ -5256,17 +5256,17 @@ type PathRuleRouteActionWeightedBackendServicesInitParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -5310,18 +5310,18 @@ type PathRuleRouteActionWeightedBackendServicesParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// Specifies changes to request and response headers that need to take effect for
 	// the selected backendService. headerAction specified here take effect before
@@ -7658,17 +7658,17 @@ type URLMapDefaultRouteActionRequestMirrorPolicyInitParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type URLMapDefaultRouteActionRequestMirrorPolicyObservation struct {
@@ -7684,18 +7684,18 @@ type URLMapDefaultRouteActionRequestMirrorPolicyParameters struct {
 	// The default BackendService resource. Before
 	// forwarding the request to backendService, the loadbalancer applies any relevant
 	// headerActions specified as part of this backendServiceWeight.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendService
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.Reference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.Reference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.Selector `json:"backendServiceSelector,omitempty" tf:"-"`
 }
 
 type URLMapDefaultRouteActionRetryPolicyInitParameters struct {
@@ -8223,17 +8223,17 @@ type URLMapInitParameters struct {
 	DefaultRouteAction *URLMapDefaultRouteActionInitParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
 
 	// The backend service or backend bucket to use when none of the given rules match.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -8373,18 +8373,18 @@ type URLMapParameters struct {
 	DefaultRouteAction *URLMapDefaultRouteActionParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
 
 	// The backend service or backend bucket to use when none of the given rules match.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -8937,17 +8937,17 @@ type URLMapPathMatcherInitParameters struct {
 	DefaultRouteAction *URLMapPathMatcherDefaultRouteActionInitParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
 
 	// The backend service or backend bucket to use when none of the given paths match.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -9073,18 +9073,18 @@ type URLMapPathMatcherParameters struct {
 	DefaultRouteAction *URLMapPathMatcherDefaultRouteActionParameters `json:"defaultRouteAction,omitempty" tf:"default_route_action,omitempty"`
 
 	// The backend service or backend bucket to use when none of the given paths match.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DefaultService *string `json:"defaultService,omitempty" tf:"default_service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceRef *v1.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
+	DefaultServiceRef *v2.Reference `json:"defaultServiceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate defaultService.
 	// +kubebuilder:validation:Optional
-	DefaultServiceSelector *v1.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
+	DefaultServiceSelector *v2.Selector `json:"defaultServiceSelector,omitempty" tf:"-"`
 
 	// When none of the specified hostRules match, the request is redirected to a URL specified
 	// by defaultUrlRedirect. If defaultUrlRedirect is specified, defaultService or
@@ -9156,17 +9156,17 @@ type URLMapTestInitParameters struct {
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
 	// The backend service or backend bucket link that should be matched by this test.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type URLMapTestObservation struct {
@@ -9230,24 +9230,24 @@ type URLMapTestParameters struct {
 	Path *string `json:"path" tf:"path,omitempty"`
 
 	// The backend service or backend bucket link that should be matched by this test.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 // URLMapSpec defines the desired state of URLMap
 type URLMapSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     URLMapParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   URLMapParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -9263,8 +9263,8 @@ type URLMapSpec struct {
 
 // URLMapStatus defines the observed state of URLMap.
 type URLMapStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        URLMapObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               URLMapObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

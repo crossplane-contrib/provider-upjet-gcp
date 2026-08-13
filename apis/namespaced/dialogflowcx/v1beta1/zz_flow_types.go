@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdvancedSettingsAudioExportGcsDestinationInitParameters struct {
@@ -414,17 +413,17 @@ type FlowInitParameters struct {
 
 	// The agent to create a flow for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A flow's transition route group serve two purposes:
 	// They are responsible for matching the user's first utterances in the flow.
@@ -565,18 +564,18 @@ type FlowParameters struct {
 
 	// The agent to create a flow for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A flow's transition route group serve two purposes:
 	// They are responsible for matching the user's first utterances in the flow.
@@ -608,17 +607,17 @@ type KnowledgeConnectorSettingsInitParameters struct {
 
 	// The target flow to transition to. Format: projects//locations//agents//flows/.
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
@@ -668,18 +667,18 @@ type KnowledgeConnectorSettingsParameters struct {
 
 	// The target flow to transition to. Format: projects//locations//agents//flows/.
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
@@ -726,17 +725,17 @@ type KnowledgeConnectorSettingsTriggerFulfillmentInitParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type KnowledgeConnectorSettingsTriggerFulfillmentObservation struct {
@@ -813,18 +812,18 @@ type KnowledgeConnectorSettingsTriggerFulfillmentParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
 	// Reference to a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookRef *v1.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
+	WebhookRef *v2.NamespacedReference `json:"webhookRef,omitempty" tf:"-"`
 
 	// Selector for a Webhook in dialogflowcx to populate webhook.
 	// +kubebuilder:validation:Optional
-	WebhookSelector *v1.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
+	WebhookSelector *v2.NamespacedSelector `json:"webhookSelector,omitempty" tf:"-"`
 }
 
 type KnowledgeInfoCardInitParameters struct {
@@ -1317,17 +1316,17 @@ type TransitionRoutesInitParameters struct {
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
@@ -1379,18 +1378,18 @@ type TransitionRoutesParameters struct {
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowRef *v1.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
+	TargetFlowRef *v2.NamespacedReference `json:"targetFlowRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate targetFlow.
 	// +kubebuilder:validation:Optional
-	TargetFlowSelector *v1.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
+	TargetFlowSelector *v2.NamespacedSelector `json:"targetFlowSelector,omitempty" tf:"-"`
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
@@ -2284,8 +2283,8 @@ type FlowSpec struct {
 
 // FlowStatus defines the observed state of Flow.
 type FlowStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FlowObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FlowObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

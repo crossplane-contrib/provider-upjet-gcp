@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FilterLabelsInitParameters struct {
@@ -108,17 +107,17 @@ type GlobalForwardingRuleInitParameters struct {
 	// to the referenced target.
 	// While creating a forwarding rule, specifying an IPAddress is
 	// required under the following circumstances:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.GlobalAddress
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.GlobalAddress
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a GlobalAddress in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.NamespacedReference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.NamespacedReference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a GlobalAddress in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.NamespacedSelector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.NamespacedSelector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
@@ -171,17 +170,17 @@ type GlobalForwardingRuleInitParameters struct {
 	// be used.
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, a network must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// This signifies the networking tier used for configuring
 	// this load balancer and can only take the following values:
@@ -203,17 +202,17 @@ type GlobalForwardingRuleInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Network in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Service Directory resources to register this forwarding rule with.
 	// Currently, only supports a single Service Directory resource.
@@ -229,34 +228,34 @@ type GlobalForwardingRuleInitParameters struct {
 	// If the network specified is in auto subnet mode, this field is optional.
 	// However, a subnetwork must be specified if the network is in custom subnet
 	// mode or when creating external forwarding rule with IPv6.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The URL of the target resource to receive the matched traffic.  For
 	// regional forwarding rules, this target must be in the same region as the
 	// forwarding rule. For global forwarding rules, this target must be a global
 	// load balancing resource.
 	// The forwarded traffic must be of a type appropriate to the target object.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.TargetSSLProxy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.TargetSSLProxy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type GlobalForwardingRuleObservation struct {
@@ -462,18 +461,18 @@ type GlobalForwardingRuleParameters struct {
 	// to the referenced target.
 	// While creating a forwarding rule, specifying an IPAddress is
 	// required under the following circumstances:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.GlobalAddress
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.GlobalAddress
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a GlobalAddress in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.NamespacedReference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.NamespacedReference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a GlobalAddress in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.NamespacedSelector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.NamespacedSelector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The IP protocol to which this rule applies.
 	// For protocol forwarding, valid
@@ -531,18 +530,18 @@ type GlobalForwardingRuleParameters struct {
 	// be used.
 	// For Private Service Connect forwarding rules that forward traffic to Google
 	// APIs, a network must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// This signifies the networking tier used for configuring
 	// this load balancer and can only take the following values:
@@ -567,18 +566,18 @@ type GlobalForwardingRuleParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project",false)
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Network in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Service Directory resources to register this forwarding rule with.
 	// Currently, only supports a single Service Directory resource.
@@ -596,36 +595,36 @@ type GlobalForwardingRuleParameters struct {
 	// If the network specified is in auto subnet mode, this field is optional.
 	// However, a subnetwork must be specified if the network is in custom subnet
 	// mode or when creating external forwarding rule with IPv6.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkRef *v1.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
+	SubnetworkRef *v2.NamespacedReference `json:"subnetworkRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
-	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
 	// The URL of the target resource to receive the matched traffic.  For
 	// regional forwarding rules, this target must be in the same region as the
 	// forwarding rule. For global forwarding rules, this target must be a global
 	// load balancing resource.
 	// The forwarded traffic must be of a type appropriate to the target object.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.TargetSSLProxy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.TargetSSLProxy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Target *string `json:"target,omitempty" tf:"target,omitempty"`
 
 	// Reference to a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetRef *v1.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
+	TargetRef *v2.NamespacedReference `json:"targetRef,omitempty" tf:"-"`
 
 	// Selector for a TargetSSLProxy in compute to populate target.
 	// +kubebuilder:validation:Optional
-	TargetSelector *v1.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
+	TargetSelector *v2.NamespacedSelector `json:"targetSelector,omitempty" tf:"-"`
 }
 
 type GlobalForwardingRuleServiceDirectoryRegistrationsInitParameters struct {
@@ -741,8 +740,8 @@ type GlobalForwardingRuleSpec struct {
 
 // GlobalForwardingRuleStatus defines the observed state of GlobalForwardingRule.
 type GlobalForwardingRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GlobalForwardingRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GlobalForwardingRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

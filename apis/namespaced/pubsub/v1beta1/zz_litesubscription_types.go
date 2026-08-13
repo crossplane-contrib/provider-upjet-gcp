@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeliveryConfigInitParameters struct {
@@ -50,16 +49,16 @@ type LiteSubscriptionInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A reference to a Topic resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.LiteTopic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.LiteTopic
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 }
 
 type LiteSubscriptionObservation struct {
@@ -106,17 +105,17 @@ type LiteSubscriptionParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// A reference to a Topic resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.LiteTopic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.LiteTopic
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
 
 	// Reference to a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicRef *v1.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
+	TopicRef *v2.NamespacedReference `json:"topicRef,omitempty" tf:"-"`
 
 	// Selector for a LiteTopic in pubsub to populate topic.
 	// +kubebuilder:validation:Optional
-	TopicSelector *v1.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
+	TopicSelector *v2.NamespacedSelector `json:"topicSelector,omitempty" tf:"-"`
 
 	// The zone of the pubsub lite topic.
 	// +kubebuilder:validation:Required
@@ -142,8 +141,8 @@ type LiteSubscriptionSpec struct {
 
 // LiteSubscriptionStatus defines the observed state of LiteSubscription.
 type LiteSubscriptionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LiteSubscriptionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LiteSubscriptionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

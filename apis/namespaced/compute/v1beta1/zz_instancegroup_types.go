@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceGroupInitParameters struct {
@@ -22,18 +21,18 @@ type InstanceGroupInitParameters struct {
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +listType=set
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
 	// References to Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
@@ -43,17 +42,17 @@ type InstanceGroupInitParameters struct {
 	// this is different from the network where the instances are in, the creation
 	// fails. Defaults to the network where the instances are in (if neither
 	// network nor instances is specified, this field will be blank).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -111,7 +110,7 @@ type InstanceGroupParameters struct {
 
 	// The list of instances in the group, in self_link format.
 	// When adding instances they must all be in the same network and zone as the instance group.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -119,11 +118,11 @@ type InstanceGroupParameters struct {
 
 	// References to Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesRefs []v1.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
+	InstancesRefs []v2.NamespacedReference `json:"instancesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in compute to populate instances.
 	// +kubebuilder:validation:Optional
-	InstancesSelector *v1.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
+	InstancesSelector *v2.NamespacedSelector `json:"instancesSelector,omitempty" tf:"-"`
 
 	// The named port configuration. See the section below
 	// for details on configuration. Structure is documented below.
@@ -134,18 +133,18 @@ type InstanceGroupParameters struct {
 	// this is different from the network where the instances are in, the creation
 	// fails. Defaults to the network where the instances are in (if neither
 	// network nor instances is specified, this field will be blank).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
@@ -205,8 +204,8 @@ type InstanceGroupSpec struct {
 
 // InstanceGroupStatus defines the observed state of InstanceGroup.
 type InstanceGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DesiredUserCreatedEndpointsConnectionsInitParameters struct {
@@ -111,61 +111,61 @@ type PscConnectionInitParameters struct {
 	// The URI of the consumer side forwarding rule.
 	// Format:
 	// projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleRef *v1.Reference `json:"forwardingRuleRef,omitempty" tf:"-"`
+	ForwardingRuleRef *v2.Reference `json:"forwardingRuleRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleSelector *v1.Selector `json:"forwardingRuleSelector,omitempty" tf:"-"`
+	ForwardingRuleSelector *v2.Selector `json:"forwardingRuleSelector,omitempty" tf:"-"`
 
 	// The IP allocated on the consumer network for the PSC forwarding rule.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The consumer network where the IP address resides, in the form of
 	// projects/{project_id}/global/networks/{network_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The consumer project_id where the forwarding rule is created from.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// The PSC connection id of the forwarding rule connected to the
 	// service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("psc_connection_id",true)
 	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDRef *v1.Reference `json:"pscConnectionIdRef,omitempty" tf:"-"`
+	PscConnectionIDRef *v2.Reference `json:"pscConnectionIdRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDSelector *v1.Selector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
+	PscConnectionIDSelector *v2.Selector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
 
 	// The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}.
 	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
@@ -216,47 +216,47 @@ type PscConnectionParameters struct {
 	// The URI of the consumer side forwarding rule.
 	// Format:
 	// projects/{project}/regions/{region}/forwardingRules/{forwarding_rule}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleRef *v1.Reference `json:"forwardingRuleRef,omitempty" tf:"-"`
+	ForwardingRuleRef *v2.Reference `json:"forwardingRuleRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate forwardingRule.
 	// +kubebuilder:validation:Optional
-	ForwardingRuleSelector *v1.Selector `json:"forwardingRuleSelector,omitempty" tf:"-"`
+	ForwardingRuleSelector *v2.Selector `json:"forwardingRuleSelector,omitempty" tf:"-"`
 
 	// The IP allocated on the consumer network for the PSC forwarding rule.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("address",false)
 	// +kubebuilder:validation:Optional
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// Reference to a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressRef *v1.Reference `json:"ipAddressRef,omitempty" tf:"-"`
+	IPAddressRef *v2.Reference `json:"ipAddressRef,omitempty" tf:"-"`
 
 	// Selector for a Address in compute to populate ipAddress.
 	// +kubebuilder:validation:Optional
-	IPAddressSelector *v1.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
+	IPAddressSelector *v2.Selector `json:"ipAddressSelector,omitempty" tf:"-"`
 
 	// The consumer network where the IP address resides, in the form of
 	// projects/{project_id}/global/networks/{network_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The consumer project_id where the forwarding rule is created from.
 	// +kubebuilder:validation:Optional
@@ -264,18 +264,18 @@ type PscConnectionParameters struct {
 
 	// The PSC connection id of the forwarding rule connected to the
 	// service attachment.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("psc_connection_id",true)
 	// +kubebuilder:validation:Optional
 	PscConnectionID *string `json:"pscConnectionId,omitempty" tf:"psc_connection_id,omitempty"`
 
 	// Reference to a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDRef *v1.Reference `json:"pscConnectionIdRef,omitempty" tf:"-"`
+	PscConnectionIDRef *v2.Reference `json:"pscConnectionIdRef,omitempty" tf:"-"`
 
 	// Selector for a ForwardingRule in compute to populate pscConnectionId.
 	// +kubebuilder:validation:Optional
-	PscConnectionIDSelector *v1.Selector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
+	PscConnectionIDSelector *v2.Selector `json:"pscConnectionIdSelector,omitempty" tf:"-"`
 
 	// The service attachment which is the target of the PSC connection, in the form of projects/{project-id}/regions/{region}/serviceAttachments/{service-attachment-id}.
 	// +kubebuilder:validation:Optional
@@ -284,8 +284,8 @@ type PscConnectionParameters struct {
 
 // InstanceDesiredUserCreatedEndpointsSpec defines the desired state of InstanceDesiredUserCreatedEndpoints
 type InstanceDesiredUserCreatedEndpointsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceDesiredUserCreatedEndpointsParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceDesiredUserCreatedEndpointsParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -301,8 +301,8 @@ type InstanceDesiredUserCreatedEndpointsSpec struct {
 
 // InstanceDesiredUserCreatedEndpointsStatus defines the observed state of InstanceDesiredUserCreatedEndpoints.
 type InstanceDesiredUserCreatedEndpointsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceDesiredUserCreatedEndpointsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceDesiredUserCreatedEndpointsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

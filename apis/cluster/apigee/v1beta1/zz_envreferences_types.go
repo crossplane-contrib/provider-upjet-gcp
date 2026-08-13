@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvReferencesInitParameters struct {
@@ -40,18 +40,18 @@ type EnvReferencesParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/apigee/v1beta2.Environment
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/apigee/v1beta2.Environment
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
 	// Reference to a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDRef *v1.Reference `json:"envIdRef,omitempty" tf:"-"`
+	EnvIDRef *v2.Reference `json:"envIdRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDSelector *v1.Selector `json:"envIdSelector,omitempty" tf:"-"`
+	EnvIDSelector *v2.Selector `json:"envIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Refers *string `json:"refers,omitempty" tf:"refers,omitempty"`
@@ -62,8 +62,8 @@ type EnvReferencesParameters struct {
 
 // EnvReferencesSpec defines the desired state of EnvReferences
 type EnvReferencesSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EnvReferencesParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EnvReferencesParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -79,8 +79,8 @@ type EnvReferencesSpec struct {
 
 // EnvReferencesStatus defines the observed state of EnvReferences.
 type EnvReferencesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvReferencesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvReferencesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

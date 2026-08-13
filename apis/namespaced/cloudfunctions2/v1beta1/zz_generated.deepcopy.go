@@ -9,7 +9,7 @@
 package v1beta1
 
 import (
-	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -73,12 +73,12 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 	}
 	if in.DockerRepositoryRef != nil {
 		in, out := &in.DockerRepositoryRef, &out.DockerRepositoryRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DockerRepositorySelector != nil {
 		in, out := &in.DockerRepositorySelector, &out.DockerRepositorySelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EntryPoint != nil {
@@ -119,12 +119,12 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 	}
 	if in.ServiceAccountRef != nil {
 		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountSelector != nil {
 		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
@@ -139,12 +139,12 @@ func (in *BuildConfigInitParameters) DeepCopyInto(out *BuildConfigInitParameters
 	}
 	if in.WorkerPoolRef != nil {
 		in, out := &in.WorkerPoolRef, &out.WorkerPoolRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WorkerPoolSelector != nil {
 		in, out := &in.WorkerPoolSelector, &out.WorkerPoolSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -250,12 +250,12 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 	}
 	if in.DockerRepositoryRef != nil {
 		in, out := &in.DockerRepositoryRef, &out.DockerRepositoryRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DockerRepositorySelector != nil {
 		in, out := &in.DockerRepositorySelector, &out.DockerRepositorySelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EntryPoint != nil {
@@ -296,12 +296,12 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 	}
 	if in.ServiceAccountRef != nil {
 		in, out := &in.ServiceAccountRef, &out.ServiceAccountRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountSelector != nil {
 		in, out := &in.ServiceAccountSelector, &out.ServiceAccountSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Source != nil {
@@ -316,12 +316,12 @@ func (in *BuildConfigParameters) DeepCopyInto(out *BuildConfigParameters) {
 	}
 	if in.WorkerPoolRef != nil {
 		in, out := &in.WorkerPoolRef, &out.WorkerPoolRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WorkerPoolSelector != nil {
 		in, out := &in.WorkerPoolSelector, &out.WorkerPoolSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -464,12 +464,12 @@ func (in *EventFiltersInitParameters) DeepCopyInto(out *EventFiltersInitParamete
 	}
 	if in.ValueRef != nil {
 		in, out := &in.ValueRef, &out.ValueRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ValueSelector != nil {
 		in, out := &in.ValueSelector, &out.ValueSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -534,12 +534,12 @@ func (in *EventFiltersParameters) DeepCopyInto(out *EventFiltersParameters) {
 	}
 	if in.ValueRef != nil {
 		in, out := &in.ValueRef, &out.ValueRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ValueSelector != nil {
 		in, out := &in.ValueSelector, &out.ValueSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -576,12 +576,12 @@ func (in *EventTriggerInitParameters) DeepCopyInto(out *EventTriggerInitParamete
 	}
 	if in.PubsubTopicRef != nil {
 		in, out := &in.PubsubTopicRef, &out.PubsubTopicRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PubsubTopicSelector != nil {
 		in, out := &in.PubsubTopicSelector, &out.PubsubTopicSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RetryPolicy != nil {
@@ -596,12 +596,12 @@ func (in *EventTriggerInitParameters) DeepCopyInto(out *EventTriggerInitParamete
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerRegion != nil {
@@ -695,12 +695,12 @@ func (in *EventTriggerParameters) DeepCopyInto(out *EventTriggerParameters) {
 	}
 	if in.PubsubTopicRef != nil {
 		in, out := &in.PubsubTopicRef, &out.PubsubTopicRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PubsubTopicSelector != nil {
 		in, out := &in.PubsubTopicSelector, &out.PubsubTopicSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RetryPolicy != nil {
@@ -715,12 +715,12 @@ func (in *EventTriggerParameters) DeepCopyInto(out *EventTriggerParameters) {
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TriggerRegion != nil {
@@ -1075,7 +1075,7 @@ func (in *FunctionSpec) DeepCopy() *FunctionSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *FunctionStatus) DeepCopyInto(out *FunctionStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -1309,12 +1309,12 @@ func (in *SecretEnvironmentVariablesInitParameters) DeepCopyInto(out *SecretEnvi
 	}
 	if in.SecretRef != nil {
 		in, out := &in.SecretRef, &out.SecretRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretSelector != nil {
 		in, out := &in.SecretSelector, &out.SecretSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Version != nil {
@@ -1389,12 +1389,12 @@ func (in *SecretEnvironmentVariablesParameters) DeepCopyInto(out *SecretEnvironm
 	}
 	if in.SecretRef != nil {
 		in, out := &in.SecretRef, &out.SecretRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretSelector != nil {
 		in, out := &in.SecretSelector, &out.SecretSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Version != nil {
@@ -1434,12 +1434,12 @@ func (in *SecretVolumesInitParameters) DeepCopyInto(out *SecretVolumesInitParame
 	}
 	if in.SecretRef != nil {
 		in, out := &in.SecretRef, &out.SecretRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretSelector != nil {
 		in, out := &in.SecretSelector, &out.SecretSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Versions != nil {
@@ -1518,12 +1518,12 @@ func (in *SecretVolumesParameters) DeepCopyInto(out *SecretVolumesParameters) {
 	}
 	if in.SecretRef != nil {
 		in, out := &in.SecretRef, &out.SecretRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretSelector != nil {
 		in, out := &in.SecretSelector, &out.SecretSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Versions != nil {
@@ -1637,12 +1637,12 @@ func (in *ServiceConfigInitParameters) DeepCopyInto(out *ServiceConfigInitParame
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TimeoutSeconds != nil {
@@ -1896,12 +1896,12 @@ func (in *ServiceConfigParameters) DeepCopyInto(out *ServiceConfigParameters) {
 	}
 	if in.ServiceAccountEmailRef != nil {
 		in, out := &in.ServiceAccountEmailRef, &out.ServiceAccountEmailRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountEmailSelector != nil {
 		in, out := &in.ServiceAccountEmailSelector, &out.ServiceAccountEmailSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TimeoutSeconds != nil {
@@ -2016,12 +2016,12 @@ func (in *StorageSourceInitParameters) DeepCopyInto(out *StorageSourceInitParame
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Generation != nil {
@@ -2036,12 +2036,12 @@ func (in *StorageSourceInitParameters) DeepCopyInto(out *StorageSourceInitParame
 	}
 	if in.ObjectRef != nil {
 		in, out := &in.ObjectRef, &out.ObjectRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ObjectSelector != nil {
 		in, out := &in.ObjectSelector, &out.ObjectSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2096,12 +2096,12 @@ func (in *StorageSourceParameters) DeepCopyInto(out *StorageSourceParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Generation != nil {
@@ -2116,12 +2116,12 @@ func (in *StorageSourceParameters) DeepCopyInto(out *StorageSourceParameters) {
 	}
 	if in.ObjectRef != nil {
 		in, out := &in.ObjectRef, &out.ObjectRef
-		*out = new(v1.NamespacedReference)
+		*out = new(v2.NamespacedReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ObjectSelector != nil {
 		in, out := &in.ObjectSelector, &out.ObjectSelector
-		*out = new(v1.NamespacedSelector)
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 }

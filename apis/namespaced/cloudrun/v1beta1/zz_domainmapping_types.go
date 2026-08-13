@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionsInitParameters struct {
@@ -140,16 +139,16 @@ type MetadataInitParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type MetadataObservation struct {
@@ -237,17 +236,17 @@ type MetadataParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type ResourceRecordsInitParameters struct {
@@ -288,16 +287,16 @@ type SpecInitParameters struct {
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.
 	// The route must exist.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudrun/v1beta1.Service
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 
 	// Reference to a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameRef *v1.NamespacedReference `json:"routeNameRef,omitempty" tf:"-"`
+	RouteNameRef *v2.NamespacedReference `json:"routeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameSelector *v1.NamespacedSelector `json:"routeNameSelector,omitempty" tf:"-"`
+	RouteNameSelector *v2.NamespacedSelector `json:"routeNameSelector,omitempty" tf:"-"`
 }
 
 type SpecObservation struct {
@@ -335,17 +334,17 @@ type SpecParameters struct {
 
 	// The name of the Cloud Run Service that this DomainMapping applies to.
 	// The route must exist.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudrun/v1beta1.Service
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	RouteName *string `json:"routeName,omitempty" tf:"route_name,omitempty"`
 
 	// Reference to a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameRef *v1.NamespacedReference `json:"routeNameRef,omitempty" tf:"-"`
+	RouteNameRef *v2.NamespacedReference `json:"routeNameRef,omitempty" tf:"-"`
 
 	// Selector for a Service in cloudrun to populate routeName.
 	// +kubebuilder:validation:Optional
-	RouteNameSelector *v1.NamespacedSelector `json:"routeNameSelector,omitempty" tf:"-"`
+	RouteNameSelector *v2.NamespacedSelector `json:"routeNameSelector,omitempty" tf:"-"`
 }
 
 type StatusInitParameters struct {
@@ -397,8 +396,8 @@ type DomainMappingSpec struct {
 
 // DomainMappingStatus defines the observed state of DomainMapping.
 type DomainMappingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DomainMappingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DomainMappingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

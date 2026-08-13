@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LogViewInitParameters struct {
@@ -57,18 +56,18 @@ type LogViewObservation struct {
 type LogViewParameters struct {
 
 	// The bucket of the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/logging/v1beta1.ProjectBucketConfig
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a ProjectBucketConfig in logging to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a ProjectBucketConfig in logging to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Describes this view.
 	// +kubebuilder:validation:Optional
@@ -106,8 +105,8 @@ type LogViewSpec struct {
 
 // LogViewStatus defines the observed state of LogView.
 type LogViewStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LogViewObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LogViewObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

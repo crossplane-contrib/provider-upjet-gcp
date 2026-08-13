@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ArgumentsInitParameters struct {
@@ -94,17 +94,17 @@ type RemoteFunctionOptionsInitParameters struct {
 	// Fully qualified name of the user-provided connection object which holds
 	// the authentication information to send requests to the remote service.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.Reference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.Selector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Endpoint of the user-provided remote service, e.g.
 	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
@@ -152,18 +152,18 @@ type RemoteFunctionOptionsParameters struct {
 	// Fully qualified name of the user-provided connection object which holds
 	// the authentication information to send requests to the remote service.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.Reference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.Selector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Endpoint of the user-provided remote service, e.g.
 	// https://us-east1-my_gcf_project.cloudfunctions.net/remote_add
@@ -350,17 +350,17 @@ type RoutineParameters_2 struct {
 	DataGovernanceType *string `json:"dataGovernanceType,omitempty" tf:"data_governance_type,omitempty"`
 
 	// The ID of the dataset containing this routine
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The body of the routine. For functions, this is the expression in the AS clause.
 	// If language=SQL, it is the substring inside (but excluding) the parentheses.
@@ -438,17 +438,17 @@ type SparkOptionsInitParameters struct {
 
 	// Fully qualified name of the user-provided Spark connection object.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.Reference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.Selector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Custom container image for the runtime environment.
 	ContainerImage *string `json:"containerImage,omitempty" tf:"container_image,omitempty"`
@@ -529,18 +529,18 @@ type SparkOptionsParameters struct {
 
 	// Fully qualified name of the user-provided Spark connection object.
 	// Format: "projects/{projectId}/locations/{locationId}/connections/{connectionId}"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Connection *string `json:"connection,omitempty" tf:"connection,omitempty"`
 
 	// Reference to a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionRef *v1.Reference `json:"connectionRef,omitempty" tf:"-"`
+	ConnectionRef *v2.Reference `json:"connectionRef,omitempty" tf:"-"`
 
 	// Selector for a Connection in bigquery to populate connection.
 	// +kubebuilder:validation:Optional
-	ConnectionSelector *v1.Selector `json:"connectionSelector,omitempty" tf:"-"`
+	ConnectionSelector *v2.Selector `json:"connectionSelector,omitempty" tf:"-"`
 
 	// Custom container image for the runtime environment.
 	// +kubebuilder:validation:Optional
@@ -583,8 +583,8 @@ type SparkOptionsParameters struct {
 
 // RoutineSpec defines the desired state of Routine
 type RoutineSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RoutineParameters_2 `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RoutineParameters_2 `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -600,8 +600,8 @@ type RoutineSpec struct {
 
 // RoutineStatus defines the observed state of Routine.
 type RoutineStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RoutineObservation_2 `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RoutineObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GarbageCollectionPolicyInitParameters struct {
@@ -33,16 +32,16 @@ type GarbageCollectionPolicyInitParameters struct {
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the Bigtable instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1.Instance
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Reference to a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// GC policy that applies to all cells older than the given age.
 	MaxAge *MaxAgeInitParameters `json:"maxAge,omitempty" tf:"max_age,omitempty"`
@@ -57,16 +56,16 @@ type GarbageCollectionPolicyInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1.Table
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// Reference to a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type GarbageCollectionPolicyObservation struct {
@@ -131,17 +130,17 @@ type GarbageCollectionPolicyParameters struct {
 	IgnoreWarnings *bool `json:"ignoreWarnings,omitempty" tf:"ignore_warnings,omitempty"`
 
 	// The name of the Bigtable instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1.Instance
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Reference to a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameRef *v1.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
+	InstanceNameRef *v2.NamespacedReference `json:"instanceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in bigtable to populate instanceName.
 	// +kubebuilder:validation:Optional
-	InstanceNameSelector *v1.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
+	InstanceNameSelector *v2.NamespacedSelector `json:"instanceNameSelector,omitempty" tf:"-"`
 
 	// GC policy that applies to all cells older than the given age.
 	// +kubebuilder:validation:Optional
@@ -160,17 +159,17 @@ type GarbageCollectionPolicyParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/bigtable/v1beta1.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1.Table
 	// +kubebuilder:validation:Optional
 	Table *string `json:"table,omitempty" tf:"table,omitempty"`
 
 	// Reference to a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableRef *v1.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
+	TableRef *v2.NamespacedReference `json:"tableRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigtable to populate table.
 	// +kubebuilder:validation:Optional
-	TableSelector *v1.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
+	TableSelector *v2.NamespacedSelector `json:"tableSelector,omitempty" tf:"-"`
 }
 
 type MaxAgeInitParameters struct {
@@ -240,8 +239,8 @@ type GarbageCollectionPolicySpec struct {
 
 // GarbageCollectionPolicyStatus defines the observed state of GarbageCollectionPolicy.
 type GarbageCollectionPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GarbageCollectionPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GarbageCollectionPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

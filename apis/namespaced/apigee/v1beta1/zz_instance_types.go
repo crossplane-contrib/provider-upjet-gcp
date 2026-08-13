@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLoggingConfigInitParameters struct {
@@ -70,17 +69,17 @@ type InstanceInitParameters struct {
 
 	// Customer Managed Encryption Key (CMEK) used for disk and volume encryption. Required for Apigee paid subscriptions only.
 	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DiskEncryptionKeyName *string `json:"diskEncryptionKeyName,omitempty" tf:"disk_encryption_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameRef *v1.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
+	DiskEncryptionKeyNameRef *v2.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameSelector *v1.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
+	DiskEncryptionKeyNameSelector *v2.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Display name of the instance.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -185,18 +184,18 @@ type InstanceParameters struct {
 
 	// Customer Managed Encryption Key (CMEK) used for disk and volume encryption. Required for Apigee paid subscriptions only.
 	// Use the following format: projects/([^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/]+)
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DiskEncryptionKeyName *string `json:"diskEncryptionKeyName,omitempty" tf:"disk_encryption_key_name,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameRef *v1.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
+	DiskEncryptionKeyNameRef *v2.NamespacedReference `json:"diskEncryptionKeyNameRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate diskEncryptionKeyName.
 	// +kubebuilder:validation:Optional
-	DiskEncryptionKeyNameSelector *v1.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
+	DiskEncryptionKeyNameSelector *v2.NamespacedSelector `json:"diskEncryptionKeyNameSelector,omitempty" tf:"-"`
 
 	// Display name of the instance.
 	// +kubebuilder:validation:Optional
@@ -218,18 +217,18 @@ type InstanceParameters struct {
 
 	// The Apigee Organization associated with the Apigee instance,
 	// in the format organizations/{{org_name}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Organization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Organization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
 	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDRef *v1.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
+	OrgIDRef *v2.NamespacedReference `json:"orgIdRef,omitempty" tf:"-"`
 
 	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
-	OrgIDSelector *v1.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
+	OrgIDSelector *v2.NamespacedSelector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// The size of the CIDR block range that will be reserved by the instance. For valid values,
 	// see CidrRange on the documentation.
@@ -256,8 +255,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

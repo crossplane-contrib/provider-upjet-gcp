@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -45,17 +44,17 @@ type ConditionParameters struct {
 type CryptoKeyIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	CryptoKeyID *string `json:"cryptoKeyId,omitempty" tf:"crypto_key_id,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDRef *v1.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+	CryptoKeyIDRef *v2.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDSelector *v1.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+	CryptoKeyIDSelector *v2.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -81,18 +80,18 @@ type CryptoKeyIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CryptoKeyID *string `json:"cryptoKeyId,omitempty" tf:"crypto_key_id,omitempty"`
 
 	// Reference to a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDRef *v1.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
+	CryptoKeyIDRef *v2.NamespacedReference `json:"cryptoKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a CryptoKey in kms to populate cryptoKeyId.
 	// +kubebuilder:validation:Optional
-	CryptoKeyIDSelector *v1.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
+	CryptoKeyIDSelector *v2.NamespacedSelector `json:"cryptoKeyIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -120,8 +119,8 @@ type CryptoKeyIAMMemberSpec struct {
 
 // CryptoKeyIAMMemberStatus defines the observed state of CryptoKeyIAMMember.
 type CryptoKeyIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CryptoKeyIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

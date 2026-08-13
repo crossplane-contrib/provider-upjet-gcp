@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networksecurity.gcp.upbound.io/v1beta1
+kind: DNSThreatDetector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/dnsthreatdetector
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    excludedNetworksRefs:
+    - name: foobar
+    labels:
+      foo: bar
+    location: global
+    threatDetectorProvider: INFOBLOX
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/dnsthreatdetector
+  labels:
+    testing.upbound.io/example-name: foobar
+  name: foobar
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

@@ -5,104 +5,104 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this FloorSetting.
-func (mg *FloorSetting) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *FloorSetting) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this FloorSetting.
-func (mg *FloorSetting) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *FloorSetting) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this FloorSetting.
-func (mg *FloorSetting) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *FloorSetting) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this FloorSetting.
-func (mg *FloorSetting) GetProviderConfigReference() *xpv1.Reference {
+func (mg *FloorSetting) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this FloorSetting.
-func (mg *FloorSetting) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *FloorSetting) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this FloorSetting.
-func (mg *FloorSetting) SetConditions(c ...xpv1.Condition) {
+func (mg *FloorSetting) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this FloorSetting.
-func (mg *FloorSetting) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *FloorSetting) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this FloorSetting.
-func (mg *FloorSetting) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *FloorSetting) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this FloorSetting.
-func (mg *FloorSetting) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *FloorSetting) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this FloorSetting.
-func (mg *FloorSetting) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *FloorSetting) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this Template.
-func (mg *Template) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *Template) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this Template.
-func (mg *Template) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *Template) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this Template.
-func (mg *Template) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *Template) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this Template.
-func (mg *Template) GetProviderConfigReference() *xpv1.Reference {
+func (mg *Template) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this Template.
-func (mg *Template) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *Template) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this Template.
-func (mg *Template) SetConditions(c ...xpv1.Condition) {
+func (mg *Template) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this Template.
-func (mg *Template) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *Template) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this Template.
-func (mg *Template) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *Template) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this Template.
-func (mg *Template) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *Template) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this Template.
-func (mg *Template) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *Template) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

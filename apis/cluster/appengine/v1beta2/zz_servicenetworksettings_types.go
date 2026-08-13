@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkSettingsInitParameters struct {
@@ -49,17 +49,17 @@ type ServiceNetworkSettingsInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the service these settings apply to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/appengine/v1beta2.StandardAppVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/appengine/v1beta2.StandardAppVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service",false)
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 type ServiceNetworkSettingsObservation struct {
@@ -92,24 +92,24 @@ type ServiceNetworkSettingsParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The name of the service these settings apply to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/appengine/v1beta2.StandardAppVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/appengine/v1beta2.StandardAppVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("service",false)
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// Reference to a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceRef *v1.Reference `json:"serviceRef,omitempty" tf:"-"`
+	ServiceRef *v2.Reference `json:"serviceRef,omitempty" tf:"-"`
 
 	// Selector for a StandardAppVersion in appengine to populate service.
 	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.Selector `json:"serviceSelector,omitempty" tf:"-"`
+	ServiceSelector *v2.Selector `json:"serviceSelector,omitempty" tf:"-"`
 }
 
 // ServiceNetworkSettingsSpec defines the desired state of ServiceNetworkSettings
 type ServiceNetworkSettingsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceNetworkSettingsParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceNetworkSettingsParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -125,8 +125,8 @@ type ServiceNetworkSettingsSpec struct {
 
 // ServiceNetworkSettingsStatus defines the observed state of ServiceNetworkSettings.
 type ServiceNetworkSettingsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceNetworkSettingsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceNetworkSettingsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EntitiesInitParameters struct {
@@ -84,17 +83,17 @@ type EntityTypeInitParameters struct {
 
 	// The agent to create a entity type for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Indicates whether parameters of the entity type should be redacted in log. If redaction is enabled, page parameters and intent parameters referring to the entity type will be replaced by parameter name when logging.
 	Redact *bool `json:"redact,omitempty" tf:"redact,omitempty"`
@@ -188,18 +187,18 @@ type EntityTypeParameters struct {
 
 	// The agent to create a entity type for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/dialogflowcx/v1beta1.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Indicates whether parameters of the entity type should be redacted in log. If redaction is enabled, page parameters and intent parameters referring to the entity type will be replaced by parameter name when logging.
 	// +kubebuilder:validation:Optional
@@ -244,8 +243,8 @@ type EntityTypeSpec struct {
 
 // EntityTypeStatus defines the observed state of EntityType.
 type EntityTypeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EntityTypeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EntityTypeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

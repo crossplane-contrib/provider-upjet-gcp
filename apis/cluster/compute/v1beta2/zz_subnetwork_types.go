@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecondaryIPRangeInitParameters struct {
@@ -124,16 +124,16 @@ type SubnetworkInitParameters_2 struct {
 
 	// The network this subnet belongs to.
 	// Only networks that are in the distributed mode can have subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -518,17 +518,17 @@ type SubnetworkParameters_2 struct {
 
 	// The network this subnet belongs to.
 	// Only networks that are in the distributed mode can have subnetworks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkRef *v1.Reference `json:"networkRef,omitempty" tf:"-"`
+	NetworkRef *v2.Reference `json:"networkRef,omitempty" tf:"-"`
 
 	// Selector for a Network in compute to populate network.
 	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
+	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
@@ -649,8 +649,8 @@ type SubnetworkParamsParameters struct {
 
 // SubnetworkSpec defines the desired state of Subnetwork
 type SubnetworkSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubnetworkParameters_2 `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SubnetworkParameters_2 `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -666,8 +666,8 @@ type SubnetworkSpec struct {
 
 // SubnetworkStatus defines the observed state of Subnetwork.
 type SubnetworkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SubnetworkObservation_2 `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SubnetworkObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

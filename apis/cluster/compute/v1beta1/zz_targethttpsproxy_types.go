@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TargetHTTPSProxyInitParameters struct {
@@ -61,16 +61,16 @@ type TargetHTTPSProxyInitParameters struct {
 	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
 	// Currently, you may specify up to 15 SSL certificates. sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
 	// sslCertificates and certificateManagerCertificates can not be defined together.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.SSLCertificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.SSLCertificate
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
 	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
@@ -101,17 +101,17 @@ type TargetHTTPSProxyInitParameters struct {
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.URLMap
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.URLMap
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 type TargetHTTPSProxyObservation struct {
@@ -274,17 +274,17 @@ type TargetHTTPSProxyParameters struct {
 	// URLs to SslCertificate resources that are used to authenticate connections between users and the load balancer.
 	// Currently, you may specify up to 15 SSL certificates. sslCertificates do not apply when the load balancing scheme is set to INTERNAL_SELF_MANAGED.
 	// sslCertificates and certificateManagerCertificates can not be defined together.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.SSLCertificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.SSLCertificate
 	// +kubebuilder:validation:Optional
 	SSLCertificates []*string `json:"sslCertificates,omitempty" tf:"ssl_certificates,omitempty"`
 
 	// References to SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesRefs []v1.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
+	SSLCertificatesRefs []v2.Reference `json:"sslCertificatesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SSLCertificate in compute to populate sslCertificates.
 	// +kubebuilder:validation:Optional
-	SSLCertificatesSelector *v1.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
+	SSLCertificatesSelector *v2.Selector `json:"sslCertificatesSelector,omitempty" tf:"-"`
 
 	// A reference to the SslPolicy resource that will be associated with
 	// the TargetHttpsProxy resource. If not set, the TargetHttpsProxy
@@ -318,24 +318,24 @@ type TargetHTTPSProxyParameters struct {
 
 	// A reference to the UrlMap resource that defines the mapping from URL
 	// to the BackendService.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.URLMap
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.URLMap
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URLMap *string `json:"urlMap,omitempty" tf:"url_map,omitempty"`
 
 	// Reference to a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapRef *v1.Reference `json:"urlMapRef,omitempty" tf:"-"`
+	URLMapRef *v2.Reference `json:"urlMapRef,omitempty" tf:"-"`
 
 	// Selector for a URLMap in compute to populate urlMap.
 	// +kubebuilder:validation:Optional
-	URLMapSelector *v1.Selector `json:"urlMapSelector,omitempty" tf:"-"`
+	URLMapSelector *v2.Selector `json:"urlMapSelector,omitempty" tf:"-"`
 }
 
 // TargetHTTPSProxySpec defines the desired state of TargetHTTPSProxy
 type TargetHTTPSProxySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TargetHTTPSProxyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TargetHTTPSProxyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -351,8 +351,8 @@ type TargetHTTPSProxySpec struct {
 
 // TargetHTTPSProxyStatus defines the observed state of TargetHTTPSProxy.
 type TargetHTTPSProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TargetHTTPSProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TargetHTTPSProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

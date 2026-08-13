@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CryptoKeyInitParameters struct {
@@ -137,18 +136,18 @@ type CryptoKeyParameters struct {
 
 	// The KeyRing that this key belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.KeyRing
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.KeyRing
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KeyRing *string `json:"keyRing,omitempty" tf:"key_ring,omitempty"`
 
 	// Reference to a KeyRing in kms to populate keyRing.
 	// +kubebuilder:validation:Optional
-	KeyRingRef *v1.NamespacedReference `json:"keyRingRef,omitempty" tf:"-"`
+	KeyRingRef *v2.NamespacedReference `json:"keyRingRef,omitempty" tf:"-"`
 
 	// Selector for a KeyRing in kms to populate keyRing.
 	// +kubebuilder:validation:Optional
-	KeyRingSelector *v1.NamespacedSelector `json:"keyRingSelector,omitempty" tf:"-"`
+	KeyRingSelector *v2.NamespacedSelector `json:"keyRingSelector,omitempty" tf:"-"`
 
 	// Labels with user-defined metadata to apply to this resource.
 	// +kubebuilder:validation:Optional
@@ -250,8 +249,8 @@ type CryptoKeySpec struct {
 
 // CryptoKeyStatus defines the observed state of CryptoKey.
 type CryptoKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CryptoKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CryptoKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

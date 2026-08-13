@@ -10,6 +10,9 @@ package v1beta1
 func (tr *AddressGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *DNSThreatDetector) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *GatewaySecurityPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.

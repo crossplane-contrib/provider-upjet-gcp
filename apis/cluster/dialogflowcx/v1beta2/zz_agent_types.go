@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AdvancedSettingsInitParameters struct {
@@ -535,7 +535,7 @@ type GithubSettingsInitParameters struct {
 
 	// The access token used to authenticate the access to the GitHub repository.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	AccessTokenSecretRef *v1.SecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
+	AccessTokenSecretRef *v2.SecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
 
 	// A list of branches configured to be used from Dialogflow.
 	Branches []*string `json:"branches,omitempty" tf:"branches,omitempty"`
@@ -570,7 +570,7 @@ type GithubSettingsParameters struct {
 	// The access token used to authenticate the access to the GitHub repository.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	AccessTokenSecretRef *v1.SecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
+	AccessTokenSecretRef *v2.SecretKeySelector `json:"accessTokenSecretRef,omitempty" tf:"-"`
 
 	// A list of branches configured to be used from Dialogflow.
 	// +kubebuilder:validation:Optional
@@ -757,8 +757,8 @@ type TextToSpeechSettingsParameters struct {
 
 // AgentSpec defines the desired state of Agent
 type AgentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AgentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AgentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -774,8 +774,8 @@ type AgentSpec struct {
 
 // AgentStatus defines the observed state of Agent.
 type AgentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AgentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AgentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

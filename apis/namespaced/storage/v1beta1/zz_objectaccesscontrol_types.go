@@ -10,39 +10,38 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ObjectAccessControlInitParameters struct {
 
 	// The name of the bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER.
@@ -91,35 +90,35 @@ type ObjectAccessControlObservation struct {
 type ObjectAccessControlParameters struct {
 
 	// The name of the bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.NamespacedReference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in storage to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.NamespacedSelector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The entity holding the permission, in one of the following forms:
 	// +kubebuilder:validation:Optional
 	Entity *string `json:"entity,omitempty" tf:"entity,omitempty"`
 
 	// The name of the object to apply the access control to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("output_name",true)
 	// +kubebuilder:validation:Optional
 	Object *string `json:"object,omitempty" tf:"object,omitempty"`
 
 	// Reference to a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectRef *v1.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
+	ObjectRef *v2.NamespacedReference `json:"objectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in storage to populate object.
 	// +kubebuilder:validation:Optional
-	ObjectSelector *v1.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
+	ObjectSelector *v2.NamespacedSelector `json:"objectSelector,omitempty" tf:"-"`
 
 	// The access permission for the entity.
 	// Possible values are: OWNER, READER.
@@ -162,8 +161,8 @@ type ObjectAccessControlSpec struct {
 
 // ObjectAccessControlStatus defines the observed state of ObjectAccessControl.
 type ObjectAccessControlStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ObjectAccessControlObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ObjectAccessControlObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

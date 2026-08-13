@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
@@ -1447,17 +1447,17 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	ShieldedInstanceConfig *NodePoolNodeConfigShieldedInstanceConfigInitParameters_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
 
@@ -1988,18 +1988,18 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	ShieldedInstanceConfig *NodePoolNodeConfigShieldedInstanceConfigParameters_2 `json:"shieldedInstanceConfig,omitempty" tf:"shielded_instance_config,omitempty"`
@@ -2392,18 +2392,18 @@ type NodePoolParameters_2 struct {
 	Autoscaling *NodePoolAutoscalingParameters `json:"autoscaling,omitempty" tf:"autoscaling,omitempty"`
 
 	// The cluster to create the node pool for. Cluster must be present in location provided for clusters. May be specified in the format projects/{{project}}/locations/{{location}}/clusters/{{cluster}} or as just the name of the cluster.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/container/v1beta2.Cluster
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/container/v1beta2.Cluster
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
 	// Reference to a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterRef *v1.Reference `json:"clusterRef,omitempty" tf:"-"`
+	ClusterRef *v2.Reference `json:"clusterRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in container to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterSelector *v1.Selector `json:"clusterSelector,omitempty" tf:"-"`
+	ClusterSelector *v2.Selector `json:"clusterSelector,omitempty" tf:"-"`
 
 	// Whether to ignore external changes (drift) to the node count (e.g. from GKE autoscaling). Setting this to true skips querying Compute Engine Instance Group Managers (IGMs) to determine the current node count on read, which can save API quota and speed up plans on large clusters.
 	// +kubebuilder:validation:Optional
@@ -2723,8 +2723,8 @@ type UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyParameters struct {
 
 // NodePoolSpec defines the desired state of NodePool
 type NodePoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NodePoolParameters_2 `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NodePoolParameters_2 `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2740,8 +2740,8 @@ type NodePoolSpec struct {
 
 // NodePoolStatus defines the observed state of NodePool.
 type NodePoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NodePoolObservation_2 `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NodePoolObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

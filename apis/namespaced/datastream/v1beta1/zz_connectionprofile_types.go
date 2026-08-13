@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BigqueryProfileInitParameters struct {
@@ -230,14 +229,14 @@ type ForwardSSHConnectivityInitParameters struct {
 
 	// SSH password.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SSH tunnel.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
 	// SSH private key.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// Username for the SSH tunnel.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -264,7 +263,7 @@ type ForwardSSHConnectivityParameters struct {
 	// SSH password.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SSH tunnel.
 	// +kubebuilder:validation:Optional
@@ -273,7 +272,7 @@ type ForwardSSHConnectivityParameters struct {
 	// SSH private key.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef *v1.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.LocalSecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// Username for the SSH tunnel.
 	// +kubebuilder:validation:Optional
@@ -353,7 +352,7 @@ type MongodbProfileInitParameters struct {
 	// Password for the MongoDB connection. Mutually exclusive with
 	// secretManagerStoredPassword.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Name of the replica set.
 	ReplicaSet *string `json:"replicaSet,omitempty" tf:"replica_set,omitempty"`
@@ -433,7 +432,7 @@ type MongodbProfileParameters struct {
 	// secretManagerStoredPassword.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Name of the replica set.
 	// +kubebuilder:validation:Optional
@@ -472,7 +471,7 @@ type MySQLProfileInitParameters struct {
 
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the MySQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -516,7 +515,7 @@ type MySQLProfileParameters struct {
 	// Password for the MySQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the MySQL connection.
 	// +kubebuilder:validation:Optional
@@ -541,20 +540,20 @@ type MySQLProfileSSLConfigInitParameters struct {
 	// PEM-encoded certificate of the CA that signed the source database
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CACertificateSecretRef *v1.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
+	CACertificateSecretRef *v2.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
 	// authenticate against the source database server. If this field
 	// is used then the 'clientKey' and the 'caCertificate' fields are
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ClientCertificateSecretRef *v1.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
+	ClientCertificateSecretRef *v2.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ClientKeySecretRef *v1.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
+	ClientKeySecretRef *v2.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 }
 
 type MySQLProfileSSLConfigObservation struct {
@@ -578,7 +577,7 @@ type MySQLProfileSSLConfigParameters struct {
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CACertificateSecretRef *v1.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
+	CACertificateSecretRef *v2.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
 	// authenticate against the source database server. If this field
@@ -586,14 +585,14 @@ type MySQLProfileSSLConfigParameters struct {
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ClientCertificateSecretRef *v1.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
+	ClientCertificateSecretRef *v2.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ClientKeySecretRef *v1.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
+	ClientKeySecretRef *v2.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 }
 
 type OracleProfileInitParameters struct {
@@ -610,7 +609,7 @@ type OracleProfileInitParameters struct {
 
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the Oracle connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -662,7 +661,7 @@ type OracleProfileParameters struct {
 	// Password for the Oracle connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the Oracle connection.
 	// +kubebuilder:validation:Optional
@@ -680,33 +679,33 @@ type OracleProfileParameters struct {
 type PostgresqlProfileInitParameters struct {
 
 	// Database for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.Database
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Reference to a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// Hostname for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameRef *v1.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
+	HostnameRef *v2.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameSelector *v1.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
+	HostnameSelector *v2.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
 
 	// Password for the PostgreSQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -719,16 +718,16 @@ type PostgresqlProfileInitParameters struct {
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.User
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.User
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// Reference to a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type PostgresqlProfileObservation struct {
@@ -756,36 +755,36 @@ type PostgresqlProfileObservation struct {
 type PostgresqlProfileParameters struct {
 
 	// Database for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.Database
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Reference to a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// Hostname for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameRef *v1.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
+	HostnameRef *v2.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameSelector *v1.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
+	HostnameSelector *v2.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
 
 	// Password for the PostgreSQL connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the PostgreSQL connection.
 	// +kubebuilder:validation:Optional
@@ -801,17 +800,17 @@ type PostgresqlProfileParameters struct {
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the PostgreSQL connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.User
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.User
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// Reference to a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type PostgresqlProfileSSLConfigInitParameters struct {
@@ -858,17 +857,17 @@ type PostgresqlProfileSSLConfigParameters struct {
 type PrivateConnectivityInitParameters struct {
 
 	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datastream/v1beta1.PrivateConnection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/datastream/v1beta1.PrivateConnection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
 
 	// Reference to a PrivateConnection in datastream to populate privateConnection.
 	// +kubebuilder:validation:Optional
-	PrivateConnectionRef *v1.NamespacedReference `json:"privateConnectionRef,omitempty" tf:"-"`
+	PrivateConnectionRef *v2.NamespacedReference `json:"privateConnectionRef,omitempty" tf:"-"`
 
 	// Selector for a PrivateConnection in datastream to populate privateConnection.
 	// +kubebuilder:validation:Optional
-	PrivateConnectionSelector *v1.NamespacedSelector `json:"privateConnectionSelector,omitempty" tf:"-"`
+	PrivateConnectionSelector *v2.NamespacedSelector `json:"privateConnectionSelector,omitempty" tf:"-"`
 }
 
 type PrivateConnectivityObservation struct {
@@ -880,50 +879,50 @@ type PrivateConnectivityObservation struct {
 type PrivateConnectivityParameters struct {
 
 	// A reference to a private connection resource. Format: projects/{project}/locations/{location}/privateConnections/{name}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datastream/v1beta1.PrivateConnection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/datastream/v1beta1.PrivateConnection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivateConnection *string `json:"privateConnection,omitempty" tf:"private_connection,omitempty"`
 
 	// Reference to a PrivateConnection in datastream to populate privateConnection.
 	// +kubebuilder:validation:Optional
-	PrivateConnectionRef *v1.NamespacedReference `json:"privateConnectionRef,omitempty" tf:"-"`
+	PrivateConnectionRef *v2.NamespacedReference `json:"privateConnectionRef,omitempty" tf:"-"`
 
 	// Selector for a PrivateConnection in datastream to populate privateConnection.
 	// +kubebuilder:validation:Optional
-	PrivateConnectionSelector *v1.NamespacedSelector `json:"privateConnectionSelector,omitempty" tf:"-"`
+	PrivateConnectionSelector *v2.NamespacedSelector `json:"privateConnectionSelector,omitempty" tf:"-"`
 }
 
 type SQLServerProfileInitParameters struct {
 
 	// Database for the SQL Server connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.Database
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Reference to a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// Hostname for the SQL Server connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameRef *v1.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
+	HostnameRef *v2.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameSelector *v1.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
+	HostnameSelector *v2.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
 
 	// Password for the SQL Server connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SQL Server connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
@@ -932,16 +931,16 @@ type SQLServerProfileInitParameters struct {
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the SQL Server connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.User
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.User
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// Reference to a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type SQLServerProfileObservation struct {
@@ -965,36 +964,36 @@ type SQLServerProfileObservation struct {
 type SQLServerProfileParameters struct {
 
 	// Database for the SQL Server connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.Database
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
 	// Reference to a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseRef *v1.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
+	DatabaseRef *v2.NamespacedReference `json:"databaseRef,omitempty" tf:"-"`
 
 	// Selector for a Database in sql to populate database.
 	// +kubebuilder:validation:Optional
-	DatabaseSelector *v1.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
+	DatabaseSelector *v2.NamespacedSelector `json:"databaseSelector,omitempty" tf:"-"`
 
 	// Hostname for the SQL Server connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("public_ip_address",true)
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameRef *v1.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
+	HostnameRef *v2.NamespacedReference `json:"hostnameRef,omitempty" tf:"-"`
 
 	// Selector for a DatabaseInstance in sql to populate hostname.
 	// +kubebuilder:validation:Optional
-	HostnameSelector *v1.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
+	HostnameSelector *v2.NamespacedSelector `json:"hostnameSelector,omitempty" tf:"-"`
 
 	// Password for the SQL Server connection.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Port for the SQL Server connection.
 	// +kubebuilder:validation:Optional
@@ -1005,17 +1004,17 @@ type SQLServerProfileParameters struct {
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
 	// Username for the SQL Server connection.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/sql/v1beta1.User
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/sql/v1beta1.User
 	// +kubebuilder:validation:Optional
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
 	// Reference to a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.NamespacedReference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.NamespacedSelector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type SSLConfigInitParameters struct {
@@ -1023,25 +1022,25 @@ type SSLConfigInitParameters struct {
 	// PEM-encoded certificate of the CA that signed the source database
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CACertificateSecretRef *v1.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
+	CACertificateSecretRef *v2.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
 	// authenticate against the source database server. If this field
 	// is used then the 'clientKey' and the 'caCertificate' fields are
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ClientCertificateSecretRef *v1.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
+	ClientCertificateSecretRef *v2.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ClientKeySecretRef *v1.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
+	ClientKeySecretRef *v2.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 
 	// A reference to a Secret Manager resource name storing the
 	// PEM-encoded private key. Mutually exclusive with clientKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	SecretManagerStoredClientKeySecretRef *v1.LocalSecretKeySelector `json:"secretManagerStoredClientKeySecretRef,omitempty" tf:"-"`
+	SecretManagerStoredClientKeySecretRef *v2.LocalSecretKeySelector `json:"secretManagerStoredClientKeySecretRef,omitempty" tf:"-"`
 }
 
 type SSLConfigObservation struct {
@@ -1065,7 +1064,7 @@ type SSLConfigParameters struct {
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CACertificateSecretRef *v1.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
+	CACertificateSecretRef *v2.LocalSecretKeySelector `json:"caCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
 	// authenticate against the source database server. If this field
@@ -1073,20 +1072,20 @@ type SSLConfigParameters struct {
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ClientCertificateSecretRef *v1.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
+	ClientCertificateSecretRef *v2.LocalSecretKeySelector `json:"clientCertificateSecretRef,omitempty" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ClientKeySecretRef *v1.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
+	ClientKeySecretRef *v2.LocalSecretKeySelector `json:"clientKeySecretRef,omitempty" tf:"-"`
 
 	// A reference to a Secret Manager resource name storing the
 	// PEM-encoded private key. Mutually exclusive with clientKey.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	SecretManagerStoredClientKeySecretRef *v1.LocalSecretKeySelector `json:"secretManagerStoredClientKeySecretRef,omitempty" tf:"-"`
+	SecretManagerStoredClientKeySecretRef *v2.LocalSecretKeySelector `json:"secretManagerStoredClientKeySecretRef,omitempty" tf:"-"`
 }
 
 type ServerAndClientVerificationInitParameters struct {
@@ -1094,20 +1093,20 @@ type ServerAndClientVerificationInitParameters struct {
 	// PEM-encoded certificate of the CA that signed the source database
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CACertificateSecretRef v1.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+	CACertificateSecretRef v2.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
 	// authenticate against the source database server. If this field
 	// is used then the 'clientKey' and the 'caCertificate' fields are
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ClientCertificateSecretRef v1.LocalSecretKeySelector `json:"clientCertificateSecretRef" tf:"-"`
+	ClientCertificateSecretRef v2.LocalSecretKeySelector `json:"clientCertificateSecretRef" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	ClientKeySecretRef v1.LocalSecretKeySelector `json:"clientKeySecretRef" tf:"-"`
+	ClientKeySecretRef v2.LocalSecretKeySelector `json:"clientKeySecretRef" tf:"-"`
 }
 
 type ServerAndClientVerificationObservation struct {
@@ -1119,7 +1118,7 @@ type ServerAndClientVerificationParameters struct {
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CACertificateSecretRef v1.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+	CACertificateSecretRef v2.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
 
 	// PEM-encoded certificate that will be used by the replica to
 	// authenticate against the source database server. If this field
@@ -1127,14 +1126,14 @@ type ServerAndClientVerificationParameters struct {
 	// mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ClientCertificateSecretRef v1.LocalSecretKeySelector `json:"clientCertificateSecretRef" tf:"-"`
+	ClientCertificateSecretRef v2.LocalSecretKeySelector `json:"clientCertificateSecretRef" tf:"-"`
 
 	// PEM-encoded private key associated with the Client Certificate.
 	// If this field is used then the 'client_certificate' and the
 	// 'ca_certificate' fields are mandatory.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	ClientKeySecretRef v1.LocalSecretKeySelector `json:"clientKeySecretRef" tf:"-"`
+	ClientKeySecretRef v2.LocalSecretKeySelector `json:"clientKeySecretRef" tf:"-"`
 }
 
 type ServerVerificationInitParameters struct {
@@ -1142,7 +1141,7 @@ type ServerVerificationInitParameters struct {
 	// PEM-encoded certificate of the CA that signed the source database
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	CACertificateSecretRef v1.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+	CACertificateSecretRef v2.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
 }
 
 type ServerVerificationObservation struct {
@@ -1154,7 +1153,7 @@ type ServerVerificationParameters struct {
 	// server's certificate.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	CACertificateSecretRef v1.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+	CACertificateSecretRef v2.LocalSecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
 }
 
 type SrvConnectionFormatInitParameters struct {
@@ -1207,8 +1206,8 @@ type ConnectionProfileSpec struct {
 
 // ConnectionProfileStatus defines the observed state of ConnectionProfile.
 type ConnectionProfileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConnectionProfileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConnectionProfileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

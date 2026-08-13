@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvReferencesInitParameters struct {
@@ -41,18 +40,18 @@ type EnvReferencesParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1.Environment
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1.Environment
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	EnvID *string `json:"envId,omitempty" tf:"env_id,omitempty"`
 
 	// Reference to a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDRef *v1.NamespacedReference `json:"envIdRef,omitempty" tf:"-"`
+	EnvIDRef *v2.NamespacedReference `json:"envIdRef,omitempty" tf:"-"`
 
 	// Selector for a Environment in apigee to populate envId.
 	// +kubebuilder:validation:Optional
-	EnvIDSelector *v1.NamespacedSelector `json:"envIdSelector,omitempty" tf:"-"`
+	EnvIDSelector *v2.NamespacedSelector `json:"envIdSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Refers *string `json:"refers,omitempty" tf:"refers,omitempty"`
@@ -80,8 +79,8 @@ type EnvReferencesSpec struct {
 
 // EnvReferencesStatus defines the observed state of EnvReferences.
 type EnvReferencesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvReferencesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvReferencesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

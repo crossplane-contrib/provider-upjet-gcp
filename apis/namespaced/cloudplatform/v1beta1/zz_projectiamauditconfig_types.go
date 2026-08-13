@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectIAMAuditConfigAuditLogConfigInitParameters struct {
@@ -43,16 +42,16 @@ type ProjectIAMAuditConfigAuditLogConfigParameters struct {
 type ProjectIAMAuditConfigInitParameters struct {
 	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigInitParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
@@ -74,17 +73,17 @@ type ProjectIAMAuditConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AuditLogConfig []ProjectIAMAuditConfigAuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.NamespacedReference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.NamespacedSelector `json:"projectSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
@@ -109,8 +108,8 @@ type ProjectIAMAuditConfigSpec struct {
 
 // ProjectIAMAuditConfigStatus defines the observed state of ProjectIAMAuditConfig.
 type ProjectIAMAuditConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectIAMAuditConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectIAMAuditConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

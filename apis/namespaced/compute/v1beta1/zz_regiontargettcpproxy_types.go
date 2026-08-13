@@ -10,25 +10,24 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionTargetTCPProxyInitParameters struct {
 
 	// A reference to the BackendService resource. This field is optional when
 	// the loadBalancingScheme (available in beta) is specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionBackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -96,18 +95,18 @@ type RegionTargetTCPProxyParameters struct {
 
 	// A reference to the BackendService resource. This field is optional when
 	// the loadBalancingScheme (available in beta) is specified.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionBackendService
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Reference to a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceRef *v1.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
+	BackendServiceRef *v2.NamespacedReference `json:"backendServiceRef,omitempty" tf:"-"`
 
 	// Selector for a RegionBackendService in compute to populate backendService.
 	// +kubebuilder:validation:Optional
-	BackendServiceSelector *v1.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
+	BackendServiceSelector *v2.NamespacedSelector `json:"backendServiceSelector,omitempty" tf:"-"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -155,8 +154,8 @@ type RegionTargetTCPProxySpec struct {
 
 // RegionTargetTCPProxyStatus defines the observed state of RegionTargetTCPProxy.
 type RegionTargetTCPProxyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionTargetTCPProxyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionTargetTCPProxyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

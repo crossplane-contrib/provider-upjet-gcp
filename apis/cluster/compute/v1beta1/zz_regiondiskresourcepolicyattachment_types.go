@@ -10,35 +10,35 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegionDiskResourcePolicyAttachmentInitParameters struct {
 
 	// The name of the regional disk in which the resource policies are attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionDisk
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.Reference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.Selector `json:"diskSelector,omitempty" tf:"-"`
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ResourcePolicy
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -75,31 +75,31 @@ type RegionDiskResourcePolicyAttachmentObservation struct {
 type RegionDiskResourcePolicyAttachmentParameters struct {
 
 	// The name of the regional disk in which the resource policies are attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionDisk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionDisk
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Reference to a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskRef *v1.Reference `json:"diskRef,omitempty" tf:"-"`
+	DiskRef *v2.Reference `json:"diskRef,omitempty" tf:"-"`
 
 	// Selector for a RegionDisk in compute to populate disk.
 	// +kubebuilder:validation:Optional
-	DiskSelector *v1.Selector `json:"diskSelector,omitempty" tf:"-"`
+	DiskSelector *v2.Selector `json:"diskSelector,omitempty" tf:"-"`
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ResourcePolicy
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a ResourcePolicy in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -113,8 +113,8 @@ type RegionDiskResourcePolicyAttachmentParameters struct {
 
 // RegionDiskResourcePolicyAttachmentSpec defines the desired state of RegionDiskResourcePolicyAttachment
 type RegionDiskResourcePolicyAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RegionDiskResourcePolicyAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RegionDiskResourcePolicyAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -130,8 +130,8 @@ type RegionDiskResourcePolicyAttachmentSpec struct {
 
 // RegionDiskResourcePolicyAttachmentStatus defines the observed state of RegionDiskResourcePolicyAttachment.
 type RegionDiskResourcePolicyAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegionDiskResourcePolicyAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegionDiskResourcePolicyAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

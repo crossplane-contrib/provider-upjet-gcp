@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceAccountInitParameters struct {
@@ -32,17 +32,17 @@ type ServiceAccountInitParameters struct {
 
 	// The ID of the project that the service account will be created in.
 	// Defaults to the provider project configuration.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractProjectID()
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type ServiceAccountObservation struct {
@@ -111,24 +111,24 @@ type ServiceAccountParameters struct {
 
 	// The ID of the project that the service account will be created in.
 	// Defaults to the provider project configuration.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 // ServiceAccountSpec defines the desired state of ServiceAccount
 type ServiceAccountSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceAccountParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceAccountParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -144,8 +144,8 @@ type ServiceAccountSpec struct {
 
 // ServiceAccountStatus defines the observed state of ServiceAccount.
 type ServiceAccountStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceAccountObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceAccountObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

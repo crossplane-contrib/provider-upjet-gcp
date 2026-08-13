@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertificateTemplateIAMMemberConditionInitParameters struct {
@@ -43,17 +43,17 @@ type CertificateTemplateIAMMemberConditionParameters struct {
 
 type CertificateTemplateIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CertificateTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
+	CertificateTemplateRef *v2.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+	CertificateTemplateSelector *v2.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
 	Condition *CertificateTemplateIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
@@ -86,18 +86,18 @@ type CertificateTemplateIAMMemberObservation struct {
 
 type CertificateTemplateIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/privateca/v1beta2.CertificateTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateRef *v1.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
+	CertificateTemplateRef *v2.Reference `json:"certificateTemplateRef,omitempty" tf:"-"`
 
 	// Selector for a CertificateTemplate in privateca to populate certificateTemplate.
 	// +kubebuilder:validation:Optional
-	CertificateTemplateSelector *v1.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
+	CertificateTemplateSelector *v2.Selector `json:"certificateTemplateSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Condition *CertificateTemplateIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
@@ -117,8 +117,8 @@ type CertificateTemplateIAMMemberParameters struct {
 
 // CertificateTemplateIAMMemberSpec defines the desired state of CertificateTemplateIAMMember
 type CertificateTemplateIAMMemberSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CertificateTemplateIAMMemberParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CertificateTemplateIAMMemberParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -134,8 +134,8 @@ type CertificateTemplateIAMMemberSpec struct {
 
 // CertificateTemplateIAMMemberStatus defines the observed state of CertificateTemplateIAMMember.
 type CertificateTemplateIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateTemplateIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateTemplateIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

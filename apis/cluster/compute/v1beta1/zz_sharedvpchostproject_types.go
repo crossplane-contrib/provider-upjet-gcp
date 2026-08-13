@@ -10,23 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SharedVPCHostProjectInitParameters struct {
 
 	// The ID of the project that will serve as a Shared VPC host project
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractProjectID()
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type SharedVPCHostProjectObservation struct {
@@ -45,24 +45,24 @@ type SharedVPCHostProjectObservation struct {
 type SharedVPCHostProjectParameters struct {
 
 	// The ID of the project that will serve as a Shared VPC host project
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractProjectID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 // SharedVPCHostProjectSpec defines the desired state of SharedVPCHostProject
 type SharedVPCHostProjectSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SharedVPCHostProjectParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SharedVPCHostProjectParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -78,8 +78,8 @@ type SharedVPCHostProjectSpec struct {
 
 // SharedVPCHostProjectStatus defines the observed state of SharedVPCHostProject.
 type SharedVPCHostProjectStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SharedVPCHostProjectObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SharedVPCHostProjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

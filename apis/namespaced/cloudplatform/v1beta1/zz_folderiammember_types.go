@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConditionInitParameters struct {
@@ -45,17 +44,17 @@ type ConditionParameters struct {
 type FolderIAMMemberInitParameters struct {
 	Condition *ConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderRef *v1.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
+	FolderRef *v2.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderSelector *v1.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
+	FolderSelector *v2.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
@@ -81,18 +80,18 @@ type FolderIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *ConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderRef *v1.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
+	FolderRef *v2.NamespacedReference `json:"folderRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folder.
 	// +kubebuilder:validation:Optional
-	FolderSelector *v1.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
+	FolderSelector *v2.NamespacedSelector `json:"folderSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
@@ -120,8 +119,8 @@ type FolderIAMMemberSpec struct {
 
 // FolderIAMMemberStatus defines the observed state of FolderIAMMember.
 type FolderIAMMemberStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FolderIAMMemberObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FolderIAMMemberObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

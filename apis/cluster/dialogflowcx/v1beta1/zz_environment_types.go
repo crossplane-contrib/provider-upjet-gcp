@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EnvironmentInitParameters struct {
@@ -23,17 +23,17 @@ type EnvironmentInitParameters struct {
 
 	// The Agent to create an Environment for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
 	// Structure is documented below.
@@ -82,18 +82,18 @@ type EnvironmentParameters struct {
 
 	// The Agent to create an Environment for.
 	// Format: projects//locations//agents/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.Reference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.Reference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a Agent in dialogflowcx to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.Selector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.Selector `json:"parentSelector,omitempty" tf:"-"`
 
 	// A list of configurations for flow versions. You should include version configs for all flows that are reachable from [Start Flow][Agent.start_flow] in the agent. Otherwise, an error will be returned.
 	// Structure is documented below.
@@ -104,17 +104,17 @@ type EnvironmentParameters struct {
 type VersionConfigsInitParameters struct {
 
 	// Format: projects/{{project}}/locations/{{location}}/agents/{{agent}}/flows/{{flow}}/versions/{{version}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta1.Version
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta1.Version
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
 	// Reference to a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionRef *v1.Reference `json:"versionRef,omitempty" tf:"-"`
+	VersionRef *v2.Reference `json:"versionRef,omitempty" tf:"-"`
 
 	// Selector for a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionSelector *v1.Selector `json:"versionSelector,omitempty" tf:"-"`
+	VersionSelector *v2.Selector `json:"versionSelector,omitempty" tf:"-"`
 }
 
 type VersionConfigsObservation struct {
@@ -126,24 +126,24 @@ type VersionConfigsObservation struct {
 type VersionConfigsParameters struct {
 
 	// Format: projects/{{project}}/locations/{{location}}/agents/{{agent}}/flows/{{flow}}/versions/{{version}}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta1.Version
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta1.Version
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
 	// Reference to a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionRef *v1.Reference `json:"versionRef,omitempty" tf:"-"`
+	VersionRef *v2.Reference `json:"versionRef,omitempty" tf:"-"`
 
 	// Selector for a Version in dialogflowcx to populate version.
 	// +kubebuilder:validation:Optional
-	VersionSelector *v1.Selector `json:"versionSelector,omitempty" tf:"-"`
+	VersionSelector *v2.Selector `json:"versionSelector,omitempty" tf:"-"`
 }
 
 // EnvironmentSpec defines the desired state of Environment
 type EnvironmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EnvironmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EnvironmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -159,8 +159,8 @@ type EnvironmentSpec struct {
 
 // EnvironmentStatus defines the observed state of Environment.
 type EnvironmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EnvironmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EnvironmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

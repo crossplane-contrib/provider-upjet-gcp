@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ActionInitParameters struct {
@@ -18,34 +18,34 @@ type ActionInitParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	SourceNATActiveIps []*string `json:"sourceNatActiveIps,omitempty" tf:"source_nat_active_ips,omitempty"`
 
 	// References to Address in compute to populate sourceNatActiveIps.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveIpsRefs []v1.Reference `json:"sourceNatActiveIpsRefs,omitempty" tf:"-"`
+	SourceNATActiveIpsRefs []v2.Reference `json:"sourceNatActiveIpsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Address in compute to populate sourceNatActiveIps.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
+	SourceNATActiveIpsSelector *v2.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
 	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
 	// These subnetworks must have purpose set to PRIVATE_NAT.
 	// This field is used for private NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	SourceNATActiveRanges []*string `json:"sourceNatActiveRanges,omitempty" tf:"source_nat_active_ranges,omitempty"`
 
 	// References to Subnetwork in compute to populate sourceNatActiveRanges.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveRangesRefs []v1.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
+	SourceNATActiveRangesRefs []v2.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate sourceNatActiveRanges.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveRangesSelector *v1.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
+	SourceNATActiveRangesSelector *v2.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
 
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
@@ -94,7 +94,7 @@ type ActionParameters struct {
 	// A list of URLs of the IP resources used for this NAT rule.
 	// These IP addresses must be valid static external IP addresses assigned to the project.
 	// This field is used for public NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -102,16 +102,16 @@ type ActionParameters struct {
 
 	// References to Address in compute to populate sourceNatActiveIps.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveIpsRefs []v1.Reference `json:"sourceNatActiveIpsRefs,omitempty" tf:"-"`
+	SourceNATActiveIpsRefs []v2.Reference `json:"sourceNatActiveIpsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Address in compute to populate sourceNatActiveIps.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveIpsSelector *v1.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
+	SourceNATActiveIpsSelector *v2.Selector `json:"sourceNatActiveIpsSelector,omitempty" tf:"-"`
 
 	// A list of URLs of the subnetworks used as source ranges for this NAT Rule.
 	// These subnetworks must have purpose set to PRIVATE_NAT.
 	// This field is used for private NAT.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -119,11 +119,11 @@ type ActionParameters struct {
 
 	// References to Subnetwork in compute to populate sourceNatActiveRanges.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveRangesRefs []v1.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
+	SourceNATActiveRangesRefs []v2.Reference `json:"sourceNatActiveRangesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Subnetwork in compute to populate sourceNatActiveRanges.
 	// +kubebuilder:validation:Optional
-	SourceNATActiveRangesSelector *v1.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
+	SourceNATActiveRangesSelector *v2.Selector `json:"sourceNatActiveRangesSelector,omitempty" tf:"-"`
 
 	// A list of URLs of the IP resources to be drained.
 	// These IPs must be valid static external IPs that have been assigned to the NAT.
@@ -221,18 +221,18 @@ type RouterNATInitParameters struct {
 	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
 	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
 	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +listType=set
 	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
 
 	// References to Address in compute to populate natIps.
 	// +kubebuilder:validation:Optional
-	NATIpsRefs []v1.Reference `json:"natIpsRefs,omitempty" tf:"-"`
+	NATIpsRefs []v2.Reference `json:"natIpsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Address in compute to populate natIps.
 	// +kubebuilder:validation:Optional
-	NATIpsSelector *v1.Selector `json:"natIpsSelector,omitempty" tf:"-"`
+	NATIpsSelector *v2.Selector `json:"natIpsSelector,omitempty" tf:"-"`
 
 	// One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
 	// Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
@@ -541,7 +541,7 @@ type RouterNATParameters struct {
 	// If this field is used alongside with a count created list of address resources google_compute_address.foobar.*.self_link,
 	// the access level resource for the address resource must have a lifecycle block with create_before_destroy = true so
 	// the number of resources can be increased/decreased without triggering the resourceInUseByAnotherResource error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -549,11 +549,11 @@ type RouterNATParameters struct {
 
 	// References to Address in compute to populate natIps.
 	// +kubebuilder:validation:Optional
-	NATIpsRefs []v1.Reference `json:"natIpsRefs,omitempty" tf:"-"`
+	NATIpsRefs []v2.Reference `json:"natIpsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Address in compute to populate natIps.
 	// +kubebuilder:validation:Optional
-	NATIpsSelector *v1.Selector `json:"natIpsSelector,omitempty" tf:"-"`
+	NATIpsSelector *v2.Selector `json:"natIpsSelector,omitempty" tf:"-"`
 
 	// One or more subnetwork NAT configurations whose traffic should be translated by NAT64 Gateway.
 	// Only used if source_subnetwork_ip_ranges_to_nat64 is set to LIST_OF_IPV6_SUBNETWORKS
@@ -571,17 +571,17 @@ type RouterNATParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The name of the Cloud Router in which this NAT will be configured.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Router
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Router
 	// +kubebuilder:validation:Optional
 	Router *string `json:"router,omitempty" tf:"router,omitempty"`
 
 	// Reference to a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterRef *v1.Reference `json:"routerRef,omitempty" tf:"-"`
+	RouterRef *v2.Reference `json:"routerRef,omitempty" tf:"-"`
 
 	// Selector for a Router in compute to populate router.
 	// +kubebuilder:validation:Optional
-	RouterSelector *v1.Selector `json:"routerSelector,omitempty" tf:"-"`
+	RouterSelector *v2.Selector `json:"routerSelector,omitempty" tf:"-"`
 
 	// A list of rules associated with this NAT.
 	// Structure is documented below.
@@ -722,16 +722,16 @@ type RulesParameters struct {
 type SubnetworkInitParameters struct {
 
 	// Self-link of subnetwork to NAT
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// List of the secondary ranges of the subnetwork that are allowed
 	// to use NAT. This can be populated only if
@@ -771,17 +771,17 @@ type SubnetworkObservation struct {
 type SubnetworkParameters struct {
 
 	// Self-link of subnetwork to NAT
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.Reference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Subnetwork in compute to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.Selector `json:"nameSelector,omitempty" tf:"-"`
 
 	// List of the secondary ranges of the subnetwork that are allowed
 	// to use NAT. This can be populated only if
@@ -802,8 +802,8 @@ type SubnetworkParameters struct {
 
 // RouterNATSpec defines the desired state of RouterNAT
 type RouterNATSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RouterNATParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RouterNATParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -819,8 +819,8 @@ type RouterNATSpec struct {
 
 // RouterNATStatus defines the observed state of RouterNAT.
 type RouterNATStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RouterNATObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RouterNATObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

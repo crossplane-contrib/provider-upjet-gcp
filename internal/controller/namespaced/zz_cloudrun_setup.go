@@ -9,14 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	domainmapping "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/domainmapping"
-	service "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/service"
-	serviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/serviceiammember"
-	v2job "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2job"
-	v2jobiambinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2jobiambinding"
-	v2jobiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2jobiammember"
-	v2jobiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2jobiampolicy"
-	v2service "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2service"
+	domainmapping "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/domainmapping"
+	service "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/service"
+	serviceiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/serviceiammember"
+	v2job "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2job"
+	v2jobiambinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2jobiambinding"
+	v2jobiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2jobiammember"
+	v2jobiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2jobiampolicy"
+	v2service "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2service"
 )
 
 // Setup_cloudrun creates all controllers with the supplied logger and adds them to

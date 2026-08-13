@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ProjectInitParameters struct {
@@ -37,17 +37,17 @@ type ProjectInitParameters struct {
 	// specified. If the folder_id is specified, then the project is
 	// created under the specified folder. Changing this forces the
 	// project to be migrated to the newly specified folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate folderId.
 	// +kubebuilder:validation:Optional
-	FolderIDRef *v1.Reference `json:"folderIdRef,omitempty" tf:"-"`
+	FolderIDRef *v2.Reference `json:"folderIdRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folderId.
 	// +kubebuilder:validation:Optional
-	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
+	FolderIDSelector *v2.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to the project.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -167,18 +167,18 @@ type ProjectParameters struct {
 	// specified. If the folder_id is specified, then the project is
 	// created under the specified folder. Changing this forces the
 	// project to be migrated to the newly specified folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Folder
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Folder
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	FolderID *string `json:"folderId,omitempty" tf:"folder_id,omitempty"`
 
 	// Reference to a Folder in cloudplatform to populate folderId.
 	// +kubebuilder:validation:Optional
-	FolderIDRef *v1.Reference `json:"folderIdRef,omitempty" tf:"-"`
+	FolderIDRef *v2.Reference `json:"folderIdRef,omitempty" tf:"-"`
 
 	// Selector for a Folder in cloudplatform to populate folderId.
 	// +kubebuilder:validation:Optional
-	FolderIDSelector *v1.Selector `json:"folderIdSelector,omitempty" tf:"-"`
+	FolderIDSelector *v2.Selector `json:"folderIdSelector,omitempty" tf:"-"`
 
 	// A set of key/value label pairs to assign to the project.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -213,8 +213,8 @@ type ProjectParameters struct {
 
 // ProjectSpec defines the desired state of Project
 type ProjectSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ProjectParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ProjectParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -230,8 +230,8 @@ type ProjectSpec struct {
 
 // ProjectStatus defines the observed state of Project.
 type ProjectStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ProjectObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ProjectObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

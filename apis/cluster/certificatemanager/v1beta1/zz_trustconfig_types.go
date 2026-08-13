@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AllowlistedCertificatesInitParameters struct {
@@ -37,7 +37,7 @@ type IntermediateCasInitParameters struct {
 	// PEM root certificate of the PKI used for validation.
 	// Each certificate provided in PEM format may occupy up to 5kB.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PemCertificateSecretRef *v1.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
+	PemCertificateSecretRef *v2.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
 }
 
 type IntermediateCasObservation struct {
@@ -49,7 +49,7 @@ type IntermediateCasParameters struct {
 	// Each certificate provided in PEM format may occupy up to 5kB.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PemCertificateSecretRef *v1.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
+	PemCertificateSecretRef *v2.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
 }
 
 type TrustAnchorsInitParameters struct {
@@ -57,7 +57,7 @@ type TrustAnchorsInitParameters struct {
 	// PEM root certificate of the PKI used for validation.
 	// Each certificate provided in PEM format may occupy up to 5kB.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PemCertificateSecretRef *v1.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
+	PemCertificateSecretRef *v2.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
 }
 
 type TrustAnchorsObservation struct {
@@ -69,7 +69,7 @@ type TrustAnchorsParameters struct {
 	// Each certificate provided in PEM format may occupy up to 5kB.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PemCertificateSecretRef *v1.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
+	PemCertificateSecretRef *v2.SecretKeySelector `json:"pemCertificateSecretRef,omitempty" tf:"-"`
 }
 
 type TrustConfigInitParameters struct {
@@ -227,8 +227,8 @@ type TrustStoresParameters struct {
 
 // TrustConfigSpec defines the desired state of TrustConfig
 type TrustConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TrustConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TrustConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -244,8 +244,8 @@ type TrustConfigSpec struct {
 
 // TrustConfigStatus defines the observed state of TrustConfig.
 type TrustConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TrustConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TrustConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TagValueInitParameters struct {
@@ -20,17 +19,17 @@ type TagValueInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Input only. The resource name of the new TagValue's parent. Must be of the form tagKeys/{tag_key_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/tags/v1beta1.TagKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Input only. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey.
 	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
@@ -78,18 +77,18 @@ type TagValueParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Input only. The resource name of the new TagValue's parent. Must be of the form tagKeys/{tag_key_id}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/tags/v1beta1.TagKey
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/tags/v1beta1.TagKey
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
 	// Reference to a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentRef *v1.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
+	ParentRef *v2.NamespacedReference `json:"parentRef,omitempty" tf:"-"`
 
 	// Selector for a TagKey in tags to populate parent.
 	// +kubebuilder:validation:Optional
-	ParentSelector *v1.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
+	ParentSelector *v2.NamespacedSelector `json:"parentSelector,omitempty" tf:"-"`
 
 	// Input only. User-assigned short name for TagValue. The short name should be unique for TagValues within the same parent TagKey.
 	// The short name can have a maximum length of 256 characters. The permitted character set for the shortName includes all UTF-8 encoded Unicode characters except single quotes ('), double quotes ("), backslashes (\), and forward slashes (/).
@@ -116,8 +115,8 @@ type TagValueSpec struct {
 
 // TagValueStatus defines the observed state of TagValue.
 type TagValueStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TagValueObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TagValueObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutomaticScalingInitParameters struct {
@@ -466,17 +466,17 @@ type StandardAppVersionInitParameters struct {
 	RuntimeAPIVersion *string `json:"runtimeApiVersion,omitempty" tf:"runtime_api_version,omitempty"`
 
 	// The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Whether multiple requests can be dispatched to this version at once.
 	Threadsafe *bool `json:"threadsafe,omitempty" tf:"threadsafe,omitempty"`
@@ -665,18 +665,18 @@ type StandardAppVersionParameters struct {
 	Service *string `json:"service" tf:"service,omitempty"`
 
 	// The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
+	ServiceAccountRef *v2.Reference `json:"serviceAccountRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
 	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
+	ServiceAccountSelector *v2.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Whether multiple requests can be dispatched to this version at once.
 	// +kubebuilder:validation:Optional
@@ -897,8 +897,8 @@ type ZipParameters struct {
 
 // StandardAppVersionSpec defines the desired state of StandardAppVersion
 type StandardAppVersionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StandardAppVersionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StandardAppVersionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -914,8 +914,8 @@ type StandardAppVersionSpec struct {
 
 // StandardAppVersionStatus defines the observed state of StandardAppVersion.
 type StandardAppVersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StandardAppVersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StandardAppVersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

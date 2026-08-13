@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AcceptedResponseStatusCodesInitParameters struct {
@@ -50,27 +49,13 @@ type AuthInfoInitParameters struct {
 
 	// The password to authenticate.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password to authenticate.
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// The password write-only version.
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type AuthInfoObservation struct {
-
-	// The password to authenticate.
-	// Note: This property is write-only and will not be read from the API.
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// The password write-only version.
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The username to authenticate.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -81,16 +66,7 @@ type AuthInfoParameters struct {
 	// The password to authenticate.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
-
-	// The password to authenticate.
-	// Note: This property is write-only and will not be read from the API.
-	// +kubebuilder:validation:Optional
-	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
-
-	// The password write-only version.
-	// +kubebuilder:validation:Optional
-	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The username to authenticate.
 	// +kubebuilder:validation:Optional
@@ -100,17 +76,17 @@ type AuthInfoParameters struct {
 type CloudFunctionV2InitParameters struct {
 
 	// The fully qualified name of the cloud function resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions2/v1beta1.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudfunctions2/v1beta1.Function
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type CloudFunctionV2Observation struct {
@@ -122,18 +98,18 @@ type CloudFunctionV2Observation struct {
 type CloudFunctionV2Parameters struct {
 
 	// The fully qualified name of the cloud function resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudfunctions2/v1beta1.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudfunctions2/v1beta1.Function
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameRef *v1.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
+	NameRef *v2.NamespacedReference `json:"nameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in cloudfunctions2 to populate name.
 	// +kubebuilder:validation:Optional
-	NameSelector *v1.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
+	NameSelector *v2.NamespacedSelector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type ContentMatchersInitParameters struct {
@@ -446,17 +422,17 @@ type PingConfigParameters struct {
 type ResourceGroupInitParameters struct {
 
 	// The group of resources being monitored. Should be the name of a group
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/monitoring/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// Reference to a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDRef *v1.NamespacedReference `json:"groupIdRef,omitempty" tf:"-"`
+	GroupIDRef *v2.NamespacedReference `json:"groupIdRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDSelector *v1.NamespacedSelector `json:"groupIdSelector,omitempty" tf:"-"`
+	GroupIDSelector *v2.NamespacedSelector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// The resource type of the group members.
 	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
@@ -476,18 +452,18 @@ type ResourceGroupObservation struct {
 type ResourceGroupParameters struct {
 
 	// The group of resources being monitored. Should be the name of a group
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/monitoring/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// Reference to a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDRef *v1.NamespacedReference `json:"groupIdRef,omitempty" tf:"-"`
+	GroupIDRef *v2.NamespacedReference `json:"groupIdRef,omitempty" tf:"-"`
 
 	// Selector for a Group in monitoring to populate groupId.
 	// +kubebuilder:validation:Optional
-	GroupIDSelector *v1.NamespacedSelector `json:"groupIdSelector,omitempty" tf:"-"`
+	GroupIDSelector *v2.NamespacedSelector `json:"groupIdSelector,omitempty" tf:"-"`
 
 	// The resource type of the group members.
 	// Possible values are: RESOURCE_TYPE_UNSPECIFIED, INSTANCE, AWS_ELB_LOAD_BALANCER.
@@ -804,8 +780,8 @@ type UptimeCheckConfigSpec struct {
 
 // UptimeCheckConfigStatus defines the observed state of UptimeCheckConfig.
 type UptimeCheckConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        UptimeCheckConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               UptimeCheckConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

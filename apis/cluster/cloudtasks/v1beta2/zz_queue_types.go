@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AppEngineRoutingOverrideInitParameters struct {
@@ -238,17 +238,17 @@ type OAuthTokenInitParameters struct {
 	// Service account email to be used for generating OIDC token.
 	// The service account must be within the same project as the queue.
 	// The caller must have iam.serviceAccounts.actAs permission for the service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type OAuthTokenObservation struct {
@@ -273,18 +273,18 @@ type OAuthTokenParameters struct {
 	// Service account email to be used for generating OIDC token.
 	// The service account must be within the same project as the queue.
 	// The caller must have iam.serviceAccounts.actAs permission for the service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type OidcTokenInitParameters struct {
@@ -295,17 +295,17 @@ type OidcTokenInitParameters struct {
 	// Service account email to be used for generating OIDC token.
 	// The service account must be within the same project as the queue.
 	// The caller must have iam.serviceAccounts.actAs permission for the service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type OidcTokenObservation struct {
@@ -328,18 +328,18 @@ type OidcTokenParameters struct {
 	// Service account email to be used for generating OIDC token.
 	// The service account must be within the same project as the queue.
 	// The caller must have iam.serviceAccounts.actAs permission for the service account.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailRef *v1.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+	ServiceAccountEmailRef *v2.Reference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
 
 	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
 	// +kubebuilder:validation:Optional
-	ServiceAccountEmailSelector *v1.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+	ServiceAccountEmailSelector *v2.Selector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
 }
 
 type PathOverrideInitParameters struct {
@@ -396,16 +396,16 @@ type QueueInitParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
@@ -487,17 +487,17 @@ type QueueParameters struct {
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in cloudplatform to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Rate limits for task dispatches.
 	// The queue's actual dispatch rate is the result of:
@@ -824,8 +824,8 @@ type URIOverrideParameters struct {
 
 // QueueSpec defines the desired state of Queue
 type QueueSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     QueueParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   QueueParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -841,8 +841,8 @@ type QueueSpec struct {
 
 // QueueStatus defines the observed state of Queue.
 type QueueStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        QueueObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               QueueObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

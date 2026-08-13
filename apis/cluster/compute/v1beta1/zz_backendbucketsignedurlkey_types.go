@@ -10,27 +10,27 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackendBucketSignedURLKeyInitParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketRef *v1.Reference `json:"backendBucketRef,omitempty" tf:"-"`
+	BackendBucketRef *v2.Reference `json:"backendBucketRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketSelector *v1.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
+	BackendBucketSelector *v2.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
 
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
+	KeyValueSecretRef v2.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
 	// Name of the signed URL key.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -63,23 +63,23 @@ type BackendBucketSignedURLKeyObservation struct {
 type BackendBucketSignedURLKeyParameters struct {
 
 	// The backend bucket this signed URL key belongs.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.BackendBucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.BackendBucket
 	// +kubebuilder:validation:Optional
 	BackendBucket *string `json:"backendBucket,omitempty" tf:"backend_bucket,omitempty"`
 
 	// Reference to a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketRef *v1.Reference `json:"backendBucketRef,omitempty" tf:"-"`
+	BackendBucketRef *v2.Reference `json:"backendBucketRef,omitempty" tf:"-"`
 
 	// Selector for a BackendBucket in compute to populate backendBucket.
 	// +kubebuilder:validation:Optional
-	BackendBucketSelector *v1.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
+	BackendBucketSelector *v2.Selector `json:"backendBucketSelector,omitempty" tf:"-"`
 
 	// 128-bit key value used for signing the URL. The key value must be a
 	// valid RFC 4648 Section 5 base64url encoded string.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	KeyValueSecretRef v1.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
+	KeyValueSecretRef v2.SecretKeySelector `json:"keyValueSecretRef" tf:"-"`
 
 	// Name of the signed URL key.
 	// +kubebuilder:validation:Optional
@@ -93,8 +93,8 @@ type BackendBucketSignedURLKeyParameters struct {
 
 // BackendBucketSignedURLKeySpec defines the desired state of BackendBucketSignedURLKey
 type BackendBucketSignedURLKeySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackendBucketSignedURLKeyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackendBucketSignedURLKeyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -110,8 +110,8 @@ type BackendBucketSignedURLKeySpec struct {
 
 // BackendBucketSignedURLKeyStatus defines the observed state of BackendBucketSignedURLKey.
 type BackendBucketSignedURLKeyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackendBucketSignedURLKeyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackendBucketSignedURLKeyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

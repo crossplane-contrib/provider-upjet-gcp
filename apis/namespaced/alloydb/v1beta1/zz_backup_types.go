@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupInitParameters struct {
@@ -22,17 +21,17 @@ type BackupInitParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// The full resource name of the backup source cluster (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/alloydb/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Reference to a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// User-provided description of the backup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -169,18 +168,18 @@ type BackupParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// The full resource name of the backup source cluster (e.g., projects/{project}/locations/{location}/clusters/{clusterId}).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/alloydb/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
 	// Reference to a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameRef *v1.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
+	ClusterNameRef *v2.NamespacedReference `json:"clusterNameRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in alloydb to populate clusterName.
 	// +kubebuilder:validation:Optional
-	ClusterNameSelector *v1.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
+	ClusterNameSelector *v2.NamespacedSelector `json:"clusterNameSelector,omitempty" tf:"-"`
 
 	// User-provided description of the backup.
 	// +kubebuilder:validation:Optional
@@ -287,8 +286,8 @@ type BackupSpec struct {
 
 // BackupStatus defines the observed state of Backup.
 type BackupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

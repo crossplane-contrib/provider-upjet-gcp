@@ -8,8 +8,9 @@ import (
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 
-	"github.com/upbound/provider-gcp/v2/config/cluster/common"
+	"github.com/upbound/provider-gcp/v3/config/cluster/common"
 )
 
 // terraformPluginFrameworkExternalNameConfigs contains all external
@@ -18,10 +19,56 @@ import (
 // provider.
 var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	"google_apigee_keystores_aliases_key_cert_file": apigeeKeystoresAliasesKeyCertFile(),
 
-	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
+	// Imported by using the following {{bucket}}/notificationConfigs/{{id}}
+	"google_storage_notification": storageNotification(),
+}
+
+// apigeeKeystoresAliasesKeyCertFile returns the external-name configuration
+// for the google_apigee_keystores_aliases_key_cert_file Terraform resource.
+// The upstream plugin-framework Read implementation surfaces API 404s as
+// error-severity diagnostics instead of removing the resource from state
+// (fwtransport.SendRequest appends the error to diags), so without the
+// suppression below every pre-create Observe fails and the resource can
+// never be created.
+func apigeeKeystoresAliasesKeyCertFile() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}")
+	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
+		for _, d := range diags {
+			if d.Severity == tfprotov6.DiagnosticSeverityError &&
+				d.Summary == "Error when sending HTTP request: " &&
+				(strings.Contains(d.Detail, "googleapi: Error 404:") || strings.Contains(d.Detail, "googleapi: got HTTP response code 404")) {
+				return true
+			}
+		}
+		return false
+	}
+	return e
+}
+
+// storageNotification returns the external-name configuration for the
+// google_storage_notification Terraform resource. The notification id is
+// server-generated, so before creation there is no way to construct the
+// Terraform resource ID ({{bucket}}/notificationConfigs/{{id}}) and the
+// upstream plugin-framework Read implementation rejects the empty ID with
+// an error-severity diagnostic instead of reporting "resource not found".
+// The suppression below matches only the empty-ID variant of that
+// diagnostic; a malformed non-empty external name still surfaces as an
+// error.
+func storageNotification() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
+		for _, d := range diags {
+			if d.Severity == tfprotov6.DiagnosticSeverityError &&
+				d.Summary == "Invalid resource ID" &&
+				strings.HasSuffix(d.Detail, "got ''") {
+				return true
+			}
+		}
+		return false
+	}
+	return e
 }
 
 // terraformPluginSDKExternalNameConfigs contains all external name configurations
@@ -276,7 +323,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: us-central1/router-1/interface-1
 	"google_compute_router_interface": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{name}}
-	"google_compute_firewall_policy": config.IdentifierFromProvider,
+	"google_compute_firewall_policy": firewallPolicy(),
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	"google_compute_firewall_policy_association": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
@@ -497,8 +544,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// essential
 	//
-	// Imported by using the following format:
-	"google_essential_contacts_contact": config.IdentifierFromProvider,
+	// Imported by using the following format: {resource_type}/{resource_id}/contacts/{contact_id}, e.g. projects/{project_id}/contacts/{contact_id}
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_essential_contacts_contact": identifierFromProviderWithComputedName(),
 
 	// eventarc
 	//
@@ -527,14 +575,21 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// firestore
 	//
+	// Imported by using the following format: projects/{{project}}/databases/{{name}}
+	"google_firestore_database": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/databases/{{ .external_name }}"),
 	// Imported by using the following format: {{name}}
 	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
 	// The Cloud Firestore API is not available for Datastore Mode projects
 	// "google_firestore_document": config.IdentifierFromProvider,
-	// Imported by using the following format: {{name}}
-	// Note(donovanmuller): This resource creates a Firestore Document on a project that already has Firestore enabled
+	// Imported by using the following format: {{name}}, where name is the
+	// server-generated path projects/{{project}}/databases/{{database}}/collectionGroups/{{collection}}/indexes/{{server_generated_id}}
+	// This resource creates a Firestore Index on a project that already has Firestore enabled
 	// Requires project level IAM permissions
-	// "google_firestore_index": config.IdentifierFromProvider,
+	"google_firestore_index": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/databases/{{database}}/collectionGroups/{{collection}}/fields/{{field}}
+	// This resource creates a Firestore Field on a project that already has Firestore enabled
+	// Requires project level IAM permissions
+	"google_firestore_field": config.TemplatedStringAsIdentifier("field", "projects/{{ .setup.configuration.project }}/databases/{{ .parameters.database }}/collectionGroups/{{ .parameters.collection }}/fields/{{ .external_name }}"),
 
 	// gameservers
 	//
@@ -704,6 +759,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_security_tls_inspection_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/tlsInspectionPolicies/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/urlLists/{{name}}
 	"google_network_security_url_lists": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/urlLists/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dnsThreatDetectors/{{name}}
+	"google_network_security_dns_threat_detector": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dnsThreatDetectors/{{ .external_name }}"),
 
 	// mlengine
 	//
@@ -823,6 +880,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_spanner_instance_iam_member": config.IdentifierFromProvider,
 	// google_spanner_database_iam_member.database "project-name/instance-name/database-name roles/viewer user:foo@example.com"
 	"google_spanner_database_iam_member": config.IdentifierFromProvider,
+	// google_spanner_backup_schedule "projects/{{project}}/instances/{{instance}}/databases/{{database}}/backupSchedules/{{name}}"
+	"google_spanner_backup_schedule": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .parameters.database }}/backupSchedules/{{ .external_name }}"),
 
 	// sql
 	//
@@ -1132,11 +1191,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// cloudidentity
 	//
 	// Imported by using the following: groups/<group_id>
-	// Please see the cloudIdentity function for details.
-	"google_cloud_identity_group": cloudIdentity(),
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group": identifierFromProviderWithComputedName(),
 	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
-	// Please see the cloudIdentity function for details.
-	"google_cloud_identity_group_membership": cloudIdentity(),
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group_membership": identifierFromProviderWithComputedName(),
 
 	// modelarmor
 	//
@@ -1244,21 +1303,43 @@ func apigeeOrganization() config.ExternalName {
 	return e
 }
 
-// This function configures cloud_identity resources in a special way. The
+// firewallPolicy configures the external name for
+// google_compute_firewall_policy. The TF ID is
+// locations/global/firewallPolicies/{name}, where `name` is the
+// GCP-allocated numeric id exposed only as a computed attribute. The
+// resource's Read/Update/Delete build their URLs from `name` rather than
+// from the TF ID, so on import / state reconstruction `name` must be
+// seeded from the external-name; otherwise Read GETs the list endpoint
+// and fails with 400 "Required field 'parentId' not specified" (#820).
+func firewallPolicy() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		parts := strings.Split(externalName, "/")
+		base["name"] = parts[len(parts)-1]
+	}
+	return e
+}
+
+// identifierFromProviderWithComputedName configures resources (e.g.
+// cloud_identity resources, essential_contacts_contact) in a special way. The
 // reason this is required is due to the implementation of these resources. In
-// the Read functions, resources are fetched using not only the ID field but
-// also the name field. It is important to note that this field exists only
+// the Read functions, resources are fetched using not the ID field but the
+// name field. It is important to note that this field exists only
 // under the status field. The name field has the same value as the resource ID;
 // therefore, this function sets the name field to the ID value
 // (or external-name — in this case they are equivalent; see IdentifierFromProvider).
 // This ensures that the resource behaves correctly.
 // If this configuration is not applied, although the happy path (create-delete)
 // appears to succeed, the resource fails in scenarios where import or state
-// reconstruction is required (e.g., import, pod restart, etc.) with a "resource
-// already exists" error. This happens because the Read function cannot find the
-// resource when the name field (in status) is empty, and the system attempts to
-// recreate it. This configuration fixes that issue.
-func cloudIdentity() config.ExternalName {
+// reconstruction is required (e.g., import, observe-only, pod restart, etc.)
+// with a "resource already exists" error (or "external resource does not
+// exist" under the Observe management policy). This happens because the Read
+// function cannot find the resource when the name field (in status) is empty,
+// and the system attempts to recreate it. This configuration fixes that issue.
+func identifierFromProviderWithComputedName() config.ExternalName {
 	e := config.IdentifierFromProvider
 	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
 		if externalName == "" {
@@ -1270,16 +1351,18 @@ func cloudIdentity() config.ExternalName {
 }
 
 // resourceConfigurator applies all external name configs
-// listed in the table terraformPluginSDKExternalNameConfigs and
+// listed in the tables terraformPluginSDKExternalNameConfigs,
+// terraformPluginFrameworkExternalNameConfigs and
 // cliReconciledExternalNameConfigs and sets the version
-// of those resources to v1beta1. For those resource in
-// terraformPluginSDKExternalNameConfigs, it also sets
-// config.Resource.UseNoForkClient to `true`.
+// of those resources to v1beta1.
 func resourceConfigurator() config.ResourceOption {
 	return func(r *config.Resource) {
 		// if configured both for the no-fork and CLI based architectures,
 		// no-fork configuration prevails
 		e, configured := terraformPluginSDKExternalNameConfigs[r.Name]
+		if !configured {
+			e, configured = terraformPluginFrameworkExternalNameConfigs[r.Name]
+		}
 		if !configured {
 			e, configured = cliReconciledExternalNameConfigs[r.Name]
 		}

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ActionsInitParameters struct {
@@ -2724,16 +2724,16 @@ type StoragePathParameters struct {
 type TableInitParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -2741,16 +2741,16 @@ type TableInitParameters struct {
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 1,024 characters.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Table
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.Reference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableObservation struct {
@@ -2832,17 +2832,17 @@ type TableOptionsParameters struct {
 type TableParameters struct {
 
 	// The ID of the dataset containing this table.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
 	// Reference to a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDRef *v1.Reference `json:"datasetIdRef,omitempty" tf:"-"`
+	DatasetIDRef *v2.Reference `json:"datasetIdRef,omitempty" tf:"-"`
 
 	// Selector for a Dataset in bigquery to populate datasetId.
 	// +kubebuilder:validation:Optional
-	DatasetIDSelector *v1.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
+	DatasetIDSelector *v2.Selector `json:"datasetIdSelector,omitempty" tf:"-"`
 
 	// The ID of the project containing this table.
 	// +kubebuilder:validation:Optional
@@ -2851,17 +2851,17 @@ type TableParameters struct {
 	// The ID of the table. The ID must contain only letters (a-z,
 	// A-Z), numbers (0-9), or underscores (_). The maximum length
 	// is 1,024 characters.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Table
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Table
 	// +kubebuilder:validation:Optional
 	TableID *string `json:"tableId,omitempty" tf:"table_id,omitempty"`
 
 	// Reference to a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDRef *v1.Reference `json:"tableIdRef,omitempty" tf:"-"`
+	TableIDRef *v2.Reference `json:"tableIdRef,omitempty" tf:"-"`
 
 	// Selector for a Table in bigquery to populate tableId.
 	// +kubebuilder:validation:Optional
-	TableIDSelector *v1.Selector `json:"tableIdSelector,omitempty" tf:"-"`
+	TableIDSelector *v2.Selector `json:"tableIdSelector,omitempty" tf:"-"`
 }
 
 type TableReferenceInitParameters struct {
@@ -3099,8 +3099,8 @@ type TriggersParameters struct {
 
 // JobTriggerSpec defines the desired state of JobTrigger
 type JobTriggerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     JobTriggerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   JobTriggerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -3116,8 +3116,8 @@ type JobTriggerSpec struct {
 
 // JobTriggerStatus defines the observed state of JobTrigger.
 type JobTriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        JobTriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               JobTriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

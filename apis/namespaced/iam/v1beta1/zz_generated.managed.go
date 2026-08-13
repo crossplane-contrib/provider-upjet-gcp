@@ -5,84 +5,84 @@
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *WorkloadIdentityPool) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *WorkloadIdentityPool) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *WorkloadIdentityPool) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *WorkloadIdentityPool) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) SetConditions(c ...xpv1.Condition) {
+func (mg *WorkloadIdentityPool) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *WorkloadIdentityPool) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *WorkloadIdentityPool) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this WorkloadIdentityPool.
-func (mg *WorkloadIdentityPool) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *WorkloadIdentityPool) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *WorkloadIdentityPoolProvider) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetManagementPolicies of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *WorkloadIdentityPoolProvider) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+func (mg *WorkloadIdentityPoolProvider) GetProviderConfigReference() *xpv2.ProviderConfigReference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+func (mg *WorkloadIdentityPoolProvider) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetConditions(c ...xpv1.Condition) {
+func (mg *WorkloadIdentityPoolProvider) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetManagementPolicies of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *WorkloadIdentityPoolProvider) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+func (mg *WorkloadIdentityPoolProvider) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this WorkloadIdentityPoolProvider.
-func (mg *WorkloadIdentityPoolProvider) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+func (mg *WorkloadIdentityPoolProvider) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
