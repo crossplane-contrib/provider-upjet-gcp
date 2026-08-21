@@ -19,6 +19,9 @@ func (tr *GatewaySecurityPolicy) Hub() {}
 func (tr *GatewaySecurityPolicyRule) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ServerTLSPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *TLSInspectionPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.

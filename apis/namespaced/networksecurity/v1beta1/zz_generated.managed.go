@@ -167,6 +167,46 @@ func (mg *GatewaySecurityPolicyRule) SetWriteConnectionSecretToReference(r *xpv2
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ServerTLSPolicy.
+func (mg *ServerTLSPolicy) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this TLSInspectionPolicy.
 func (mg *TLSInspectionPolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)

@@ -66,7 +66,17 @@ type RegionTargetHTTPSProxyInitParameters struct {
 	// deleting or recreating a referenced ServerTlsPolicy resource, you will
 	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
 	// within the ServerTlsPolicy resource to avoid this.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1.ServerTLSPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
+	// Reference to a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicyRef *v2.NamespacedReference `json:"serverTlsPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicySelector *v2.NamespacedSelector `json:"serverTlsPolicySelector,omitempty" tf:"-"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.
@@ -218,8 +228,18 @@ type RegionTargetHTTPSProxyParameters struct {
 	// deleting or recreating a referenced ServerTlsPolicy resource, you will
 	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
 	// within the ServerTlsPolicy resource to avoid this.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1.ServerTLSPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
+	// Reference to a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicyRef *v2.NamespacedReference `json:"serverTlsPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicySelector *v2.NamespacedSelector `json:"serverTlsPolicySelector,omitempty" tf:"-"`
 
 	// A reference to the RegionUrlMap resource that defines the mapping from URL
 	// to the RegionBackendService.

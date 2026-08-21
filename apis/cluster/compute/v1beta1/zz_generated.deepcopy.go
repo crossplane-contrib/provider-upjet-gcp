@@ -14391,6 +14391,16 @@ func (in *RegionTargetHTTPSProxyInitParameters) DeepCopyInto(out *RegionTargetHT
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServerTLSPolicyRef != nil {
+		in, out := &in.ServerTLSPolicyRef, &out.ServerTLSPolicyRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerTLSPolicySelector != nil {
+		in, out := &in.ServerTLSPolicySelector, &out.ServerTLSPolicySelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.URLMap != nil {
 		in, out := &in.URLMap, &out.URLMap
 		*out = new(string)
@@ -14613,6 +14623,16 @@ func (in *RegionTargetHTTPSProxyParameters) DeepCopyInto(out *RegionTargetHTTPSP
 		in, out := &in.ServerTLSPolicy, &out.ServerTLSPolicy
 		*out = new(string)
 		**out = **in
+	}
+	if in.ServerTLSPolicyRef != nil {
+		in, out := &in.ServerTLSPolicyRef, &out.ServerTLSPolicyRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerTLSPolicySelector != nil {
+		in, out := &in.ServerTLSPolicySelector, &out.ServerTLSPolicySelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.URLMap != nil {
 		in, out := &in.URLMap, &out.URLMap
@@ -18524,6 +18544,16 @@ func (in *TargetHTTPSProxyInitParameters) DeepCopyInto(out *TargetHTTPSProxyInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.ServerTLSPolicyRef != nil {
+		in, out := &in.ServerTLSPolicyRef, &out.ServerTLSPolicyRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerTLSPolicySelector != nil {
+		in, out := &in.ServerTLSPolicySelector, &out.ServerTLSPolicySelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.TLSEarlyData != nil {
 		in, out := &in.TLSEarlyData, &out.TLSEarlyData
 		*out = new(string)
@@ -18781,6 +18811,16 @@ func (in *TargetHTTPSProxyParameters) DeepCopyInto(out *TargetHTTPSProxyParamete
 		in, out := &in.ServerTLSPolicy, &out.ServerTLSPolicy
 		*out = new(string)
 		**out = **in
+	}
+	if in.ServerTLSPolicyRef != nil {
+		in, out := &in.ServerTLSPolicyRef, &out.ServerTLSPolicyRef
+		*out = new(v2.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerTLSPolicySelector != nil {
+		in, out := &in.ServerTLSPolicySelector, &out.ServerTLSPolicySelector
+		*out = new(v2.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TLSEarlyData != nil {
 		in, out := &in.TLSEarlyData, &out.TLSEarlyData
