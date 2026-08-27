@@ -7,6 +7,7 @@ package container
 import (
 	"encoding/base64"
 	"net/url"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -79,6 +80,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				return diff, nil
 			}
 			delete(diff.Attributes, "autopilot_cluster_policy_config.#")
+			dropEmptyKubeletConfigDiff(diff)
 			return diff, nil
 		}
 	})
@@ -116,9 +118,46 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				// attribute.
 				delete(diff.Attributes, "initial_node_count")
 			}
+			dropEmptyKubeletConfigDiff(diff)
 			return diff, nil
 		}
 	})
+}
+
+// dropEmptyKubeletConfigDiff removes empty node_config.*.kubelet_config block
+// entries from the computed diff. The underlying Terraform google provider's
+// expandNodeConfig enters its kubelet branch whenever the "kubelet_config" key
+// is present in the diff (`if v, ok := nodeConfig["kubelet_config"]; ok`), then
+// dereferences the result of expandKubeletConfig. When the block is present but
+// empty, expandKubeletConfig returns nil and the subsequent raw-config sub-fix
+// dereferences it, causing a nil-pointer panic. This is reachable through
+// upjet-driven reconciliation where a node_config is present without a
+// kubelet_config. Removing the empty ".#" entry makes the "ok" check false, so
+// the provider skips the branch entirely. This changes nothing when a real
+// kubelet_config is set (its ".#" is non-zero and is left untouched).
+func dropEmptyKubeletConfigDiff(diff *terraform.InstanceDiff) {
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+	for key, ad := range diff.Attributes {
+		if isEmptyNodeConfigKubeletCount(key, ad) {
+			delete(diff.Attributes, key)
+		}
+	}
+}
+
+// isEmptyNodeConfigKubeletCount reports whether key/ad is an empty
+// node_config.*.kubelet_config.# count entry (count 0/unset on both sides).
+func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) bool {
+	if ad == nil {
+		return false
+	}
+	if !strings.HasSuffix(key, "kubelet_config.#") || !strings.Contains(key, "node_config.") {
+		return false
+	}
+	oldEmpty := ad.Old == "" || ad.Old == "0"
+	newEmpty := ad.New == "" || ad.New == "0"
+	return oldEmpty && newEmpty
 }
 
 // clusterConnectionDetails builds the kubeconfig published in the connection
