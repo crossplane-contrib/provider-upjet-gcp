@@ -34,10 +34,10 @@ spec:
   forProvider:
     region: us-central1
     snapshotSchedulePolicy:
-      - schedule:
-          - dailySchedule:
-              - daysInCycle: 1
-                startTime: "04:00"
+      schedule:
+        dailySchedule:
+          daysInCycle: 1
+          startTime: "04:00"
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: Disk

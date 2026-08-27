@@ -80,9 +80,9 @@ spec:
   forProvider:
     region: us-central1
     snapshotSchedulePolicy:
-    - schedule:
-      - dailySchedule:
-        - daysInCycle: 1
+      schedule:
+        dailySchedule:
+          daysInCycle: 1
           startTime: "04:00"
 
 

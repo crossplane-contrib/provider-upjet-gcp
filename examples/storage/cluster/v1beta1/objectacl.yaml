@@ -51,8 +51,8 @@ spec:
     location: US
     uniformBucketLevelAccess: false
     website:
-      - mainPageSuffix: index.html
-        notFoundPage: 404.html
+      mainPageSuffix: index.html
+      notFoundPage: 404.html
 
 
 ---

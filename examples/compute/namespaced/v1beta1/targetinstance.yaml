@@ -30,8 +30,8 @@ metadata:
 spec:
   forProvider:
     bootDisk:
-      - initializeParams:
-          - image: debian-cloud/debian-11
+      initializeParams:
+        image: debian-cloud/debian-11
     machineType: e2-medium
     networkInterface:
       - network: default

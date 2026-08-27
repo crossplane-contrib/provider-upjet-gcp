@@ -88,7 +88,7 @@ spec:
   forProvider:
     displayName: Connection profile
     gcsProfile:
-    - bucket: my-bucket
+      bucket: my-bucket
       rootPath: /path
     location: us-central1
 
@@ -147,11 +147,11 @@ spec:
     deletionProtection: true
     region: us-central1
     settings:
-    - backupConfiguration:
-      - binaryLogEnabled: true
+      backupConfiguration:
+        binaryLogEnabled: true
         enabled: true
       ipConfiguration:
-      - authorizedNetworks:
+        authorizedNetworks:
         - value: 34.71.242.81
         - value: 34.72.28.29
         - value: 34.67.6.157

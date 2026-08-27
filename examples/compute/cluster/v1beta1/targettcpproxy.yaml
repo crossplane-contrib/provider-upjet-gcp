@@ -49,5 +49,5 @@ spec:
   forProvider:
     checkIntervalSec: 1
     tcpHealthCheck:
-    - port: 443
+      port: 443
     timeoutSec: 1

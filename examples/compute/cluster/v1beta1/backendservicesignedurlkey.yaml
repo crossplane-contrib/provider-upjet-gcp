@@ -53,7 +53,7 @@ spec:
   forProvider:
     checkIntervalSec: 1
     httpHealthCheck:
-      - port: 80
+      port: 80
     timeoutSec: 1
 
 

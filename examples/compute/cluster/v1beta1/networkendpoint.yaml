@@ -47,8 +47,8 @@ spec:
           matchLabels:
             testing.upbound.io/example-name: network-endpoint
     bootDisk:
-      - initializeParams:
-          - image: debian-cloud/debian-11
+      initializeParams:
+        image: debian-cloud/debian-11
 
 
 ---

@@ -46,8 +46,8 @@ spec:
           matchLabels:
             testing.upbound.io/example-name: network-endpoint
     bootDisk:
-      - initializeParams:
-          - image: debian-cloud/debian-11
+      initializeParams:
+        image: debian-cloud/debian-11
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: NetworkEndpointGroup

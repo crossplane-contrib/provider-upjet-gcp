@@ -14,9 +14,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    groupSelector:
-      matchLabels:
-        testing.upbound.io/example-name: instance-group-named-port
+    group: group
     name: http
     port: 8080
     zone: us-central1-a
@@ -67,8 +65,8 @@ spec:
   forProvider:
     initialNodeCount: 1
     ipAllocationPolicy:
-      - clusterIpv4CidrBlock: /19
-        servicesIpv4CidrBlock: /22
+      clusterIpv4CidrBlock: /19
+      servicesIpv4CidrBlock: /22
     location: us-central1-a
     networkSelector:
       matchLabels:

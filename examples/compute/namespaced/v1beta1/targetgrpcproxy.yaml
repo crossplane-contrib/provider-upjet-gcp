@@ -44,7 +44,7 @@ spec:
         name: allpaths
         routeRules:
           - headerAction:
-              - requestHeadersToAdd:
+                requestHeadersToAdd:
                   - headerName: AddSomethingElse
                     headerValue: MyOtherValue
                     replace: true
@@ -73,7 +73,7 @@ spec:
                     presentMatch: true
             priority: 1
             urlRedirect:
-              - hostRedirect: A host
+                hostRedirect: A host
                 httpsRedirect: false
                 pathRedirect: some/path
                 redirectResponseCode: TEMPORARY_REDIRECT
