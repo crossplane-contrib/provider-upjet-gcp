@@ -9,8 +9,58 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"k8s.io/client-go/tools/clientcmd"
 )
+
+func TestDropEmptyKubeletConfigDiff(t *testing.T) {
+	cases := map[string]struct {
+		attrs   map[string]*terraform.ResourceAttrDiff
+		dropped []string // keys expected to be removed
+		kept    []string // keys expected to remain
+	}{
+		"DropsEmptyNodePoolNested": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"node_pool.0.node_config.0.kubelet_config.#": {Old: "", New: "0"},
+			},
+			dropped: []string{"node_pool.0.node_config.0.kubelet_config.#"},
+		},
+		"DropsEmptyTopLevel": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"node_config.0.kubelet_config.#": {Old: "0", New: "0"},
+			},
+			dropped: []string{"node_config.0.kubelet_config.#"},
+		},
+		"KeepsNonEmptyKubeletConfig": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"node_config.0.kubelet_config.#": {Old: "0", New: "1"},
+			},
+			kept: []string{"node_config.0.kubelet_config.#"},
+		},
+		"IgnoresUnrelatedKubeletConfigOutsideNodeConfig": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"kubelet_config.#": {Old: "", New: "0"},
+			},
+			kept: []string{"kubelet_config.#"},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diff := &terraform.InstanceDiff{Attributes: tc.attrs}
+			dropEmptyKubeletConfigDiff(diff)
+			for _, k := range tc.dropped {
+				if _, ok := diff.Attributes[k]; ok {
+					t.Errorf("expected key %q to be dropped, but it remained", k)
+				}
+			}
+			for _, k := range tc.kept {
+				if _, ok := diff.Attributes[k]; !ok {
+					t.Errorf("expected key %q to be kept, but it was dropped", k)
+				}
+			}
+		})
+	}
+}
 
 func TestClusterConnectionDetails(t *testing.T) {
 	caPEM := []byte("-----BEGIN CERTIFICATE-----\nprivate-cluster-ca\n-----END CERTIFICATE-----")
