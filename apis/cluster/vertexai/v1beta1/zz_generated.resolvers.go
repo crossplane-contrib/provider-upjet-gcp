@@ -16,74 +16,22 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of this FeaturestoreEntitytype.
+func (mg *ReasoningEngine) ResolveReferences( // ResolveReferences of this ReasoningEngine.
 	ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
-	r := reference.NewAPINamespacedResolver(c, mg)
+	r := reference.NewAPIResolver(c, mg)
 
-	var rsp reference.NamespacedResolutionResponse
-	var err error
-	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "Featurestore", "FeaturestoreList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Featurestore),
-			Extract:      resource.ExtractResourceID(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.ForProvider.FeaturestoreRef,
-			Selector:     mg.Spec.ForProvider.FeaturestoreSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Featurestore")
-	}
-	mg.Spec.ForProvider.Featurestore = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.FeaturestoreRef = rsp.ResolvedReference
-	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "Featurestore", "FeaturestoreList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Featurestore),
-			Extract:      resource.ExtractResourceID(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.InitProvider.FeaturestoreRef,
-			Selector:     mg.Spec.InitProvider.FeaturestoreSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.Featurestore")
-	}
-	mg.Spec.InitProvider.Featurestore = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.FeaturestoreRef = rsp.ResolvedReference
-
-	return nil
-}
-
-// ResolveReferences of this ReasoningEngine.
-func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reader) error {
-	var m xpresource.Managed
-	var l xpresource.ManagedList
-	r := reference.NewAPINamespacedResolver(c, mg)
-
-	var rsp reference.NamespacedResolutionResponse
+	var rsp reference.ResolutionResponse
 	var err error
 
 	if mg.Spec.ForProvider.EncryptionSpec != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("kms.gcp.m.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
+			m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
-			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptionSpec.KMSKeyName),
 				Extract:      reference.ExternalName(),
 				Namespace:    mg.GetNamespace(),
@@ -104,11 +52,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 			if mg.Spec.ForProvider.Spec.DeploymentSpec.PscInterfaceConfig != nil {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.Spec.DeploymentSpec.PscInterfaceConfig.DNSPeeringConfigs); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
-						rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spec.DeploymentSpec.PscInterfaceConfig.DNSPeeringConfigs[i6].TargetNetwork),
 							Extract:      reference.ExternalName(),
 							Namespace:    mg.GetNamespace(),
@@ -132,11 +80,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.Spec.DeploymentSpec.SecretEnv); i5++ {
 				if mg.Spec.ForProvider.Spec.DeploymentSpec.SecretEnv[i5].SecretRef != nil {
 					{
-						m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.m.upbound.io", "v1beta1", "Secret", "SecretList")
+						m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta2", "Secret", "SecretList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
-						rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spec.DeploymentSpec.SecretEnv[i5].SecretRef.Secret),
 							Extract:      reference.ExternalName(),
 							Namespace:    mg.GetNamespace(),
@@ -157,11 +105,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 	}
 	if mg.Spec.ForProvider.Spec != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
-			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spec.ServiceAccount),
 				Extract:      reference.ExternalName(),
 				Namespace:    mg.GetNamespace(),
@@ -179,11 +127,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 	}
 	if mg.Spec.InitProvider.EncryptionSpec != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("kms.gcp.m.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
+			m, l, err = apisresolver.GetManagedResource("kms.gcp.upbound.io", "v1beta2", "CryptoKey", "CryptoKeyList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
-			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptionSpec.KMSKeyName),
 				Extract:      reference.ExternalName(),
 				Namespace:    mg.GetNamespace(),
@@ -204,11 +152,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 			if mg.Spec.InitProvider.Spec.DeploymentSpec.PscInterfaceConfig != nil {
 				for i6 := 0; i6 < len(mg.Spec.InitProvider.Spec.DeploymentSpec.PscInterfaceConfig.DNSPeeringConfigs); i6++ {
 					{
-						m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+						m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
-						rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spec.DeploymentSpec.PscInterfaceConfig.DNSPeeringConfigs[i6].TargetNetwork),
 							Extract:      reference.ExternalName(),
 							Namespace:    mg.GetNamespace(),
@@ -232,11 +180,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.Spec.DeploymentSpec.SecretEnv); i5++ {
 				if mg.Spec.InitProvider.Spec.DeploymentSpec.SecretEnv[i5].SecretRef != nil {
 					{
-						m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.m.upbound.io", "v1beta1", "Secret", "SecretList")
+						m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.upbound.io", "v1beta2", "Secret", "SecretList")
 						if err != nil {
 							return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 						}
-						rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 							CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spec.DeploymentSpec.SecretEnv[i5].SecretRef.Secret),
 							Extract:      reference.ExternalName(),
 							Namespace:    mg.GetNamespace(),
@@ -257,11 +205,11 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 	}
 	if mg.Spec.InitProvider.Spec != nil {
 		{
-			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
 			if err != nil {
 				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 			}
-			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spec.ServiceAccount),
 				Extract:      reference.ExternalName(),
 				Namespace:    mg.GetNamespace(),
@@ -285,17 +233,17 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 func (mg *ReasoningEngineIAMBinding) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
-	r := reference.NewAPINamespacedResolver(c, mg)
+	r := reference.NewAPIResolver(c, mg)
 
-	var rsp reference.NamespacedResolutionResponse
+	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReasoningEngine),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -310,12 +258,12 @@ func (mg *ReasoningEngineIAMBinding) ResolveReferences(ctx context.Context, c cl
 	mg.Spec.ForProvider.ReasoningEngine = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ReasoningEngineRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReasoningEngine),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -337,17 +285,17 @@ func (mg *ReasoningEngineIAMBinding) ResolveReferences(ctx context.Context, c cl
 func (mg *ReasoningEngineIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
-	r := reference.NewAPINamespacedResolver(c, mg)
+	r := reference.NewAPIResolver(c, mg)
 
-	var rsp reference.NamespacedResolutionResponse
+	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReasoningEngine),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -362,12 +310,12 @@ func (mg *ReasoningEngineIAMMember) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.ForProvider.ReasoningEngine = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ReasoningEngineRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReasoningEngine),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -389,17 +337,17 @@ func (mg *ReasoningEngineIAMMember) ResolveReferences(ctx context.Context, c cli
 func (mg *ReasoningEngineIAMPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
-	r := reference.NewAPINamespacedResolver(c, mg)
+	r := reference.NewAPIResolver(c, mg)
 
-	var rsp reference.NamespacedResolutionResponse
+	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 			Extract:      resource.ExtractParamPath("project", false),
 			Namespace:    mg.GetNamespace(),
@@ -414,12 +362,12 @@ func (mg *ReasoningEngineIAMPolicy) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReasoningEngine),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -434,12 +382,12 @@ func (mg *ReasoningEngineIAMPolicy) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.ForProvider.ReasoningEngine = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ReasoningEngineRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Region),
 			Extract:      resource.ExtractParamPath("region", false),
 			Namespace:    mg.GetNamespace(),
@@ -454,12 +402,12 @@ func (mg *ReasoningEngineIAMPolicy) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.ForProvider.Region = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegionRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 			Extract:      resource.ExtractParamPath("project", false),
 			Namespace:    mg.GetNamespace(),
@@ -474,12 +422,12 @@ func (mg *ReasoningEngineIAMPolicy) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReasoningEngine),
 			Extract:      reference.ExternalName(),
 			Namespace:    mg.GetNamespace(),
@@ -494,12 +442,12 @@ func (mg *ReasoningEngineIAMPolicy) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.InitProvider.ReasoningEngine = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ReasoningEngineRef = rsp.ResolvedReference
 	{
-		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
-		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Region),
 			Extract:      resource.ExtractParamPath("region", false),
 			Namespace:    mg.GetNamespace(),

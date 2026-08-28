@@ -127,6 +127,166 @@ func (mg *FeaturestoreEntitytype) SetWriteConnectionSecretToReference(r *xpv2.Lo
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ReasoningEngine.
+func (mg *ReasoningEngine) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ReasoningEngine.
+func (mg *ReasoningEngine) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ReasoningEngine.
+func (mg *ReasoningEngine) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ReasoningEngine.
+func (mg *ReasoningEngine) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ReasoningEngine.
+func (mg *ReasoningEngine) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ReasoningEngine.
+func (mg *ReasoningEngine) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ReasoningEngine.
+func (mg *ReasoningEngine) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ReasoningEngine.
+func (mg *ReasoningEngine) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ReasoningEngineIAMBinding.
+func (mg *ReasoningEngineIAMBinding) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ReasoningEngineIAMPolicy.
+func (mg *ReasoningEngineIAMPolicy) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this Tensorboard.
 func (mg *Tensorboard) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)

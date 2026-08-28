@@ -403,6 +403,10 @@
   "google_vertex_ai_dataset",
   "google_vertex_ai_featurestore",
   "google_vertex_ai_featurestore_entitytype",
+  "google_vertex_ai_reasoning_engine",
+  "google_vertex_ai_reasoning_engine_iam_binding",
+  "google_vertex_ai_reasoning_engine_iam_member",
+  "google_vertex_ai_reasoning_engine_iam_policy",
   "google_vertex_ai_tensorboard",
   "google_vpc_access_connector",
   "google_workflows_workflow"

@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: ReasoningEngineIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/reasoningengineiammember
+  labels:
+    testing.upbound.io/example-name: reasoning_engine_iam_member
+  name: reasoning-engine-iam-member
+  namespace: upbound-system
+spec:
+  forProvider:
+    member: serviceAccount:official-provider-testing@official-provider-testing.iam.gserviceaccount.com
+    reasoningEngineSelector:
+      matchLabels:
+        testing.upbound.io/example-name: reasoning_engine
+    region: us-central1
+    role: roles/aiplatform.user
+
+---
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: ReasoningEngine
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/reasoningengineiammember
+    uptest.upbound.io/pre-delete-hook: ../testhooks/delete-reasoningengineiammember.sh
+  labels:
+    testing.upbound.io/example-name: reasoning_engine
+  name: reasoning-engine
+  namespace: upbound-system
+spec:
+  forProvider:
+    deletionPolicy: FORCE
+    displayName: reasoning-engine
+    region: us-central1
+    spec:
+      identityType: AGENT_IDENTITY

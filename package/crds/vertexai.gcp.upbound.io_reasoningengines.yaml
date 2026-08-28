@@ -1,0 +1,1918 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.0
+  name: reasoningengines.vertexai.gcp.upbound.io
+spec:
+  group: vertexai.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: ReasoningEngine
+    listKind: ReasoningEngineList
+    plural: reasoningengines
+    singular: reasoningengine
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: ReasoningEngine is the Schema for the ReasoningEngines API. ReasoningEngine
+          provides a customizable runtime for models to determine which actions to
+          take and in which order.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ReasoningEngineSpec defines the desired state of ReasoningEngine
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  deletionPolicy:
+                    description: |-
+                      Optional. The deletion policy for the reasoning engine.
+                      Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
+                    type: string
+                  description:
+                    description: The description of the ReasoningEngine.
+                    type: string
+                  displayName:
+                    description: The display name of the ReasoningEngine.
+                    type: string
+                  encryptionSpec:
+                    description: |-
+                      Optional. Customer-managed encryption key spec for a ReasoningEngine.
+                      If set, this ReasoningEngine and all sub-resources of this ReasoningEngine
+                      will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: |-
+                          Required. The Cloud KMS resource identifier of the customer managed
+                          encryption key used to protect a resource. Has the form:
+                          projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute resource
+                          is created.
+                        type: string
+                      kmsKeyNameRef:
+                        description: Reference to a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      kmsKeyNameSelector:
+                        description: Selector for a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this ReasoningEngine. You can use these to
+                      organize and group your ReasoningEngines.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the reasoning engine. eg us-central1
+                    type: string
+                  spec:
+                    description: |-
+                      Optional. Configurations of the ReasoningEngine.
+                      Structure is documented below.
+                    properties:
+                      agentFramework:
+                        description: Optional. The OSS agent framework used to develop
+                          the agent.
+                        type: string
+                      classMethods:
+                        description: |-
+                          Optional. Declarations for object class methods in OpenAPI
+                          specification format.
+                        type: string
+                      containerSpec:
+                        description: |-
+                          Deploy from a container image with a defined entrypoint and commands.
+                          Structure is documented below.
+                        properties:
+                          imageUri:
+                            description: |-
+                              The Artifact Registry Docker image URI (e.g.,
+                              us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+                              container image that is to be run on each worker replica.
+                            type: string
+                        type: object
+                      deploymentSpec:
+                        description: |-
+                          Optional. The specification of a Reasoning Engine deployment.
+                          Structure is documented below.
+                        properties:
+                          containerConcurrency:
+                            description: |-
+                              Optional. Concurrency for each container and agent server.
+                              Recommended value: 2 * cpu + 1. Defaults to 9.
+                            type: number
+                          env:
+                            description: |-
+                              Optional. Environment variables to be set with the Reasoning
+                              Engine deployment.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The name of the environment variable. Must be a valid C
+                                    identifier.
+                                  type: string
+                                value:
+                                  description: |-
+                                    Variables that reference a $(VAR_NAME) are expanded using
+                                    the previous defined environment variables in the container
+                                    and any service environment variables. If a variable cannot
+                                    be resolved, the reference in the input string will be
+                                    unchanged. The $(VAR_NAME) syntax can be escaped with a
+                                    double $$, ie: $$(VAR_NAME). Escaped references will never
+                                    be expanded, regardless of whether the variable exists
+                                    or not.
+                                  type: string
+                              type: object
+                            type: array
+                          maxInstances:
+                            description: |-
+                              Optional. The maximum number of application instances that can be
+                              launched to handle increased traffic. Defaults to 100.
+                              Range: [1, 1000]. If VPC-SC or PSC-I is enabled, the acceptable
+                              range is [1, 100].
+                            type: number
+                          minInstances:
+                            description: |-
+                              Optional. The minimum number of application instances that will be
+                              kept running at all times. Defaults to 1. Range: [0, 10].
+                            type: number
+                          pscInterfaceConfig:
+                            description: |-
+                              Optional. Configuration for PSC-Interface.
+                              Structure is documented below.
+                            properties:
+                              dnsPeeringConfigs:
+                                description: |-
+                                  Optional. DNS peering configurations.
+                                  When specified, Vertex AI will attempt to configure DNS
+                                  peering zones in the tenant project VPC to resolve the
+                                  specified domains using the target network's Cloud DNS.
+                                  The user must grant the dns.peer role to the Vertex AI
+                                  service Agent on the target project.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    domain:
+                                      description: |-
+                                        Required. The DNS name suffix of the zone being peered
+                                        to, e.g., "my-internal-domain.corp.".
+                                        Must end with a dot.
+                                      type: string
+                                    targetNetwork:
+                                      description: |-
+                                        Required. The VPC network name in the targetProject
+                                        where the DNS zone specified by 'domain' is visible.
+                                      type: string
+                                    targetNetworkRef:
+                                      description: Reference to a Network in compute
+                                        to populate targetNetwork.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    targetNetworkSelector:
+                                      description: Selector for a Network in compute
+                                        to populate targetNetwork.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    targetProject:
+                                      description: |-
+                                        Required. The project id hosting the Cloud DNS managed
+                                        zone that contains the 'domain'.
+                                        The Vertex AI service Agent requires the dns.peer role
+                                        on this project.
+                                      type: string
+                                  type: object
+                                type: array
+                              networkAttachment:
+                                description: |-
+                                  Optional. The name of the Compute Engine network attachment
+                                  to attach to the resource within the region and user project.
+                                  To specify this field, you must have already created a network attachment.
+                                  This field is only used for resources using PSC-Interface.
+                                type: string
+                            type: object
+                          resourceLimits:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Optional. Resource limits for each container.
+                              Only 'cpu' and 'memory' keys are supported.
+                              Defaults to {"cpu": "4", "memory": "4Gi"}.
+                              The only supported values for CPU are '1', '2', '4', '6' and '8'.
+                              For more information, go to
+                              https://cloud.google.com/run/docs/configuring/cpu.
+                              The only supported values for memory are '1Gi', '2Gi', ... '32 Gi'.
+                              For more information, go to
+                              https://cloud.google.com/run/docs/configuring/memory-limits.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          secretEnv:
+                            description: |-
+                              Optional. Environment variables where the value is a secret in
+                              Cloud Secret Manager. To use this feature, add 'Secret Manager
+                              Secret Accessor' role (roles/secretmanager.secretAccessor) to AI
+                              Platform Reasoning Engine service Agent.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The name of the environment variable. Must be a valid C
+                                    identifier.
+                                  type: string
+                                secretRef:
+                                  description: |-
+                                    Reference to a secret stored in the Cloud Secret Manager
+                                    that will provide the value for this environment variable.
+                                    Structure is documented below.
+                                  properties:
+                                    secret:
+                                      description: |-
+                                        The name of the secret in Cloud Secret Manager.
+                                        Format: {secret_name}.
+                                      type: string
+                                    secretRef:
+                                      description: Reference to a Secret in secretmanager
+                                        to populate secret.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    secretSelector:
+                                      description: Selector for a Secret in secretmanager
+                                        to populate secret.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    version:
+                                      description: |-
+                                        The Cloud Secret Manager secret version. Can be 'latest'
+                                        for the latest version, an integer for a specific
+                                        version, or a version alias.
+                                      type: string
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      identityType:
+                        description: |-
+                          Optional. The identity type to use for the Reasoning Engine.
+                          If not specified, the service_account field will be used if set,
+                          otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+                          Possible values:
+                        type: string
+                      packageSpec:
+                        description: |-
+                          Optional. User provided package spec of the ReasoningEngine.
+                          Ignored when users directly specify a deployment image through
+                          deploymentSpec.first_party_image_override, but keeping the
+                          field_behavior to avoid introducing breaking changes.
+                          Structure is documented below.
+                        properties:
+                          dependencyFilesGcsUri:
+                            description: |-
+                              Optional. The Cloud Storage URI of the dependency files in tar.gz
+                              format.
+                            type: string
+                          pickleObjectGcsUri:
+                            description: Optional. The Cloud Storage URI of the pickled
+                              python object.
+                            type: string
+                          pythonVersion:
+                            description: |-
+                              Optional. The Python version. Currently support 3.8, 3.9, 3.10,
+                              3.11, 3.12, 3.13. If not specified, default value is 3.10.
+                            type: string
+                          requirementsGcsUri:
+                            description: Optional. The Cloud Storage URI of the requirements.txtfile
+                            type: string
+                        type: object
+                      serviceAccount:
+                        description: |-
+                          Optional. The service account that the Reasoning Engine artifact runs
+                          as. It should have "roles/storage.objectViewer" for reading the user
+                          project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+                          extensions. If not specified, the Vertex AI Reasoning Engine service
+                          Agent in the project will be used.
+                        type: string
+                      serviceAccountRef:
+                        description: Reference to a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      serviceAccountSelector:
+                        description: Selector for a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      sourceCodeSpec:
+                        description: |-
+                          Specification for deploying from source code.
+                          Structure is documented below.
+                        properties:
+                          developerConnectSource:
+                            description: |-
+                              Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
+                              Structure is documented below.
+                            properties:
+                              config:
+                                description: |-
+                                  The Developer Connect configuration that defines the specific repository, revision, and directory to use as the source code root.
+                                  Structure is documented below.
+                                properties:
+                                  dir:
+                                    description: Directory, relative to the source
+                                      root, in which to run the build.
+                                    type: string
+                                  gitRepositoryLink:
+                                    description: The Developer Connect Git repository
+                                      link, formatted as projects//locations//connections//gitRepositoryLink/.
+                                    type: string
+                                  revision:
+                                    description: The revision to fetch from the Git
+                                      repository such as a branch, a tag, a commit
+                                      SHA, or any Git ref.
+                                    type: string
+                                type: object
+                            type: object
+                          imageSpec:
+                            description: |-
+                              Configuration for building an image with custom config file.
+                              Structure is documented below.
+                            properties:
+                              buildArgs:
+                                additionalProperties:
+                                  type: string
+                                description: Build arguments to be used. They will
+                                  be passed through --build-arg flags.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          inlineSource:
+                            description: |-
+                              Source code is provided directly in the request.
+                              Structure is documented below.
+                            properties:
+                              sourceArchive:
+                                description: |-
+                                  Required. Input only.
+                                  The application source code archive, provided as a compressed
+                                  tarball (.tar.gz) file. A base64-encoded string.
+                                type: string
+                            type: object
+                          pythonSpec:
+                            description: |-
+                              Specification for running a Python application from source.
+                              Structure is documented below.
+                            properties:
+                              entrypointModule:
+                                description: |-
+                                  Optional. The Python module to load as the entrypoint,
+                                  specified as a fully qualified module name. For example:
+                                  path.to.agent. If not specified, defaults to "agent".
+                                  The project root will be added to Python sys.path, allowing
+                                  imports to be specified relative to the root.
+                                type: string
+                              entrypointObject:
+                                description: |-
+                                  Optional. The name of the callable object within the
+                                  entrypointModule to use as the application If not specified,
+                                  defaults to "root_agent".
+                                type: string
+                              requirementsFile:
+                                description: |-
+                                  Optional. The path to the requirements file, relative to the
+                                  source root. If not specified, defaults to "requirements.txt".
+                                type: string
+                              version:
+                                description: |-
+                                  The Cloud Secret Manager secret version. Can be 'latest'
+                                  for the latest version, an integer for a specific
+                                  version, or a version alias.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  deletionPolicy:
+                    description: |-
+                      Optional. The deletion policy for the reasoning engine.
+                      Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
+                    type: string
+                  description:
+                    description: The description of the ReasoningEngine.
+                    type: string
+                  displayName:
+                    description: The display name of the ReasoningEngine.
+                    type: string
+                  encryptionSpec:
+                    description: |-
+                      Optional. Customer-managed encryption key spec for a ReasoningEngine.
+                      If set, this ReasoningEngine and all sub-resources of this ReasoningEngine
+                      will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: |-
+                          Required. The Cloud KMS resource identifier of the customer managed
+                          encryption key used to protect a resource. Has the form:
+                          projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute resource
+                          is created.
+                        type: string
+                      kmsKeyNameRef:
+                        description: Reference to a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      kmsKeyNameSelector:
+                        description: Selector for a CryptoKey in kms to populate kmsKeyName.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this ReasoningEngine. You can use these to
+                      organize and group your ReasoningEngines.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the reasoning engine. eg us-central1
+                    type: string
+                  spec:
+                    description: |-
+                      Optional. Configurations of the ReasoningEngine.
+                      Structure is documented below.
+                    properties:
+                      agentFramework:
+                        description: Optional. The OSS agent framework used to develop
+                          the agent.
+                        type: string
+                      classMethods:
+                        description: |-
+                          Optional. Declarations for object class methods in OpenAPI
+                          specification format.
+                        type: string
+                      containerSpec:
+                        description: |-
+                          Deploy from a container image with a defined entrypoint and commands.
+                          Structure is documented below.
+                        properties:
+                          imageUri:
+                            description: |-
+                              The Artifact Registry Docker image URI (e.g.,
+                              us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+                              container image that is to be run on each worker replica.
+                            type: string
+                        type: object
+                      deploymentSpec:
+                        description: |-
+                          Optional. The specification of a Reasoning Engine deployment.
+                          Structure is documented below.
+                        properties:
+                          containerConcurrency:
+                            description: |-
+                              Optional. Concurrency for each container and agent server.
+                              Recommended value: 2 * cpu + 1. Defaults to 9.
+                            type: number
+                          env:
+                            description: |-
+                              Optional. Environment variables to be set with the Reasoning
+                              Engine deployment.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The name of the environment variable. Must be a valid C
+                                    identifier.
+                                  type: string
+                                value:
+                                  description: |-
+                                    Variables that reference a $(VAR_NAME) are expanded using
+                                    the previous defined environment variables in the container
+                                    and any service environment variables. If a variable cannot
+                                    be resolved, the reference in the input string will be
+                                    unchanged. The $(VAR_NAME) syntax can be escaped with a
+                                    double $$, ie: $$(VAR_NAME). Escaped references will never
+                                    be expanded, regardless of whether the variable exists
+                                    or not.
+                                  type: string
+                              type: object
+                            type: array
+                          maxInstances:
+                            description: |-
+                              Optional. The maximum number of application instances that can be
+                              launched to handle increased traffic. Defaults to 100.
+                              Range: [1, 1000]. If VPC-SC or PSC-I is enabled, the acceptable
+                              range is [1, 100].
+                            type: number
+                          minInstances:
+                            description: |-
+                              Optional. The minimum number of application instances that will be
+                              kept running at all times. Defaults to 1. Range: [0, 10].
+                            type: number
+                          pscInterfaceConfig:
+                            description: |-
+                              Optional. Configuration for PSC-Interface.
+                              Structure is documented below.
+                            properties:
+                              dnsPeeringConfigs:
+                                description: |-
+                                  Optional. DNS peering configurations.
+                                  When specified, Vertex AI will attempt to configure DNS
+                                  peering zones in the tenant project VPC to resolve the
+                                  specified domains using the target network's Cloud DNS.
+                                  The user must grant the dns.peer role to the Vertex AI
+                                  service Agent on the target project.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    domain:
+                                      description: |-
+                                        Required. The DNS name suffix of the zone being peered
+                                        to, e.g., "my-internal-domain.corp.".
+                                        Must end with a dot.
+                                      type: string
+                                    targetNetwork:
+                                      description: |-
+                                        Required. The VPC network name in the targetProject
+                                        where the DNS zone specified by 'domain' is visible.
+                                      type: string
+                                    targetNetworkRef:
+                                      description: Reference to a Network in compute
+                                        to populate targetNetwork.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    targetNetworkSelector:
+                                      description: Selector for a Network in compute
+                                        to populate targetNetwork.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    targetProject:
+                                      description: |-
+                                        Required. The project id hosting the Cloud DNS managed
+                                        zone that contains the 'domain'.
+                                        The Vertex AI service Agent requires the dns.peer role
+                                        on this project.
+                                      type: string
+                                  type: object
+                                type: array
+                              networkAttachment:
+                                description: |-
+                                  Optional. The name of the Compute Engine network attachment
+                                  to attach to the resource within the region and user project.
+                                  To specify this field, you must have already created a network attachment.
+                                  This field is only used for resources using PSC-Interface.
+                                type: string
+                            type: object
+                          resourceLimits:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Optional. Resource limits for each container.
+                              Only 'cpu' and 'memory' keys are supported.
+                              Defaults to {"cpu": "4", "memory": "4Gi"}.
+                              The only supported values for CPU are '1', '2', '4', '6' and '8'.
+                              For more information, go to
+                              https://cloud.google.com/run/docs/configuring/cpu.
+                              The only supported values for memory are '1Gi', '2Gi', ... '32 Gi'.
+                              For more information, go to
+                              https://cloud.google.com/run/docs/configuring/memory-limits.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          secretEnv:
+                            description: |-
+                              Optional. Environment variables where the value is a secret in
+                              Cloud Secret Manager. To use this feature, add 'Secret Manager
+                              Secret Accessor' role (roles/secretmanager.secretAccessor) to AI
+                              Platform Reasoning Engine service Agent.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The name of the environment variable. Must be a valid C
+                                    identifier.
+                                  type: string
+                                secretRef:
+                                  description: |-
+                                    Reference to a secret stored in the Cloud Secret Manager
+                                    that will provide the value for this environment variable.
+                                    Structure is documented below.
+                                  properties:
+                                    secret:
+                                      description: |-
+                                        The name of the secret in Cloud Secret Manager.
+                                        Format: {secret_name}.
+                                      type: string
+                                    secretRef:
+                                      description: Reference to a Secret in secretmanager
+                                        to populate secret.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    secretSelector:
+                                      description: Selector for a Secret in secretmanager
+                                        to populate secret.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    version:
+                                      description: |-
+                                        The Cloud Secret Manager secret version. Can be 'latest'
+                                        for the latest version, an integer for a specific
+                                        version, or a version alias.
+                                      type: string
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      identityType:
+                        description: |-
+                          Optional. The identity type to use for the Reasoning Engine.
+                          If not specified, the service_account field will be used if set,
+                          otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+                          Possible values:
+                        type: string
+                      packageSpec:
+                        description: |-
+                          Optional. User provided package spec of the ReasoningEngine.
+                          Ignored when users directly specify a deployment image through
+                          deploymentSpec.first_party_image_override, but keeping the
+                          field_behavior to avoid introducing breaking changes.
+                          Structure is documented below.
+                        properties:
+                          dependencyFilesGcsUri:
+                            description: |-
+                              Optional. The Cloud Storage URI of the dependency files in tar.gz
+                              format.
+                            type: string
+                          pickleObjectGcsUri:
+                            description: Optional. The Cloud Storage URI of the pickled
+                              python object.
+                            type: string
+                          pythonVersion:
+                            description: |-
+                              Optional. The Python version. Currently support 3.8, 3.9, 3.10,
+                              3.11, 3.12, 3.13. If not specified, default value is 3.10.
+                            type: string
+                          requirementsGcsUri:
+                            description: Optional. The Cloud Storage URI of the requirements.txtfile
+                            type: string
+                        type: object
+                      serviceAccount:
+                        description: |-
+                          Optional. The service account that the Reasoning Engine artifact runs
+                          as. It should have "roles/storage.objectViewer" for reading the user
+                          project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+                          extensions. If not specified, the Vertex AI Reasoning Engine service
+                          Agent in the project will be used.
+                        type: string
+                      serviceAccountRef:
+                        description: Reference to a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          name:
+                            description: Name of the referenced object.
+                            type: string
+                          policy:
+                            description: Policies for referencing.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        required:
+                        - name
+                        type: object
+                      serviceAccountSelector:
+                        description: Selector for a ServiceAccount in cloudplatform
+                          to populate serviceAccount.
+                        properties:
+                          matchControllerRef:
+                            description: |-
+                              MatchControllerRef ensures an object with the same controller reference
+                              as the selecting object is selected.
+                            type: boolean
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            description: MatchLabels ensures an object with matching
+                              labels is selected.
+                            type: object
+                          policy:
+                            description: Policies for selection.
+                            properties:
+                              resolution:
+                                default: Required
+                                description: |-
+                                  Resolution specifies whether resolution of this reference is required.
+                                  The default is 'Required', which means the reconcile will fail if the
+                                  reference cannot be resolved. 'Optional' means this reference will be
+                                  a no-op if it cannot be resolved.
+                                enum:
+                                - Required
+                                - Optional
+                                type: string
+                              resolve:
+                                description: |-
+                                  Resolve specifies when this reference should be resolved. The default
+                                  is 'IfNotPresent', which will attempt to resolve the reference only when
+                                  the corresponding field is not present. Use 'Always' to resolve the
+                                  reference on every reconcile.
+                                enum:
+                                - Always
+                                - IfNotPresent
+                                type: string
+                            type: object
+                        type: object
+                      sourceCodeSpec:
+                        description: |-
+                          Specification for deploying from source code.
+                          Structure is documented below.
+                        properties:
+                          developerConnectSource:
+                            description: |-
+                              Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
+                              Structure is documented below.
+                            properties:
+                              config:
+                                description: |-
+                                  The Developer Connect configuration that defines the specific repository, revision, and directory to use as the source code root.
+                                  Structure is documented below.
+                                properties:
+                                  dir:
+                                    description: Directory, relative to the source
+                                      root, in which to run the build.
+                                    type: string
+                                  gitRepositoryLink:
+                                    description: The Developer Connect Git repository
+                                      link, formatted as projects//locations//connections//gitRepositoryLink/.
+                                    type: string
+                                  revision:
+                                    description: The revision to fetch from the Git
+                                      repository such as a branch, a tag, a commit
+                                      SHA, or any Git ref.
+                                    type: string
+                                type: object
+                            type: object
+                          imageSpec:
+                            description: |-
+                              Configuration for building an image with custom config file.
+                              Structure is documented below.
+                            properties:
+                              buildArgs:
+                                additionalProperties:
+                                  type: string
+                                description: Build arguments to be used. They will
+                                  be passed through --build-arg flags.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          inlineSource:
+                            description: |-
+                              Source code is provided directly in the request.
+                              Structure is documented below.
+                            properties:
+                              sourceArchive:
+                                description: |-
+                                  Required. Input only.
+                                  The application source code archive, provided as a compressed
+                                  tarball (.tar.gz) file. A base64-encoded string.
+                                type: string
+                            type: object
+                          pythonSpec:
+                            description: |-
+                              Specification for running a Python application from source.
+                              Structure is documented below.
+                            properties:
+                              entrypointModule:
+                                description: |-
+                                  Optional. The Python module to load as the entrypoint,
+                                  specified as a fully qualified module name. For example:
+                                  path.to.agent. If not specified, defaults to "agent".
+                                  The project root will be added to Python sys.path, allowing
+                                  imports to be specified relative to the root.
+                                type: string
+                              entrypointObject:
+                                description: |-
+                                  Optional. The name of the callable object within the
+                                  entrypointModule to use as the application If not specified,
+                                  defaults to "root_agent".
+                                type: string
+                              requirementsFile:
+                                description: |-
+                                  Optional. The path to the requirements file, relative to the
+                                  source root. If not specified, defaults to "requirements.txt".
+                                type: string
+                              version:
+                                description: |-
+                                  The Cloud Secret Manager secret version. Can be 'latest'
+                                  for the latest version, an integer for a specific
+                                  version, or a version alias.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+            - message: spec.forProvider.region is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.region)
+                || (has(self.initProvider) && has(self.initProvider.region))'
+          status:
+            description: ReasoningEngineStatus defines the observed state of ReasoningEngine.
+            properties:
+              atProvider:
+                properties:
+                  createTime:
+                    description: |-
+                      The timestamp of when the Index was created in RFC3339 UTC "Zulu" format,
+                      with nanosecond resolution and up to nine fractional digits.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Optional. The deletion policy for the reasoning engine.
+                      Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
+                    type: string
+                  description:
+                    description: The description of the ReasoningEngine.
+                    type: string
+                  displayName:
+                    description: The display name of the ReasoningEngine.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  encryptionSpec:
+                    description: |-
+                      Optional. Customer-managed encryption key spec for a ReasoningEngine.
+                      If set, this ReasoningEngine and all sub-resources of this ReasoningEngine
+                      will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: |-
+                          Required. The Cloud KMS resource identifier of the customer managed
+                          encryption key used to protect a resource. Has the form:
+                          projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute resource
+                          is created.
+                        type: string
+                    type: object
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/reasoningEngines/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this ReasoningEngine. You can use these to
+                      organize and group your ReasoningEngines.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  name:
+                    description: |-
+                      The generated name of the ReasoningEngine, in the format
+                      projects/{project}/locations/{location}/reasoningEngines/{reasoningEngine}
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region of the reasoning engine. eg us-central1
+                    type: string
+                  spec:
+                    description: |-
+                      Optional. Configurations of the ReasoningEngine.
+                      Structure is documented below.
+                    properties:
+                      agentFramework:
+                        description: Optional. The OSS agent framework used to develop
+                          the agent.
+                        type: string
+                      classMethods:
+                        description: |-
+                          Optional. Declarations for object class methods in OpenAPI
+                          specification format.
+                        type: string
+                      containerSpec:
+                        description: |-
+                          Deploy from a container image with a defined entrypoint and commands.
+                          Structure is documented below.
+                        properties:
+                          imageUri:
+                            description: |-
+                              The Artifact Registry Docker image URI (e.g.,
+                              us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+                              container image that is to be run on each worker replica.
+                            type: string
+                        type: object
+                      deploymentSpec:
+                        description: |-
+                          Optional. The specification of a Reasoning Engine deployment.
+                          Structure is documented below.
+                        properties:
+                          containerConcurrency:
+                            description: |-
+                              Optional. Concurrency for each container and agent server.
+                              Recommended value: 2 * cpu + 1. Defaults to 9.
+                            type: number
+                          env:
+                            description: |-
+                              Optional. Environment variables to be set with the Reasoning
+                              Engine deployment.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The name of the environment variable. Must be a valid C
+                                    identifier.
+                                  type: string
+                                value:
+                                  description: |-
+                                    Variables that reference a $(VAR_NAME) are expanded using
+                                    the previous defined environment variables in the container
+                                    and any service environment variables. If a variable cannot
+                                    be resolved, the reference in the input string will be
+                                    unchanged. The $(VAR_NAME) syntax can be escaped with a
+                                    double $$, ie: $$(VAR_NAME). Escaped references will never
+                                    be expanded, regardless of whether the variable exists
+                                    or not.
+                                  type: string
+                              type: object
+                            type: array
+                          maxInstances:
+                            description: |-
+                              Optional. The maximum number of application instances that can be
+                              launched to handle increased traffic. Defaults to 100.
+                              Range: [1, 1000]. If VPC-SC or PSC-I is enabled, the acceptable
+                              range is [1, 100].
+                            type: number
+                          minInstances:
+                            description: |-
+                              Optional. The minimum number of application instances that will be
+                              kept running at all times. Defaults to 1. Range: [0, 10].
+                            type: number
+                          pscInterfaceConfig:
+                            description: |-
+                              Optional. Configuration for PSC-Interface.
+                              Structure is documented below.
+                            properties:
+                              dnsPeeringConfigs:
+                                description: |-
+                                  Optional. DNS peering configurations.
+                                  When specified, Vertex AI will attempt to configure DNS
+                                  peering zones in the tenant project VPC to resolve the
+                                  specified domains using the target network's Cloud DNS.
+                                  The user must grant the dns.peer role to the Vertex AI
+                                  service Agent on the target project.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    domain:
+                                      description: |-
+                                        Required. The DNS name suffix of the zone being peered
+                                        to, e.g., "my-internal-domain.corp.".
+                                        Must end with a dot.
+                                      type: string
+                                    targetNetwork:
+                                      description: |-
+                                        Required. The VPC network name in the targetProject
+                                        where the DNS zone specified by 'domain' is visible.
+                                      type: string
+                                    targetProject:
+                                      description: |-
+                                        Required. The project id hosting the Cloud DNS managed
+                                        zone that contains the 'domain'.
+                                        The Vertex AI service Agent requires the dns.peer role
+                                        on this project.
+                                      type: string
+                                  type: object
+                                type: array
+                              networkAttachment:
+                                description: |-
+                                  Optional. The name of the Compute Engine network attachment
+                                  to attach to the resource within the region and user project.
+                                  To specify this field, you must have already created a network attachment.
+                                  This field is only used for resources using PSC-Interface.
+                                type: string
+                            type: object
+                          resourceLimits:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              Optional. Resource limits for each container.
+                              Only 'cpu' and 'memory' keys are supported.
+                              Defaults to {"cpu": "4", "memory": "4Gi"}.
+                              The only supported values for CPU are '1', '2', '4', '6' and '8'.
+                              For more information, go to
+                              https://cloud.google.com/run/docs/configuring/cpu.
+                              The only supported values for memory are '1Gi', '2Gi', ... '32 Gi'.
+                              For more information, go to
+                              https://cloud.google.com/run/docs/configuring/memory-limits.
+                            type: object
+                            x-kubernetes-map-type: granular
+                          secretEnv:
+                            description: |-
+                              Optional. Environment variables where the value is a secret in
+                              Cloud Secret Manager. To use this feature, add 'Secret Manager
+                              Secret Accessor' role (roles/secretmanager.secretAccessor) to AI
+                              Platform Reasoning Engine service Agent.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The name of the environment variable. Must be a valid C
+                                    identifier.
+                                  type: string
+                                secretRef:
+                                  description: |-
+                                    Reference to a secret stored in the Cloud Secret Manager
+                                    that will provide the value for this environment variable.
+                                    Structure is documented below.
+                                  properties:
+                                    secret:
+                                      description: |-
+                                        The name of the secret in Cloud Secret Manager.
+                                        Format: {secret_name}.
+                                      type: string
+                                    version:
+                                      description: |-
+                                        The Cloud Secret Manager secret version. Can be 'latest'
+                                        for the latest version, an integer for a specific
+                                        version, or a version alias.
+                                      type: string
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      effectiveIdentity:
+                        description: |-
+                          (Output)
+                          The identity to use for the Reasoning Engine.
+                        type: string
+                      identityType:
+                        description: |-
+                          Optional. The identity type to use for the Reasoning Engine.
+                          If not specified, the service_account field will be used if set,
+                          otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+                          Possible values:
+                        type: string
+                      packageSpec:
+                        description: |-
+                          Optional. User provided package spec of the ReasoningEngine.
+                          Ignored when users directly specify a deployment image through
+                          deploymentSpec.first_party_image_override, but keeping the
+                          field_behavior to avoid introducing breaking changes.
+                          Structure is documented below.
+                        properties:
+                          dependencyFilesGcsUri:
+                            description: |-
+                              Optional. The Cloud Storage URI of the dependency files in tar.gz
+                              format.
+                            type: string
+                          pickleObjectGcsUri:
+                            description: Optional. The Cloud Storage URI of the pickled
+                              python object.
+                            type: string
+                          pythonVersion:
+                            description: |-
+                              Optional. The Python version. Currently support 3.8, 3.9, 3.10,
+                              3.11, 3.12, 3.13. If not specified, default value is 3.10.
+                            type: string
+                          requirementsGcsUri:
+                            description: Optional. The Cloud Storage URI of the requirements.txtfile
+                            type: string
+                        type: object
+                      serviceAccount:
+                        description: |-
+                          Optional. The service account that the Reasoning Engine artifact runs
+                          as. It should have "roles/storage.objectViewer" for reading the user
+                          project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+                          extensions. If not specified, the Vertex AI Reasoning Engine service
+                          Agent in the project will be used.
+                        type: string
+                      sourceCodeSpec:
+                        description: |-
+                          Specification for deploying from source code.
+                          Structure is documented below.
+                        properties:
+                          developerConnectSource:
+                            description: |-
+                              Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
+                              Structure is documented below.
+                            properties:
+                              config:
+                                description: |-
+                                  The Developer Connect configuration that defines the specific repository, revision, and directory to use as the source code root.
+                                  Structure is documented below.
+                                properties:
+                                  dir:
+                                    description: Directory, relative to the source
+                                      root, in which to run the build.
+                                    type: string
+                                  gitRepositoryLink:
+                                    description: The Developer Connect Git repository
+                                      link, formatted as projects//locations//connections//gitRepositoryLink/.
+                                    type: string
+                                  revision:
+                                    description: The revision to fetch from the Git
+                                      repository such as a branch, a tag, a commit
+                                      SHA, or any Git ref.
+                                    type: string
+                                type: object
+                            type: object
+                          imageSpec:
+                            description: |-
+                              Configuration for building an image with custom config file.
+                              Structure is documented below.
+                            properties:
+                              buildArgs:
+                                additionalProperties:
+                                  type: string
+                                description: Build arguments to be used. They will
+                                  be passed through --build-arg flags.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
+                          inlineSource:
+                            description: |-
+                              Source code is provided directly in the request.
+                              Structure is documented below.
+                            properties:
+                              sourceArchive:
+                                description: |-
+                                  Required. Input only.
+                                  The application source code archive, provided as a compressed
+                                  tarball (.tar.gz) file. A base64-encoded string.
+                                type: string
+                            type: object
+                          pythonSpec:
+                            description: |-
+                              Specification for running a Python application from source.
+                              Structure is documented below.
+                            properties:
+                              entrypointModule:
+                                description: |-
+                                  Optional. The Python module to load as the entrypoint,
+                                  specified as a fully qualified module name. For example:
+                                  path.to.agent. If not specified, defaults to "agent".
+                                  The project root will be added to Python sys.path, allowing
+                                  imports to be specified relative to the root.
+                                type: string
+                              entrypointObject:
+                                description: |-
+                                  Optional. The name of the callable object within the
+                                  entrypointModule to use as the application If not specified,
+                                  defaults to "root_agent".
+                                type: string
+                              requirementsFile:
+                                description: |-
+                                  Optional. The path to the requirements file, relative to the
+                                  source root. If not specified, defaults to "requirements.txt".
+                                type: string
+                              version:
+                                description: |-
+                                  The Cloud Secret Manager secret version. Can be 'latest'
+                                  for the latest version, an integer for a specific
+                                  version, or a version alias.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  updateTime:
+                    description: |-
+                      The timestamp of when the Index was last updated in RFC3339 UTC "Zulu"
+                      format, with nanosecond resolution and up to nine fractional digits.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

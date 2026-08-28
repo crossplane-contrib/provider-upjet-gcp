@@ -125,6 +125,7 @@ import (
 	v1beta1tags "github.com/upbound/provider-gcp/v3/apis/cluster/tags/v1beta1"
 	v1alpha1 "github.com/upbound/provider-gcp/v3/apis/cluster/v1alpha1"
 	v1beta1cluster "github.com/upbound/provider-gcp/v3/apis/cluster/v1beta1"
+	v1beta1vertexai "github.com/upbound/provider-gcp/v3/apis/cluster/vertexai/v1beta1"
 	v1beta2vertexai "github.com/upbound/provider-gcp/v3/apis/cluster/vertexai/v1beta2"
 	v1beta2vpcaccess "github.com/upbound/provider-gcp/v3/apis/cluster/vpcaccess/v1beta2"
 	v1beta1workflows "github.com/upbound/provider-gcp/v3/apis/cluster/workflows/v1beta1"
@@ -248,6 +249,7 @@ func init() {
 		v1beta1tags.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1beta1cluster.SchemeBuilder.AddToScheme,
+		v1beta1vertexai.SchemeBuilder.AddToScheme,
 		v1beta2vertexai.SchemeBuilder.AddToScheme,
 		v1beta2vpcaccess.SchemeBuilder.AddToScheme,
 		v1beta1workflows.SchemeBuilder.AddToScheme,

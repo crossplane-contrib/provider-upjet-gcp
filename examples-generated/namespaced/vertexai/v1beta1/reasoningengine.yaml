@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: ReasoningEngine
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/reasoningengine
+  labels:
+    testing.upbound.io/example-name: reasoning_engine
+  name: reasoning-engine
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A basic reasoning engine
+    displayName: reasoning-engine
+    region: us-central1
+    spec:
+      sourceCodeSpec:
+        inlineSource:
+          sourceArchive: ${filebase64("./test-fixtures/source.tar.gz")}
+        pythonSpec:
+          entrypointModule: simple_agent
+          entrypointObject: fixed_name_generator
+          version: "3.14"

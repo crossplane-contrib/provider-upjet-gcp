@@ -7,15 +7,6 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Dataset) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Featurestore) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *FeaturestoreEntitytype) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ReasoningEngine) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -26,6 +17,3 @@ func (tr *ReasoningEngineIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ReasoningEngineIAMPolicy) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Tensorboard) Hub() {}
