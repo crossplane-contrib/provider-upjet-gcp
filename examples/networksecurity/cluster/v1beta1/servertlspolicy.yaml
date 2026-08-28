@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networksecurity.gcp.upbound.io/v1beta1
+kind: ServerTLSPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networksecurity/v1beta1/servertlspolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    allowOpen: false
+    description: my description
+    labels:
+      foo: bar
+    location: global
+    mtlsPolicy:
+      clientValidationCa:
+      - grpcEndpoint:
+          targetUri: unix:mypath
+    serverCertificate:
+      certificateProviderInstance:
+        pluginInstance: google_cloud_private_spiffe

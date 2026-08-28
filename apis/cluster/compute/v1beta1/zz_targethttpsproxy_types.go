@@ -90,7 +90,17 @@ type TargetHTTPSProxyInitParameters struct {
 	// deleting or recreating a referenced ServerTlsPolicy resource, you will
 	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
 	// within the ServerTlsPolicy resource to avoid this.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1.ServerTLSPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
+	// Reference to a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicyRef *v2.Reference `json:"serverTlsPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicySelector *v2.Selector `json:"serverTlsPolicySelector,omitempty" tf:"-"`
 
 	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
 	// Early Data allows a TLS resumption handshake to include the initial application payload
@@ -305,8 +315,18 @@ type TargetHTTPSProxyParameters struct {
 	// deleting or recreating a referenced ServerTlsPolicy resource, you will
 	// receive a resourceInUseByAnotherResource error. Use lifecycle.create_before_destroy
 	// within the ServerTlsPolicy resource to avoid this.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1.ServerTLSPolicy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServerTLSPolicy *string `json:"serverTlsPolicy,omitempty" tf:"server_tls_policy,omitempty"`
+
+	// Reference to a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicyRef *v2.Reference `json:"serverTlsPolicyRef,omitempty" tf:"-"`
+
+	// Selector for a ServerTLSPolicy in networksecurity to populate serverTlsPolicy.
+	// +kubebuilder:validation:Optional
+	ServerTLSPolicySelector *v2.Selector `json:"serverTlsPolicySelector,omitempty" tf:"-"`
 
 	// Specifies whether TLS 1.3 0-RTT Data (“Early Data”) should be accepted for this service.
 	// Early Data allows a TLS resumption handshake to include the initial application payload

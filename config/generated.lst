@@ -320,6 +320,7 @@
   "google_network_security_dns_threat_detector",
   "google_network_security_gateway_security_policy",
   "google_network_security_gateway_security_policy_rule",
+  "google_network_security_server_tls_policy",
   "google_network_security_tls_inspection_policy",
   "google_network_security_url_lists",
   "google_network_services_gateway",

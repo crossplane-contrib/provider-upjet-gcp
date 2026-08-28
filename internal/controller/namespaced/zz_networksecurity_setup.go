@@ -13,6 +13,7 @@ import (
 	dnsthreatdetector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/dnsthreatdetector"
 	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/gatewaysecuritypolicy"
 	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/gatewaysecuritypolicyrule"
+	servertlspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/servertlspolicy"
 	tlsinspectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/tlsinspectionpolicy"
 	urllists "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/urllists"
 )
@@ -25,6 +26,7 @@ func Setup_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 		dnsthreatdetector.Setup,
 		gatewaysecuritypolicy.Setup,
 		gatewaysecuritypolicyrule.Setup,
+		servertlspolicy.Setup,
 		tlsinspectionpolicy.Setup,
 		urllists.Setup,
 	} {
@@ -43,6 +45,7 @@ func SetupGated_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 		dnsthreatdetector.SetupGated,
 		gatewaysecuritypolicy.SetupGated,
 		gatewaysecuritypolicyrule.SetupGated,
+		servertlspolicy.SetupGated,
 		tlsinspectionpolicy.SetupGated,
 		urllists.SetupGated,
 	} {
@@ -60,6 +63,7 @@ func SetupWebhookWithManager_networksecurity(mgr ctrl.Manager) error {
 		dnsthreatdetector.SetupWebhookWithManager,
 		gatewaysecuritypolicy.SetupWebhookWithManager,
 		gatewaysecuritypolicyrule.SetupWebhookWithManager,
+		servertlspolicy.SetupWebhookWithManager,
 		tlsinspectionpolicy.SetupWebhookWithManager,
 		urllists.SetupWebhookWithManager,
 	} {

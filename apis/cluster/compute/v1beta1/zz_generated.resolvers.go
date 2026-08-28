@@ -1843,6 +1843,26 @@ func (mg *RegionTargetHTTPSProxy) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.ForProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
+		m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "ServerTLSPolicy", "ServerTLSPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServerTLSPolicy),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ServerTLSPolicyRef,
+			Selector:     mg.Spec.ForProvider.ServerTLSPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServerTLSPolicy")
+	}
+	mg.Spec.ForProvider.ServerTLSPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServerTLSPolicyRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionURLMap", "RegionURLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -1882,6 +1902,26 @@ func (mg *RegionTargetHTTPSProxy) ResolveReferences(ctx context.Context, c clien
 	}
 	mg.Spec.InitProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
+	{
+		m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "ServerTLSPolicy", "ServerTLSPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServerTLSPolicy),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ServerTLSPolicyRef,
+			Selector:     mg.Spec.InitProvider.ServerTLSPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServerTLSPolicy")
+	}
+	mg.Spec.InitProvider.ServerTLSPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServerTLSPolicyRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionURLMap", "RegionURLMapList")
 		if err != nil {
@@ -2597,6 +2637,26 @@ func (mg *TargetHTTPSProxy) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
 	{
+		m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "ServerTLSPolicy", "ServerTLSPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServerTLSPolicy),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ServerTLSPolicyRef,
+			Selector:     mg.Spec.ForProvider.ServerTLSPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServerTLSPolicy")
+	}
+	mg.Spec.ForProvider.ServerTLSPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServerTLSPolicyRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -2636,6 +2696,26 @@ func (mg *TargetHTTPSProxy) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.InitProvider.SSLCertificates = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.SSLCertificatesRefs = mrsp.ResolvedReferences
+	{
+		m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "ServerTLSPolicy", "ServerTLSPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServerTLSPolicy),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ServerTLSPolicyRef,
+			Selector:     mg.Spec.InitProvider.ServerTLSPolicySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServerTLSPolicy")
+	}
+	mg.Spec.InitProvider.ServerTLSPolicy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServerTLSPolicyRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "URLMap", "URLMapList")
 		if err != nil {
