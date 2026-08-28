@@ -7,13 +7,4 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *Backup) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Cluster) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Instance) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *User) Hub() {}

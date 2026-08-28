@@ -24,4 +24,24 @@ func Configure(p *config.Provider) {
 			Schema["initial_user"].Elem.(*schema.Resource).
 			Schema, "password_wo_version")
 	})
+
+	p.AddResourceConfigurator("google_alloydb_user", func(r *config.Resource) {
+		// password_wo/password_wo_version are Terraform write-only
+		// (ephemeral) fields with no persisted state; upjet cannot
+		// represent them.
+		delete(r.TerraformResource.Schema, "password_wo")
+		delete(r.TerraformResource.Schema, "password_wo_version")
+
+		r.References["cluster"] = config.Reference{
+			TerraformName: "google_alloydb_cluster",
+		}
+
+		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]any) (map[string][]byte, error) {
+			conn := map[string][]byte{}
+			if a, ok := attr["password"].(string); ok {
+				conn["password"] = []byte(a)
+			}
+			return conn, nil
+		}
+	})
 }

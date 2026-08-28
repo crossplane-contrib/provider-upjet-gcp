@@ -12,6 +12,7 @@ import (
 	backup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/backup"
 	cluster "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/cluster"
 	instance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/instance"
+	user "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/user"
 )
 
 // Setup_alloydb creates all controllers with the supplied logger and adds them to
@@ -21,6 +22,7 @@ func Setup_alloydb(mgr ctrl.Manager, o controller.Options) error {
 		backup.Setup,
 		cluster.Setup,
 		instance.Setup,
+		user.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -36,6 +38,7 @@ func SetupGated_alloydb(mgr ctrl.Manager, o controller.Options) error {
 		backup.SetupGated,
 		cluster.SetupGated,
 		instance.SetupGated,
+		user.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -50,6 +53,7 @@ func SetupWebhookWithManager_alloydb(mgr ctrl.Manager) error {
 		backup.SetupWebhookWithManager,
 		cluster.SetupWebhookWithManager,
 		instance.SetupWebhookWithManager,
+		user.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {
 			return err

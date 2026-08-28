@@ -13,6 +13,7 @@ import (
 	v1beta1 "github.com/upbound/provider-gcp/v3/apis/cluster/accesscontextmanager/v1beta1"
 	v1beta2 "github.com/upbound/provider-gcp/v3/apis/cluster/accesscontextmanager/v1beta2"
 	v1beta1activedirectory "github.com/upbound/provider-gcp/v3/apis/cluster/activedirectory/v1beta1"
+	v1beta1alloydb "github.com/upbound/provider-gcp/v3/apis/cluster/alloydb/v1beta1"
 	v1beta2alloydb "github.com/upbound/provider-gcp/v3/apis/cluster/alloydb/v1beta2"
 	v1beta1apigee "github.com/upbound/provider-gcp/v3/apis/cluster/apigee/v1beta1"
 	v1beta2apigee "github.com/upbound/provider-gcp/v3/apis/cluster/apigee/v1beta2"
@@ -137,6 +138,7 @@ func init() {
 		v1beta1.SchemeBuilder.AddToScheme,
 		v1beta2.SchemeBuilder.AddToScheme,
 		v1beta1activedirectory.SchemeBuilder.AddToScheme,
+		v1beta1alloydb.SchemeBuilder.AddToScheme,
 		v1beta2alloydb.SchemeBuilder.AddToScheme,
 		v1beta1apigee.SchemeBuilder.AddToScheme,
 		v1beta2apigee.SchemeBuilder.AddToScheme,
