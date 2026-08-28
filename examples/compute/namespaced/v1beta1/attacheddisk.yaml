@@ -55,5 +55,5 @@ spec:
     networkInterface:
       - network: default
     bootDisk:
-      - initializeParams:
-          - image: debian-cloud/debian-11
+      initializeParams:
+        image: debian-cloud/debian-11

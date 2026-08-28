@@ -56,8 +56,7 @@ metadata:
 spec:
   forProvider:
     replication:
-    - auto:
-      - {}
+      auto: {}
 
 ---
 

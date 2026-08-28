@@ -51,7 +51,7 @@ metadata:
 spec:
   forProvider:
     httpHealthCheck:
-      - port: 80
+      port: 80
     region: us-central1
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1

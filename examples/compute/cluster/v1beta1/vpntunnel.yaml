@@ -134,5 +134,4 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: vpn-tunnel
-      region: us-central1
     region: us-central1

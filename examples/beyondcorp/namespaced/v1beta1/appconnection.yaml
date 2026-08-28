@@ -15,8 +15,8 @@ metadata:
 spec:
   forProvider:
     applicationEndpoint:
-      - host: foo-host
-        port: 8080
+      host: foo-host
+      port: 8080
     connectorsRefs:
       - name: app_connector
     gateway:
@@ -37,10 +37,10 @@ metadata:
 spec:
   forProvider:
     principalInfo:
-      - serviceAccount:
-          - emailSelector:
-              matchLabels:
-                testing.upbound.io/example-name: service_account
+      serviceAccount:
+        emailSelector:
+          matchLabels:
+            testing.upbound.io/example-name: service_account
     region: us-central1
 ---
 apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1

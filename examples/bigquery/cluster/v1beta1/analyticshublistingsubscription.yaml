@@ -61,9 +61,9 @@ metadata:
 spec:
   forProvider:
     bigqueryDataset:
-      - datasetSelector:
-          matchLabels:
-            testing.upbound.io/example-name: subscription
+      datasetSelector:
+        matchLabels:
+          testing.upbound.io/example-name: subscription
     dataExchangeIdSelector:
       matchLabels:
         testing.upbound.io/example-name: subscription

@@ -36,8 +36,8 @@ metadata:
 spec:
   forProvider:
     fileShares:
-      - capacityGb: 2560
-        name: share2
+      capacityGb: 2560
+      name: share2
     location: us-central1-b
     networks:
       - connectMode: DIRECT_PEERING
