@@ -62,6 +62,51 @@ func TestDropEmptyKubeletConfigDiff(t *testing.T) {
 	}
 }
 
+func TestDropEmptyOptionalComputedBlockDiffs(t *testing.T) {
+	cases := map[string]struct {
+		attrs   map[string]*terraform.ResourceAttrDiff
+		dropped []string
+		kept    []string
+	}{
+		"DropsEmptyNodeDrainConfig": {
+			attrs:   map[string]*terraform.ResourceAttrDiff{"node_drain_config.#": {Old: "", New: "", NewComputed: true}},
+			dropped: []string{"node_drain_config.#"},
+		},
+		"DropsEmptyPlacementPolicyAutoscalingQueuedProvisioning": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"placement_policy.#":    {Old: "", New: ""},
+				"autoscaling.#":         {Old: "", New: ""},
+				"queued_provisioning.#": {Old: "", New: ""},
+			},
+			dropped: []string{"placement_policy.#", "autoscaling.#", "queued_provisioning.#"},
+		},
+		"KeepsNonEmptyNodeDrainConfig": {
+			attrs: map[string]*terraform.ResourceAttrDiff{"node_drain_config.#": {Old: "", New: "1"}},
+			kept:  []string{"node_drain_config.#"},
+		},
+		"IgnoresUnrelatedKeys": {
+			attrs: map[string]*terraform.ResourceAttrDiff{"machine_type": {Old: "", New: ""}},
+			kept:  []string{"machine_type"},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diff := &terraform.InstanceDiff{Attributes: tc.attrs}
+			dropEmptyOptionalComputedBlockDiffs(diff)
+			for _, k := range tc.dropped {
+				if _, ok := diff.Attributes[k]; ok {
+					t.Errorf("expected key %q to be dropped, but it remained", k)
+				}
+			}
+			for _, k := range tc.kept {
+				if _, ok := diff.Attributes[k]; !ok {
+					t.Errorf("expected key %q to be kept, but it was dropped", k)
+				}
+			}
+		})
+	}
+}
+
 func TestClusterConnectionDetails(t *testing.T) {
 	caPEM := []byte("-----BEGIN CERTIFICATE-----\nprivate-cluster-ca\n-----END CERTIFICATE-----")
 
