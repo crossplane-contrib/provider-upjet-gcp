@@ -103,15 +103,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			if diff == nil || diff.Destroy {
 				return diff, nil
 			}
-			if ppDiff, ok := diff.Attributes["placement_policy.#"]; ok && ppDiff.Old == "" && ppDiff.New == "" {
-				delete(diff.Attributes, "placement_policy.#")
-			}
-			if asDiff, ok := diff.Attributes["autoscaling.#"]; ok && asDiff.Old == "" && asDiff.New == "" {
-				delete(diff.Attributes, "autoscaling.#")
-			}
-			if qpDiff, ok := diff.Attributes["queued_provisioning.#"]; ok && qpDiff.Old == "" && qpDiff.New == "" {
-				delete(diff.Attributes, "queued_provisioning.#")
-			}
+			dropEmptyOptionalComputedBlockDiffs(diff)
 			if incDiff, ok := diff.Attributes["initial_node_count"]; ok && incDiff.Old != "" {
 				// Changes to actual node count can alter the value TF calculates for initial_node_count, resulting in
 				// errors as initial_node_count cannot be updated. TF docs suggest using lifecycle ignore_changes for this
@@ -158,6 +150,27 @@ func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) b
 	oldEmpty := ad.Old == "" || ad.Old == "0"
 	newEmpty := ad.New == "" || ad.New == "0"
 	return oldEmpty && newEmpty
+}
+
+// dropEmptyOptionalComputedBlockDiffs removes phantom empty->empty diffs for
+// Optional+Computed nested blocks on google_container_node_pool. When such a
+// block is never set by the caller, the provider surfaces a permanent no-op
+// diff that drives a reconcile hot-loop (the resulting update issues no GKE
+// operation). node_drain_config was added in TF-google 7.x and exhibits this.
+func dropEmptyOptionalComputedBlockDiffs(diff *terraform.InstanceDiff) {
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+	for _, key := range []string{
+		"placement_policy.#",
+		"autoscaling.#",
+		"queued_provisioning.#",
+		"node_drain_config.#",
+	} {
+		if ad, ok := diff.Attributes[key]; ok && ad.Old == "" && ad.New == "" {
+			delete(diff.Attributes, key)
+		}
+	}
 }
 
 // clusterConnectionDetails builds the kubeconfig published in the connection
