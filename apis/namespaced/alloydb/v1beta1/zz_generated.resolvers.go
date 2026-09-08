@@ -345,7 +345,7 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,

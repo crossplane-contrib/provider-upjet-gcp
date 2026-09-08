@@ -22,6 +22,9 @@ type UserInitParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
+	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
+	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The type of this user.
 	// Possible values are: ALLOYDB_BUILT_IN, ALLOYDB_IAM_USER.
 	UserType *string `json:"userType,omitempty" tf:"user_type,omitempty"`
@@ -46,6 +49,9 @@ type UserObservation struct {
 	// Name of the resource in the form of projects/{project}/locations/{location}/clusters/{cluster}/users/{user}.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
+	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The type of this user.
 	// Possible values are: ALLOYDB_BUILT_IN, ALLOYDB_IAM_USER.
 	UserType *string `json:"userType,omitempty" tf:"user_type,omitempty"`
@@ -56,6 +62,7 @@ type UserParameters struct {
 	// Identifies the alloydb cluster. Must be in the format
 	// 'projects/{project}/locations/{location}/clusters/{cluster_id}'
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/alloydb/v1beta1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
@@ -75,6 +82,10 @@ type UserParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// Triggers update of password_wo write-only. Increment this value when an update to password_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	PasswordWoVersion *string `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// The type of this user.
 	// Possible values are: ALLOYDB_BUILT_IN, ALLOYDB_IAM_USER.

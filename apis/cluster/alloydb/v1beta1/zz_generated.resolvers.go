@@ -10,6 +10,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -31,7 +32,7 @@ func (mg *User) ResolveReferences( // ResolveReferences of this User.
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Cluster),
-			Extract:      reference.ExternalName(),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ClusterRef,
 			Selector:     mg.Spec.ForProvider.ClusterSelector,

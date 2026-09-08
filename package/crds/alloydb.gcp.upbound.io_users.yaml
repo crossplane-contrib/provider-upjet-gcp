@@ -176,6 +176,11 @@ spec:
                     - name
                     - namespace
                     type: object
+                  passwordWoVersion:
+                    description: Triggers update of password_wo write-only. Increment
+                      this value when an update to password_wo is needed. For more
+                      info see updating write-only arguments
+                    type: string
                   userType:
                     description: |-
                       The type of this user.
@@ -219,6 +224,11 @@ spec:
                     - name
                     - namespace
                     type: object
+                  passwordWoVersion:
+                    description: Triggers update of password_wo write-only. Increment
+                      this value when an update to password_wo is needed. For more
+                      info see updating write-only arguments
+                    type: string
                   userType:
                     description: |-
                       The type of this user.
@@ -341,6 +351,11 @@ spec:
                     type: string
                   name:
                     description: Name of the resource in the form of projects/{project}/locations/{location}/clusters/{cluster}/users/{user}.
+                    type: string
+                  passwordWoVersion:
+                    description: Triggers update of password_wo write-only. Increment
+                      this value when an update to password_wo is needed. For more
+                      info see updating write-only arguments
                     type: string
                   userType:
                     description: |-
