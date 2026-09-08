@@ -13,6 +13,103 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
+func Test_suppressEnableComponentsOrderDiff(t *testing.T) {
+	type args struct {
+		diff *terraform.InstanceDiff
+	}
+	type want struct {
+		attributes map[string]*terraform.ResourceAttrDiff
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"nil_diff": {
+			args: args{diff: nil},
+			want: want{attributes: nil},
+		},
+		"no_enable_components_keys": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_count": {Old: "1", New: "2"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"node_count": {Old: "1", New: "2"},
+			}},
+		},
+		"pure_reorder_with_count_key": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"monitoring_config.0.enable_components.#": {Old: "2", New: "2"},
+					"monitoring_config.0.enable_components.0": {Old: "SYSTEM_COMPONENTS", New: "APISERVER"},
+					"monitoring_config.0.enable_components.1": {Old: "APISERVER", New: "SYSTEM_COMPONENTS"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{}},
+		},
+		"pure_reorder_without_count_key": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"monitoring_config.0.enable_components.0": {Old: "SYSTEM_COMPONENTS", New: "APISERVER"},
+					"monitoring_config.0.enable_components.1": {Old: "APISERVER", New: "SYSTEM_COMPONENTS"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{}},
+		},
+		"real_change_element_replaced": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"monitoring_config.0.enable_components.#": {Old: "2", New: "2"},
+					"monitoring_config.0.enable_components.0": {Old: "APISERVER", New: "WORKLOADS"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"monitoring_config.0.enable_components.#": {Old: "2", New: "2"},
+				"monitoring_config.0.enable_components.0": {Old: "APISERVER", New: "WORKLOADS"},
+			}},
+		},
+		"real_change_count_increased": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"monitoring_config.0.enable_components.#": {Old: "1", New: "2"},
+					"monitoring_config.0.enable_components.0": {Old: "SYSTEM_COMPONENTS", New: "SYSTEM_COMPONENTS"},
+					"monitoring_config.0.enable_components.1": {Old: "", New: "APISERVER"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"monitoring_config.0.enable_components.#": {Old: "1", New: "2"},
+				"monitoring_config.0.enable_components.0": {Old: "SYSTEM_COMPONENTS", New: "SYSTEM_COMPONENTS"},
+				"monitoring_config.0.enable_components.1": {Old: "", New: "APISERVER"},
+			}},
+		},
+		"unrelated_keys_preserved_on_reorder": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_count": {Old: "1", New: "2"},
+					"monitoring_config.0.enable_components.0": {Old: "SYSTEM_COMPONENTS", New: "APISERVER"},
+					"monitoring_config.0.enable_components.1": {Old: "APISERVER", New: "SYSTEM_COMPONENTS"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"node_count": {Old: "1", New: "2"},
+			}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			suppressEnableComponentsOrderDiff(tc.args.diff)
+			var gotAttrs map[string]*terraform.ResourceAttrDiff
+			if tc.args.diff != nil {
+				gotAttrs = tc.args.diff.Attributes
+			}
+			if diff := cmp.Diff(tc.want.attributes, gotAttrs); diff != "" {
+				t.Errorf("suppressEnableComponentsOrderDiff(...) attributes mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func TestDropEmptyKubeletConfigDiff(t *testing.T) {
 	cases := map[string]struct {
 		attrs   map[string]*terraform.ResourceAttrDiff

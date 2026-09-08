@@ -7,6 +7,8 @@ package container
 import (
 	"encoding/base64"
 	"net/url"
+	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -81,6 +83,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			delete(diff.Attributes, "autopilot_cluster_policy_config.#")
 			dropEmptyKubeletConfigDiff(diff)
+			suppressEnableComponentsOrderDiff(diff)
 			return diff, nil
 		}
 	})
@@ -158,6 +161,66 @@ func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) b
 	oldEmpty := ad.Old == "" || ad.Old == "0"
 	newEmpty := ad.New == "" || ad.New == "0"
 	return oldEmpty && newEmpty
+}
+
+// suppressEnableComponentsOrderDiff removes order-only diffs on
+// monitoring_config.0.enable_components. The GCP API may return components in
+// a different order than what was specified, which causes a perpetual diff
+// because the underlying TF provider uses TypeList (order-sensitive) for this
+// field. We suppress the diff when the sorted old and new element sets are
+// identical, indicating no real change.
+func suppressEnableComponentsOrderDiff(diff *terraform.InstanceDiff) {
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+
+	prefix := "monitoring_config.0.enable_components."
+	countKey := prefix + "#"
+
+	// Early exit: if the element count changed, it is a real diff.
+	if cd, ok := diff.Attributes[countKey]; ok && cd.Old != cd.New {
+		return
+	}
+
+	var oldVals, newVals []string
+	var indexedKeys []string
+	for key, ad := range diff.Attributes {
+		if !strings.HasPrefix(key, prefix) {
+			continue
+		}
+		suffix := strings.TrimPrefix(key, prefix)
+		if suffix == "#" {
+			continue
+		}
+		if _, err := strconv.Atoi(suffix); err != nil {
+			continue
+		}
+		indexedKeys = append(indexedKeys, key)
+		oldVals = append(oldVals, ad.Old)
+		newVals = append(newVals, ad.New)
+	}
+
+	if len(indexedKeys) == 0 {
+		return
+	}
+
+	sort.Strings(oldVals)
+	sort.Strings(newVals)
+
+	if len(oldVals) != len(newVals) {
+		return
+	}
+	for i := range oldVals {
+		if oldVals[i] != newVals[i] {
+			return
+		}
+	}
+
+	// Pure reorder — remove from diff so no update is triggered.
+	for _, key := range indexedKeys {
+		delete(diff.Attributes, key)
+	}
+	delete(diff.Attributes, countKey)
 }
 
 // clusterConnectionDetails builds the kubeconfig published in the connection
