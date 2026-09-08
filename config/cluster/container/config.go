@@ -169,7 +169,7 @@ func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) b
 // because the underlying TF provider uses TypeList (order-sensitive) for this
 // field. We suppress the diff when the sorted old and new element sets are
 // identical, indicating no real change.
-func suppressEnableComponentsOrderDiff(diff *terraform.InstanceDiff) {
+func suppressEnableComponentsOrderDiff(diff *terraform.InstanceDiff) { //nolint:gocyclo // easier to follow as a unit
 	if diff == nil || diff.Attributes == nil {
 		return
 	}
