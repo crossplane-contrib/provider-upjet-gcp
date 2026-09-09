@@ -41,8 +41,14 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		// NOTE(@tnthornton) most of the connection details that were exported
 		// to the connection details secret are marked as non-sensitive for tf.
 		// We need to manually construct the secret details for those items.
+		// replica_names is Optional+Computed in the native provider, but the
+		// Cloud SQL API does not accept it on an instance patch: replicas are
+		// managed as their own resources referencing master_instance_name.
+		// Late-initializing it pins the replica set observed at the time and
+		// never refreshes it, so any later replica change leaves a diff that
+		// can never converge and the instance updates forever.
 		r.LateInitializer = config.LateInitializer{
-			IgnoredFields: []string{"maintenance_version"},
+			IgnoredFields: []string{"maintenance_version", "replica_names"},
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
 			conn := map[string][]byte{}
