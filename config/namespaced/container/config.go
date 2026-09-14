@@ -122,9 +122,35 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 				delete(diff.Attributes, "initial_node_count")
 			}
 			dropEmptyKubeletConfigDiff(diff)
+			suppressForcedShortLivedUpgradeDiff(diff)
 			return diff, nil
 		}
 	})
+}
+
+// suppressForcedShortLivedUpgradeDiff removes the perpetual no-op diff on
+// upgrade_settings for flex-start / QueuedProvisioning (DWS) node pools. GKE
+// forces strategy=SHORT_LIVED and max_surge=0 server-side on such pools, but
+// the underlying Terraform google provider schema for upgrade_settings.strategy
+// has Default:"SURGE" and a ValidateFunc that only accepts {"SURGE","BLUE_GREEN"}.
+// On every reconcile the spec-derived desired value becomes "SURGE" while the
+// observed value is "SHORT_LIVED", producing a diff that can never converge
+// (the value cannot be set to SHORT_LIVED, and it is not user-settable). We
+// suppress the strategy and max_surge diff entries only when the observed
+// (Old) strategy is SHORT_LIVED, i.e. GKE has forced it. Any real user change
+// (Old is SURGE or BLUE_GREEN) is left untouched.
+func suppressForcedShortLivedUpgradeDiff(diff *terraform.InstanceDiff) {
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+	sd, ok := diff.Attributes["upgrade_settings.0.strategy"]
+	if !ok || sd == nil || sd.Old != "SHORT_LIVED" {
+		return
+	}
+	delete(diff.Attributes, "upgrade_settings.0.strategy")
+	if msd, ok := diff.Attributes["upgrade_settings.0.max_surge"]; ok && msd != nil {
+		delete(diff.Attributes, "upgrade_settings.0.max_surge")
+	}
 }
 
 // dropEmptyKubeletConfigDiff removes empty node_config.*.kubelet_config block
