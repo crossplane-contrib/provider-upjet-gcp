@@ -9,20 +9,20 @@ metadata:
     meta.upbound.io/example-id: alloydb/v1beta1/user
     uptest.upbound.io/timeout: "3600"
   labels:
-    testing.upbound.io/example-name: alloydb-test
-  name: alloydb-test
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 spec:
   forProvider:
     clusterSelector:
       matchLabels:
-        testing.upbound.io/example-name: alloydb-test
+        testing.upbound.io/example-name: alloydbuserv1beta1ns
     userType: ALLOYDB_BUILT_IN
     databaseRoles:
     - alloydbsuperuser
     passwordSecretRef:
       key: password
-      name: alloydb-user-test
+      name: alloydbuserv1beta1ns
   writeConnectionSecretToRef:
     name: alloydb-user-connection-secret
 ---
@@ -31,15 +31,17 @@ kind: Instance
 metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/user
+    uptest.upbound.io/pre-delete-hook: ../testhooks/delete-user.sh
   labels:
-    testing.upbound.io/example-name: alloydb-test
-  name: alloydb-test
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 spec:
   forProvider:
+    availabilityType: ZONAL
     clusterSelector:
       matchLabels:
-        testing.upbound.io/example-name: alloydb-test
+        testing.upbound.io/example-name: alloydbuserv1beta1ns
     instanceType: PRIMARY
     machineConfig:
       cpuCount: 2
@@ -52,8 +54,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/user
   labels:
-    testing.upbound.io/example-name: alloydb-test
-  name: alloydb-user-test
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 ---
 apiVersion: alloydb.gcp.m.upbound.io/v1beta1
@@ -62,11 +64,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/user
   labels:
-    testing.upbound.io/example-name: alloydb-test
-  name: alloydb-test
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 spec:
   forProvider:
+    deletionProtection: false
     initialUser:
       passwordSecretRef:
         key: example-key
@@ -75,7 +78,7 @@ spec:
     networkConfig:
       networkSelector:
         matchLabels:
-          testing.upbound.io/example-name: google_compute_network
+          testing.upbound.io/example-name: alloydbuserv1beta1ns
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: GlobalAddress
@@ -83,15 +86,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/user
   labels:
-    testing.upbound.io/example-name: private_ip_alloc
-  name: private-ip-alloc-alloy
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 spec:
   forProvider:
     addressType: INTERNAL
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: alloydbuserv1beta1ns
     prefixLength: 16
     purpose: VPC_PEERING
 ---
@@ -101,8 +104,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/user
   labels:
-    testing.upbound.io/example-name: google_compute_network
-  name: alloydb-test-network
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 spec:
   forProvider: {}
@@ -113,14 +116,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alloydb/v1beta1/user
   labels:
-    testing.upbound.io/example-name: vpc_connection
-  name: vpc-connection
+    testing.upbound.io/example-name: alloydbuserv1beta1ns
+  name: alloydbuserv1beta1ns
   namespace: upbound-system
 spec:
   forProvider:
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+        testing.upbound.io/example-name: alloydbuserv1beta1ns
     reservedPeeringRangesRefs:
-      - name: private-ip-alloc-alloy
+      - name: alloydbuserv1beta1ns
     service: servicenetworking.googleapis.com
