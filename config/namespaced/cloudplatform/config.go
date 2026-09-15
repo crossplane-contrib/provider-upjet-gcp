@@ -6,6 +6,7 @@ package cloudplatform
 
 import (
 	"encoding/base64"
+	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -26,6 +27,23 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_project", func(r *config.Resource) {
 		r.TerraformResource.Schema["org_id"].Description =
 			"The numeric ID of the organization this project belongs to."
+		// The GCP API returns an ambiguous HTTP 403 when the caller does
+		// not have permission to access the project, which is
+		// indistinguishable from the project not existing. The upstream
+		// provider discards the underlying *googleapi.Error in this case,
+		// and the Terraform provider's HandleNotFoundError only handles
+		// 404, so the initial observe call fails instead of recognizing
+		// the resource needs to be created.
+		// See: https://github.com/crossplane-contrib/provider-upjet-gcp/issues/977
+		origRead := r.TerraformResource.Read                                              //nolint:staticcheck // upstream resource uses deprecated Read field
+		r.TerraformResource.Read = func(d *schema.ResourceData, meta interface{}) error { //nolint:staticcheck // wrapping upstream's deprecated Read field
+			err := origRead(d, meta)
+			if err != nil && strings.Contains(err.Error(), "or it may not exist") {
+				d.SetId("")
+				return nil
+			}
+			return err
+		}
 	})
 	p.AddResourceConfigurator("google_project_default_service_accounts", func(r *config.Resource) {
 		r.References["project"] = config.Reference{

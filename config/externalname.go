@@ -88,6 +88,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_alloydb_instance": config.TemplatedStringAsIdentifier("instance_id", "{{ .parameters.cluster }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/backups/{{backup_id}}
 	"google_alloydb_backup": config.TemplatedStringAsIdentifier("backup_id", "projects/{{ .setup.configuration.project }}/location/{{ .parameters.location }}/backups/{{ .external_name }}"),
+	// Imported by using the following format: {{cluster}}/users/{{user_id}}
+	"google_alloydb_user": config.TemplatedStringAsIdentifier("user_id", "{{ .parameters.cluster }}/users/{{ .external_name }}"),
 
 	// appengine
 	//

@@ -19,6 +19,7 @@ import (
 	backup "github.com/upbound/provider-gcp/v3/internal/controller/cluster/alloydb/backup"
 	cluster "github.com/upbound/provider-gcp/v3/internal/controller/cluster/alloydb/cluster"
 	instance "github.com/upbound/provider-gcp/v3/internal/controller/cluster/alloydb/instance"
+	user "github.com/upbound/provider-gcp/v3/internal/controller/cluster/alloydb/user"
 	addonsconfig "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/addonsconfig"
 	endpointattachment "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/endpointattachment"
 	envgroup "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/envgroup"
@@ -390,7 +391,7 @@ import (
 	databaseinstance "github.com/upbound/provider-gcp/v3/internal/controller/cluster/sql/databaseinstance"
 	sourcerepresentationinstance "github.com/upbound/provider-gcp/v3/internal/controller/cluster/sql/sourcerepresentationinstance"
 	sslcert "github.com/upbound/provider-gcp/v3/internal/controller/cluster/sql/sslcert"
-	user "github.com/upbound/provider-gcp/v3/internal/controller/cluster/sql/user"
+	usersql "github.com/upbound/provider-gcp/v3/internal/controller/cluster/sql/user"
 	bucket "github.com/upbound/provider-gcp/v3/internal/controller/cluster/storage/bucket"
 	bucketaccesscontrol "github.com/upbound/provider-gcp/v3/internal/controller/cluster/storage/bucketaccesscontrol"
 	bucketacl "github.com/upbound/provider-gcp/v3/internal/controller/cluster/storage/bucketacl"
@@ -437,6 +438,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		backup.Setup,
 		cluster.Setup,
 		instance.Setup,
+		user.Setup,
 		addonsconfig.Setup,
 		endpointattachment.Setup,
 		envgroup.Setup,
@@ -808,7 +810,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		databaseinstance.Setup,
 		sourcerepresentationinstance.Setup,
 		sslcert.Setup,
-		user.Setup,
+		usersql.Setup,
 		bucket.Setup,
 		bucketaccesscontrol.Setup,
 		bucketacl.Setup,
@@ -861,6 +863,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		backup.SetupGated,
 		cluster.SetupGated,
 		instance.SetupGated,
+		user.SetupGated,
 		addonsconfig.SetupGated,
 		endpointattachment.SetupGated,
 		envgroup.SetupGated,
@@ -1232,7 +1235,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		databaseinstance.SetupGated,
 		sourcerepresentationinstance.SetupGated,
 		sslcert.SetupGated,
-		user.SetupGated,
+		usersql.SetupGated,
 		bucket.SetupGated,
 		bucketaccesscontrol.SetupGated,
 		bucketacl.SetupGated,
@@ -1284,6 +1287,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		backup.SetupWebhookWithManager,
 		cluster.SetupWebhookWithManager,
 		instance.SetupWebhookWithManager,
+		user.SetupWebhookWithManager,
 		addonsconfig.SetupWebhookWithManager,
 		endpointattachment.SetupWebhookWithManager,
 		envgroup.SetupWebhookWithManager,
@@ -1655,7 +1659,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		databaseinstance.SetupWebhookWithManager,
 		sourcerepresentationinstance.SetupWebhookWithManager,
 		sslcert.SetupWebhookWithManager,
-		user.SetupWebhookWithManager,
+		usersql.SetupWebhookWithManager,
 		bucket.SetupWebhookWithManager,
 		bucketaccesscontrol.SetupWebhookWithManager,
 		bucketacl.SetupWebhookWithManager,
