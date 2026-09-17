@@ -159,6 +159,57 @@ func TestDropEmptyKubeletConfigDiff(t *testing.T) {
 	}
 }
 
+func TestSuppressForcedShortLivedUpgradeDiff(t *testing.T) {
+	cases := map[string]struct {
+		attrs   map[string]*terraform.ResourceAttrDiff
+		dropped []string // keys expected to be removed
+		kept    []string // keys expected to remain
+	}{
+		"DropsGKEForcedShortLived": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"upgrade_settings.0.strategy":  {Old: "SHORT_LIVED", New: "SURGE"},
+				"upgrade_settings.0.max_surge": {Old: "0", New: "1"},
+			},
+			dropped: []string{"upgrade_settings.0.strategy", "upgrade_settings.0.max_surge"},
+		},
+		"KeepsRealSurgeToBlueGreenChange": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"upgrade_settings.0.strategy": {Old: "SURGE", New: "BLUE_GREEN"},
+			},
+			kept: []string{"upgrade_settings.0.strategy"},
+		},
+		"KeepsBlueGreenToSurgeChange": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"upgrade_settings.0.strategy":  {Old: "BLUE_GREEN", New: "SURGE"},
+				"upgrade_settings.0.max_surge": {Old: "0", New: "1"},
+			},
+			kept: []string{"upgrade_settings.0.strategy", "upgrade_settings.0.max_surge"},
+		},
+		"NoStrategyDiffLeavesMaxSurgeUntouched": {
+			attrs: map[string]*terraform.ResourceAttrDiff{
+				"upgrade_settings.0.max_surge": {Old: "0", New: "1"},
+			},
+			kept: []string{"upgrade_settings.0.max_surge"},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			diff := &terraform.InstanceDiff{Attributes: tc.attrs}
+			suppressForcedShortLivedUpgradeDiff(diff)
+			for _, k := range tc.dropped {
+				if _, ok := diff.Attributes[k]; ok {
+					t.Errorf("expected key %q to be dropped, but it remained", k)
+				}
+			}
+			for _, k := range tc.kept {
+				if _, ok := diff.Attributes[k]; !ok {
+					t.Errorf("expected key %q to be kept, but it was dropped", k)
+				}
+			}
+		})
+	}
+}
+
 func TestClusterConnectionDetails(t *testing.T) {
 	caPEM := []byte("-----BEGIN CERTIFICATE-----\nprivate-cluster-ca\n-----END CERTIFICATE-----")
 
