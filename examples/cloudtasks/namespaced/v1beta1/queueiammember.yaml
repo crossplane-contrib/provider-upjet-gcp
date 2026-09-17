@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: cloudtasks.gcp.m.upbound.io/v1beta1
+kind: QueueIAMMember
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudtasks/v1beta1/queueiammember
+  labels:
+    testing.upbound.io/example-name: queue-iam-member
+  name: queue-iam-member
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    member: ${data.google_iam_member.member}
+    nameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: queue-iam-member
+    role: roles/cloudtasks.viewer
+
+---
+
+apiVersion: cloudtasks.gcp.m.upbound.io/v1beta1
+kind: Queue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudtasks/v1beta1/queueiammember
+  labels:
+    testing.upbound.io/example-name: queue-iam-member
+  name: queue-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1

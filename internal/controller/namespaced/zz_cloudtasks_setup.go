@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	queue "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudtasks/queue"
+	queueiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudtasks/queueiammember"
 )
 
 // Setup_cloudtasks creates all controllers with the supplied logger and adds them to
@@ -17,6 +18,7 @@ import (
 func Setup_cloudtasks(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		queue.Setup,
+		queueiammember.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +32,7 @@ func Setup_cloudtasks(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_cloudtasks(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		queue.SetupGated,
+		queueiammember.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -42,6 +45,7 @@ func SetupGated_cloudtasks(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_cloudtasks(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		queue.SetupWebhookWithManager,
+		queueiammember.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {
 			return err
