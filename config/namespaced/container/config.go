@@ -77,6 +77,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
 			Schema["state"].DiffSuppressFunc = DatabaseEncryptionSuppress
 
+		r.TerraformConfigurationInjector = injectEmptyKubeletConfig
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Empty() || diff.Destroy || diff.Attributes == nil {
 				return diff, nil
@@ -102,6 +103,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 
+		r.TerraformConfigurationInjector = injectEmptyKubeletConfig
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Destroy {
 				return diff, nil
@@ -127,17 +129,37 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 	})
 }
 
-// dropEmptyKubeletConfigDiff removes empty node_config.*.kubelet_config block
-// entries from the computed diff. The underlying Terraform google provider's
-// expandNodeConfig enters its kubelet branch whenever the "kubelet_config" key
-// is present in the diff (`if v, ok := nodeConfig["kubelet_config"]; ok`), then
-// dereferences the result of expandKubeletConfig. When the block is present but
-// empty, expandKubeletConfig returns nil and the subsequent raw-config sub-fix
-// dereferences it, causing a nil-pointer panic. This is reachable through
-// upjet-driven reconciliation where a node_config is present without a
-// kubelet_config. Removing the empty ".#" entry makes the "ok" check false, so
-// the provider skips the branch entirely. This changes nothing when a real
-// kubelet_config is set (its ".#" is non-zero and is left untouched).
+// injectEmptyKubeletConfig sets node_config.*.kubelet_config to an empty list
+// when it is not configured. upjet derives the Terraform raw config from these
+// parameters and leaves an unset nested block null, whereas Terraform decodes
+// it as an empty list. The underlying Terraform google provider's
+// expandNodeConfig calls LengthInt() on the raw kubelet_config without a null
+// check, so a node_config without a kubelet_config panics with "value is null"
+// on create.
+func injectEmptyKubeletConfig(_ map[string]any, tfMap map[string]any) error {
+	nodeConfigs, ok := tfMap["node_config"].([]any)
+	if !ok {
+		return nil
+	}
+	for _, nc := range nodeConfigs {
+		nodeConfig, ok := nc.(map[string]any)
+		if !ok {
+			continue
+		}
+		if nodeConfig["kubelet_config"] == nil {
+			nodeConfig["kubelet_config"] = []any{}
+		}
+	}
+	return nil
+}
+
+// dropEmptyKubeletConfigDiff removes the node_config.*.kubelet_config.# entry
+// from the computed diff when no kubelet_config is configured. The empty list
+// set by injectEmptyKubeletConfig is diffed by the Terraform SDK against a
+// kubelet_config reported by GKE as a removal ("1" => "0"). kubelet_config is
+// optional and computed, so an unset block must keep the observed value, as it
+// does under Terraform. This changes nothing when a real kubelet_config is set
+// (its ".#" is non-zero and is left untouched).
 func dropEmptyKubeletConfigDiff(diff *terraform.InstanceDiff) {
 	if diff == nil || diff.Attributes == nil {
 		return
@@ -149,8 +171,9 @@ func dropEmptyKubeletConfigDiff(diff *terraform.InstanceDiff) {
 	}
 }
 
-// isEmptyNodeConfigKubeletCount reports whether key/ad is an empty
-// node_config.*.kubelet_config.# count entry (count 0/unset on both sides).
+// isEmptyNodeConfigKubeletCount reports whether key/ad is a
+// node_config.*.kubelet_config.# count entry for an unconfigured kubelet_config
+// (desired count 0/unset).
 func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) bool {
 	if ad == nil {
 		return false
@@ -158,9 +181,7 @@ func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) b
 	if !strings.HasSuffix(key, "kubelet_config.#") || !strings.Contains(key, "node_config.") {
 		return false
 	}
-	oldEmpty := ad.Old == "" || ad.Old == "0"
-	newEmpty := ad.New == "" || ad.New == "0"
-	return oldEmpty && newEmpty
+	return ad.New == "" || ad.New == "0"
 }
 
 // suppressEnableComponentsOrderDiff removes order-only diffs on
