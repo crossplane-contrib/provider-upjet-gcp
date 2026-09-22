@@ -12,12 +12,105 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/v3/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *DNSThreatDetector) ResolveReferences( // ResolveReferences of this DNSThreatDetector.
+func (mg *BackendAuthenticationConfig) ResolveReferences( // ResolveReferences of this BackendAuthenticationConfig.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta2", "Certificate", "CertificateList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClientCertificate),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ClientCertificateRef,
+			Selector:     mg.Spec.ForProvider.ClientCertificateSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ClientCertificate")
+	}
+	mg.Spec.ForProvider.ClientCertificate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ClientCertificateRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta1", "TrustConfig", "TrustConfigList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TrustConfig),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.TrustConfigRef,
+			Selector:     mg.Spec.ForProvider.TrustConfigSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.TrustConfig")
+	}
+	mg.Spec.ForProvider.TrustConfig = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TrustConfigRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta2", "Certificate", "CertificateList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClientCertificate),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ClientCertificateRef,
+			Selector:     mg.Spec.InitProvider.ClientCertificateSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ClientCertificate")
+	}
+	mg.Spec.InitProvider.ClientCertificate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ClientCertificateRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("certificatemanager.gcp.upbound.io", "v1beta1", "TrustConfig", "TrustConfigList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TrustConfig),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.TrustConfigRef,
+			Selector:     mg.Spec.InitProvider.TrustConfigSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.TrustConfig")
+	}
+	mg.Spec.InitProvider.TrustConfig = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TrustConfigRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DNSThreatDetector.
+func (mg *DNSThreatDetector) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

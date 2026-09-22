@@ -759,6 +759,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_security_dns_threat_detector": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dnsThreatDetectors/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/serverTlsPolicies/{{name}}
 	"google_network_security_server_tls_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/serverTlsPolicies/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backendAuthenticationConfigs/{{name}}
+	"google_network_security_backend_authentication_config": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backendAuthenticationConfigs/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clientTlsPolicies/{{name}}
+	"google_network_security_client_tls_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/clientTlsPolicies/{{ .external_name }}"),
 
 	// mlengine
 	//

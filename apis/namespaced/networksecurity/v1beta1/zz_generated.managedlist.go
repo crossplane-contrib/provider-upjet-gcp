@@ -16,6 +16,24 @@ func (l *AddressGroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this BackendAuthenticationConfigList.
+func (l *BackendAuthenticationConfigList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ClientTLSPolicyList.
+func (l *ClientTLSPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DNSThreatDetectorList.
 func (l *DNSThreatDetectorList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
