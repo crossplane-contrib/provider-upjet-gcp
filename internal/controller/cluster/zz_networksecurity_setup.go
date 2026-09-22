@@ -10,6 +10,8 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	addressgroup "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/addressgroup"
+	backendauthenticationconfig "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/backendauthenticationconfig"
+	clienttlspolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/clienttlspolicy"
 	dnsthreatdetector "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/dnsthreatdetector"
 	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/gatewaysecuritypolicy"
 	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/gatewaysecuritypolicyrule"
@@ -23,6 +25,8 @@ import (
 func Setup_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addressgroup.Setup,
+		backendauthenticationconfig.Setup,
+		clienttlspolicy.Setup,
 		dnsthreatdetector.Setup,
 		gatewaysecuritypolicy.Setup,
 		gatewaysecuritypolicyrule.Setup,
@@ -42,6 +46,8 @@ func Setup_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addressgroup.SetupGated,
+		backendauthenticationconfig.SetupGated,
+		clienttlspolicy.SetupGated,
 		dnsthreatdetector.SetupGated,
 		gatewaysecuritypolicy.SetupGated,
 		gatewaysecuritypolicyrule.SetupGated,
@@ -60,6 +66,8 @@ func SetupGated_networksecurity(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_networksecurity(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		addressgroup.SetupWebhookWithManager,
+		backendauthenticationconfig.SetupWebhookWithManager,
+		clienttlspolicy.SetupWebhookWithManager,
 		dnsthreatdetector.SetupWebhookWithManager,
 		gatewaysecuritypolicy.SetupWebhookWithManager,
 		gatewaysecuritypolicyrule.SetupWebhookWithManager,

@@ -13,23 +13,42 @@ import (
 	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
-type CertificateProviderInstanceInitParameters struct {
+type ClientValidationCACertificateProviderInstanceInitParameters struct {
 
 	// Plugin instance name, used to locate and load CertificateProvider instance configuration. Set to "google_cloud_private_spiffe" to use Certificate Authority Service certificate provider instance.
 	PluginInstance *string `json:"pluginInstance,omitempty" tf:"plugin_instance,omitempty"`
 }
 
-type CertificateProviderInstanceObservation struct {
+type ClientValidationCACertificateProviderInstanceObservation struct {
 
 	// Plugin instance name, used to locate and load CertificateProvider instance configuration. Set to "google_cloud_private_spiffe" to use Certificate Authority Service certificate provider instance.
 	PluginInstance *string `json:"pluginInstance,omitempty" tf:"plugin_instance,omitempty"`
 }
 
-type CertificateProviderInstanceParameters struct {
+type ClientValidationCACertificateProviderInstanceParameters struct {
 
 	// Plugin instance name, used to locate and load CertificateProvider instance configuration. Set to "google_cloud_private_spiffe" to use Certificate Authority Service certificate provider instance.
 	// +kubebuilder:validation:Optional
 	PluginInstance *string `json:"pluginInstance" tf:"plugin_instance,omitempty"`
+}
+
+type ClientValidationCAGRPCEndpointInitParameters struct {
+
+	// The target URI of the gRPC endpoint. Only UDS path is supported, and should start with "unix:".
+	TargetURI *string `json:"targetUri,omitempty" tf:"target_uri,omitempty"`
+}
+
+type ClientValidationCAGRPCEndpointObservation struct {
+
+	// The target URI of the gRPC endpoint. Only UDS path is supported, and should start with "unix:".
+	TargetURI *string `json:"targetUri,omitempty" tf:"target_uri,omitempty"`
+}
+
+type ClientValidationCAGRPCEndpointParameters struct {
+
+	// The target URI of the gRPC endpoint. Only UDS path is supported, and should start with "unix:".
+	// +kubebuilder:validation:Optional
+	TargetURI *string `json:"targetUri" tf:"target_uri,omitempty"`
 }
 
 type ClientValidationCAInitParameters struct {
@@ -37,11 +56,11 @@ type ClientValidationCAInitParameters struct {
 	// Optional if policy is to be used with Traffic Director. For external HTTPS load balancer must be empty.
 	// Defines a mechanism to provision server identity (public and private keys). Cannot be combined with allowOpen as a permissive mode that allows both plain text and TLS is not supported.
 	// Structure is documented below.
-	CertificateProviderInstance *CertificateProviderInstanceInitParameters `json:"certificateProviderInstance,omitempty" tf:"certificate_provider_instance,omitempty"`
+	CertificateProviderInstance *ClientValidationCACertificateProviderInstanceInitParameters `json:"certificateProviderInstance,omitempty" tf:"certificate_provider_instance,omitempty"`
 
 	// gRPC specific configuration to access the gRPC server to obtain the cert and private key.
 	// Structure is documented below.
-	GRPCEndpoint *GRPCEndpointInitParameters `json:"grpcEndpoint,omitempty" tf:"grpc_endpoint,omitempty"`
+	GRPCEndpoint *ClientValidationCAGRPCEndpointInitParameters `json:"grpcEndpoint,omitempty" tf:"grpc_endpoint,omitempty"`
 }
 
 type ClientValidationCAObservation struct {
@@ -49,11 +68,11 @@ type ClientValidationCAObservation struct {
 	// Optional if policy is to be used with Traffic Director. For external HTTPS load balancer must be empty.
 	// Defines a mechanism to provision server identity (public and private keys). Cannot be combined with allowOpen as a permissive mode that allows both plain text and TLS is not supported.
 	// Structure is documented below.
-	CertificateProviderInstance *CertificateProviderInstanceObservation `json:"certificateProviderInstance,omitempty" tf:"certificate_provider_instance,omitempty"`
+	CertificateProviderInstance *ClientValidationCACertificateProviderInstanceObservation `json:"certificateProviderInstance,omitempty" tf:"certificate_provider_instance,omitempty"`
 
 	// gRPC specific configuration to access the gRPC server to obtain the cert and private key.
 	// Structure is documented below.
-	GRPCEndpoint *GRPCEndpointObservation `json:"grpcEndpoint,omitempty" tf:"grpc_endpoint,omitempty"`
+	GRPCEndpoint *ClientValidationCAGRPCEndpointObservation `json:"grpcEndpoint,omitempty" tf:"grpc_endpoint,omitempty"`
 }
 
 type ClientValidationCAParameters struct {
@@ -62,31 +81,12 @@ type ClientValidationCAParameters struct {
 	// Defines a mechanism to provision server identity (public and private keys). Cannot be combined with allowOpen as a permissive mode that allows both plain text and TLS is not supported.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	CertificateProviderInstance *CertificateProviderInstanceParameters `json:"certificateProviderInstance,omitempty" tf:"certificate_provider_instance,omitempty"`
+	CertificateProviderInstance *ClientValidationCACertificateProviderInstanceParameters `json:"certificateProviderInstance,omitempty" tf:"certificate_provider_instance,omitempty"`
 
 	// gRPC specific configuration to access the gRPC server to obtain the cert and private key.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	GRPCEndpoint *GRPCEndpointParameters `json:"grpcEndpoint,omitempty" tf:"grpc_endpoint,omitempty"`
-}
-
-type GRPCEndpointInitParameters struct {
-
-	// The target URI of the gRPC endpoint. Only UDS path is supported, and should start with "unix:".
-	TargetURI *string `json:"targetUri,omitempty" tf:"target_uri,omitempty"`
-}
-
-type GRPCEndpointObservation struct {
-
-	// The target URI of the gRPC endpoint. Only UDS path is supported, and should start with "unix:".
-	TargetURI *string `json:"targetUri,omitempty" tf:"target_uri,omitempty"`
-}
-
-type GRPCEndpointParameters struct {
-
-	// The target URI of the gRPC endpoint. Only UDS path is supported, and should start with "unix:".
-	// +kubebuilder:validation:Optional
-	TargetURI *string `json:"targetUri" tf:"target_uri,omitempty"`
+	GRPCEndpoint *ClientValidationCAGRPCEndpointParameters `json:"grpcEndpoint,omitempty" tf:"grpc_endpoint,omitempty"`
 }
 
 type MtlsPolicyInitParameters struct {

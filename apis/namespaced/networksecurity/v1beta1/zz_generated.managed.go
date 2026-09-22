@@ -47,6 +47,86 @@ func (mg *AddressGroup) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretR
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this BackendAuthenticationConfig.
+func (mg *BackendAuthenticationConfig) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) GetProviderConfigReference() *xpv2.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) GetWriteConnectionSecretToReference() *xpv2.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) SetProviderConfigReference(r *xpv2.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ClientTLSPolicy.
+func (mg *ClientTLSPolicy) SetWriteConnectionSecretToReference(r *xpv2.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this DNSThreatDetector.
 func (mg *DNSThreatDetector) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)

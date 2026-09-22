@@ -342,6 +342,8 @@ import (
 	spoke "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkmanagement/connectivitytest"
 	addressgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/addressgroup"
+	backendauthenticationconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/backendauthenticationconfig"
+	clienttlspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/clienttlspolicy"
 	dnsthreatdetector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/dnsthreatdetector"
 	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/gatewaysecuritypolicy"
 	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/gatewaysecuritypolicyrule"
@@ -761,6 +763,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.Setup,
 		connectivitytest.Setup,
 		addressgroup.Setup,
+		backendauthenticationconfig.Setup,
+		clienttlspolicy.Setup,
 		dnsthreatdetector.Setup,
 		gatewaysecuritypolicy.Setup,
 		gatewaysecuritypolicyrule.Setup,
@@ -1186,6 +1190,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.SetupGated,
 		connectivitytest.SetupGated,
 		addressgroup.SetupGated,
+		backendauthenticationconfig.SetupGated,
+		clienttlspolicy.SetupGated,
 		dnsthreatdetector.SetupGated,
 		gatewaysecuritypolicy.SetupGated,
 		gatewaysecuritypolicyrule.SetupGated,
@@ -1610,6 +1616,8 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		spoke.SetupWebhookWithManager,
 		connectivitytest.SetupWebhookWithManager,
 		addressgroup.SetupWebhookWithManager,
+		backendauthenticationconfig.SetupWebhookWithManager,
+		clienttlspolicy.SetupWebhookWithManager,
 		dnsthreatdetector.SetupWebhookWithManager,
 		gatewaysecuritypolicy.SetupWebhookWithManager,
 		gatewaysecuritypolicyrule.SetupWebhookWithManager,
