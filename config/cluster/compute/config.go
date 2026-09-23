@@ -28,6 +28,19 @@ var (
 	PathInstanceGroupExtractor = SelfPackagePath + ".InstanceGroupExtractor()"
 )
 
+// dropEmptyBlockCountDiffs removes the phantom diffs the Terraform plugin
+// SDK emits for Optional+Computed blocks that are set neither in the
+// configuration nor in the state: the block's count attribute shows up as
+// "" -> "" with NewComputed set. When such a block is also ForceNew the
+// phantom makes upjet refuse an update that changes nothing.
+func dropEmptyBlockCountDiffs(diff *terraform.InstanceDiff, keys ...string) {
+	for _, key := range keys {
+		if d, ok := diff.Attributes[key]; ok && d.Old == "" && d.New == "" {
+			delete(diff.Attributes, key)
+		}
+	}
+}
+
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) { // nolint: gocyclo
@@ -154,9 +167,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			if diff == nil || diff.Destroy {
 				return diff, nil
 			}
-			if cicDiff, ok := diff.Attributes["confidential_instance_config.#"]; ok && cicDiff.Old == "" && cicDiff.New == "" {
-				delete(diff.Attributes, "confidential_instance_config.#")
-			}
+			dropEmptyBlockCountDiffs(diff, "confidential_instance_config.#")
 			for key := range diff.Attributes {
 				if strings.HasPrefix(key, "disk.") && (strings.HasSuffix(key, ".source_image_encryption_key.#") || strings.HasSuffix(key, ".source_snapshot_encryption_key.#")) {
 					delete(diff.Attributes, key)
@@ -188,6 +199,17 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_image",
 		}
 		r.MarkAsRequired("zone")
+		// confidential_instance_config is Optional+Computed+ForceNew; when it is
+		// absent from both spec and state the SDK still emits a "" -> ""
+		// NewComputed diff on its count, which upjet would refuse as a
+		// replacement (see the same handling on google_compute_instance_template).
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Destroy {
+				return diff, nil
+			}
+			dropEmptyBlockCountDiffs(diff, "confidential_instance_config.#")
+			return diff, nil
+		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_iam_member", func(r *config.Resource) {
@@ -217,9 +239,11 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			if diff == nil || diff.Destroy {
 				return diff, nil
 			}
-			if paramsDiff, ok := diff.Attributes["params.#"]; ok && paramsDiff.Old == "" && paramsDiff.New == "" {
-				delete(diff.Attributes, "params.#")
-			}
+			// Every field of google_compute_instance_from_template is Computed, so
+			// the SDK emits "" -> "" NewComputed diffs on the count of any block
+			// absent from spec and state; confidential_instance_config is also
+			// ForceNew and would make upjet refuse the update.
+			dropEmptyBlockCountDiffs(diff, "params.#", "confidential_instance_config.#", "workload_identity_config.#")
 			return diff, nil
 		}
 	})
