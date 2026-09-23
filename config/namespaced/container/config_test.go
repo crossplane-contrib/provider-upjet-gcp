@@ -111,40 +111,183 @@ func Test_suppressEnableComponentsOrderDiff(t *testing.T) {
 }
 
 func TestDropEmptyKubeletConfigDiff(t *testing.T) {
+	type args struct {
+		diff *terraform.InstanceDiff
+	}
+	type want struct {
+		attributes map[string]*terraform.ResourceAttrDiff
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"nil_diff": {
+			args: args{diff: nil},
+			want: want{attributes: nil},
+		},
+		"unset_computed_count_dropped": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_config.0.kubelet_config.#": {Old: "", New: "", NewComputed: true},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{}},
+		},
+		"observed_kubelet_config_not_removed": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_config.0.kubelet_config.#": {Old: "1", New: "0"},
+					"node_config.0.machine_type":     {Old: "e2-medium", New: "e2-standard-2"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"node_config.0.machine_type": {Old: "e2-medium", New: "e2-standard-2"},
+			}},
+		},
+		"node_pool_nested_count_dropped": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_pool.0.node_config.0.kubelet_config.#": {Old: "", New: "0"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{}},
+		},
+		"configured_kubelet_config_kept": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_config.0.kubelet_config.#":                    {Old: "0", New: "1"},
+					"node_config.0.kubelet_config.0.cpu_manager_policy": {Old: "", New: "static"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"node_config.0.kubelet_config.#":                    {Old: "0", New: "1"},
+				"node_config.0.kubelet_config.0.cpu_manager_policy": {Old: "", New: "static"},
+			}},
+		},
+		"kubelet_config_outside_node_config_kept": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"kubelet_config.#": {Old: "", New: "0"},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"kubelet_config.#": {Old: "", New: "0"},
+			}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			dropEmptyKubeletConfigDiff(tc.args.diff)
+			var gotAttrs map[string]*terraform.ResourceAttrDiff
+			if tc.args.diff != nil {
+				gotAttrs = tc.args.diff.Attributes
+			}
+			if diff := cmp.Diff(tc.want.attributes, gotAttrs); diff != "" {
+				t.Errorf("dropEmptyKubeletConfigDiff(...) attributes mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestInjectEmptyKubeletConfig(t *testing.T) {
+	type args struct {
+		tfMap map[string]any
+	}
+	type want struct {
+		tfMap map[string]any
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"no_node_config": {
+			args: args{tfMap: map[string]any{"name": "np"}},
+			want: want{tfMap: map[string]any{"name": "np"}},
+		},
+		"kubelet_config_unset": {
+			args: args{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"machine_type": "e2-medium"}},
+			}},
+			want: want{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"machine_type": "e2-medium", "kubelet_config": []any{}}},
+			}},
+		},
+		"kubelet_config_null": {
+			args: args{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"kubelet_config": nil}},
+			}},
+			want: want{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"kubelet_config": []any{}}},
+			}},
+		},
+		"empty_kubelet_config_object_kept": {
+			args: args{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"kubelet_config": []any{map[string]any{}}}},
+			}},
+			want: want{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"kubelet_config": []any{map[string]any{}}}},
+			}},
+		},
+		"configured_kubelet_config_kept": {
+			args: args{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"kubelet_config": []any{map[string]any{"cpu_manager_policy": "static"}}}},
+			}},
+			want: want{tfMap: map[string]any{
+				"node_config": []any{map[string]any{"kubelet_config": []any{map[string]any{"cpu_manager_policy": "static"}}}},
+			}},
+		},
+		"unexpected_node_config_type_ignored": {
+			args: args{tfMap: map[string]any{
+				"node_config": map[string]any{"machine_type": "e2-medium"},
+			}},
+			want: want{tfMap: map[string]any{
+				"node_config": map[string]any{"machine_type": "e2-medium"},
+			}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			if err := injectEmptyKubeletConfig(nil, tc.args.tfMap); err != nil {
+				t.Fatalf("injectEmptyKubeletConfig(...): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want.tfMap, tc.args.tfMap); diff != "" {
+				t.Errorf("injectEmptyKubeletConfig(...) tfMap mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestDropEmptyOptionalComputedBlockDiffs(t *testing.T) {
 	cases := map[string]struct {
 		attrs   map[string]*terraform.ResourceAttrDiff
-		dropped []string // keys expected to be removed
-		kept    []string // keys expected to remain
+		dropped []string
+		kept    []string
 	}{
-		"DropsEmptyNodePoolNested": {
-			attrs: map[string]*terraform.ResourceAttrDiff{
-				"node_pool.0.node_config.0.kubelet_config.#": {Old: "", New: "0"},
-			},
-			dropped: []string{"node_pool.0.node_config.0.kubelet_config.#"},
+		"DropsEmptyNodeDrainConfig": {
+			attrs:   map[string]*terraform.ResourceAttrDiff{"node_drain_config.#": {Old: "", New: "", NewComputed: true}},
+			dropped: []string{"node_drain_config.#"},
 		},
-		"DropsEmptyTopLevel": {
+		"DropsEmptyPlacementPolicyAutoscalingQueuedProvisioning": {
 			attrs: map[string]*terraform.ResourceAttrDiff{
-				"node_config.0.kubelet_config.#": {Old: "0", New: "0"},
+				"placement_policy.#":    {Old: "", New: ""},
+				"autoscaling.#":         {Old: "", New: ""},
+				"queued_provisioning.#": {Old: "", New: ""},
 			},
-			dropped: []string{"node_config.0.kubelet_config.#"},
+			dropped: []string{"placement_policy.#", "autoscaling.#", "queued_provisioning.#"},
 		},
-		"KeepsNonEmptyKubeletConfig": {
-			attrs: map[string]*terraform.ResourceAttrDiff{
-				"node_config.0.kubelet_config.#": {Old: "0", New: "1"},
-			},
-			kept: []string{"node_config.0.kubelet_config.#"},
+		"KeepsNonEmptyNodeDrainConfig": {
+			attrs: map[string]*terraform.ResourceAttrDiff{"node_drain_config.#": {Old: "", New: "1"}},
+			kept:  []string{"node_drain_config.#"},
 		},
-		"IgnoresUnrelatedKubeletConfigOutsideNodeConfig": {
-			attrs: map[string]*terraform.ResourceAttrDiff{
-				"kubelet_config.#": {Old: "", New: "0"},
-			},
-			kept: []string{"kubelet_config.#"},
+		"IgnoresUnrelatedKeys": {
+			attrs: map[string]*terraform.ResourceAttrDiff{"machine_type": {Old: "", New: ""}},
+			kept:  []string{"machine_type"},
 		},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			diff := &terraform.InstanceDiff{Attributes: tc.attrs}
-			dropEmptyKubeletConfigDiff(diff)
+			dropEmptyOptionalComputedBlockDiffs(diff)
 			for _, k := range tc.dropped {
 				if _, ok := diff.Attributes[k]; ok {
 					t.Errorf("expected key %q to be dropped, but it remained", k)
