@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/v3/config/namespaced/common"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -33,7 +34,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Connectors),
-			Extract:       resource.ExtractResourceID(),
+			Extract:       common.ExtractResourceID(),
 			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.ConnectorsRefs,
 			Selector:      mg.Spec.ForProvider.ConnectorsSelector,
@@ -54,7 +55,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 			}
 			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Gateway.AppGateway),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      common.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.Gateway.AppGatewayRef,
 				Selector:     mg.Spec.ForProvider.Gateway.AppGatewaySelector,
@@ -75,7 +76,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 		}
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Connectors),
-			Extract:       resource.ExtractResourceID(),
+			Extract:       common.ExtractResourceID(),
 			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.ConnectorsRefs,
 			Selector:      mg.Spec.InitProvider.ConnectorsSelector,
@@ -96,7 +97,7 @@ func (mg *AppConnection) ResolveReferences( // ResolveReferences of this AppConn
 			}
 			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Gateway.AppGateway),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      common.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.Gateway.AppGatewayRef,
 				Selector:     mg.Spec.InitProvider.Gateway.AppGatewaySelector,

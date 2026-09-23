@@ -559,6 +559,11 @@ func (in *AzureBlobStorageDataSourceInitParameters) DeepCopyInto(out *AzureBlobS
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrivateNetworkService != nil {
+		in, out := &in.PrivateNetworkService, &out.PrivateNetworkService
+		*out = new(string)
+		**out = **in
+	}
 	if in.StorageAccount != nil {
 		in, out := &in.StorageAccount, &out.StorageAccount
 		*out = new(string)
@@ -604,6 +609,11 @@ func (in *AzureBlobStorageDataSourceObservation) DeepCopyInto(out *AzureBlobStor
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrivateNetworkService != nil {
+		in, out := &in.PrivateNetworkService, &out.PrivateNetworkService
+		*out = new(string)
+		**out = **in
+	}
 	if in.StorageAccount != nil {
 		in, out := &in.StorageAccount, &out.StorageAccount
 		*out = new(string)
@@ -646,6 +656,11 @@ func (in *AzureBlobStorageDataSourceParameters) DeepCopyInto(out *AzureBlobStora
 	}
 	if in.Path != nil {
 		in, out := &in.Path, &out.Path
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateNetworkService != nil {
+		in, out := &in.PrivateNetworkService, &out.PrivateNetworkService
 		*out = new(string)
 		**out = **in
 	}

@@ -27,6 +27,11 @@ type GatewayInitParameters struct {
 	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
+	// Optional. If true, the gateway will allow traffic from clients outside
+	// of the region where the gateway is located.
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta2.Certificate
@@ -147,6 +152,11 @@ type GatewayObservation struct {
 	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
+	// Optional. If true, the gateway will allow traffic from clients outside
+	// of the region where the gateway is located.
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
@@ -257,6 +267,12 @@ type GatewayParameters struct {
 	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
 	// +kubebuilder:validation:Optional
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
+	// Optional. If true, the gateway will allow traffic from clients outside
+	// of the region where the gateway is located.
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	// +kubebuilder:validation:Optional
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.

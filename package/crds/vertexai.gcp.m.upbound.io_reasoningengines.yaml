@@ -196,6 +196,9 @@ spec:
                         description: |-
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
+                          Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+                          Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+                          Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
                         type: string
                       containerSpec:
                         description: |-
@@ -208,6 +211,10 @@ spec:
                               us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
                               container image that is to be run on each worker replica.
                             type: string
+                          port:
+                            description: Optional. Specifies the port number on the
+                              container to which the request is sent.
+                            type: number
                         type: object
                       deploymentSpec:
                         description: |-
@@ -877,6 +884,9 @@ spec:
                         description: |-
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
+                          Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+                          Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+                          Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
                         type: string
                       containerSpec:
                         description: |-
@@ -889,6 +899,10 @@ spec:
                               us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
                               container image that is to be run on each worker replica.
                             type: string
+                          port:
+                            description: Optional. Specifies the port number on the
+                              container to which the request is sent.
+                            type: number
                         type: object
                       deploymentSpec:
                         description: |-
@@ -1556,6 +1570,9 @@ spec:
                         description: |-
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
+                          Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+                          Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+                          Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
                         type: string
                       containerSpec:
                         description: |-
@@ -1568,6 +1585,10 @@ spec:
                               us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
                               container image that is to be run on each worker replica.
                             type: string
+                          port:
+                            description: Optional. Specifies the port number on the
+                              container to which the request is sent.
+                            type: number
                         type: object
                       deploymentSpec:
                         description: |-

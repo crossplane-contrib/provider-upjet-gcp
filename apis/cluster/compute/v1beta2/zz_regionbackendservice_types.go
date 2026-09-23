@@ -442,6 +442,44 @@ type LeaderParameters struct {
 	NetworkEndpoint *NetworkEndpointParameters `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
 }
 
+type LogConfigRequestHeadersInitParameters struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigRequestHeadersObservation struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigRequestHeadersParameters struct {
+
+	// The header name to match on for logging.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+}
+
+type LogConfigResponseHeadersInitParameters struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigResponseHeadersObservation struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigResponseHeadersParameters struct {
+
+	// The header name to match on for logging.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+}
+
 type NetworkEndpointInitParameters struct {
 
 	// The name of the VM instance of the leader network endpoint. The instance must
@@ -1646,6 +1684,14 @@ type RegionBackendServiceLogConfigInitParameters struct {
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	RequestHeaders []LogConfigRequestHeadersInitParameters `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	ResponseHeaders []LogConfigResponseHeadersInitParameters `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
@@ -1665,6 +1711,14 @@ type RegionBackendServiceLogConfigObservation struct {
 	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	RequestHeaders []LogConfigRequestHeadersObservation `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	ResponseHeaders []LogConfigResponseHeadersObservation `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1688,6 +1742,16 @@ type RegionBackendServiceLogConfigParameters struct {
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	// +kubebuilder:validation:Optional
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeaders []LogConfigRequestHeadersParameters `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeaders []LogConfigResponseHeadersParameters `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer

@@ -42,6 +42,55 @@ type AcceleratorsParameters struct {
 	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 }
 
+type AttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type AttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type AttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
 type AutoscalingConfigInitParameters struct {
 
 	// The autoscaling policy used by the cluster.
@@ -699,19 +748,29 @@ type ClusterParameters struct {
 
 type ConfidentialInstanceConfigInitParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled.
+	// Defines the confidential compute type of the instance. Valid values are "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED", "SEV", "SEV_SNP", "TDX".
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// Defines whether the instance should have confidential compute enabled. enable_confidential_compute is deprecated and will be removed in a future major release. Use confidential_instance_type instead.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigObservation struct {
 
-	// Defines whether the instance should have confidential compute enabled.
+	// Defines the confidential compute type of the instance. Valid values are "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED", "SEV", "SEV_SNP", "TDX".
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// Defines whether the instance should have confidential compute enabled. enable_confidential_compute is deprecated and will be removed in a future major release. Use confidential_instance_type instead.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type ConfidentialInstanceConfigParameters struct {
 
-	// Defines whether the instance should have confidential compute enabled.
+	// Defines the confidential compute type of the instance. Valid values are "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED", "SEV", "SEV_SNP", "TDX".
+	// +kubebuilder:validation:Optional
+	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
+
+	// Defines whether the instance should have confidential compute enabled. enable_confidential_compute is deprecated and will be removed in a future major release. Use confidential_instance_type instead.
 	// +kubebuilder:validation:Optional
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
@@ -807,6 +866,55 @@ type DataprocMetricConfigParameters struct {
 	// Metrics sources to enable.
 	// +kubebuilder:validation:Optional
 	Metrics []MetricsParameters `json:"metrics" tf:"metrics,omitempty"`
+}
+
+type DiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type DiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type DiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 }
 
 type DiskConfigInitParameters struct {
@@ -1298,7 +1406,165 @@ type InstanceFlexibilityPolicyInitParameters struct {
 	InstanceSelectionList []InstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 }
 
+type InstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []InstanceSelectionListDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []InstanceSelectionListDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type InstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters struct {
+
+	// Attached disk configuration.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []InstanceSelectionListDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
 type InstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Disk configuration to apply to the instances in this instance selection.
+	DiskConfig *InstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Full machine-type names, e.g. "n1-standard-16".
 	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
@@ -1309,6 +1575,9 @@ type InstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
 
 type InstanceFlexibilityPolicyInstanceSelectionListObservation struct {
 
+	// Disk configuration to apply to the instances in this instance selection.
+	DiskConfig *InstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
 	// Full machine-type names, e.g. "n1-standard-16".
 	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
 
@@ -1317,6 +1586,10 @@ type InstanceFlexibilityPolicyInstanceSelectionListObservation struct {
 }
 
 type InstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Disk configuration to apply to the instances in this instance selection.
+	// +kubebuilder:validation:Optional
+	DiskConfig *InstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Full machine-type names, e.g. "n1-standard-16".
 	// +kubebuilder:validation:Optional
@@ -1356,7 +1629,165 @@ type InstanceFlexibilityPolicyParameters struct {
 	InstanceSelectionList []InstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 }
 
+type InstanceSelectionListDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type InstanceSelectionListDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type InstanceSelectionListDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type InstanceSelectionListDiskConfigInitParameters struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []DiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type InstanceSelectionListDiskConfigObservation struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []DiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type InstanceSelectionListDiskConfigParameters struct {
+
+	// Attached disk configuration.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []DiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
 type InstanceSelectionListInitParameters struct {
+
+	// Disk configuration to apply to the instances in this instance selection.
+	DiskConfig *InstanceSelectionListDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Full machine-type names, e.g. "n1-standard-16".
 	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
@@ -1367,6 +1798,9 @@ type InstanceSelectionListInitParameters struct {
 
 type InstanceSelectionListObservation struct {
 
+	// Disk configuration to apply to the instances in this instance selection.
+	DiskConfig *InstanceSelectionListDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
 	// Full machine-type names, e.g. "n1-standard-16".
 	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
 
@@ -1375,6 +1809,10 @@ type InstanceSelectionListObservation struct {
 }
 
 type InstanceSelectionListParameters struct {
+
+	// Disk configuration to apply to the instances in this instance selection.
+	// +kubebuilder:validation:Optional
+	DiskConfig *InstanceSelectionListDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Full machine-type names, e.g. "n1-standard-16".
 	// +kubebuilder:validation:Optional
@@ -1797,6 +2235,9 @@ type MasterConfigAcceleratorsParameters struct {
 
 type MasterConfigDiskConfigInitParameters struct {
 
+	// Attached disk configuration.
+	AttachedDiskConfig []AttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
 
@@ -1827,6 +2268,9 @@ type MasterConfigDiskConfigInitParameters struct {
 
 type MasterConfigDiskConfigObservation struct {
 
+	// Attached disk configuration.
+	AttachedDiskConfig []AttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
 
@@ -1856,6 +2300,10 @@ type MasterConfigDiskConfigObservation struct {
 }
 
 type MasterConfigDiskConfigParameters struct {
+
+	// Attached disk configuration.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []AttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
 
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	// +kubebuilder:validation:Optional
@@ -2070,7 +2518,7 @@ type NodeGroupConfigInitParameters struct {
 	// The Compute Engine accelerator configuration for these instances. Can be specified multiple times.
 	Accelerators []AcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk Config
+	// Disk configuration to apply to the instances in this instance selection.
 	DiskConfig *DiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// The name of a Compute Engine machine type.
@@ -2091,7 +2539,7 @@ type NodeGroupConfigObservation struct {
 	// The Compute Engine accelerator configuration for these instances. Can be specified multiple times.
 	Accelerators []AcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk Config
+	// Disk configuration to apply to the instances in this instance selection.
 	DiskConfig *DiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// List of worker instance names which have been assigned
@@ -2117,7 +2565,7 @@ type NodeGroupConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Accelerators []AcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk Config
+	// Disk configuration to apply to the instances in this instance selection.
 	// +kubebuilder:validation:Optional
 	DiskConfig *DiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
@@ -2275,7 +2723,59 @@ type NodePoolTargetParameters struct {
 	Roles []*string `json:"roles" tf:"roles,omitempty"`
 }
 
+type PreemptibleWorkerConfigDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type PreemptibleWorkerConfigDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type PreemptibleWorkerConfigDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
 type PreemptibleWorkerConfigDiskConfigInitParameters struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []PreemptibleWorkerConfigDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
 
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
@@ -2307,6 +2807,9 @@ type PreemptibleWorkerConfigDiskConfigInitParameters struct {
 
 type PreemptibleWorkerConfigDiskConfigObservation struct {
 
+	// Attached disk configuration.
+	AttachedDiskConfig []PreemptibleWorkerConfigDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
 
@@ -2336,6 +2839,10 @@ type PreemptibleWorkerConfigDiskConfigObservation struct {
 }
 
 type PreemptibleWorkerConfigDiskConfigParameters struct {
+
+	// Attached disk configuration.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []PreemptibleWorkerConfigDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
 
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	// +kubebuilder:validation:Optional
@@ -2787,7 +3294,59 @@ type WorkerConfigAcceleratorsParameters struct {
 	AcceleratorType *string `json:"acceleratorType" tf:"accelerator_type,omitempty"`
 }
 
+type WorkerConfigDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type WorkerConfigDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type WorkerConfigDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Such as "pd-ssd" or "pd-standard".
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
 type WorkerConfigDiskConfigInitParameters struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []WorkerConfigDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
 
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
@@ -2819,6 +3378,9 @@ type WorkerConfigDiskConfigInitParameters struct {
 
 type WorkerConfigDiskConfigObservation struct {
 
+	// Attached disk configuration.
+	AttachedDiskConfig []WorkerConfigDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
 
@@ -2848,6 +3410,10 @@ type WorkerConfigDiskConfigObservation struct {
 }
 
 type WorkerConfigDiskConfigParameters struct {
+
+	// Attached disk configuration.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []WorkerConfigDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
 
 	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
 	// +kubebuilder:validation:Optional
@@ -2889,7 +3455,116 @@ type WorkerConfigInstanceFlexibilityPolicyInitParameters struct {
 	InstanceSelectionList []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 }
 
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []InstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation struct {
+
+	// Attached disk configuration.
+	AttachedDiskConfig []InstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters struct {
+
+	// Attached disk configuration.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []InstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size of the primary disk attached to each node, specified
+	// in GB. The primary disk contains the boot volume and system libraries, and the
+	// smallest allowed disk size is 10GB. GCP will default to a predetermined
+	// computed value if not set (currently 500GB). Note: If SSDs are not
+	// attached, it also contains the HDFS data blocks and Hadoop working directories.
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// The disk type of the primary disk attached to each node.
+	// One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Optional. Interface type of local SSDs (default is "scsi").
+	// Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+	// Memory Express). See
+	// local SSD performance.
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// The amount of local SSD disks that will be
+	// attached to each master cluster node. Defaults to 0.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
 type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Disk configuration to apply to the instances in this instance selection.
+	DiskConfig *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Full machine-type names, e.g. "n1-standard-16".
 	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
@@ -2900,6 +3575,9 @@ type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters st
 
 type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation struct {
 
+	// Disk configuration to apply to the instances in this instance selection.
+	DiskConfig *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
 	// Full machine-type names, e.g. "n1-standard-16".
 	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
 
@@ -2908,6 +3586,10 @@ type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation struc
 }
 
 type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Disk configuration to apply to the instances in this instance selection.
+	// +kubebuilder:validation:Optional
+	DiskConfig *WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
 	// Full machine-type names, e.g. "n1-standard-16".
 	// +kubebuilder:validation:Optional

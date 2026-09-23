@@ -85,6 +85,9 @@ type CACertsParameters struct {
 
 type ClusterInitParameters struct {
 
+	// Optional. The name of the ACL policy to attach to the cluster.
+	ACLPolicy *string `json:"aclPolicy,omitempty" tf:"acl_policy,omitempty"`
+
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -191,6 +194,9 @@ type ClusterInitParameters struct {
 
 type ClusterObservation struct {
 
+	// Optional. The name of the ACL policy to attach to the cluster.
+	ACLPolicy *string `json:"aclPolicy,omitempty" tf:"acl_policy,omitempty"`
+
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -242,6 +248,9 @@ type ClusterObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. Whether the ACL policy is in sync with the cluster.
+	IsACLPolicyInSync *bool `json:"isAclPolicyInSync,omitempty" tf:"is_acl_policy_in_sync,omitempty"`
 
 	// The KMS key used to encrypt the at-rest data of the cluster.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
@@ -357,6 +366,10 @@ type ClusterObservation struct {
 }
 
 type ClusterParameters struct {
+
+	// Optional. The name of the ACL policy to attach to the cluster.
+	// +kubebuilder:validation:Optional
+	ACLPolicy *string `json:"aclPolicy,omitempty" tf:"acl_policy,omitempty"`
 
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.

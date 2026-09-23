@@ -75,6 +75,9 @@ type CertificateInitParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedInitParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
@@ -130,6 +133,9 @@ type CertificateObservation struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedObservation `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 
@@ -183,6 +189,9 @@ type CertificateParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelfManaged *SelfManagedParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`

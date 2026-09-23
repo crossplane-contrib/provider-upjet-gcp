@@ -566,6 +566,11 @@ func (in *FieldInitParameters) DeepCopyInto(out *FieldInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SkipWait != nil {
+		in, out := &in.SkipWait, &out.SkipWait
+		*out = new(bool)
+		**out = **in
+	}
 	if in.TTLConfig != nil {
 		in, out := &in.TTLConfig, &out.TTLConfig
 		*out = new(TTLConfigInitParameters)
@@ -653,6 +658,11 @@ func (in *FieldObservation) DeepCopyInto(out *FieldObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SkipWait != nil {
+		in, out := &in.SkipWait, &out.SkipWait
+		*out = new(bool)
+		**out = **in
+	}
 	if in.TTLConfig != nil {
 		in, out := &in.TTLConfig, &out.TTLConfig
 		*out = new(TTLConfigObservation)
@@ -701,6 +711,11 @@ func (in *FieldParameters) DeepCopyInto(out *FieldParameters) {
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.SkipWait != nil {
+		in, out := &in.SkipWait, &out.SkipWait
+		*out = new(bool)
 		**out = **in
 	}
 	if in.TTLConfig != nil {

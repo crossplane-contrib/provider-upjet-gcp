@@ -196,6 +196,26 @@ spec:
                   location:
                     description: The location (region or zone) of the cluster.
                     type: string
+                  maintenancePolicy:
+                    description: The maintenance policy of the pool. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        exclusionUntilEndOfSupport:
+                          description: When enabled, the node pool will not be automatically
+                            upgraded by GKE until the node pool version's end of support
+                            date. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: When true, the node pool will not be
+                                  automatically upgraded by GKE until the node pool
+                                  version's end of support date.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   management:
                     description: |-
                       Node management configuration, wherein auto-repair and
@@ -526,6 +546,8 @@ spec:
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
+                        description: The maintenance policy of the pool. Structure
+                          is documented below.
                         properties:
                           maintenanceInterval:
                             type: string
@@ -663,6 +685,18 @@ spec:
                             type: object
                           cgroupMode:
                             type: string
+                          customNodeInit:
+                            properties:
+                              initScript:
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    type: string
+                                  gcsGeneration:
+                                    type: number
+                                  gcsUri:
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             properties:
                               hugepageSize1G:
@@ -1157,6 +1191,26 @@ spec:
                       need this value, don't set it.  If you do need it, you can use a lifecycle block to
                       ignore subsequent changes to this field.
                     type: number
+                  maintenancePolicy:
+                    description: The maintenance policy of the pool. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        exclusionUntilEndOfSupport:
+                          description: When enabled, the node pool will not be automatically
+                            upgraded by GKE until the node pool version's end of support
+                            date. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: When true, the node pool will not be
+                                  automatically upgraded by GKE until the node pool
+                                  version's end of support date.
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   management:
                     description: |-
                       Node management configuration, wherein auto-repair and
@@ -1487,6 +1541,8 @@ spec:
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
+                        description: The maintenance policy of the pool. Structure
+                          is documented below.
                         properties:
                           maintenanceInterval:
                             type: string
@@ -1624,6 +1680,18 @@ spec:
                             type: object
                           cgroupMode:
                             type: string
+                          customNodeInit:
+                            properties:
+                              initScript:
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    type: string
+                                  gcsGeneration:
+                                    type: number
+                                  gcsUri:
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             properties:
                               hugepageSize1G:
@@ -2191,6 +2259,35 @@ spec:
                   location:
                     description: The location (region or zone) of the cluster.
                     type: string
+                  maintenancePolicy:
+                    description: The maintenance policy of the pool. Structure is
+                      documented below.
+                    items:
+                      properties:
+                        exclusionUntilEndOfSupport:
+                          description: When enabled, the node pool will not be automatically
+                            upgraded by GKE until the node pool version's end of support
+                            date. Structure is documented below.
+                          items:
+                            properties:
+                              enabled:
+                                description: When true, the node pool will not be
+                                  automatically upgraded by GKE until the node pool
+                                  version's end of support date.
+                                type: boolean
+                              endTime:
+                                description: The time when the maintenance policy
+                                  is no longer effective, i.e., the node pool version's
+                                  end of support date.
+                                type: string
+                              startTime:
+                                description: The time when the maintenance policy
+                                  is first created.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   managedInstanceGroupUrls:
                     description: List of instance group URLs which have been assigned
                       to this node pool.
@@ -2540,6 +2637,8 @@ spec:
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
+                        description: The maintenance policy of the pool. Structure
+                          is documented below.
                         properties:
                           maintenanceInterval:
                             type: string
@@ -2677,6 +2776,18 @@ spec:
                             type: object
                           cgroupMode:
                             type: string
+                          customNodeInit:
+                            properties:
+                              initScript:
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    type: string
+                                  gcsGeneration:
+                                    type: number
+                                  gcsUri:
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             properties:
                               hugepageSize1G:

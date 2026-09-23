@@ -159,6 +159,15 @@ spec:
                             description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
+                      highScaleCheckpointingConfig:
+                        description: The status of the High Scale Checkpointing addon,
+                          which enables Multi-Tier Checkpointing for Machine Learning
+                          workloads. Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       horizontalPodAutoscaling:
                         description: |-
                           The status of the Horizontal Pod Autoscaling
@@ -221,6 +230,15 @@ spec:
                             description: |-
                               The status of the Istio addon, which makes it easy to set up Istio for services in a
                               cluster. It is disabled by default. Set disabled = false to enable.
+                            type: boolean
+                        type: object
+                      nodeReadinessConfig:
+                        description: |-
+                          The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       parallelstoreCsiDriverConfig:
@@ -688,6 +706,13 @@ spec:
                     type: boolean
                   description:
                     description: Description of the cluster.
+                    type: string
+                  desiredEmulatedVersion:
+                    description: The desired emulated version for the cluster. Used
+                      to complete a rollback-safe upgrade after a soak period. Must
+                      be in major.minor format (e.g., "1.31"). To complete the upgrade
+                      declaratively, set this field to the target minor version. Removing
+                      this field from your configuration will not trigger completion.
                     type: string
                   disableL4LbFirewallReconciliation:
                     description: Disable L4 load balancer VPC firewalls to enable
@@ -1051,12 +1076,63 @@ spec:
                               type: string
                           type: object
                         type: array
+                      recurringMaintenanceWindow:
+                        description: structure documented below
+                        properties:
+                          delayUntil:
+                            description: ':  Specifies the initial date when the recurring
+                              window can start.'
+                            properties:
+                              day:
+                                description: ': The day of the month (integer value
+                                  between 1 and 31).'
+                                type: number
+                              month:
+                                description: ': The month of the year (integer value
+                                  between 1 and 12).'
+                                type: number
+                              year:
+                                description: ': The year (integer value).'
+                                type: number
+                            type: object
+                          recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
+                            type: string
+                          windowDuration:
+                            description: ': The length of each maintenance window
+                              instance. Specified as a sequence of decimal numbers,
+                              each with an optional fraction and a unit suffix, such
+                              as "300s", "1.5m", and "2h45m". Valid time units are
+                              "ns", "us" (or "µs"), "ms", "s", "m", "h". The value
+                              must be a positive duration.'
+                            type: string
+                          windowStartTime:
+                            description: ': The time of day when each maintenance
+                              window instance begins.'
+                            properties:
+                              hours:
+                                description: ': The hour of the day (integer value
+                                  between 0 and 23).'
+                                type: number
+                              minutes:
+                                description: ': The minute of the hour (integer value
+                                  between 0 and 59).'
+                                type: number
+                              seconds:
+                                description: ': The second of the minute (integer
+                                  value between 0 and 59).'
+                                type: number
+                            type: object
+                        type: object
                       recurringWindow:
                         description: structure documented below
                         properties:
                           endTime:
                             type: string
                           recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
                             type: string
                           startTime:
                             type: string
@@ -1413,6 +1489,12 @@ spec:
                                         items:
                                           properties:
                                             gcpSecretManagerSecretUri:
+                                              description: 'The Google Cloud Secret
+                                                Manager secret version URI for storing
+                                                the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                The service account on the nodepool
+                                                must have access to the secret version.
+                                                Conflicts with gcs_uri.'
                                               type: string
                                           type: object
                                         type: array
@@ -1426,12 +1508,26 @@ spec:
                                             cert:
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                             key:
                                               description: Key for taint.
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                           type: object
@@ -1600,11 +1696,13 @@ spec:
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
-                        description: |-
-                          The maintenance policy to use for the cluster. Structure is
-                          documented below.
+                        description: The maintenance policy for the hosts on which
+                          the GKE VMs run on. Structure is documented below.
                         properties:
                           maintenanceInterval:
+                            description: Specifies the frequency of planned maintenance
+                              events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED,
+                              AS_NEEDED, and PERIODIC.
                             type: string
                         type: object
                       imageType:
@@ -1921,6 +2019,36 @@ spec:
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          customNodeInit:
+                            description: Custom node init settings. Structure is documented
+                              below.
+                            properties:
+                              initScript:
+                                description: The init script configuration. Structure
+                                  is documented below.
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    description: 'The Google Cloud Secret Manager
+                                      secret version URI for storing the init script.
+                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                      The service account on the nodepool must have
+                                      access to the secret version. Conflicts with
+                                      gcs_uri.'
+                                    type: string
+                                  gcsGeneration:
+                                    description: The generation of the init script
+                                      in Google Cloud Storage. If gcs_uri is used,
+                                      gcs_generation is required.
+                                    type: number
+                                  gcsUri:
+                                    description: 'The Google Cloud Storage URI for
+                                      storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                      The service account on the nodepool must have
+                                      read access to the object. Conflicts with gcp_secret_manager_secret_uri.
+                                      If gcs_uri is used, gcs_generation is required.'
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             description: Amounts for 2M and 1G hugepages. Structure
                               is documented below.
@@ -2083,11 +2211,15 @@ spec:
                         items:
                           properties:
                             image:
-                              description: The name of the image to use for this node.
+                              description: The Operating System image for the node
+                                pool. This is a private feature, please contact your
+                                Google account team for allowlisting this feature.
                               type: string
                             imageProject:
-                              description: The project containing the image to use
-                                for this node.
+                              description: The GCP project storing the Operating System
+                                image for the node pool. This is a private feature,
+                                please contact your Google account team for allowlisting
+                                this feature.
                               type: string
                           type: object
                         type: array
@@ -2511,6 +2643,13 @@ spec:
                                             items:
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                             type: array
@@ -2524,12 +2663,28 @@ spec:
                                                 cert:
                                                   properties:
                                                     gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
                                                       type: string
                                                   type: object
                                                 key:
                                                   description: Key for taint.
                                                   properties:
                                                     gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
                                                       type: string
                                                   type: object
                                               type: object
@@ -2847,6 +3002,19 @@ spec:
                           resulting table can be joined with the resource usage table or with BigQuery
                           billing export. Defaults to true.
                         type: boolean
+                    type: object
+                  rollbackSafeUpgrade:
+                    description: Configuration for rollback-safe (two-step) upgrades.
+                      Structure is documented below.
+                    properties:
+                      controlPlaneSoakDuration:
+                        description: 'A user-defined period that the cluster remains
+                          in the rollbackable state. A duration in seconds with up
+                          to nine fractional digits, ending with ''s''. Example: "604800s"
+                          for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted,
+                          the two-step upgrade is skipped and a standard one-step
+                          upgrade is performed.'
+                        type: string
                     type: object
                   secretManagerConfig:
                     description: |-
@@ -3174,6 +3342,15 @@ spec:
                             description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
+                      highScaleCheckpointingConfig:
+                        description: The status of the High Scale Checkpointing addon,
+                          which enables Multi-Tier Checkpointing for Machine Learning
+                          workloads. Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       horizontalPodAutoscaling:
                         description: |-
                           The status of the Horizontal Pod Autoscaling
@@ -3236,6 +3413,15 @@ spec:
                             description: |-
                               The status of the Istio addon, which makes it easy to set up Istio for services in a
                               cluster. It is disabled by default. Set disabled = false to enable.
+                            type: boolean
+                        type: object
+                      nodeReadinessConfig:
+                        description: |-
+                          The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       parallelstoreCsiDriverConfig:
@@ -3704,6 +3890,13 @@ spec:
                   description:
                     description: Description of the cluster.
                     type: string
+                  desiredEmulatedVersion:
+                    description: The desired emulated version for the cluster. Used
+                      to complete a rollback-safe upgrade after a soak period. Must
+                      be in major.minor format (e.g., "1.31"). To complete the upgrade
+                      declaratively, set this field to the target minor version. Removing
+                      this field from your configuration will not trigger completion.
+                    type: string
                   disableL4LbFirewallReconciliation:
                     description: Disable L4 load balancer VPC firewalls to enable
                       firewall policies.
@@ -4057,12 +4250,63 @@ spec:
                               type: string
                           type: object
                         type: array
+                      recurringMaintenanceWindow:
+                        description: structure documented below
+                        properties:
+                          delayUntil:
+                            description: ':  Specifies the initial date when the recurring
+                              window can start.'
+                            properties:
+                              day:
+                                description: ': The day of the month (integer value
+                                  between 1 and 31).'
+                                type: number
+                              month:
+                                description: ': The month of the year (integer value
+                                  between 1 and 12).'
+                                type: number
+                              year:
+                                description: ': The year (integer value).'
+                                type: number
+                            type: object
+                          recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
+                            type: string
+                          windowDuration:
+                            description: ': The length of each maintenance window
+                              instance. Specified as a sequence of decimal numbers,
+                              each with an optional fraction and a unit suffix, such
+                              as "300s", "1.5m", and "2h45m". Valid time units are
+                              "ns", "us" (or "µs"), "ms", "s", "m", "h". The value
+                              must be a positive duration.'
+                            type: string
+                          windowStartTime:
+                            description: ': The time of day when each maintenance
+                              window instance begins.'
+                            properties:
+                              hours:
+                                description: ': The hour of the day (integer value
+                                  between 0 and 23).'
+                                type: number
+                              minutes:
+                                description: ': The minute of the hour (integer value
+                                  between 0 and 59).'
+                                type: number
+                              seconds:
+                                description: ': The second of the minute (integer
+                                  value between 0 and 59).'
+                                type: number
+                            type: object
+                        type: object
                       recurringWindow:
                         description: structure documented below
                         properties:
                           endTime:
                             type: string
                           recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
                             type: string
                           startTime:
                             type: string
@@ -4419,6 +4663,12 @@ spec:
                                         items:
                                           properties:
                                             gcpSecretManagerSecretUri:
+                                              description: 'The Google Cloud Secret
+                                                Manager secret version URI for storing
+                                                the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                The service account on the nodepool
+                                                must have access to the secret version.
+                                                Conflicts with gcs_uri.'
                                               type: string
                                           type: object
                                         type: array
@@ -4432,12 +4682,26 @@ spec:
                                             cert:
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                             key:
                                               description: Key for taint.
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                           type: object
@@ -4606,11 +4870,13 @@ spec:
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
-                        description: |-
-                          The maintenance policy to use for the cluster. Structure is
-                          documented below.
+                        description: The maintenance policy for the hosts on which
+                          the GKE VMs run on. Structure is documented below.
                         properties:
                           maintenanceInterval:
+                            description: Specifies the frequency of planned maintenance
+                              events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED,
+                              AS_NEEDED, and PERIODIC.
                             type: string
                         type: object
                       imageType:
@@ -4927,6 +5193,36 @@ spec:
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          customNodeInit:
+                            description: Custom node init settings. Structure is documented
+                              below.
+                            properties:
+                              initScript:
+                                description: The init script configuration. Structure
+                                  is documented below.
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    description: 'The Google Cloud Secret Manager
+                                      secret version URI for storing the init script.
+                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                      The service account on the nodepool must have
+                                      access to the secret version. Conflicts with
+                                      gcs_uri.'
+                                    type: string
+                                  gcsGeneration:
+                                    description: The generation of the init script
+                                      in Google Cloud Storage. If gcs_uri is used,
+                                      gcs_generation is required.
+                                    type: number
+                                  gcsUri:
+                                    description: 'The Google Cloud Storage URI for
+                                      storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                      The service account on the nodepool must have
+                                      read access to the object. Conflicts with gcp_secret_manager_secret_uri.
+                                      If gcs_uri is used, gcs_generation is required.'
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             description: Amounts for 2M and 1G hugepages. Structure
                               is documented below.
@@ -5089,11 +5385,15 @@ spec:
                         items:
                           properties:
                             image:
-                              description: The name of the image to use for this node.
+                              description: The Operating System image for the node
+                                pool. This is a private feature, please contact your
+                                Google account team for allowlisting this feature.
                               type: string
                             imageProject:
-                              description: The project containing the image to use
-                                for this node.
+                              description: The GCP project storing the Operating System
+                                image for the node pool. This is a private feature,
+                                please contact your Google account team for allowlisting
+                                this feature.
                               type: string
                           type: object
                         type: array
@@ -5517,6 +5817,13 @@ spec:
                                             items:
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                             type: array
@@ -5530,12 +5837,28 @@ spec:
                                                 cert:
                                                   properties:
                                                     gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
                                                       type: string
                                                   type: object
                                                 key:
                                                   description: Key for taint.
                                                   properties:
                                                     gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
                                                       type: string
                                                   type: object
                                               type: object
@@ -5853,6 +6176,19 @@ spec:
                           resulting table can be joined with the resource usage table or with BigQuery
                           billing export. Defaults to true.
                         type: boolean
+                    type: object
+                  rollbackSafeUpgrade:
+                    description: Configuration for rollback-safe (two-step) upgrades.
+                      Structure is documented below.
+                    properties:
+                      controlPlaneSoakDuration:
+                        description: 'A user-defined period that the cluster remains
+                          in the rollbackable state. A duration in seconds with up
+                          to nine fractional digits, ending with ''s''. Example: "604800s"
+                          for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted,
+                          the two-step upgrade is skipped and a standard one-step
+                          upgrade is performed.'
+                        type: string
                     type: object
                   secretManagerConfig:
                     description: |-
@@ -6256,6 +6592,15 @@ spec:
                             description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
+                      highScaleCheckpointingConfig:
+                        description: The status of the High Scale Checkpointing addon,
+                          which enables Multi-Tier Checkpointing for Machine Learning
+                          workloads. Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       horizontalPodAutoscaling:
                         description: |-
                           The status of the Horizontal Pod Autoscaling
@@ -6318,6 +6663,15 @@ spec:
                             description: |-
                               The status of the Istio addon, which makes it easy to set up Istio for services in a
                               cluster. It is disabled by default. Set disabled = false to enable.
+                            type: boolean
+                        type: object
+                      nodeReadinessConfig:
+                        description: |-
+                          The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       parallelstoreCsiDriverConfig:
@@ -6803,6 +7157,13 @@ spec:
                   description:
                     description: Description of the cluster.
                     type: string
+                  desiredEmulatedVersion:
+                    description: The desired emulated version for the cluster. Used
+                      to complete a rollback-safe upgrade after a soak period. Must
+                      be in major.minor format (e.g., "1.31"). To complete the upgrade
+                      declaratively, set this field to the target minor version. Removing
+                      this field from your configuration will not trigger completion.
+                    type: string
                   disableL4LbFirewallReconciliation:
                     description: Disable L4 load balancer VPC firewalls to enable
                       firewall policies.
@@ -6837,6 +7198,10 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  emulatedVersion:
+                    description: The current emulated Kubernetes version running on
+                      the GKE cluster control plane.
+                    type: string
                   enableAutopilot:
                     description: |-
                       Enable Autopilot for this cluster. Defaults to false.
@@ -7213,12 +7578,63 @@ spec:
                               type: string
                           type: object
                         type: array
+                      recurringMaintenanceWindow:
+                        description: structure documented below
+                        properties:
+                          delayUntil:
+                            description: ':  Specifies the initial date when the recurring
+                              window can start.'
+                            properties:
+                              day:
+                                description: ': The day of the month (integer value
+                                  between 1 and 31).'
+                                type: number
+                              month:
+                                description: ': The month of the year (integer value
+                                  between 1 and 12).'
+                                type: number
+                              year:
+                                description: ': The year (integer value).'
+                                type: number
+                            type: object
+                          recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
+                            type: string
+                          windowDuration:
+                            description: ': The length of each maintenance window
+                              instance. Specified as a sequence of decimal numbers,
+                              each with an optional fraction and a unit suffix, such
+                              as "300s", "1.5m", and "2h45m". Valid time units are
+                              "ns", "us" (or "µs"), "ms", "s", "m", "h". The value
+                              must be a positive duration.'
+                            type: string
+                          windowStartTime:
+                            description: ': The time of day when each maintenance
+                              window instance begins.'
+                            properties:
+                              hours:
+                                description: ': The hour of the day (integer value
+                                  between 0 and 23).'
+                                type: number
+                              minutes:
+                                description: ': The minute of the hour (integer value
+                                  between 0 and 59).'
+                                type: number
+                              seconds:
+                                description: ': The second of the minute (integer
+                                  value between 0 and 59).'
+                                type: number
+                            type: object
+                        type: object
                       recurringWindow:
                         description: structure documented below
                         properties:
                           endTime:
                             type: string
                           recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
                             type: string
                           startTime:
                             type: string
@@ -7517,6 +7933,12 @@ spec:
                                         items:
                                           properties:
                                             gcpSecretManagerSecretUri:
+                                              description: 'The Google Cloud Secret
+                                                Manager secret version URI for storing
+                                                the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                The service account on the nodepool
+                                                must have access to the secret version.
+                                                Conflicts with gcs_uri.'
                                               type: string
                                           type: object
                                         type: array
@@ -7530,12 +7952,26 @@ spec:
                                             cert:
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                             key:
                                               description: Key for taint.
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                           type: object
@@ -7721,11 +8157,13 @@ spec:
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
-                        description: |-
-                          The maintenance policy to use for the cluster. Structure is
-                          documented below.
+                        description: The maintenance policy for the hosts on which
+                          the GKE VMs run on. Structure is documented below.
                         properties:
                           maintenanceInterval:
+                            description: Specifies the frequency of planned maintenance
+                              events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED,
+                              AS_NEEDED, and PERIODIC.
                             type: string
                         type: object
                       imageType:
@@ -8042,6 +8480,36 @@ spec:
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          customNodeInit:
+                            description: Custom node init settings. Structure is documented
+                              below.
+                            properties:
+                              initScript:
+                                description: The init script configuration. Structure
+                                  is documented below.
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    description: 'The Google Cloud Secret Manager
+                                      secret version URI for storing the init script.
+                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                      The service account on the nodepool must have
+                                      access to the secret version. Conflicts with
+                                      gcs_uri.'
+                                    type: string
+                                  gcsGeneration:
+                                    description: The generation of the init script
+                                      in Google Cloud Storage. If gcs_uri is used,
+                                      gcs_generation is required.
+                                    type: number
+                                  gcsUri:
+                                    description: 'The Google Cloud Storage URI for
+                                      storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                      The service account on the nodepool must have
+                                      read access to the object. Conflicts with gcp_secret_manager_secret_uri.
+                                      If gcs_uri is used, gcs_generation is required.'
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             description: Amounts for 2M and 1G hugepages. Structure
                               is documented below.
@@ -8204,11 +8672,15 @@ spec:
                         items:
                           properties:
                             image:
-                              description: The name of the image to use for this node.
+                              description: The Operating System image for the node
+                                pool. This is a private feature, please contact your
+                                Google account team for allowlisting this feature.
                               type: string
                             imageProject:
-                              description: The project containing the image to use
-                                for this node.
+                              description: The GCP project storing the Operating System
+                                image for the node pool. This is a private feature,
+                                please contact your Google account team for allowlisting
+                                this feature.
                               type: string
                           type: object
                         type: array
@@ -8478,6 +8950,26 @@ spec:
                           items:
                             type: string
                           type: array
+                        maintenancePolicy:
+                          description: |-
+                            The maintenance policy to use for the cluster. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              exclusionUntilEndOfSupport:
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Whether writable cgroups are enabled.
+                                      type: boolean
+                                    endTime:
+                                      type: string
+                                    startTime:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         managedInstanceGroupUrls:
                           items:
                             type: string
@@ -8698,6 +9190,13 @@ spec:
                                               items:
                                                 properties:
                                                   gcpSecretManagerSecretUri:
+                                                    description: 'The Google Cloud
+                                                      Secret Manager secret version
+                                                      URI for storing the init script.
+                                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                      The service account on the nodepool
+                                                      must have access to the secret
+                                                      version. Conflicts with gcs_uri.'
                                                     type: string
                                                 type: object
                                               type: array
@@ -8711,12 +9210,28 @@ spec:
                                                   cert:
                                                     properties:
                                                       gcpSecretManagerSecretUri:
+                                                        description: 'The Google Cloud
+                                                          Secret Manager secret version
+                                                          URI for storing the init
+                                                          script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                          The service account on the
+                                                          nodepool must have access
+                                                          to the secret version. Conflicts
+                                                          with gcs_uri.'
                                                         type: string
                                                     type: object
                                                   key:
                                                     description: Key for taint.
                                                     properties:
                                                       gcpSecretManagerSecretUri:
+                                                        description: 'The Google Cloud
+                                                          Secret Manager secret version
+                                                          URI for storing the init
+                                                          script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                          The service account on the
+                                                          nodepool must have access
+                                                          to the secret version. Conflicts
+                                                          with gcs_uri.'
                                                         type: string
                                                     type: object
                                                 type: object
@@ -8901,11 +9416,14 @@ spec:
                                   type: boolean
                               type: object
                             hostMaintenancePolicy:
-                              description: |-
-                                The maintenance policy to use for the cluster. Structure is
-                                documented below.
+                              description: The maintenance policy for the hosts on
+                                which the GKE VMs run on. Structure is documented
+                                below.
                               properties:
                                 maintenanceInterval:
+                                  description: Specifies the frequency of planned
+                                    maintenance events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED,
+                                    AS_NEEDED, and PERIODIC.
                                   type: string
                               type: object
                             imageType:
@@ -9232,6 +9750,37 @@ spec:
                                     Possible cgroup modes that can be used.
                                     Accepted values are:
                                   type: string
+                                customNodeInit:
+                                  description: Custom node init settings. Structure
+                                    is documented below.
+                                  properties:
+                                    initScript:
+                                      description: The init script configuration.
+                                        Structure is documented below.
+                                      properties:
+                                        gcpSecretManagerSecretUri:
+                                          description: 'The Google Cloud Secret Manager
+                                            secret version URI for storing the init
+                                            script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                            The service account on the nodepool must
+                                            have access to the secret version. Conflicts
+                                            with gcs_uri.'
+                                          type: string
+                                        gcsGeneration:
+                                          description: The generation of the init
+                                            script in Google Cloud Storage. If gcs_uri
+                                            is used, gcs_generation is required.
+                                          type: number
+                                        gcsUri:
+                                          description: 'The Google Cloud Storage URI
+                                            for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                            The service account on the nodepool must
+                                            have read access to the object. Conflicts
+                                            with gcp_secret_manager_secret_uri. If
+                                            gcs_uri is used, gcs_generation is required.'
+                                          type: string
+                                      type: object
+                                  type: object
                                 hugepagesConfig:
                                   description: Amounts for 2M and 1G hugepages. Structure
                                     is documented below.
@@ -9398,12 +9947,16 @@ spec:
                               items:
                                 properties:
                                   image:
-                                    description: The name of the image to use for
-                                      this node.
+                                    description: The Operating System image for the
+                                      node pool. This is a private feature, please
+                                      contact your Google account team for allowlisting
+                                      this feature.
                                     type: string
                                   imageProject:
-                                    description: The project containing the image
-                                      to use for this node.
+                                    description: The GCP project storing the Operating
+                                      System image for the node pool. This is a private
+                                      feature, please contact your Google account
+                                      team for allowlisting this feature.
                                     type: string
                                 type: object
                               type: array
@@ -9845,6 +10398,13 @@ spec:
                                             items:
                                               properties:
                                                 gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
                                                   type: string
                                               type: object
                                             type: array
@@ -9858,12 +10418,28 @@ spec:
                                                 cert:
                                                   properties:
                                                     gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
                                                       type: string
                                                   type: object
                                                 key:
                                                   description: Key for taint.
                                                   properties:
                                                     gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
                                                       type: string
                                                   type: object
                                               type: object
@@ -10119,6 +10695,19 @@ spec:
                           resulting table can be joined with the resource usage table or with BigQuery
                           billing export. Defaults to true.
                         type: boolean
+                    type: object
+                  rollbackSafeUpgrade:
+                    description: Configuration for rollback-safe (two-step) upgrades.
+                      Structure is documented below.
+                    properties:
+                      controlPlaneSoakDuration:
+                        description: 'A user-defined period that the cluster remains
+                          in the rollbackable state. A duration in seconds with up
+                          to nine fractional digits, ending with ''s''. Example: "604800s"
+                          for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted,
+                          the two-step upgrade is skipped and a standard one-step
+                          upgrade is performed.'
+                        type: string
                     type: object
                   secretManagerConfig:
                     description: |-

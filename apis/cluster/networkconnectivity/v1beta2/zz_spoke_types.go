@@ -13,6 +13,64 @@ import (
 	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
+type GatewayInitParameters struct {
+
+	// the capacity of the gateway spoke, in Gbps.
+	// Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+	Capacity *string `json:"capacity,omitempty" tf:"capacity,omitempty"`
+
+	// A list of IP ranges that are reserved for this gateway's internal infrastructure.
+	// Structure is documented below.
+	IPRangeReservations []IPRangeReservationsInitParameters `json:"ipRangeReservations,omitempty" tf:"ip_range_reservations,omitempty"`
+}
+
+type GatewayObservation struct {
+
+	// the capacity of the gateway spoke, in Gbps.
+	// Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+	Capacity *string `json:"capacity,omitempty" tf:"capacity,omitempty"`
+
+	// A list of IP ranges that are reserved for this gateway's internal infrastructure.
+	// Structure is documented below.
+	IPRangeReservations []IPRangeReservationsObservation `json:"ipRangeReservations,omitempty" tf:"ip_range_reservations,omitempty"`
+
+	// (Output)
+	// Set of Cloud Routers that are attached to this NCC-GW
+	Routers []*string `json:"routers,omitempty" tf:"routers,omitempty"`
+}
+
+type GatewayParameters struct {
+
+	// the capacity of the gateway spoke, in Gbps.
+	// Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+	// +kubebuilder:validation:Optional
+	Capacity *string `json:"capacity" tf:"capacity,omitempty"`
+
+	// A list of IP ranges that are reserved for this gateway's internal infrastructure.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IPRangeReservations []IPRangeReservationsParameters `json:"ipRangeReservations" tf:"ip_range_reservations,omitempty"`
+}
+
+type IPRangeReservationsInitParameters struct {
+
+	// A block of IP address ranges used to allocate supporting infrastructure for this gateway—for example, 10.1.2.0/23. The IP address block must be a /23 range. This IP address block must not overlap with subnets in any spoke or peer network that the gateway can communicate with.
+	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+}
+
+type IPRangeReservationsObservation struct {
+
+	// A block of IP address ranges used to allocate supporting infrastructure for this gateway—for example, 10.1.2.0/23. The IP address block must be a /23 range. This IP address block must not overlap with subnets in any spoke or peer network that the gateway can communicate with.
+	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+}
+
+type IPRangeReservationsParameters struct {
+
+	// A block of IP address ranges used to allocate supporting infrastructure for this gateway—for example, 10.1.2.0/23. The IP address block must be a /23 range. This IP address block must not overlap with subnets in any spoke or peer network that the gateway can communicate with.
+	// +kubebuilder:validation:Optional
+	IPRange *string `json:"ipRange" tf:"ip_range,omitempty"`
+}
+
 type InstancesInitParameters struct {
 
 	// The IP address on the VM to use for peering.
@@ -494,6 +552,10 @@ type SpokeInitParameters struct {
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// This is a gateway that can apply specialized processing to traffic going through it.
+	// Structure is documented below.
+	Gateway *GatewayInitParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
+
 	// The name of the group that this spoke is associated with.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -572,6 +634,10 @@ type SpokeObservation struct {
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
+	// This is a gateway that can apply specialized processing to traffic going through it.
+	// Structure is documented below.
+	Gateway *GatewayObservation `json:"gateway,omitempty" tf:"gateway,omitempty"`
+
 	// The name of the group that this spoke is associated with.
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -641,6 +707,11 @@ type SpokeParameters struct {
 	// An optional description of the spoke.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// This is a gateway that can apply specialized processing to traffic going through it.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Gateway *GatewayParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
 
 	// The name of the group that this spoke is associated with.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta1.Group

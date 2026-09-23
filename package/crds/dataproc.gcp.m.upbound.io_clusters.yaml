@@ -108,7 +108,8 @@ spec:
                                           type: object
                                         type: array
                                       diskConfig:
-                                        description: Disk Config
+                                        description: Disk configuration to apply to
+                                          the instances in this instance selection.
                                         properties:
                                           bootDiskProvisionedIops:
                                             description: Indicates how many IOPS to
@@ -240,9 +241,16 @@ spec:
                             description: Confidential Instance Config for clusters
                               using Confidential VMs
                             properties:
+                              confidentialInstanceType:
+                                description: Defines the confidential compute type
+                                  of the instance. Valid values are "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED",
+                                  "SEV", "SEV_SNP", "TDX".
+                                type: string
                               enableConfidentialCompute:
                                 description: Defines whether the instance should have
-                                  confidential compute enabled.
+                                  confidential compute enabled. enable_confidential_compute
+                                  is deprecated and will be removed in a future major
+                                  release. Use confidential_instance_type instead.
                                 type: boolean
                             type: object
                           internalIpOnly:
@@ -514,6 +522,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -564,6 +594,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -618,6 +713,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -663,6 +780,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -892,6 +1074,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -942,6 +1146,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -1255,7 +1524,8 @@ spec:
                                           type: object
                                         type: array
                                       diskConfig:
-                                        description: Disk Config
+                                        description: Disk configuration to apply to
+                                          the instances in this instance selection.
                                         properties:
                                           bootDiskProvisionedIops:
                                             description: Indicates how many IOPS to
@@ -1387,9 +1657,16 @@ spec:
                             description: Confidential Instance Config for clusters
                               using Confidential VMs
                             properties:
+                              confidentialInstanceType:
+                                description: Defines the confidential compute type
+                                  of the instance. Valid values are "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED",
+                                  "SEV", "SEV_SNP", "TDX".
+                                type: string
                               enableConfidentialCompute:
                                 description: Defines whether the instance should have
-                                  confidential compute enabled.
+                                  confidential compute enabled. enable_confidential_compute
+                                  is deprecated and will be removed in a future major
+                                  release. Use confidential_instance_type instead.
                                 type: boolean
                             type: object
                           internalIpOnly:
@@ -1661,6 +1938,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -1711,6 +2010,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -1765,6 +2129,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -1810,6 +2196,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -2039,6 +2490,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -2089,6 +2562,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -2462,7 +3000,8 @@ spec:
                                           type: object
                                         type: array
                                       diskConfig:
-                                        description: Disk Config
+                                        description: Disk configuration to apply to
+                                          the instances in this instance selection.
                                         properties:
                                           bootDiskProvisionedIops:
                                             description: Indicates how many IOPS to
@@ -2615,9 +3154,16 @@ spec:
                             description: Confidential Instance Config for clusters
                               using Confidential VMs
                             properties:
+                              confidentialInstanceType:
+                                description: Defines the confidential compute type
+                                  of the instance. Valid values are "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED",
+                                  "SEV", "SEV_SNP", "TDX".
+                                type: string
                               enableConfidentialCompute:
                                 description: Defines whether the instance should have
-                                  confidential compute enabled.
+                                  confidential compute enabled. enable_confidential_compute
+                                  is deprecated and will be removed in a future major
+                                  release. Use confidential_instance_type instead.
                                 type: boolean
                             type: object
                           internalIpOnly:
@@ -2812,6 +3358,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -2862,6 +3430,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -2934,6 +3567,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -2979,6 +3634,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:
@@ -3233,6 +3953,28 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              attachedDiskConfig:
+                                description: Attached disk configuration.
+                                items:
+                                  properties:
+                                    diskSizeGb:
+                                      description: Size of the attached disk, specified
+                                        in GB.
+                                      type: number
+                                    diskType:
+                                      description: The disk type of the attached disk.
+                                        Such as "pd-ssd" or "pd-standard".
+                                      type: string
+                                    provisionedIops:
+                                      description: Indicates how many IOPS to provision
+                                        for the disk.
+                                      type: number
+                                    provisionedThroughput:
+                                      description: Indicates how much throughput to
+                                        provision for the disk.
+                                      type: number
+                                  type: object
+                                type: array
                               bootDiskProvisionedIops:
                                 description: Indicates how many IOPS to provision
                                   for the disk. This sets the number of I/O operations
@@ -3283,6 +4025,71 @@ spec:
                                   the group will use when creating new VMs.
                                 items:
                                   properties:
+                                    diskConfig:
+                                      description: Disk configuration to apply to
+                                        the instances in this instance selection.
+                                      properties:
+                                        attachedDiskConfig:
+                                          description: Attached disk configuration.
+                                          items:
+                                            properties:
+                                              diskSizeGb:
+                                                description: Size of the attached
+                                                  disk, specified in GB.
+                                                type: number
+                                              diskType:
+                                                description: The disk type of the
+                                                  attached disk. Such as "pd-ssd"
+                                                  or "pd-standard".
+                                                type: string
+                                              provisionedIops:
+                                                description: Indicates how many IOPS
+                                                  to provision for the disk.
+                                                type: number
+                                              provisionedThroughput:
+                                                description: Indicates how much throughput
+                                                  to provision for the disk.
+                                                type: number
+                                            type: object
+                                          type: array
+                                        bootDiskProvisionedIops:
+                                          description: Indicates how many IOPS to
+                                            provision for the disk. This sets the
+                                            number of I/O operations per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskProvisionedThroughput:
+                                          description: Indicates how much throughput
+                                            to provision for the disk. This sets the
+                                            number of throughput mb per second that
+                                            the disk can handle.
+                                          type: number
+                                        bootDiskSizeGb:
+                                          description: |-
+                                            Size of the primary disk attached to each node, specified
+                                            in GB. The primary disk contains the boot volume and system libraries, and the
+                                            smallest allowed disk size is 10GB. GCP will default to a predetermined
+                                            computed value if not set (currently 500GB). Note: If SSDs are not
+                                            attached, it also contains the HDFS data blocks and Hadoop working directories.
+                                          type: number
+                                        bootDiskType:
+                                          description: |-
+                                            The disk type of the primary disk attached to each node.
+                                            One of "pd-ssd" or "pd-standard". Defaults to "pd-standard".
+                                          type: string
+                                        localSsdInterface:
+                                          description: |-
+                                            Optional. Interface type of local SSDs (default is "scsi").
+                                            Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile
+                                            Memory Express). See
+                                            local SSD performance.
+                                          type: string
+                                        numLocalSsds:
+                                          description: |-
+                                            The amount of local SSD disks that will be
+                                            attached to each master cluster node. Defaults to 0.
+                                          type: number
+                                      type: object
                                     machineTypes:
                                       description: Full machine-type names, e.g. "n1-standard-16".
                                       items:

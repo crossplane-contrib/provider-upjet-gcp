@@ -974,6 +974,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -2335,6 +2357,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -3415,6 +3459,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
