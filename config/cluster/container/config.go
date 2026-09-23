@@ -240,7 +240,8 @@ func suppressEnableComponentsOrderDiff(diff *terraform.InstanceDiff) { //nolint:
 // Optional+Computed nested blocks on google_container_node_pool. When such a
 // block is never set by the caller, the provider surfaces a permanent no-op
 // diff that drives a reconcile hot-loop (the resulting update issues no GKE
-// operation). node_drain_config was added in TF-google 7.x and exhibits this.
+// operation). node_drain_config was added in TF-google 7.x and exhibits this,
+// as does maintenance_policy, added in TF-google 7.46.
 func dropEmptyOptionalComputedBlockDiffs(diff *terraform.InstanceDiff) {
 	if diff == nil || diff.Attributes == nil {
 		return
@@ -250,6 +251,7 @@ func dropEmptyOptionalComputedBlockDiffs(diff *terraform.InstanceDiff) {
 		"autoscaling.#",
 		"queued_provisioning.#",
 		"node_drain_config.#",
+		"maintenance_policy.#",
 	} {
 		if ad, ok := diff.Attributes[key]; ok && ad.Old == "" && ad.New == "" {
 			delete(diff.Attributes, key)
