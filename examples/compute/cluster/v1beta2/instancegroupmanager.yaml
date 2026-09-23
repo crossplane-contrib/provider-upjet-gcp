@@ -61,7 +61,7 @@ spec:
     disk:
     - autoDelete: true
       boot: true
-      sourceImage: debian-cloud/debian-11
+      sourceImage: debian-cloud/debian-13
     machineType: e2-medium
     name: instance-group-manager
     networkInterface:
