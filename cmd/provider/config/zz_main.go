@@ -104,15 +104,20 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 	kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	log.Default().SetOutput(io.Discard)
-	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 
 	zl := zap.New(zap.UseDevMode(*debug))
 	logr := logging.NewLogrLogger(zl.WithName("provider-gcp"))
 	if *debug {
-		// The controller-runtime runs with a no-op logger by default. It is
-		// *very* verbose even at info level, so we only provide it a real
-		// logger when we're running in debug mode.
+		// The controller-runtime logger is *very* verbose even at info
+		// level, so we only provide it a real logger in debug mode.
 		ctrl.SetLogger(zl)
+	} else {
+		// controller-runtime requires a logger to be set explicitly, otherwise it
+		// prints a "log.SetLogger(...) was never called" warning with a stack
+		// trace and discards its logs anyway. Give it one that writes nowhere
+		// unless we are running in debug mode. controller-runtime honours only
+		// the first SetLogger call, so it must not be set unconditionally above.
+		ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 	}
 
 	// currently, we configure the jitter to be the 5% of the poll interval
