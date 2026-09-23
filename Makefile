@@ -11,7 +11,7 @@ PROJECT_NAME := provider-$(PROVIDER_NAME)
 PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)/v3
 
 export TERRAFORM_VERSION := 1.5.5
-export TERRAFORM_PROVIDER_VERSION := 7.39.0
+export TERRAFORM_PROVIDER_VERSION := 7.46.1
 export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google
 export TERRAFORM_DOCS_PATH ?= website/docs/r
@@ -191,10 +191,13 @@ pull-docs:
 	rm -fR "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))"
 	git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))";
 	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
-	@# workaround for fetching fixed docs of model_armor_template. Prior to this version, examples were malformed in the docs
-	@# TODO: remove after TF provider version is bumped v7.27.0+
-	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" fetch --depth 1 origin v7.27.0
-	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" checkout FETCH_HEAD -- "$(TERRAFORM_DOCS_PATH)/model_armor_template.html.markdown"
+	@# google_beyondcorp_app_connection and google_beyondcorp_app_connector were deprecated upstream and
+	@# their doc examples removed in v7.44.0, which makes the upjet scraper drop both resources from
+	@# provider-metadata.yaml (no CRD field docs, no generated examples, no injected references).
+	@# Keep scraping the last complete docs from v7.43.0 until the resources are removed in the v8 bump.
+	@# TODO: remove together with the two resources when the TF provider is bumped to v8.x
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" fetch --depth 1 origin v7.43.0
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" checkout FETCH_HEAD -- "$(TERRAFORM_DOCS_PATH)/beyondcorp_app_connection.html.markdown" "$(TERRAFORM_DOCS_PATH)/beyondcorp_app_connector.html.markdown"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 

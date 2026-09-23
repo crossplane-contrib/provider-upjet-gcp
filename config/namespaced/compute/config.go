@@ -47,6 +47,18 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_instance_group_manager",
 			Extractor:     PathInstanceGroupExtractor,
 		}
+		// oauth2_client_id_wo and oauth2_client_secret_wo are write-only
+		// Terraform fields with no persisted state, which upjet can't
+		// represent; the SecretRef fields cover the same input. Their
+		// _wo_version counterparts stay in the schema (only the dangling
+		// RequiredWith is cleared) because the upstream Read flattens them
+		// into the iap block: deleting them breaks every read with
+		// "Invalid address to set".
+		iap := r.TerraformResource.Schema["iap"].Elem.(*schema.Resource).Schema
+		delete(iap, "oauth2_client_id_wo")
+		delete(iap, "oauth2_client_secret_wo")
+		iap["oauth2_client_id_wo_version"].RequiredWith = nil
+		iap["oauth2_client_secret_wo_version"].RequiredWith = nil
 	})
 
 	p.AddResourceConfigurator("google_compute_managed_ssl_certificate", func(r *config.Resource) {

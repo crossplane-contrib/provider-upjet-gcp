@@ -422,6 +422,11 @@ func (in *AddonsConfigInitParameters) DeepCopyInto(out *AddonsConfigInitParamete
 		*out = new(HTTPLoadBalancingInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.HighScaleCheckpointingConfig != nil {
+		in, out := &in.HighScaleCheckpointingConfig, &out.HighScaleCheckpointingConfig
+		*out = new(HighScaleCheckpointingConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.HorizontalPodAutoscaling != nil {
 		in, out := &in.HorizontalPodAutoscaling, &out.HorizontalPodAutoscaling
 		*out = new(HorizontalPodAutoscalingInitParameters)
@@ -435,6 +440,11 @@ func (in *AddonsConfigInitParameters) DeepCopyInto(out *AddonsConfigInitParamete
 	if in.NetworkPolicyConfig != nil {
 		in, out := &in.NetworkPolicyConfig, &out.NetworkPolicyConfig
 		*out = new(NetworkPolicyConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NodeReadinessConfig != nil {
+		in, out := &in.NodeReadinessConfig, &out.NodeReadinessConfig
+		*out = new(NodeReadinessConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParallelstoreCsiDriverConfig != nil {
@@ -529,6 +539,11 @@ func (in *AddonsConfigObservation) DeepCopyInto(out *AddonsConfigObservation) {
 		*out = new(HTTPLoadBalancingObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.HighScaleCheckpointingConfig != nil {
+		in, out := &in.HighScaleCheckpointingConfig, &out.HighScaleCheckpointingConfig
+		*out = new(HighScaleCheckpointingConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.HorizontalPodAutoscaling != nil {
 		in, out := &in.HorizontalPodAutoscaling, &out.HorizontalPodAutoscaling
 		*out = new(HorizontalPodAutoscalingObservation)
@@ -542,6 +557,11 @@ func (in *AddonsConfigObservation) DeepCopyInto(out *AddonsConfigObservation) {
 	if in.NetworkPolicyConfig != nil {
 		in, out := &in.NetworkPolicyConfig, &out.NetworkPolicyConfig
 		*out = new(NetworkPolicyConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NodeReadinessConfig != nil {
+		in, out := &in.NodeReadinessConfig, &out.NodeReadinessConfig
+		*out = new(NodeReadinessConfigObservation)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParallelstoreCsiDriverConfig != nil {
@@ -636,6 +656,11 @@ func (in *AddonsConfigParameters) DeepCopyInto(out *AddonsConfigParameters) {
 		*out = new(HTTPLoadBalancingParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.HighScaleCheckpointingConfig != nil {
+		in, out := &in.HighScaleCheckpointingConfig, &out.HighScaleCheckpointingConfig
+		*out = new(HighScaleCheckpointingConfigParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.HorizontalPodAutoscaling != nil {
 		in, out := &in.HorizontalPodAutoscaling, &out.HorizontalPodAutoscaling
 		*out = new(HorizontalPodAutoscalingParameters)
@@ -649,6 +674,11 @@ func (in *AddonsConfigParameters) DeepCopyInto(out *AddonsConfigParameters) {
 	if in.NetworkPolicyConfig != nil {
 		in, out := &in.NetworkPolicyConfig, &out.NetworkPolicyConfig
 		*out = new(NetworkPolicyConfigParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NodeReadinessConfig != nil {
+		in, out := &in.NodeReadinessConfig, &out.NodeReadinessConfig
+		*out = new(NodeReadinessConfigParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ParallelstoreCsiDriverConfig != nil {
@@ -2941,6 +2971,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DesiredEmulatedVersion != nil {
+		in, out := &in.DesiredEmulatedVersion, &out.DesiredEmulatedVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisableL4LBFirewallReconciliation != nil {
 		in, out := &in.DisableL4LBFirewallReconciliation, &out.DisableL4LBFirewallReconciliation
 		*out = new(bool)
@@ -3218,6 +3253,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(ResourceUsageExportConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.RollbackSafeUpgrade != nil {
+		in, out := &in.RollbackSafeUpgrade, &out.RollbackSafeUpgrade
+		*out = new(RollbackSafeUpgradeInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SecretManagerConfig != nil {
 		in, out := &in.SecretManagerConfig, &out.SecretManagerConfig
 		*out = new(SecretManagerConfigInitParameters)
@@ -3431,6 +3471,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DesiredEmulatedVersion != nil {
+		in, out := &in.DesiredEmulatedVersion, &out.DesiredEmulatedVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisableL4LBFirewallReconciliation != nil {
 		in, out := &in.DisableL4LBFirewallReconciliation, &out.DisableL4LBFirewallReconciliation
 		*out = new(bool)
@@ -3451,6 +3496,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.EmulatedVersion != nil {
+		in, out := &in.EmulatedVersion, &out.EmulatedVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.EnableAutopilot != nil {
 		in, out := &in.EnableAutopilot, &out.EnableAutopilot
@@ -3751,6 +3801,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(ResourceUsageExportConfigObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.RollbackSafeUpgrade != nil {
+		in, out := &in.RollbackSafeUpgrade, &out.RollbackSafeUpgrade
+		*out = new(RollbackSafeUpgradeObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SecretManagerConfig != nil {
 		in, out := &in.SecretManagerConfig, &out.SecretManagerConfig
 		*out = new(SecretManagerConfigObservation)
@@ -3945,6 +4000,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
+		*out = new(string)
+		**out = **in
+	}
+	if in.DesiredEmulatedVersion != nil {
+		in, out := &in.DesiredEmulatedVersion, &out.DesiredEmulatedVersion
 		*out = new(string)
 		**out = **in
 	}
@@ -4228,6 +4288,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	if in.ResourceUsageExportConfig != nil {
 		in, out := &in.ResourceUsageExportConfig, &out.ResourceUsageExportConfig
 		*out = new(ResourceUsageExportConfigParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RollbackSafeUpgrade != nil {
+		in, out := &in.RollbackSafeUpgrade, &out.RollbackSafeUpgrade
+		*out = new(RollbackSafeUpgradeParameters)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecretManagerConfig != nil {
@@ -5490,6 +5555,126 @@ func (in *CrashLoopBackOffParameters) DeepCopy() *CrashLoopBackOffParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomNodeInitInitParameters) DeepCopyInto(out *CustomNodeInitInitParameters) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(InitScriptInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomNodeInitInitParameters.
+func (in *CustomNodeInitInitParameters) DeepCopy() *CustomNodeInitInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomNodeInitInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomNodeInitInitScriptInitParameters) DeepCopyInto(out *CustomNodeInitInitScriptInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomNodeInitInitScriptInitParameters.
+func (in *CustomNodeInitInitScriptInitParameters) DeepCopy() *CustomNodeInitInitScriptInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomNodeInitInitScriptInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomNodeInitInitScriptObservation) DeepCopyInto(out *CustomNodeInitInitScriptObservation) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomNodeInitInitScriptObservation.
+func (in *CustomNodeInitInitScriptObservation) DeepCopy() *CustomNodeInitInitScriptObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomNodeInitInitScriptObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomNodeInitInitScriptParameters) DeepCopyInto(out *CustomNodeInitInitScriptParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomNodeInitInitScriptParameters.
+func (in *CustomNodeInitInitScriptParameters) DeepCopy() *CustomNodeInitInitScriptParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomNodeInitInitScriptParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomNodeInitObservation) DeepCopyInto(out *CustomNodeInitObservation) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(InitScriptObservation)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomNodeInitObservation.
+func (in *CustomNodeInitObservation) DeepCopy() *CustomNodeInitObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomNodeInitObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *CustomNodeInitParameters) DeepCopyInto(out *CustomNodeInitParameters) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(InitScriptParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CustomNodeInitParameters.
+func (in *CustomNodeInitParameters) DeepCopy() *CustomNodeInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(CustomNodeInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DNSCacheConfigInitParameters) DeepCopyInto(out *DNSCacheConfigInitParameters) {
 	*out = *in
 	if in.Enabled != nil {
@@ -6015,6 +6200,96 @@ func (in *DefaultSnatStatusParameters) DeepCopy() *DefaultSnatStatusParameters {
 		return nil
 	}
 	out := new(DefaultSnatStatusParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DelayUntilInitParameters) DeepCopyInto(out *DelayUntilInitParameters) {
+	*out = *in
+	if in.Day != nil {
+		in, out := &in.Day, &out.Day
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Month != nil {
+		in, out := &in.Month, &out.Month
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Year != nil {
+		in, out := &in.Year, &out.Year
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DelayUntilInitParameters.
+func (in *DelayUntilInitParameters) DeepCopy() *DelayUntilInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DelayUntilInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DelayUntilObservation) DeepCopyInto(out *DelayUntilObservation) {
+	*out = *in
+	if in.Day != nil {
+		in, out := &in.Day, &out.Day
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Month != nil {
+		in, out := &in.Month, &out.Month
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Year != nil {
+		in, out := &in.Year, &out.Year
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DelayUntilObservation.
+func (in *DelayUntilObservation) DeepCopy() *DelayUntilObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(DelayUntilObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DelayUntilParameters) DeepCopyInto(out *DelayUntilParameters) {
+	*out = *in
+	if in.Day != nil {
+		in, out := &in.Day, &out.Day
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Month != nil {
+		in, out := &in.Month, &out.Month
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Year != nil {
+		in, out := &in.Year, &out.Year
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DelayUntilParameters.
+func (in *DelayUntilParameters) DeepCopy() *DelayUntilParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(DelayUntilParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -6993,6 +7268,66 @@ func (in *ExclusionOptionsParameters) DeepCopy() *ExclusionOptionsParameters {
 		return nil
 	}
 	out := new(ExclusionOptionsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ExclusionUntilEndOfSupportInitParameters) DeepCopyInto(out *ExclusionUntilEndOfSupportInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ExclusionUntilEndOfSupportInitParameters.
+func (in *ExclusionUntilEndOfSupportInitParameters) DeepCopy() *ExclusionUntilEndOfSupportInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ExclusionUntilEndOfSupportInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ExclusionUntilEndOfSupportObservation) DeepCopyInto(out *ExclusionUntilEndOfSupportObservation) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.EndTime != nil {
+		in, out := &in.EndTime, &out.EndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.StartTime != nil {
+		in, out := &in.StartTime, &out.StartTime
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ExclusionUntilEndOfSupportObservation.
+func (in *ExclusionUntilEndOfSupportObservation) DeepCopy() *ExclusionUntilEndOfSupportObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ExclusionUntilEndOfSupportObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ExclusionUntilEndOfSupportParameters) DeepCopyInto(out *ExclusionUntilEndOfSupportParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ExclusionUntilEndOfSupportParameters.
+func (in *ExclusionUntilEndOfSupportParameters) DeepCopy() *ExclusionUntilEndOfSupportParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ExclusionUntilEndOfSupportParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -8284,6 +8619,66 @@ func (in *HeaderParameters) DeepCopy() *HeaderParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *HighScaleCheckpointingConfigInitParameters) DeepCopyInto(out *HighScaleCheckpointingConfigInitParameters) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HighScaleCheckpointingConfigInitParameters.
+func (in *HighScaleCheckpointingConfigInitParameters) DeepCopy() *HighScaleCheckpointingConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(HighScaleCheckpointingConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *HighScaleCheckpointingConfigObservation) DeepCopyInto(out *HighScaleCheckpointingConfigObservation) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HighScaleCheckpointingConfigObservation.
+func (in *HighScaleCheckpointingConfigObservation) DeepCopy() *HighScaleCheckpointingConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(HighScaleCheckpointingConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *HighScaleCheckpointingConfigParameters) DeepCopyInto(out *HighScaleCheckpointingConfigParameters) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HighScaleCheckpointingConfigParameters.
+func (in *HighScaleCheckpointingConfigParameters) DeepCopy() *HighScaleCheckpointingConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(HighScaleCheckpointingConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *HorizontalPodAutoscalingInitParameters) DeepCopyInto(out *HorizontalPodAutoscalingInitParameters) {
 	*out = *in
 	if in.Disabled != nil {
@@ -9272,6 +9667,96 @@ func (in *IdentityServiceConfigParameters) DeepCopy() *IdentityServiceConfigPara
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitScriptInitParameters) DeepCopyInto(out *InitScriptInitParameters) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitScriptInitParameters.
+func (in *InitScriptInitParameters) DeepCopy() *InitScriptInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InitScriptInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitScriptObservation) DeepCopyInto(out *InitScriptObservation) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitScriptObservation.
+func (in *InitScriptObservation) DeepCopy() *InitScriptObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InitScriptObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InitScriptParameters) DeepCopyInto(out *InitScriptParameters) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InitScriptParameters.
+func (in *InitScriptParameters) DeepCopy() *InitScriptParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InitScriptParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *KeyInitParameters) DeepCopyInto(out *KeyInitParameters) {
 	*out = *in
 	if in.GCPSecretManagerSecretURI != nil {
@@ -10170,6 +10655,146 @@ func (in *LinuxNodeConfigAccurateTimeConfigParameters) DeepCopy() *LinuxNodeConf
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LinuxNodeConfigCustomNodeInitInitParameters) DeepCopyInto(out *LinuxNodeConfigCustomNodeInitInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LinuxNodeConfigCustomNodeInitInitParameters.
+func (in *LinuxNodeConfigCustomNodeInitInitParameters) DeepCopy() *LinuxNodeConfigCustomNodeInitInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LinuxNodeConfigCustomNodeInitInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LinuxNodeConfigCustomNodeInitInitScriptInitParameters) DeepCopyInto(out *LinuxNodeConfigCustomNodeInitInitScriptInitParameters) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LinuxNodeConfigCustomNodeInitInitScriptInitParameters.
+func (in *LinuxNodeConfigCustomNodeInitInitScriptInitParameters) DeepCopy() *LinuxNodeConfigCustomNodeInitInitScriptInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LinuxNodeConfigCustomNodeInitInitScriptInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LinuxNodeConfigCustomNodeInitInitScriptObservation) DeepCopyInto(out *LinuxNodeConfigCustomNodeInitInitScriptObservation) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LinuxNodeConfigCustomNodeInitInitScriptObservation.
+func (in *LinuxNodeConfigCustomNodeInitInitScriptObservation) DeepCopy() *LinuxNodeConfigCustomNodeInitInitScriptObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(LinuxNodeConfigCustomNodeInitInitScriptObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LinuxNodeConfigCustomNodeInitInitScriptParameters) DeepCopyInto(out *LinuxNodeConfigCustomNodeInitInitScriptParameters) {
+	*out = *in
+	if in.GCPSecretManagerSecretURI != nil {
+		in, out := &in.GCPSecretManagerSecretURI, &out.GCPSecretManagerSecretURI
+		*out = new(string)
+		**out = **in
+	}
+	if in.GcsGeneration != nil {
+		in, out := &in.GcsGeneration, &out.GcsGeneration
+		*out = new(float64)
+		**out = **in
+	}
+	if in.GcsURI != nil {
+		in, out := &in.GcsURI, &out.GcsURI
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LinuxNodeConfigCustomNodeInitInitScriptParameters.
+func (in *LinuxNodeConfigCustomNodeInitInitScriptParameters) DeepCopy() *LinuxNodeConfigCustomNodeInitInitScriptParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LinuxNodeConfigCustomNodeInitInitScriptParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LinuxNodeConfigCustomNodeInitObservation) DeepCopyInto(out *LinuxNodeConfigCustomNodeInitObservation) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(CustomNodeInitInitScriptObservation)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LinuxNodeConfigCustomNodeInitObservation.
+func (in *LinuxNodeConfigCustomNodeInitObservation) DeepCopy() *LinuxNodeConfigCustomNodeInitObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(LinuxNodeConfigCustomNodeInitObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LinuxNodeConfigCustomNodeInitParameters) DeepCopyInto(out *LinuxNodeConfigCustomNodeInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LinuxNodeConfigCustomNodeInitParameters.
+func (in *LinuxNodeConfigCustomNodeInitParameters) DeepCopy() *LinuxNodeConfigCustomNodeInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LinuxNodeConfigCustomNodeInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *LinuxNodeConfigHugepagesConfigInitParameters) DeepCopyInto(out *LinuxNodeConfigHugepagesConfigInitParameters) {
 	*out = *in
 }
@@ -10236,6 +10861,11 @@ func (in *LinuxNodeConfigInitParameters) DeepCopyInto(out *LinuxNodeConfigInitPa
 		in, out := &in.CgroupMode, &out.CgroupMode
 		*out = new(string)
 		**out = **in
+	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(CustomNodeInitInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
@@ -10353,6 +10983,11 @@ func (in *LinuxNodeConfigObservation) DeepCopyInto(out *LinuxNodeConfigObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(CustomNodeInitObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
 		*out = new(HugepagesConfigObservation)
@@ -10418,6 +11053,11 @@ func (in *LinuxNodeConfigParameters) DeepCopyInto(out *LinuxNodeConfigParameters
 		in, out := &in.CgroupMode, &out.CgroupMode
 		*out = new(string)
 		**out = **in
+	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(CustomNodeInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
@@ -11146,6 +11786,76 @@ func (in *MaintenanceExclusionParameters) DeepCopy() *MaintenanceExclusionParame
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *MaintenancePolicyExclusionUntilEndOfSupportInitParameters) DeepCopyInto(out *MaintenancePolicyExclusionUntilEndOfSupportInitParameters) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MaintenancePolicyExclusionUntilEndOfSupportInitParameters.
+func (in *MaintenancePolicyExclusionUntilEndOfSupportInitParameters) DeepCopy() *MaintenancePolicyExclusionUntilEndOfSupportInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(MaintenancePolicyExclusionUntilEndOfSupportInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *MaintenancePolicyExclusionUntilEndOfSupportObservation) DeepCopyInto(out *MaintenancePolicyExclusionUntilEndOfSupportObservation) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+	if in.EndTime != nil {
+		in, out := &in.EndTime, &out.EndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.StartTime != nil {
+		in, out := &in.StartTime, &out.StartTime
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MaintenancePolicyExclusionUntilEndOfSupportObservation.
+func (in *MaintenancePolicyExclusionUntilEndOfSupportObservation) DeepCopy() *MaintenancePolicyExclusionUntilEndOfSupportObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(MaintenancePolicyExclusionUntilEndOfSupportObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *MaintenancePolicyExclusionUntilEndOfSupportParameters) DeepCopyInto(out *MaintenancePolicyExclusionUntilEndOfSupportParameters) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new MaintenancePolicyExclusionUntilEndOfSupportParameters.
+func (in *MaintenancePolicyExclusionUntilEndOfSupportParameters) DeepCopy() *MaintenancePolicyExclusionUntilEndOfSupportParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(MaintenancePolicyExclusionUntilEndOfSupportParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *MaintenancePolicyInitParameters) DeepCopyInto(out *MaintenancePolicyInitParameters) {
 	*out = *in
 	if in.DailyMaintenanceWindow != nil {
@@ -11164,6 +11874,11 @@ func (in *MaintenancePolicyInitParameters) DeepCopyInto(out *MaintenancePolicyIn
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.RecurringMaintenanceWindow != nil {
+		in, out := &in.RecurringMaintenanceWindow, &out.RecurringMaintenanceWindow
+		*out = new(RecurringMaintenanceWindowInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RecurringWindow != nil {
 		in, out := &in.RecurringWindow, &out.RecurringWindow
@@ -11202,6 +11917,11 @@ func (in *MaintenancePolicyObservation) DeepCopyInto(out *MaintenancePolicyObser
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.RecurringMaintenanceWindow != nil {
+		in, out := &in.RecurringMaintenanceWindow, &out.RecurringMaintenanceWindow
+		*out = new(RecurringMaintenanceWindowObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.RecurringWindow != nil {
 		in, out := &in.RecurringWindow, &out.RecurringWindow
 		*out = new(RecurringWindowObservation)
@@ -11238,6 +11958,11 @@ func (in *MaintenancePolicyParameters) DeepCopyInto(out *MaintenancePolicyParame
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.RecurringMaintenanceWindow != nil {
+		in, out := &in.RecurringMaintenanceWindow, &out.RecurringMaintenanceWindow
+		*out = new(RecurringMaintenanceWindowParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RecurringWindow != nil {
 		in, out := &in.RecurringWindow, &out.RecurringWindow
@@ -15595,6 +16320,66 @@ func (in *NodeConfigLinuxNodeConfigAccurateTimeConfigParameters) DeepCopy() *Nod
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodeConfigLinuxNodeConfigCustomNodeInitInitParameters) DeepCopyInto(out *NodeConfigLinuxNodeConfigCustomNodeInitInitParameters) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(LinuxNodeConfigCustomNodeInitInitScriptInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodeConfigLinuxNodeConfigCustomNodeInitInitParameters.
+func (in *NodeConfigLinuxNodeConfigCustomNodeInitInitParameters) DeepCopy() *NodeConfigLinuxNodeConfigCustomNodeInitInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(NodeConfigLinuxNodeConfigCustomNodeInitInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodeConfigLinuxNodeConfigCustomNodeInitObservation) DeepCopyInto(out *NodeConfigLinuxNodeConfigCustomNodeInitObservation) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(LinuxNodeConfigCustomNodeInitInitScriptObservation)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodeConfigLinuxNodeConfigCustomNodeInitObservation.
+func (in *NodeConfigLinuxNodeConfigCustomNodeInitObservation) DeepCopy() *NodeConfigLinuxNodeConfigCustomNodeInitObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(NodeConfigLinuxNodeConfigCustomNodeInitObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodeConfigLinuxNodeConfigCustomNodeInitParameters) DeepCopyInto(out *NodeConfigLinuxNodeConfigCustomNodeInitParameters) {
+	*out = *in
+	if in.InitScript != nil {
+		in, out := &in.InitScript, &out.InitScript
+		*out = new(LinuxNodeConfigCustomNodeInitInitScriptParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodeConfigLinuxNodeConfigCustomNodeInitParameters.
+func (in *NodeConfigLinuxNodeConfigCustomNodeInitParameters) DeepCopy() *NodeConfigLinuxNodeConfigCustomNodeInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(NodeConfigLinuxNodeConfigCustomNodeInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *NodeConfigLinuxNodeConfigHugepagesConfigInitParameters) DeepCopyInto(out *NodeConfigLinuxNodeConfigHugepagesConfigInitParameters) {
 	*out = *in
 	if in.HugepageSize1G != nil {
@@ -15756,6 +16541,11 @@ func (in *NodeConfigLinuxNodeConfigObservation) DeepCopyInto(out *NodeConfigLinu
 		in, out := &in.CgroupMode, &out.CgroupMode
 		*out = new(string)
 		**out = **in
+	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(LinuxNodeConfigCustomNodeInitObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
@@ -18156,6 +18946,13 @@ func (in *NodePoolInitParameters_2) DeepCopyInto(out *NodePoolInitParameters_2) 
 		*out = new(float64)
 		**out = **in
 	}
+	if in.MaintenancePolicy != nil {
+		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
+		*out = make([]NodePoolMaintenancePolicyInitParameters_2, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Management != nil {
 		in, out := &in.Management, &out.Management
 		*out = new(NodePoolManagementInitParameters_2)
@@ -18266,6 +19063,124 @@ func (in *NodePoolList) DeepCopyObject() runtime.Object {
 		return c
 	}
 	return nil
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodePoolMaintenancePolicyInitParameters) DeepCopyInto(out *NodePoolMaintenancePolicyInitParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodePoolMaintenancePolicyInitParameters.
+func (in *NodePoolMaintenancePolicyInitParameters) DeepCopy() *NodePoolMaintenancePolicyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(NodePoolMaintenancePolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodePoolMaintenancePolicyInitParameters_2) DeepCopyInto(out *NodePoolMaintenancePolicyInitParameters_2) {
+	*out = *in
+	if in.ExclusionUntilEndOfSupport != nil {
+		in, out := &in.ExclusionUntilEndOfSupport, &out.ExclusionUntilEndOfSupport
+		*out = make([]MaintenancePolicyExclusionUntilEndOfSupportInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodePoolMaintenancePolicyInitParameters_2.
+func (in *NodePoolMaintenancePolicyInitParameters_2) DeepCopy() *NodePoolMaintenancePolicyInitParameters_2 {
+	if in == nil {
+		return nil
+	}
+	out := new(NodePoolMaintenancePolicyInitParameters_2)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodePoolMaintenancePolicyObservation) DeepCopyInto(out *NodePoolMaintenancePolicyObservation) {
+	*out = *in
+	if in.ExclusionUntilEndOfSupport != nil {
+		in, out := &in.ExclusionUntilEndOfSupport, &out.ExclusionUntilEndOfSupport
+		*out = make([]ExclusionUntilEndOfSupportObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodePoolMaintenancePolicyObservation.
+func (in *NodePoolMaintenancePolicyObservation) DeepCopy() *NodePoolMaintenancePolicyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(NodePoolMaintenancePolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodePoolMaintenancePolicyObservation_2) DeepCopyInto(out *NodePoolMaintenancePolicyObservation_2) {
+	*out = *in
+	if in.ExclusionUntilEndOfSupport != nil {
+		in, out := &in.ExclusionUntilEndOfSupport, &out.ExclusionUntilEndOfSupport
+		*out = make([]MaintenancePolicyExclusionUntilEndOfSupportObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodePoolMaintenancePolicyObservation_2.
+func (in *NodePoolMaintenancePolicyObservation_2) DeepCopy() *NodePoolMaintenancePolicyObservation_2 {
+	if in == nil {
+		return nil
+	}
+	out := new(NodePoolMaintenancePolicyObservation_2)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodePoolMaintenancePolicyParameters) DeepCopyInto(out *NodePoolMaintenancePolicyParameters) {
+	*out = *in
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodePoolMaintenancePolicyParameters.
+func (in *NodePoolMaintenancePolicyParameters) DeepCopy() *NodePoolMaintenancePolicyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(NodePoolMaintenancePolicyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodePoolMaintenancePolicyParameters_2) DeepCopyInto(out *NodePoolMaintenancePolicyParameters_2) {
+	*out = *in
+	if in.ExclusionUntilEndOfSupport != nil {
+		in, out := &in.ExclusionUntilEndOfSupport, &out.ExclusionUntilEndOfSupport
+		*out = make([]MaintenancePolicyExclusionUntilEndOfSupportParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodePoolMaintenancePolicyParameters_2.
+func (in *NodePoolMaintenancePolicyParameters_2) DeepCopy() *NodePoolMaintenancePolicyParameters_2 {
+	if in == nil {
+		return nil
+	}
+	out := new(NodePoolMaintenancePolicyParameters_2)
+	in.DeepCopyInto(out)
+	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
@@ -20407,6 +21322,11 @@ func (in *NodePoolNodeConfigLinuxNodeConfigInitParameters) DeepCopyInto(out *Nod
 		*out = new(string)
 		**out = **in
 	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(NodeConfigLinuxNodeConfigCustomNodeInitInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
 		*out = new(NodeConfigLinuxNodeConfigHugepagesConfigInitParameters)
@@ -20473,6 +21393,11 @@ func (in *NodePoolNodeConfigLinuxNodeConfigObservation) DeepCopyInto(out *NodePo
 		*out = new(string)
 		**out = **in
 	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(NodeConfigLinuxNodeConfigCustomNodeInitObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
 		*out = new(NodeConfigLinuxNodeConfigHugepagesConfigObservation)
@@ -20538,6 +21463,11 @@ func (in *NodePoolNodeConfigLinuxNodeConfigParameters) DeepCopyInto(out *NodePoo
 		in, out := &in.CgroupMode, &out.CgroupMode
 		*out = new(string)
 		**out = **in
+	}
+	if in.CustomNodeInit != nil {
+		in, out := &in.CustomNodeInit, &out.CustomNodeInit
+		*out = new(NodeConfigLinuxNodeConfigCustomNodeInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.HugepagesConfig != nil {
 		in, out := &in.HugepagesConfig, &out.HugepagesConfig
@@ -22569,6 +23499,13 @@ func (in *NodePoolObservation) DeepCopyInto(out *NodePoolObservation) {
 			}
 		}
 	}
+	if in.MaintenancePolicy != nil {
+		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
+		*out = make([]NodePoolMaintenancePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.ManagedInstanceGroupUrls != nil {
 		in, out := &in.ManagedInstanceGroupUrls, &out.ManagedInstanceGroupUrls
 		*out = make([]*string, len(*in))
@@ -22713,6 +23650,13 @@ func (in *NodePoolObservation_2) DeepCopyInto(out *NodePoolObservation_2) {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
 		**out = **in
+	}
+	if in.MaintenancePolicy != nil {
+		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
+		*out = make([]NodePoolMaintenancePolicyObservation_2, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.ManagedInstanceGroupUrls != nil {
 		in, out := &in.ManagedInstanceGroupUrls, &out.ManagedInstanceGroupUrls
@@ -22862,6 +23806,13 @@ func (in *NodePoolParameters_2) DeepCopyInto(out *NodePoolParameters_2) {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
 		**out = **in
+	}
+	if in.MaintenancePolicy != nil {
+		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
+		*out = make([]NodePoolMaintenancePolicyParameters_2, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.Management != nil {
 		in, out := &in.Management, &out.Management
@@ -23369,6 +24320,66 @@ func (in *NodePoolUpgradeSettingsParameters_2) DeepCopy() *NodePoolUpgradeSettin
 		return nil
 	}
 	out := new(NodePoolUpgradeSettingsParameters_2)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodeReadinessConfigInitParameters) DeepCopyInto(out *NodeReadinessConfigInitParameters) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodeReadinessConfigInitParameters.
+func (in *NodeReadinessConfigInitParameters) DeepCopy() *NodeReadinessConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(NodeReadinessConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodeReadinessConfigObservation) DeepCopyInto(out *NodeReadinessConfigObservation) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodeReadinessConfigObservation.
+func (in *NodeReadinessConfigObservation) DeepCopy() *NodeReadinessConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(NodeReadinessConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NodeReadinessConfigParameters) DeepCopyInto(out *NodeReadinessConfigParameters) {
+	*out = *in
+	if in.Enabled != nil {
+		in, out := &in.Enabled, &out.Enabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NodeReadinessConfigParameters.
+func (in *NodeReadinessConfigParameters) DeepCopy() *NodeReadinessConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(NodeReadinessConfigParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -24516,6 +25527,111 @@ func (in *RbacBindingConfigParameters) DeepCopy() *RbacBindingConfigParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RecurringMaintenanceWindowInitParameters) DeepCopyInto(out *RecurringMaintenanceWindowInitParameters) {
+	*out = *in
+	if in.DelayUntil != nil {
+		in, out := &in.DelayUntil, &out.DelayUntil
+		*out = new(DelayUntilInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Recurrence != nil {
+		in, out := &in.Recurrence, &out.Recurrence
+		*out = new(string)
+		**out = **in
+	}
+	if in.WindowDuration != nil {
+		in, out := &in.WindowDuration, &out.WindowDuration
+		*out = new(string)
+		**out = **in
+	}
+	if in.WindowStartTime != nil {
+		in, out := &in.WindowStartTime, &out.WindowStartTime
+		*out = new(WindowStartTimeInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RecurringMaintenanceWindowInitParameters.
+func (in *RecurringMaintenanceWindowInitParameters) DeepCopy() *RecurringMaintenanceWindowInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RecurringMaintenanceWindowInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RecurringMaintenanceWindowObservation) DeepCopyInto(out *RecurringMaintenanceWindowObservation) {
+	*out = *in
+	if in.DelayUntil != nil {
+		in, out := &in.DelayUntil, &out.DelayUntil
+		*out = new(DelayUntilObservation)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Recurrence != nil {
+		in, out := &in.Recurrence, &out.Recurrence
+		*out = new(string)
+		**out = **in
+	}
+	if in.WindowDuration != nil {
+		in, out := &in.WindowDuration, &out.WindowDuration
+		*out = new(string)
+		**out = **in
+	}
+	if in.WindowStartTime != nil {
+		in, out := &in.WindowStartTime, &out.WindowStartTime
+		*out = new(WindowStartTimeObservation)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RecurringMaintenanceWindowObservation.
+func (in *RecurringMaintenanceWindowObservation) DeepCopy() *RecurringMaintenanceWindowObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RecurringMaintenanceWindowObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RecurringMaintenanceWindowParameters) DeepCopyInto(out *RecurringMaintenanceWindowParameters) {
+	*out = *in
+	if in.DelayUntil != nil {
+		in, out := &in.DelayUntil, &out.DelayUntil
+		*out = new(DelayUntilParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Recurrence != nil {
+		in, out := &in.Recurrence, &out.Recurrence
+		*out = new(string)
+		**out = **in
+	}
+	if in.WindowDuration != nil {
+		in, out := &in.WindowDuration, &out.WindowDuration
+		*out = new(string)
+		**out = **in
+	}
+	if in.WindowStartTime != nil {
+		in, out := &in.WindowStartTime, &out.WindowStartTime
+		*out = new(WindowStartTimeParameters)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RecurringMaintenanceWindowParameters.
+func (in *RecurringMaintenanceWindowParameters) DeepCopy() *RecurringMaintenanceWindowParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RecurringMaintenanceWindowParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RecurringWindowInitParameters) DeepCopyInto(out *RecurringWindowInitParameters) {
 	*out = *in
 	if in.EndTime != nil {
@@ -25649,6 +26765,66 @@ func (in *ResourceUsageExportConfigParameters) DeepCopy() *ResourceUsageExportCo
 		return nil
 	}
 	out := new(ResourceUsageExportConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RollbackSafeUpgradeInitParameters) DeepCopyInto(out *RollbackSafeUpgradeInitParameters) {
+	*out = *in
+	if in.ControlPlaneSoakDuration != nil {
+		in, out := &in.ControlPlaneSoakDuration, &out.ControlPlaneSoakDuration
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RollbackSafeUpgradeInitParameters.
+func (in *RollbackSafeUpgradeInitParameters) DeepCopy() *RollbackSafeUpgradeInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RollbackSafeUpgradeInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RollbackSafeUpgradeObservation) DeepCopyInto(out *RollbackSafeUpgradeObservation) {
+	*out = *in
+	if in.ControlPlaneSoakDuration != nil {
+		in, out := &in.ControlPlaneSoakDuration, &out.ControlPlaneSoakDuration
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RollbackSafeUpgradeObservation.
+func (in *RollbackSafeUpgradeObservation) DeepCopy() *RollbackSafeUpgradeObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RollbackSafeUpgradeObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RollbackSafeUpgradeParameters) DeepCopyInto(out *RollbackSafeUpgradeParameters) {
+	*out = *in
+	if in.ControlPlaneSoakDuration != nil {
+		in, out := &in.ControlPlaneSoakDuration, &out.ControlPlaneSoakDuration
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RollbackSafeUpgradeParameters.
+func (in *RollbackSafeUpgradeParameters) DeepCopy() *RollbackSafeUpgradeParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RollbackSafeUpgradeParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -27843,6 +29019,96 @@ func (in *VerticalPodAutoscalingParameters) DeepCopy() *VerticalPodAutoscalingPa
 		return nil
 	}
 	out := new(VerticalPodAutoscalingParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WindowStartTimeInitParameters) DeepCopyInto(out *WindowStartTimeInitParameters) {
+	*out = *in
+	if in.Hours != nil {
+		in, out := &in.Hours, &out.Hours
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Minutes != nil {
+		in, out := &in.Minutes, &out.Minutes
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WindowStartTimeInitParameters.
+func (in *WindowStartTimeInitParameters) DeepCopy() *WindowStartTimeInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WindowStartTimeInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WindowStartTimeObservation) DeepCopyInto(out *WindowStartTimeObservation) {
+	*out = *in
+	if in.Hours != nil {
+		in, out := &in.Hours, &out.Hours
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Minutes != nil {
+		in, out := &in.Minutes, &out.Minutes
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WindowStartTimeObservation.
+func (in *WindowStartTimeObservation) DeepCopy() *WindowStartTimeObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(WindowStartTimeObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WindowStartTimeParameters) DeepCopyInto(out *WindowStartTimeParameters) {
+	*out = *in
+	if in.Hours != nil {
+		in, out := &in.Hours, &out.Hours
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Minutes != nil {
+		in, out := &in.Minutes, &out.Minutes
+		*out = new(float64)
+		**out = **in
+	}
+	if in.Seconds != nil {
+		in, out := &in.Seconds, &out.Seconds
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WindowStartTimeParameters.
+func (in *WindowStartTimeParameters) DeepCopy() *WindowStartTimeParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WindowStartTimeParameters)
 	in.DeepCopyInto(out)
 	return out
 }

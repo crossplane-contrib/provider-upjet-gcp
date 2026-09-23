@@ -175,6 +175,9 @@ type AddonsConfigInitParameters struct {
 	// cluster. It is enabled by default; set disabled = true to disable.
 	HTTPLoadBalancing *HTTPLoadBalancingInitParameters `json:"httpLoadBalancing,omitempty" tf:"http_load_balancing,omitempty"`
 
+	// The status of the High Scale Checkpointing addon, which enables Multi-Tier Checkpointing for Machine Learning workloads. Structure is documented below.
+	HighScaleCheckpointingConfig *HighScaleCheckpointingConfigInitParameters `json:"highScaleCheckpointingConfig,omitempty" tf:"high_scale_checkpointing_config,omitempty"`
+
 	// The status of the Horizontal Pod Autoscaling
 	// addon, which increases or decreases the number of replica pods a replication controller
 	// has based on the resource usage of the existing pods.
@@ -197,6 +200,10 @@ type AddonsConfigInitParameters struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigInitParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+	// Structure is documented below.
+	NodeReadinessConfig *NodeReadinessConfigInitParameters `json:"nodeReadinessConfig,omitempty" tf:"node_readiness_config,omitempty"`
 
 	// The status of the Parallelstore CSI driver addon,
 	// which allows the usage of a Parallelstore instances as volumes.
@@ -273,6 +280,9 @@ type AddonsConfigObservation struct {
 	// cluster. It is enabled by default; set disabled = true to disable.
 	HTTPLoadBalancing *HTTPLoadBalancingObservation `json:"httpLoadBalancing,omitempty" tf:"http_load_balancing,omitempty"`
 
+	// The status of the High Scale Checkpointing addon, which enables Multi-Tier Checkpointing for Machine Learning workloads. Structure is documented below.
+	HighScaleCheckpointingConfig *HighScaleCheckpointingConfigObservation `json:"highScaleCheckpointingConfig,omitempty" tf:"high_scale_checkpointing_config,omitempty"`
+
 	// The status of the Horizontal Pod Autoscaling
 	// addon, which increases or decreases the number of replica pods a replication controller
 	// has based on the resource usage of the existing pods.
@@ -295,6 +305,10 @@ type AddonsConfigObservation struct {
 	// It can only be disabled if the nodes already do not have network policies enabled.
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigObservation `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+	// Structure is documented below.
+	NodeReadinessConfig *NodeReadinessConfigObservation `json:"nodeReadinessConfig,omitempty" tf:"node_readiness_config,omitempty"`
 
 	// The status of the Parallelstore CSI driver addon,
 	// which allows the usage of a Parallelstore instances as volumes.
@@ -380,6 +394,10 @@ type AddonsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPLoadBalancing *HTTPLoadBalancingParameters `json:"httpLoadBalancing,omitempty" tf:"http_load_balancing,omitempty"`
 
+	// The status of the High Scale Checkpointing addon, which enables Multi-Tier Checkpointing for Machine Learning workloads. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HighScaleCheckpointingConfig *HighScaleCheckpointingConfigParameters `json:"highScaleCheckpointingConfig,omitempty" tf:"high_scale_checkpointing_config,omitempty"`
+
 	// The status of the Horizontal Pod Autoscaling
 	// addon, which increases or decreases the number of replica pods a replication controller
 	// has based on the resource usage of the existing pods.
@@ -405,6 +423,11 @@ type AddonsConfigParameters struct {
 	// Defaults to disabled; set disabled = false to enable.
 	// +kubebuilder:validation:Optional
 	NetworkPolicyConfig *NetworkPolicyConfigParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
+
+	// The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeReadinessConfig *NodeReadinessConfigParameters `json:"nodeReadinessConfig,omitempty" tf:"node_readiness_config,omitempty"`
 
 	// The status of the Parallelstore CSI driver addon,
 	// which allows the usage of a Parallelstore instances as volumes.
@@ -1000,29 +1023,39 @@ type BootDiskProfileParameters struct {
 }
 
 type CAInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CAObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CAParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CertInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CertObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CertParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -1094,6 +1127,8 @@ type ClientCertInitParameters struct {
 }
 
 type ClientCertObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
@@ -1125,6 +1160,8 @@ type ClientKeyInitParameters struct {
 }
 
 type ClientKeyObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
@@ -1370,6 +1407,9 @@ type ClusterInitParameters struct {
 	// Description of the cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The desired emulated version for the cluster. Used to complete a rollback-safe upgrade after a soak period. Must be in major.minor format (e.g., "1.31"). To complete the upgrade declaratively, set this field to the target minor version. Removing this field from your configuration will not trigger completion.
+	DesiredEmulatedVersion *string `json:"desiredEmulatedVersion,omitempty" tf:"desired_emulated_version,omitempty"`
+
 	// Disable L4 load balancer VPC firewalls to enable firewall policies.
 	DisableL4LBFirewallReconciliation *bool `json:"disableL4LbFirewallReconciliation,omitempty" tf:"disable_l4_lb_firewall_reconciliation,omitempty"`
 
@@ -1604,6 +1644,9 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	ResourceUsageExportConfig *ResourceUsageExportConfigInitParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Configuration for rollback-safe (two-step) upgrades. Structure is documented below.
+	RollbackSafeUpgrade *RollbackSafeUpgradeInitParameters `json:"rollbackSafeUpgrade,omitempty" tf:"rollback_safe_upgrade,omitempty"`
+
 	// Configuration for the
 	// SecretManagerConfig feature.
 	// Structure is documented below.
@@ -1739,11 +1782,17 @@ type ClusterObservation struct {
 	// Description of the cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The desired emulated version for the cluster. Used to complete a rollback-safe upgrade after a soak period. Must be in major.minor format (e.g., "1.31"). To complete the upgrade declaratively, set this field to the target minor version. Removing this field from your configuration will not trigger completion.
+	DesiredEmulatedVersion *string `json:"desiredEmulatedVersion,omitempty" tf:"desired_emulated_version,omitempty"`
+
 	// Disable L4 load balancer VPC firewalls to enable firewall policies.
 	DisableL4LBFirewallReconciliation *bool `json:"disableL4LbFirewallReconciliation,omitempty" tf:"disable_l4_lb_firewall_reconciliation,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// The current emulated Kubernetes version running on the GKE cluster control plane.
+	EmulatedVersion *string `json:"emulatedVersion,omitempty" tf:"emulated_version,omitempty"`
 
 	// Enable Autopilot for this cluster. Defaults to false.
 	// Note that when this option is enabled, certain features of Standard GKE are not available.
@@ -1997,6 +2046,9 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	ResourceUsageExportConfig *ResourceUsageExportConfigObservation `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Configuration for rollback-safe (two-step) upgrades. Structure is documented below.
+	RollbackSafeUpgrade *RollbackSafeUpgradeObservation `json:"rollbackSafeUpgrade,omitempty" tf:"rollback_safe_upgrade,omitempty"`
+
 	// Configuration for the
 	// SecretManagerConfig feature.
 	// Structure is documented below.
@@ -2155,6 +2207,10 @@ type ClusterParameters struct {
 	// Description of the cluster.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired emulated version for the cluster. Used to complete a rollback-safe upgrade after a soak period. Must be in major.minor format (e.g., "1.31"). To complete the upgrade declaratively, set this field to the target minor version. Removing this field from your configuration will not trigger completion.
+	// +kubebuilder:validation:Optional
+	DesiredEmulatedVersion *string `json:"desiredEmulatedVersion,omitempty" tf:"desired_emulated_version,omitempty"`
 
 	// Disable L4 load balancer VPC firewalls to enable firewall policies.
 	// +kubebuilder:validation:Optional
@@ -2448,6 +2504,10 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ResourceUsageExportConfig *ResourceUsageExportConfigParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
+
+	// Configuration for rollback-safe (two-step) upgrades. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RollbackSafeUpgrade *RollbackSafeUpgradeParameters `json:"rollbackSafeUpgrade,omitempty" tf:"rollback_safe_upgrade,omitempty"`
 
 	// Configuration for the
 	// SecretManagerConfig feature.
@@ -2780,6 +2840,43 @@ type CrashLoopBackOffParameters struct {
 	MaxContainerRestartPeriod *string `json:"maxContainerRestartPeriod,omitempty" tf:"max_container_restart_period,omitempty"`
 }
 
+type CustomNodeInitInitParameters struct {
+
+	// The init script configuration. Structure is documented below.
+	InitScript *InitScriptInitParameters `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type CustomNodeInitInitScriptInitParameters struct {
+}
+
+type CustomNodeInitInitScriptObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type CustomNodeInitInitScriptParameters struct {
+}
+
+type CustomNodeInitObservation struct {
+
+	// The init script configuration. Structure is documented below.
+	InitScript *InitScriptObservation `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type CustomNodeInitParameters struct {
+
+	// The init script configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InitScript *InitScriptParameters `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
 type DNSCacheConfigInitParameters struct {
 
 	// Whether writable cgroups are enabled.
@@ -2982,6 +3079,45 @@ type DefaultSnatStatusParameters struct {
 	// Whether the cluster disables default in-node sNAT rules. In-node sNAT rules will be disabled when defaultSnatStatus is disabled.When disabled is set to false, default IP masquerade rules will be applied to the nodes to prevent sNAT on cluster internal traffic
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
+}
+
+type DelayUntilInitParameters struct {
+
+	// : The day of the month (integer value between 1 and 31).
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// : The month of the year (integer value between 1 and 12).
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// : The year (integer value).
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type DelayUntilObservation struct {
+
+	// : The day of the month (integer value between 1 and 31).
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// : The month of the year (integer value between 1 and 12).
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// : The year (integer value).
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type DelayUntilParameters struct {
+
+	// : The day of the month (integer value between 1 and 31).
+	// +kubebuilder:validation:Optional
+	Day *float64 `json:"day" tf:"day,omitempty"`
+
+	// : The month of the year (integer value between 1 and 12).
+	// +kubebuilder:validation:Optional
+	Month *float64 `json:"month" tf:"month,omitempty"`
+
+	// : The year (integer value).
+	// +kubebuilder:validation:Optional
+	Year *float64 `json:"year" tf:"year,omitempty"`
 }
 
 type DisruptionBudgetInitParameters struct {
@@ -3404,6 +3540,22 @@ type ExclusionOptionsParameters struct {
 	// per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope" tf:"scope,omitempty"`
+}
+
+type ExclusionUntilEndOfSupportInitParameters struct {
+}
+
+type ExclusionUntilEndOfSupportObservation struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type ExclusionUntilEndOfSupportParameters struct {
 }
 
 type FastSocketInitParameters struct {
@@ -3849,6 +4001,25 @@ type HeaderParameters struct {
 	Value []*string `json:"value" tf:"value,omitempty"`
 }
 
+type HighScaleCheckpointingConfigInitParameters struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HighScaleCheckpointingConfigObservation struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HighScaleCheckpointingConfigParameters struct {
+
+	// Whether writable cgroups are enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type HorizontalPodAutoscalingInitParameters struct {
 
 	// The status of the Istio addon, which makes it easy to set up Istio for services in a
@@ -3872,15 +4043,20 @@ type HorizontalPodAutoscalingParameters struct {
 }
 
 type HostMaintenancePolicyInitParameters struct {
+
+	// Specifies the frequency of planned maintenance events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED, AS_NEEDED, and PERIODIC.
 	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
 }
 
 type HostMaintenancePolicyObservation struct {
+
+	// Specifies the frequency of planned maintenance events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED, AS_NEEDED, and PERIODIC.
 	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
 }
 
 type HostMaintenancePolicyParameters struct {
 
+	// Specifies the frequency of planned maintenance events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED, AS_NEEDED, and PERIODIC.
 	// +kubebuilder:validation:Optional
 	MaintenanceInterval *string `json:"maintenanceInterval" tf:"maintenance_interval,omitempty"`
 }
@@ -3889,6 +4065,8 @@ type HostsCAInitParameters struct {
 }
 
 type HostsCAObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
@@ -3896,15 +4074,20 @@ type HostsCAParameters struct {
 }
 
 type HostsClientCertInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientCertObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientCertParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -3913,15 +4096,20 @@ type HostsClientInitParameters struct {
 }
 
 type HostsClientKeyInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientKeyObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientKeyParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -4234,16 +4422,60 @@ type IdentityServiceConfigParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
+type InitScriptInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type InitScriptObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type InitScriptParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	// +kubebuilder:validation:Optional
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	// +kubebuilder:validation:Optional
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
 type KeyInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type KeyObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type KeyParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -4663,6 +4895,18 @@ type LinuxNodeConfigAccurateTimeConfigObservation struct {
 type LinuxNodeConfigAccurateTimeConfigParameters struct {
 }
 
+type LinuxNodeConfigCustomNodeInitInitParameters struct {
+}
+
+type LinuxNodeConfigCustomNodeInitObservation struct {
+
+	// The init script configuration. Structure is documented below.
+	InitScript *CustomNodeInitInitScriptObservation `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type LinuxNodeConfigCustomNodeInitParameters struct {
+}
+
 type LinuxNodeConfigHugepagesConfigInitParameters struct {
 }
 
@@ -4686,6 +4930,9 @@ type LinuxNodeConfigInitParameters struct {
 	// Possible cgroup modes that can be used.
 	// Accepted values are:
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// Custom node init settings. Structure is documented below.
+	CustomNodeInit *CustomNodeInitInitParameters `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
 
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	HugepagesConfig *HugepagesConfigInitParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
@@ -4733,6 +4980,9 @@ type LinuxNodeConfigObservation struct {
 	// Accepted values are:
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	// Custom node init settings. Structure is documented below.
+	CustomNodeInit *CustomNodeInitObservation `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
+
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	HugepagesConfig *HugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
@@ -4768,6 +5018,10 @@ type LinuxNodeConfigParameters struct {
 	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// Custom node init settings. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomNodeInit *CustomNodeInitParameters `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
 
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -4963,6 +5217,9 @@ type MaintenancePolicyInitParameters struct {
 	MaintenanceExclusion []MaintenanceExclusionInitParameters `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
 
 	// structure documented below
+	RecurringMaintenanceWindow *RecurringMaintenanceWindowInitParameters `json:"recurringMaintenanceWindow,omitempty" tf:"recurring_maintenance_window,omitempty"`
+
+	// structure documented below
 	RecurringWindow *RecurringWindowInitParameters `json:"recurringWindow,omitempty" tf:"recurring_window,omitempty"`
 }
 
@@ -4976,6 +5233,9 @@ type MaintenancePolicyObservation struct {
 
 	// structure documented below
 	MaintenanceExclusion []MaintenanceExclusionObservation `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
+
+	// structure documented below
+	RecurringMaintenanceWindow *RecurringMaintenanceWindowObservation `json:"recurringMaintenanceWindow,omitempty" tf:"recurring_maintenance_window,omitempty"`
 
 	// structure documented below
 	RecurringWindow *RecurringWindowObservation `json:"recurringWindow,omitempty" tf:"recurring_window,omitempty"`
@@ -4994,6 +5254,10 @@ type MaintenancePolicyParameters struct {
 	// structure documented below
 	// +kubebuilder:validation:Optional
 	MaintenanceExclusion []MaintenanceExclusionParameters `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
+
+	// structure documented below
+	// +kubebuilder:validation:Optional
+	RecurringMaintenanceWindow *RecurringMaintenanceWindowParameters `json:"recurringMaintenanceWindow,omitempty" tf:"recurring_maintenance_window,omitempty"`
 
 	// structure documented below
 	// +kubebuilder:validation:Optional
@@ -5811,6 +6075,8 @@ type NodeConfigHostMaintenancePolicyInitParameters struct {
 }
 
 type NodeConfigHostMaintenancePolicyObservation struct {
+
+	// Specifies the frequency of planned maintenance events. Possible values are MAINTENANCE_INTERVAL_UNSPECIFIED, AS_NEEDED, and PERIODIC.
 	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
 }
 
@@ -5885,8 +6151,7 @@ type NodeConfigInitParameters struct {
 	// Structure is documented below.
 	Gvnic *GvnicInitParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
+	// The maintenance policy for the hosts on which the GKE VMs run on. Structure is documented below.
 	HostMaintenancePolicy *HostMaintenancePolicyInitParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
@@ -6128,6 +6393,9 @@ type NodeConfigLinuxNodeConfigObservation struct {
 	// Accepted values are:
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	// Custom node init settings. Structure is documented below.
+	CustomNodeInit *LinuxNodeConfigCustomNodeInitObservation `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
+
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	HugepagesConfig *LinuxNodeConfigHugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
@@ -6174,10 +6442,10 @@ type NodeConfigNodeImageConfigInitParameters struct {
 
 type NodeConfigNodeImageConfigObservation struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
 
@@ -6255,8 +6523,7 @@ type NodeConfigObservation struct {
 	// Structure is documented below.
 	Gvnic *GvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
+	// The maintenance policy for the hosts on which the GKE VMs run on. Structure is documented below.
 	HostMaintenancePolicy *HostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
@@ -6467,8 +6734,7 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Gvnic *GvnicParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
+	// The maintenance policy for the hosts on which the GKE VMs run on. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HostMaintenancePolicy *HostMaintenancePolicyParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
@@ -6819,29 +7085,29 @@ type NodeDrainConfigParameters struct {
 
 type NodeImageConfigInitParameters struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
 
 type NodeImageConfigObservation struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
 
 type NodeImageConfigParameters struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	// +kubebuilder:validation:Optional
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
@@ -7012,6 +7278,16 @@ type NodePoolDefaultsParameters struct {
 type NodePoolInitParameters struct {
 }
 
+type NodePoolMaintenancePolicyInitParameters struct {
+}
+
+type NodePoolMaintenancePolicyObservation struct {
+	ExclusionUntilEndOfSupport []ExclusionUntilEndOfSupportObservation `json:"exclusionUntilEndOfSupport,omitempty" tf:"exclusion_until_end_of_support,omitempty"`
+}
+
+type NodePoolMaintenancePolicyParameters struct {
+}
+
 type NodePoolManagementInitParameters struct {
 }
 
@@ -7112,8 +7388,7 @@ type NodePoolNodeConfigObservation struct {
 	// Structure is documented below.
 	Gvnic *NodeConfigGvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
+	// The maintenance policy for the hosts on which the GKE VMs run on. Structure is documented below.
 	HostMaintenancePolicy *NodeConfigHostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
@@ -7273,6 +7548,10 @@ type NodePoolObservation struct {
 
 	InstanceGroupUrls []*string `json:"instanceGroupUrls,omitempty" tf:"instance_group_urls,omitempty"`
 
+	// The maintenance policy to use for the cluster. Structure is
+	// documented below.
+	MaintenancePolicy []NodePoolMaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	ManagedInstanceGroupUrls []*string `json:"managedInstanceGroupUrls,omitempty" tf:"managed_instance_group_urls,omitempty"`
 
 	// NodeManagement configuration for this NodePool. Structure is documented below.
@@ -7334,6 +7613,25 @@ type NodePoolUpgradeSettingsObservation struct {
 }
 
 type NodePoolUpgradeSettingsParameters struct {
+}
+
+type NodeReadinessConfigInitParameters struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeReadinessConfigObservation struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeReadinessConfigParameters struct {
+
+	// Whether writable cgroups are enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NotificationConfigInitParameters struct {
@@ -7801,9 +8099,59 @@ type RbacBindingConfigParameters struct {
 	EnableInsecureBindingSystemUnauthenticated *bool `json:"enableInsecureBindingSystemUnauthenticated,omitempty" tf:"enable_insecure_binding_system_unauthenticated,omitempty"`
 }
 
+type RecurringMaintenanceWindowInitParameters struct {
+
+	// :  Specifies the initial date when the recurring window can start.
+	DelayUntil *DelayUntilInitParameters `json:"delayUntil,omitempty" tf:"delay_until,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
+	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+
+	// : The length of each maintenance window instance. Specified as a sequence of decimal numbers, each with an optional fraction and a unit suffix, such as "300s", "1.5m", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration.
+	WindowDuration *string `json:"windowDuration,omitempty" tf:"window_duration,omitempty"`
+
+	// : The time of day when each maintenance window instance begins.
+	WindowStartTime *WindowStartTimeInitParameters `json:"windowStartTime,omitempty" tf:"window_start_time,omitempty"`
+}
+
+type RecurringMaintenanceWindowObservation struct {
+
+	// :  Specifies the initial date when the recurring window can start.
+	DelayUntil *DelayUntilObservation `json:"delayUntil,omitempty" tf:"delay_until,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
+	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+
+	// : The length of each maintenance window instance. Specified as a sequence of decimal numbers, each with an optional fraction and a unit suffix, such as "300s", "1.5m", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration.
+	WindowDuration *string `json:"windowDuration,omitempty" tf:"window_duration,omitempty"`
+
+	// : The time of day when each maintenance window instance begins.
+	WindowStartTime *WindowStartTimeObservation `json:"windowStartTime,omitempty" tf:"window_start_time,omitempty"`
+}
+
+type RecurringMaintenanceWindowParameters struct {
+
+	// :  Specifies the initial date when the recurring window can start.
+	// +kubebuilder:validation:Optional
+	DelayUntil *DelayUntilParameters `json:"delayUntil,omitempty" tf:"delay_until,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
+	// +kubebuilder:validation:Optional
+	Recurrence *string `json:"recurrence" tf:"recurrence,omitempty"`
+
+	// : The length of each maintenance window instance. Specified as a sequence of decimal numbers, each with an optional fraction and a unit suffix, such as "300s", "1.5m", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration.
+	// +kubebuilder:validation:Optional
+	WindowDuration *string `json:"windowDuration" tf:"window_duration,omitempty"`
+
+	// : The time of day when each maintenance window instance begins.
+	// +kubebuilder:validation:Optional
+	WindowStartTime *WindowStartTimeParameters `json:"windowStartTime" tf:"window_start_time,omitempty"`
+}
+
 type RecurringWindowInitParameters struct {
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
 	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
 
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
@@ -7812,6 +8160,7 @@ type RecurringWindowInitParameters struct {
 type RecurringWindowObservation struct {
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
 	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
 
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
@@ -7822,6 +8171,7 @@ type RecurringWindowParameters struct {
 	// +kubebuilder:validation:Optional
 	EndTime *string `json:"endTime" tf:"end_time,omitempty"`
 
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
 	// +kubebuilder:validation:Optional
 	Recurrence *string `json:"recurrence" tf:"recurrence,omitempty"`
 
@@ -7830,15 +8180,20 @@ type RecurringWindowParameters struct {
 }
 
 type RegistryHostsHostsCAInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type RegistryHostsHostsCAObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type RegistryHostsHostsCAParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -8103,6 +8458,25 @@ type ResourceUsageExportConfigParameters struct {
 	// billing export. Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableResourceConsumptionMetering *bool `json:"enableResourceConsumptionMetering,omitempty" tf:"enable_resource_consumption_metering,omitempty"`
+}
+
+type RollbackSafeUpgradeInitParameters struct {
+
+	// A user-defined period that the cluster remains in the rollbackable state. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "604800s" for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted, the two-step upgrade is skipped and a standard one-step upgrade is performed.
+	ControlPlaneSoakDuration *string `json:"controlPlaneSoakDuration,omitempty" tf:"control_plane_soak_duration,omitempty"`
+}
+
+type RollbackSafeUpgradeObservation struct {
+
+	// A user-defined period that the cluster remains in the rollbackable state. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "604800s" for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted, the two-step upgrade is skipped and a standard one-step upgrade is performed.
+	ControlPlaneSoakDuration *string `json:"controlPlaneSoakDuration,omitempty" tf:"control_plane_soak_duration,omitempty"`
+}
+
+type RollbackSafeUpgradeParameters struct {
+
+	// A user-defined period that the cluster remains in the rollbackable state. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "604800s" for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted, the two-step upgrade is skipped and a standard one-step upgrade is performed.
+	// +kubebuilder:validation:Optional
+	ControlPlaneSoakDuration *string `json:"controlPlaneSoakDuration,omitempty" tf:"control_plane_soak_duration,omitempty"`
 }
 
 type RotationConfigInitParameters struct {
@@ -8894,6 +9268,45 @@ type VerticalPodAutoscalingParameters struct {
 	// Enables vertical pod autoscaling
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type WindowStartTimeInitParameters struct {
+
+	// : The hour of the day (integer value between 0 and 23).
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// : The minute of the hour (integer value between 0 and 59).
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// : The second of the minute (integer value between 0 and 59).
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type WindowStartTimeObservation struct {
+
+	// : The hour of the day (integer value between 0 and 23).
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// : The minute of the hour (integer value between 0 and 59).
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// : The second of the minute (integer value between 0 and 59).
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type WindowStartTimeParameters struct {
+
+	// : The hour of the day (integer value between 0 and 23).
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours" tf:"hours,omitempty"`
+
+	// : The minute of the hour (integer value between 0 and 59).
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes" tf:"minutes,omitempty"`
+
+	// : The second of the minute (integer value between 0 and 59).
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type WindowsNodeConfigInitParameters struct {

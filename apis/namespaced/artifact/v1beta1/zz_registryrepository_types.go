@@ -404,6 +404,15 @@ type MostRecentVersionsParameters struct {
 	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
 }
 
+type NoCacheInitParameters struct {
+}
+
+type NoCacheObservation struct {
+}
+
+type NoCacheParameters struct {
+}
+
 type NpmRepositoryCustomRepositoryInitParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
@@ -832,6 +841,9 @@ type RemoteRepositoryConfigInitParameters struct {
 	// Structure is documented below.
 	MavenRepository *MavenRepositoryInitParameters `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
 
+	// The repository will act as a non-caching proxy (connector mode).
+	NoCache *NoCacheInitParameters `json:"noCache,omitempty" tf:"no_cache,omitempty"`
+
 	// Specific settings for an Npm remote repository.
 	// Structure is documented below.
 	NpmRepository *NpmRepositoryInitParameters `json:"npmRepository,omitempty" tf:"npm_repository,omitempty"`
@@ -873,6 +885,9 @@ type RemoteRepositoryConfigObservation struct {
 	// Specific settings for a Maven remote repository.
 	// Structure is documented below.
 	MavenRepository *MavenRepositoryObservation `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
+
+	// The repository will act as a non-caching proxy (connector mode).
+	NoCache *NoCacheParameters `json:"noCache,omitempty" tf:"no_cache,omitempty"`
 
 	// Specific settings for an Npm remote repository.
 	// Structure is documented below.
@@ -921,6 +936,10 @@ type RemoteRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MavenRepository *MavenRepositoryParameters `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
+
+	// The repository will act as a non-caching proxy (connector mode).
+	// +kubebuilder:validation:Optional
+	NoCache *NoCacheParameters `json:"noCache,omitempty" tf:"no_cache,omitempty"`
 
 	// Specific settings for an Npm remote repository.
 	// Structure is documented below.

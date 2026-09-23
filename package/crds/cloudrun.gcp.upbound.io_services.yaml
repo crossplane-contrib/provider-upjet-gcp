@@ -631,6 +631,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -1575,6 +1579,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -2623,6 +2631,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.

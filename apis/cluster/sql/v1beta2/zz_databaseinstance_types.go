@@ -469,8 +469,17 @@ type DatabaseInstanceInitParameters struct {
 	// key - please see this step.
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
+	// Whether to enforce the new SQL network architecture.
+	// By default, new Cloud SQL instances created in projects created after August 2021 use the new network architecture.
+	// This follows the gcloud pattern where the flag is an irreversible opt-in.
+	// See official documentation for more details.
+	EnforceNewSQLNetworkArchitecture *bool `json:"enforceNewSqlNetworkArchitecture,omitempty" tf:"enforce_new_sql_network_architecture,omitempty"`
+
 	// The description of final backup. Only set this field when final_backup_config.enabled is true.
 	FinalBackupDescription *string `json:"finalBackupDescription,omitempty" tf:"final_backup_description,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL instances can perform in-place major version upgrades of read replicas along with the primary instance when database_version is updated. This is an input-only field that is not persisted in the API and only takes effect during a major version upgrade.
+	IncludeReplicasForMajorVersionUpgrade *bool `json:"includeReplicasForMajorVersionUpgrade,omitempty" tf:"include_replicas_for_major_version_upgrade,omitempty"`
 
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
 	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
@@ -514,6 +523,9 @@ type DatabaseInstanceInitParameters struct {
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
 	Settings *SettingsInitParameters `json:"settings,omitempty" tf:"settings,omitempty"`
+
+	// When set to true, Cloud SQL instances can switch storing point-in-time recovery transaction logs from a data disk to Cloud Storage, freeing up data disk space and enabling longer retention windows. This is an input-only field that is not persisted in the API.
+	SwitchTransactionLogsToCloudStorageEnabled *bool `json:"switchTransactionLogsToCloudStorageEnabled,omitempty" tf:"switch_transaction_logs_to_cloud_storage_enabled,omitempty"`
 }
 
 type DatabaseInstanceObservation struct {
@@ -566,6 +578,12 @@ type DatabaseInstanceObservation struct {
 	// key - please see this step.
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
+	// Whether to enforce the new SQL network architecture.
+	// By default, new Cloud SQL instances created in projects created after August 2021 use the new network architecture.
+	// This follows the gcloud pattern where the flag is an irreversible opt-in.
+	// See official documentation for more details.
+	EnforceNewSQLNetworkArchitecture *bool `json:"enforceNewSqlNetworkArchitecture,omitempty" tf:"enforce_new_sql_network_architecture,omitempty"`
+
 	// The description of final backup. Only set this field when final_backup_config.enabled is true.
 	FinalBackupDescription *string `json:"finalBackupDescription,omitempty" tf:"final_backup_description,omitempty"`
 
@@ -576,6 +594,9 @@ type DatabaseInstanceObservation struct {
 
 	// (Output) The IP address of the consumer endpoint.
 	IPAddress []IPAddressObservation `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL instances can perform in-place major version upgrades of read replicas along with the primary instance when database_version is updated. This is an input-only field that is not persisted in the API and only takes effect during a major version upgrade.
+	IncludeReplicasForMajorVersionUpgrade *bool `json:"includeReplicasForMajorVersionUpgrade,omitempty" tf:"include_replicas_for_major_version_upgrade,omitempty"`
 
 	// The type of the instance. See API reference for SqlInstanceType for supported values.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
@@ -635,6 +656,9 @@ type DatabaseInstanceObservation struct {
 	// The settings to use for the database. The
 	// configuration is detailed below. Required if clone is not set.
 	Settings *SettingsObservation `json:"settings,omitempty" tf:"settings,omitempty"`
+
+	// When set to true, Cloud SQL instances can switch storing point-in-time recovery transaction logs from a data disk to Cloud Storage, freeing up data disk space and enabling longer retention windows. This is an input-only field that is not persisted in the API.
+	SwitchTransactionLogsToCloudStorageEnabled *bool `json:"switchTransactionLogsToCloudStorageEnabled,omitempty" tf:"switch_transaction_logs_to_cloud_storage_enabled,omitempty"`
 }
 
 type DatabaseInstanceParameters struct {
@@ -675,9 +699,20 @@ type DatabaseInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionKeyName *string `json:"encryptionKeyName,omitempty" tf:"encryption_key_name,omitempty"`
 
+	// Whether to enforce the new SQL network architecture.
+	// By default, new Cloud SQL instances created in projects created after August 2021 use the new network architecture.
+	// This follows the gcloud pattern where the flag is an irreversible opt-in.
+	// See official documentation for more details.
+	// +kubebuilder:validation:Optional
+	EnforceNewSQLNetworkArchitecture *bool `json:"enforceNewSqlNetworkArchitecture,omitempty" tf:"enforce_new_sql_network_architecture,omitempty"`
+
 	// The description of final backup. Only set this field when final_backup_config.enabled is true.
 	// +kubebuilder:validation:Optional
 	FinalBackupDescription *string `json:"finalBackupDescription,omitempty" tf:"final_backup_description,omitempty"`
+
+	// When this parameter is set to true, Cloud SQL instances can perform in-place major version upgrades of read replicas along with the primary instance when database_version is updated. This is an input-only field that is not persisted in the API and only takes effect during a major version upgrade.
+	// +kubebuilder:validation:Optional
+	IncludeReplicasForMajorVersionUpgrade *bool `json:"includeReplicasForMajorVersionUpgrade,omitempty" tf:"include_replicas_for_major_version_upgrade,omitempty"`
 
 	// The current software version on the instance. This attribute can not be set during creation. Refer to available_maintenance_versions attribute to see what maintenance_version are available for upgrade. When this attribute gets updated, it will cause an instance restart. Setting a maintenance_version value that is older than the current one on the instance will be ignored.
 	// +kubebuilder:validation:Optional
@@ -733,6 +768,10 @@ type DatabaseInstanceParameters struct {
 	// configuration is detailed below. Required if clone is not set.
 	// +kubebuilder:validation:Optional
 	Settings *SettingsParameters `json:"settings,omitempty" tf:"settings,omitempty"`
+
+	// When set to true, Cloud SQL instances can switch storing point-in-time recovery transaction logs from a data disk to Cloud Storage, freeing up data disk space and enabling longer retention windows. This is an input-only field that is not persisted in the API.
+	// +kubebuilder:validation:Optional
+	SwitchTransactionLogsToCloudStorageEnabled *bool `json:"switchTransactionLogsToCloudStorageEnabled,omitempty" tf:"switch_transaction_logs_to_cloud_storage_enabled,omitempty"`
 }
 
 type DenyMaintenancePeriodInitParameters struct {
@@ -1354,8 +1393,20 @@ type PscAutoConnectionsObservation struct {
 	// (Output) The IP address of the consumer endpoint.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
+	// (Output) The status of the automated DNS provisioning for the instance.
+	InstanceAutoDNSStatus *string `json:"instanceAutoDnsStatus,omitempty" tf:"instance_auto_dns_status,omitempty"`
+
+	// (Output) The service connection policy created for the auto connection.
+	ServiceConnectionPolicy *string `json:"serviceConnectionPolicy,omitempty" tf:"service_connection_policy,omitempty"`
+
+	// (Output) The result of the service connection policy creation.
+	ServiceConnectionPolicyCreationResult *string `json:"serviceConnectionPolicyCreationResult,omitempty" tf:"service_connection_policy_creation_result,omitempty"`
+
 	// (Output) The connection status of the consumer endpoint.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// (Output) The status of the automated DNS provisioning for the write endpoint.
+	WriteEndpointAutoDNSStatus *string `json:"writeEndpointAutoDnsStatus,omitempty" tf:"write_endpoint_auto_dns_status,omitempty"`
 }
 
 type PscAutoConnectionsParameters struct {
@@ -1378,6 +1429,9 @@ type PscConfigInitParameters struct {
 	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
 	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
 
+	// Whether a service connection policy is created for the auto connections configured for the instance.
+	PscAutoConnectionPolicyEnabled *bool `json:"pscAutoConnectionPolicyEnabled,omitempty" tf:"psc_auto_connection_policy_enabled,omitempty"`
+
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	PscAutoConnections []PscAutoConnectionsInitParameters `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
 
@@ -1399,6 +1453,9 @@ type PscConfigObservation struct {
 
 	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
 	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
+
+	// Whether a service connection policy is created for the auto connections configured for the instance.
+	PscAutoConnectionPolicyEnabled *bool `json:"pscAutoConnectionPolicyEnabled,omitempty" tf:"psc_auto_connection_policy_enabled,omitempty"`
 
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	PscAutoConnections []PscAutoConnectionsObservation `json:"pscAutoConnections,omitempty" tf:"psc_auto_connections,omitempty"`
@@ -1423,6 +1480,10 @@ type PscConfigParameters struct {
 	// Network Attachment URI in the format projects/project1/regions/region1/networkAttachments/networkAttachment1 to enable outbound connectivity on PSC instance.
 	// +kubebuilder:validation:Optional
 	NetworkAttachmentURI *string `json:"networkAttachmentUri,omitempty" tf:"network_attachment_uri,omitempty"`
+
+	// Whether a service connection policy is created for the auto connections configured for the instance.
+	// +kubebuilder:validation:Optional
+	PscAutoConnectionPolicyEnabled *bool `json:"pscAutoConnectionPolicyEnabled,omitempty" tf:"psc_auto_connection_policy_enabled,omitempty"`
 
 	// A comma-separated list of networks or a comma-separated list of network-project pairs. Each project in this list is represented by a project number (numeric) or by a project ID (alphanumeric). This allows Private Service Connect connections to be created automatically for the specified networks.
 	// +kubebuilder:validation:Optional
@@ -1923,6 +1984,9 @@ type SettingsInitParameters struct {
 
 	ReadPoolAutoScaleConfig *ReadPoolAutoScaleConfigInitParameters `json:"readPoolAutoScaleConfig,omitempty" tf:"read_pool_auto_scale_config,omitempty"`
 
+	// The acceptable replication lag, in seconds, after which a read replica recreates itself. The lag must persist for at least five minutes before recreation is triggered. This is a replica level field, and must be between 300 (five minutes) and 31536000 (one year).
+	ReplicationLagMaxSeconds *float64 `json:"replicationLagMaxSeconds,omitempty" tf:"replication_lag_max_seconds,omitempty"`
+
 	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
 	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
 
@@ -2050,6 +2114,9 @@ type SettingsObservation struct {
 	PricingPlan *string `json:"pricingPlan,omitempty" tf:"pricing_plan,omitempty"`
 
 	ReadPoolAutoScaleConfig *ReadPoolAutoScaleConfigObservation `json:"readPoolAutoScaleConfig,omitempty" tf:"read_pool_auto_scale_config,omitempty"`
+
+	// The acceptable replication lag, in seconds, after which a read replica recreates itself. The lag must persist for at least five minutes before recreation is triggered. This is a replica level field, and must be between 300 (five minutes) and 31536000 (one year).
+	ReplicationLagMaxSeconds *float64 `json:"replicationLagMaxSeconds,omitempty" tf:"replication_lag_max_seconds,omitempty"`
 
 	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
 	RetainBackupsOnDelete *bool `json:"retainBackupsOnDelete,omitempty" tf:"retain_backups_on_delete,omitempty"`
@@ -2207,6 +2274,10 @@ type SettingsParameters struct {
 
 	// +kubebuilder:validation:Optional
 	ReadPoolAutoScaleConfig *ReadPoolAutoScaleConfigParameters `json:"readPoolAutoScaleConfig,omitempty" tf:"read_pool_auto_scale_config,omitempty"`
+
+	// The acceptable replication lag, in seconds, after which a read replica recreates itself. The lag must persist for at least five minutes before recreation is triggered. This is a replica level field, and must be between 300 (five minutes) and 31536000 (one year).
+	// +kubebuilder:validation:Optional
+	ReplicationLagMaxSeconds *float64 `json:"replicationLagMaxSeconds,omitempty" tf:"replication_lag_max_seconds,omitempty"`
 
 	// When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting.
 	// +kubebuilder:validation:Optional
