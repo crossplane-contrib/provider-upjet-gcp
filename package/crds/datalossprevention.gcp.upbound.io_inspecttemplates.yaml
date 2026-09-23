@@ -139,9 +139,8 @@ spec:
                               type: string
                             infoType:
                               description: |-
-                                Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-                                not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-                                specified in another InfoTypeLimit.
+                                Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                If InfoTypeLikelihood does not have an info_type, the configuration fails.
                                 Structure is documented below.
                               properties:
                                 name:
@@ -269,9 +268,8 @@ spec:
                               properties:
                                 infoType:
                                   description: |-
-                                    Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-                                    not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-                                    specified in another InfoTypeLimit.
+                                    Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                    If InfoTypeLikelihood does not have an info_type, the configuration fails.
                                     Structure is documented below.
                                   properties:
                                     name:
@@ -316,6 +314,37 @@ spec:
                           Default value is POSSIBLE.
                           Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
                         type: string
+                      minLikelihoodPerInfoType:
+                        description: |-
+                          Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood.
+                          The system only returns a finding if its likelihood is above this threshold. If this field
+                          is not set, the system uses the InspectConfig min_likelihood.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            infoType:
+                              description: |-
+                                Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                If InfoTypeLikelihood does not have an info_type, the configuration fails.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                                version:
+                                  description: Version of the information type to
+                                    use. By default, the version is set to stable
+                                  type: string
+                              type: object
+                            minLikelihood:
+                              description: |-
+                                Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info.
+                                Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                              type: string
+                          type: object
+                        type: array
                       ruleSet:
                         description: |-
                           Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
@@ -658,9 +687,8 @@ spec:
                               type: string
                             infoType:
                               description: |-
-                                Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-                                not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-                                specified in another InfoTypeLimit.
+                                Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                If InfoTypeLikelihood does not have an info_type, the configuration fails.
                                 Structure is documented below.
                               properties:
                                 name:
@@ -788,9 +816,8 @@ spec:
                               properties:
                                 infoType:
                                   description: |-
-                                    Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-                                    not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-                                    specified in another InfoTypeLimit.
+                                    Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                    If InfoTypeLikelihood does not have an info_type, the configuration fails.
                                     Structure is documented below.
                                   properties:
                                     name:
@@ -835,6 +862,37 @@ spec:
                           Default value is POSSIBLE.
                           Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
                         type: string
+                      minLikelihoodPerInfoType:
+                        description: |-
+                          Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood.
+                          The system only returns a finding if its likelihood is above this threshold. If this field
+                          is not set, the system uses the InspectConfig min_likelihood.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            infoType:
+                              description: |-
+                                Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                If InfoTypeLikelihood does not have an info_type, the configuration fails.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                                version:
+                                  description: Version of the information type to
+                                    use. By default, the version is set to stable
+                                  type: string
+                              type: object
+                            minLikelihood:
+                              description: |-
+                                Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info.
+                                Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                              type: string
+                          type: object
+                        type: array
                       ruleSet:
                         description: |-
                           Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
@@ -1268,9 +1326,8 @@ spec:
                               type: string
                             infoType:
                               description: |-
-                                Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-                                not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-                                specified in another InfoTypeLimit.
+                                Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                If InfoTypeLikelihood does not have an info_type, the configuration fails.
                                 Structure is documented below.
                               properties:
                                 name:
@@ -1398,9 +1455,8 @@ spec:
                               properties:
                                 infoType:
                                   description: |-
-                                    Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-                                    not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-                                    specified in another InfoTypeLimit.
+                                    Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                    If InfoTypeLikelihood does not have an info_type, the configuration fails.
                                     Structure is documented below.
                                   properties:
                                     name:
@@ -1445,6 +1501,37 @@ spec:
                           Default value is POSSIBLE.
                           Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
                         type: string
+                      minLikelihoodPerInfoType:
+                        description: |-
+                          Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood.
+                          The system only returns a finding if its likelihood is above this threshold. If this field
+                          is not set, the system uses the InspectConfig min_likelihood.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            infoType:
+                              description: |-
+                                Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+                                If InfoTypeLikelihood does not have an info_type, the configuration fails.
+                                Structure is documented below.
+                              properties:
+                                name:
+                                  description: |-
+                                    Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+                                    or projects/project-id/storedInfoTypes/432452342.
+                                  type: string
+                                version:
+                                  description: Version of the information type to
+                                    use. By default, the version is set to stable
+                                  type: string
+                              type: object
+                            minLikelihood:
+                              description: |-
+                                Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info.
+                                Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+                              type: string
+                          type: object
+                        type: array
                       ruleSet:
                         description: |-
                           Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,

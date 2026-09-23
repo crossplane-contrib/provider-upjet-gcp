@@ -32,6 +32,25 @@ type InstanceFlexibilityPolicyParameters struct {
 	InstanceSelections []InstanceSelectionsParameters `json:"instanceSelections,omitempty" tf:"instance_selections,omitempty"`
 }
 
+type InstanceLifecyclePolicyOnRepairInitParameters struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
+type InstanceLifecyclePolicyOnRepairObservation struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
+type InstanceLifecyclePolicyOnRepairParameters struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	// +kubebuilder:validation:Optional
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
 type InstanceSelectionsInitParameters struct {
 
 	// , A list of full machine-type names, e.g. "n1-standard-16".
@@ -297,6 +316,9 @@ type RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters struct {
 
 	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
 	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	OnRepair *InstanceLifecyclePolicyOnRepairInitParameters `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
@@ -309,6 +331,9 @@ type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
 
 	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
 	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	OnRepair *InstanceLifecyclePolicyOnRepairObservation `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
@@ -324,6 +349,10 @@ type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
 	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
 	// +kubebuilder:validation:Optional
 	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnRepair *InstanceLifecyclePolicyOnRepairParameters `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerNamedPortInitParameters struct {

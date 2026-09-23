@@ -4067,6 +4067,26 @@ func (mg *Router) ResolveReferences(ctx context.Context, c client.Reader) error 
 	var rsp reference.ResolutionResponse
 	var err error
 	{
+		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta2", "Spoke", "SpokeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NccGateway),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.NccGatewayRef,
+			Selector:     mg.Spec.ForProvider.NccGatewaySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.NccGateway")
+	}
+	mg.Spec.ForProvider.NccGateway = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NccGatewayRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -4086,6 +4106,26 @@ func (mg *Router) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("networkconnectivity.gcp.upbound.io", "v1beta2", "Spoke", "SpokeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NccGateway),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.NccGatewayRef,
+			Selector:     mg.Spec.InitProvider.NccGatewaySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NccGateway")
+	}
+	mg.Spec.InitProvider.NccGateway = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NccGatewayRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 		if err != nil {

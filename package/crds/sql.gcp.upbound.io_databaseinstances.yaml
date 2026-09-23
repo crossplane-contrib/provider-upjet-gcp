@@ -146,10 +146,24 @@ spec:
                       That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
                       key - please see this step.
                     type: string
+                  enforceNewSqlNetworkArchitecture:
+                    description: |-
+                      Whether to enforce the new SQL network architecture.
+                      By default, new Cloud SQL instances created in projects created after August 2021 use the new network architecture.
+                      This follows the gcloud pattern where the flag is an irreversible opt-in.
+                      See official documentation for more details.
+                    type: boolean
                   finalBackupDescription:
                     description: The description of final backup. Only set this field
                       when final_backup_config.enabled is true.
                     type: string
+                  includeReplicasForMajorVersionUpgrade:
+                    description: When this parameter is set to true, Cloud SQL instances
+                      can perform in-place major version upgrades of read replicas
+                      along with the primary instance when database_version is updated.
+                      This is an input-only field that is not persisted in the API
+                      and only takes effect during a major version upgrade.
+                    type: boolean
                   maintenanceVersion:
                     description: The current software version on the instance. This
                       attribute can not be set during creation. Refer to available_maintenance_versions
@@ -811,6 +825,11 @@ spec:
                                     projects/project1/regions/region1/networkAttachments/networkAttachment1
                                     to enable outbound connectivity on PSC instance.
                                   type: string
+                                pscAutoConnectionPolicyEnabled:
+                                  description: Whether a service connection policy
+                                    is created for the auto connections configured
+                                    for the instance.
+                                  type: boolean
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -976,6 +995,13 @@ spec:
                               type: object
                             type: array
                         type: object
+                      replicationLagMaxSeconds:
+                        description: The acceptable replication lag, in seconds, after
+                          which a read replica recreates itself. The lag must persist
+                          for at least five minutes before recreation is triggered.
+                          This is a replica level field, and must be between 300 (five
+                          minutes) and 31536000 (one year).
+                        type: number
                       retainBackupsOnDelete:
                         description: When this parameter is set to true, Cloud SQL
                           retains backups of the instance even after the instance
@@ -1019,6 +1045,13 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  switchTransactionLogsToCloudStorageEnabled:
+                    description: When set to true, Cloud SQL instances can switch
+                      storing point-in-time recovery transaction logs from a data
+                      disk to Cloud Storage, freeing up data disk space and enabling
+                      longer retention windows. This is an input-only field that is
+                      not persisted in the API.
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -1106,10 +1139,24 @@ spec:
                       That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
                       key - please see this step.
                     type: string
+                  enforceNewSqlNetworkArchitecture:
+                    description: |-
+                      Whether to enforce the new SQL network architecture.
+                      By default, new Cloud SQL instances created in projects created after August 2021 use the new network architecture.
+                      This follows the gcloud pattern where the flag is an irreversible opt-in.
+                      See official documentation for more details.
+                    type: boolean
                   finalBackupDescription:
                     description: The description of final backup. Only set this field
                       when final_backup_config.enabled is true.
                     type: string
+                  includeReplicasForMajorVersionUpgrade:
+                    description: When this parameter is set to true, Cloud SQL instances
+                      can perform in-place major version upgrades of read replicas
+                      along with the primary instance when database_version is updated.
+                      This is an input-only field that is not persisted in the API
+                      and only takes effect during a major version upgrade.
+                    type: boolean
                   maintenanceVersion:
                     description: The current software version on the instance. This
                       attribute can not be set during creation. Refer to available_maintenance_versions
@@ -1771,6 +1818,11 @@ spec:
                                     projects/project1/regions/region1/networkAttachments/networkAttachment1
                                     to enable outbound connectivity on PSC instance.
                                   type: string
+                                pscAutoConnectionPolicyEnabled:
+                                  description: Whether a service connection policy
+                                    is created for the auto connections configured
+                                    for the instance.
+                                  type: boolean
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -1936,6 +1988,13 @@ spec:
                               type: object
                             type: array
                         type: object
+                      replicationLagMaxSeconds:
+                        description: The acceptable replication lag, in seconds, after
+                          which a read replica recreates itself. The lag must persist
+                          for at least five minutes before recreation is triggered.
+                          This is a replica level field, and must be between 300 (five
+                          minutes) and 31536000 (one year).
+                        type: number
                       retainBackupsOnDelete:
                         description: When this parameter is set to true, Cloud SQL
                           retains backups of the instance even after the instance
@@ -1979,6 +2038,13 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  switchTransactionLogsToCloudStorageEnabled:
+                    description: When set to true, Cloud SQL instances can switch
+                      storing point-in-time recovery transaction logs from a data
+                      disk to Cloud Storage, freeing up data disk space and enabling
+                      longer retention windows. This is an input-only field that is
+                      not persisted in the API.
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -2188,6 +2254,13 @@ spec:
                       That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
                       key - please see this step.
                     type: string
+                  enforceNewSqlNetworkArchitecture:
+                    description: |-
+                      Whether to enforce the new SQL network architecture.
+                      By default, new Cloud SQL instances created in projects created after August 2021 use the new network architecture.
+                      This follows the gcloud pattern where the flag is an irreversible opt-in.
+                      See official documentation for more details.
+                    type: boolean
                   finalBackupDescription:
                     description: The description of final backup. Only set this field
                       when final_backup_config.enabled is true.
@@ -2197,6 +2270,13 @@ spec:
                     type: string
                   id:
                     type: string
+                  includeReplicasForMajorVersionUpgrade:
+                    description: When this parameter is set to true, Cloud SQL instances
+                      can perform in-place major version upgrades of read replicas
+                      along with the primary instance when database_version is updated.
+                      This is an input-only field that is not persisted in the API
+                      and only takes effect during a major version upgrade.
+                    type: boolean
                   instanceType:
                     description: The type of the instance. See API reference for SqlInstanceType
                       for supported values.
@@ -2802,6 +2882,11 @@ spec:
                                     projects/project1/regions/region1/networkAttachments/networkAttachment1
                                     to enable outbound connectivity on PSC instance.
                                   type: string
+                                pscAutoConnectionPolicyEnabled:
+                                  description: Whether a service connection policy
+                                    is created for the auto connections configured
+                                    for the instance.
+                                  type: boolean
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -2829,13 +2914,29 @@ spec:
                                         description: The project ID of consumer service
                                           project of this consumer endpoint.
                                         type: string
+                                      instanceAutoDnsStatus:
+                                        description: (Output) The status of the automated
+                                          DNS provisioning for the instance.
+                                        type: string
                                       ipAddress:
                                         description: (Output) The IP address of the
                                           consumer endpoint.
                                         type: string
+                                      serviceConnectionPolicy:
+                                        description: (Output) The service connection
+                                          policy created for the auto connection.
+                                        type: string
+                                      serviceConnectionPolicyCreationResult:
+                                        description: (Output) The result of the service
+                                          connection policy creation.
+                                        type: string
                                       status:
                                         description: (Output) The connection status
                                           of the consumer endpoint.
+                                        type: string
+                                      writeEndpointAutoDnsStatus:
+                                        description: (Output) The status of the automated
+                                          DNS provisioning for the write endpoint.
                                         type: string
                                     type: object
                                   type: array
@@ -2979,6 +3080,13 @@ spec:
                               type: object
                             type: array
                         type: object
+                      replicationLagMaxSeconds:
+                        description: The acceptable replication lag, in seconds, after
+                          which a read replica recreates itself. The lag must persist
+                          for at least five minutes before recreation is triggered.
+                          This is a replica level field, and must be between 300 (five
+                          minutes) and 31536000 (one year).
+                        type: number
                       retainBackupsOnDelete:
                         description: When this parameter is set to true, Cloud SQL
                           retains backups of the instance even after the instance
@@ -3027,6 +3135,13 @@ spec:
                           atomic.
                         type: number
                     type: object
+                  switchTransactionLogsToCloudStorageEnabled:
+                    description: When set to true, Cloud SQL instances can switch
+                      storing point-in-time recovery transaction logs from a data
+                      disk to Cloud Storage, freeing up data disk space and enabling
+                      longer retention windows. This is an input-only field that is
+                      not persisted in the API.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

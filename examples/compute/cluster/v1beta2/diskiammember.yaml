@@ -31,7 +31,7 @@ metadata:
   name: disk-iam-member
 spec:
   forProvider:
-    image: debian-11-bullseye-v20220719
+    image: debian-cloud/debian-13
     labels:
       environment: dev
     physicalBlockSizeBytes: 4096

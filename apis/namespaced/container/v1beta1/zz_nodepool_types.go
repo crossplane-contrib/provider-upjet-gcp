@@ -91,6 +91,34 @@ type ContainerdConfigRegistryHostsHostsHeaderParameters struct {
 	Value []*string `json:"value" tf:"value,omitempty"`
 }
 
+type LinuxNodeConfigCustomNodeInitInitScriptInitParameters struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type LinuxNodeConfigCustomNodeInitInitScriptObservation struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type LinuxNodeConfigCustomNodeInitInitScriptParameters struct {
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
 type LinuxNodeConfigSwapConfigBootDiskProfileInitParameters struct {
 	SwapSizeGib *float64 `json:"swapSizeGib,omitempty" tf:"swap_size_gib,omitempty"`
 
@@ -164,6 +192,31 @@ type LinuxNodeConfigSwapConfigEphemeralLocalSsdProfileParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SwapSizePercent *float64 `json:"swapSizePercent,omitempty" tf:"swap_size_percent,omitempty"`
+}
+
+type MaintenancePolicyExclusionUntilEndOfSupportInitParameters struct {
+
+	// When true, the node pool will not be automatically upgraded by GKE until the node pool version's end of support date.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type MaintenancePolicyExclusionUntilEndOfSupportObservation struct {
+
+	// When true, the node pool will not be automatically upgraded by GKE until the node pool version's end of support date.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The time when the maintenance policy is no longer effective, i.e., the node pool version's end of support date.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// The time when the maintenance policy is first created.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type MaintenancePolicyExclusionUntilEndOfSupportParameters struct {
+
+	// When true, the node pool will not be automatically upgraded by GKE until the node pool version's end of support date.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
 type NetworkConfigAdditionalNodeNetworkConfigsInitParameters struct {
@@ -643,6 +696,20 @@ type NodeConfigLinuxNodeConfigAccurateTimeConfigParameters struct {
 	EnablePtpKvmTimeSync *bool `json:"enablePtpKvmTimeSync,omitempty" tf:"enable_ptp_kvm_time_sync,omitempty"`
 }
 
+type NodeConfigLinuxNodeConfigCustomNodeInitInitParameters struct {
+	InitScript *LinuxNodeConfigCustomNodeInitInitScriptInitParameters `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigCustomNodeInitObservation struct {
+	InitScript *LinuxNodeConfigCustomNodeInitInitScriptObservation `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigCustomNodeInitParameters struct {
+
+	// +kubebuilder:validation:Optional
+	InitScript *LinuxNodeConfigCustomNodeInitInitScriptParameters `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
 type NodeConfigLinuxNodeConfigHugepagesConfigInitParameters struct {
 	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
 
@@ -855,6 +922,9 @@ type NodePoolInitParameters_2 struct {
 	// ignore subsequent changes to this field.
 	InitialNodeCount *float64 `json:"initialNodeCount,omitempty" tf:"initial_node_count,omitempty"`
 
+	// The maintenance policy of the pool. Structure is documented below.
+	MaintenancePolicy []NodePoolMaintenancePolicyInitParameters_2 `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// Node management configuration, wherein auto-repair and
 	// auto-upgrade is configured. Structure is documented below.
 	Management *NodePoolManagementInitParameters_2 `json:"management,omitempty" tf:"management,omitempty"`
@@ -908,6 +978,25 @@ type NodePoolInitParameters_2 struct {
 	// and auto_upgrade are both specified, they will fight each other for what the node version should
 	// be, so setting both is highly discouraged.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type NodePoolMaintenancePolicyInitParameters_2 struct {
+
+	// When enabled, the node pool will not be automatically upgraded by GKE until the node pool version's end of support date. Structure is documented below.
+	ExclusionUntilEndOfSupport []MaintenancePolicyExclusionUntilEndOfSupportInitParameters `json:"exclusionUntilEndOfSupport,omitempty" tf:"exclusion_until_end_of_support,omitempty"`
+}
+
+type NodePoolMaintenancePolicyObservation_2 struct {
+
+	// When enabled, the node pool will not be automatically upgraded by GKE until the node pool version's end of support date. Structure is documented below.
+	ExclusionUntilEndOfSupport []MaintenancePolicyExclusionUntilEndOfSupportObservation `json:"exclusionUntilEndOfSupport,omitempty" tf:"exclusion_until_end_of_support,omitempty"`
+}
+
+type NodePoolMaintenancePolicyParameters_2 struct {
+
+	// When enabled, the node pool will not be automatically upgraded by GKE until the node pool version's end of support date. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExclusionUntilEndOfSupport []MaintenancePolicyExclusionUntilEndOfSupportParameters `json:"exclusionUntilEndOfSupport,omitempty" tf:"exclusion_until_end_of_support,omitempty"`
 }
 
 type NodePoolManagementInitParameters_2 struct {
@@ -1396,6 +1485,7 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	Gvnic *NodePoolNodeConfigGvnicInitParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
+	// The maintenance policy of the pool. Structure is documented below.
 	HostMaintenancePolicy *NodePoolNodeConfigHostMaintenancePolicyInitParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
@@ -1659,6 +1749,8 @@ type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {
 
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	CustomNodeInit *NodeConfigLinuxNodeConfigCustomNodeInitInitParameters `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
+
 	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigInitParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
 	NodeKernelModuleLoading *NodeConfigLinuxNodeConfigNodeKernelModuleLoadingInitParameters `json:"nodeKernelModuleLoading,omitempty" tf:"node_kernel_module_loading,omitempty"`
@@ -1677,6 +1769,8 @@ type NodePoolNodeConfigLinuxNodeConfigObservation struct {
 	AccurateTimeConfig *NodeConfigLinuxNodeConfigAccurateTimeConfigObservation `json:"accurateTimeConfig,omitempty" tf:"accurate_time_config,omitempty"`
 
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	CustomNodeInit *NodeConfigLinuxNodeConfigCustomNodeInitObservation `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
 
 	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
@@ -1699,6 +1793,9 @@ type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CustomNodeInit *NodeConfigLinuxNodeConfigCustomNodeInitParameters `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
@@ -1794,6 +1891,7 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	Gvnic *NodePoolNodeConfigGvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
+	// The maintenance policy of the pool. Structure is documented below.
 	HostMaintenancePolicy *NodePoolNodeConfigHostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	ImageType *string `json:"imageType,omitempty" tf:"image_type,omitempty"`
@@ -1915,6 +2013,7 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Gvnic *NodePoolNodeConfigGvnicParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
 
+	// The maintenance policy of the pool. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	HostMaintenancePolicy *NodePoolNodeConfigHostMaintenancePolicyParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
@@ -2324,6 +2423,9 @@ type NodePoolObservation_2 struct {
 	// The location (region or zone) of the cluster.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// The maintenance policy of the pool. Structure is documented below.
+	MaintenancePolicy []NodePoolMaintenancePolicyObservation_2 `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
 	// List of instance group URLs which have been assigned to this node pool.
 	ManagedInstanceGroupUrls []*string `json:"managedInstanceGroupUrls,omitempty" tf:"managed_instance_group_urls,omitempty"`
 
@@ -2420,6 +2522,10 @@ type NodePoolParameters_2 struct {
 	// The location (region or zone) of the cluster.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// The maintenance policy of the pool. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MaintenancePolicy []NodePoolMaintenancePolicyParameters_2 `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
 	// Node management configuration, wherein auto-repair and
 	// auto-upgrade is configured. Structure is documented below.

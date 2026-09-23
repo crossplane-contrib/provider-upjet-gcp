@@ -19,7 +19,7 @@ spec:
       boot: true
       resourcePoliciesRefs:
       - name: daily-backup
-      sourceImage: debian-cloud/debian-11
+      sourceImage: debian-cloud/debian-13
     - autoDelete: false
       boot: false
       sourceSelector:
@@ -60,7 +60,7 @@ metadata:
   name: foobar
 spec:
   forProvider:
-    image: debian-12-bookworm-v20240910
+    image: debian-cloud/debian-13
     size: 10
     type: pd-ssd
     zone: us-central1-a

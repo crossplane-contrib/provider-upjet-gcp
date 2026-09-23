@@ -42,14 +42,13 @@ spec:
   forProvider:
     bootDisk:
       initializeParams:
-        imageSelector:
-          matchLabels:
-            testing.upbound.io/example-name: image
+        image: debian-cloud/debian-13
     canIpForward: true
     machineType: e2-medium
     networkInterface:
       - accessConfig:
           - {}
+        networkIp: 10.0.0.2
         subnetworkSelector:
           matchLabels:
             testing.upbound.io/example-name: subnetwork
@@ -100,17 +99,3 @@ spec:
       label-one: value-one
     name: hub
     project: official-provider-testing
----
-apiVersion: compute.gcp.m.upbound.io/v1beta1
-kind: Image
-metadata:
-  annotations:
-    meta.upbound.io/example-id: networkconnectivity/v1beta1/spoke
-  labels:
-    testing.upbound.io/example-name: image
-  name: image
-  namespace: upbound-system
-spec:
-  forProvider:
-    rawDisk:
-      source: https://storage.googleapis.com/bosh-gce-raw-stemcells/bosh-stemcell-97.98-google-kvm-ubuntu-xenial-go_agent-raw-1557960142.tar.gz

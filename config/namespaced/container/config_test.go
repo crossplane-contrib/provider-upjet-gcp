@@ -275,6 +275,14 @@ func TestDropEmptyOptionalComputedBlockDiffs(t *testing.T) {
 			},
 			dropped: []string{"placement_policy.#", "autoscaling.#", "queued_provisioning.#"},
 		},
+		"DropsEmptyMaintenancePolicy": {
+			attrs:   map[string]*terraform.ResourceAttrDiff{"maintenance_policy.#": {Old: "", New: "", NewComputed: true}},
+			dropped: []string{"maintenance_policy.#"},
+		},
+		"KeepsNonEmptyMaintenancePolicy": {
+			attrs: map[string]*terraform.ResourceAttrDiff{"maintenance_policy.#": {Old: "1", New: ""}},
+			kept:  []string{"maintenance_policy.#"},
+		},
 		"KeepsNonEmptyNodeDrainConfig": {
 			attrs: map[string]*terraform.ResourceAttrDiff{"node_drain_config.#": {Old: "", New: "1"}},
 			kept:  []string{"node_drain_config.#"},

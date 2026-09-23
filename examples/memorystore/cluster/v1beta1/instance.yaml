@@ -28,6 +28,7 @@ spec:
           minutes: 0
           nanos: 0
           seconds: 0
+    nodeType: SHARED_CORE_NANO
     shardCount: 1
 
 ---

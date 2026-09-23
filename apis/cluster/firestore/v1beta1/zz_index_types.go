@@ -157,12 +157,13 @@ type IndexInitParameters struct {
 	// Possible values are: SPARSE_ALL, SPARSE_ANY, DENSE.
 	Density *string `json:"density,omitempty" tf:"density,omitempty"`
 
-	// The fields supported by this index. The last non-stored field entry is
-	// always for the field path __name__. If, on creation, __name__ was not
-	// specified as the last field, it will be added automatically with the same
-	// direction as that of the last field defined. If the final field in a
-	// composite index is not directional, the __name__ will be ordered
-	// "ASCENDING" (unless explicitly specified otherwise).
+	// The field(s) supported by this index. Indexes with the ANY_API api_scope in Standard
+	// edition databases have special behavior with respect to the __name__ field. In these
+	// indexes, the last non-stored field entry is always for the field path __name__. If, on
+	// creation, __name__ was not specified as the last field, it will be added automatically
+	// with the same direction as that of the last field defined. If the final field in an
+	// index is not directional, the __name__ will be ordered "ASCENDING" (unless explicitly
+	// specified otherwise).
 	// Structure is documented below.
 	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
@@ -206,12 +207,13 @@ type IndexObservation struct {
 	// Possible values are: SPARSE_ALL, SPARSE_ANY, DENSE.
 	Density *string `json:"density,omitempty" tf:"density,omitempty"`
 
-	// The fields supported by this index. The last non-stored field entry is
-	// always for the field path __name__. If, on creation, __name__ was not
-	// specified as the last field, it will be added automatically with the same
-	// direction as that of the last field defined. If the final field in a
-	// composite index is not directional, the __name__ will be ordered
-	// "ASCENDING" (unless explicitly specified otherwise).
+	// The field(s) supported by this index. Indexes with the ANY_API api_scope in Standard
+	// edition databases have special behavior with respect to the __name__ field. In these
+	// indexes, the last non-stored field entry is always for the field path __name__. If, on
+	// creation, __name__ was not specified as the last field, it will be added automatically
+	// with the same direction as that of the last field defined. If the final field in an
+	// index is not directional, the __name__ will be ordered "ASCENDING" (unless explicitly
+	// specified otherwise).
 	// Structure is documented below.
 	Fields []FieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
@@ -276,12 +278,13 @@ type IndexParameters struct {
 	// +kubebuilder:validation:Optional
 	Density *string `json:"density,omitempty" tf:"density,omitempty"`
 
-	// The fields supported by this index. The last non-stored field entry is
-	// always for the field path __name__. If, on creation, __name__ was not
-	// specified as the last field, it will be added automatically with the same
-	// direction as that of the last field defined. If the final field in a
-	// composite index is not directional, the __name__ will be ordered
-	// "ASCENDING" (unless explicitly specified otherwise).
+	// The field(s) supported by this index. Indexes with the ANY_API api_scope in Standard
+	// edition databases have special behavior with respect to the __name__ field. In these
+	// indexes, the last non-stored field entry is always for the field path __name__. If, on
+	// creation, __name__ was not specified as the last field, it will be added automatically
+	// with the same direction as that of the last field defined. If the final field in an
+	// index is not directional, the __name__ will be ordered "ASCENDING" (unless explicitly
+	// specified otherwise).
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`

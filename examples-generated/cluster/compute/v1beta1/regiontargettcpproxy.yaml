@@ -15,7 +15,7 @@ spec:
     backendServiceSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    region: europe-west4
+    region: us-central1
 
 ---
 
@@ -33,7 +33,7 @@ spec:
     - name: default
     loadBalancingScheme: INTERNAL_MANAGED
     protocol: TCP
-    region: europe-west4
+    region: us-central1
     timeoutSec: 10
 
 ---
@@ -49,7 +49,7 @@ metadata:
 spec:
   forProvider:
     checkIntervalSec: 1
-    region: europe-west4
+    region: us-central1
     tcpHealthCheck:
       port: "80"
     timeoutSec: 1

@@ -75,9 +75,19 @@ spec:
               forProvider:
                 properties:
                   appEngineApis:
-                    description: Allows App Engine second generation runtimes to access
-                      the legacy bundled services.
+                    description: |-
+                      Allows App Engine second generation runtimes to access the legacy bundled services.
+                      Cannot specify both app_engine_apis and app_engine_bundled_services together.
                     type: boolean
+                  appEngineBundledServices:
+                    description: |-
+                      A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+                      Cannot specify both app_engine_apis and app_engine_bundled_services together.
+                      Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   automaticScaling:
                     description: |-
                       Automatic scaling is based on request rate, response latencies, and other application metrics.
@@ -474,9 +484,19 @@ spec:
                   autoscaler.
                 properties:
                   appEngineApis:
-                    description: Allows App Engine second generation runtimes to access
-                      the legacy bundled services.
+                    description: |-
+                      Allows App Engine second generation runtimes to access the legacy bundled services.
+                      Cannot specify both app_engine_apis and app_engine_bundled_services together.
                     type: boolean
+                  appEngineBundledServices:
+                    description: |-
+                      A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+                      Cannot specify both app_engine_apis and app_engine_bundled_services together.
+                      Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   automaticScaling:
                     description: |-
                       Automatic scaling is based on request rate, response latencies, and other application metrics.
@@ -959,9 +979,19 @@ spec:
               atProvider:
                 properties:
                   appEngineApis:
-                    description: Allows App Engine second generation runtimes to access
-                      the legacy bundled services.
+                    description: |-
+                      Allows App Engine second generation runtimes to access the legacy bundled services.
+                      Cannot specify both app_engine_apis and app_engine_bundled_services together.
                     type: boolean
+                  appEngineBundledServices:
+                    description: |-
+                      A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+                      Cannot specify both app_engine_apis and app_engine_bundled_services together.
+                      Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   automaticScaling:
                     description: |-
                       Automatic scaling is based on request rate, response latencies, and other application metrics.

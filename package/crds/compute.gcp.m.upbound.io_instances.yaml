@@ -1067,6 +1067,12 @@ spec:
                           number of availability domains specified in the spread placement
                           policy attached to the instance.
                         type: number
+                      hostErrorTimeoutSeconds:
+                        description: Specifies the time in seconds for host error
+                          detection, the value must be within the range of [90, 330]
+                          with the increment of 30, if unset, the default behavior
+                          of host error recovery will be used.
+                        type: number
                       instanceTerminationAction:
                         description: Describe the type of termination action for VM.
                           Can be STOP or DELETE.  Read more on here
@@ -1171,10 +1177,13 @@ spec:
                         type: boolean
                       provisioningModel:
                         description: |-
-                          Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+                          Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
                           preemptible should be true and automatic_restart should be
                           false. For more info about
-                          SPOT, read here
+                          SPOT, read here.
+                          If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+                          FLEX_START, read here.
+                          If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
                         type: string
                       terminationTime:
                         description: Specifies the timestamp, when the instance will
@@ -1337,6 +1346,18 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  workloadIdentityConfig:
+                    description: |-
+                      Workload Identity Config. More details about
+                      this configuration option are detailed below.
+                    properties:
+                      identity:
+                        description: Identity SPIFFE id.
+                        type: string
+                      identityCertificateEnabled:
+                        description: Specifies whether identity certificates are enabled.
+                        type: boolean
+                    type: object
                   zone:
                     description: The zone that the machine should be created in. If
                       it is not provided, the provider zone is used.
@@ -2365,6 +2386,12 @@ spec:
                           number of availability domains specified in the spread placement
                           policy attached to the instance.
                         type: number
+                      hostErrorTimeoutSeconds:
+                        description: Specifies the time in seconds for host error
+                          detection, the value must be within the range of [90, 330]
+                          with the increment of 30, if unset, the default behavior
+                          of host error recovery will be used.
+                        type: number
                       instanceTerminationAction:
                         description: Describe the type of termination action for VM.
                           Can be STOP or DELETE.  Read more on here
@@ -2469,10 +2496,13 @@ spec:
                         type: boolean
                       provisioningModel:
                         description: |-
-                          Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+                          Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
                           preemptible should be true and automatic_restart should be
                           false. For more info about
-                          SPOT, read here
+                          SPOT, read here.
+                          If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+                          FLEX_START, read here.
+                          If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
                         type: string
                       terminationTime:
                         description: Specifies the timestamp, when the instance will
@@ -2635,6 +2665,18 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  workloadIdentityConfig:
+                    description: |-
+                      Workload Identity Config. More details about
+                      this configuration option are detailed below.
+                    properties:
+                      identity:
+                        description: Identity SPIFFE id.
+                        type: string
+                      identityCertificateEnabled:
+                        description: Specifies whether identity certificates are enabled.
+                        type: boolean
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -3426,6 +3468,12 @@ spec:
                           number of availability domains specified in the spread placement
                           policy attached to the instance.
                         type: number
+                      hostErrorTimeoutSeconds:
+                        description: Specifies the time in seconds for host error
+                          detection, the value must be within the range of [90, 330]
+                          with the increment of 30, if unset, the default behavior
+                          of host error recovery will be used.
+                        type: number
                       instanceTerminationAction:
                         description: Describe the type of termination action for VM.
                           Can be STOP or DELETE.  Read more on here
@@ -3530,10 +3578,13 @@ spec:
                         type: boolean
                       provisioningModel:
                         description: |-
-                          Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+                          Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
                           preemptible should be true and automatic_restart should be
                           false. For more info about
-                          SPOT, read here
+                          SPOT, read here.
+                          If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+                          FLEX_START, read here.
+                          If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
                         type: string
                       terminationTime:
                         description: Specifies the timestamp, when the instance will
@@ -3627,6 +3678,18 @@ spec:
                       the resource and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
+                  workloadIdentityConfig:
+                    description: |-
+                      Workload Identity Config. More details about
+                      this configuration option are detailed below.
+                    properties:
+                      identity:
+                        description: Identity SPIFFE id.
+                        type: string
+                      identityCertificateEnabled:
+                        description: Specifies whether identity certificates are enabled.
+                        type: boolean
+                    type: object
                   zone:
                     description: The zone that the machine should be created in. If
                       it is not provided, the provider zone is used.

@@ -17,7 +17,7 @@ type ArgumentsInitParameters struct {
 
 	// Defaults to FIXED_TYPE.
 	// Default value is FIXED_TYPE.
-	// Possible values are: FIXED_TYPE, ANY_TYPE.
+	// Possible values are: FIXED_TYPE, ANY_TYPE, FIXED_TABLE.
 	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
 
 	// A JSON schema for the data type. Required unless argumentKind = ANY_TYPE.
@@ -35,13 +35,17 @@ type ArgumentsInitParameters struct {
 
 	// The name of this argument. Can be absent for function return argument.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// If argumentKind is FIXED_TABLE, a schema for the table type.
+	// Structure is documented below.
+	TableType *TableTypeInitParameters `json:"tableType,omitempty" tf:"table_type,omitempty"`
 }
 
 type ArgumentsObservation struct {
 
 	// Defaults to FIXED_TYPE.
 	// Default value is FIXED_TYPE.
-	// Possible values are: FIXED_TYPE, ANY_TYPE.
+	// Possible values are: FIXED_TYPE, ANY_TYPE, FIXED_TABLE.
 	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
 
 	// A JSON schema for the data type. Required unless argumentKind = ANY_TYPE.
@@ -59,13 +63,17 @@ type ArgumentsObservation struct {
 
 	// The name of this argument. Can be absent for function return argument.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// If argumentKind is FIXED_TABLE, a schema for the table type.
+	// Structure is documented below.
+	TableType *TableTypeObservation `json:"tableType,omitempty" tf:"table_type,omitempty"`
 }
 
 type ArgumentsParameters struct {
 
 	// Defaults to FIXED_TYPE.
 	// Default value is FIXED_TYPE.
-	// Possible values are: FIXED_TYPE, ANY_TYPE.
+	// Possible values are: FIXED_TYPE, ANY_TYPE, FIXED_TABLE.
 	// +kubebuilder:validation:Optional
 	ArgumentKind *string `json:"argumentKind,omitempty" tf:"argument_kind,omitempty"`
 
@@ -87,6 +95,58 @@ type ArgumentsParameters struct {
 	// The name of this argument. Can be absent for function return argument.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// If argumentKind is FIXED_TABLE, a schema for the table type.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TableType *TableTypeParameters `json:"tableType,omitempty" tf:"table_type,omitempty"`
+}
+
+type ColumnsInitParameters struct {
+
+	// The name of the column.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// A JSON schema for the data type of the column. Required unless argumentKind = ANY_TYPE.
+	// ~>NOTE: Because this field expects a JSON string, any changes to the string
+	// will create a diff, even if the JSON itself hasn't changed. If the API returns
+	// a different value for the same schema, e.g. it switched the order of values
+	// or replaced STRUCT field type with RECORD field type, we currently cannot
+	// suppress the recurring diff this causes. As a workaround, we recommend using
+	// the schema as returned by the API.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnsObservation struct {
+
+	// The name of the column.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// A JSON schema for the data type of the column. Required unless argumentKind = ANY_TYPE.
+	// ~>NOTE: Because this field expects a JSON string, any changes to the string
+	// will create a diff, even if the JSON itself hasn't changed. If the API returns
+	// a different value for the same schema, e.g. it switched the order of values
+	// or replaced STRUCT field type with RECORD field type, we currently cannot
+	// suppress the recurring diff this causes. As a workaround, we recommend using
+	// the schema as returned by the API.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ColumnsParameters struct {
+
+	// The name of the column.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// A JSON schema for the data type of the column. Required unless argumentKind = ANY_TYPE.
+	// ~>NOTE: Because this field expects a JSON string, any changes to the string
+	// will create a diff, even if the JSON itself hasn't changed. If the API returns
+	// a different value for the same schema, e.g. it switched the order of values
+	// or replaced STRUCT field type with RECORD field type, we currently cannot
+	// suppress the recurring diff this causes. As a workaround, we recommend using
+	// the schema as returned by the API.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 type RemoteFunctionOptionsInitParameters struct {
@@ -579,6 +639,28 @@ type SparkOptionsParameters struct {
 	// Runtime version. If not specified, the default runtime version is used.
 	// +kubebuilder:validation:Optional
 	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+}
+
+type TableTypeInitParameters struct {
+
+	// The columns in the table type.
+	// Structure is documented below.
+	Columns []ColumnsInitParameters `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type TableTypeObservation struct {
+
+	// The columns in the table type.
+	// Structure is documented below.
+	Columns []ColumnsObservation `json:"columns,omitempty" tf:"columns,omitempty"`
+}
+
+type TableTypeParameters struct {
+
+	// The columns in the table type.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Columns []ColumnsParameters `json:"columns,omitempty" tf:"columns,omitempty"`
 }
 
 // RoutineSpec defines the desired state of Routine

@@ -244,6 +244,19 @@ type RouterInitParameters struct {
 	// Structure is documented below.
 	Md5AuthenticationKeys *Md5AuthenticationKeysInitParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
+	// A URI of an NCC Gateway spoke
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta2.Spoke
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	NccGateway *string `json:"nccGateway,omitempty" tf:"ncc_gateway,omitempty"`
+
+	// Reference to a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewayRef *v2.Reference `json:"nccGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewaySelector *v2.Selector `json:"nccGatewaySelector,omitempty" tf:"-"`
+
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
@@ -293,6 +306,9 @@ type RouterObservation struct {
 	// Structure is documented below.
 	Md5AuthenticationKeys *Md5AuthenticationKeysObservation `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
 
+	// A URI of an NCC Gateway spoke
+	NccGateway *string `json:"nccGateway,omitempty" tf:"ncc_gateway,omitempty"`
+
 	// A reference to the network to which this router belongs.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -331,6 +347,20 @@ type RouterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Md5AuthenticationKeys *Md5AuthenticationKeysParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
+
+	// A URI of an NCC Gateway spoke
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta2.Spoke
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	NccGateway *string `json:"nccGateway,omitempty" tf:"ncc_gateway,omitempty"`
+
+	// Reference to a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewayRef *v2.Reference `json:"nccGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewaySelector *v2.Selector `json:"nccGatewaySelector,omitempty" tf:"-"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network

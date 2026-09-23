@@ -59,11 +59,17 @@ spec:
             properties:
               forProvider:
                 properties:
+                  aclPolicy:
+                    description: |-
+                      The name of the ACL policy to attach to the instance.
+                      Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy}
+                    type: string
                   authorizationMode:
                     description: |-
                       Optional. Immutable. Authorization mode of the instance. Possible values:
                       AUTH_DISABLED
-                      IAM_AUTH
+                      IAM_AUTH.
+                      TOKEN_AUTH is also supported, but only available in the google-beta provider.
                     type: string
                   automatedBackupConfig:
                     description: |-
@@ -646,11 +652,17 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  aclPolicy:
+                    description: |-
+                      The name of the ACL policy to attach to the instance.
+                      Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy}
+                    type: string
                   authorizationMode:
                     description: |-
                       Optional. Immutable. Authorization mode of the instance. Possible values:
                       AUTH_DISABLED
-                      IAM_AUTH
+                      IAM_AUTH.
+                      TOKEN_AUTH is also supported, but only available in the google-beta provider.
                     type: string
                   automatedBackupConfig:
                     description: |-
@@ -1281,11 +1293,17 @@ spec:
             properties:
               atProvider:
                 properties:
+                  aclPolicy:
+                    description: |-
+                      The name of the ACL policy to attach to the instance.
+                      Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy}
+                    type: string
                   authorizationMode:
                     description: |-
                       Optional. Immutable. Authorization mode of the instance. Possible values:
                       AUTH_DISABLED
-                      IAM_AUTH
+                      IAM_AUTH.
+                      TOKEN_AUTH is also supported, but only available in the google-beta provider.
                     type: string
                   automatedBackupConfig:
                     description: |-
@@ -1592,6 +1610,9 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{instance_id}}
                     type: string
+                  isAclPolicyInSync:
+                    description: Whether the ACL policy is in sync with the cluster.
+                    type: boolean
                   kmsKey:
                     description: The KMS key used to encrypt the at-rest data of the
                       cluster

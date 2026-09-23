@@ -90,6 +90,9 @@ type ContainersInitParameters struct {
 	// Structure is documented below.
 	Resources *ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
+
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
 	// succeeds. Container will not be added to service endpoints if the probe fails.
@@ -151,6 +154,9 @@ type ContainersObservation struct {
 	// Compute Resources required by this container. Used to set values such as max memory
 	// Structure is documented below.
 	Resources *ResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -223,6 +229,10 @@ type ContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *ResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	// +kubebuilder:validation:Optional
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it

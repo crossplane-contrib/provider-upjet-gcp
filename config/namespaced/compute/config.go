@@ -28,6 +28,19 @@ var (
 	PathInstanceGroupExtractor = SelfPackagePath + ".InstanceGroupExtractor()"
 )
 
+// dropEmptyBlockCountDiffs removes the phantom diffs the Terraform plugin
+// SDK emits for Optional+Computed blocks that are set neither in the
+// configuration nor in the state: the block's count attribute shows up as
+// "" -> "" with NewComputed set. When such a block is also ForceNew the
+// phantom makes upjet refuse an update that changes nothing.
+func dropEmptyBlockCountDiffs(diff *terraform.InstanceDiff, keys ...string) {
+	for _, key := range keys {
+		if d, ok := diff.Attributes[key]; ok && d.Old == "" && d.New == "" {
+			delete(diff.Attributes, key)
+		}
+	}
+}
+
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) { // nolint: gocyclo
@@ -47,6 +60,18 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_instance_group_manager",
 			Extractor:     PathInstanceGroupExtractor,
 		}
+		// oauth2_client_id_wo and oauth2_client_secret_wo are write-only
+		// Terraform fields with no persisted state, which upjet can't
+		// represent; the SecretRef fields cover the same input. Their
+		// _wo_version counterparts stay in the schema (only the dangling
+		// RequiredWith is cleared) because the upstream Read flattens them
+		// into the iap block: deleting them breaks every read with
+		// "Invalid address to set".
+		iap := r.TerraformResource.Schema["iap"].Elem.(*schema.Resource).Schema
+		delete(iap, "oauth2_client_id_wo")
+		delete(iap, "oauth2_client_secret_wo")
+		iap["oauth2_client_id_wo_version"].RequiredWith = nil
+		iap["oauth2_client_secret_wo_version"].RequiredWith = nil
 	})
 
 	p.AddResourceConfigurator("google_compute_managed_ssl_certificate", func(r *config.Resource) {
@@ -142,9 +167,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			if diff == nil || diff.Destroy {
 				return diff, nil
 			}
-			if cicDiff, ok := diff.Attributes["confidential_instance_config.#"]; ok && cicDiff.Old == "" && cicDiff.New == "" {
-				delete(diff.Attributes, "confidential_instance_config.#")
-			}
+			dropEmptyBlockCountDiffs(diff, "confidential_instance_config.#")
 			for key := range diff.Attributes {
 				if strings.HasPrefix(key, "disk.") && (strings.HasSuffix(key, ".source_image_encryption_key.#") || strings.HasSuffix(key, ".source_snapshot_encryption_key.#")) {
 					delete(diff.Attributes, key)
@@ -176,6 +199,17 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			TerraformName: "google_compute_image",
 		}
 		r.MarkAsRequired("zone")
+		// confidential_instance_config is Optional+Computed+ForceNew; when it is
+		// absent from both spec and state the SDK still emits a "" -> ""
+		// NewComputed diff on its count, which upjet would refuse as a
+		// replacement (see the same handling on google_compute_instance_template).
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff == nil || diff.Destroy {
+				return diff, nil
+			}
+			dropEmptyBlockCountDiffs(diff, "confidential_instance_config.#")
+			return diff, nil
+		}
 	})
 
 	p.AddResourceConfigurator("google_compute_instance_iam_member", func(r *config.Resource) {
@@ -205,9 +239,11 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 			if diff == nil || diff.Destroy {
 				return diff, nil
 			}
-			if paramsDiff, ok := diff.Attributes["params.#"]; ok && paramsDiff.Old == "" && paramsDiff.New == "" {
-				delete(diff.Attributes, "params.#")
-			}
+			// Every field of google_compute_instance_from_template is Computed, so
+			// the SDK emits "" -> "" NewComputed diffs on the count of any block
+			// absent from spec and state; confidential_instance_config is also
+			// ForceNew and would make upjet refuse the update.
+			dropEmptyBlockCountDiffs(diff, "params.#", "confidential_instance_config.#", "workload_identity_config.#")
 			return diff, nil
 		}
 	})

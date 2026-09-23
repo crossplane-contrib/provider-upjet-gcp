@@ -85,6 +85,14 @@ spec:
                   location:
                     description: The location for the resource
                     type: string
+                  principal:
+                    description: 'Optional. Represents the principal for this assignment.
+                      If not empty, jobs run by this principal will utilize the associated
+                      reservation. Otherwise, jobs will fall back to using the reservation
+                      assigned to the project, folder, or organization (in that order).
+                      If no reservation is assigned at any of these levels, on-demand
+                      capacity will be used. The supported formats are:'
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -194,6 +202,14 @@ spec:
                     type: string
                   location:
                     description: The location for the resource
+                    type: string
+                  principal:
+                    description: 'Optional. Represents the principal for this assignment.
+                      If not empty, jobs run by this principal will utilize the associated
+                      reservation. Otherwise, jobs will fall back to using the reservation
+                      assigned to the project, folder, or organization (in that order).
+                      If no reservation is assigned at any of these levels, on-demand
+                      capacity will be used. The supported formats are:'
                     type: string
                   project:
                     description: |-
@@ -324,6 +340,14 @@ spec:
                     type: string
                   name:
                     description: Output only. The resource name of the assignment.
+                    type: string
+                  principal:
+                    description: 'Optional. Represents the principal for this assignment.
+                      If not empty, jobs run by this principal will utilize the associated
+                      reservation. Otherwise, jobs will fall back to using the reservation
+                      assigned to the project, folder, or organization (in that order).
+                      If no reservation is assigned at any of these levels, on-demand
+                      capacity will be used. The supported formats are:'
                     type: string
                   project:
                     description: |-

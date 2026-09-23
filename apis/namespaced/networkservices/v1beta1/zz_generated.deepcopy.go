@@ -59,6 +59,11 @@ func (in *GatewayInitParameters) DeepCopyInto(out *GatewayInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AllowGlobalAccess != nil {
+		in, out := &in.AllowGlobalAccess, &out.AllowGlobalAccess
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -262,6 +267,11 @@ func (in *GatewayObservation) DeepCopyInto(out *GatewayObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AllowGlobalAccess != nil {
+		in, out := &in.AllowGlobalAccess, &out.AllowGlobalAccess
+		*out = new(bool)
+		**out = **in
+	}
 	if in.CertificateUrls != nil {
 		in, out := &in.CertificateUrls, &out.CertificateUrls
 		*out = make([]*string, len(*in))
@@ -450,6 +460,11 @@ func (in *GatewayParameters) DeepCopyInto(out *GatewayParameters) {
 	}
 	if in.AllPorts != nil {
 		in, out := &in.AllPorts, &out.AllPorts
+		*out = new(bool)
+		**out = **in
+	}
+	if in.AllowGlobalAccess != nil {
+		in, out := &in.AllowGlobalAccess, &out.AllowGlobalAccess
 		*out = new(bool)
 		**out = **in
 	}

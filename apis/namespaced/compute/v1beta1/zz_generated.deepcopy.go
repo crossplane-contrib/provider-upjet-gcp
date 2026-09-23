@@ -25743,14 +25743,24 @@ func (in *IapInitParameters) DeepCopyInto(out *IapInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.Oauth2ClientID != nil {
-		in, out := &in.Oauth2ClientID, &out.Oauth2ClientID
+	if in.Oauth2ClientIDSecretRef != nil {
+		in, out := &in.Oauth2ClientIDSecretRef, &out.Oauth2ClientIDSecretRef
+		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.Oauth2ClientIDWoVersion != nil {
+		in, out := &in.Oauth2ClientIDWoVersion, &out.Oauth2ClientIDWoVersion
 		*out = new(string)
 		**out = **in
 	}
 	if in.Oauth2ClientSecretSecretRef != nil {
 		in, out := &in.Oauth2ClientSecretSecretRef, &out.Oauth2ClientSecretSecretRef
 		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.Oauth2ClientSecretWoVersion != nil {
+		in, out := &in.Oauth2ClientSecretWoVersion, &out.Oauth2ClientSecretWoVersion
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -25773,8 +25783,13 @@ func (in *IapObservation) DeepCopyInto(out *IapObservation) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.Oauth2ClientID != nil {
-		in, out := &in.Oauth2ClientID, &out.Oauth2ClientID
+	if in.Oauth2ClientIDWoVersion != nil {
+		in, out := &in.Oauth2ClientIDWoVersion, &out.Oauth2ClientIDWoVersion
+		*out = new(string)
+		**out = **in
+	}
+	if in.Oauth2ClientSecretWoVersion != nil {
+		in, out := &in.Oauth2ClientSecretWoVersion, &out.Oauth2ClientSecretWoVersion
 		*out = new(string)
 		**out = **in
 	}
@@ -25798,14 +25813,24 @@ func (in *IapParameters) DeepCopyInto(out *IapParameters) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.Oauth2ClientID != nil {
-		in, out := &in.Oauth2ClientID, &out.Oauth2ClientID
+	if in.Oauth2ClientIDSecretRef != nil {
+		in, out := &in.Oauth2ClientIDSecretRef, &out.Oauth2ClientIDSecretRef
+		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.Oauth2ClientIDWoVersion != nil {
+		in, out := &in.Oauth2ClientIDWoVersion, &out.Oauth2ClientIDWoVersion
 		*out = new(string)
 		**out = **in
 	}
 	if in.Oauth2ClientSecretSecretRef != nil {
 		in, out := &in.Oauth2ClientSecretSecretRef, &out.Oauth2ClientSecretSecretRef
 		*out = new(v2.LocalSecretKeySelector)
+		**out = **in
+	}
+	if in.Oauth2ClientSecretWoVersion != nil {
+		in, out := &in.Oauth2ClientSecretWoVersion, &out.Oauth2ClientSecretWoVersion
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -29065,6 +29090,11 @@ func (in *InstanceFromTemplateInitParameters) DeepCopyInto(out *InstanceFromTemp
 			}
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(InstanceFromTemplateWorkloadIdentityConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Zone != nil {
 		in, out := &in.Zone, &out.Zone
 		*out = new(string)
@@ -29875,6 +29905,11 @@ func (in *InstanceFromTemplateObservation) DeepCopyInto(out *InstanceFromTemplat
 			(*out)[key] = outVal
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(InstanceFromTemplateWorkloadIdentityConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Zone != nil {
 		in, out := &in.Zone, &out.Zone
 		*out = new(string)
@@ -30098,6 +30133,11 @@ func (in *InstanceFromTemplateParameters) DeepCopyInto(out *InstanceFromTemplate
 			}
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(InstanceFromTemplateWorkloadIdentityConfigParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Zone != nil {
 		in, out := &in.Zone, &out.Zone
 		*out = new(string)
@@ -30296,6 +30336,11 @@ func (in *InstanceFromTemplateSchedulingInitParameters) DeepCopyInto(out *Instan
 		*out = new(float64)
 		**out = **in
 	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
+		*out = new(float64)
+		**out = **in
+	}
 	if in.InstanceTerminationAction != nil {
 		in, out := &in.InstanceTerminationAction, &out.InstanceTerminationAction
 		*out = new(string)
@@ -30373,6 +30418,11 @@ func (in *InstanceFromTemplateSchedulingObservation) DeepCopyInto(out *InstanceF
 		*out = new(float64)
 		**out = **in
 	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
+		*out = new(float64)
+		**out = **in
+	}
 	if in.InstanceTerminationAction != nil {
 		in, out := &in.InstanceTerminationAction, &out.InstanceTerminationAction
 		*out = new(string)
@@ -30447,6 +30497,11 @@ func (in *InstanceFromTemplateSchedulingParameters) DeepCopyInto(out *InstanceFr
 	}
 	if in.AvailabilityDomain != nil {
 		in, out := &in.AvailabilityDomain, &out.AvailabilityDomain
+		*out = new(float64)
+		**out = **in
+	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
 		*out = new(float64)
 		**out = **in
 	}
@@ -30818,6 +30873,81 @@ func (in *InstanceFromTemplateStatus) DeepCopy() *InstanceFromTemplateStatus {
 		return nil
 	}
 	out := new(InstanceFromTemplateStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFromTemplateWorkloadIdentityConfigInitParameters) DeepCopyInto(out *InstanceFromTemplateWorkloadIdentityConfigInitParameters) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateWorkloadIdentityConfigInitParameters.
+func (in *InstanceFromTemplateWorkloadIdentityConfigInitParameters) DeepCopy() *InstanceFromTemplateWorkloadIdentityConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFromTemplateWorkloadIdentityConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFromTemplateWorkloadIdentityConfigObservation) DeepCopyInto(out *InstanceFromTemplateWorkloadIdentityConfigObservation) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateWorkloadIdentityConfigObservation.
+func (in *InstanceFromTemplateWorkloadIdentityConfigObservation) DeepCopy() *InstanceFromTemplateWorkloadIdentityConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFromTemplateWorkloadIdentityConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceFromTemplateWorkloadIdentityConfigParameters) DeepCopyInto(out *InstanceFromTemplateWorkloadIdentityConfigParameters) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceFromTemplateWorkloadIdentityConfigParameters.
+func (in *InstanceFromTemplateWorkloadIdentityConfigParameters) DeepCopy() *InstanceFromTemplateWorkloadIdentityConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceFromTemplateWorkloadIdentityConfigParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -32581,6 +32711,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			}
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(WorkloadIdentityConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceInitParameters.
@@ -32610,6 +32745,11 @@ func (in *InstanceLifecyclePolicyInitParameters) DeepCopyInto(out *InstanceLifec
 		in, out := &in.OnFailedHealthCheck, &out.OnFailedHealthCheck
 		*out = new(string)
 		**out = **in
+	}
+	if in.OnRepair != nil {
+		in, out := &in.OnRepair, &out.OnRepair
+		*out = new(OnRepairInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -32641,6 +32781,11 @@ func (in *InstanceLifecyclePolicyObservation) DeepCopyInto(out *InstanceLifecycl
 		*out = new(string)
 		**out = **in
 	}
+	if in.OnRepair != nil {
+		in, out := &in.OnRepair, &out.OnRepair
+		*out = new(OnRepairObservation)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceLifecyclePolicyObservation.
@@ -32649,6 +32794,66 @@ func (in *InstanceLifecyclePolicyObservation) DeepCopy() *InstanceLifecyclePolic
 		return nil
 	}
 	out := new(InstanceLifecyclePolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceLifecyclePolicyOnRepairInitParameters) DeepCopyInto(out *InstanceLifecyclePolicyOnRepairInitParameters) {
+	*out = *in
+	if in.AllowChangingZone != nil {
+		in, out := &in.AllowChangingZone, &out.AllowChangingZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceLifecyclePolicyOnRepairInitParameters.
+func (in *InstanceLifecyclePolicyOnRepairInitParameters) DeepCopy() *InstanceLifecyclePolicyOnRepairInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceLifecyclePolicyOnRepairInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceLifecyclePolicyOnRepairObservation) DeepCopyInto(out *InstanceLifecyclePolicyOnRepairObservation) {
+	*out = *in
+	if in.AllowChangingZone != nil {
+		in, out := &in.AllowChangingZone, &out.AllowChangingZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceLifecyclePolicyOnRepairObservation.
+func (in *InstanceLifecyclePolicyOnRepairObservation) DeepCopy() *InstanceLifecyclePolicyOnRepairObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceLifecyclePolicyOnRepairObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceLifecyclePolicyOnRepairParameters) DeepCopyInto(out *InstanceLifecyclePolicyOnRepairParameters) {
+	*out = *in
+	if in.AllowChangingZone != nil {
+		in, out := &in.AllowChangingZone, &out.AllowChangingZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceLifecyclePolicyOnRepairParameters.
+func (in *InstanceLifecyclePolicyOnRepairParameters) DeepCopy() *InstanceLifecyclePolicyOnRepairParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceLifecyclePolicyOnRepairParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -32670,6 +32875,11 @@ func (in *InstanceLifecyclePolicyParameters) DeepCopyInto(out *InstanceLifecycle
 		in, out := &in.OnFailedHealthCheck, &out.OnFailedHealthCheck
 		*out = new(string)
 		**out = **in
+	}
+	if in.OnRepair != nil {
+		in, out := &in.OnRepair, &out.OnRepair
+		*out = new(OnRepairParameters)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -32992,6 +33202,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(WorkloadIdentityConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Zone != nil {
 		in, out := &in.Zone, &out.Zone
 		*out = new(string)
@@ -33203,6 +33418,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(WorkloadIdentityConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Zone != nil {
 		in, out := &in.Zone, &out.Zone
@@ -34722,6 +34942,11 @@ func (in *InstanceTemplateInitParameters) DeepCopyInto(out *InstanceTemplateInit
 			}
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(InstanceTemplateWorkloadIdentityConfigInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateInitParameters.
@@ -35646,6 +35871,11 @@ func (in *InstanceTemplateObservation) DeepCopyInto(out *InstanceTemplateObserva
 			(*out)[key] = outVal
 		}
 	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(InstanceTemplateWorkloadIdentityConfigObservation)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateObservation.
@@ -35832,6 +36062,11 @@ func (in *InstanceTemplateParameters) DeepCopyInto(out *InstanceTemplateParamete
 				**out = **in
 			}
 		}
+	}
+	if in.WorkloadIdentityConfig != nil {
+		in, out := &in.WorkloadIdentityConfig, &out.WorkloadIdentityConfig
+		*out = new(InstanceTemplateWorkloadIdentityConfigParameters)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -36023,6 +36258,11 @@ func (in *InstanceTemplateSchedulingInitParameters) DeepCopyInto(out *InstanceTe
 	}
 	if in.AvailabilityDomain != nil {
 		in, out := &in.AvailabilityDomain, &out.AvailabilityDomain
+		*out = new(float64)
+		**out = **in
+	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
 		*out = new(float64)
 		**out = **in
 	}
@@ -36363,6 +36603,11 @@ func (in *InstanceTemplateSchedulingObservation) DeepCopyInto(out *InstanceTempl
 		*out = new(float64)
 		**out = **in
 	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
+		*out = new(float64)
+		**out = **in
+	}
 	if in.InstanceTerminationAction != nil {
 		in, out := &in.InstanceTerminationAction, &out.InstanceTerminationAction
 		*out = new(string)
@@ -36499,6 +36744,11 @@ func (in *InstanceTemplateSchedulingParameters) DeepCopyInto(out *InstanceTempla
 	}
 	if in.AvailabilityDomain != nil {
 		in, out := &in.AvailabilityDomain, &out.AvailabilityDomain
+		*out = new(float64)
+		**out = **in
+	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
 		*out = new(float64)
 		**out = **in
 	}
@@ -36802,6 +37052,81 @@ func (in *InstanceTemplateStatus) DeepCopy() *InstanceTemplateStatus {
 		return nil
 	}
 	out := new(InstanceTemplateStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceTemplateWorkloadIdentityConfigInitParameters) DeepCopyInto(out *InstanceTemplateWorkloadIdentityConfigInitParameters) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateWorkloadIdentityConfigInitParameters.
+func (in *InstanceTemplateWorkloadIdentityConfigInitParameters) DeepCopy() *InstanceTemplateWorkloadIdentityConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceTemplateWorkloadIdentityConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceTemplateWorkloadIdentityConfigObservation) DeepCopyInto(out *InstanceTemplateWorkloadIdentityConfigObservation) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateWorkloadIdentityConfigObservation.
+func (in *InstanceTemplateWorkloadIdentityConfigObservation) DeepCopy() *InstanceTemplateWorkloadIdentityConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceTemplateWorkloadIdentityConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InstanceTemplateWorkloadIdentityConfigParameters) DeepCopyInto(out *InstanceTemplateWorkloadIdentityConfigParameters) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InstanceTemplateWorkloadIdentityConfigParameters.
+func (in *InstanceTemplateWorkloadIdentityConfigParameters) DeepCopy() *InstanceTemplateWorkloadIdentityConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(InstanceTemplateWorkloadIdentityConfigParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -38947,6 +39272,20 @@ func (in *LogConfigInitParameters) DeepCopyInto(out *LogConfigInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RequestHeaders != nil {
+		in, out := &in.RequestHeaders, &out.RequestHeaders
+		*out = make([]RequestHeadersInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResponseHeaders != nil {
+		in, out := &in.ResponseHeaders, &out.ResponseHeaders
+		*out = make([]ResponseHeadersInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -38987,6 +39326,20 @@ func (in *LogConfigObservation) DeepCopyInto(out *LogConfigObservation) {
 		in, out := &in.OptionalMode, &out.OptionalMode
 		*out = new(string)
 		**out = **in
+	}
+	if in.RequestHeaders != nil {
+		in, out := &in.RequestHeaders, &out.RequestHeaders
+		*out = make([]RequestHeadersObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResponseHeaders != nil {
+		in, out := &in.ResponseHeaders, &out.ResponseHeaders
+		*out = make([]ResponseHeadersObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
@@ -39029,6 +39382,20 @@ func (in *LogConfigParameters) DeepCopyInto(out *LogConfigParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RequestHeaders != nil {
+		in, out := &in.RequestHeaders, &out.RequestHeaders
+		*out = make([]RequestHeadersParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResponseHeaders != nil {
+		in, out := &in.ResponseHeaders, &out.ResponseHeaders
+		*out = make([]ResponseHeadersParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -39042,6 +39409,126 @@ func (in *LogConfigParameters) DeepCopy() *LogConfigParameters {
 		return nil
 	}
 	out := new(LogConfigParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LogConfigRequestHeadersInitParameters) DeepCopyInto(out *LogConfigRequestHeadersInitParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LogConfigRequestHeadersInitParameters.
+func (in *LogConfigRequestHeadersInitParameters) DeepCopy() *LogConfigRequestHeadersInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LogConfigRequestHeadersInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LogConfigRequestHeadersObservation) DeepCopyInto(out *LogConfigRequestHeadersObservation) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LogConfigRequestHeadersObservation.
+func (in *LogConfigRequestHeadersObservation) DeepCopy() *LogConfigRequestHeadersObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(LogConfigRequestHeadersObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LogConfigRequestHeadersParameters) DeepCopyInto(out *LogConfigRequestHeadersParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LogConfigRequestHeadersParameters.
+func (in *LogConfigRequestHeadersParameters) DeepCopy() *LogConfigRequestHeadersParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LogConfigRequestHeadersParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LogConfigResponseHeadersInitParameters) DeepCopyInto(out *LogConfigResponseHeadersInitParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LogConfigResponseHeadersInitParameters.
+func (in *LogConfigResponseHeadersInitParameters) DeepCopy() *LogConfigResponseHeadersInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LogConfigResponseHeadersInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LogConfigResponseHeadersObservation) DeepCopyInto(out *LogConfigResponseHeadersObservation) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LogConfigResponseHeadersObservation.
+func (in *LogConfigResponseHeadersObservation) DeepCopy() *LogConfigResponseHeadersObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(LogConfigResponseHeadersObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *LogConfigResponseHeadersParameters) DeepCopyInto(out *LogConfigResponseHeadersParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new LogConfigResponseHeadersParameters.
+func (in *LogConfigResponseHeadersParameters) DeepCopy() *LogConfigResponseHeadersParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(LogConfigResponseHeadersParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -47211,6 +47698,66 @@ func (in *OnInstanceStopActionParameters) DeepCopy() *OnInstanceStopActionParame
 		return nil
 	}
 	out := new(OnInstanceStopActionParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *OnRepairInitParameters) DeepCopyInto(out *OnRepairInitParameters) {
+	*out = *in
+	if in.AllowChangingZone != nil {
+		in, out := &in.AllowChangingZone, &out.AllowChangingZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new OnRepairInitParameters.
+func (in *OnRepairInitParameters) DeepCopy() *OnRepairInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(OnRepairInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *OnRepairObservation) DeepCopyInto(out *OnRepairObservation) {
+	*out = *in
+	if in.AllowChangingZone != nil {
+		in, out := &in.AllowChangingZone, &out.AllowChangingZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new OnRepairObservation.
+func (in *OnRepairObservation) DeepCopy() *OnRepairObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(OnRepairObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *OnRepairParameters) DeepCopyInto(out *OnRepairParameters) {
+	*out = *in
+	if in.AllowChangingZone != nil {
+		in, out := &in.AllowChangingZone, &out.AllowChangingZone
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new OnRepairParameters.
+func (in *OnRepairParameters) DeepCopy() *OnRepairParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(OnRepairParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -59937,6 +60484,20 @@ func (in *RegionBackendServiceLogConfigInitParameters) DeepCopyInto(out *RegionB
 		*out = new(string)
 		**out = **in
 	}
+	if in.RequestHeaders != nil {
+		in, out := &in.RequestHeaders, &out.RequestHeaders
+		*out = make([]LogConfigRequestHeadersInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResponseHeaders != nil {
+		in, out := &in.ResponseHeaders, &out.ResponseHeaders
+		*out = make([]LogConfigResponseHeadersInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -59978,6 +60539,20 @@ func (in *RegionBackendServiceLogConfigObservation) DeepCopyInto(out *RegionBack
 		*out = new(string)
 		**out = **in
 	}
+	if in.RequestHeaders != nil {
+		in, out := &in.RequestHeaders, &out.RequestHeaders
+		*out = make([]LogConfigRequestHeadersObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResponseHeaders != nil {
+		in, out := &in.ResponseHeaders, &out.ResponseHeaders
+		*out = make([]LogConfigResponseHeadersObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
 		*out = new(float64)
@@ -60018,6 +60593,20 @@ func (in *RegionBackendServiceLogConfigParameters) DeepCopyInto(out *RegionBacke
 		in, out := &in.OptionalMode, &out.OptionalMode
 		*out = new(string)
 		**out = **in
+	}
+	if in.RequestHeaders != nil {
+		in, out := &in.RequestHeaders, &out.RequestHeaders
+		*out = make([]LogConfigRequestHeadersParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.ResponseHeaders != nil {
+		in, out := &in.ResponseHeaders, &out.ResponseHeaders
+		*out = make([]LogConfigResponseHeadersParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.SampleRate != nil {
 		in, out := &in.SampleRate, &out.SampleRate
@@ -64528,6 +65117,11 @@ func (in *RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters) DeepC
 		*out = new(string)
 		**out = **in
 	}
+	if in.OnRepair != nil {
+		in, out := &in.OnRepair, &out.OnRepair
+		*out = new(InstanceLifecyclePolicyOnRepairInitParameters)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters.
@@ -64558,6 +65152,11 @@ func (in *RegionInstanceGroupManagerInstanceLifecyclePolicyObservation) DeepCopy
 		*out = new(string)
 		**out = **in
 	}
+	if in.OnRepair != nil {
+		in, out := &in.OnRepair, &out.OnRepair
+		*out = new(InstanceLifecyclePolicyOnRepairObservation)
+		(*in).DeepCopyInto(*out)
+	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionInstanceGroupManagerInstanceLifecyclePolicyObservation.
@@ -64587,6 +65186,11 @@ func (in *RegionInstanceGroupManagerInstanceLifecyclePolicyParameters) DeepCopyI
 		in, out := &in.OnFailedHealthCheck, &out.OnFailedHealthCheck
 		*out = new(string)
 		**out = **in
+	}
+	if in.OnRepair != nil {
+		in, out := &in.OnRepair, &out.OnRepair
+		*out = new(InstanceLifecyclePolicyOnRepairParameters)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -70244,6 +70848,66 @@ func (in *RequestHeaderParameters) DeepCopy() *RequestHeaderParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RequestHeadersInitParameters) DeepCopyInto(out *RequestHeadersInitParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RequestHeadersInitParameters.
+func (in *RequestHeadersInitParameters) DeepCopy() *RequestHeadersInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RequestHeadersInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RequestHeadersObservation) DeepCopyInto(out *RequestHeadersObservation) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RequestHeadersObservation.
+func (in *RequestHeadersObservation) DeepCopy() *RequestHeadersObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RequestHeadersObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RequestHeadersParameters) DeepCopyInto(out *RequestHeadersParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RequestHeadersParameters.
+func (in *RequestHeadersParameters) DeepCopy() *RequestHeadersParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RequestHeadersParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RequestHeadersToAddInitParameters) DeepCopyInto(out *RequestHeadersToAddInitParameters) {
 	*out = *in
 	if in.HeaderName != nil {
@@ -72021,6 +72685,66 @@ func (in *ResourceStatusParameters) DeepCopy() *ResourceStatusParameters {
 		return nil
 	}
 	out := new(ResourceStatusParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResponseHeadersInitParameters) DeepCopyInto(out *ResponseHeadersInitParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResponseHeadersInitParameters.
+func (in *ResponseHeadersInitParameters) DeepCopy() *ResponseHeadersInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ResponseHeadersInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResponseHeadersObservation) DeepCopyInto(out *ResponseHeadersObservation) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResponseHeadersObservation.
+func (in *ResponseHeadersObservation) DeepCopy() *ResponseHeadersObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ResponseHeadersObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ResponseHeadersParameters) DeepCopyInto(out *ResponseHeadersParameters) {
+	*out = *in
+	if in.HeaderName != nil {
+		in, out := &in.HeaderName, &out.HeaderName
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ResponseHeadersParameters.
+func (in *ResponseHeadersParameters) DeepCopy() *ResponseHeadersParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ResponseHeadersParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -79125,6 +79849,21 @@ func (in *RouterInitParameters) DeepCopyInto(out *RouterInitParameters) {
 		*out = new(Md5AuthenticationKeysInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.NccGateway != nil {
+		in, out := &in.NccGateway, &out.NccGateway
+		*out = new(string)
+		**out = **in
+	}
+	if in.NccGatewayRef != nil {
+		in, out := &in.NccGatewayRef, &out.NccGatewayRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NccGatewaySelector != nil {
+		in, out := &in.NccGatewaySelector, &out.NccGatewaySelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
 		*out = new(string)
@@ -80404,6 +81143,11 @@ func (in *RouterObservation) DeepCopyInto(out *RouterObservation) {
 		*out = new(Md5AuthenticationKeysObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.NccGateway != nil {
+		in, out := &in.NccGateway, &out.NccGateway
+		*out = new(string)
+		**out = **in
+	}
 	if in.Network != nil {
 		in, out := &in.Network, &out.Network
 		*out = new(string)
@@ -80462,6 +81206,21 @@ func (in *RouterParameters) DeepCopyInto(out *RouterParameters) {
 	if in.Md5AuthenticationKeys != nil {
 		in, out := &in.Md5AuthenticationKeys, &out.Md5AuthenticationKeys
 		*out = new(Md5AuthenticationKeysParameters)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NccGateway != nil {
+		in, out := &in.NccGateway, &out.NccGateway
+		*out = new(string)
+		**out = **in
+	}
+	if in.NccGatewayRef != nil {
+		in, out := &in.NccGatewayRef, &out.NccGatewayRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NccGatewaySelector != nil {
+		in, out := &in.NccGatewaySelector, &out.NccGatewaySelector
+		*out = new(v2.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Network != nil {
@@ -83319,6 +84078,11 @@ func (in *SchedulingInitParameters) DeepCopyInto(out *SchedulingInitParameters) 
 		*out = new(float64)
 		**out = **in
 	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
+		*out = new(float64)
+		**out = **in
+	}
 	if in.InstanceTerminationAction != nil {
 		in, out := &in.InstanceTerminationAction, &out.InstanceTerminationAction
 		*out = new(string)
@@ -83654,6 +84418,11 @@ func (in *SchedulingObservation) DeepCopyInto(out *SchedulingObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
+		*out = new(float64)
+		**out = **in
+	}
 	if in.InstanceTerminationAction != nil {
 		in, out := &in.InstanceTerminationAction, &out.InstanceTerminationAction
 		*out = new(string)
@@ -83788,6 +84557,11 @@ func (in *SchedulingParameters) DeepCopyInto(out *SchedulingParameters) {
 	}
 	if in.AvailabilityDomain != nil {
 		in, out := &in.AvailabilityDomain, &out.AvailabilityDomain
+		*out = new(float64)
+		**out = **in
+	}
+	if in.HostErrorTimeoutSeconds != nil {
+		in, out := &in.HostErrorTimeoutSeconds, &out.HostErrorTimeoutSeconds
 		*out = new(float64)
 		**out = **in
 	}
@@ -99116,6 +99890,81 @@ func (in *WeightedBackendServicesParameters) DeepCopy() *WeightedBackendServices
 		return nil
 	}
 	out := new(WeightedBackendServicesParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkloadIdentityConfigInitParameters) DeepCopyInto(out *WorkloadIdentityConfigInitParameters) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkloadIdentityConfigInitParameters.
+func (in *WorkloadIdentityConfigInitParameters) DeepCopy() *WorkloadIdentityConfigInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkloadIdentityConfigInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkloadIdentityConfigObservation) DeepCopyInto(out *WorkloadIdentityConfigObservation) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkloadIdentityConfigObservation.
+func (in *WorkloadIdentityConfigObservation) DeepCopy() *WorkloadIdentityConfigObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkloadIdentityConfigObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WorkloadIdentityConfigParameters) DeepCopyInto(out *WorkloadIdentityConfigParameters) {
+	*out = *in
+	if in.Identity != nil {
+		in, out := &in.Identity, &out.Identity
+		*out = new(string)
+		**out = **in
+	}
+	if in.IdentityCertificateEnabled != nil {
+		in, out := &in.IdentityCertificateEnabled, &out.IdentityCertificateEnabled
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WorkloadIdentityConfigParameters.
+func (in *WorkloadIdentityConfigParameters) DeepCopy() *WorkloadIdentityConfigParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(WorkloadIdentityConfigParameters)
 	in.DeepCopyInto(out)
 	return out
 }
