@@ -17,4 +17,14 @@ func Configure(p *config.Provider) {
 		}
 		r.MarkAsRequired("location")
 	})
+
+	p.AddResourceConfigurator("google_cloud_tasks_queue_iam_member", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_tasks_queue",
+		}
+		r.MarkAsRequired("location")
+	})
 }

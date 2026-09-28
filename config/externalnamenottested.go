@@ -285,11 +285,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/connections/{{connection_id}} roles/viewer user:jane@example.com
 	"google_bigquery_connection_iam_member": config.TemplatedStringAsIdentifier("connection_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/connections/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 
-	// cloudtasks
-	//
-	// Imported by using the following projects/{{project}}/locations/{{location}}/queues/{{queue}} roles/viewer user:jane@example.com
-	"google_cloud_tasks_queue_iam_member": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/queues/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
-
 	// cloudfunctions2
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/functions/{{name}}

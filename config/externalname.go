@@ -185,6 +185,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}}
 	"google_cloud_tasks_queue": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/queues/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}} roles/viewer user:jane@example.com
+	"google_cloud_tasks_queue_iam_member": config.IdentifierFromProvider,
 
 	// compute
 	//
