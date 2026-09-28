@@ -34,6 +34,14 @@ type ProviderConfigSpec struct {
 	// requests to. Only used when userProjectOverride is true.
 	// +optional
 	BillingProject *string `json:"billingProject,omitempty"`
+
+	// UniverseDomain is the Google Cloud universe to authenticate and issue API
+	// requests against, e.g. "googleapis.com" for the default universe. It must
+	// match the universe domain of the supplied credentials, when those carry
+	// one. Leave unset to use the universe domain of the credentials, defaulting
+	// to "googleapis.com".
+	// +optional
+	UniverseDomain *string `json:"universeDomain,omitempty"`
 }
 
 // ProviderCredentials required to authenticate.

@@ -190,6 +190,14 @@ spec:
                   rule: '!has(self.exponentialFailureRateLimiter) || !has(self.exponentialFailureRateLimiter.baseDelay)
                     || has(self.exponentialFailureRateLimiter.maxDelay) || duration(self.exponentialFailureRateLimiter.baseDelay)
                     <= duration(''60s'')'
+              universeDomain:
+                description: |-
+                  UniverseDomain is the Google Cloud universe to authenticate and issue API
+                  requests against, e.g. "googleapis.com" for the default universe. It must
+                  match the universe domain of the supplied credentials, when those carry
+                  one. Leave unset to use the universe domain of the credentials, defaulting
+                  to "googleapis.com".
+                type: string
               userProjectOverride:
                 description: |-
                   UserProjectOverride enables attributing API requests to the project in

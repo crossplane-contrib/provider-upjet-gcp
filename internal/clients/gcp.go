@@ -35,6 +35,7 @@ const (
 	keyProject             = "project"
 	keyUserProjectOverride = "user_project_override"
 	keyBillingProject      = "billing_project"
+	keyUniverseDomain      = "universe_domain"
 
 	credentialsSourceUpbound     = "Upbound"
 	keyCredentials               = "credentials"
@@ -140,6 +141,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 			keyProject: pcSpec.ProjectID,
 		}
 		setProjectOverrides(ps.Configuration, pcSpec)
+		setUniverseDomain(ps.Configuration, pcSpec)
 		// TODO: this will have a performance impact. We need to quantify this.
 		p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
 		if err != nil {
@@ -201,6 +203,16 @@ func setProjectOverrides(cfg map[string]interface{}, pcSpec *namespacedv1beta1.P
 	}
 	if pcSpec.BillingProject != nil && *pcSpec.BillingProject != "" {
 		cfg[keyBillingProject] = *pcSpec.BillingProject
+	}
+}
+
+// setUniverseDomain populates the universe_domain provider configuration key
+// from the resolved ProviderConfig spec. The key is left unset when the spec
+// field is empty so that the Terraform provider derives the universe domain
+// from the credentials, defaulting to googleapis.com.
+func setUniverseDomain(cfg map[string]interface{}, pcSpec *namespacedv1beta1.ProviderConfigSpec) {
+	if pcSpec.UniverseDomain != nil && *pcSpec.UniverseDomain != "" {
+		cfg[keyUniverseDomain] = *pcSpec.UniverseDomain
 	}
 }
 
