@@ -5,9 +5,11 @@
 package config
 
 import (
+	"context"
 	"testing"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 )
@@ -155,6 +157,90 @@ func TestStorageNotificationIsNotFoundDiagnostic(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			if diff := cmp.Diff(tc.want, fn(tc.args)); diff != "" {
 				t.Errorf("IsNotFoundDiagnosticFn(...): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestServiceAccountGetIDFn(t *testing.T) {
+	cases := map[string]struct {
+		parameters map[string]any
+		setup      map[string]any
+		want       string
+		wantErr    bool
+	}{
+		"ProjectFromResource": {
+			parameters: map[string]any{"project": "my-project"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com",
+		},
+		"ProjectFromProviderConfig": {
+			parameters: map[string]any{},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/pc-project/serviceAccounts/my-sa@pc-project.iam.gserviceaccount.com",
+		},
+		"DomainScopedProject": {
+			parameters: map[string]any{"project": "s3ns:test-mathieu"},
+			setup:      map[string]any{},
+			want:       "projects/s3ns:test-mathieu/serviceAccounts/my-sa@test-mathieu.s3ns.iam.gserviceaccount.com",
+		},
+		"DomainScopedProjectFromProviderConfig": {
+			parameters: map[string]any{},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "example.com:my-project"}},
+			want:       "projects/example.com:my-project/serviceAccounts/my-sa@my-project.example.com.iam.gserviceaccount.com",
+		},
+		"ProjectFromProviderConfigPlainMap": {
+			parameters: map[string]any{},
+			setup:      map[string]any{"configuration": map[string]any{"project": "pc-project"}},
+			want:       "projects/pc-project/serviceAccounts/my-sa@pc-project.iam.gserviceaccount.com",
+		},
+		"NoProject": {
+			parameters: map[string]any{},
+			setup:      map[string]any{},
+			wantErr:    true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := serviceAccount().GetIDFn(context.Background(), "my-sa", tc.parameters, tc.setup)
+			if tc.wantErr {
+				if err == nil {
+					t.Fatalf("GetIDFn(): want error, got %q", got)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("GetIDFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetIDFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestServiceAccountGetExternalNameFn(t *testing.T) {
+	cases := map[string]struct {
+		id   string
+		want string
+	}{
+		"DefaultProject": {
+			id:   "projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com",
+			want: "my-sa",
+		},
+		"DomainScopedProject": {
+			id:   "projects/s3ns:test-mathieu/serviceAccounts/my-sa@test-mathieu.s3ns.iam.gserviceaccount.com",
+			want: "my-sa",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := serviceAccount().GetExternalNameFn(map[string]any{"id": tc.id})
+			if err != nil {
+				t.Fatalf("GetExternalNameFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
 			}
 		})
 	}

@@ -5,10 +5,14 @@
 package config
 
 import (
+	"context"
+	"fmt"
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
+	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/v3/config/cluster/common"
 )
@@ -150,7 +154,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{project}}
 	"google_project_usage_export_bucket": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
-	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/serviceAccounts/{{ .external_name }}@{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}.iam.gserviceaccount.com"),
+	"google_service_account": serviceAccount(),
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
 	"google_service_account_iam_member": config.IdentifierFromProvider,
 	// No import
@@ -1219,6 +1223,63 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 // belonging to Terraform resources to be reconciled under the CLI-based
 // architecture for this provider.
 var cliReconciledExternalNameConfigs = map[string]config.ExternalName{}
+
+// serviceAccountIDTemplate is the TF ID format of the google_service_account
+// resource. It is only used to reverse a TF ID back into an external name;
+// serviceAccount overrides the forward direction.
+const serviceAccountIDTemplate = "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/serviceAccounts/{{ .external_name }}@{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}.iam.gserviceaccount.com"
+
+// serviceAccount configures the external name for the google_service_account
+// TF resource. The TF ID embeds the project in the host part of the service
+// account e-mail address, which the plain template cannot build for
+// domain-scoped project IDs, so the forward direction is overridden with
+// serviceAccountEmailHost. Reversing a TF ID is unaffected because the
+// external name is delimited by "/" and "@" either way.
+func serviceAccount() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("account_id", serviceAccountIDTemplate)
+	e.GetIDFn = func(_ context.Context, externalName string, parameters, setup map[string]any) (string, error) {
+		project, err := projectFromExternalNameArgs(parameters, setup)
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("projects/%s/serviceAccounts/%s@%s.iam.gserviceaccount.com", project, externalName, serviceAccountEmailHost(project)), nil
+	}
+	return e
+}
+
+// serviceAccountEmailHost returns the host part of the e-mail address of a
+// service account living in the given project. A domain-scoped project ID
+// carries its domain as a "domain:id" prefix, which is not valid in a
+// hostname, so GCP inverts the two parts: an account in "example.com:my-proj"
+// is reachable at "<account-id>@my-proj.example.com.iam.gserviceaccount.com".
+func serviceAccountEmailHost(project string) string {
+	domain, id, scoped := strings.Cut(project, ":")
+	if !scoped {
+		return project
+	}
+	return id + "." + domain
+}
+
+// projectFromExternalNameArgs resolves the project a resource belongs to,
+// preferring the one set on the resource over the ProviderConfig default.
+func projectFromExternalNameArgs(parameters, setup map[string]any) (string, error) {
+	if project, ok := parameters["project"].(string); ok && project != "" {
+		return project, nil
+	}
+	// terraform.Setup.Map stores the provider configuration under its named
+	// type rather than a plain map, so both have to be accounted for.
+	var configuration map[string]any
+	switch c := setup["configuration"].(type) {
+	case terraform.ProviderConfiguration:
+		configuration = c
+	case map[string]any:
+		configuration = c
+	}
+	if project, ok := configuration["project"].(string); ok && project != "" {
+		return project, nil
+	}
+	return "", errors.New("cannot determine the project: it is set neither on the resource nor on the ProviderConfig")
+}
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
 // without the name initializer. This allows it to be used in cases where the ID
