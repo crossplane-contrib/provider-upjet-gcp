@@ -19,21 +19,19 @@ func Configure(p *config.Provider) {
 		delete(r.TerraformResource.
 			Schema["sensitive_labels"].Elem.(*schema.Resource).
 			Schema, "auth_token_wo")
-		delete(r.TerraformResource.
-			Schema["sensitive_labels"].Elem.(*schema.Resource).
-			Schema, "auth_token_wo_version")
+		r.TerraformResource.Schema["sensitive_labels"].Elem.(*schema.Resource).Schema["auth_token_wo_version"].RequiredWith = nil
 		delete(r.TerraformResource.
 			Schema["sensitive_labels"].Elem.(*schema.Resource).
 			Schema, "password_wo")
-		delete(r.TerraformResource.
-			Schema["sensitive_labels"].Elem.(*schema.Resource).
-			Schema, "password_wo_version")
+		r.TerraformResource.Schema["sensitive_labels"].Elem.(*schema.Resource).Schema["password_wo_version"].RequiredWith = nil
 		delete(r.TerraformResource.
 			Schema["sensitive_labels"].Elem.(*schema.Resource).
 			Schema, "service_key_wo")
-		delete(r.TerraformResource.
-			Schema["sensitive_labels"].Elem.(*schema.Resource).
-			Schema, "service_key_wo_version")
+		r.TerraformResource.Schema["sensitive_labels"].Elem.(*schema.Resource).Schema["service_key_wo_version"].RequiredWith = nil
+		config.MoveToStatus(r.TerraformResource,
+			"sensitive_labels.auth_token_wo_version",
+			"sensitive_labels.password_wo_version",
+			"sensitive_labels.service_key_wo_version")
 	})
 	p.AddResourceConfigurator("google_monitoring_uptime_check_config", func(r *config.Resource) {
 		delete(r.TerraformResource.
