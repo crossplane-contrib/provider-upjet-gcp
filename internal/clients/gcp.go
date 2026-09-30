@@ -208,8 +208,10 @@ func setProjectOverrides(cfg map[string]interface{}, pcSpec *namespacedv1beta1.P
 
 // setUniverseDomain populates the universe_domain provider configuration key
 // from the resolved ProviderConfig spec. The key is left unset when the spec
-// field is empty so that the Terraform provider derives the universe domain
-// from the credentials, defaulting to googleapis.com.
+// field is empty so that the Terraform provider defaults to googleapis.com.
+// The Terraform provider rejects a universe mismatch between its configuration and
+// the credentials. So when credentials carry a non-default universe, UniverseDomain
+// is required in the ProviderConfigSpec and must match the credentials value.
 func setUniverseDomain(cfg map[string]interface{}, pcSpec *namespacedv1beta1.ProviderConfigSpec) {
 	if pcSpec.UniverseDomain != nil && *pcSpec.UniverseDomain != "" {
 		cfg[keyUniverseDomain] = *pcSpec.UniverseDomain
