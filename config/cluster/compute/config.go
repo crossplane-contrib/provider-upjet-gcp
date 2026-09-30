@@ -413,7 +413,8 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_region_ssl_certificate", func(r *config.Resource) {
 		r.MarkAsRequired("region")
 		delete(r.TerraformResource.Schema, "private_key_wo")
-		delete(r.TerraformResource.Schema, "private_key_wo_version")
+		r.TerraformResource.Schema["private_key_wo_version"].RequiredWith = nil
+		config.MoveToStatus(r.TerraformResource, "private_key_wo_version")
 	})
 
 	p.AddResourceConfigurator("google_compute_region_target_https_proxy", func(r *config.Resource) {
@@ -471,7 +472,8 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 		}
 		r.MarkAsRequired("region")
 		delete(r.TerraformResource.Schema, "shared_secret_wo")
-		delete(r.TerraformResource.Schema, "shared_secret_wo_version")
+		r.TerraformResource.Schema["shared_secret_wo_version"].RequiredWith = nil
+		config.MoveToStatus(r.TerraformResource, "shared_secret_wo_version")
 	})
 
 	p.AddResourceConfigurator("google_compute_target_https_proxy", func(r *config.Resource) {
@@ -551,7 +553,8 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 	})
 	p.AddResourceConfigurator("google_compute_ssl_certificate", func(r *config.Resource) {
 		delete(r.TerraformResource.Schema, "private_key_wo")
-		delete(r.TerraformResource.Schema, "private_key_wo_version")
+		r.TerraformResource.Schema["private_key_wo_version"].RequiredWith = nil
+		config.MoveToStatus(r.TerraformResource, "private_key_wo_version")
 	})
 }
 
