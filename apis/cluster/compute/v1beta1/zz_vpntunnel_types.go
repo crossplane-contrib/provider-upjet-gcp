@@ -340,6 +340,9 @@ type VPNTunnelObservation struct {
 	// Hash of the shared secret.
 	SharedSecretHash *string `json:"sharedSecretHash,omitempty" tf:"shared_secret_hash,omitempty"`
 
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
+	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
+
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
 	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`

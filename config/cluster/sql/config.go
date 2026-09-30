@@ -133,8 +133,15 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
-		delete(r.TerraformResource.Schema, "password_wo")
-		delete(r.TerraformResource.Schema, "password_wo_version")
+		// password_wo stays in the runtime schema: upstream Create and
+		// Update call .AsString() on GetRawConfigAt("password_wo") when
+		// password is unset, which panics if the path is missing.
+		// Marking it sensitive before moving it to status drops it from
+		// the CRD.
+		r.TerraformResource.Schema["password_wo"].Sensitive = true
+		r.TerraformResource.Schema["password_wo"].RequiredWith = nil
+		r.TerraformResource.Schema["password_wo_version"].RequiredWith = nil
+		config.MoveToStatus(r.TerraformResource, "password_wo", "password_wo_version")
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{

@@ -13241,6 +13241,11 @@ func (in *RegionSSLCertificateObservation) DeepCopyInto(out *RegionSSLCertificat
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrivateKeyWoVersion != nil {
+		in, out := &in.PrivateKeyWoVersion, &out.PrivateKeyWoVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -16573,6 +16578,11 @@ func (in *SSLCertificateObservation) DeepCopyInto(out *SSLCertificateObservation
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
+		*out = new(string)
+		**out = **in
+	}
+	if in.PrivateKeyWoVersion != nil {
+		in, out := &in.PrivateKeyWoVersion, &out.PrivateKeyWoVersion
 		*out = new(string)
 		**out = **in
 	}
@@ -21028,6 +21038,11 @@ func (in *VPNTunnelObservation) DeepCopyInto(out *VPNTunnelObservation) {
 	}
 	if in.SharedSecretHash != nil {
 		in, out := &in.SharedSecretHash, &out.SharedSecretHash
+		*out = new(string)
+		**out = **in
+	}
+	if in.SharedSecretWoVersion != nil {
+		in, out := &in.SharedSecretWoVersion, &out.SharedSecretWoVersion
 		*out = new(string)
 		**out = **in
 	}

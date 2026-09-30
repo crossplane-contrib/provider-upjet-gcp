@@ -5556,6 +5556,11 @@ func (in *UserObservation) DeepCopyInto(out *UserObservation) {
 		*out = new(PasswordPolicyObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.PasswordWoVersion != nil {
+		in, out := &in.PasswordWoVersion, &out.PasswordWoVersion
+		*out = new(float64)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
