@@ -292,8 +292,7 @@ spec:
                         items:
                           properties:
                             headerName:
-                              description: The header field name to match on when
-                                bypassing cache. Values are case-insensitive.
+                              description: The header name to match on for logging.
                               type: string
                           type: object
                         type: array
@@ -706,8 +705,24 @@ spec:
                         description: Whether the serving infrastructure will authenticate
                           and authorize all incoming requests.
                         type: boolean
-                      oauth2ClientId:
-                        description: OAuth2 Client ID for IAP
+                      oauth2ClientIdSecretRef:
+                        description: |-
+                          OAuth2 Client ID for IAP
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      oauth2ClientIdWoVersion:
+                        description: Triggers update of oauth2_client_id_wo write-only.
+                          Increment this value when an update to oauth2_client_id_wo
+                          is needed. For more info see updating write-only arguments
                         type: string
                       oauth2ClientSecretSecretRef:
                         description: |-
@@ -723,6 +738,11 @@ spec:
                         - key
                         - name
                         type: object
+                      oauth2ClientSecretWoVersion:
+                        description: Triggers update of oauth2_client_secret_wo write-only.
+                          Increment this value when an update to oauth2_client_secret_wo
+                          is needed. For more info see updating write-only arguments
+                        type: string
                     type: object
                   ipAddressSelectionPolicy:
                     description: |-
@@ -805,6 +825,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -1369,8 +1411,7 @@ spec:
                         items:
                           properties:
                             headerName:
-                              description: The header field name to match on when
-                                bypassing cache. Values are case-insensitive.
+                              description: The header name to match on for logging.
                               type: string
                           type: object
                         type: array
@@ -1783,8 +1824,24 @@ spec:
                         description: Whether the serving infrastructure will authenticate
                           and authorize all incoming requests.
                         type: boolean
-                      oauth2ClientId:
-                        description: OAuth2 Client ID for IAP
+                      oauth2ClientIdSecretRef:
+                        description: |-
+                          OAuth2 Client ID for IAP
+                          Note: This property is sensitive and will not be displayed in the plan.
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            description: Name of the secret.
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                      oauth2ClientIdWoVersion:
+                        description: Triggers update of oauth2_client_id_wo write-only.
+                          Increment this value when an update to oauth2_client_id_wo
+                          is needed. For more info see updating write-only arguments
                         type: string
                       oauth2ClientSecretSecretRef:
                         description: |-
@@ -1800,6 +1857,11 @@ spec:
                         - key
                         - name
                         type: object
+                      oauth2ClientSecretWoVersion:
+                        description: Triggers update of oauth2_client_secret_wo write-only.
+                          Increment this value when an update to oauth2_client_secret_wo
+                          is needed. For more info see updating write-only arguments
+                        type: string
                     type: object
                   ipAddressSelectionPolicy:
                     description: |-
@@ -1882,6 +1944,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -2414,8 +2498,7 @@ spec:
                         items:
                           properties:
                             headerName:
-                              description: The header field name to match on when
-                                bypassing cache. Values are case-insensitive.
+                              description: The header name to match on for logging.
                               type: string
                           type: object
                         type: array
@@ -2760,8 +2843,15 @@ spec:
                         description: Whether the serving infrastructure will authenticate
                           and authorize all incoming requests.
                         type: boolean
-                      oauth2ClientId:
-                        description: OAuth2 Client ID for IAP
+                      oauth2ClientIdWoVersion:
+                        description: Triggers update of oauth2_client_id_wo write-only.
+                          Increment this value when an update to oauth2_client_id_wo
+                          is needed. For more info see updating write-only arguments
+                        type: string
+                      oauth2ClientSecretWoVersion:
+                        description: Triggers update of oauth2_client_secret_wo write-only.
+                          Increment this value when an update to oauth2_client_secret_wo
+                          is needed. For more info see updating write-only arguments
                         type: string
                     type: object
                   id:
@@ -2848,6 +2938,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of

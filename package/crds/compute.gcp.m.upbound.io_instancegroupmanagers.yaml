@@ -223,6 +223,18 @@ spec:
                           VM by recreating it. For more information, see about repairing
                           VMs in a MIG.'
                         type: string
+                      onRepair:
+                        description: ', Configuration for VM repairs in the MIG. Structure
+                          is documented below.'
+                        properties:
+                          allowChangingZone:
+                            description: ', Specifies whether the MIG can change a
+                              VM''s zone during a repair. If "YES", MIG can select
+                              a different zone for the VM during a repair. Else if
+                              "NO", MIG cannot change a VM''s zone during a repair.
+                              The default value of allow_changing_zone is "NO".'
+                            type: string
+                        type: object
                     type: object
                   listManagedInstancesResults:
                     description: |-
@@ -928,6 +940,18 @@ spec:
                           VM by recreating it. For more information, see about repairing
                           VMs in a MIG.'
                         type: string
+                      onRepair:
+                        description: ', Configuration for VM repairs in the MIG. Structure
+                          is documented below.'
+                        properties:
+                          allowChangingZone:
+                            description: ', Specifies whether the MIG can change a
+                              VM''s zone during a repair. If "YES", MIG can select
+                              a different zone for the VM during a repair. Else if
+                              "NO", MIG cannot change a VM''s zone during a repair.
+                              The default value of allow_changing_zone is "NO".'
+                            type: string
+                        type: object
                     type: object
                   listManagedInstancesResults:
                     description: |-
@@ -1625,6 +1649,18 @@ spec:
                           VM by recreating it. For more information, see about repairing
                           VMs in a MIG.'
                         type: string
+                      onRepair:
+                        description: ', Configuration for VM repairs in the MIG. Structure
+                          is documented below.'
+                        properties:
+                          allowChangingZone:
+                            description: ', Specifies whether the MIG can change a
+                              VM''s zone during a repair. If "YES", MIG can select
+                              a different zone for the VM during a repair. Else if
+                              "NO", MIG cannot change a VM''s zone during a repair.
+                              The default value of allow_changing_zone is "NO".'
+                            type: string
+                        type: object
                     type: object
                   listManagedInstancesResults:
                     description: |-

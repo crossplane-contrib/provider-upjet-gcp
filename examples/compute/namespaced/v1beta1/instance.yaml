@@ -15,7 +15,7 @@ spec:
   forProvider:
     bootDisk:
       initializeParams:
-        image: debian-cloud/debian-11
+        image: debian-cloud/debian-13
     machineType: e2-medium
     metadata:
       environment: dev

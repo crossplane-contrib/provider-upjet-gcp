@@ -76,6 +76,33 @@ spec:
                   description:
                     description: An optional description of the spoke.
                     type: string
+                  gateway:
+                    description: |-
+                      This is a gateway that can apply specialized processing to traffic going through it.
+                      Structure is documented below.
+                    properties:
+                      capacity:
+                        description: |-
+                          the capacity of the gateway spoke, in Gbps.
+                          Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+                        type: string
+                      ipRangeReservations:
+                        description: |-
+                          A list of IP ranges that are reserved for this gateway's internal infrastructure.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            ipRange:
+                              description: A block of IP address ranges used to allocate
+                                supporting infrastructure for this gateway—for example,
+                                10.1.2.0/23. The IP address block must be a /23 range.
+                                This IP address block must not overlap with subnets
+                                in any spoke or peer network that the gateway can
+                                communicate with.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   group:
                     description: The name of the group that this spoke is associated
                       with.
@@ -915,6 +942,33 @@ spec:
                   description:
                     description: An optional description of the spoke.
                     type: string
+                  gateway:
+                    description: |-
+                      This is a gateway that can apply specialized processing to traffic going through it.
+                      Structure is documented below.
+                    properties:
+                      capacity:
+                        description: |-
+                          the capacity of the gateway spoke, in Gbps.
+                          Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+                        type: string
+                      ipRangeReservations:
+                        description: |-
+                          A list of IP ranges that are reserved for this gateway's internal infrastructure.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            ipRange:
+                              description: A block of IP address ranges used to allocate
+                                supporting infrastructure for this gateway—for example,
+                                10.1.2.0/23. The IP address block must be a /23 range.
+                                This IP address block must not overlap with subnets
+                                in any spoke or peer network that the gateway can
+                                communicate with.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
                   group:
                     description: The name of the group that this spoke is associated
                       with.
@@ -1854,6 +1908,40 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  gateway:
+                    description: |-
+                      This is a gateway that can apply specialized processing to traffic going through it.
+                      Structure is documented below.
+                    properties:
+                      capacity:
+                        description: |-
+                          the capacity of the gateway spoke, in Gbps.
+                          Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+                        type: string
+                      ipRangeReservations:
+                        description: |-
+                          A list of IP ranges that are reserved for this gateway's internal infrastructure.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            ipRange:
+                              description: A block of IP address ranges used to allocate
+                                supporting infrastructure for this gateway—for example,
+                                10.1.2.0/23. The IP address block must be a /23 range.
+                                This IP address block must not overlap with subnets
+                                in any spoke or peer network that the gateway can
+                                communicate with.
+                              type: string
+                          type: object
+                        type: array
+                      routers:
+                        description: |-
+                          (Output)
+                          Set of Cloud Routers that are attached to this NCC-GW
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   group:
                     description: The name of the group that this spoke is associated
                       with.

@@ -58,6 +58,9 @@ type ContainerSpecInitParameters struct {
 	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
 	// container image that is to be run on each worker replica.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Optional. Specifies the port number on the container to which the request is sent.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type ContainerSpecObservation struct {
@@ -66,6 +69,9 @@ type ContainerSpecObservation struct {
 	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
 	// container image that is to be run on each worker replica.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Optional. Specifies the port number on the container to which the request is sent.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type ContainerSpecParameters struct {
@@ -75,6 +81,10 @@ type ContainerSpecParameters struct {
 	// container image that is to be run on each worker replica.
 	// +kubebuilder:validation:Optional
 	ImageURI *string `json:"imageUri" tf:"image_uri,omitempty"`
+
+	// Optional. Specifies the port number on the container to which the request is sent.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type DNSPeeringConfigsInitParameters struct {
@@ -951,6 +961,9 @@ type SpecInitParameters struct {
 
 	// Optional. Declarations for object class methods in OpenAPI
 	// specification format.
+	// Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+	// Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+	// Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
 	// Deploy from a container image with a defined entrypoint and commands.
@@ -1002,6 +1015,9 @@ type SpecObservation struct {
 
 	// Optional. Declarations for object class methods in OpenAPI
 	// specification format.
+	// Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+	// Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+	// Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
 	// Deploy from a container image with a defined entrypoint and commands.
@@ -1049,6 +1065,9 @@ type SpecParameters struct {
 
 	// Optional. Declarations for object class methods in OpenAPI
 	// specification format.
+	// Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+	// Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+	// Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
 	// +kubebuilder:validation:Optional
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 

@@ -99,6 +99,14 @@ spec:
                       the same admin project. If true, a query using this reservation will execute with the slot
                       capacity specified above at most.
                     type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this reservation. You can use these to
+                      organize and group your reservations.
+                    type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: |-
                       The geographic location where the transfer config should reside.
@@ -165,6 +173,14 @@ spec:
                       the same admin project. If true, a query using this reservation will execute with the slot
                       capacity specified above at most.
                     type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this reservation. You can use these to
+                      organize and group your reservations.
+                    type: object
+                    x-kubernetes-map-type: granular
                   reservationGroup:
                     description: The reservation group that this reservation belongs
                       to.
@@ -308,6 +324,12 @@ spec:
                     description: The edition type. Valid values are STANDARD, ENTERPRISE,
                       ENTERPRISE_PLUS
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{name}}
                     type: string
@@ -317,6 +339,14 @@ spec:
                       the same admin project. If true, a query using this reservation will execute with the slot
                       capacity specified above at most.
                     type: boolean
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this reservation. You can use these to
+                      organize and group your reservations.
+                    type: object
+                    x-kubernetes-map-type: granular
                   location:
                     description: |-
                       The geographic location where the transfer config should reside.
@@ -400,6 +430,14 @@ spec:
                       Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
                       unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
                     type: number
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

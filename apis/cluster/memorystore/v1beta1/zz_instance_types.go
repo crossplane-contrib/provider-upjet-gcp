@@ -385,9 +385,14 @@ type GcsSourceParameters struct {
 
 type InstanceInitParameters struct {
 
+	// The name of the ACL policy to attach to the instance.
+	// Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy}
+	ACLPolicy *string `json:"aclPolicy,omitempty" tf:"acl_policy,omitempty"`
+
 	// Optional. Immutable. Authorization mode of the instance. Possible values:
 	// AUTH_DISABLED
-	// IAM_AUTH
+	// IAM_AUTH.
+	// TOKEN_AUTH is also supported, but only available in the google-beta provider.
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 
 	// The automated backup config for a instance.
@@ -506,9 +511,14 @@ type InstanceInitParameters struct {
 
 type InstanceObservation struct {
 
+	// The name of the ACL policy to attach to the instance.
+	// Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy}
+	ACLPolicy *string `json:"aclPolicy,omitempty" tf:"acl_policy,omitempty"`
+
 	// Optional. Immutable. Authorization mode of the instance. Possible values:
 	// AUTH_DISABLED
-	// IAM_AUTH
+	// IAM_AUTH.
+	// TOKEN_AUTH is also supported, but only available in the google-beta provider.
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 
 	// The automated backup config for a instance.
@@ -569,6 +579,9 @@ type InstanceObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{instance_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Whether the ACL policy is in sync with the cluster.
+	IsACLPolicyInSync *bool `json:"isAclPolicyInSync,omitempty" tf:"is_acl_policy_in_sync,omitempty"`
 
 	// The KMS key used to encrypt the at-rest data of the cluster
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
@@ -700,9 +713,15 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// The name of the ACL policy to attach to the instance.
+	// Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy}
+	// +kubebuilder:validation:Optional
+	ACLPolicy *string `json:"aclPolicy,omitempty" tf:"acl_policy,omitempty"`
+
 	// Optional. Immutable. Authorization mode of the instance. Possible values:
 	// AUTH_DISABLED
-	// IAM_AUTH
+	// IAM_AUTH.
+	// TOKEN_AUTH is also supported, but only available in the google-beta provider.
 	// +kubebuilder:validation:Optional
 	AuthorizationMode *string `json:"authorizationMode,omitempty" tf:"authorization_mode,omitempty"`
 

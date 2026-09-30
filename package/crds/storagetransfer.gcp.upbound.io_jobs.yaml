@@ -841,6 +841,11 @@ spec:
                           path:
                             description: Root directory path to the filesystem.
                             type: string
+                          privateNetworkService:
+                            description: 'Service Directory Service to be used as
+                              the endpoint for transfers from a customer-managed VPC.
+                              Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.'
+                            type: string
                           storageAccount:
                             description: The name of the Azure Storage account.
                             type: string
@@ -1986,6 +1991,11 @@ spec:
                           path:
                             description: Root directory path to the filesystem.
                             type: string
+                          privateNetworkService:
+                            description: 'Service Directory Service to be used as
+                              the endpoint for transfers from a customer-managed VPC.
+                              Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.'
+                            type: string
                           storageAccount:
                             description: The name of the Azure Storage account.
                             type: string
@@ -2995,6 +3005,11 @@ spec:
                             type: object
                           path:
                             description: Root directory path to the filesystem.
+                            type: string
+                          privateNetworkService:
+                            description: 'Service Directory Service to be used as
+                              the endpoint for transfers from a customer-managed VPC.
+                              Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.'
                             type: string
                           storageAccount:
                             description: The name of the Azure Storage account.

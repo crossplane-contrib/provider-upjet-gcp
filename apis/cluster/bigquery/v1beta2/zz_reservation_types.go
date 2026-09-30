@@ -96,6 +96,11 @@ type ReservationInitParameters struct {
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
 
+	// The labels associated with this reservation. You can use these to
+	// organize and group your reservations.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The reservation group that this reservation belongs to.
 	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
 
@@ -126,6 +131,10 @@ type ReservationObservation struct {
 	// The edition type. Valid values are STANDARD, ENTERPRISE, ENTERPRISE_PLUS
 	Edition *string `json:"edition,omitempty" tf:"edition,omitempty"`
 
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -133,6 +142,11 @@ type ReservationObservation struct {
 	// the same admin project. If true, a query using this reservation will execute with the slot
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
+
+	// The labels associated with this reservation. You can use these to
+	// organize and group your reservations.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
@@ -172,6 +186,11 @@ type ReservationObservation struct {
 	// Minimum slots available to this reservation. A slot is a unit of computational power in BigQuery, and serves as the
 	// unit of parallelism. Queries using this reservation might use more slots during runtime if ignoreIdleSlots is set to false.
 	SlotCapacity *float64 `json:"slotCapacity,omitempty" tf:"slot_capacity,omitempty"`
+
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 }
 
 type ReservationParameters struct {
@@ -194,6 +213,12 @@ type ReservationParameters struct {
 	// capacity specified above at most.
 	// +kubebuilder:validation:Optional
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
+
+	// The labels associated with this reservation. You can use these to
+	// organize and group your reservations.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The geographic location where the transfer config should reside.
 	// Examples: US, EU, asia-northeast1. The default value is US.
