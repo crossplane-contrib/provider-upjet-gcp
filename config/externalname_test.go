@@ -180,9 +180,9 @@ func TestServiceAccountGetIDFn(t *testing.T) {
 			want:       "projects/pc-project/serviceAccounts/my-sa@pc-project.iam.gserviceaccount.com",
 		},
 		"DomainScopedProject": {
-			parameters: map[string]any{"project": "s3ns:test-mathieu"},
+			parameters: map[string]any{"project": "example.com:my-project"},
 			setup:      map[string]any{},
-			want:       "projects/s3ns:test-mathieu/serviceAccounts/my-sa@test-mathieu.s3ns.iam.gserviceaccount.com",
+			want:       "projects/example.com:my-project/serviceAccounts/my-sa@my-project.example.com.iam.gserviceaccount.com",
 		},
 		"DomainScopedProjectFromProviderConfig": {
 			parameters: map[string]any{},
