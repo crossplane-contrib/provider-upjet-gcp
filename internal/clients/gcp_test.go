@@ -139,6 +139,60 @@ func Test_setProjectOverrides(t *testing.T) {
 	}
 }
 
+func Test_setUniverseDomain(t *testing.T) {
+	type args struct {
+		pcSpec *namespacedv1beta1.ProviderConfigSpec
+	}
+	type want struct {
+		configuration map[string]interface{}
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"unset_field_leaves_configuration_untouched": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{ProjectID: "example-project"}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+		"universe_domain_set": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				UniverseDomain: new("example.partner.com"),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:        "example-project",
+				keyUniverseDomain: "example.partner.com",
+			}},
+		},
+		"default_universe_domain_set": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				UniverseDomain: new("googleapis.com"),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:        "example-project",
+				keyUniverseDomain: "googleapis.com",
+			}},
+		},
+		"empty_universe_domain_ignored": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				UniverseDomain: new(""),
+			}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			cfg := map[string]interface{}{keyProject: tc.args.pcSpec.ProjectID}
+			setUniverseDomain(cfg, tc.args.pcSpec)
+			if diff := cmp.Diff(tc.want.configuration, cfg); diff != "" {
+				t.Errorf("setUniverseDomain(...) configuration mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func Test_metricsRoundTripper(t *testing.T) {
 	errBoom := errors.New("boom")
 	type args struct {

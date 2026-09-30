@@ -34,6 +34,14 @@ type ProviderConfigSpec struct {
 	// requests to. Only used when userProjectOverride is true.
 	// +optional
 	BillingProject *string `json:"billingProject,omitempty"`
+
+	// UniverseDomain is the Google Cloud universe to authenticate and issue API
+	// requests against. Leave this unset to use the default "googleapis.com" universe.
+	// The Terraform provider rejects a universe mismatch between its configuration and
+	// the credentials. So when credentials carry a non-default universe, UniverseDomain
+	// is required and must match the credentials value.
+	// +optional
+	UniverseDomain *string `json:"universeDomain,omitempty"`
 }
 
 // ProviderCredentials required to authenticate.
