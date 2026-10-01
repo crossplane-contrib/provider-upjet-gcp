@@ -131,30 +131,9 @@ func serviceFromURL(u *url.URL) string {
 // goal. Consider refactoring before adding new branches.
 func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //nolint:gocyclo
 	return func(ctx context.Context, crClient client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{}
-		pcSpec, err := resolveProviderConfig(ctx, crClient, mg)
+		pcSpec, ps, err := baseConfiguration(ctx, crClient, mg)
 		if err != nil {
-			return terraform.Setup{}, errors.Wrap(err, "cannot resolve provider config")
-		}
-		// set provider configuration
-		ps.Configuration = map[string]interface{}{
-			keyProject: pcSpec.ProjectID,
-		}
-		setProjectOverrides(ps.Configuration, pcSpec)
-		setUniverseDomain(ps.Configuration, pcSpec)
-		// TODO: this will have a performance impact. We need to quantify this.
-		p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
-		if err != nil {
-			return ps, errors.Wrapf(err, errPaveFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
-		}
-		// TODO: if the managed resource declares its project
-		//  in a different parameter, the following will not work.
-		resourceProject, err := p.GetString("spec.forProvider.project")
-		if err != nil && !fieldpath.IsNotFound(err) {
-			return ps, errors.Wrapf(err, errPavedGetValueFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
-		}
-		if err == nil && resourceProject != "" {
-			ps.Configuration[keyProject] = resourceProject
+			return ps, err
 		}
 
 		switch pcSpec.Credentials.Source { //nolint:exhaustive
@@ -191,6 +170,40 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 		// nolint:contextcheck
 		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
 	}
+}
+
+// baseConfiguration resolves the ProviderConfig referenced by mg and builds
+// the Terraform provider configuration shared by every setup function:
+// project (with its per-resource override), the ProviderConfig overrides and
+// the universe domain. Credentials are deliberately left unset here; each
+// caller sets whichever credential source applies to it.
+func baseConfiguration(ctx context.Context, crClient client.Client, mg resource.Managed) (*namespacedv1beta1.ProviderConfigSpec, terraform.Setup, error) {
+	ps := terraform.Setup{}
+	pcSpec, err := resolveProviderConfig(ctx, crClient, mg)
+	if err != nil {
+		return nil, ps, errors.Wrap(err, "cannot resolve provider config")
+	}
+	// set provider configuration
+	ps.Configuration = map[string]interface{}{
+		keyProject: pcSpec.ProjectID,
+	}
+	setProjectOverrides(ps.Configuration, pcSpec)
+	setUniverseDomain(ps.Configuration, pcSpec)
+	// TODO: this will have a performance impact. We need to quantify this.
+	p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
+	if err != nil {
+		return pcSpec, ps, errors.Wrapf(err, errPaveFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
+	}
+	// TODO: if the managed resource declares its project
+	//  in a different parameter, the following will not work.
+	resourceProject, err := p.GetString("spec.forProvider.project")
+	if err != nil && !fieldpath.IsNotFound(err) {
+		return pcSpec, ps, errors.Wrapf(err, errPavedGetValueFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
+	}
+	if err == nil && resourceProject != "" {
+		ps.Configuration[keyProject] = resourceProject
+	}
+	return pcSpec, ps, nil
 }
 
 // setProjectOverrides populates the user_project_override and billing_project
