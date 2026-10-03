@@ -265,6 +265,7 @@
   "google_healthcare_consent_store",
   "google_healthcare_dataset",
   "google_healthcare_dataset_iam_member",
+  "google_iam_deny_policy",
   "google_iam_workload_identity_pool",
   "google_iam_workload_identity_pool_provider",
   "google_iap_app_engine_service_iam_member",

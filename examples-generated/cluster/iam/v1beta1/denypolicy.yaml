@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: iam.gcp.upbound.io/v1beta1
+kind: DenyPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/denypolicy
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    displayName: A deny rule
+    parent: ${urlencode("cloudresourcemanager.googleapis.com/projects/${google_project.project.project_id}")}
+    rules:
+    - denyRule:
+        denialCondition:
+          expression: '!resource.matchTag(''12345678/env'', ''test'')'
+          title: Some expr
+        deniedPermissions:
+        - cloudresourcemanager.googleapis.com/projects.update
+        deniedPrincipals:
+        - principalSet://goog/public:all
+      description: First rule
+    - denyRule:
+        denialCondition:
+          expression: '!resource.matchTag(''12345678/env'', ''test'')'
+          title: Some expr
+        deniedPermissions:
+        - cloudresourcemanager.googleapis.com/projects.update
+        deniedPrincipals:
+        - principalSet://goog/public:all
+        exceptionPrincipals:
+        - principal://iam.googleapis.com/projects/-/serviceAccounts/${google_service_account.test-account.email}
+      description: Second rule
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/denypolicy
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    name: my-project
+    orgId: "123456789"
+    projectId: my-project
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/denypolicy
+  labels:
+    testing.upbound.io/example-name: test-account
+  name: test-account
+spec:
+  forProvider:
+    displayName: Test Service Account
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: project

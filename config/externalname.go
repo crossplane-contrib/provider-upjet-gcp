@@ -1070,6 +1070,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_iam_workload_identity_pool": config.TemplatedStringAsIdentifier("workload_identity_pool_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}
 	"google_iam_workload_identity_pool_provider": config.TemplatedStringAsIdentifier("workload_identity_pool_provider_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .parameters.workload_identity_pool_id }}/providers/{{ .external_name }}"),
+	// Imported by using the following format: {{parent}}/{{name}}
+	// parent is the URL-encoded full resource name of the attachment point, e.g.
+	// cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project, and therefore
+	// never contains a literal "/".
+	"google_iam_deny_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/{{ .external_name }}"),
 
 	// datalossprevention
 	//
