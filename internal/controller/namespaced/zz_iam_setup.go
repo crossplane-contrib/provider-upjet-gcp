@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	denypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/denypolicy"
 	workloadidentitypool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/workloadidentitypool"
 	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/workloadidentitypoolprovider"
 )
@@ -17,6 +18,7 @@ import (
 // the supplied manager.
 func Setup_iam(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		denypolicy.Setup,
 		workloadidentitypool.Setup,
 		workloadidentitypoolprovider.Setup,
 	} {
@@ -31,6 +33,7 @@ func Setup_iam(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_iam(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		denypolicy.SetupGated,
 		workloadidentitypool.SetupGated,
 		workloadidentitypoolprovider.SetupGated,
 	} {
@@ -44,6 +47,7 @@ func SetupGated_iam(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager_iam registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager_iam(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		denypolicy.SetupWebhookWithManager,
 		workloadidentitypool.SetupWebhookWithManager,
 		workloadidentitypoolprovider.SetupWebhookWithManager,
 	} {

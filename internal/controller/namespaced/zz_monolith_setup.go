@@ -289,6 +289,7 @@ import (
 	consentstore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/healthcare/consentstore"
 	datasethealthcare "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/healthcare/dataset"
 	datasetiammemberhealthcare "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/healthcare/datasetiammember"
+	denypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/denypolicy"
 	workloadidentitypool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/workloadidentitypool"
 	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/workloadidentitypoolprovider"
 	appengineserviceiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/appengineserviceiammember"
@@ -711,6 +712,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		consentstore.Setup,
 		datasethealthcare.Setup,
 		datasetiammemberhealthcare.Setup,
+		denypolicy.Setup,
 		workloadidentitypool.Setup,
 		workloadidentitypoolprovider.Setup,
 		appengineserviceiammember.Setup,
@@ -1139,6 +1141,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		consentstore.SetupGated,
 		datasethealthcare.SetupGated,
 		datasetiammemberhealthcare.SetupGated,
+		denypolicy.SetupGated,
 		workloadidentitypool.SetupGated,
 		workloadidentitypoolprovider.SetupGated,
 		appengineserviceiammember.SetupGated,
@@ -1566,6 +1569,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		consentstore.SetupWebhookWithManager,
 		datasethealthcare.SetupWebhookWithManager,
 		datasetiammemberhealthcare.SetupWebhookWithManager,
+		denypolicy.SetupWebhookWithManager,
 		workloadidentitypool.SetupWebhookWithManager,
 		workloadidentitypoolprovider.SetupWebhookWithManager,
 		appengineserviceiammember.SetupWebhookWithManager,

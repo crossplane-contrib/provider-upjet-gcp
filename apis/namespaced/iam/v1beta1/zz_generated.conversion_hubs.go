@@ -7,6 +7,9 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
+func (tr *DenyPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *WorkloadIdentityPool) Hub() {}
 
 // Hub marks this type as a conversion hub.
