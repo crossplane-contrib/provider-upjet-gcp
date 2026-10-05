@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	transporttpg "github.com/hashicorp/terraform-provider-google/google/transport"
 	"github.com/pkg/errors"
+	"golang.org/x/oauth2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -44,9 +45,16 @@ func OfflineTerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn
 		// back to Application Default Credentials.
 		ps.Configuration[keyAccessToken] = offlinePlaceholderAccessToken
 
-		// deliberately not using the caller context as context used to configure terraform is stored
-		// nolint:contextcheck
-		if err := configureNoForkGCPClient(&ps, *tfProvider); err != nil {
+		// deliberately not using the caller context as context used to configure
+		// terraform is stored, but the value below still has to reach Configure:
+		// the Google provider's own LoadAndValidate fetches the configured
+		// identity's userinfo through a throwaway client it builds straight from
+		// this context before the provider's real client - the one the egress
+		// guard is installed onto below - even exists, so without this, that one
+		// call reaches the network unguarded on every single Configure.
+		configureCtx := context.WithValue(context.Background(), oauth2.HTTPClient, &http.Client{Transport: egressGuardRoundTripper{}})
+		//nolint:contextcheck // deliberate: see the comment above
+		if err := configureNoForkGCPClient(configureCtx, &ps, *tfProvider); err != nil {
 			return ps, errors.Wrap(err, "failed to configure the offline no-fork GCP client")
 		}
 		// configureNoForkGCPClient already installed its own transport
