@@ -26,6 +26,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/crossplane/upjet/v2/pkg/controller/conversion"
+	"github.com/crossplane/upjet/v2/pkg/diffserver"
 	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"google.golang.org/grpc"
@@ -99,12 +100,16 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			certsDirSet = true
 			return nil
 		}).String()
+
+		internalCmd   = app.Command("internal", "Commands used internally by the provider, not intended for interactive use.")
+		diffServerCmd = internalCmd.Command("diff-server", "Start the diff gRPC server.")
+		diffNetwork   = diffServerCmd.Flag("network", "The network the diff gRPC server listens on.").Default("tcp").Envar("DIFF_SERVER_NETWORK").Enum("tcp", "unix")
+		diffAddress   = diffServerCmd.Flag("address", "The address the diff gRPC server listens on.").Default(":9099").Envar("DIFF_SERVER_ADDRESS").String()
 	)
 
 	_ = app.Command("core", "Run the provider controllers.").Default()
 	initCmd := app.Command("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.")
 	cmd := kingpin.MustParse(app.Parse(os.Args[1:]))
-
 	log.Default().SetOutput(io.Discard)
 	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 
@@ -115,6 +120,33 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 		// *very* verbose even at info level, so we only provide it a real
 		// logger when we're running in debug mode.
 		ctrl.SetLogger(zl)
+	}
+
+	ctx := context.Background()
+	sdkProvider := provider.Provider()
+	fwProvider := fwprovider.New(sdkProvider)
+	clusterProvider, err := config.GetProvider(ctx, sdkProvider, fwProvider, false)
+	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
+	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
+	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
+
+	// The diff server never talks to the Kubernetes API itself - its kube
+	// client is in-memory, seeded per request from the PlanRequest - so it is
+	// dispatched here, before a real cluster connection (ctrl.GetConfig,
+	// ctrl.NewManager below) is required to run this binary at all.
+	if cmd == diffServerCmd.FullCommand() {
+		diffScheme := runtime.NewScheme()
+		kingpin.FatalIfError(corev1.AddToScheme(diffScheme), "Cannot add client-go APIs to the diff-server scheme")
+		kingpin.FatalIfError(clusterapis.AddToScheme(diffScheme), "Cannot add cluster-scoped GCP APIs to the diff-server scheme")
+		kingpin.FatalIfError(namespacedapis.AddToScheme(diffScheme), "Cannot add namespace-scoped GCP APIs to the diff-server scheme")
+		s := diffserver.NewServer(
+			diffserver.WithProviderConfigurations(clusterProvider, namespacedProvider),
+			diffserver.WithLogger(logr),
+			diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(sdkProvider)),
+			diffserver.WithAPIGroups("memorystore"),
+		)
+		kingpin.FatalIfError(s.Serve(ctrl.SetupSignalHandler(), *diffNetwork, *diffAddress, diffScheme), "Cannot serve the diff gRPC server")
+		return
 	}
 
 	// currently, we configure the jitter to be the 5% of the poll interval
@@ -206,14 +238,6 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 
 	metrics.Registry.MustRegister(metricRecorder)
 	metrics.Registry.MustRegister(stateMetrics)
-
-	ctx := context.Background()
-	sdkProvider := provider.Provider()
-	fwProvider := fwprovider.New(sdkProvider)
-	clusterProvider, err := config.GetProvider(ctx, sdkProvider, fwProvider, false)
-	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
-	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
-	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 
 	if cmd == initCmd.FullCommand() {
 		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, "memorystore"), "Cannot run storage version migrator")

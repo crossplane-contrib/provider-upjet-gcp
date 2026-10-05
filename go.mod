@@ -12,7 +12,7 @@ require (
 	github.com/crossplane/crossplane-runtime/v2 v2.5.0-rc.0.0.20260908074656-9b2fb6b1d1ff
 	github.com/crossplane/crossplane-tools v0.0.0-20260719180100-659f1dc036c5
 	github.com/crossplane/crossplane/apis/v2 v2.4.2
-	github.com/crossplane/upjet/v2 v2.4.1-0.20260813064311-dce42ccab4f6
+	github.com/crossplane/upjet/v2 v2.5.1-0.20261005082904-c3b7d449d0d4
 	github.com/google/go-cmp v0.7.0
 	github.com/hashicorp/terraform-json v0.27.2
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
@@ -21,6 +21,7 @@ require (
 	github.com/hashicorp/terraform-provider-google v1.20.1-0.20260630172028-e40b75688dfe
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.24.0
+	golang.org/x/oauth2 v0.36.0
 	google.golang.org/grpc v1.83.2
 	k8s.io/api v0.37.1
 	k8s.io/apiextensions-apiserver v0.37.1
@@ -185,7 +186,6 @@ require (
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f // indirect
 	golang.org/x/mod v0.40.0 // indirect
 	golang.org/x/net v0.58.0 // indirect
-	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/term v0.45.0 // indirect

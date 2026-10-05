@@ -131,30 +131,9 @@ func serviceFromURL(u *url.URL) string {
 // goal. Consider refactoring before adding new branches.
 func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //nolint:gocyclo
 	return func(ctx context.Context, crClient client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{}
-		pcSpec, err := resolveProviderConfig(ctx, crClient, mg)
+		pcSpec, ps, err := baseConfiguration(ctx, crClient, mg)
 		if err != nil {
-			return terraform.Setup{}, errors.Wrap(err, "cannot resolve provider config")
-		}
-		// set provider configuration
-		ps.Configuration = map[string]interface{}{
-			keyProject: pcSpec.ProjectID,
-		}
-		setProjectOverrides(ps.Configuration, pcSpec)
-		setUniverseDomain(ps.Configuration, pcSpec)
-		// TODO: this will have a performance impact. We need to quantify this.
-		p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
-		if err != nil {
-			return ps, errors.Wrapf(err, errPaveFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
-		}
-		// TODO: if the managed resource declares its project
-		//  in a different parameter, the following will not work.
-		resourceProject, err := p.GetString("spec.forProvider.project")
-		if err != nil && !fieldpath.IsNotFound(err) {
-			return ps, errors.Wrapf(err, errPavedGetValueFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
-		}
-		if err == nil && resourceProject != "" {
-			ps.Configuration[keyProject] = resourceProject
+			return ps, err
 		}
 
 		switch pcSpec.Credentials.Source { //nolint:exhaustive
@@ -189,8 +168,42 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 
 		// deliberately not using the caller context as context used to configure terraform is stored
 		// nolint:contextcheck
-		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
+		return ps, errors.Wrap(configureNoForkGCPClient(context.Background(), &ps, *tfProvider), "failed to configure the no-fork GCP client")
 	}
+}
+
+// baseConfiguration resolves the ProviderConfig referenced by mg and builds
+// the Terraform provider configuration shared by every setup function:
+// project (with its per-resource override), the ProviderConfig overrides and
+// the universe domain. Credentials are deliberately left unset here; each
+// caller sets whichever credential source applies to it.
+func baseConfiguration(ctx context.Context, crClient client.Client, mg resource.Managed) (*namespacedv1beta1.ProviderConfigSpec, terraform.Setup, error) {
+	ps := terraform.Setup{}
+	pcSpec, err := resolveProviderConfig(ctx, crClient, mg)
+	if err != nil {
+		return nil, ps, errors.Wrap(err, "cannot resolve provider config")
+	}
+	// set provider configuration
+	ps.Configuration = map[string]interface{}{
+		keyProject: pcSpec.ProjectID,
+	}
+	setProjectOverrides(ps.Configuration, pcSpec)
+	setUniverseDomain(ps.Configuration, pcSpec)
+	// TODO: this will have a performance impact. We need to quantify this.
+	p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
+	if err != nil {
+		return pcSpec, ps, errors.Wrapf(err, errPaveFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
+	}
+	// TODO: if the managed resource declares its project
+	//  in a different parameter, the following will not work.
+	resourceProject, err := p.GetString("spec.forProvider.project")
+	if err != nil && !fieldpath.IsNotFound(err) {
+		return pcSpec, ps, errors.Wrapf(err, errPavedGetValueFmt, mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
+	}
+	if err == nil && resourceProject != "" {
+		ps.Configuration[keyProject] = resourceProject
+	}
+	return pcSpec, ps, nil
 }
 
 // setProjectOverrides populates the user_project_override and billing_project
@@ -218,7 +231,13 @@ func setUniverseDomain(cfg map[string]interface{}, pcSpec *namespacedv1beta1.Pro
 	}
 }
 
-func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
+// configureNoForkGCPClient configures the given Terraform provider. ctx roots
+// the context it is configured on - deliberately not necessarily the
+// caller's live request context, since the provider's own context is stored
+// for reuse well past the lifetime of any one call, but a caller can still
+// carry a value on ctx, such as the offline egress guard's HTTP client,
+// through to Configure.
+func configureNoForkGCPClient(ctx context.Context, ps *terraform.Setup, p schema.Provider) error {
 	// Please be aware that this implementation relies on the schema.Provider
 	// parameter `p` being a non-pointer. This is because normally
 	// the Terraform plugin SDK normally configures the provider
@@ -234,7 +253,7 @@ func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
 		gracePeriod                    = 10 * time.Minute
 		providerTimeout                = terraformPluginSDKAsyncTimeout + gracePeriod
 	)
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(ctx)
 	time.AfterFunc(providerTimeout, cancel)
 
 	diag := p.Configure(ctx, &tfsdk.ResourceConfig{
@@ -320,8 +339,16 @@ func resolveV2(ctx context.Context, crClient client.Client, mg resource.ModernMa
 		return nil, errors.New("pc is not an Object")
 	}
 
-	// Namespace will be ignored if the PC is a cluster-scoped type
-	if err := crClient.Get(ctx, types.NamespacedName{Name: configRef.Name, Namespace: mg.GetNamespace()}, pcObj); err != nil {
+	// Namespace is ignored for a cluster-scoped PC by a real API server's
+	// RESTMapper-aware client, but not by the diff server's in-memory one,
+	// which keys its store by an exact namespace match and holds a
+	// cluster-scoped object under an empty one - so it has to be cleared
+	// here instead of relying on the client to do it.
+	ns := mg.GetNamespace()
+	if configRef.Kind == namespacedv1beta1.ClusterProviderConfigKind {
+		ns = ""
+	}
+	if err := crClient.Get(ctx, types.NamespacedName{Name: configRef.Name, Namespace: ns}, pcObj); err != nil {
 		return nil, errors.Wrap(err, errGetProviderConfig)
 	}
 
