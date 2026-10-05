@@ -8,6 +8,7 @@ import (
 	"context"
 	"testing"
 
+	rtfake "github.com/crossplane/crossplane-runtime/v2/pkg/resource/fake"
 	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -17,8 +18,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	"github.com/upbound/provider-gcp/v3/apis/namespaced"
-	storagev1beta2 "github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2"
 	namespacedv1beta1 "github.com/upbound/provider-gcp/v3/apis/namespaced/v1beta1"
 )
 
@@ -80,7 +79,7 @@ func (c *exactNamespaceClient) Get(_ context.Context, key client.ObjectKey, obj 
 // ClusterProviderConfig has none of its own.
 func TestResolveV2ClusterProviderConfigAcrossNamespaces(t *testing.T) {
 	scheme := runtime.NewScheme()
-	if err := namespaced.AddToScheme(scheme); err != nil {
+	if err := namespacedv1beta1.SchemeBuilder.AddToScheme(scheme); err != nil {
 		t.Fatalf("cannot build the scheme: %v", err)
 	}
 
@@ -93,19 +92,13 @@ func TestResolveV2ClusterProviderConfigAcrossNamespaces(t *testing.T) {
 	}
 	kc := newExactNamespaceClient(t, scheme, cpc)
 
-	bucket := &storagev1beta2.Bucket{
-		ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: "team-a", UID: "test-uid"},
-		Spec: storagev1beta2.BucketSpec{
-			ManagedResourceSpec: xpv2.ManagedResourceSpec{
-				ProviderConfigReference: &xpv2.ProviderConfigReference{
-					Kind: namespacedv1beta1.ClusterProviderConfigKind,
-					Name: "default",
-				},
-			},
-		},
-	}
+	mg := &rtfake.ModernManaged{ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: "team-a", UID: "test-uid"}}
+	mg.SetProviderConfigReference(&xpv2.ProviderConfigReference{
+		Kind: namespacedv1beta1.ClusterProviderConfigKind,
+		Name: "default",
+	})
 
-	spec, err := resolveV2(context.Background(), kc, bucket)
+	spec, err := resolveV2(context.Background(), kc, mg)
 	if err != nil {
 		t.Fatalf("resolveV2(...): unexpected error resolving a ClusterProviderConfig referenced from a different namespace: %v", err)
 	}
@@ -120,7 +113,7 @@ func TestResolveV2ClusterProviderConfigAcrossNamespaces(t *testing.T) {
 // a cluster-scoped kind.
 func TestResolveV2NamespacedProviderConfig(t *testing.T) {
 	scheme := runtime.NewScheme()
-	if err := namespaced.AddToScheme(scheme); err != nil {
+	if err := namespacedv1beta1.SchemeBuilder.AddToScheme(scheme); err != nil {
 		t.Fatalf("cannot build the scheme: %v", err)
 	}
 
@@ -133,19 +126,13 @@ func TestResolveV2NamespacedProviderConfig(t *testing.T) {
 	}
 	kc := newExactNamespaceClient(t, scheme, pc)
 
-	bucket := &storagev1beta2.Bucket{
-		ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: "team-a", UID: "test-uid"},
-		Spec: storagev1beta2.BucketSpec{
-			ManagedResourceSpec: xpv2.ManagedResourceSpec{
-				ProviderConfigReference: &xpv2.ProviderConfigReference{
-					Kind: namespacedv1beta1.ProviderConfigKind,
-					Name: "default",
-				},
-			},
-		},
-	}
+	mg := &rtfake.ModernManaged{ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: "team-a", UID: "test-uid"}}
+	mg.SetProviderConfigReference(&xpv2.ProviderConfigReference{
+		Kind: namespacedv1beta1.ProviderConfigKind,
+		Name: "default",
+	})
 
-	spec, err := resolveV2(context.Background(), kc, bucket)
+	spec, err := resolveV2(context.Background(), kc, mg)
 	if err != nil {
 		t.Fatalf("resolveV2(...): unexpected error resolving a namespaced ProviderConfig: %v", err)
 	}

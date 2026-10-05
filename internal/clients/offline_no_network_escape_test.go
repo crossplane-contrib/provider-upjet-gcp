@@ -10,13 +10,12 @@ import (
 	"net/http"
 	"testing"
 
+	rtfake "github.com/crossplane/crossplane-runtime/v2/pkg/resource/fake"
 	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/upbound/provider-gcp/v3/apis/namespaced"
-	storagev1beta2 "github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2"
 	namespacedv1beta1 "github.com/upbound/provider-gcp/v3/apis/namespaced/v1beta1"
 )
 
@@ -50,7 +49,7 @@ func TestOfflineTerraformSetupBuilder_NoNetworkEscapeDuringConfigure(t *testing.
 	t.Cleanup(func() { http.DefaultTransport = orig })
 
 	scheme := runtime.NewScheme()
-	if err := namespaced.AddToScheme(scheme); err != nil {
+	if err := namespacedv1beta1.SchemeBuilder.AddToScheme(scheme); err != nil {
 		t.Fatalf("cannot build the scheme: %v", err)
 	}
 	cpc := &namespacedv1beta1.ClusterProviderConfig{
@@ -62,20 +61,14 @@ func TestOfflineTerraformSetupBuilder_NoNetworkEscapeDuringConfigure(t *testing.
 	}
 	kc := newExactNamespaceClient(t, scheme, cpc)
 
-	bucket := &storagev1beta2.Bucket{
-		ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: "team-a", UID: "test-uid"},
-		Spec: storagev1beta2.BucketSpec{
-			ManagedResourceSpec: xpv2.ManagedResourceSpec{
-				ProviderConfigReference: &xpv2.ProviderConfigReference{
-					Kind: namespacedv1beta1.ClusterProviderConfigKind,
-					Name: "default",
-				},
-			},
-		},
-	}
+	mg := &rtfake.ModernManaged{ObjectMeta: metav1.ObjectMeta{Name: "example", Namespace: "team-a", UID: "test-uid"}}
+	mg.SetProviderConfigReference(&xpv2.ProviderConfigReference{
+		Kind: namespacedv1beta1.ClusterProviderConfigKind,
+		Name: "default",
+	})
 
 	setup := OfflineTerraformSetupBuilder(provider.Provider())
-	if _, err := setup(context.Background(), kc, bucket); err != nil {
+	if _, err := setup(context.Background(), kc, mg); err != nil {
 		t.Fatalf("OfflineTerraformSetupBuilder(...)(...): unexpected error: %v", err)
 	}
 	if escaped != nil {
