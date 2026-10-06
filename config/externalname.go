@@ -1129,6 +1129,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// No Import
 	"google_vertex_ai_reasoning_engine_iam_policy": config.IdentifierFromProvider,
 
+	// vectorsearch
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/collections/{{collection_id}}
+	"google_vector_search_collection": config.TemplatedStringAsIdentifier("collection_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .external_name }}"),
+
 	// documentai
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}

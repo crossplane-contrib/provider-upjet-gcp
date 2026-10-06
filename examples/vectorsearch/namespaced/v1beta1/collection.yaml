@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vectorsearch.gcp.m.upbound.io/v1beta1
+kind: Collection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vectorsearch/v1beta1/collection
+    crossplane.io/external-name: example-collection
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    vectorSchema:
+    - fieldName: embedding
+      denseVector:
+        dimensions: 8
