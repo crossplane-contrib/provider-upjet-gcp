@@ -34,6 +34,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
+    deletionProtection: false
     launchStage: BETA
     location: us-central1
     template:
