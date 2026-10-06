@@ -91,6 +91,7 @@ import (
 	v1beta1tags "github.com/upbound/provider-gcp/v3/apis/namespaced/tags/v1beta1"
 	v1alpha1 "github.com/upbound/provider-gcp/v3/apis/namespaced/v1alpha1"
 	v1beta1namespaced "github.com/upbound/provider-gcp/v3/apis/namespaced/v1beta1"
+	v1beta1vectorsearch "github.com/upbound/provider-gcp/v3/apis/namespaced/vectorsearch/v1beta1"
 	v1beta1vertexai "github.com/upbound/provider-gcp/v3/apis/namespaced/vertexai/v1beta1"
 	v1beta1vpcaccess "github.com/upbound/provider-gcp/v3/apis/namespaced/vpcaccess/v1beta1"
 	v1beta1workflows "github.com/upbound/provider-gcp/v3/apis/namespaced/workflows/v1beta1"
@@ -180,6 +181,7 @@ func init() {
 		v1beta1tags.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1beta1namespaced.SchemeBuilder.AddToScheme,
+		v1beta1vectorsearch.SchemeBuilder.AddToScheme,
 		v1beta1vertexai.SchemeBuilder.AddToScheme,
 		v1beta1vpcaccess.SchemeBuilder.AddToScheme,
 		v1beta1workflows.SchemeBuilder.AddToScheme,
