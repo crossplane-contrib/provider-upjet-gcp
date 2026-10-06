@@ -660,6 +660,28 @@ type MultiRegionSettingsParameters struct {
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
 }
 
+type SandboxesInitParameters struct {
+
+	// Sandbox templates that can be launched through the sandbox CLI.
+	// Structure is documented below.
+	Templates []TemplatesInitParameters `json:"templates,omitempty" tf:"templates,omitempty"`
+}
+
+type SandboxesObservation struct {
+
+	// Sandbox templates that can be launched through the sandbox CLI.
+	// Structure is documented below.
+	Templates []TemplatesObservation `json:"templates,omitempty" tf:"templates,omitempty"`
+}
+
+type SandboxesParameters struct {
+
+	// Sandbox templates that can be launched through the sandbox CLI.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Templates []TemplatesParameters `json:"templates,omitempty" tf:"templates,omitempty"`
+}
+
 type ScalingInitParameters struct {
 
 	// Total instance count for the service in manual scaling mode. This number of instances is divided among all revisions with specified traffic based on the percent of traffic they are receiving.
@@ -1280,6 +1302,159 @@ type TemplateVolumesSecretParameters struct {
 	SecretSelector *v2.Selector `json:"secretSelector,omitempty" tf:"-"`
 }
 
+type TemplatesEnvInitParameters struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TemplatesEnvObservation struct {
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The header field value
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TemplatesEnvParameters struct {
+
+	// Volume's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The header field value
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TemplatesInitParameters struct {
+
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	// List of environment variables to set in the sandbox.
+	// Structure is documented below.
+	Env []TemplatesEnvInitParameters `json:"env,omitempty" tf:"env,omitempty"`
+
+	// Name of the container image in Dockerhub or Artifact Registry. If the host is not provided, Dockerhub is assumed.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Volume to mount into the container's filesystem.
+	// Structure is documented below.
+	VolumeMounts []TemplatesVolumeMountsInitParameters `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
+
+	// Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image.
+	WorkingDir *string `json:"workingDir,omitempty" tf:"working_dir,omitempty"`
+}
+
+type TemplatesObservation struct {
+
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	// List of environment variables to set in the sandbox.
+	// Structure is documented below.
+	Env []TemplatesEnvObservation `json:"env,omitempty" tf:"env,omitempty"`
+
+	// Name of the container image in Dockerhub or Artifact Registry. If the host is not provided, Dockerhub is assumed.
+	Image *string `json:"image,omitempty" tf:"image,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Volume to mount into the container's filesystem.
+	// Structure is documented below.
+	VolumeMounts []TemplatesVolumeMountsObservation `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
+
+	// Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image.
+	WorkingDir *string `json:"workingDir,omitempty" tf:"working_dir,omitempty"`
+}
+
+type TemplatesParameters struct {
+
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
+	// +kubebuilder:validation:Optional
+	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
+	// +kubebuilder:validation:Optional
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
+	// List of environment variables to set in the sandbox.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Env []TemplatesEnvParameters `json:"env,omitempty" tf:"env,omitempty"`
+
+	// Name of the container image in Dockerhub or Artifact Registry. If the host is not provided, Dockerhub is assumed.
+	// +kubebuilder:validation:Optional
+	Image *string `json:"image" tf:"image,omitempty"`
+
+	// Volume's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Volume to mount into the container's filesystem.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VolumeMounts []TemplatesVolumeMountsParameters `json:"volumeMounts,omitempty" tf:"volume_mounts,omitempty"`
+
+	// Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image.
+	// +kubebuilder:validation:Optional
+	WorkingDir *string `json:"workingDir,omitempty" tf:"working_dir,omitempty"`
+}
+
+type TemplatesVolumeMountsInitParameters struct {
+
+	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
+	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
+}
+
+type TemplatesVolumeMountsObservation struct {
+
+	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
+	MountPath *string `json:"mountPath,omitempty" tf:"mount_path,omitempty"`
+
+	// Volume's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
+}
+
+type TemplatesVolumeMountsParameters struct {
+
+	// Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be /cloudsql. All instances defined in the Volume will be available as /cloudsql/[instance]. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run
+	// +kubebuilder:validation:Optional
+	MountPath *string `json:"mountPath" tf:"mount_path,omitempty"`
+
+	// Volume's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Path within the volume from which the container's volume should be mounted.
+	// +kubebuilder:validation:Optional
+	SubPath *string `json:"subPath,omitempty" tf:"sub_path,omitempty"`
+}
+
 type TrafficStatusesInitParameters struct {
 }
 
@@ -1466,6 +1641,12 @@ type V2ServiceInitParameters struct {
 	// Structure is documented below.
 	Scaling *ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
 	Template *V2ServiceTemplateInitParameters `json:"template,omitempty" tf:"template,omitempty"`
@@ -1607,6 +1788,12 @@ type V2ServiceObservation struct {
 	// Structure is documented below.
 	Scaling *ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
 	Template *V2ServiceTemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
@@ -1738,6 +1925,13 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Scaling *ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
 
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1751,23 +1945,23 @@ type V2ServiceParameters struct {
 
 type V2ServiceTemplateContainersInitParameters struct {
 
-	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Base image for this container. If set, it indicates that the service is enrolled into automatic base image update.
 	BaseImageURI *string `json:"baseImageUri,omitempty" tf:"base_image_uri,omitempty"`
 
-	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
 	// Containers which should be started before this container. If specified the container will wait to start until all containers with the listed names are healthy.
 	DependsOn []*string `json:"dependsOn,omitempty" tf:"depends_on,omitempty"`
 
-	// List of environment variables to set in the container.
+	// List of environment variables to set in the sandbox.
 	// Structure is documented below.
 	Env []TemplateContainersEnvInitParameters `json:"env,omitempty" tf:"env,omitempty"`
 
-	// URL of the Container image in Google Container Registry or Google Artifact Registry. More info: https://kubernetes.io/docs/concepts/containers/images
+	// Name of the container image in Dockerhub or Artifact Registry. If the host is not provided, Dockerhub is assumed.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1790,6 +1984,9 @@ type V2ServiceTemplateContainersInitParameters struct {
 	// Structure is documented below.
 	Resources *TemplateContainersResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
+
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
 	StartupProbe *TemplateContainersStartupProbeInitParameters `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
@@ -1804,7 +2001,7 @@ type V2ServiceTemplateContainersInitParameters struct {
 
 type V2ServiceTemplateContainersObservation struct {
 
-	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
 	// Base image for this container. If set, it indicates that the service is enrolled into automatic base image update.
@@ -1815,17 +2012,17 @@ type V2ServiceTemplateContainersObservation struct {
 	// Structure is documented below.
 	BuildInfo []BuildInfoObservation `json:"buildInfo,omitempty" tf:"build_info,omitempty"`
 
-	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
 	// Containers which should be started before this container. If specified the container will wait to start until all containers with the listed names are healthy.
 	DependsOn []*string `json:"dependsOn,omitempty" tf:"depends_on,omitempty"`
 
-	// List of environment variables to set in the container.
+	// List of environment variables to set in the sandbox.
 	// Structure is documented below.
 	Env []TemplateContainersEnvObservation `json:"env,omitempty" tf:"env,omitempty"`
 
-	// URL of the Container image in Google Container Registry or Google Artifact Registry. More info: https://kubernetes.io/docs/concepts/containers/images
+	// Name of the container image in Dockerhub or Artifact Registry. If the host is not provided, Dockerhub is assumed.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
 	// Periodic probe of container liveness. Container will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1848,6 +2045,9 @@ type V2ServiceTemplateContainersObservation struct {
 	// Structure is documented below.
 	Resources *TemplateContainersResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
+
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
 	StartupProbe *TemplateContainersStartupProbeObservation `json:"startupProbe,omitempty" tf:"startup_probe,omitempty"`
@@ -1862,7 +2062,7 @@ type V2ServiceTemplateContainersObservation struct {
 
 type V2ServiceTemplateContainersParameters struct {
 
-	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references are not supported in Cloud Run.
+	// Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
 	// +kubebuilder:validation:Optional
 	Args []*string `json:"args,omitempty" tf:"args,omitempty"`
 
@@ -1870,7 +2070,7 @@ type V2ServiceTemplateContainersParameters struct {
 	// +kubebuilder:validation:Optional
 	BaseImageURI *string `json:"baseImageUri,omitempty" tf:"base_image_uri,omitempty"`
 
-	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded, regardless of whether the variable exists or not. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+	// Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
 	// +kubebuilder:validation:Optional
 	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
@@ -1878,12 +2078,12 @@ type V2ServiceTemplateContainersParameters struct {
 	// +kubebuilder:validation:Optional
 	DependsOn []*string `json:"dependsOn,omitempty" tf:"depends_on,omitempty"`
 
-	// List of environment variables to set in the container.
+	// List of environment variables to set in the sandbox.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Env []TemplateContainersEnvParameters `json:"env,omitempty" tf:"env,omitempty"`
 
-	// URL of the Container image in Google Container Registry or Google Artifact Registry. More info: https://kubernetes.io/docs/concepts/containers/images
+	// Name of the container image in Dockerhub or Artifact Registry. If the host is not provided, Dockerhub is assumed.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image" tf:"image,omitempty"`
 
@@ -1911,6 +2111,10 @@ type V2ServiceTemplateContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *TemplateContainersResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	// +kubebuilder:validation:Optional
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
@@ -1970,6 +2174,10 @@ type V2ServiceTemplateInitParameters struct {
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
+
+	// Configuration for sandboxes.
+	// Structure is documented below.
+	Sandboxes *SandboxesInitParameters `json:"sandboxes,omitempty" tf:"sandboxes,omitempty"`
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
@@ -2037,6 +2245,10 @@ type V2ServiceTemplateObservation struct {
 
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
+
+	// Configuration for sandboxes.
+	// Structure is documented below.
+	Sandboxes *SandboxesObservation `json:"sandboxes,omitempty" tf:"sandboxes,omitempty"`
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
@@ -2114,6 +2326,11 @@ type V2ServiceTemplateParameters struct {
 	// The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name.
 	// +kubebuilder:validation:Optional
 	Revision *string `json:"revision,omitempty" tf:"revision,omitempty"`
+
+	// Configuration for sandboxes.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Sandboxes *SandboxesParameters `json:"sandboxes,omitempty" tf:"sandboxes,omitempty"`
 
 	// Scaling settings for this Revision.
 	// Structure is documented below.
@@ -2333,7 +2550,9 @@ type VPCAccessNetworkInterfacesInitParameters struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run service.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -2349,7 +2568,9 @@ type VPCAccessNetworkInterfacesObservation struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run service.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -2367,7 +2588,9 @@ type VPCAccessNetworkInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run service.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }

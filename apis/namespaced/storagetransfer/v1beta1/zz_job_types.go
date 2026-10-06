@@ -191,6 +191,9 @@ type AzureBlobStorageDataSourceInitParameters struct {
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Service Directory Service to be used as the endpoint for transfers from a customer-managed VPC. Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.
+	PrivateNetworkService *string `json:"privateNetworkService,omitempty" tf:"private_network_service,omitempty"`
+
 	// The name of the Azure Storage account.
 	StorageAccount *string `json:"storageAccount,omitempty" tf:"storage_account,omitempty"`
 }
@@ -211,6 +214,9 @@ type AzureBlobStorageDataSourceObservation struct {
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Service Directory Service to be used as the endpoint for transfers from a customer-managed VPC. Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.
+	PrivateNetworkService *string `json:"privateNetworkService,omitempty" tf:"private_network_service,omitempty"`
 
 	// The name of the Azure Storage account.
 	StorageAccount *string `json:"storageAccount,omitempty" tf:"storage_account,omitempty"`
@@ -237,6 +243,10 @@ type AzureBlobStorageDataSourceParameters struct {
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Service Directory Service to be used as the endpoint for transfers from a customer-managed VPC. Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.
+	// +kubebuilder:validation:Optional
+	PrivateNetworkService *string `json:"privateNetworkService,omitempty" tf:"private_network_service,omitempty"`
 
 	// The name of the Azure Storage account.
 	// +kubebuilder:validation:Optional

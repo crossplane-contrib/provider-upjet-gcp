@@ -120,7 +120,7 @@ spec:
     disk:
     - autoDelete: false
       boot: true
-      sourceImage: debian-cloud/debian-11
+      sourceImage: debian-cloud/debian-13
     instanceDescription: Description assigned to instances
     machineType: e2-medium
     networkInterface:

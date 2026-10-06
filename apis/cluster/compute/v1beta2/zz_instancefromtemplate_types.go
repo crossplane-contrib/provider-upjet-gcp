@@ -539,6 +539,8 @@ type InstanceFromTemplateInitParameters struct {
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	WorkloadIdentityConfig *InstanceFromTemplateWorkloadIdentityConfigInitParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
+
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
@@ -840,6 +842,8 @@ type InstanceFromTemplateObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	WorkloadIdentityConfig *InstanceFromTemplateWorkloadIdentityConfigObservation `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
+
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
@@ -963,6 +967,9 @@ type InstanceFromTemplateParameters struct {
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	WorkloadIdentityConfig *InstanceFromTemplateWorkloadIdentityConfigParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
+
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
 	// +kubebuilder:validation:Optional
@@ -1014,6 +1021,8 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
+
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	LocalSsdRecoveryTimeout *SchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
@@ -1039,6 +1048,8 @@ type InstanceFromTemplateSchedulingObservation struct {
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
 
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -1068,6 +1079,9 @@ type InstanceFromTemplateSchedulingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
@@ -1186,6 +1200,27 @@ type InstanceFromTemplateShieldedInstanceConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
+}
+
+type InstanceFromTemplateWorkloadIdentityConfigInitParameters struct {
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceFromTemplateWorkloadIdentityConfigObservation struct {
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceFromTemplateWorkloadIdentityConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
 }
 
 type NetworkInterfaceAccessConfigInitParameters struct {

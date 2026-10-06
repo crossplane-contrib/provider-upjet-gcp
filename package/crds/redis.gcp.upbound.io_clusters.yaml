@@ -73,6 +73,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  aclPolicy:
+                    description: Optional. The name of the ACL policy to attach to
+                      the cluster.
+                    type: string
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -584,6 +588,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  aclPolicy:
+                    description: Optional. The name of the ACL policy to attach to
+                      the cluster.
+                    type: string
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -1173,6 +1181,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  aclPolicy:
+                    description: Optional. The name of the ACL policy to attach to
+                      the cluster.
+                    type: string
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -1374,6 +1386,10 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/clusters/{{name}}
                     type: string
+                  isAclPolicyInSync:
+                    description: Optional. Whether the ACL policy is in sync with
+                      the cluster.
+                    type: boolean
                   kmsKey:
                     description: The KMS key used to encrypt the at-rest data of the
                       cluster.

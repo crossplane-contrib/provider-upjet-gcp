@@ -753,7 +753,7 @@ type SubjectConfigSubjectParameters struct {
 
 	// The organization of the subject.
 	// +kubebuilder:validation:Optional
-	Organization *string `json:"organization" tf:"organization,omitempty"`
+	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
 
 	// The organizational unit of the subject.
 	// +kubebuilder:validation:Optional

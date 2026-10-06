@@ -1504,6 +1504,11 @@ func (in *ReservationAssignmentInitParameters) DeepCopyInto(out *ReservationAssi
 		*out = new(string)
 		**out = **in
 	}
+	if in.Principal != nil {
+		in, out := &in.Principal, &out.Principal
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -1586,6 +1591,11 @@ func (in *ReservationAssignmentObservation) DeepCopyInto(out *ReservationAssignm
 		*out = new(string)
 		**out = **in
 	}
+	if in.Principal != nil {
+		in, out := &in.Principal, &out.Principal
+		*out = new(string)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -1628,6 +1638,11 @@ func (in *ReservationAssignmentParameters) DeepCopyInto(out *ReservationAssignme
 	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
+	if in.Principal != nil {
+		in, out := &in.Principal, &out.Principal
 		*out = new(string)
 		**out = **in
 	}
