@@ -419,6 +419,7 @@ import (
 	tagbinding "github.com/upbound/provider-gcp/v3/internal/controller/cluster/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/v3/internal/controller/cluster/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/v3/internal/controller/cluster/tags/tagvalue"
+	collection "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vectorsearch/collection"
 	datasetvertexai "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/featurestoreentitytype"
@@ -845,6 +846,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
+		collection.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
@@ -1277,6 +1279,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
+		collection.SetupGated,
 		datasetvertexai.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
@@ -1708,6 +1711,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		tagbinding.SetupWebhookWithManager,
 		tagkey.SetupWebhookWithManager,
 		tagvalue.SetupWebhookWithManager,
+		collection.SetupWebhookWithManager,
 		datasetvertexai.SetupWebhookWithManager,
 		featurestore.SetupWebhookWithManager,
 		featurestoreentitytype.SetupWebhookWithManager,

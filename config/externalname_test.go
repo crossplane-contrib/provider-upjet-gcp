@@ -245,3 +245,43 @@ func TestServiceAccountGetExternalNameFn(t *testing.T) {
 		})
 	}
 }
+
+func TestVectorSearchCollectionGetIDFn(t *testing.T) {
+	cases := map[string]struct {
+		parameters map[string]any
+		setup      map[string]any
+		want       string
+	}{
+		"ProjectFromResource": {
+			parameters: map[string]any{"project": "my-project", "location": "us-central1"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/my-project/locations/us-central1/collections/my-collection",
+		},
+		"ProjectFromProviderConfig": {
+			parameters: map[string]any{"location": "us-central1"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/pc-project/locations/us-central1/collections/my-collection",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := terraformPluginSDKExternalNameConfigs["google_vector_search_collection"].GetIDFn(context.Background(), "my-collection", tc.parameters, tc.setup)
+			if err != nil {
+				t.Fatalf("GetIDFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetIDFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestVectorSearchCollectionGetExternalNameFn(t *testing.T) {
+	got, err := terraformPluginSDKExternalNameConfigs["google_vector_search_collection"].GetExternalNameFn(map[string]any{"id": "projects/my-project/locations/us-central1/collections/my-collection"})
+	if err != nil {
+		t.Fatalf("GetExternalNameFn(): unexpected error: %v", err)
+	}
+	if diff := cmp.Diff("my-collection", got); diff != "" {
+		t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
+	}
+}

@@ -117,6 +117,9 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_essential_contacts_contact$": ReplaceGroupWords("", 2),
 
 	"google_cloud_quotas.+$": ReplaceGroupWords("", 2),
+
+	// Vertex AI Vector Search 2.0: google_vector_search_collection -> (vectorsearch, Collection).
+	"google_vector_search_.*$": ReplaceGroupWords("vectorsearch", 2),
 }
 
 // ReplaceGroupWords uses given group as the group of the resource and removes
