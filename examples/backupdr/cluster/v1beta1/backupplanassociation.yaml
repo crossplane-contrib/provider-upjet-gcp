@@ -33,15 +33,20 @@ metadata:
   name: example-${Rand.RFC1123Subdomain}
 spec:
   forProvider:
+    # A backup taken during e2e locks the vault for its minimum enforced
+    # retention and blocks its deletion, so the rule only fires on December 24.
     backupRules:
-      - backupRetentionDays: 5
+      - backupRetentionDays: 365
         ruleId: rule-1
         standardSchedule:
           backupWindow:
             endHourOfDay: 24
             startHourOfDay: 0
-          hourlyFrequency: 6
-          recurrenceType: HOURLY
+          daysOfMonth:
+            - 24
+          months:
+            - DECEMBER
+          recurrenceType: YEARLY
           timeZone: UTC
     backupVaultSelector:
       matchLabels:
