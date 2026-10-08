@@ -1,0 +1,125 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: backupdr.gcp.upbound.io/v1beta1
+kind: BackupPlanAssociation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: backup_plan_association
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    backupPlanSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup_plan_association
+    location: us-central1
+    resourceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup_plan_association
+    resourceType: compute.googleapis.com/Instance
+
+---
+
+apiVersion: backupdr.gcp.upbound.io/v1beta1
+kind: BackupPlan
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: backup_plan_association
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    backupRules:
+      - backupRetentionDays: 5
+        ruleId: rule-1
+        standardSchedule:
+          backupWindow:
+            endHourOfDay: 24
+            startHourOfDay: 0
+          hourlyFrequency: 6
+          recurrenceType: HOURLY
+          timeZone: UTC
+    backupVaultSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup_plan_association
+    location: us-central1
+    resourceType: compute.googleapis.com/Instance
+
+---
+
+apiVersion: backupdr.gcp.upbound.io/v1beta1
+kind: BackupVault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: backup_plan_association
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    backupMinimumEnforcedRetentionDuration: 100000s
+    forceDelete: true
+    ignoreBackupPlanReferences: true
+    ignoreInactiveDatasources: true
+    location: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: backup_plan_association
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    bootDisk:
+      initializeParams:
+        image: debian-cloud/debian-13
+    machineType: e2-medium
+    networkInterface:
+      - networkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: backup_plan_association
+        subnetworkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: backup_plan_association
+    zone: us-central1-a
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: backup_plan_association
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: backup_plan_association
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup_plan_association
+    region: us-central1

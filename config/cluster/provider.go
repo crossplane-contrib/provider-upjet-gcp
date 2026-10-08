@@ -9,6 +9,7 @@ import (
 	"github.com/upbound/provider-gcp/v3/config/cluster/accesscontextmanager"
 	"github.com/upbound/provider-gcp/v3/config/cluster/alloydb"
 	"github.com/upbound/provider-gcp/v3/config/cluster/apigee"
+	"github.com/upbound/provider-gcp/v3/config/cluster/backupdr"
 	"github.com/upbound/provider-gcp/v3/config/cluster/beyondcorp"
 	"github.com/upbound/provider-gcp/v3/config/cluster/bigquery"
 	"github.com/upbound/provider-gcp/v3/config/cluster/bigtable"
@@ -64,6 +65,7 @@ func init() {
 	ProviderConfiguration.AddConfig(accessapproval.Configure)
 	ProviderConfiguration.AddConfig(accesscontextmanager.Configure)
 	ProviderConfiguration.AddConfig(apigee.Configure)
+	ProviderConfiguration.AddConfig(backupdr.Configure)
 	ProviderConfiguration.AddConfig(bigtable.Configure)
 	ProviderConfiguration.AddConfig(certificatemanager.Configure)
 	ProviderConfiguration.AddConfig(composer.Configure)
