@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: backupdr.gcp.m.upbound.io/v1beta1
+kind: BackupVault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupvault
+  labels:
+    testing.upbound.io/example-name: backup-vault-test
+  name: backup-vault-test
+  namespace: upbound-system
+spec:
+  forProvider:
+    accessRestriction: WITHIN_ORGANIZATION
+    allowMissing: "true"
+    annotations:
+      annotations1: bar1
+      annotations2: baz1
+    backupMinimumEnforcedRetentionDuration: 100000s
+    backupRetentionInheritance: INHERIT_VAULT_RETENTION
+    description: This is a second backup vault built by Terraform.
+    forceUpdate: "true"
+    ignoreBackupPlanReferences: "true"
+    ignoreInactiveDatasources: "true"
+    labels:
+      bar: baz1
+      foo: bar1
+    location: us-central1

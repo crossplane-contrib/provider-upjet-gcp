@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: iam.gcp.upbound.io/v1beta1
+kind: OAuthClient
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/oauthclient
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    allowedGrantTypes:
+    - AUTHORIZATION_CODE_GRANT
+    allowedRedirectUris:
+    - https://www.example.com
+    allowedScopes:
+    - https://www.googleapis.com/auth/cloud-platform
+    clientType: CONFIDENTIAL_CLIENT
+    description: A sample OAuth client
+    disabled: false
+    displayName: Display Name of OAuth client
+    location: global

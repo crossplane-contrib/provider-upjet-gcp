@@ -10,6 +10,8 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	denypolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/denypolicy"
+	oauthclient "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/oauthclient"
+	oauthclientcredential "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/oauthclientcredential"
 	workloadidentitypool "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/workloadidentitypool"
 	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/workloadidentitypoolprovider"
 )
@@ -19,6 +21,8 @@ import (
 func Setup_iam(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		denypolicy.Setup,
+		oauthclient.Setup,
+		oauthclientcredential.Setup,
 		workloadidentitypool.Setup,
 		workloadidentitypoolprovider.Setup,
 	} {
@@ -34,6 +38,8 @@ func Setup_iam(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_iam(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		denypolicy.SetupGated,
+		oauthclient.SetupGated,
+		oauthclientcredential.SetupGated,
 		workloadidentitypool.SetupGated,
 		workloadidentitypoolprovider.SetupGated,
 	} {
@@ -48,6 +54,8 @@ func SetupGated_iam(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_iam(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		denypolicy.SetupWebhookWithManager,
+		oauthclient.SetupWebhookWithManager,
+		oauthclientcredential.SetupWebhookWithManager,
 		workloadidentitypool.SetupWebhookWithManager,
 		workloadidentitypoolprovider.SetupWebhookWithManager,
 	} {

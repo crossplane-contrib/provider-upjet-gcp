@@ -16,6 +16,24 @@ func (l *DenyPolicyList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this OAuthClientCredentialList.
+func (l *OAuthClientCredentialList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this OAuthClientList.
+func (l *OAuthClientList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this WorkloadIdentityPoolList.
 func (l *WorkloadIdentityPoolList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

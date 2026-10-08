@@ -20,6 +20,7 @@ import (
 	v1beta1appengine "github.com/upbound/provider-gcp/v3/apis/cluster/appengine/v1beta1"
 	v1beta2appengine "github.com/upbound/provider-gcp/v3/apis/cluster/appengine/v1beta2"
 	v1beta2artifact "github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2"
+	v1beta1backupdr "github.com/upbound/provider-gcp/v3/apis/cluster/backupdr/v1beta1"
 	v1beta1beyondcorp "github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta1"
 	v1beta2beyondcorp "github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta2"
 	v1beta1bigquery "github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta1"
@@ -148,6 +149,7 @@ func init() {
 		v1beta1appengine.SchemeBuilder.AddToScheme,
 		v1beta2appengine.SchemeBuilder.AddToScheme,
 		v1beta2artifact.SchemeBuilder.AddToScheme,
+		v1beta1backupdr.SchemeBuilder.AddToScheme,
 		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta2beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,

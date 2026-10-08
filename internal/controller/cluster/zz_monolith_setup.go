@@ -42,6 +42,9 @@ import (
 	standardappversion "github.com/upbound/provider-gcp/v3/internal/controller/cluster/appengine/standardappversion"
 	registryrepository "github.com/upbound/provider-gcp/v3/internal/controller/cluster/artifact/registryrepository"
 	registryrepositoryiammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/artifact/registryrepositoryiammember"
+	backupplan "github.com/upbound/provider-gcp/v3/internal/controller/cluster/backupdr/backupplan"
+	backupplanassociation "github.com/upbound/provider-gcp/v3/internal/controller/cluster/backupdr/backupplanassociation"
+	backupvault "github.com/upbound/provider-gcp/v3/internal/controller/cluster/backupdr/backupvault"
 	appconnection "github.com/upbound/provider-gcp/v3/internal/controller/cluster/beyondcorp/appconnection"
 	appconnector "github.com/upbound/provider-gcp/v3/internal/controller/cluster/beyondcorp/appconnector"
 	appgateway "github.com/upbound/provider-gcp/v3/internal/controller/cluster/beyondcorp/appgateway"
@@ -165,6 +168,7 @@ import (
 	nodetemplate "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/nodetemplate"
 	packetmirroring "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/packetmirroring"
 	perinstanceconfig "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/perinstanceconfig"
+	projectcloudarmortier "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/projectcloudarmortier"
 	projectdefaultnetworktier "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/projectdefaultnetworktier"
 	projectmetadata "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/projectmetadata"
 	projectmetadataitem "github.com/upbound/provider-gcp/v3/internal/controller/cluster/compute/projectmetadataitem"
@@ -293,6 +297,8 @@ import (
 	datasethealthcare "github.com/upbound/provider-gcp/v3/internal/controller/cluster/healthcare/dataset"
 	datasetiammemberhealthcare "github.com/upbound/provider-gcp/v3/internal/controller/cluster/healthcare/datasetiammember"
 	denypolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/denypolicy"
+	oauthclient "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/oauthclient"
+	oauthclientcredential "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/oauthclientcredential"
 	workloadidentitypool "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/workloadidentitypool"
 	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iam/workloadidentitypoolprovider"
 	appengineserviceiammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/iap/appengineserviceiammember"
@@ -469,6 +475,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		standardappversion.Setup,
 		registryrepository.Setup,
 		registryrepositoryiammember.Setup,
+		backupplan.Setup,
+		backupplanassociation.Setup,
+		backupvault.Setup,
 		appconnection.Setup,
 		appconnector.Setup,
 		appgateway.Setup,
@@ -592,6 +601,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		nodetemplate.Setup,
 		packetmirroring.Setup,
 		perinstanceconfig.Setup,
+		projectcloudarmortier.Setup,
 		projectdefaultnetworktier.Setup,
 		projectmetadata.Setup,
 		projectmetadataitem.Setup,
@@ -720,6 +730,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		datasethealthcare.Setup,
 		datasetiammemberhealthcare.Setup,
 		denypolicy.Setup,
+		oauthclient.Setup,
+		oauthclientcredential.Setup,
 		workloadidentitypool.Setup,
 		workloadidentitypoolprovider.Setup,
 		appengineserviceiammember.Setup,
@@ -902,6 +914,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		standardappversion.SetupGated,
 		registryrepository.SetupGated,
 		registryrepositoryiammember.SetupGated,
+		backupplan.SetupGated,
+		backupplanassociation.SetupGated,
+		backupvault.SetupGated,
 		appconnection.SetupGated,
 		appconnector.SetupGated,
 		appgateway.SetupGated,
@@ -1025,6 +1040,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		nodetemplate.SetupGated,
 		packetmirroring.SetupGated,
 		perinstanceconfig.SetupGated,
+		projectcloudarmortier.SetupGated,
 		projectdefaultnetworktier.SetupGated,
 		projectmetadata.SetupGated,
 		projectmetadataitem.SetupGated,
@@ -1153,6 +1169,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		datasethealthcare.SetupGated,
 		datasetiammemberhealthcare.SetupGated,
 		denypolicy.SetupGated,
+		oauthclient.SetupGated,
+		oauthclientcredential.SetupGated,
 		workloadidentitypool.SetupGated,
 		workloadidentitypoolprovider.SetupGated,
 		appengineserviceiammember.SetupGated,
@@ -1334,6 +1352,9 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		standardappversion.SetupWebhookWithManager,
 		registryrepository.SetupWebhookWithManager,
 		registryrepositoryiammember.SetupWebhookWithManager,
+		backupplan.SetupWebhookWithManager,
+		backupplanassociation.SetupWebhookWithManager,
+		backupvault.SetupWebhookWithManager,
 		appconnection.SetupWebhookWithManager,
 		appconnector.SetupWebhookWithManager,
 		appgateway.SetupWebhookWithManager,
@@ -1457,6 +1478,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		nodetemplate.SetupWebhookWithManager,
 		packetmirroring.SetupWebhookWithManager,
 		perinstanceconfig.SetupWebhookWithManager,
+		projectcloudarmortier.SetupWebhookWithManager,
 		projectdefaultnetworktier.SetupWebhookWithManager,
 		projectmetadata.SetupWebhookWithManager,
 		projectmetadataitem.SetupWebhookWithManager,
@@ -1585,6 +1607,8 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		datasethealthcare.SetupWebhookWithManager,
 		datasetiammemberhealthcare.SetupWebhookWithManager,
 		denypolicy.SetupWebhookWithManager,
+		oauthclient.SetupWebhookWithManager,
+		oauthclientcredential.SetupWebhookWithManager,
 		workloadidentitypool.SetupWebhookWithManager,
 		workloadidentitypoolprovider.SetupWebhookWithManager,
 		appengineserviceiammember.SetupWebhookWithManager,

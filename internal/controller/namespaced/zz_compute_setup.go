@@ -56,6 +56,7 @@ import (
 	nodetemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/nodetemplate"
 	packetmirroring "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/packetmirroring"
 	perinstanceconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/perinstanceconfig"
+	projectcloudarmortier "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectcloudarmortier"
 	projectdefaultnetworktier "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectdefaultnetworktier"
 	projectmetadata "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectmetadata"
 	projectmetadataitem "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectmetadataitem"
@@ -158,6 +159,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		nodetemplate.Setup,
 		packetmirroring.Setup,
 		perinstanceconfig.Setup,
+		projectcloudarmortier.Setup,
 		projectdefaultnetworktier.Setup,
 		projectmetadata.Setup,
 		projectmetadataitem.Setup,
@@ -266,6 +268,7 @@ func SetupGated_compute(mgr ctrl.Manager, o controller.Options) error {
 		nodetemplate.SetupGated,
 		packetmirroring.SetupGated,
 		perinstanceconfig.SetupGated,
+		projectcloudarmortier.SetupGated,
 		projectdefaultnetworktier.SetupGated,
 		projectmetadata.SetupGated,
 		projectmetadataitem.SetupGated,
@@ -373,6 +376,7 @@ func SetupWebhookWithManager_compute(mgr ctrl.Manager) error {
 		nodetemplate.SetupWebhookWithManager,
 		packetmirroring.SetupWebhookWithManager,
 		perinstanceconfig.SetupWebhookWithManager,
+		projectcloudarmortier.SetupWebhookWithManager,
 		projectdefaultnetworktier.SetupWebhookWithManager,
 		projectmetadata.SetupWebhookWithManager,
 		projectmetadataitem.SetupWebhookWithManager,

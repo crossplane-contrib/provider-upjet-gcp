@@ -10,6 +10,12 @@ package v1beta1
 func (tr *DenyPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *OAuthClient) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *OAuthClientCredential) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *WorkloadIdentityPool) Hub() {}
 
 // Hub marks this type as a conversion hub.

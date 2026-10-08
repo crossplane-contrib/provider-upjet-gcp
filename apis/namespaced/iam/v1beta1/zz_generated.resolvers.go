@@ -10,13 +10,66 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *WorkloadIdentityPoolProvider) ResolveReferences( // ResolveReferences of this WorkloadIdentityPoolProvider.
+func (mg *OAuthClientCredential) ResolveReferences( // ResolveReferences of this OAuthClientCredential.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("iam.gcp.m.upbound.io", "v1beta1", "OAuthClient", "OAuthClientList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Location),
+			Extract:      resource.ExtractParamPath("location", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.LocationRef,
+			Selector:     mg.Spec.ForProvider.LocationSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Location")
+	}
+	mg.Spec.ForProvider.Location = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.LocationRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("iam.gcp.m.upbound.io", "v1beta1", "OAuthClient", "OAuthClientList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Oauthclient),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.OauthclientRef,
+			Selector:     mg.Spec.ForProvider.OauthclientSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Oauthclient")
+	}
+	mg.Spec.ForProvider.Oauthclient = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.OauthclientRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this WorkloadIdentityPoolProvider.
+func (mg *WorkloadIdentityPoolProvider) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPINamespacedResolver(c, mg)

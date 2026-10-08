@@ -82,6 +82,9 @@ func (tr *NetworkPeering) Hub() {}
 func (tr *NetworkPeeringRoutesConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ProjectCloudArmorTier) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ProjectDefaultNetworkTier) Hub() {}
 
 // Hub marks this type as a conversion hub.
