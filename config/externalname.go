@@ -300,6 +300,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_project_default_network_tier": config.IdentifierFromProvider,
 	// Projects can be imported using the Project ID: your-project-id
 	"google_compute_project_metadata": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}
+	"google_compute_project_cloud_armor_tier": config.IdentifierFromProvider,
 	// Project metadata items can be imported using the key: key
 	"google_compute_project_metadata_item": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/autoscalers/{{name}}
@@ -1081,6 +1083,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project, and therefore
 	// never contains a literal "/".
 	"google_iam_deny_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/oauthClients/{{oauth_client_id}}
+	"google_iam_oauth_client": config.TemplatedStringAsIdentifier("oauth_client_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/oauthClients/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/oauthClients/{{oauthclient}}/credentials/{{oauth_client_credential_id}}
+	"google_iam_oauth_client_credential": config.TemplatedStringAsIdentifier("oauth_client_credential_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/oauthClients/{{ .parameters.oauthclient }}/credentials/{{ .external_name }}"),
 
 	// datalossprevention
 	//
@@ -1197,6 +1203,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following {{parent}}/policies/{{name}}
 	"google_org_policy_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/policies/{{ .external_name }}"),
+
+	// backupdr
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupVaults/{{backup_vault_id}}
+	"google_backup_dr_backup_vault": config.TemplatedStringAsIdentifier("backup_vault_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backupVaults/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlans/{{backup_plan_id}}
+	"google_backup_dr_backup_plan": config.TemplatedStringAsIdentifier("backup_plan_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backupPlans/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlanAssociations/{{backup_plan_association_id}}
+	"google_backup_dr_backup_plan_association": config.TemplatedStringAsIdentifier("backup_plan_association_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backupPlanAssociations/{{ .external_name }}"),
 
 	// tags
 	//

@@ -1,0 +1,121 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: backupdr.gcp.m.upbound.io/v1beta1
+kind: BackupPlanAssociation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: my-backup-plan-association
+  name: my-backup-plan-association
+  namespace: upbound-system
+spec:
+  forProvider:
+    backupPlanSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bp1
+    location: us-central1
+    resourceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: myinstance
+    resourceType: compute.googleapis.com/Instance
+
+---
+
+apiVersion: backupdr.gcp.m.upbound.io/v1beta1
+kind: BackupPlan
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: bp1
+  name: bp1
+  namespace: upbound-system
+spec:
+  forProvider:
+    backupRules:
+    - backupRetentionDays: 2
+      ruleId: rule-1
+      standardSchedule:
+        backupWindow:
+          endHourOfDay: 18
+          startHourOfDay: 12
+        hourlyFrequency: 6
+        recurrenceType: HOURLY
+        timeZone: UTC
+    backupVaultSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bv1
+    location: us-central1
+    resourceType: compute.googleapis.com/Instance
+
+---
+
+apiVersion: backupdr.gcp.m.upbound.io/v1beta1
+kind: BackupVault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: bv1
+  name: bv1
+  namespace: upbound-system
+spec:
+  forProvider:
+    backupMinimumEnforcedRetentionDuration: 100000s
+    forceDelete: "true"
+    location: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: myinstance
+  name: myinstance
+  namespace: upbound-system
+spec:
+  forProvider:
+    bootDisk:
+      initializeParams:
+        imageSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        labels:
+          my_label: value
+    machineType: n2-standard-2
+    networkInterface:
+    - accessConfig:
+      - {}
+      networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+    scratchDisk:
+    - interface: NVME
+    serviceAccount:
+      emailSelector:
+        matchLabels:
+          testing.upbound.io/example-name: mySA
+      scopes:
+      - cloud-platform
+    zone: us-central1-a
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplanassociation
+  labels:
+    testing.upbound.io/example-name: mySA
+  name: mysa
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Custom SA for VM Instance

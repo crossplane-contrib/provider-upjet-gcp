@@ -16,6 +16,7 @@ import (
 	v1beta1apigee "github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1"
 	v1beta1appengine "github.com/upbound/provider-gcp/v3/apis/namespaced/appengine/v1beta1"
 	v1beta1artifact "github.com/upbound/provider-gcp/v3/apis/namespaced/artifact/v1beta1"
+	v1beta1backupdr "github.com/upbound/provider-gcp/v3/apis/namespaced/backupdr/v1beta1"
 	v1beta1beyondcorp "github.com/upbound/provider-gcp/v3/apis/namespaced/beyondcorp/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1"
 	v1beta1bigtable "github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1"
@@ -106,6 +107,7 @@ func init() {
 		v1beta1apigee.SchemeBuilder.AddToScheme,
 		v1beta1appengine.SchemeBuilder.AddToScheme,
 		v1beta1artifact.SchemeBuilder.AddToScheme,
+		v1beta1backupdr.SchemeBuilder.AddToScheme,
 		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,

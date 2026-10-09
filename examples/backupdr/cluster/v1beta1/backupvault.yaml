@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: backupdr.gcp.upbound.io/v1beta1
+kind: BackupVault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupvault
+  labels:
+    testing.upbound.io/example-name: backup_vault
+  name: example-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    annotations:
+      annotations1: bar1
+    backupMinimumEnforcedRetentionDuration: 100000s
+    backupRetentionInheritance: INHERIT_VAULT_RETENTION
+    description: This is a backup vault built by Crossplane.
+    forceDelete: true
+    ignoreBackupPlanReferences: true
+    ignoreInactiveDatasources: true
+    labels:
+      foo: bar1
+    location: us-central1

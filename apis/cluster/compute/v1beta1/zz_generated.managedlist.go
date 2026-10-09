@@ -232,6 +232,15 @@ func (l *NetworkPeeringRoutesConfigList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ProjectCloudArmorTierList.
+func (l *ProjectCloudArmorTierList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ProjectDefaultNetworkTierList.
 func (l *ProjectDefaultNetworkTierList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

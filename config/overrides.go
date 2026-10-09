@@ -118,6 +118,8 @@ var groupMap = map[string]GroupKindCalculator{
 
 	"google_cloud_quotas.+$": ReplaceGroupWords("", 2),
 
+	"google_backup_dr.+": ReplaceGroupWords("", 2),
+
 	// Vertex AI Vector Search 2.0: google_vector_search_collection -> (vectorsearch, Collection).
 	"google_vector_search_.*$": ReplaceGroupWords("vectorsearch", 2),
 }
