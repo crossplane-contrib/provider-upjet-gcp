@@ -6,6 +6,7 @@ package config
 
 import (
 	"context"
+	"slices"
 	"testing"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
@@ -283,5 +284,60 @@ func TestVectorSearchCollectionGetExternalNameFn(t *testing.T) {
 	}
 	if diff := cmp.Diff("my-collection", got); diff != "" {
 		t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
+	}
+}
+
+func TestVectorSearchIndexGetIDFn(t *testing.T) {
+	cases := map[string]struct {
+		parameters map[string]any
+		setup      map[string]any
+		want       string
+	}{
+		"ProjectFromResource": {
+			parameters: map[string]any{"project": "my-project", "location": "us-central1", "collection_id": "my-collection"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/my-project/locations/us-central1/collections/my-collection/indexes/my-index",
+		},
+		"ProjectFromProviderConfig": {
+			parameters: map[string]any{"location": "us-central1", "collection_id": "my-collection"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/pc-project/locations/us-central1/collections/my-collection/indexes/my-index",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := terraformPluginSDKExternalNameConfigs["google_vector_search_index"].GetIDFn(context.Background(), "my-index", tc.parameters, tc.setup)
+			if err != nil {
+				t.Fatalf("GetIDFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetIDFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestVectorSearchIndexGetExternalNameFn(t *testing.T) {
+	got, err := terraformPluginSDKExternalNameConfigs["google_vector_search_index"].GetExternalNameFn(map[string]any{"id": "projects/my-project/locations/us-central1/collections/my-collection/indexes/my-index"})
+	if err != nil {
+		t.Fatalf("GetExternalNameFn(): unexpected error: %v", err)
+	}
+	if diff := cmp.Diff("my-index", got); diff != "" {
+		t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
+	}
+}
+
+// The index ID is chosen by the caller: the external name is sent as
+// index_id on create, and index_id is not a spec field that could disagree
+// with it.
+func TestVectorSearchIndexIDIsTheExternalName(t *testing.T) {
+	en := terraformPluginSDKExternalNameConfigs["google_vector_search_index"]
+	if !slices.Contains(en.OmittedFields, "index_id") {
+		t.Errorf("OmittedFields: want index_id among %v", en.OmittedFields)
+	}
+	base := map[string]any{}
+	en.SetIdentifierArgumentFn(base, "my-index")
+	if diff := cmp.Diff(map[string]any{"index_id": "my-index"}, base); diff != "" {
+		t.Errorf("SetIdentifierArgumentFn(): -want, +got:\n%s", diff)
 	}
 }

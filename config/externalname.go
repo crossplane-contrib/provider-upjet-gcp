@@ -1145,6 +1145,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/collections/{{collection_id}}
 	"google_vector_search_collection": config.TemplatedStringAsIdentifier("collection_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/indexes/{{index_id}}
+	"google_vector_search_index": config.TemplatedStringAsIdentifier("index_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/indexes/{{ .external_name }}"),
 
 	// documentai
 	//

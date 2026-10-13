@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vectorsearch.gcp.upbound.io/v1beta1
+kind: Index
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vectorsearch/v1beta1/index
+    crossplane.io/external-name: example-index
+    uptest.upbound.io/timeout: "5400" # An index build can take over an hour.
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    location: us-central1
+    collectionIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-index-parent
+    indexField: embedding
+    distanceMetric: COSINE_DISTANCE
+    denseScann:
+      featureNormType: UNIT_L2_NORM
+    dedicatedInfrastructure:
+      mode: PERFORMANCE_OPTIMIZED
+      autoscalingSpec:
+        minReplicaCount: 1
+        maxReplicaCount: 1
+
+---
+
+apiVersion: vectorsearch.gcp.upbound.io/v1beta1
+kind: Collection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vectorsearch/v1beta1/index
+    crossplane.io/external-name: example-index-parent
+  labels:
+    testing.upbound.io/example-name: example-index-parent
+  name: example-index-parent
+spec:
+  forProvider:
+    location: us-central1
+    vectorSchema:
+    - fieldName: embedding
+      denseVector:
+        dimensions: 8
