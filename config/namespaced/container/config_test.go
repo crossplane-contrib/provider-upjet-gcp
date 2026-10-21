@@ -6,10 +6,14 @@ package container
 
 import (
 	"encoding/base64"
+	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	gcpcontainer "github.com/hashicorp/terraform-provider-google/google/services/container"
+	"github.com/hashicorp/terraform-provider-google/google/transport"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
@@ -142,6 +146,24 @@ func TestDropEmptyKubeletConfigDiff(t *testing.T) {
 			}},
 			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
 				"node_config.0.machine_type": {Old: "e2-medium", New: "e2-standard-2"},
+			}},
+		},
+		"omitted_subtree_preserved_without_hiding_other_pool_updates": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_pool.0.node_config.0.kubelet_config.#":                      {Old: "1", New: "0"},
+					"node_pool.0.node_config.0.kubelet_config.0.topology_manager.#":   {Old: "1", New: "0"},
+					"node_pool.0.node_config.0.kubelet_config.0.cpu_manager_policy":   {Old: "static", New: ""},
+					"node_pool.0.node_config.0.kubelet_config.0.cpu_cfs_quota_period": {Old: "100ms", New: ""},
+					"node_pool.1.node_config.0.kubelet_config.#":                      {Old: "1", New: "1"},
+					"node_pool.1.node_config.0.kubelet_config.0.cpu_cfs_quota":        {Old: "false", New: "true"},
+					"node_pool.0.node_config.0.machine_type":                          {Old: "e2-medium", New: "e2-standard-2", RequiresNew: true},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"node_pool.1.node_config.0.kubelet_config.#":               {Old: "1", New: "1"},
+				"node_pool.1.node_config.0.kubelet_config.0.cpu_cfs_quota": {Old: "false", New: "true"},
+				"node_pool.0.node_config.0.machine_type":                   {Old: "e2-medium", New: "e2-standard-2", RequiresNew: true},
 			}},
 		},
 		"node_pool_nested_count_dropped": {
@@ -385,5 +407,81 @@ func TestClusterConnectionDetails(t *testing.T) {
 				t.Errorf("clusterConnectionDetails(...): -want, +got:\n%s\nreason: %s", diff, tc.reason)
 			}
 		})
+	}
+}
+
+// Exercise the real Google schema and CustomizeDiff, not a hand-built diff.
+func TestKubeletConfigOmissionPreservesObservedSubtree(t *testing.T) {
+	for _, quota := range []bool{false, true} {
+		for _, settings := range []string{"defaults", "topology", "custom"} {
+			for _, changeLabels := range []bool{false, true} {
+				t.Run(fmt.Sprintf("quota=%t/settings=%s/labels=%t", quota, settings, changeLabels), func(t *testing.T) {
+					r := gcpcontainer.ResourceContainerNodePool()
+					kubelet := map[string]any{
+						"cpu_cfs_quota": quota, "max_parallel_image_pulls": 2,
+						"insecure_kubelet_readonly_port_enabled": "FALSE",
+					}
+					if settings == "topology" {
+						kubelet["topology_manager"] = []any{map[string]any{"policy": "best-effort", "scope": "container"}}
+					}
+					if settings == "custom" {
+						kubelet["cpu_manager_policy"] = "static"
+						kubelet["cpu_cfs_quota_period"] = "100ms"
+					}
+					observed := omissionTestParameters(kubelet)
+					rd := schema.TestResourceDataRaw(t, r.Schema, observed)
+					rd.SetId("projects/test-project/locations/us-central1/clusters/test/nodePools/worker")
+					state := rd.State()
+					desired := omissionTestParameters(nil)
+					if changeLabels {
+						desired["node_config"].([]any)[0].(map[string]any)["labels"] = map[string]any{"audit": "yes"}
+					}
+					if err := injectEmptyKubeletConfig(nil, desired); err != nil {
+						t.Fatal(err)
+					}
+					var err error
+					state.RawConfig, err = schema.JSONMapToStateValue(desired, r.CoreConfigSchema())
+					if err != nil {
+						t.Fatal(err)
+					}
+					state.RawPlan, err = schema.JSONMapToStateValue(observed, r.CoreConfigSchema())
+					if err != nil {
+						t.Fatal(err)
+					}
+					diff, err := schema.InternalMap(r.Schema).Diff(t.Context(), state, terraform.NewResourceConfigRaw(desired), r.CustomizeDiff, &transport.Config{Project: "test-project"}, false)
+					if err != nil {
+						t.Fatal(err)
+					}
+					dropEmptyKubeletConfigDiff(diff)
+					planned, err := schema.InternalMap(r.Schema).Data(state, diff)
+					if err != nil {
+						t.Fatal(err)
+					}
+					if planned.HasChange("node_config.0.kubelet_config") {
+						t.Error("omission must not enter the Terraform kubelet update handler")
+					}
+					if delta := cmp.Diff(rd.Get("node_config.0.kubelet_config"), planned.Get("node_config.0.kubelet_config")); delta != "" {
+						t.Errorf("omission changed observed kubelet settings (-observed +planned):\n%s", delta)
+					}
+					if planned.HasChange("node_config.0.labels") != changeLabels {
+						t.Error("kubelet suppression must preserve unrelated label updates")
+					}
+					if diff != nil && (diff.Destroy || diff.RequiresNew()) {
+						t.Error("omission must not require replacing the node pool")
+					}
+				})
+			}
+		}
+	}
+}
+
+func omissionTestParameters(kubelet map[string]any) map[string]any {
+	node := map[string]any{"machine_type": "e2-medium"}
+	if kubelet != nil {
+		node["kubelet_config"] = []any{kubelet}
+	}
+	return map[string]any{
+		"name": "worker", "project": "test-project", "location": "us-central1",
+		"cluster": "test", "deletion_policy": "DELETE", "node_config": []any{node},
 	}
 }
