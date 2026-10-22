@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	customconstraint "github.com/upbound/provider-gcp/v3/internal/controller/cluster/orgpolicy/customconstraint"
 	policy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/orgpolicy/policy"
 )
 
@@ -16,6 +17,7 @@ import (
 // the supplied manager.
 func Setup_orgpolicy(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		customconstraint.Setup,
 		policy.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -29,6 +31,7 @@ func Setup_orgpolicy(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_orgpolicy(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		customconstraint.SetupGated,
 		policy.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -41,6 +44,7 @@ func SetupGated_orgpolicy(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager_orgpolicy registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager_orgpolicy(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		customconstraint.SetupWebhookWithManager,
 		policy.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {

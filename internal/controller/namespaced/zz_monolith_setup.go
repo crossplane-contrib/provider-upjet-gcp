@@ -367,6 +367,7 @@ import (
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/instanceiammember"
 	runtime "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/runtime"
 	runtimeiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/runtimeiammember"
+	customconstraint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/orgpolicy/customconstraint"
 	policyorgpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/orgpolicy/policy"
 	ospolicyassignment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/osconfig/ospolicyassignment"
 	patchdeployment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/osconfig/patchdeployment"
@@ -801,6 +802,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instanceiammembernotebooks.Setup,
 		runtime.Setup,
 		runtimeiammember.Setup,
+		customconstraint.Setup,
 		policyorgpolicy.Setup,
 		ospolicyassignment.Setup,
 		patchdeployment.Setup,
@@ -1241,6 +1243,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instanceiammembernotebooks.SetupGated,
 		runtime.SetupGated,
 		runtimeiammember.SetupGated,
+		customconstraint.SetupGated,
 		policyorgpolicy.SetupGated,
 		ospolicyassignment.SetupGated,
 		patchdeployment.SetupGated,
@@ -1680,6 +1683,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		instanceiammembernotebooks.SetupWebhookWithManager,
 		runtime.SetupWebhookWithManager,
 		runtimeiammember.SetupWebhookWithManager,
+		customconstraint.SetupWebhookWithManager,
 		policyorgpolicy.SetupWebhookWithManager,
 		ospolicyassignment.SetupWebhookWithManager,
 		patchdeployment.SetupWebhookWithManager,
