@@ -1205,6 +1205,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following {{parent}}/policies/{{name}}
 	"google_org_policy_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/policies/{{ .external_name }}"),
+	// Imported by using the following {{parent}}/customConstraints/{{name}}
+	"google_org_policy_custom_constraint": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/customConstraints/{{ .external_name }}"),
 
 	// backupdr
 	//

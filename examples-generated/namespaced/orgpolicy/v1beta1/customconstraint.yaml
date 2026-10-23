@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: orgpolicy.gcp.m.upbound.io/v1beta1
+kind: CustomConstraint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: orgpolicy/v1beta1/customconstraint
+  labels:
+    testing.upbound.io/example-name: constraint
+  name: constraint
+  namespace: upbound-system
+spec:
+  forProvider:
+    actionType: ALLOW
+    condition: resource.management.autoUpgrade == false
+    methodTypes:
+    - CREATE
+    - UPDATE
+    parent: organizations/123456789
+    resourceTypes:
+    - container.googleapis.com/NodePool
