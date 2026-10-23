@@ -145,8 +145,8 @@ func injectEmptyKubeletConfig(_ map[string]any, tfMap map[string]any) error {
 	return nil
 }
 
-// dropEmptyKubeletConfigDiff removes the node_config.*.kubelet_config.# entry
-// from the computed diff when no kubelet_config is configured. The empty list
+// dropEmptyKubeletConfigDiff removes the whole kubelet_config subtree from the
+// computed diff when no kubelet_config is configured. The empty list
 // set by injectEmptyKubeletConfig is diffed by the Terraform SDK against a
 // kubelet_config reported by GKE as a removal ("1" => "0"). kubelet_config is
 // optional and computed, so an unset block must keep the observed value, as it
@@ -157,8 +157,16 @@ func dropEmptyKubeletConfigDiff(diff *terraform.InstanceDiff) {
 		return
 	}
 	for key, ad := range diff.Attributes {
-		if isEmptyNodeConfigKubeletCount(key, ad) {
-			delete(diff.Attributes, key)
+		if !isEmptyNodeConfigKubeletCount(key, ad) {
+			continue
+		}
+		// Removing only the count leaves child removals (for example topology_manager)
+		// that still make ResourceData.HasChange report a kubelet update.
+		prefix := strings.TrimSuffix(key, "#")
+		for child := range diff.Attributes {
+			if strings.HasPrefix(child, prefix) {
+				delete(diff.Attributes, child)
+			}
 		}
 	}
 }
