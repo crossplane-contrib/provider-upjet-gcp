@@ -16,6 +16,9 @@ func (tr *Hub) Hub() {}
 func (tr *InternalRange) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *RegionalEndpoint) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ServiceConnectionPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.
