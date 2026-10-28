@@ -21,7 +21,17 @@ type RegionalEndpointInitParameters struct {
 
 	// The IP Address of the Regional Endpoint. When no address is provided, an IP from the subnetwork is allocated. Use one of the following formats: * IPv4 address as in 10.0.0.1 * Address resource URI as in projects/{project}/regions/{region}/addresses/{address_name}
 	// ~> Note: This field accepts both a reference to a Compute Address resource, which is the resource name of which format is given in the description, and IP literal value. If the user chooses to input a reserved address value; they need to make sure that the reserved address is in IPv4 version, its purpose is GCE_ENDPOINT, its type is INTERNAL and its status is RESERVED. If the user chooses to input an IP literal, they need to make sure that it's a valid IPv4 address (x.x.x.x) within the subnetwork.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// Reference to a Address in compute to populate address.
+	// +kubebuilder:validation:Optional
+	AddressRef *v2.Reference `json:"addressRef,omitempty" tf:"-"`
+
+	// Selector for a Address in compute to populate address.
+	// +kubebuilder:validation:Optional
+	AddressSelector *v2.Selector `json:"addressSelector,omitempty" tf:"-"`
 
 	// A description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -132,8 +142,18 @@ type RegionalEndpointParameters struct {
 
 	// The IP Address of the Regional Endpoint. When no address is provided, an IP from the subnetwork is allocated. Use one of the following formats: * IPv4 address as in 10.0.0.1 * Address resource URI as in projects/{project}/regions/{region}/addresses/{address_name}
 	// ~> Note: This field accepts both a reference to a Compute Address resource, which is the resource name of which format is given in the description, and IP literal value. If the user chooses to input a reserved address value; they need to make sure that the reserved address is in IPv4 version, its purpose is GCE_ENDPOINT, its type is INTERNAL and its status is RESERVED. If the user chooses to input an IP literal, they need to make sure that it's a valid IPv4 address (x.x.x.x) within the subnetwork.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Address
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Address *string `json:"address,omitempty" tf:"address,omitempty"`
+
+	// Reference to a Address in compute to populate address.
+	// +kubebuilder:validation:Optional
+	AddressRef *v2.Reference `json:"addressRef,omitempty" tf:"-"`
+
+	// Selector for a Address in compute to populate address.
+	// +kubebuilder:validation:Optional
+	AddressSelector *v2.Selector `json:"addressSelector,omitempty" tf:"-"`
 
 	// A description of this resource.
 	// +kubebuilder:validation:Optional

@@ -29,6 +29,53 @@ spec:
 
 ---
 
+apiVersion: networkconnectivity.gcp.m.upbound.io/v1beta1
+kind: RegionalEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/regionalendpoint
+  labels:
+    testing.upbound.io/example-name: regional_endpoint_address
+  name: example-addr-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    accessType: REGIONAL
+    addressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: regional_endpoint_address
+    description: Regional endpoint using a reserved Address resource
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: regional_endpoint
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: regional_endpoint
+    targetGoogleApi: cloudkms.us-central1.rep.googleapis.com
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/regionalendpoint
+  labels:
+    testing.upbound.io/example-name: regional_endpoint_address
+  name: example-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    addressType: INTERNAL
+    purpose: GCE_ENDPOINT
+    region: us-central1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: regional_endpoint
+
+---
+
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: Network
 metadata:

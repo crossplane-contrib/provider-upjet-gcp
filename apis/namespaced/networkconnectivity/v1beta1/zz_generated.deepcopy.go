@@ -3228,6 +3228,16 @@ func (in *RegionalEndpointInitParameters) DeepCopyInto(out *RegionalEndpointInit
 		*out = new(string)
 		**out = **in
 	}
+	if in.AddressRef != nil {
+		in, out := &in.AddressRef, &out.AddressRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.AddressSelector != nil {
+		in, out := &in.AddressSelector, &out.AddressSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -3473,6 +3483,16 @@ func (in *RegionalEndpointParameters) DeepCopyInto(out *RegionalEndpointParamete
 		in, out := &in.Address, &out.Address
 		*out = new(string)
 		**out = **in
+	}
+	if in.AddressRef != nil {
+		in, out := &in.AddressRef, &out.AddressRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.AddressSelector != nil {
+		in, out := &in.AddressSelector, &out.AddressSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description

@@ -14,7 +14,9 @@ metadata:
 spec:
   forProvider:
     accessType: REGIONAL
-    address: 192.168.0.5
+    addressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     description: My RegionalEndpoint targeting Google API storage.us-central1.rep.googleapis.com
     labels:
       env: default
