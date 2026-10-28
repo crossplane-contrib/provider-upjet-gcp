@@ -150,6 +150,19 @@ spec:
                 required:
                 - source
                 type: object
+              customEndpoints:
+                additionalProperties:
+                  type: string
+                description: |-
+                  CustomEndpoints overrides the endpoint of individual Google Cloud
+                  services, keyed by the Terraform provider's service name (for example
+                  "storage", "kms" or "iam"). Each value is a URL ending in "/" and becomes
+                  the Terraform provider's "<key>_custom_endpoint" setting, so the
+                  accepted keys and URL formats are the Terraform provider's. Use it to
+                  reach Google APIs through non-default hostnames, such as Private Service
+                  Connect endpoints, or an API emulator in tests. Leave it unset to use
+                  the default endpoints.
+                type: object
               projectID:
                 description: ProjectID is the project name (not numerical ID) of this
                   GCP ProviderConfig.

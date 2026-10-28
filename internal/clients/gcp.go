@@ -36,6 +36,10 @@ const (
 	keyUserProjectOverride = "user_project_override"
 	keyBillingProject      = "billing_project"
 	keyUniverseDomain      = "universe_domain"
+	// suffixCustomEndpoint turns a ProviderConfig customEndpoints key into
+	// the Terraform provider setting it overrides, e.g. "storage" into
+	// "storage_custom_endpoint".
+	suffixCustomEndpoint = "_custom_endpoint"
 
 	credentialsSourceUpbound     = "Upbound"
 	keyCredentials               = "credentials"
@@ -189,6 +193,7 @@ func baseConfiguration(ctx context.Context, crClient client.Client, mg resource.
 	}
 	setProjectOverrides(ps.Configuration, pcSpec)
 	setUniverseDomain(ps.Configuration, pcSpec)
+	setCustomEndpoints(ps.Configuration, pcSpec)
 	// TODO: this will have a performance impact. We need to quantify this.
 	p, err := fieldpath.PaveObject(mg, fieldpath.WithMaxFieldPathIndex(1))
 	if err != nil {
@@ -231,6 +236,40 @@ func setUniverseDomain(cfg map[string]interface{}, pcSpec *namespacedv1beta1.Pro
 	}
 }
 
+// setCustomEndpoints populates one "<service>_custom_endpoint" provider
+// configuration key per customEndpoints entry of the resolved ProviderConfig
+// spec. Entries with an empty URL are skipped, so the Terraform provider's
+// default endpoint stays in effect for them.
+func setCustomEndpoints(cfg map[string]interface{}, pcSpec *namespacedv1beta1.ProviderConfigSpec) {
+	for service, url := range pcSpec.CustomEndpoints {
+		if url != "" {
+			cfg[service+suffixCustomEndpoint] = url
+		}
+	}
+}
+
+// validateCustomEndpoints checks every custom endpoint in cfg against the
+// Terraform provider's schema before the provider is configured: the key must
+// name a service the provider has a custom endpoint setting for, and the URL
+// must end in "/", as the provider requires. Configure itself does not run the
+// provider's validation, so without this a misspelt key would be silently
+// ignored and the default endpoint used instead.
+func validateCustomEndpoints(cfg map[string]interface{}, providerSchema map[string]*schema.Schema) error {
+	for key, value := range cfg {
+		if !strings.HasSuffix(key, suffixCustomEndpoint) {
+			continue
+		}
+		service := strings.TrimSuffix(key, suffixCustomEndpoint)
+		if _, ok := providerSchema[key]; !ok {
+			return errors.Errorf("customEndpoints: %q is not a service the Terraform provider has a custom endpoint for", service)
+		}
+		if url, _ := value.(string); !strings.HasSuffix(url, "/") {
+			return errors.Errorf("customEndpoints: the endpoint for %q must end in \"/\", got %q", service, url)
+		}
+	}
+	return nil
+}
+
 // configureNoForkGCPClient configures the given Terraform provider. ctx roots
 // the context it is configured on - deliberately not necessarily the
 // caller's live request context, since the provider's own context is stored
@@ -256,6 +295,9 @@ func configureNoForkGCPClient(ctx context.Context, ps *terraform.Setup, p schema
 	ctx, cancel := context.WithCancel(ctx)
 	time.AfterFunc(providerTimeout, cancel)
 
+	if err := validateCustomEndpoints(ps.Configuration, p.Schema); err != nil {
+		return err
+	}
 	diag := p.Configure(ctx, &tfsdk.ResourceConfig{
 		Config: ps.Configuration,
 	})
