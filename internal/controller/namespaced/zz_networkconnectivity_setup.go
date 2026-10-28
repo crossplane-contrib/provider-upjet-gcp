@@ -12,6 +12,7 @@ import (
 	group "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/group"
 	hub "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/hub"
 	internalrange "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/internalrange"
+	regionalendpoint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/regionalendpoint"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/spoke"
 )
@@ -23,6 +24,7 @@ func Setup_networkconnectivity(mgr ctrl.Manager, o controller.Options) error {
 		group.Setup,
 		hub.Setup,
 		internalrange.Setup,
+		regionalendpoint.Setup,
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 	} {
@@ -40,6 +42,7 @@ func SetupGated_networkconnectivity(mgr ctrl.Manager, o controller.Options) erro
 		group.SetupGated,
 		hub.SetupGated,
 		internalrange.SetupGated,
+		regionalendpoint.SetupGated,
 		serviceconnectionpolicy.SetupGated,
 		spoke.SetupGated,
 	} {
@@ -56,6 +59,7 @@ func SetupWebhookWithManager_networkconnectivity(mgr ctrl.Manager) error {
 		group.SetupWebhookWithManager,
 		hub.SetupWebhookWithManager,
 		internalrange.SetupWebhookWithManager,
+		regionalendpoint.SetupWebhookWithManager,
 		serviceconnectionpolicy.SetupWebhookWithManager,
 		spoke.SetupWebhookWithManager,
 	} {

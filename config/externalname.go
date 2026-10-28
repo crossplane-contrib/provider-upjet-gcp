@@ -757,6 +757,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_connectivity_internal_range": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/global/internalRanges/{{ .external_name }}"),
 	// Group can be imported using projects/{{project}}/locations/global/hubs/{{hub}}/groups/{{name}}
 	"google_network_connectivity_group": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/global/hubs/{{ .parameters.hub }}/groups/{{ .external_name }}"),
+	// RegionalEndpoint can be imported using projects/{{project}}/locations/{{location}}/regionalEndpoints/{{name}}
+	"google_network_connectivity_regional_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/regionalEndpoints/{{ .external_name }}"),
 	// network security
 	//
 	// Imported by using the following {{parent}}/locations/{{location}}/addressGroups/{{name}}

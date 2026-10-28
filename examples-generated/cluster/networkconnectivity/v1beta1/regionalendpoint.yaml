@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkconnectivity.gcp.upbound.io/v1beta1
+kind: RegionalEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/regionalendpoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accessType: REGIONAL
+    addressSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    description: My RegionalEndpoint targeting Google API storage.us-central1.rep.googleapis.com
+    labels:
+      env: default
+    location: us-central1
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_network
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_subnetwork
+    targetGoogleApi: storage.us-central1.rep.googleapis.com
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/regionalendpoint
+  labels:
+    testing.upbound.io/example-name: my_network
+  name: my-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkconnectivity/v1beta1/regionalendpoint
+  labels:
+    testing.upbound.io/example-name: my_subnetwork
+  name: my-subnetwork
+spec:
+  forProvider:
+    ipCidrRange: 192.168.0.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_network
+    region: us-central1

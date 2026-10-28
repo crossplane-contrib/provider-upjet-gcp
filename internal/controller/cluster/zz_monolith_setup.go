@@ -349,6 +349,7 @@ import (
 	groupnetworkconnectivity "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkconnectivity/group"
 	hub "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkconnectivity/hub"
 	internalrange "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkconnectivity/internalrange"
+	regionalendpoint "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkconnectivity/regionalendpoint"
 	serviceconnectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkconnectivity/serviceconnectionpolicy"
 	spoke "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkconnectivity/spoke"
 	connectivitytest "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkmanagement/connectivitytest"
@@ -784,6 +785,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		groupnetworkconnectivity.Setup,
 		hub.Setup,
 		internalrange.Setup,
+		regionalendpoint.Setup,
 		serviceconnectionpolicy.Setup,
 		spoke.Setup,
 		connectivitytest.Setup,
@@ -1225,6 +1227,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		groupnetworkconnectivity.SetupGated,
 		hub.SetupGated,
 		internalrange.SetupGated,
+		regionalendpoint.SetupGated,
 		serviceconnectionpolicy.SetupGated,
 		spoke.SetupGated,
 		connectivitytest.SetupGated,
@@ -1665,6 +1668,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		groupnetworkconnectivity.SetupWebhookWithManager,
 		hub.SetupWebhookWithManager,
 		internalrange.SetupWebhookWithManager,
+		regionalendpoint.SetupWebhookWithManager,
 		serviceconnectionpolicy.SetupWebhookWithManager,
 		spoke.SetupWebhookWithManager,
 		connectivitytest.SetupWebhookWithManager,
