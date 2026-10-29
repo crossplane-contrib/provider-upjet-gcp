@@ -12,6 +12,9 @@ import (
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("google_monitoring_monitored_project", func(r *config.Resource) {
+		r.Path = "monitoredprojects"
+	})
 	p.AddResourceConfigurator("google_monitoring_slo", func(r *config.Resource) {
 		r.Path = "sloes"
 	})

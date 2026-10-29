@@ -722,6 +722,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_monitoring_group": config.IdentifierFromProvider,
 	// MetricDescriptor can be imported using Name
 	"google_monitoring_metric_descriptor": config.IdentifierFromProvider,
+	// Imported by using locations/global/metricsScopes/{{metrics_scope}}/projects/{{name}}
+	"google_monitoring_monitored_project": config.TemplatedStringAsIdentifier("name", "locations/global/metricsScopes/{{ .parameters.metrics_scope }}/projects/{{ .external_name }}"),
 	// Slo can be imported using Name
 	"google_monitoring_slo": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/services/{{service_id}}
