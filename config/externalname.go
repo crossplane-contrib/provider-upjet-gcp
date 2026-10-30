@@ -1260,11 +1260,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 // storageInsightsReportConfig configures the external name for
 // google_storage_insights_report_config TF resource. The resource name is
-// provider-defined and returned in the computed `name` attribute. The TF
-// import ID uses the format {location}/{name}. During import and state
-// reconstruction, the Terraform provider also expects the computed `name`
-// attribute to be present in addition to the ID in order to return the full
-// observed state. Before the provider assigns a name, no ID is returned.
+// provider-defined and returned in the computed `name` attribute. The TF ID
+// uses the format projects/{project}/locations/{location}/reportConfigs/{name},
+// the same format the Terraform provider sets on create and import, so that
+// status.atProvider.id stays stable across state reconstruction. During import
+// and state reconstruction, the Terraform provider also expects the computed
+// `name` attribute to be present in addition to the ID in order to return the
+// full observed state. Before the provider assigns a name, no ID is returned.
 func storageInsightsReportConfig() config.ExternalName {
 	e := config.IdentifierFromProvider
 	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
@@ -1274,7 +1276,7 @@ func storageInsightsReportConfig() config.ExternalName {
 		base["name"] = externalName
 	}
 
-	e.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, _ map[string]any) (string, error) {
+	e.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
 		if externalName == "" {
 			return "", nil
 		}
@@ -1282,7 +1284,11 @@ func storageInsightsReportConfig() config.ExternalName {
 		if !ok || location == "" {
 			return "", errors.New("location is required to build the storage insights report config ID")
 		}
-		return fmt.Sprintf("%s/%s", location, externalName), nil
+		project, err := projectFromExternalNameArgs(parameters, setup)
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("projects/%s/locations/%s/reportConfigs/%s", project, location, externalName), nil
 	}
 
 	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
