@@ -1,0 +1,50 @@
+apiVersion: apigee.gcp.upbound.io/v1beta2
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/endpointattachment
+    upjet.upbound.io/manual-intervention: "Organization requires a real Project ID"
+  labels:
+    testing.upbound.io/example-name: apigee-endpoint-attachment
+  name: apigee-endpoint-attachment
+spec:
+  forProvider:
+    analyticsRegion: us-central1
+    authorizedNetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee-endpoint-attachment
+    projectId: ${project.project_id}
+
+---
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: TargetServer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_target_server
+  name: apigee-target-server
+spec:
+  forProvider:
+    description: Apigee Target Server
+    envId: organizations/official-provider-testing/environments/test-env
+    host: abc.foo.com
+    port: 8080
+    protocol: HTTP
+---
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: Api 
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/targetserver
+  labels:
+    testing.upbound.io/example-name: apigee_target_server
+  name: apigee-target-server
+spec:
+  forProvider:
+    description: Apigee Target Server
+    envId: organizations/official-provider-testing/environments/test-env
+    host: abc.foo.com
+    port: 8080
+    protocol: HTTP
+

@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	addonsconfig "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/addonsconfig"
+	api "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/api"
 	endpointattachment "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/endpointattachment"
 	envgroup "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/envgroup"
 	envgroupattachment "github.com/upbound/provider-gcp/v3/internal/controller/cluster/apigee/envgroupattachment"
@@ -31,6 +32,7 @@ import (
 func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addonsconfig.Setup,
+		api.Setup,
 		endpointattachment.Setup,
 		envgroup.Setup,
 		envgroupattachment.Setup,
@@ -58,6 +60,7 @@ func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_apigee(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addonsconfig.SetupGated,
+		api.SetupGated,
 		endpointattachment.SetupGated,
 		envgroup.SetupGated,
 		envgroupattachment.SetupGated,
@@ -84,6 +87,7 @@ func SetupGated_apigee(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_apigee(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		addonsconfig.SetupWebhookWithManager,
+		api.SetupWebhookWithManager,
 		endpointattachment.SetupWebhookWithManager,
 		envgroup.SetupWebhookWithManager,
 		envgroupattachment.SetupWebhookWithManager,
