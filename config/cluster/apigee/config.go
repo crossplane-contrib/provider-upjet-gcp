@@ -17,6 +17,12 @@ import (
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) { //nolint:gocyclo
+	p.AddResourceConfigurator("google_apigee_api",func(r *config.Resource){
+		r.References["org_id"] =  config.Reference{
+			TerraformName: "google_apigee_api",
+			Extractor:     common.ExtractResourceIDFuncPath,
+		}
+	})
 	p.AddResourceConfigurator("google_apigee_endpoint_attachment", func(r *config.Resource) {
 		r.References["service_attachment"] = config.Reference{
 			TerraformName: "google_compute_service_attachment",

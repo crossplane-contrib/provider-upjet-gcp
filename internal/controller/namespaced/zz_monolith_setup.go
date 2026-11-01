@@ -21,6 +21,7 @@ import (
 	instance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/instance"
 	user "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/user"
 	addonsconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/addonsconfig"
+	api "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/api"
 	endpointattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/endpointattachment"
 	envgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/envgroup"
 	envgroupattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/envgroupattachment"
@@ -456,6 +457,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instance.Setup,
 		user.Setup,
 		addonsconfig.Setup,
+		api.Setup,
 		endpointattachment.Setup,
 		envgroup.Setup,
 		envgroupattachment.Setup,
@@ -897,6 +899,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instance.SetupGated,
 		user.SetupGated,
 		addonsconfig.SetupGated,
+		api.SetupGated,
 		endpointattachment.SetupGated,
 		envgroup.SetupGated,
 		envgroupattachment.SetupGated,
@@ -1337,6 +1340,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		instance.SetupWebhookWithManager,
 		user.SetupWebhookWithManager,
 		addonsconfig.SetupWebhookWithManager,
+		api.SetupWebhookWithManager,
 		endpointattachment.SetupWebhookWithManager,
 		envgroup.SetupWebhookWithManager,
 		envgroupattachment.SetupWebhookWithManager,
