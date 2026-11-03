@@ -20,7 +20,7 @@ import (
 	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 
-	"github.com/upbound/provider-gcp/v2/config"
+	"github.com/upbound/provider-gcp/v3/config"
 )
 
 func main() {

@@ -51,7 +51,7 @@ spec:
     enableStackdriverLogging: true
     location: global
     speechToTextSettings:
-      - enableSpeechAdaptation: true
+      enableSpeechAdaptation: true
     supportedLanguageCodes:
       - fr
       - de

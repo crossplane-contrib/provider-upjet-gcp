@@ -76,7 +76,7 @@ type AuthInfoParameters struct {
 type CloudFunctionV2InitParameters struct {
 
 	// The fully qualified name of the cloud function resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudfunctions2/v1beta2.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudfunctions2/v1beta2.Function
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -98,7 +98,7 @@ type CloudFunctionV2Observation struct {
 type CloudFunctionV2Parameters struct {
 
 	// The fully qualified name of the cloud function resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudfunctions2/v1beta2.Function
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudfunctions2/v1beta2.Function
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -422,7 +422,7 @@ type PingConfigParameters struct {
 type ResourceGroupInitParameters struct {
 
 	// The group of resources being monitored. Should be the name of a group
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/monitoring/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
@@ -452,7 +452,7 @@ type ResourceGroupObservation struct {
 type ResourceGroupParameters struct {
 
 	// The group of resources being monitored. Should be the name of a group
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/monitoring/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`

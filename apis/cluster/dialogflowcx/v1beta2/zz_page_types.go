@@ -1975,7 +1975,7 @@ type PageInitParameters struct {
 
 	// The flow to create a page for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
 
@@ -2021,7 +2021,7 @@ type PageKnowledgeConnectorSettingsInitParameters struct {
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
@@ -2082,7 +2082,7 @@ type PageKnowledgeConnectorSettingsParameters struct {
 	// The target page to transition to. Format: projects//locations//agents//flows//pages/.
 	// The page must be in the same host flow (the flow that owns this KnowledgeConnectorSettings).
 	// This field is part of a union field target: Only one of targetPage or targetFlow may be set.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
@@ -2132,7 +2132,7 @@ type PageKnowledgeConnectorSettingsTriggerFulfillmentInitParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
@@ -2215,7 +2215,7 @@ type PageKnowledgeConnectorSettingsTriggerFulfillmentParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
@@ -2351,7 +2351,7 @@ type PageParameters struct {
 
 	// The flow to create a page for.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	Parent *string `json:"parent,omitempty" tf:"parent,omitempty"`
@@ -2400,7 +2400,7 @@ type PageTransitionRoutesInitParameters struct {
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
@@ -2463,7 +2463,7 @@ type PageTransitionRoutesParameters struct {
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
@@ -2893,7 +2893,7 @@ type RepromptEventHandlersInitParameters struct {
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
 
@@ -2907,7 +2907,7 @@ type RepromptEventHandlersInitParameters struct {
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
 
@@ -2954,7 +2954,7 @@ type RepromptEventHandlersParameters struct {
 
 	// The target flow to transition to.
 	// Format: projects//locations//agents//flows/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Agent
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Agent
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("start_flow",true)
 	// +kubebuilder:validation:Optional
 	TargetFlow *string `json:"targetFlow,omitempty" tf:"target_flow,omitempty"`
@@ -2969,7 +2969,7 @@ type RepromptEventHandlersParameters struct {
 
 	// The target page to transition to.
 	// Format: projects//locations//agents//flows//pages/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Page
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Page
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetPage *string `json:"targetPage,omitempty" tf:"target_page,omitempty"`
@@ -3031,7 +3031,7 @@ type RepromptEventHandlersTriggerFulfillmentInitParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`
 
@@ -3340,7 +3340,7 @@ type RepromptEventHandlersTriggerFulfillmentParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
 	// The webhook to call. Format: projects//locations//agents//webhooks/.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2.Webhook
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dialogflowcx/v1beta2.Webhook
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Webhook *string `json:"webhook,omitempty" tf:"webhook,omitempty"`

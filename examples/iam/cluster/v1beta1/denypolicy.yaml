@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: iam.gcp.upbound.io/v1beta1
+kind: DenyPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1beta1/denypolicy
+    upjet.upbound.io/manual-intervention: "Requires roles/iam.denyAdmin, which can only be granted at the organization level; the CI service account does not have it."
+  labels:
+    testing.upbound.io/example-name: deny-policy
+  name: deny-policy
+spec:
+  forProvider:
+    # parent is the URL-encoded full resource name of the attachment point:
+    # every "/" has to be escaped as %2F.
+    # Plain form: cloudresourcemanager.googleapis.com/projects/my-project
+    parent: cloudresourcemanager.googleapis.com%2Fprojects%2F${data.cloudplatform_project.projectId}
+    displayName: Deny public project deletion
+    rules:
+      - description: Deny project deletion for public principals
+        denyRule:
+          deniedPermissions:
+            - cloudresourcemanager.googleapis.com/projects.delete
+          deniedPrincipals:
+            - principalSet://goog/public:all

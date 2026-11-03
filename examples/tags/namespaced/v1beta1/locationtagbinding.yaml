@@ -31,8 +31,8 @@ spec:
     ingress: "INGRESS_TRAFFIC_ALL"
     location: us-central1
     template:
-      - containers:
-          - image: us-docker.pkg.dev/cloudrun/container/hello
+      containers:
+        - image: us-docker.pkg.dev/cloudrun/container/hello
 ---
 apiVersion: tags.gcp.m.upbound.io/v1beta1
 kind: TagKey

@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	instance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memorystore/instance"
-	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
+	instance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instance"
+	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
 )
 
 // Setup_memorystore creates all controllers with the supplied logger and adds them to

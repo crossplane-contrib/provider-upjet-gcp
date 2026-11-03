@@ -26,34 +26,39 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/crossplane/upjet/v2/pkg/controller/conversion"
+	"github.com/crossplane/upjet/v2/pkg/diffserver"
 	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
 	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
+	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
-	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
-	providerinit "github.com/upbound/provider-gcp/v2/cmd/provider"
-	"github.com/upbound/provider-gcp/v2/config"
-	resolverapis "github.com/upbound/provider-gcp/v2/internal/apis"
-	"github.com/upbound/provider-gcp/v2/internal/bootcheck"
-	"github.com/upbound/provider-gcp/v2/internal/clients"
-	clustercontroller "github.com/upbound/provider-gcp/v2/internal/controller/cluster"
-	namespacedcontroller "github.com/upbound/provider-gcp/v2/internal/controller/namespaced"
-	"github.com/upbound/provider-gcp/v2/internal/features"
-	"github.com/upbound/provider-gcp/v2/internal/version"
+	clusterapis "github.com/upbound/provider-gcp/v3/apis/cluster"
+	namespacedapis "github.com/upbound/provider-gcp/v3/apis/namespaced"
+	providerinit "github.com/upbound/provider-gcp/v3/cmd/provider"
+	"github.com/upbound/provider-gcp/v3/config"
+	resolverapis "github.com/upbound/provider-gcp/v3/internal/apis"
+	"github.com/upbound/provider-gcp/v3/internal/bootcheck"
+	"github.com/upbound/provider-gcp/v3/internal/clients"
+	clustercontroller "github.com/upbound/provider-gcp/v3/internal/controller/cluster"
+	namespacedcontroller "github.com/upbound/provider-gcp/v3/internal/controller/namespaced"
+	"github.com/upbound/provider-gcp/v3/internal/features"
+	"github.com/upbound/provider-gcp/v3/internal/version"
 )
 
 const (
@@ -86,6 +91,7 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 
 		enableManagementPolicies = app.Flag("enable-management-policies", "Enable support for Management Policies.").Default("true").Envar("ENABLE_MANAGEMENT_POLICIES").Bool()
 		enableChangeLogs         = app.Flag("enable-changelogs", "Enable support for capturing change logs during reconciliation.").Default("false").Envar("ENABLE_CHANGE_LOGS").Bool()
+		enableSecretCache        = app.Flag("enable-secret-cache", "Enable caching for Secrets. Disabling this can reduce memory usage at the cost of additional API server load.").Default("true").Envar("ENABLE_SECRET_CACHE").Bool()
 
 		certsDirSet = false
 		// we record whether the command-line option "--certs-dir" was supplied
@@ -94,22 +100,58 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 			certsDirSet = true
 			return nil
 		}).String()
+
+		internalCmd   = app.Command("internal", "Commands used internally by the provider, not intended for interactive use.")
+		diffServerCmd = internalCmd.Command("diff-server", "Start the diff gRPC server.")
+		diffNetwork   = diffServerCmd.Flag("network", "The network the diff gRPC server listens on.").Default("tcp").Envar("DIFF_SERVER_NETWORK").Enum("tcp", "unix")
+		diffAddress   = diffServerCmd.Flag("address", "The address the diff gRPC server listens on.").Default(":9099").Envar("DIFF_SERVER_ADDRESS").String()
 	)
 
 	_ = app.Command("core", "Run the provider controllers.").Default()
 	initCmd := app.Command("init", "Run provider initialization tasks (e.g. storage version migration) and exit. Intended for use as an init container.")
 	cmd := kingpin.MustParse(app.Parse(os.Args[1:]))
-
 	log.Default().SetOutput(io.Discard)
-	ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
 
 	zl := zap.New(zap.UseDevMode(*debug))
 	logr := logging.NewLogrLogger(zl.WithName("provider-gcp"))
 	if *debug {
-		// The controller-runtime runs with a no-op logger by default. It is
-		// *very* verbose even at info level, so we only provide it a real
-		// logger when we're running in debug mode.
+		// The controller-runtime logger is *very* verbose even at info
+		// level, so we only provide it a real logger in debug mode.
 		ctrl.SetLogger(zl)
+	} else {
+		// controller-runtime requires a logger to be set explicitly, otherwise it
+		// prints a "log.SetLogger(...) was never called" warning with a stack
+		// trace and discards its logs anyway. Give it one that writes nowhere
+		// unless we are running in debug mode. controller-runtime honours only
+		// the first SetLogger call, so it must not be set unconditionally above.
+		ctrl.SetLogger(zap.New(zap.WriteTo(io.Discard)))
+	}
+
+	ctx := context.Background()
+	sdkProvider := provider.Provider()
+	fwProvider := fwprovider.New(sdkProvider)
+	clusterProvider, err := config.GetProvider(ctx, sdkProvider, fwProvider, false)
+	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
+	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
+	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
+
+	// The diff server never talks to the Kubernetes API itself - its kube
+	// client is in-memory, seeded per request from the PlanRequest - so it is
+	// dispatched here, before a real cluster connection (ctrl.GetConfig,
+	// ctrl.NewManager below) is required to run this binary at all.
+	if cmd == diffServerCmd.FullCommand() {
+		diffScheme := runtime.NewScheme()
+		kingpin.FatalIfError(corev1.AddToScheme(diffScheme), "Cannot add client-go APIs to the diff-server scheme")
+		kingpin.FatalIfError(clusterapis.AddToScheme(diffScheme), "Cannot add cluster-scoped GCP APIs to the diff-server scheme")
+		kingpin.FatalIfError(namespacedapis.AddToScheme(diffScheme), "Cannot add namespace-scoped GCP APIs to the diff-server scheme")
+		s := diffserver.NewServer(
+			diffserver.WithProviderConfigurations(clusterProvider, namespacedProvider),
+			diffserver.WithLogger(logr),
+			diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(sdkProvider)),
+			diffserver.WithAPIGroups("dataflow"),
+		)
+		kingpin.FatalIfError(s.Serve(ctrl.SetupSignalHandler(), *diffNetwork, *diffAddress, diffScheme), "Cannot serve the diff gRPC server")
+		return
 	}
 
 	// currently, we configure the jitter to be the 5% of the poll interval
@@ -142,11 +184,41 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 		}
 	}
 
+	scheme := runtime.NewScheme()
+	kingpin.FatalIfError(clientgoscheme.AddToScheme(scheme), "Cannot add client-go APIs to scheme")
+	kingpin.FatalIfError(clusterapis.AddToScheme(scheme), "Cannot add cluster-scoped GCP APIs to scheme")
+	kingpin.FatalIfError(resolverapis.BuildScheme(clusterapis.AddToSchemes), "Cannot register the cluster-scoped GCP APIs with the API resolver's runtime scheme")
+	kingpin.FatalIfError(namespacedapis.AddToScheme(scheme), "Cannot add namespace-scoped GCP APIs to scheme")
+	kingpin.FatalIfError(resolverapis.BuildScheme(namespacedapis.AddToSchemes), "Cannot register the namespace-scoped GCP APIs with the API resolver's runtime scheme")
+	kingpin.FatalIfError(apiextensionsv1.AddToScheme(scheme), "Cannot add api-extensions APIs to scheme")
+
+	// Secret caching is enabled by default. Disabling it trades API server
+	// load for lower provider memory usage.
+	var clientOpts client.Options
+	if !*enableSecretCache {
+		clientOpts = client.Options{
+			Cache: &client.CacheOptions{
+				DisableFor: []client.Object{&corev1.Secret{}},
+			},
+		}
+	}
+
 	mgr, err := ctrl.NewManager(ratelimiter.LimitRESTConfig(cfg, *maxReconcileRate), ctrl.Options{
+		Scheme:           scheme,
+		Client:           clientOpts,
 		LeaderElection:   *leaderElection,
 		LeaderElectionID: "crossplane-leader-election-provider-gcp-dataflow",
 		Cache: cache.Options{
 			SyncPeriod: syncInterval,
+			ByObject: map[client.Object]cache.ByObject{
+				&apiextensionsv1.CustomResourceDefinition{}: {
+					// CRD OpenAPI schemas are large and unused by the
+					// provider once a CRD is established; stripping them
+					// from the informer cache substantially reduces memory
+					// usage.
+					Transform: customresourcesgate.TransformStripCRDSchema,
+				},
+			},
 		},
 		Metrics: metricsserver.Options{
 			BindAddress: *metricsBindAddress,
@@ -166,25 +238,11 @@ func main() { //nolint:gocyclo // easier to follow as a unit
 		kingpin.FatalIfError(mgr.AddReadyzCheck("webhook", mgr.GetWebhookServer().StartedChecker()), "Cannot add webhook server readyz checker to controller manager")
 	}
 
-	kingpin.FatalIfError(clusterapis.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped GCP APIs to scheme")
-	kingpin.FatalIfError(resolverapis.BuildScheme(clusterapis.AddToSchemes), "Cannot register the cluster-scoped Azure APIs with the API resolver's runtime scheme")
-	kingpin.FatalIfError(namespacedapis.AddToScheme(mgr.GetScheme()), "Cannot add namespace-scoped GCP APIs to scheme")
-	kingpin.FatalIfError(resolverapis.BuildScheme(namespacedapis.AddToSchemes), "Cannot register the namespace-scoped Azure APIs with the API resolver's runtime scheme")
-	kingpin.FatalIfError(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
-
 	metricRecorder := managed.NewMRMetricRecorder()
 	stateMetrics := statemetrics.NewMRStateMetrics()
 
 	metrics.Registry.MustRegister(metricRecorder)
 	metrics.Registry.MustRegister(stateMetrics)
-
-	ctx := context.Background()
-	sdkProvider := provider.Provider()
-	fwProvider := fwprovider.New(sdkProvider)
-	clusterProvider, err := config.GetProvider(ctx, sdkProvider, fwProvider, false)
-	kingpin.FatalIfError(err, "Cannot initialize the cluster provider configuration")
-	namespacedProvider, err := config.GetNamespacedProvider(ctx, sdkProvider, fwProvider, false)
-	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 
 	if cmd == initCmd.FullCommand() {
 		kingpin.FatalIfError(providerinit.RunStorageVersionMigration(ctx, logr, mgr, "dataflow"), "Cannot run storage version migrator")

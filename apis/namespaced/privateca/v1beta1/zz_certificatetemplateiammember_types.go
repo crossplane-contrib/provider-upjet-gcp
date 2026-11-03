@@ -43,8 +43,8 @@ type CertificateTemplateIAMMemberConditionParameters struct {
 
 type CertificateTemplateIAMMemberInitParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CertificateTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 
 	// Reference to a CertificateTemplate in privateca to populate certificateTemplate.
@@ -86,8 +86,8 @@ type CertificateTemplateIAMMemberObservation struct {
 
 type CertificateTemplateIAMMemberParameters struct {
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CertificateTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/privateca/v1beta1.CertificateTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateTemplate *string `json:"certificateTemplate,omitempty" tf:"certificate_template,omitempty"`
 

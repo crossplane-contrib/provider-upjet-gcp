@@ -12,6 +12,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    deletionProtection: false
     launchStage: BETA
     location: us-central1
     template:

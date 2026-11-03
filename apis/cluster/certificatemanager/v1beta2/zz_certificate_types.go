@@ -75,6 +75,9 @@ type CertificateInitParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedInitParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
@@ -130,6 +133,9 @@ type CertificateObservation struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedObservation `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 
@@ -183,6 +189,9 @@ type CertificateParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelfManaged *SelfManagedParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
@@ -191,7 +200,7 @@ type CertificateParameters struct {
 type ManagedInitParameters struct {
 
 	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
 
@@ -205,7 +214,7 @@ type ManagedInitParameters struct {
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain",false)
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`
 
@@ -256,7 +265,7 @@ type ManagedObservation struct {
 type ManagedParameters struct {
 
 	// Authorizations that will be used for performing domain authorization. Either issuanceConfig or dnsAuthorizations should be specificed, but not both.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DNSAuthorizations []*string `json:"dnsAuthorizations,omitempty" tf:"dns_authorizations,omitempty"`
@@ -271,7 +280,7 @@ type ManagedParameters struct {
 
 	// The domains for which a managed SSL certificate will be generated.
 	// Wildcard domains are only supported with DNS challenge resolution
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/certificatemanager/v1beta1.DNSAuthorization
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain",false)
 	// +kubebuilder:validation:Optional
 	Domains []*string `json:"domains,omitempty" tf:"domains,omitempty"`

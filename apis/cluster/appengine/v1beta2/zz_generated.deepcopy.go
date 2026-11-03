@@ -1561,6 +1561,17 @@ func (in *StandardAppVersionInitParameters) DeepCopyInto(out *StandardAppVersion
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AppEngineBundledServices != nil {
+		in, out := &in.AppEngineBundledServices, &out.AppEngineBundledServices
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.AutomaticScaling != nil {
 		in, out := &in.AutomaticScaling, &out.AutomaticScaling
 		*out = new(AutomaticScalingInitParameters)
@@ -1734,6 +1745,17 @@ func (in *StandardAppVersionObservation) DeepCopyInto(out *StandardAppVersionObs
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AppEngineBundledServices != nil {
+		in, out := &in.AppEngineBundledServices, &out.AppEngineBundledServices
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.AutomaticScaling != nil {
 		in, out := &in.AutomaticScaling, &out.AutomaticScaling
 		*out = new(AutomaticScalingObservation)
@@ -1884,6 +1906,17 @@ func (in *StandardAppVersionParameters) DeepCopyInto(out *StandardAppVersionPara
 		in, out := &in.AppEngineApis, &out.AppEngineApis
 		*out = new(bool)
 		**out = **in
+	}
+	if in.AppEngineBundledServices != nil {
+		in, out := &in.AppEngineBundledServices, &out.AppEngineBundledServices
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.AutomaticScaling != nil {
 		in, out := &in.AutomaticScaling, &out.AutomaticScaling

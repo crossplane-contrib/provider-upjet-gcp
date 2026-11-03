@@ -27,9 +27,14 @@ type GatewayInitParameters struct {
 	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
+	// Optional. If true, the gateway will allow traffic from clients outside
+	// of the region where the gateway is located.
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/certificatemanager/v1beta1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
 
@@ -57,7 +62,7 @@ type GatewayInitParameters struct {
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networksecurity/v1beta1.GatewaySecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
 
@@ -80,7 +85,7 @@ type GatewayInitParameters struct {
 	// The relative resource name identifying the VPC network that is using this configuration.
 	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -116,7 +121,7 @@ type GatewayInitParameters struct {
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -146,6 +151,11 @@ type GatewayObservation struct {
 	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
 	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
+	// Optional. If true, the gateway will allow traffic from clients outside
+	// of the region where the gateway is located.
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
@@ -258,9 +268,15 @@ type GatewayParameters struct {
 	// +kubebuilder:validation:Optional
 	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
+	// Optional. If true, the gateway will allow traffic from clients outside
+	// of the region where the gateway is located.
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	// +kubebuilder:validation:Optional
+	AllowGlobalAccess *bool `json:"allowGlobalAccess,omitempty" tf:"allow_global_access,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/certificatemanager/v1beta1.Certificate
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/certificatemanager/v1beta1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateUrls []*string `json:"certificateUrls,omitempty" tf:"certificate_urls,omitempty"`
@@ -292,7 +308,7 @@ type GatewayParameters struct {
 	// A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections.
 	// For example: 'projects//locations//gatewaySecurityPolicies/swg-policy'.
 	// This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/networksecurity/v1beta1.GatewaySecurityPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1.GatewaySecurityPolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GatewaySecurityPolicy *string `json:"gatewaySecurityPolicy,omitempty" tf:"gateway_security_policy,omitempty"`
@@ -323,7 +339,7 @@ type GatewayParameters struct {
 	// The relative resource name identifying the VPC network that is using this configuration.
 	// For example: 'projects/*/global/networks/network-1'.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -365,7 +381,7 @@ type GatewayParameters struct {
 	// The relative resource name identifying the subnetwork in which this SWG is allocated.
 	// For example: projects/*/regions/us-central1/subnetworks/network-1.
 	// Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`

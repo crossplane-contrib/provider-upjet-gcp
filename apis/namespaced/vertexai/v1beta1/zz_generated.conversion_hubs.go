@@ -16,4 +16,16 @@ func (tr *Featurestore) Hub() {}
 func (tr *FeaturestoreEntitytype) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ReasoningEngine) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReasoningEngineIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReasoningEngineIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReasoningEngineIAMPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Tensorboard) Hub() {}

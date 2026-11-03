@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: services.cloudrun.gcp.upbound.io
 spec:
   group: cloudrun.gcp.upbound.io
@@ -631,6 +631,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -1575,6 +1579,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -2623,6 +2631,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: instancefromtemplates.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -627,6 +627,8 @@ spec:
                         type: boolean
                       availabilityDomain:
                         type: number
+                      hostErrorTimeoutSeconds:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -799,6 +801,13 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  workloadIdentityConfig:
+                    properties:
+                      identity:
+                        type: string
+                      identityCertificateEnabled:
+                        type: boolean
+                    type: object
                   zone:
                     description: |-
                       The zone that the machine should be created in. If not
@@ -1386,6 +1395,8 @@ spec:
                         type: boolean
                       availabilityDomain:
                         type: number
+                      hostErrorTimeoutSeconds:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -1558,6 +1569,13 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  workloadIdentityConfig:
+                    properties:
+                      identity:
+                        type: string
+                      identityCertificateEnabled:
+                        type: boolean
+                    type: object
                   zone:
                     description: |-
                       The zone that the machine should be created in. If not
@@ -1968,6 +1986,8 @@ spec:
                         type: boolean
                       availabilityDomain:
                         type: number
+                      hostErrorTimeoutSeconds:
+                        type: number
                       instanceTerminationAction:
                         type: string
                       localSsdRecoveryTimeout:
@@ -2067,6 +2087,13 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  workloadIdentityConfig:
+                    properties:
+                      identity:
+                        type: string
+                      identityCertificateEnabled:
+                        type: boolean
+                    type: object
                   zone:
                     description: |-
                       The zone that the machine should be created in. If not

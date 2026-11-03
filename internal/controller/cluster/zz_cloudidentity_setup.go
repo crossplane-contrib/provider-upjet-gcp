@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	group "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudidentity/group"
-	groupmembership "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudidentity/groupmembership"
+	group "github.com/upbound/provider-gcp/v3/internal/controller/cluster/cloudidentity/group"
+	groupmembership "github.com/upbound/provider-gcp/v3/internal/controller/cluster/cloudidentity/groupmembership"
 )
 
 // Setup_cloudidentity creates all controllers with the supplied logger and adds them to

@@ -63,7 +63,7 @@ type WorkflowInitParameters struct {
 	// The {account} value can be the email address or the unique_id of the service account.
 	// If not provided, workflow will use the project's default service account.
 	// Modifying this field for an existing workflow results in a new workflow revision.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -76,6 +76,7 @@ type WorkflowInitParameters struct {
 	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
+	// ~> Warning: This field is currently optional but will become REQUIRED in version 8.0.0 of the provider to align with API constraints.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
 	// A map of resource manager tags. Resource manager tag keys and values have the same definition
@@ -159,6 +160,7 @@ type WorkflowObservation struct {
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Workflow code to be executed. The size limit is 128KB.
+	// ~> Warning: This field is currently optional but will become REQUIRED in version 8.0.0 of the provider to align with API constraints.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
 	// State of the workflow deployment.
@@ -243,7 +245,7 @@ type WorkflowParameters struct {
 	// The {account} value can be the email address or the unique_id of the service account.
 	// If not provided, workflow will use the project's default service account.
 	// Modifying this field for an existing workflow results in a new workflow revision.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -257,6 +259,7 @@ type WorkflowParameters struct {
 	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
+	// ~> Warning: This field is currently optional but will become REQUIRED in version 8.0.0 of the provider to align with API constraints.
 	// +kubebuilder:validation:Optional
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 

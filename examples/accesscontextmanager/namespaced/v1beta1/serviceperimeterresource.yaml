@@ -49,6 +49,6 @@ spec:
     name: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}/servicePerimeters/restrict_all
     parent: accessPolicies/${google_access_context_manager_access_policy.access-policy.name}
     status:
-      - restrictedServices:
-          - storage.googleapis.com
+      restrictedServices:
+        - storage.googleapis.com
     title: restrict_all

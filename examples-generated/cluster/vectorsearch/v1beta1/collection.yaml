@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vectorsearch.gcp.upbound.io/v1beta1
+kind: Collection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vectorsearch/v1beta1/collection
+  labels:
+    testing.upbound.io/example-name: example-collection
+  name: example-collection
+spec:
+  forProvider:
+    dataSchema: |
+      {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "plot": {
+            "type": "string"
+          }
+        }
+      }
+    description: This collection stores important data.
+    displayName: My Awesome Collection
+    labels:
+      env: dev
+      team: my-team
+    location: us-central1
+    vectorSchema:
+    - denseVector:
+        dimensions: 768
+        vertexEmbeddingConfig:
+          modelId: textembedding-gecko@003
+          taskType: RETRIEVAL_DOCUMENT
+          textTemplate: 'Title: {title} ---- Plot: {plot}'
+      fieldName: text_embedding

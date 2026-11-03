@@ -12,11 +12,11 @@ import (
 	"k8s.io/utils/ptr"
 	"sigs.k8s.io/randfill"
 
-	clusterapis "github.com/upbound/provider-gcp/v2/apis/cluster"
-	storageclusterv1beta3 "github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3"
-	namespacedapis "github.com/upbound/provider-gcp/v2/apis/namespaced"
-	storagensv1beta2 "github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2"
-	"github.com/upbound/provider-gcp/v2/config"
+	clusterapis "github.com/upbound/provider-gcp/v3/apis/cluster"
+	storageclusterv1beta3 "github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3"
+	namespacedapis "github.com/upbound/provider-gcp/v3/apis/namespaced"
+	storagensv1beta2 "github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2"
+	"github.com/upbound/provider-gcp/v3/config"
 )
 
 func TestRoundTrip(t *testing.T) {

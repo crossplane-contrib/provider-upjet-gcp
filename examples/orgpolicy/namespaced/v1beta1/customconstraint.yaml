@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: orgpolicy.gcp.m.upbound.io/v1beta1
+kind: CustomConstraint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: orgpolicy/v1beta1/customconstraint
+    upjet.upbound.io/manual-intervention: "Custom constraints are created on an organization, and the CI service account has no organization-level roles."
+    crossplane.io/external-name: custom.disableGkeAutoUpgradeNamespaced
+  labels:
+    testing.upbound.io/example-name: customconstraint
+  name: customconstraint
+  namespace: upbound-system
+spec:
+  forProvider:
+    parent: organizations/123456789
+    displayName: Disable GKE auto upgrade
+    description: Only allow GKE NodePool resource to be created or updated if AutoUpgrade is not enabled.
+    actionType: ALLOW
+    condition: resource.management.autoUpgrade == false
+    methodTypes:
+      - CREATE
+      - UPDATE
+    resourceTypes:
+      - container.googleapis.com/NodePool

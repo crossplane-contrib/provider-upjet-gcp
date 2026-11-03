@@ -7,17 +7,20 @@ package container
 import (
 	"encoding/base64"
 	"net/url"
+	"sort"
+	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
+	"github.com/crossplane/crossplane-runtime/v2/pkg/errors"
 	"github.com/crossplane/upjet/v2/pkg/config"
-	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 
-	"github.com/upbound/provider-gcp/v2/config/namespaced/common"
+	"github.com/upbound/provider-gcp/v3/config/namespaced/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -50,79 +53,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			},
 		}
 		config.MoveToStatus(r.TerraformResource, "node_pool")
-		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
-			name, err := common.GetField(attr, "name")
-			if err != nil {
-				return nil, err
-			}
-			endpoint, err := common.GetField(attr, "endpoint")
-			if err != nil {
-				return nil, err
-			}
-			server, err := url.Parse(endpoint)
-			if err != nil {
-				return nil, errors.Wrapf(err, "cannot parse API server endpoint")
-			}
-			// NOTE(hasheddan): the endpoint returned is just an IP address, and
-			// clients will default to http, causing any authentication
-			// information to be omitted. We set to https to allow
-			// authentication.
-			server.Scheme = "https"
-			caData, err := common.GetField(attr, "master_auth[0].cluster_ca_certificate")
-			if err != nil {
-				return nil, err
-			}
-			caDataBytes, err := base64.StdEncoding.DecodeString(caData)
-			if err != nil {
-				return nil, errors.Wrapf(err, "cannot serialize cluster ca data")
-			}
-			clientCertData, err := common.GetField(attr, "master_auth[0].client_certificate")
-			if err != nil {
-				return nil, err
-			}
-			clientCertDataBytes, err := base64.StdEncoding.DecodeString(clientCertData)
-			if err != nil {
-				return nil, errors.Wrapf(err, "cannot serialize cluster client cert data")
-			}
-			clientKeyData, err := common.GetField(attr, "master_auth[0].client_key")
-			if err != nil {
-				return nil, err
-			}
-			clientKeyDataBytes, err := base64.StdEncoding.DecodeString(clientKeyData)
-			if err != nil {
-				return nil, errors.Wrapf(err, "cannot serialize cluster client key data")
-			}
-			kc := clientcmdapi.Config{
-				Kind:       "Config",
-				APIVersion: "v1",
-				Clusters: map[string]*clientcmdapi.Cluster{
-					name: {
-						Server:                   server.String(),
-						CertificateAuthorityData: caDataBytes,
-					},
-				},
-				AuthInfos: map[string]*clientcmdapi.AuthInfo{
-					name: {
-						ClientCertificateData: clientCertDataBytes,
-						ClientKeyData:         clientKeyDataBytes,
-					},
-				},
-				Contexts: map[string]*clientcmdapi.Context{
-					name: {
-						Cluster:  name,
-						AuthInfo: name,
-					},
-				},
-				CurrentContext: name,
-			}
-			kcb, err := clientcmd.Write(kc)
-			if err != nil {
-				return nil, errors.Wrap(err, "cannot serialize kubeconfig")
-			}
-			return map[string][]byte{
-				"kubeconfig": kcb,
-			}, nil
-		}
+		r.Sensitive.AdditionalConnectionDetailsFn = clusterConnectionDetails
 		r.References["network"] = config.Reference{
 			TerraformName: "google_compute_network",
 			Extractor:     common.PathSelfLinkExtractor,
@@ -146,11 +77,14 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		r.TerraformResource.Schema["database_encryption"].Elem.(*schema.Resource).
 			Schema["state"].DiffSuppressFunc = DatabaseEncryptionSuppress
 
+		r.TerraformConfigurationInjector = injectEmptyKubeletConfig
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Empty() || diff.Destroy || diff.Attributes == nil {
 				return diff, nil
 			}
 			delete(diff.Attributes, "autopilot_cluster_policy_config.#")
+			dropEmptyKubeletConfigDiff(diff)
+			suppressEnableComponentsOrderDiff(diff)
 			return diff, nil
 		}
 	})
@@ -169,28 +103,266 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 
+		r.TerraformConfigurationInjector = injectEmptyKubeletConfig
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Destroy {
 				return diff, nil
 			}
-			if ppDiff, ok := diff.Attributes["placement_policy.#"]; ok && ppDiff.Old == "" && ppDiff.New == "" {
-				delete(diff.Attributes, "placement_policy.#")
-			}
-			if asDiff, ok := diff.Attributes["autoscaling.#"]; ok && asDiff.Old == "" && asDiff.New == "" {
-				delete(diff.Attributes, "autoscaling.#")
-			}
-			if qpDiff, ok := diff.Attributes["queued_provisioning.#"]; ok && qpDiff.Old == "" && qpDiff.New == "" {
-				delete(diff.Attributes, "queued_provisioning.#")
-			}
+			dropEmptyOptionalComputedBlockDiffs(diff)
 			if incDiff, ok := diff.Attributes["initial_node_count"]; ok && incDiff.Old != "" {
 				// Changes to actual node count can alter the value TF calculates for initial_node_count, resulting in
 				// errors as initial_node_count cannot be updated. TF docs suggest using lifecycle ignore_changes for this
 				// attribute.
 				delete(diff.Attributes, "initial_node_count")
 			}
+			dropEmptyKubeletConfigDiff(diff)
 			return diff, nil
 		}
 	})
+}
+
+// injectEmptyKubeletConfig sets node_config.*.kubelet_config to an empty list
+// when it is not configured. upjet derives the Terraform raw config from these
+// parameters and leaves an unset nested block null, whereas Terraform decodes
+// it as an empty list. The underlying Terraform google provider's
+// expandNodeConfig calls LengthInt() on the raw kubelet_config without a null
+// check, so a node_config without a kubelet_config panics with "value is null"
+// on create.
+func injectEmptyKubeletConfig(_ map[string]any, tfMap map[string]any) error {
+	nodeConfigs, ok := tfMap["node_config"].([]any)
+	if !ok {
+		return nil
+	}
+	for _, nc := range nodeConfigs {
+		nodeConfig, ok := nc.(map[string]any)
+		if !ok {
+			continue
+		}
+		if nodeConfig["kubelet_config"] == nil {
+			nodeConfig["kubelet_config"] = []any{}
+		}
+	}
+	return nil
+}
+
+// dropEmptyKubeletConfigDiff removes the node_config.*.kubelet_config.# entry
+// from the computed diff when no kubelet_config is configured. The empty list
+// set by injectEmptyKubeletConfig is diffed by the Terraform SDK against a
+// kubelet_config reported by GKE as a removal ("1" => "0"). kubelet_config is
+// optional and computed, so an unset block must keep the observed value, as it
+// does under Terraform. This changes nothing when a real kubelet_config is set
+// (its ".#" is non-zero and is left untouched).
+func dropEmptyKubeletConfigDiff(diff *terraform.InstanceDiff) {
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+	for key, ad := range diff.Attributes {
+		if isEmptyNodeConfigKubeletCount(key, ad) {
+			delete(diff.Attributes, key)
+		}
+	}
+}
+
+// isEmptyNodeConfigKubeletCount reports whether key/ad is a
+// node_config.*.kubelet_config.# count entry for an unconfigured kubelet_config
+// (desired count 0/unset).
+func isEmptyNodeConfigKubeletCount(key string, ad *terraform.ResourceAttrDiff) bool {
+	if ad == nil {
+		return false
+	}
+	if !strings.HasSuffix(key, "kubelet_config.#") || !strings.Contains(key, "node_config.") {
+		return false
+	}
+	return ad.New == "" || ad.New == "0"
+}
+
+// suppressEnableComponentsOrderDiff removes order-only diffs on
+// monitoring_config.0.enable_components. The GCP API may return components in
+// a different order than what was specified, which causes a perpetual diff
+// because the underlying TF provider uses TypeList (order-sensitive) for this
+// field. We suppress the diff when the sorted old and new element sets are
+// identical, indicating no real change.
+func suppressEnableComponentsOrderDiff(diff *terraform.InstanceDiff) { //nolint:gocyclo // easier to follow as a unit
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+
+	prefix := "monitoring_config.0.enable_components."
+	countKey := prefix + "#"
+
+	// Early exit: if the element count changed, it is a real diff.
+	if cd, ok := diff.Attributes[countKey]; ok && cd.Old != cd.New {
+		return
+	}
+
+	var oldVals, newVals []string
+	var indexedKeys []string
+	for key, ad := range diff.Attributes {
+		if !strings.HasPrefix(key, prefix) {
+			continue
+		}
+		suffix := strings.TrimPrefix(key, prefix)
+		if suffix == "#" {
+			continue
+		}
+		if _, err := strconv.Atoi(suffix); err != nil {
+			continue
+		}
+		indexedKeys = append(indexedKeys, key)
+		oldVals = append(oldVals, ad.Old)
+		newVals = append(newVals, ad.New)
+	}
+
+	if len(indexedKeys) == 0 {
+		return
+	}
+
+	sort.Strings(oldVals)
+	sort.Strings(newVals)
+
+	if len(oldVals) != len(newVals) {
+		return
+	}
+	for i := range oldVals {
+		if oldVals[i] != newVals[i] {
+			return
+		}
+	}
+
+	// Pure reorder — remove from diff so no update is triggered.
+	for _, key := range indexedKeys {
+		delete(diff.Attributes, key)
+	}
+	delete(diff.Attributes, countKey)
+}
+
+// dropEmptyOptionalComputedBlockDiffs removes phantom empty->empty diffs for
+// Optional+Computed nested blocks on google_container_node_pool. When such a
+// block is never set by the caller, the provider surfaces a permanent no-op
+// diff that drives a reconcile hot-loop (the resulting update issues no GKE
+// operation). node_drain_config was added in TF-google 7.x and exhibits this,
+// as does maintenance_policy, added in TF-google 7.46.
+func dropEmptyOptionalComputedBlockDiffs(diff *terraform.InstanceDiff) {
+	if diff == nil || diff.Attributes == nil {
+		return
+	}
+	for _, key := range []string{
+		"placement_policy.#",
+		"autoscaling.#",
+		"queued_provisioning.#",
+		"node_drain_config.#",
+		"maintenance_policy.#",
+	} {
+		if ad, ok := diff.Attributes[key]; ok && ad.Old == "" && ad.New == "" {
+			delete(diff.Attributes, key)
+		}
+	}
+}
+
+// clusterConnectionDetails builds the kubeconfig published in the connection
+// secret of a container.Cluster.
+func clusterConnectionDetails(attr map[string]interface{}) (map[string][]byte, error) { //nolint:gocyclo // easier to follow as a unit
+	name, err := common.GetField(attr, "name")
+	if err != nil {
+		return nil, err
+	}
+	endpoint, err := common.GetField(attr, "endpoint")
+	if err != nil {
+		return nil, err
+	}
+	server, err := url.Parse(endpoint)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot parse API server endpoint")
+	}
+	// NOTE(hasheddan): the endpoint returned is just an IP address, and
+	// clients will default to http, causing any authentication
+	// information to be omitted. We set to https to allow
+	// authentication.
+	server.Scheme = "https"
+
+	kcCluster := &clientcmdapi.Cluster{
+		Server: server.String(),
+	}
+	// GKE reports the DNS endpoint in place of an IP address when
+	// ipEndpointsConfig is disabled. That endpoint is served by Google Front
+	// End, which presents a publicly trusted certificate rather than one
+	// signed by masterAuth.clusterCaCertificate, so pinning the cluster CA
+	// against it fails TLS validation. Leave those clients on the system
+	// trust store instead.
+	if !servesDNSEndpoint(attr, endpoint) {
+		caData, err := common.GetField(attr, "master_auth[0].cluster_ca_certificate")
+		if err != nil {
+			return nil, err
+		}
+		caDataBytes, err := base64.StdEncoding.DecodeString(caData)
+		if err != nil {
+			return nil, errors.Wrap(err, "cannot serialize cluster ca data")
+		}
+		kcCluster.CertificateAuthorityData = caDataBytes
+	}
+
+	clientCertData, err := common.GetField(attr, "master_auth[0].client_certificate")
+	if err != nil {
+		return nil, err
+	}
+	clientCertDataBytes, err := base64.StdEncoding.DecodeString(clientCertData)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot serialize cluster client cert data")
+	}
+	clientKeyData, err := common.GetField(attr, "master_auth[0].client_key")
+	if err != nil {
+		return nil, err
+	}
+	clientKeyDataBytes, err := base64.StdEncoding.DecodeString(clientKeyData)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot serialize cluster client key data")
+	}
+	kc := clientcmdapi.Config{
+		Kind:       "Config",
+		APIVersion: "v1",
+		Clusters: map[string]*clientcmdapi.Cluster{
+			name: kcCluster,
+		},
+		AuthInfos: map[string]*clientcmdapi.AuthInfo{
+			name: {
+				ClientCertificateData: clientCertDataBytes,
+				ClientKeyData:         clientKeyDataBytes,
+			},
+		},
+		Contexts: map[string]*clientcmdapi.Context{
+			name: {
+				Cluster:  name,
+				AuthInfo: name,
+			},
+		},
+		CurrentContext: name,
+	}
+	kcb, err := clientcmd.Write(kc)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot serialize kubeconfig")
+	}
+	return map[string][]byte{
+		"kubeconfig": kcb,
+	}, nil
+}
+
+// servesDNSEndpoint reports whether endpoint is the cluster's DNS based
+// control plane endpoint rather than an IP address.
+func servesDNSEndpoint(attr map[string]interface{}, endpoint string) bool {
+	dnsEndpoint, err := common.GetField(attr, "control_plane_endpoints_config[0].dns_endpoint_config[0].endpoint")
+	if err != nil || dnsEndpoint == "" {
+		return false
+	}
+	return endpointHost(dnsEndpoint) == endpointHost(endpoint)
+}
+
+// endpointHost normalizes a GKE endpoint, which the API reports without a
+// scheme, so that two endpoints can be compared.
+func endpointHost(endpoint string) string {
+	if u, err := url.Parse(endpoint); err == nil && u.Host != "" {
+		return u.Host
+	}
+	return endpoint
 }
 
 func DatabaseEncryptionSuppress(k, old, new string, d *schema.ResourceData) bool {

@@ -36,9 +36,10 @@ spec:
         key: example-key
         name: example-secret
     location: us-central1
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: google_compute_network
+    networkConfig:
+      networkSelector:
+        matchLabels:
+          testing.upbound.io/example-name: google_compute_network
 ---
 apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: GlobalAddress

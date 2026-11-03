@@ -87,24 +87,23 @@ spec:
   forProvider:
     deletionProtection: false
     defaultSnatStatus:
-      - disabled: true
+      disabled: true
     initialNodeCount: 1
     ipAllocationPolicy:
-      - clusterSecondaryRangeName: pod
-        servicesSecondaryRangeName: svc
+      clusterSecondaryRangeName: pod
+      servicesSecondaryRangeName: svc
     location: us-central1-c
-    masterAuthorizedNetworksConfig:
-      - {}
+    masterAuthorizedNetworksConfig: {}
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: example1
     networkingMode: VPC_NATIVE
     privateClusterConfig:
-      - enablePrivateEndpoint: true
-        enablePrivateNodes: true
-        masterGlobalAccessConfig:
-          - enabled: true
-        masterIpv4CidrBlock: 10.42.0.0/28
+      enablePrivateEndpoint: true
+      enablePrivateNodes: true
+      masterGlobalAccessConfig:
+        enabled: true
+      masterIpv4CidrBlock: 10.42.0.0/28
     subnetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: example

@@ -16,7 +16,7 @@ import (
 type ManagedFolderInitParameters struct {
 
 	// The name of the bucket that contains the managed folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -76,7 +76,7 @@ type ManagedFolderObservation struct {
 type ManagedFolderParameters struct {
 
 	// The name of the bucket that contains the managed folder.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 

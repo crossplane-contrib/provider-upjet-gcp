@@ -74,7 +74,7 @@ type MatchInitParameters struct {
 	Layer4Configs []Layer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1.AddressGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
 
@@ -97,7 +97,7 @@ type MatchInitParameters struct {
 	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
 
 	// Networks of the traffic source. It can be either a full or partial url.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
 
@@ -205,7 +205,7 @@ type MatchParameters struct {
 	Layer4Configs []Layer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networksecurity/v1beta1.AddressGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1.AddressGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
@@ -232,7 +232,7 @@ type MatchParameters struct {
 	SrcNetworkContext *string `json:"srcNetworkContext,omitempty" tf:"src_network_context,omitempty"`
 
 	// Networks of the traffic source. It can be either a full or partial url.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcNetworks []*string `json:"srcNetworks,omitempty" tf:"src_networks,omitempty"`
@@ -305,7 +305,7 @@ type NetworkFirewallPolicyRuleInitParameters struct {
 	// A list of forwarding rules to which this rule applies.
 	// This field allows you to control which load balancers get this rule.
 	// For example, the following are valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
 
@@ -450,7 +450,7 @@ type NetworkFirewallPolicyRuleParameters struct {
 	EnableLogging *bool `json:"enableLogging,omitempty" tf:"enable_logging,omitempty"`
 
 	// The firewall policy of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkFirewallPolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.NetworkFirewallPolicy
 	// +kubebuilder:validation:Optional
 	FirewallPolicy *string `json:"firewallPolicy,omitempty" tf:"firewall_policy,omitempty"`
 
@@ -496,7 +496,7 @@ type NetworkFirewallPolicyRuleParameters struct {
 	// A list of forwarding rules to which this rule applies.
 	// This field allows you to control which load balancers get this rule.
 	// For example, the following are valid values:
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.ForwardingRule
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetForwardingRules []*string `json:"targetForwardingRules,omitempty" tf:"target_forwarding_rules,omitempty"`
@@ -531,7 +531,7 @@ type NetworkFirewallPolicyRuleParameters struct {
 type SrcSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/tags/v1beta1.TagValue
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a TagValue in tags to populate name.
@@ -556,7 +556,7 @@ type SrcSecureTagsObservation struct {
 type SrcSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/tags/v1beta1.TagValue
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/tags/v1beta1.TagValue
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

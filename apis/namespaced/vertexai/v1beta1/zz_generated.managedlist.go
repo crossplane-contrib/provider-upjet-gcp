@@ -34,6 +34,42 @@ func (l *FeaturestoreList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ReasoningEngineIAMBindingList.
+func (l *ReasoningEngineIAMBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ReasoningEngineIAMMemberList.
+func (l *ReasoningEngineIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ReasoningEngineIAMPolicyList.
+func (l *ReasoningEngineIAMPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ReasoningEngineList.
+func (l *ReasoningEngineList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this TensorboardList.
 func (l *TensorboardList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

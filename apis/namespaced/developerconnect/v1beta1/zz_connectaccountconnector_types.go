@@ -172,7 +172,7 @@ type CustomOAuthConfigInitParameters struct {
 	AuthURI *string `json:"authUri,omitempty" tf:"auth_uri,omitempty"`
 
 	// The client ID of the OAuth application.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
 
@@ -187,7 +187,7 @@ type CustomOAuthConfigInitParameters struct {
 	// Input only. The client secret of the OAuth application.
 	// It will be provided as plain text, but encrypted and stored in developer
 	// connect. As INPUT_ONLY field, it will not be included in the output.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
 	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`
 
@@ -281,7 +281,7 @@ type CustomOAuthConfigParameters struct {
 	AuthURI *string `json:"authUri" tf:"auth_uri,omitempty"`
 
 	// The client ID of the OAuth application.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
 	// +kubebuilder:validation:Optional
 	ClientID *string `json:"clientId,omitempty" tf:"client_id,omitempty"`
@@ -297,7 +297,7 @@ type CustomOAuthConfigParameters struct {
 	// Input only. The client secret of the OAuth application.
 	// It will be provided as plain text, but encrypted and stored in developer
 	// connect. As INPUT_ONLY field, it will not be included in the output.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("secret_data",false)
 	// +kubebuilder:validation:Optional
 	ClientSecret *string `json:"clientSecret,omitempty" tf:"client_secret,omitempty"`

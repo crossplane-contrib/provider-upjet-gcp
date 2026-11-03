@@ -14,7 +14,7 @@ import (
 
 	xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
-	"github.com/upbound/provider-gcp/v2/config/cluster/common"
+	"github.com/upbound/provider-gcp/v3/config/cluster/common"
 )
 
 // CloudSQL connection detail keys
@@ -41,8 +41,14 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 		// NOTE(@tnthornton) most of the connection details that were exported
 		// to the connection details secret are marked as non-sensitive for tf.
 		// We need to manually construct the secret details for those items.
+		// replica_names is Optional+Computed in the native provider, but the
+		// Cloud SQL API does not accept it on an instance patch: replicas are
+		// managed as their own resources referencing master_instance_name.
+		// Late-initializing it pins the replica set observed at the time and
+		// never refreshes it, so any later replica change leaves a diff that
+		// can never converge and the instance updates forever.
 		r.LateInitializer = config.LateInitializer{
-			IgnoredFields: []string{"maintenance_version"},
+			IgnoredFields: []string{"maintenance_version", "replica_names"},
 		}
 		r.Sensitive.AdditionalConnectionDetailsFn = func(attr map[string]interface{}) (map[string][]byte, error) {
 			conn := map[string][]byte{}
@@ -127,8 +133,15 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			}
 			return conn, nil
 		}
-		delete(r.TerraformResource.Schema, "password_wo")
-		delete(r.TerraformResource.Schema, "password_wo_version")
+		// password_wo stays in the runtime schema: upstream Create and
+		// Update call .AsString() on GetRawConfigAt("password_wo") when
+		// password is unset, which panics if the path is missing.
+		// Marking it sensitive before moving it to status drops it from
+		// the CRD.
+		r.TerraformResource.Schema["password_wo"].Sensitive = true
+		r.TerraformResource.Schema["password_wo"].RequiredWith = nil
+		r.TerraformResource.Schema["password_wo_version"].RequiredWith = nil
+		config.MoveToStatus(r.TerraformResource, "password_wo", "password_wo_version")
 	})
 	p.AddResourceConfigurator("google_sql_ssl_cert", func(r *config.Resource) {
 		r.References["instance"] = config.Reference{

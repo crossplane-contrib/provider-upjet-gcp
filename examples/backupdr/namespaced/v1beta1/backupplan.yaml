@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: backupdr.gcp.m.upbound.io/v1beta1
+kind: BackupPlan
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplan
+  labels:
+    testing.upbound.io/example-name: backup_plan
+  name: example-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    backupRules:
+      - backupRetentionDays: 5
+        ruleId: rule-1
+        standardSchedule:
+          backupWindow:
+            endHourOfDay: 24
+            startHourOfDay: 0
+          hourlyFrequency: 6
+          recurrenceType: HOURLY
+          timeZone: UTC
+    backupVaultSelector:
+      matchLabels:
+        testing.upbound.io/example-name: backup_plan
+    location: us-central1
+    resourceType: compute.googleapis.com/Instance
+
+---
+
+apiVersion: backupdr.gcp.m.upbound.io/v1beta1
+kind: BackupVault
+metadata:
+  annotations:
+    meta.upbound.io/example-id: backupdr/v1beta1/backupplan
+  labels:
+    testing.upbound.io/example-name: backup_plan
+  name: example-${Rand.RFC1123Subdomain}
+  namespace: upbound-system
+spec:
+  forProvider:
+    backupMinimumEnforcedRetentionDuration: 100000s
+    forceDelete: true
+    ignoreBackupPlanReferences: true
+    ignoreInactiveDatasources: true
+    location: us-central1

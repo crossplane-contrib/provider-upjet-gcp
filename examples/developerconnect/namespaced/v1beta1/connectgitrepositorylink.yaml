@@ -33,7 +33,7 @@ metadata:
 spec:
   forProvider:
     githubConfig:
-      appInstallationId: 123123
+      appInstallationId: "123123"
       authorizerCredential:
         oauthTokenSecretVersionSelector:
           matchLabels:
@@ -54,8 +54,7 @@ metadata:
 spec:
   forProvider:
     replication:
-    - auto:
-      - {}
+      auto: {}
 ---
 apiVersion: secretmanager.gcp.m.upbound.io/v1beta1
 kind: SecretVersion

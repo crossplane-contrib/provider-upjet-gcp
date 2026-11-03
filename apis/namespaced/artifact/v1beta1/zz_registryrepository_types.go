@@ -99,7 +99,7 @@ type CleanupPoliciesParameters struct {
 type CommonRepositoryInitParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 
@@ -121,7 +121,7 @@ type CommonRepositoryObservation struct {
 type CommonRepositoryParameters struct {
 
 	// Specific uri to the registry, e.g. "https://registry-1.docker.io"
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
@@ -402,6 +402,15 @@ type MostRecentVersionsParameters struct {
 	// Match versions by package prefix. Applied on any prefix match.
 	// +kubebuilder:validation:Optional
 	PackageNamePrefixes []*string `json:"packageNamePrefixes,omitempty" tf:"package_name_prefixes,omitempty"`
+}
+
+type NoCacheInitParameters struct {
+}
+
+type NoCacheObservation struct {
+}
+
+type NoCacheParameters struct {
 }
 
 type NpmRepositoryCustomRepositoryInitParameters struct {
@@ -832,6 +841,9 @@ type RemoteRepositoryConfigInitParameters struct {
 	// Structure is documented below.
 	MavenRepository *MavenRepositoryInitParameters `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
 
+	// The repository will act as a non-caching proxy (connector mode).
+	NoCache *NoCacheInitParameters `json:"noCache,omitempty" tf:"no_cache,omitempty"`
+
 	// Specific settings for an Npm remote repository.
 	// Structure is documented below.
 	NpmRepository *NpmRepositoryInitParameters `json:"npmRepository,omitempty" tf:"npm_repository,omitempty"`
@@ -873,6 +885,9 @@ type RemoteRepositoryConfigObservation struct {
 	// Specific settings for a Maven remote repository.
 	// Structure is documented below.
 	MavenRepository *MavenRepositoryObservation `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
+
+	// The repository will act as a non-caching proxy (connector mode).
+	NoCache *NoCacheParameters `json:"noCache,omitempty" tf:"no_cache,omitempty"`
 
 	// Specific settings for an Npm remote repository.
 	// Structure is documented below.
@@ -921,6 +936,10 @@ type RemoteRepositoryConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MavenRepository *MavenRepositoryParameters `json:"mavenRepository,omitempty" tf:"maven_repository,omitempty"`
+
+	// The repository will act as a non-caching proxy (connector mode).
+	// +kubebuilder:validation:Optional
+	NoCache *NoCacheParameters `json:"noCache,omitempty" tf:"no_cache,omitempty"`
 
 	// Specific settings for an Npm remote repository.
 	// Structure is documented below.
@@ -975,7 +994,7 @@ type UpstreamPoliciesInitParameters struct {
 
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
@@ -1013,7 +1032,7 @@ type UpstreamPoliciesParameters struct {
 
 	// A reference to the repository resource, for example:
 	// "projects/p1/locations/us-central1/repository/repo1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/artifact/v1beta1.RegistryRepository
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/artifact/v1beta1.RegistryRepository
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
@@ -1032,7 +1051,7 @@ type UsernamePasswordCredentialsInitParameters struct {
 	// The Secret Manager key version that holds the password to access the
 	// remote repository. Must be in the format of
 	// projects/{project}/secrets/{secret}/versions/{version}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`
 
@@ -1064,7 +1083,7 @@ type UsernamePasswordCredentialsParameters struct {
 	// The Secret Manager key version that holds the password to access the
 	// remote repository. Must be in the format of
 	// projects/{project}/secrets/{secret}/versions/{version}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/secretmanager/v1beta1.SecretVersion
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/secretmanager/v1beta1.SecretVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	PasswordSecretVersion *string `json:"passwordSecretVersion,omitempty" tf:"password_secret_version,omitempty"`

@@ -31,8 +31,8 @@ type SecretVersionInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// The secret data. Must be no larger than 64KiB.
@@ -106,8 +106,8 @@ type SecretVersionParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Secret Manager secret resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 

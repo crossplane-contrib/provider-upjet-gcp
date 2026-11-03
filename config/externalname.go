@@ -5,11 +5,16 @@
 package config
 
 import (
+	"context"
+	"fmt"
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
+	"github.com/pkg/errors"
 
-	"github.com/upbound/provider-gcp/v2/config/cluster/common"
+	"github.com/upbound/provider-gcp/v3/config/cluster/common"
 )
 
 // terraformPluginFrameworkExternalNameConfigs contains all external
@@ -18,10 +23,56 @@ import (
 // provider.
 var terraformPluginFrameworkExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	"google_apigee_keystores_aliases_key_cert_file": apigeeKeystoresAliasesKeyCertFile(),
 
-	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
+	// Imported by using the following {{bucket}}/notificationConfigs/{{id}}
+	"google_storage_notification": storageNotification(),
+}
+
+// apigeeKeystoresAliasesKeyCertFile returns the external-name configuration
+// for the google_apigee_keystores_aliases_key_cert_file Terraform resource.
+// The upstream plugin-framework Read implementation surfaces API 404s as
+// error-severity diagnostics instead of removing the resource from state
+// (fwtransport.SendRequest appends the error to diags), so without the
+// suppression below every pre-create Observe fails and the resource can
+// never be created.
+func apigeeKeystoresAliasesKeyCertFile() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}")
+	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
+		for _, d := range diags {
+			if d.Severity == tfprotov6.DiagnosticSeverityError &&
+				d.Summary == "Error when sending HTTP request: " &&
+				(strings.Contains(d.Detail, "googleapi: Error 404:") || strings.Contains(d.Detail, "googleapi: got HTTP response code 404")) {
+				return true
+			}
+		}
+		return false
+	}
+	return e
+}
+
+// storageNotification returns the external-name configuration for the
+// google_storage_notification Terraform resource. The notification id is
+// server-generated, so before creation there is no way to construct the
+// Terraform resource ID ({{bucket}}/notificationConfigs/{{id}}) and the
+// upstream plugin-framework Read implementation rejects the empty ID with
+// an error-severity diagnostic instead of reporting "resource not found".
+// The suppression below matches only the empty-ID variant of that
+// diagnostic; a malformed non-empty external name still surfaces as an
+// error.
+func storageNotification() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.IsNotFoundDiagnosticFn = func(diags []*tfprotov6.Diagnostic) bool {
+		for _, d := range diags {
+			if d.Severity == tfprotov6.DiagnosticSeverityError &&
+				d.Summary == "Invalid resource ID" &&
+				strings.HasSuffix(d.Detail, "got ''") {
+				return true
+			}
+		}
+		return false
+	}
+	return e
 }
 
 // terraformPluginSDKExternalNameConfigs contains all external name configurations
@@ -41,6 +92,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_alloydb_instance": config.TemplatedStringAsIdentifier("instance_id", "{{ .parameters.cluster }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/backups/{{backup_id}}
 	"google_alloydb_backup": config.TemplatedStringAsIdentifier("backup_id", "projects/{{ .setup.configuration.project }}/location/{{ .parameters.location }}/backups/{{ .external_name }}"),
+	// Imported by using the following format: {{cluster}}/users/{{user_id}}
+	"google_alloydb_user": config.TemplatedStringAsIdentifier("user_id", "{{ .parameters.cluster }}/users/{{ .external_name }}"),
 
 	// appengine
 	//
@@ -101,7 +154,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: {{project}}
 	"google_project_usage_export_bucket": config.IdentifierFromProvider,
 	// Service accounts can be imported using their URI, e.g. projects/my-project/serviceAccounts/my-sa@my-project.iam.gserviceaccount.com
-	"google_service_account": config.TemplatedStringAsIdentifier("account_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/serviceAccounts/{{ .external_name }}@{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}.iam.gserviceaccount.com"),
+	"google_service_account": serviceAccount(),
 	// Imported by using the following format: projects/{your-project-id}/serviceAccounts/{your-service-account-email} roles/iam.serviceAccountUser user:foo@example.com expires_after_2019_12_31
 	"google_service_account_iam_member": config.IdentifierFromProvider,
 	// No import
@@ -126,6 +179,12 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
 	"google_cloud_run_v2_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{name}} roles/viewer user:jane@example.com
+	"google_cloud_run_v2_job_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{name}} roles/viewer
+	"google_cloud_run_v2_job_iam_binding": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{name}}
+	"google_cloud_run_v2_job_iam_policy": config.IdentifierFromProvider,
 
 	// cloudscheduler
 	//
@@ -136,6 +195,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}}
 	"google_cloud_tasks_queue": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/queues/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/queues/{{name}} roles/viewer user:jane@example.com
+	"google_cloud_tasks_queue_iam_member": config.IdentifierFromProvider,
 
 	// compute
 	//
@@ -239,6 +300,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_project_default_network_tier": config.IdentifierFromProvider,
 	// Projects can be imported using the Project ID: your-project-id
 	"google_compute_project_metadata": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}
+	"google_compute_project_cloud_armor_tier": config.IdentifierFromProvider,
 	// Project metadata items can be imported using the key: key
 	"google_compute_project_metadata_item": config.IdentifierFromProvider,
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/autoscalers/{{name}}
@@ -270,7 +333,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following format: us-central1/router-1/interface-1
 	"google_compute_router_interface": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{name}}
-	"google_compute_firewall_policy": config.IdentifierFromProvider,
+	"google_compute_firewall_policy": firewallPolicy(),
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/associations/{{name}}
 	"google_compute_firewall_policy_association": config.IdentifierFromProvider,
 	// Imported by using the following format: locations/global/firewallPolicies/{{firewall_policy}}/rules/{{priority}}
@@ -491,8 +554,9 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// essential
 	//
-	// Imported by using the following format:
-	"google_essential_contacts_contact": config.IdentifierFromProvider,
+	// Imported by using the following format: {resource_type}/{resource_id}/contacts/{contact_id}, e.g. projects/{project_id}/contacts/{contact_id}
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_essential_contacts_contact": identifierFromProviderWithComputedName(),
 
 	// eventarc
 	//
@@ -709,6 +773,12 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_network_security_url_lists": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/urlLists/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{location}}/dnsThreatDetectors/{{name}}
 	"google_network_security_dns_threat_detector": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/dnsThreatDetectors/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/serverTlsPolicies/{{name}}
+	"google_network_security_server_tls_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/serverTlsPolicies/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backendAuthenticationConfigs/{{name}}
+	"google_network_security_backend_authentication_config": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backendAuthenticationConfigs/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clientTlsPolicies/{{name}}
+	"google_network_security_client_tls_policy": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/clientTlsPolicies/{{ .external_name }}"),
 
 	// mlengine
 	//
@@ -828,6 +898,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_spanner_instance_iam_member": config.IdentifierFromProvider,
 	// google_spanner_database_iam_member.database "project-name/instance-name/database-name roles/viewer user:foo@example.com"
 	"google_spanner_database_iam_member": config.IdentifierFromProvider,
+	// google_spanner_backup_schedule "projects/{{project}}/instances/{{instance}}/databases/{{database}}/backupSchedules/{{name}}"
+	"google_spanner_backup_schedule": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/instances/{{ .parameters.instance }}/databases/{{ .parameters.database }}/backupSchedules/{{ .external_name }}"),
 
 	// sql
 	//
@@ -1008,6 +1080,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_iam_workload_identity_pool": config.TemplatedStringAsIdentifier("workload_identity_pool_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/global/workloadIdentityPools/{{workload_identity_pool_id}}/providers/{{workload_identity_pool_provider_id}}
 	"google_iam_workload_identity_pool_provider": config.TemplatedStringAsIdentifier("workload_identity_pool_provider_id", "projects/{{ .setup.configuration.project }}/locations/global/workloadIdentityPools/{{ .parameters.workload_identity_pool_id }}/providers/{{ .external_name }}"),
+	// Imported by using the following format: {{parent}}/{{name}}
+	// parent is the URL-encoded full resource name of the attachment point, e.g.
+	// cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project, and therefore
+	// never contains a literal "/".
+	"google_iam_deny_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/oauthClients/{{oauth_client_id}}
+	"google_iam_oauth_client": config.TemplatedStringAsIdentifier("oauth_client_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/oauthClients/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/oauthClients/{{oauthclient}}/credentials/{{oauth_client_credential_id}}
+	"google_iam_oauth_client_credential": config.TemplatedStringAsIdentifier("oauth_client_credential_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/oauthClients/{{ .parameters.oauthclient }}/credentials/{{ .external_name }}"),
 
 	// datalossprevention
 	//
@@ -1052,6 +1133,22 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
 	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
+	// The name is server-generated; imported by using the following
+	// projects/{{project}}/locations/{{region}}/reasoningEngines/{{name}}
+	"google_vertex_ai_reasoning_engine": config.IdentifierFromProvider,
+	// No Import
+	"google_vertex_ai_reasoning_engine_iam_member": config.IdentifierFromProvider,
+	// No Import
+	"google_vertex_ai_reasoning_engine_iam_binding": config.IdentifierFromProvider,
+	// No Import
+	"google_vertex_ai_reasoning_engine_iam_policy": config.IdentifierFromProvider,
+
+	// vectorsearch
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/collections/{{collection_id}}
+	"google_vector_search_collection": config.TemplatedStringAsIdentifier("collection_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/indexes/{{index_id}}
+	"google_vector_search_index": config.TemplatedStringAsIdentifier("index_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/indexes/{{ .external_name }}"),
 
 	// documentai
 	//
@@ -1110,6 +1207,17 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following {{parent}}/policies/{{name}}
 	"google_org_policy_policy": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/policies/{{ .external_name }}"),
+	// Imported by using the following {{parent}}/customConstraints/{{name}}
+	"google_org_policy_custom_constraint": config.TemplatedStringAsIdentifier("name", "{{ .parameters.parent }}/customConstraints/{{ .external_name }}"),
+
+	// backupdr
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupVaults/{{backup_vault_id}}
+	"google_backup_dr_backup_vault": config.TemplatedStringAsIdentifier("backup_vault_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backupVaults/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlans/{{backup_plan_id}}
+	"google_backup_dr_backup_plan": config.TemplatedStringAsIdentifier("backup_plan_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backupPlans/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/backupPlanAssociations/{{backup_plan_association_id}}
+	"google_backup_dr_backup_plan_association": config.TemplatedStringAsIdentifier("backup_plan_association_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/backupPlanAssociations/{{ .external_name }}"),
 
 	// tags
 	//
@@ -1137,11 +1245,11 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// cloudidentity
 	//
 	// Imported by using the following: groups/<group_id>
-	// Please see the cloudIdentity function for details.
-	"google_cloud_identity_group": cloudIdentity(),
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group": identifierFromProviderWithComputedName(),
 	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
-	// Please see the cloudIdentity function for details.
-	"google_cloud_identity_group_membership": cloudIdentity(),
+	// Please see the identifierFromProviderWithComputedName function for details.
+	"google_cloud_identity_group_membership": identifierFromProviderWithComputedName(),
 
 	// modelarmor
 	//
@@ -1154,6 +1262,63 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 // belonging to Terraform resources to be reconciled under the CLI-based
 // architecture for this provider.
 var cliReconciledExternalNameConfigs = map[string]config.ExternalName{}
+
+// serviceAccountIDTemplate is the TF ID format of the google_service_account
+// resource. It is only used to reverse a TF ID back into an external name;
+// serviceAccount overrides the forward direction.
+const serviceAccountIDTemplate = "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/serviceAccounts/{{ .external_name }}@{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}.iam.gserviceaccount.com"
+
+// serviceAccount configures the external name for the google_service_account
+// TF resource. The TF ID embeds the project in the host part of the service
+// account e-mail address, which the plain template cannot build for
+// domain-scoped project IDs, so the forward direction is overridden with
+// serviceAccountEmailHost. Reversing a TF ID is unaffected because the
+// external name is delimited by "/" and "@" either way.
+func serviceAccount() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("account_id", serviceAccountIDTemplate)
+	e.GetIDFn = func(_ context.Context, externalName string, parameters, setup map[string]any) (string, error) {
+		project, err := projectFromExternalNameArgs(parameters, setup)
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("projects/%s/serviceAccounts/%s@%s.iam.gserviceaccount.com", project, externalName, serviceAccountEmailHost(project)), nil
+	}
+	return e
+}
+
+// serviceAccountEmailHost returns the host part of the e-mail address of a
+// service account living in the given project. A domain-scoped project ID
+// carries its domain as a "domain:id" prefix, which is not valid in a
+// hostname, so GCP inverts the two parts: an account in "example.com:my-proj"
+// is reachable at "<account-id>@my-proj.example.com.iam.gserviceaccount.com".
+func serviceAccountEmailHost(project string) string {
+	domain, id, scoped := strings.Cut(project, ":")
+	if !scoped {
+		return project
+	}
+	return id + "." + domain
+}
+
+// projectFromExternalNameArgs resolves the project a resource belongs to,
+// preferring the one set on the resource over the ProviderConfig default.
+func projectFromExternalNameArgs(parameters, setup map[string]any) (string, error) {
+	if project, ok := parameters["project"].(string); ok && project != "" {
+		return project, nil
+	}
+	// terraform.Setup.Map stores the provider configuration under its named
+	// type rather than a plain map, so both have to be accounted for.
+	var configuration map[string]any
+	switch c := setup["configuration"].(type) {
+	case terraform.ProviderConfiguration:
+		configuration = c
+	case map[string]any:
+		configuration = c
+	}
+	if project, ok := configuration["project"].(string); ok && project != "" {
+		return project, nil
+	}
+	return "", errors.New("cannot determine the project: it is set neither on the resource nor on the ProviderConfig")
+}
 
 // TemplatedStringAsIdentifierWithNoName uses TemplatedStringAsIdentifier but
 // without the name initializer. This allows it to be used in cases where the ID
@@ -1249,21 +1414,43 @@ func apigeeOrganization() config.ExternalName {
 	return e
 }
 
-// This function configures cloud_identity resources in a special way. The
+// firewallPolicy configures the external name for
+// google_compute_firewall_policy. The TF ID is
+// locations/global/firewallPolicies/{name}, where `name` is the
+// GCP-allocated numeric id exposed only as a computed attribute. The
+// resource's Read/Update/Delete build their URLs from `name` rather than
+// from the TF ID, so on import / state reconstruction `name` must be
+// seeded from the external-name; otherwise Read GETs the list endpoint
+// and fails with 400 "Required field 'parentId' not specified" (#820).
+func firewallPolicy() config.ExternalName {
+	e := config.IdentifierFromProvider
+	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
+		if externalName == "" {
+			return
+		}
+		parts := strings.Split(externalName, "/")
+		base["name"] = parts[len(parts)-1]
+	}
+	return e
+}
+
+// identifierFromProviderWithComputedName configures resources (e.g.
+// cloud_identity resources, essential_contacts_contact) in a special way. The
 // reason this is required is due to the implementation of these resources. In
-// the Read functions, resources are fetched using not only the ID field but
-// also the name field. It is important to note that this field exists only
+// the Read functions, resources are fetched using not the ID field but the
+// name field. It is important to note that this field exists only
 // under the status field. The name field has the same value as the resource ID;
 // therefore, this function sets the name field to the ID value
 // (or external-name — in this case they are equivalent; see IdentifierFromProvider).
 // This ensures that the resource behaves correctly.
 // If this configuration is not applied, although the happy path (create-delete)
 // appears to succeed, the resource fails in scenarios where import or state
-// reconstruction is required (e.g., import, pod restart, etc.) with a "resource
-// already exists" error. This happens because the Read function cannot find the
-// resource when the name field (in status) is empty, and the system attempts to
-// recreate it. This configuration fixes that issue.
-func cloudIdentity() config.ExternalName {
+// reconstruction is required (e.g., import, observe-only, pod restart, etc.)
+// with a "resource already exists" error (or "external resource does not
+// exist" under the Observe management policy). This happens because the Read
+// function cannot find the resource when the name field (in status) is empty,
+// and the system attempts to recreate it. This configuration fixes that issue.
+func identifierFromProviderWithComputedName() config.ExternalName {
 	e := config.IdentifierFromProvider
 	e.SetIdentifierArgumentFn = func(base map[string]any, externalName string) {
 		if externalName == "" {
@@ -1275,16 +1462,18 @@ func cloudIdentity() config.ExternalName {
 }
 
 // resourceConfigurator applies all external name configs
-// listed in the table terraformPluginSDKExternalNameConfigs and
+// listed in the tables terraformPluginSDKExternalNameConfigs,
+// terraformPluginFrameworkExternalNameConfigs and
 // cliReconciledExternalNameConfigs and sets the version
-// of those resources to v1beta1. For those resource in
-// terraformPluginSDKExternalNameConfigs, it also sets
-// config.Resource.UseNoForkClient to `true`.
+// of those resources to v1beta1.
 func resourceConfigurator() config.ResourceOption {
 	return func(r *config.Resource) {
 		// if configured both for the no-fork and CLI based architectures,
 		// no-fork configuration prevails
 		e, configured := terraformPluginSDKExternalNameConfigs[r.Name]
+		if !configured {
+			e, configured = terraformPluginFrameworkExternalNameConfigs[r.Name]
+		}
 		if !configured {
 			e, configured = cliReconciledExternalNameConfigs[r.Name]
 		}

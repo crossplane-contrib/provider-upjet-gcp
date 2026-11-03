@@ -29,8 +29,9 @@ type AddressInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
-	// The PDP must support enhanced IPv4 allocations.
+	// Reference to the source of external IPv4/IPv6 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// If an IPv4 PDP is used, the PDP must support enhanced IPv4 allocations.
+	// If an IPv6 PDP is used, the PDP must be in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
 	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
 	// Full resource URL, as in:
 	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
@@ -52,8 +53,8 @@ type AddressInitParameters struct {
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
 	// IPSEC_INTERCONNECT purposes.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -84,8 +85,8 @@ type AddressInitParameters struct {
 	// address is specified, it must be within the subnetwork's IP range.
 	// This field can only be used with INTERNAL type with
 	// GCE_ENDPOINT/DNS_RESOLVER purposes.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// Reference to a Subnetwork in compute to populate subnetwork.
@@ -130,8 +131,9 @@ type AddressObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
-	// The PDP must support enhanced IPv4 allocations.
+	// Reference to the source of external IPv4/IPv6 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// If an IPv4 PDP is used, the PDP must support enhanced IPv4 allocations.
+	// If an IPv6 PDP is used, the PDP must be in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
 	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
 	// Full resource URL, as in:
 	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
@@ -216,8 +218,9 @@ type AddressParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
-	// The PDP must support enhanced IPv4 allocations.
+	// Reference to the source of external IPv4/IPv6 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// If an IPv4 PDP is used, the PDP must support enhanced IPv4 allocations.
+	// If an IPv6 PDP is used, the PDP must be in EXTERNAL_IPV6_FORWARDING_RULE_CREATION mode.
 	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
 	// Full resource URL, as in:
 	// +kubebuilder:validation:Optional
@@ -243,8 +246,8 @@ type AddressParameters struct {
 	// The URL of the network in which to reserve the address. This field
 	// can only be used with INTERNAL type with the VPC_PEERING and
 	// IPSEC_INTERCONNECT purposes.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -285,8 +288,8 @@ type AddressParameters struct {
 	// address is specified, it must be within the subnetwork's IP range.
 	// This field can only be used with INTERNAL type with
 	// GCE_ENDPOINT/DNS_RESOLVER purposes.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Subnetwork
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 

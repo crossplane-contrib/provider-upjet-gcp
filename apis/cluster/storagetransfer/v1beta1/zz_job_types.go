@@ -191,6 +191,9 @@ type AzureBlobStorageDataSourceInitParameters struct {
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
 
+	// Service Directory Service to be used as the endpoint for transfers from a customer-managed VPC. Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.
+	PrivateNetworkService *string `json:"privateNetworkService,omitempty" tf:"private_network_service,omitempty"`
+
 	// The name of the Azure Storage account.
 	StorageAccount *string `json:"storageAccount,omitempty" tf:"storage_account,omitempty"`
 }
@@ -211,6 +214,9 @@ type AzureBlobStorageDataSourceObservation struct {
 
 	// Root directory path to the filesystem.
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Service Directory Service to be used as the endpoint for transfers from a customer-managed VPC. Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.
+	PrivateNetworkService *string `json:"privateNetworkService,omitempty" tf:"private_network_service,omitempty"`
 
 	// The name of the Azure Storage account.
 	StorageAccount *string `json:"storageAccount,omitempty" tf:"storage_account,omitempty"`
@@ -237,6 +243,10 @@ type AzureBlobStorageDataSourceParameters struct {
 	// Root directory path to the filesystem.
 	// +kubebuilder:validation:Optional
 	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Service Directory Service to be used as the endpoint for transfers from a customer-managed VPC. Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.
+	// +kubebuilder:validation:Optional
+	PrivateNetworkService *string `json:"privateNetworkService,omitempty" tf:"private_network_service,omitempty"`
 
 	// The name of the Azure Storage account.
 	// +kubebuilder:validation:Optional
@@ -324,7 +334,7 @@ type FederatedIdentityConfigParameters struct {
 type GcsDataSinkInitParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
@@ -351,7 +361,7 @@ type GcsDataSinkObservation struct {
 type GcsDataSinkParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
@@ -371,7 +381,7 @@ type GcsDataSinkParameters struct {
 type GcsDataSourceInitParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
@@ -398,7 +408,7 @@ type GcsDataSourceObservation struct {
 type GcsDataSourceParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
@@ -739,7 +749,7 @@ type NotificationConfigInitParameters struct {
 	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
 
 	// The Topic.name of the Pub/Sub topic to which to publish notifications. Must be of the format: projects/{project}/topics/{topic}. Not matching this format results in an INVALID_ARGUMENT error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
@@ -777,7 +787,7 @@ type NotificationConfigParameters struct {
 	PayloadFormat *string `json:"payloadFormat" tf:"payload_format,omitempty"`
 
 	// The Topic.name of the Pub/Sub topic to which to publish notifications. Must be of the format: projects/{project}/topics/{topic}. Not matching this format results in an INVALID_ARGUMENT error.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/pubsub/v1beta2.Topic
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/pubsub/v1beta2.Topic
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
@@ -1355,7 +1365,7 @@ type TransferOptionsParameters struct {
 type TransferSpecGcsDataSinkInitParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
@@ -1382,7 +1392,7 @@ type TransferSpecGcsDataSinkObservation struct {
 type TransferSpecGcsDataSinkParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
@@ -1402,7 +1412,7 @@ type TransferSpecGcsDataSinkParameters struct {
 type TransferSpecGcsDataSourceInitParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucketName.
@@ -1429,7 +1439,7 @@ type TransferSpecGcsDataSourceObservation struct {
 type TransferSpecGcsDataSourceParameters struct {
 
 	// Google Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	BucketName *string `json:"bucketName,omitempty" tf:"bucket_name,omitempty"`
 

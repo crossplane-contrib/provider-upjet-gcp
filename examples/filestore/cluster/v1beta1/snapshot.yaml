@@ -32,7 +32,7 @@ metadata:
 spec:
   forProvider:
     fileShares:
-    - capacityGb: 1024
+      capacityGb: 1024
       name: share1
     location: us-central1
     networks:

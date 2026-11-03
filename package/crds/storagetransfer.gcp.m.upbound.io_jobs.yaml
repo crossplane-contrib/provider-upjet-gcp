@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: jobs.storagetransfer.gcp.m.upbound.io
 spec:
   group: storagetransfer.gcp.m.upbound.io
@@ -819,6 +819,11 @@ spec:
                             type: object
                           path:
                             description: Root directory path to the filesystem.
+                            type: string
+                          privateNetworkService:
+                            description: 'Service Directory Service to be used as
+                              the endpoint for transfers from a customer-managed VPC.
+                              Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.'
                             type: string
                           storageAccount:
                             description: The name of the Azure Storage account.
@@ -1970,6 +1975,11 @@ spec:
                           path:
                             description: Root directory path to the filesystem.
                             type: string
+                          privateNetworkService:
+                            description: 'Service Directory Service to be used as
+                              the endpoint for transfers from a customer-managed VPC.
+                              Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.'
+                            type: string
                           storageAccount:
                             description: The name of the Azure Storage account.
                             type: string
@@ -2938,6 +2948,11 @@ spec:
                             type: object
                           path:
                             description: Root directory path to the filesystem.
+                            type: string
+                          privateNetworkService:
+                            description: 'Service Directory Service to be used as
+                              the endpoint for transfers from a customer-managed VPC.
+                              Format: projects/{projectId}/locations/{location}/namespaces/{namespace}/services/{service}.'
                             type: string
                           storageAccount:
                             description: The name of the Azure Storage account.

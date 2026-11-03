@@ -580,7 +580,7 @@ type MessageTransformsAIInferenceInitParameters struct {
 
 	// The service account to use to make prediction requests against
 	// endpoints.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
@@ -625,7 +625,7 @@ type MessageTransformsAIInferenceParameters struct {
 
 	// The service account to use to make prediction requests against
 	// endpoints.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
@@ -721,7 +721,7 @@ type SchemaSettingsInitParameters struct {
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
 
@@ -734,7 +734,7 @@ type SchemaSettingsInitParameters struct {
 	FirstRevisionIDSelector *v2.NamespacedSelector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
 
 	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
 
@@ -782,7 +782,7 @@ type SchemaSettingsParameters struct {
 	Encoding *string `json:"encoding,omitempty" tf:"encoding,omitempty"`
 
 	// The minimum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against last_revision or any revision created before.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	// +kubebuilder:validation:Optional
 	FirstRevisionID *string `json:"firstRevisionId,omitempty" tf:"first_revision_id,omitempty"`
@@ -796,7 +796,7 @@ type SchemaSettingsParameters struct {
 	FirstRevisionIDSelector *v2.NamespacedSelector `json:"firstRevisionIdSelector,omitempty" tf:"-"`
 
 	// The maximum (inclusive) revision allowed for validating messages. If empty or not present, allow any revision to be validated against first_revision or any revision created after.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/pubsub/v1beta1.Schema
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/pubsub/v1beta1.Schema
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("revision_id",true)
 	// +kubebuilder:validation:Optional
 	LastRevisionID *string `json:"lastRevisionId,omitempty" tf:"last_revision_id,omitempty"`
@@ -853,7 +853,7 @@ type TopicInitParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
@@ -1053,7 +1053,7 @@ type TopicParameters struct {
 	// (service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com) must have
 	// roles/cloudkms.cryptoKeyEncrypterDecrypter to use this feature.
 	// The expected format is projects/*/locations/*/keyRings/*/cryptoKeys/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`

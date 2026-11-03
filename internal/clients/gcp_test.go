@@ -5,16 +5,21 @@
 package clients
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"net/url"
 	"testing"
 
 	upjetmetrics "github.com/crossplane/upjet/v2/pkg/metrics"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/google/go-cmp/cmp"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/prometheus/client_golang/prometheus/testutil"
+	"golang.org/x/oauth2"
 
-	namespacedv1beta1 "github.com/upbound/provider-gcp/v2/apis/namespaced/v1beta1"
+	namespacedv1beta1 "github.com/upbound/provider-gcp/v3/apis/namespaced/v1beta1"
 )
 
 type roundTripperFunc func(*http.Request) (*http.Response, error)
@@ -139,6 +144,60 @@ func Test_setProjectOverrides(t *testing.T) {
 	}
 }
 
+func Test_setUniverseDomain(t *testing.T) {
+	type args struct {
+		pcSpec *namespacedv1beta1.ProviderConfigSpec
+	}
+	type want struct {
+		configuration map[string]interface{}
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"unset_field_leaves_configuration_untouched": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{ProjectID: "example-project"}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+		"universe_domain_set": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				UniverseDomain: new("example.partner.com"),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:        "example-project",
+				keyUniverseDomain: "example.partner.com",
+			}},
+		},
+		"default_universe_domain_set": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				UniverseDomain: new("googleapis.com"),
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:        "example-project",
+				keyUniverseDomain: "googleapis.com",
+			}},
+		},
+		"empty_universe_domain_ignored": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:      "example-project",
+				UniverseDomain: new(""),
+			}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			cfg := map[string]interface{}{keyProject: tc.args.pcSpec.ProjectID}
+			setUniverseDomain(cfg, tc.args.pcSpec)
+			if diff := cmp.Diff(tc.want.configuration, cfg); diff != "" {
+				t.Errorf("setUniverseDomain(...) configuration mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
 func Test_metricsRoundTripper(t *testing.T) {
 	errBoom := errors.New("boom")
 	type args struct {
@@ -191,5 +250,39 @@ func Test_metricsRoundTripper(t *testing.T) {
 				t.Errorf("counter delta mismatch (-want +got):\n%s", diff)
 			}
 		})
+	}
+}
+
+// Test_configureNoForkGCPClient_propagatesContextValue reproduces
+// https://github.com/crossplane-contrib/provider-upjet-gcp/pull/1044#issuecomment-5992112807:
+// the offline egress guard is only installed on the provider's client after
+// Configure returns, so a value Configure's own call chain needs - the
+// Google provider's LoadAndValidate reads an *http.Client off the context
+// under the oauth2.HTTPClient key for its userinfo lookup, before the real
+// client exists - has to reach Configure through the context
+// configureNoForkGCPClient is given, not through anything set up afterward.
+// This does not re-verify the Google provider's own internals (already
+// confirmed by reading the pinned source); it verifies the one thing this
+// package is responsible for: that a value placed on the context passed in
+// survives into the context p.Configure actually receives.
+func Test_configureNoForkGCPClient_propagatesContextValue(t *testing.T) {
+	want := &http.Client{}
+	var got *http.Client
+
+	p := schema.Provider{
+		ConfigureContextFunc: func(ctx context.Context, _ *schema.ResourceData) (interface{}, diag.Diagnostics) {
+			got, _ = ctx.Value(oauth2.HTTPClient).(*http.Client)
+			return struct{}{}, nil
+		},
+	}
+
+	ctx := context.WithValue(context.Background(), oauth2.HTTPClient, want)
+	ps := &terraform.Setup{Configuration: terraform.ProviderConfiguration{}}
+
+	if err := configureNoForkGCPClient(ctx, ps, p); err != nil {
+		t.Fatalf("configureNoForkGCPClient(...): unexpected error: %v", err)
+	}
+	if got != want {
+		t.Errorf("configureNoForkGCPClient(...): Configure saw HTTP client %v, want the one placed on the given context (%v)", got, want)
 	}
 }

@@ -102,7 +102,7 @@ type ProjectSinkInitParameters struct {
 	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
 
@@ -135,9 +135,12 @@ type ProjectSinkInitParameters struct {
 	// used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
-	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
-	// bigquery_options, you must set unique_writer_identity to true.
+	// Whether to use a service agent as the writer_identity for this sink. If false,
+	// writer_identity is serviceAccount:cloud-logs@system.gserviceaccount.com and the sink's destination must be in the
+	// same project as the sink. If true (the default), writer_identity is a service agent shared by sinks with the same
+	// parent. You must set unique_writer_identity to true to publish logs across projects or use bigquery_options.
+	// See the projects.sinks.create API documentation
+	// for more information.
 	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
 }
 
@@ -180,9 +183,12 @@ type ProjectSinkObservation struct {
 	// used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
-	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
-	// bigquery_options, you must set unique_writer_identity to true.
+	// Whether to use a service agent as the writer_identity for this sink. If false,
+	// writer_identity is serviceAccount:cloud-logs@system.gserviceaccount.com and the sink's destination must be in the
+	// same project as the sink. If true (the default), writer_identity is a service agent shared by sinks with the same
+	// parent. You must set unique_writer_identity to true to publish logs across projects or use bigquery_options.
+	// See the projects.sinks.create API documentation
+	// for more information.
 	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
 
 	// The identity associated with this sink. This identity must be granted write access to the
@@ -200,7 +206,7 @@ type ProjectSinkParameters struct {
 	// the log entries. The format must be serviceAccount:some@email. This field can only be specified if you are
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
@@ -240,9 +246,12 @@ type ProjectSinkParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// Whether or not to create a unique identity associated with this sink. If false, then the writer_identity used is serviceAccount:cloud-logs@system.gserviceaccount.com. If true (the default),
-	// then a unique service account is created and used for this sink. If you wish to publish logs across projects or utilize
-	// bigquery_options, you must set unique_writer_identity to true.
+	// Whether to use a service agent as the writer_identity for this sink. If false,
+	// writer_identity is serviceAccount:cloud-logs@system.gserviceaccount.com and the sink's destination must be in the
+	// same project as the sink. If true (the default), writer_identity is a service agent shared by sinks with the same
+	// parent. You must set unique_writer_identity to true to publish logs across projects or use bigquery_options.
+	// See the projects.sinks.create API documentation
+	// for more information.
 	// +kubebuilder:validation:Optional
 	UniqueWriterIdentity *bool `json:"uniqueWriterIdentity,omitempty" tf:"unique_writer_identity,omitempty"`
 }

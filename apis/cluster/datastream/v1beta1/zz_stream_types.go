@@ -331,7 +331,7 @@ type BinaryLogPositionParameters struct {
 type BlmtConfigInitParameters struct {
 
 	// The Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate bucket.
@@ -376,7 +376,7 @@ type BlmtConfigObservation struct {
 type BlmtConfigParameters struct {
 
 	// The Cloud Storage bucket name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/storage/v1beta3.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -668,7 +668,7 @@ type DestinationConfigInitParameters struct {
 	BigqueryDestinationConfig *BigqueryDestinationConfigInitParameters `json:"bigqueryDestinationConfig,omitempty" tf:"bigquery_destination_config,omitempty"`
 
 	// Destination connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datastream/v1beta2.ConnectionProfile
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datastream/v1beta2.ConnectionProfile
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DestinationConnectionProfile *string `json:"destinationConnectionProfile,omitempty" tf:"destination_connection_profile,omitempty"`
 
@@ -707,7 +707,7 @@ type DestinationConfigParameters struct {
 	BigqueryDestinationConfig *BigqueryDestinationConfigParameters `json:"bigqueryDestinationConfig,omitempty" tf:"bigquery_destination_config,omitempty"`
 
 	// Destination connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datastream/v1beta2.ConnectionProfile
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datastream/v1beta2.ConnectionProfile
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DestinationConnectionProfile *string `json:"destinationConnectionProfile,omitempty" tf:"destination_connection_profile,omitempty"`
@@ -3917,7 +3917,7 @@ type SingleTargetDatasetInitParameters struct {
 
 	// Dataset ID in the format projects/{project}/datasets/{dataset_id} or
 	// {project}:{dataset_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
 
@@ -3941,7 +3941,7 @@ type SingleTargetDatasetParameters struct {
 
 	// Dataset ID in the format projects/{project}/datasets/{dataset_id} or
 	// {project}:{dataset_id}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2.Dataset
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2.Dataset
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DatasetID *string `json:"datasetId,omitempty" tf:"dataset_id,omitempty"`
@@ -3982,7 +3982,7 @@ type SourceConfigInitParameters struct {
 	SalesforceSourceConfig *SalesforceSourceConfigInitParameters `json:"salesforceSourceConfig,omitempty" tf:"salesforce_source_config,omitempty"`
 
 	// Source connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datastream/v1beta2.ConnectionProfile
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datastream/v1beta2.ConnectionProfile
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SourceConnectionProfile *string `json:"sourceConnectionProfile,omitempty" tf:"source_connection_profile,omitempty"`
 
@@ -4066,7 +4066,7 @@ type SourceConfigParameters struct {
 	SalesforceSourceConfig *SalesforceSourceConfigParameters `json:"salesforceSourceConfig,omitempty" tf:"salesforce_source_config,omitempty"`
 
 	// Source connection profile resource. Format: projects/{project}/locations/{location}/connectionProfiles/{name}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/datastream/v1beta2.ConnectionProfile
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/datastream/v1beta2.ConnectionProfile
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceConnectionProfile *string `json:"sourceConnectionProfile,omitempty" tf:"source_connection_profile,omitempty"`
@@ -4092,7 +4092,7 @@ type SourceHierarchyDatasetsInitParameters struct {
 	DatasetTemplate *DatasetTemplateInitParameters `json:"datasetTemplate,omitempty" tf:"dataset_template,omitempty"`
 
 	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
@@ -4123,7 +4123,7 @@ type SourceHierarchyDatasetsParameters struct {
 	DatasetTemplate *DatasetTemplateParameters `json:"datasetTemplate" tf:"dataset_template,omitempty"`
 
 	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

@@ -33,16 +33,16 @@ metadata:
 spec:
   forProvider:
     automaticScaling:
-      - maxConcurrentRequests: 10
-        standardSchedulerSettings:
-          - maxInstances: 1
+      maxConcurrentRequests: 10
+      standardSchedulerSettings:
+        maxInstances: 1
     deleteServiceOnDestroy: true
     deployment:
-      - files:
-          - sourceUrl: https://storage.googleapis.com/${bucket.name}/${bucket-object.name}
-            name: bucket-object
+      files:
+        - sourceUrl: https://storage.googleapis.com/${bucket.name}/${bucket-object.name}
+          name: bucket-object
     entrypoint:
-      - shell: node ./app.js
+      shell: node ./app.js
     runtime: nodejs10
     service: default
 ---
@@ -91,5 +91,5 @@ spec:
     location: US
     uniformBucketLevelAccess: false
     website:
-      - mainPageSuffix: index.html
-        notFoundPage: 404.html
+      mainPageSuffix: index.html
+      notFoundPage: 404.html

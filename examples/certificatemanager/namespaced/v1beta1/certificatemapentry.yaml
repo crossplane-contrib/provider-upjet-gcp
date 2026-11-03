@@ -39,12 +39,12 @@ spec:
   forProvider:
     description: The default cert
     managed:
-      - dnsAuthorizationsRefs:
-          - name: instance
-          - name: instance2
-        domainsRefs:
-          - name: instance
-          - name: instance2
+      dnsAuthorizationsRefs:
+        - name: instance
+        - name: instance2
+      domainsRefs:
+        - name: instance
+        - name: instance2
     scope: DEFAULT
 ---
 apiVersion: certificatemanager.gcp.m.upbound.io/v1beta1

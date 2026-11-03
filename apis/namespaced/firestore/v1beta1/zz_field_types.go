@@ -26,6 +26,9 @@ type FieldInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Whether to skip waiting for the field operation to complete.
+	SkipWait *bool `json:"skipWait,omitempty" tf:"skip_wait,omitempty"`
+
 	// The TTL configuration for this Field. If set to an empty (i.e. ttl_config {}) or non-empty block, a TTL policy is configured based on the field. If unset, a TTL policy is not configured (or will be disabled upon updating the resource).
 	// Structure is documented below.
 	TTLConfig *TTLConfigInitParameters `json:"ttlConfig,omitempty" tf:"ttl_config,omitempty"`
@@ -61,6 +64,9 @@ type FieldObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// Whether to skip waiting for the field operation to complete.
+	SkipWait *bool `json:"skipWait,omitempty" tf:"skip_wait,omitempty"`
+
 	// The TTL configuration for this Field. If set to an empty (i.e. ttl_config {}) or non-empty block, a TTL policy is configured based on the field. If unset, a TTL policy is not configured (or will be disabled upon updating the resource).
 	// Structure is documented below.
 	TTLConfig *TTLConfigObservation `json:"ttlConfig,omitempty" tf:"ttl_config,omitempty"`
@@ -73,7 +79,7 @@ type FieldParameters struct {
 	Collection *string `json:"collection" tf:"collection,omitempty"`
 
 	// The Firestore database id. Defaults to "(default)".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/firestore/v1beta1.Database
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/firestore/v1beta1.Database
 	// +kubebuilder:validation:Optional
 	Database *string `json:"database,omitempty" tf:"database,omitempty"`
 
@@ -97,6 +103,10 @@ type FieldParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// Whether to skip waiting for the field operation to complete.
+	// +kubebuilder:validation:Optional
+	SkipWait *bool `json:"skipWait,omitempty" tf:"skip_wait,omitempty"`
 
 	// The TTL configuration for this Field. If set to an empty (i.e. ttl_config {}) or non-empty block, a TTL policy is configured based on the field. If unset, a TTL policy is not configured (or will be disabled upon updating the resource).
 	// Structure is documented below.

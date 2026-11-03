@@ -9,16 +9,18 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	database "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/database"
-	databaseiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/databaseiammember"
-	instance "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/instance"
-	instanceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/spanner/instanceiammember"
+	backupschedule "github.com/upbound/provider-gcp/v3/internal/controller/cluster/spanner/backupschedule"
+	database "github.com/upbound/provider-gcp/v3/internal/controller/cluster/spanner/database"
+	databaseiammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/spanner/databaseiammember"
+	instance "github.com/upbound/provider-gcp/v3/internal/controller/cluster/spanner/instance"
+	instanceiammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/spanner/instanceiammember"
 )
 
 // Setup_spanner creates all controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup_spanner(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		backupschedule.Setup,
 		database.Setup,
 		databaseiammember.Setup,
 		instance.Setup,
@@ -35,6 +37,7 @@ func Setup_spanner(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_spanner(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		backupschedule.SetupGated,
 		database.SetupGated,
 		databaseiammember.SetupGated,
 		instance.SetupGated,
@@ -50,6 +53,7 @@ func SetupGated_spanner(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager_spanner registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager_spanner(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		backupschedule.SetupWebhookWithManager,
 		database.SetupWebhookWithManager,
 		databaseiammember.SetupWebhookWithManager,
 		instance.SetupWebhookWithManager,

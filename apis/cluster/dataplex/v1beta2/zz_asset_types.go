@@ -104,7 +104,7 @@ type AssetObservation struct {
 type AssetParameters struct {
 
 	// The zone for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Zone
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataplex/v1beta2.Zone
 	// +kubebuilder:validation:Optional
 	DataplexZone *string `json:"dataplexZone,omitempty" tf:"dataplex_zone,omitempty"`
 
@@ -134,7 +134,7 @@ type AssetParameters struct {
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The lake for the resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/dataplex/v1beta2.Lake
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/dataplex/v1beta2.Lake
 	// +kubebuilder:validation:Optional
 	Lake *string `json:"lake,omitempty" tf:"lake,omitempty"`
 

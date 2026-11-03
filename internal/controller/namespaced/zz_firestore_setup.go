@@ -9,9 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	database "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/database"
-	field "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/field"
-	index "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/index"
+	database "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firestore/database"
+	field "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firestore/field"
+	index "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firestore/index"
 )
 
 // Setup_firestore creates all controllers with the supplied logger and adds them to

@@ -17,5 +17,7 @@ spec:
     concurrency: 0
     edition: STANDARD
     ignoreIdleSlots: true
+    labels:
+      environment: production
     location: us-west2
     slotCapacity: 0

@@ -16,7 +16,7 @@ import (
 type DiskResourcePolicyAttachmentInitParameters struct {
 
 	// The name of the disk in which the resource policies are attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
 	// Reference to a Disk in compute to populate disk.
@@ -29,7 +29,7 @@ type DiskResourcePolicyAttachmentInitParameters struct {
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a ResourcePolicy in compute to populate name.
@@ -75,7 +75,7 @@ type DiskResourcePolicyAttachmentObservation struct {
 type DiskResourcePolicyAttachmentParameters struct {
 
 	// The name of the disk in which the resource policies are attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
 	Disk *string `json:"disk,omitempty" tf:"disk,omitempty"`
 
@@ -89,7 +89,7 @@ type DiskResourcePolicyAttachmentParameters struct {
 
 	// The resource policy to be attached to the disk for scheduling snapshot
 	// creation. Do not specify the self link.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 

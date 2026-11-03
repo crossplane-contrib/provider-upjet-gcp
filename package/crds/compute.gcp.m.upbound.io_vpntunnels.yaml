@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: vpntunnels.compute.gcp.m.upbound.io
 spec:
   group: compute.gcp.m.upbound.io
@@ -1286,6 +1286,11 @@ spec:
                     type: string
                   sharedSecretHash:
                     description: Hash of the shared secret.
+                    type: string
+                  sharedSecretWoVersion:
+                    description: Triggers update of shared_secret_wo write-only. Increment
+                      this value when an update to shared_secret_wo is needed. For
+                      more info see updating write-only arguments
                     type: string
                   targetVpnGateway:
                     description: |-

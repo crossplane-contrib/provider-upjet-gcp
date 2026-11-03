@@ -166,7 +166,7 @@ type FunctionInitParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The GCS bucket containing the zip archive which contains the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
 
 	// Reference to a Bucket in storage to populate sourceArchiveBucket.
@@ -178,7 +178,7 @@ type FunctionInitParameters struct {
 	SourceArchiveBucketSelector *v2.NamespacedSelector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
 	// The source archive object (file) in archive bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	SourceArchiveObject *string `json:"sourceArchiveObject,omitempty" tf:"source_archive_object,omitempty"`
 
@@ -433,7 +433,7 @@ type FunctionParameters struct {
 	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
 
 	// The GCS bucket containing the zip archive which contains the function.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta2.Bucket
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2.Bucket
 	// +kubebuilder:validation:Optional
 	SourceArchiveBucket *string `json:"sourceArchiveBucket,omitempty" tf:"source_archive_bucket,omitempty"`
 
@@ -446,7 +446,7 @@ type FunctionParameters struct {
 	SourceArchiveBucketSelector *v2.NamespacedSelector `json:"sourceArchiveBucketSelector,omitempty" tf:"-"`
 
 	// The source archive object (file) in archive bucket.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/storage/v1beta1.BucketObject
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta1.BucketObject
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	SourceArchiveObject *string `json:"sourceArchiveObject,omitempty" tf:"source_archive_object,omitempty"`

@@ -51,8 +51,8 @@ type AllInstancesConfigParameters struct {
 type AutoHealingPoliciesInitParameters struct {
 
 	// The health check resource that signals autohealing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// Reference to a HealthCheck in compute to populate healthCheck.
@@ -81,8 +81,8 @@ type AutoHealingPoliciesObservation struct {
 type AutoHealingPoliciesParameters struct {
 
 	// The health check resource that signals autohealing.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.HealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.HealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	HealthCheck *string `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
@@ -159,8 +159,8 @@ type InstanceGroupManagerInitParameters struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
 
@@ -434,8 +434,8 @@ type InstanceGroupManagerParameters struct {
 	// The full URL of all target pools to which new
 	// instances in the group are added. Updating the target pools attribute does
 	// not affect existing instances.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.TargetPool
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.TargetPool
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	TargetPools []*string `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
@@ -505,6 +505,9 @@ type InstanceLifecyclePolicyInitParameters struct {
 
 	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
 	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	OnRepair *OnRepairInitParameters `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type InstanceLifecyclePolicyObservation struct {
@@ -517,6 +520,9 @@ type InstanceLifecyclePolicyObservation struct {
 
 	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
 	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	OnRepair *OnRepairObservation `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type InstanceLifecyclePolicyParameters struct {
@@ -532,6 +538,29 @@ type InstanceLifecyclePolicyParameters struct {
 	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
 	// +kubebuilder:validation:Optional
 	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnRepair *OnRepairParameters `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
+}
+
+type OnRepairInitParameters struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
+type OnRepairObservation struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
+type OnRepairParameters struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	// +kubebuilder:validation:Optional
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
 }
 
 type PerInstanceConfigsInitParameters struct {
@@ -549,7 +578,7 @@ type PerInstanceConfigsParameters struct {
 type ResourcePoliciesInitParameters struct {
 
 	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 
@@ -571,7 +600,7 @@ type ResourcePoliciesObservation struct {
 type ResourcePoliciesParameters struct {
 
 	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
@@ -898,8 +927,8 @@ type UpdatePolicyParameters struct {
 type VersionInitParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate instanceTemplate.
@@ -932,8 +961,8 @@ type VersionObservation struct {
 type VersionParameters struct {
 
 	// - The full URL to an instance template from which all new instances of this version will be created. It is recommended to reference instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceTemplate *string `json:"instanceTemplate,omitempty" tf:"instance_template,omitempty"`
 

@@ -55,7 +55,7 @@ type BinaryAuthorizationParameters struct {
 type CloudSQLInstanceInitParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/sql/v1beta2.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
 
@@ -77,7 +77,7 @@ type CloudSQLInstanceObservation struct {
 type CloudSQLInstanceParameters struct {
 
 	// The Cloud SQL instance connection names, as can be found in https://console.cloud.google.com/sql/instances. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. Format: {project}:{location}:{instance}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/sql/v1beta2.DatabaseInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("connection_name",true)
 	// +kubebuilder:validation:Optional
 	Instances []*string `json:"instances,omitempty" tf:"instances,omitempty"`
@@ -489,7 +489,9 @@ type NetworkInterfacesInitParameters struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -505,7 +507,9 @@ type NetworkInterfacesObservation struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -523,7 +527,9 @@ type NetworkInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -1119,6 +1125,20 @@ type V2JobInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create executions for this Job.
 	// Structure is documented below.
 	Template *V2JobTemplateInitParameters `json:"template,omitempty" tf:"template,omitempty"`
@@ -1225,6 +1245,20 @@ type V2JobObservation struct {
 	// If reconciliation failed, observedGeneration and latest_succeeded_execution will have the state of the last succeeded execution or empty for newly created Job. Additional information on the failure can be found in terminalCondition and conditions
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
 
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create executions for this Job.
 	// Structure is documented below.
 	Template *V2JobTemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
@@ -1300,6 +1334,23 @@ type V2JobParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	// +kubebuilder:validation:Optional
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	// +kubebuilder:validation:Optional
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The template used to create executions for this Job.
 	// Structure is documented below.
@@ -1467,7 +1518,7 @@ type ValueSourceSecretKeyRefInitParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
@@ -1496,7 +1547,7 @@ type ValueSourceSecretKeyRefParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -1598,7 +1649,7 @@ type VolumesSecretInitParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secret.
@@ -1637,7 +1688,7 @@ type VolumesSecretParameters struct {
 
 	// Secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
 	// Structure is documented below.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 

@@ -39,7 +39,7 @@ metadata:
   name: per-instance-config
 spec:
   forProvider:
-    image: debian-11-bullseye-v20220719
+    image: debian-cloud/debian-13
     physicalBlockSizeBytes: 4096
     type: pd-ssd
     zone: us-central1-a
@@ -82,7 +82,7 @@ spec:
     disk:
     - autoDelete: true
       boot: true
-      sourceImage: debian-cloud/debian-11
+      sourceImage: debian-cloud/debian-13
     machineType: e2-medium
     name: per-instance-config
     networkInterface:

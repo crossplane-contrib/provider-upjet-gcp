@@ -391,7 +391,7 @@ type LeaderInitParameters struct {
 
 	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
 	// attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.NetworkEndpointGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
 
@@ -423,7 +423,7 @@ type LeaderParameters struct {
 
 	// A fully-qualified URL of the zonal Network Endpoint Group (NEG) that the leader is
 	// attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkEndpointGroup
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.NetworkEndpointGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	BackendGroup *string `json:"backendGroup,omitempty" tf:"backend_group,omitempty"`
@@ -442,11 +442,49 @@ type LeaderParameters struct {
 	NetworkEndpoint *NetworkEndpointParameters `json:"networkEndpoint,omitempty" tf:"network_endpoint,omitempty"`
 }
 
+type LogConfigRequestHeadersInitParameters struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigRequestHeadersObservation struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigRequestHeadersParameters struct {
+
+	// The header name to match on for logging.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+}
+
+type LogConfigResponseHeadersInitParameters struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigResponseHeadersObservation struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type LogConfigResponseHeadersParameters struct {
+
+	// The header name to match on for logging.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+}
+
 type NetworkEndpointInitParameters struct {
 
 	// The name of the VM instance of the leader network endpoint. The instance must
 	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a Instance in compute to populate instance.
@@ -469,7 +507,7 @@ type NetworkEndpointParameters struct {
 
 	// The name of the VM instance of the leader network endpoint. The instance must
 	// already be attached to the NEG specified in the haPolicy.leader.backendGroup.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
@@ -633,8 +671,8 @@ type RegionBackendServiceBackendInitParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/compute.InstanceGroupExtractor()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
 	// Reference to a RegionInstanceGroupManager in compute to populate group.
@@ -854,8 +892,8 @@ type RegionBackendServiceBackendParameters struct {
 	// Note that you must specify an Instance Group or Network Endpoint
 	// Group resource using the fully-qualified URL, rather than a
 	// partial URL.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/compute.InstanceGroupExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionInstanceGroupManager
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/compute.InstanceGroupExtractor()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -1520,8 +1558,8 @@ type RegionBackendServiceInitParameters struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionHealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionHealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
 
@@ -1558,7 +1596,7 @@ type RegionBackendServiceInitParameters struct {
 	// This field must be set for Internal Passthrough Network Load Balancers when the haPolicy is enabled, and for External Passthrough Network Load Balancers when the haPolicy fastIpMove is enabled.
 	// This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
 	// Changes to this field force recreation of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -1601,8 +1639,8 @@ type RegionBackendServiceInitParameters struct {
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The security policy associated with this backend service.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RegionSecurityPolicy
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.RegionSecurityPolicy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
 
 	// Reference to a RegionSecurityPolicy in compute to populate securityPolicy.
@@ -1646,6 +1684,14 @@ type RegionBackendServiceLogConfigInitParameters struct {
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	RequestHeaders []LogConfigRequestHeadersInitParameters `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	ResponseHeaders []LogConfigResponseHeadersInitParameters `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
@@ -1665,6 +1711,14 @@ type RegionBackendServiceLogConfigObservation struct {
 	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	RequestHeaders []LogConfigRequestHeadersObservation `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	ResponseHeaders []LogConfigResponseHeadersObservation `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1688,6 +1742,16 @@ type RegionBackendServiceLogConfigParameters struct {
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	// +kubebuilder:validation:Optional
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeaders []LogConfigRequestHeadersParameters `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeaders []LogConfigResponseHeadersParameters `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -2163,8 +2227,8 @@ type RegionBackendServiceParameters struct {
 	// check can be specified.
 	// A health check must be specified unless the backend service uses an internet
 	// or serverless NEG as a backend.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.RegionHealthCheck
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.SelfLinkExtractor()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.RegionHealthCheck
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	HealthChecks []*string `json:"healthChecks,omitempty" tf:"health_checks,omitempty"`
@@ -2207,7 +2271,7 @@ type RegionBackendServiceParameters struct {
 	// This field must be set for Internal Passthrough Network Load Balancers when the haPolicy is enabled, and for External Passthrough Network Load Balancers when the haPolicy fastIpMove is enabled.
 	// This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
 	// Changes to this field force recreation of the resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -2262,8 +2326,8 @@ type RegionBackendServiceParameters struct {
 	Region *string `json:"region" tf:"region,omitempty"`
 
 	// The security policy associated with this backend service.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.RegionSecurityPolicy
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.RegionSecurityPolicy
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecurityPolicy *string `json:"securityPolicy,omitempty" tf:"security_policy,omitempty"`
 

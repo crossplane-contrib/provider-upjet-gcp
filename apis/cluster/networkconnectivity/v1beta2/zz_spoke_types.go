@@ -13,13 +13,71 @@ import (
 	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
+type GatewayInitParameters struct {
+
+	// the capacity of the gateway spoke, in Gbps.
+	// Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+	Capacity *string `json:"capacity,omitempty" tf:"capacity,omitempty"`
+
+	// A list of IP ranges that are reserved for this gateway's internal infrastructure.
+	// Structure is documented below.
+	IPRangeReservations []IPRangeReservationsInitParameters `json:"ipRangeReservations,omitempty" tf:"ip_range_reservations,omitempty"`
+}
+
+type GatewayObservation struct {
+
+	// the capacity of the gateway spoke, in Gbps.
+	// Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+	Capacity *string `json:"capacity,omitempty" tf:"capacity,omitempty"`
+
+	// A list of IP ranges that are reserved for this gateway's internal infrastructure.
+	// Structure is documented below.
+	IPRangeReservations []IPRangeReservationsObservation `json:"ipRangeReservations,omitempty" tf:"ip_range_reservations,omitempty"`
+
+	// (Output)
+	// Set of Cloud Routers that are attached to this NCC-GW
+	Routers []*string `json:"routers,omitempty" tf:"routers,omitempty"`
+}
+
+type GatewayParameters struct {
+
+	// the capacity of the gateway spoke, in Gbps.
+	// Possible values are: CAPACITY_1_GBPS, CAPACITY_10_GBPS, CAPACITY_100_GBPS.
+	// +kubebuilder:validation:Optional
+	Capacity *string `json:"capacity" tf:"capacity,omitempty"`
+
+	// A list of IP ranges that are reserved for this gateway's internal infrastructure.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IPRangeReservations []IPRangeReservationsParameters `json:"ipRangeReservations" tf:"ip_range_reservations,omitempty"`
+}
+
+type IPRangeReservationsInitParameters struct {
+
+	// A block of IP address ranges used to allocate supporting infrastructure for this gateway—for example, 10.1.2.0/23. The IP address block must be a /23 range. This IP address block must not overlap with subnets in any spoke or peer network that the gateway can communicate with.
+	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+}
+
+type IPRangeReservationsObservation struct {
+
+	// A block of IP address ranges used to allocate supporting infrastructure for this gateway—for example, 10.1.2.0/23. The IP address block must be a /23 range. This IP address block must not overlap with subnets in any spoke or peer network that the gateway can communicate with.
+	IPRange *string `json:"ipRange,omitempty" tf:"ip_range,omitempty"`
+}
+
+type IPRangeReservationsParameters struct {
+
+	// A block of IP address ranges used to allocate supporting infrastructure for this gateway—for example, 10.1.2.0/23. The IP address block must be a /23 range. This IP address block must not overlap with subnets in any spoke or peer network that the gateway can communicate with.
+	// +kubebuilder:validation:Optional
+	IPRange *string `json:"ipRange" tf:"ip_range,omitempty"`
+}
+
 type InstancesInitParameters struct {
 
 	// The IP address on the VM to use for peering.
 	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
 
 	// The URI of the virtual machine resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	VirtualMachine *string `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
 
@@ -48,7 +106,7 @@ type InstancesParameters struct {
 	IPAddress *string `json:"ipAddress" tf:"ip_address,omitempty"`
 
 	// The URI of the virtual machine resource
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta2.Instance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2.Instance
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	VirtualMachine *string `json:"virtualMachine,omitempty" tf:"virtual_machine,omitempty"`
@@ -81,7 +139,7 @@ type LinkedInterconnectAttachmentsInitParameters struct {
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked interconnect attachment resources
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.InterconnectAttachment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.InterconnectAttachment
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 
@@ -140,7 +198,7 @@ type LinkedInterconnectAttachmentsParameters struct {
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked interconnect attachment resources
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.InterconnectAttachment
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.InterconnectAttachment
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
@@ -163,7 +221,7 @@ type LinkedProducerVPCNetworkInitParameters struct {
 	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
 
 	// The URI of the Service Consumer VPC that the Producer VPC is peered with.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Reference to a Network in compute to populate network.
@@ -175,7 +233,7 @@ type LinkedProducerVPCNetworkInitParameters struct {
 	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/servicenetworking/v1beta1.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/servicenetworking/v1beta1.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("peering",true)
 	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
 
@@ -218,7 +276,7 @@ type LinkedProducerVPCNetworkParameters struct {
 	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
 
 	// The URI of the Service Consumer VPC that the Producer VPC is peered with.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -231,7 +289,7 @@ type LinkedProducerVPCNetworkParameters struct {
 	NetworkSelector *v2.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// The name of the VPC peering between the Service Consumer VPC and the Producer VPC (defined in the Tenant project) which is added to the NCC hub. This peering must be in ACTIVE state.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/servicenetworking/v1beta1.Connection
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/servicenetworking/v1beta1.Connection
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("peering",true)
 	// +kubebuilder:validation:Optional
 	Peering *string `json:"peering,omitempty" tf:"peering,omitempty"`
@@ -329,7 +387,7 @@ type LinkedVPCNetworkInitParameters struct {
 	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
 
 	// The URI of the VPC network resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
 
@@ -365,7 +423,7 @@ type LinkedVPCNetworkParameters struct {
 	IncludeExportRanges []*string `json:"includeExportRanges,omitempty" tf:"include_export_ranges,omitempty"`
 
 	// The URI of the VPC network resource.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	URI *string `json:"uri,omitempty" tf:"uri,omitempty"`
@@ -398,7 +456,7 @@ type LinkedVPNTunnelsInitParameters struct {
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer,omitempty" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked VPN tunnel resources.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.VPNTunnel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
 
@@ -457,7 +515,7 @@ type LinkedVPNTunnelsParameters struct {
 	SiteToSiteDataTransfer *bool `json:"siteToSiteDataTransfer" tf:"site_to_site_data_transfer,omitempty"`
 
 	// The URIs of linked VPN tunnel resources.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.VPNTunnel
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.VPNTunnel
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
 	// +kubebuilder:validation:Optional
 	Uris []*string `json:"uris,omitempty" tf:"uris,omitempty"`
@@ -494,8 +552,12 @@ type SpokeInitParameters struct {
 	// An optional description of the spoke.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// This is a gateway that can apply specialized processing to traffic going through it.
+	// Structure is documented below.
+	Gateway *GatewayInitParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
+
 	// The name of the group that this spoke is associated with.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
 
@@ -508,7 +570,7 @@ type SpokeInitParameters struct {
 	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Hub
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta1.Hub
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`
 
@@ -571,6 +633,10 @@ type SpokeObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// This is a gateway that can apply specialized processing to traffic going through it.
+	// Structure is documented below.
+	Gateway *GatewayObservation `json:"gateway,omitempty" tf:"gateway,omitempty"`
 
 	// The name of the group that this spoke is associated with.
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
@@ -642,8 +708,13 @@ type SpokeParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// This is a gateway that can apply specialized processing to traffic going through it.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Gateway *GatewayParameters `json:"gateway,omitempty" tf:"gateway,omitempty"`
+
 	// The name of the group that this spoke is associated with.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Group
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta1.Group
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Group *string `json:"group,omitempty" tf:"group,omitempty"`
@@ -657,7 +728,7 @@ type SpokeParameters struct {
 	GroupSelector *v2.Selector `json:"groupSelector,omitempty" tf:"-"`
 
 	// Immutable. The URI of the hub that this spoke is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1.Hub
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/networkconnectivity/v1beta1.Hub
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Hub *string `json:"hub,omitempty" tf:"hub,omitempty"`

@@ -18,7 +18,7 @@ type GkeClustersInitParameters struct {
 	// The resource name of the cluster to bind this ManagedZone to.
 	// This should be specified in the format like
 	// projects/*/locations/*/clusters/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/container/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/container/v1beta2.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
 
@@ -44,7 +44,7 @@ type GkeClustersParameters struct {
 	// The resource name of the cluster to bind this ManagedZone to.
 	// This should be specified in the format like
 	// projects/*/locations/*/clusters/*
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/container/v1beta2.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/container/v1beta2.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GkeClusterName *string `json:"gkeClusterName,omitempty" tf:"gke_cluster_name,omitempty"`
@@ -63,7 +63,7 @@ type NetworksInitParameters struct {
 	// The fully qualified URL of the VPC network to bind to.
 	// This should be formatted like
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
 
@@ -89,7 +89,7 @@ type NetworksParameters struct {
 	// The fully qualified URL of the VPC network to bind to.
 	// This should be formatted like
 	// https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`

@@ -24,7 +24,7 @@ type BackupBackupPlanInitParameters struct {
 	BackupSchedule *BackupScheduleInitParameters `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
 	// The source cluster from which Backups will be created via this BackupPlan.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
 
@@ -152,7 +152,7 @@ type BackupBackupPlanParameters struct {
 	BackupSchedule *BackupScheduleParameters `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
 	// The source cluster from which Backups will be created via this BackupPlan.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/container/v1beta1.Cluster
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1.Cluster
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Cluster *string `json:"cluster,omitempty" tf:"cluster,omitempty"`
@@ -402,7 +402,7 @@ type DaysOfWeekParameters struct {
 type EncryptionKeyInitParameters struct {
 
 	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`
 
@@ -424,7 +424,7 @@ type EncryptionKeyObservation struct {
 type EncryptionKeyParameters struct {
 
 	// Google Cloud KMS encryption key. Format: projects//locations//keyRings//cryptoKeys/
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/kms/v1beta1.CryptoKey
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/kms/v1beta1.CryptoKey
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GCPKMSEncryptionKey *string `json:"gcpKmsEncryptionKey,omitempty" tf:"gcp_kms_encryption_key,omitempty"`

@@ -65,7 +65,7 @@ spec:
         }
       ]
     timePartitioning:
-      - type: DAY
+      type: DAY
 ---
 apiVersion: bigquery.gcp.m.upbound.io/v1beta1
 kind: Dataset

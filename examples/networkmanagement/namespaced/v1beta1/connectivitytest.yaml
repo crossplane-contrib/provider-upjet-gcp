@@ -97,4 +97,4 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    sourceImage: projects/debian-cloud/global/images/debian-11-bullseye-v20250709
+    sourceImage: debian-cloud/debian-13

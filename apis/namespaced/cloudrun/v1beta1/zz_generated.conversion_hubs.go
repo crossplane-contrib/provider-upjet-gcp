@@ -19,4 +19,13 @@ func (tr *ServiceIAMMember) Hub() {}
 func (tr *V2Job) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *V2JobIAMBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *V2JobIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *V2JobIAMPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *V2Service) Hub() {}

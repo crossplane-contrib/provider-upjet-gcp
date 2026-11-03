@@ -90,6 +90,9 @@ type ContainersInitParameters struct {
 	// Structure is documented below.
 	Resources *ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
+
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
 	// succeeds. Container will not be added to service endpoints if the probe fails.
@@ -151,6 +154,9 @@ type ContainersObservation struct {
 	// Compute Resources required by this container. Used to set values such as max memory
 	// Structure is documented below.
 	Resources *ResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -223,6 +229,10 @@ type ContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *ResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	// +kubebuilder:validation:Optional
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -1019,7 +1029,7 @@ type SecretInitParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate secretName.
@@ -1038,7 +1048,7 @@ type SecretKeyRefInitParameters struct {
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// Reference to a Secret in secretmanager to populate name.
@@ -1068,7 +1078,7 @@ type SecretKeyRefParameters struct {
 	Key *string `json:"key" tf:"key,omitempty"`
 
 	// Volume's name.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1136,7 +1146,7 @@ type SecretParameters struct {
 	// commas.
 	// The alias definitions must be set on the run.googleapis.com/secrets
 	// annotation.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/secretmanager/v1beta2.Secret
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/secretmanager/v1beta2.Secret
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
@@ -1254,7 +1264,7 @@ type ServiceMetadataInitParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number. It will default to the resource's project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a Project in cloudplatform to populate namespace.
@@ -1340,7 +1350,7 @@ type ServiceMetadataParameters struct {
 
 	// In Cloud Run the namespace must be equal to either the
 	// project ID or project number. It will default to the resource's project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/cloudplatform/v1beta1.Project
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 

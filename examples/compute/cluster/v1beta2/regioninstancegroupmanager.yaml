@@ -51,7 +51,7 @@ spec:
     disk:
     - autoDelete: false
       boot: true
-      sourceImage: debian-cloud/debian-11
+      sourceImage: debian-cloud/debian-13
     instanceDescription: description assigned to instances
     labels:
       environment: dev

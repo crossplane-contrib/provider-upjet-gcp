@@ -401,7 +401,14 @@ type ScriptParameters struct {
 type StandardAppVersionInitParameters struct {
 
 	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
 	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
+	// Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+	// +listType=set
+	AppEngineBundledServices []*string `json:"appEngineBundledServices,omitempty" tf:"app_engine_bundled_services,omitempty"`
 
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
@@ -466,7 +473,7 @@ type StandardAppVersionInitParameters struct {
 	RuntimeAPIVersion *string `json:"runtimeApiVersion,omitempty" tf:"runtime_api_version,omitempty"`
 
 	// The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
@@ -489,7 +496,14 @@ type StandardAppVersionInitParameters struct {
 type StandardAppVersionObservation struct {
 
 	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
 	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
+	// Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+	// +listType=set
+	AppEngineBundledServices []*string `json:"appEngineBundledServices,omitempty" tf:"app_engine_bundled_services,omitempty"`
 
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
@@ -580,8 +594,16 @@ type StandardAppVersionObservation struct {
 type StandardAppVersionParameters struct {
 
 	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
 	// +kubebuilder:validation:Optional
 	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
+	// Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AppEngineBundledServices []*string `json:"appEngineBundledServices,omitempty" tf:"app_engine_bundled_services,omitempty"`
 
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
@@ -665,7 +687,7 @@ type StandardAppVersionParameters struct {
 	Service *string `json:"service" tf:"service,omitempty"`
 
 	// The identity that the deployed version will run as. Admin API will use the App Engine Appspot service account as default if this field is neither provided in app.yaml file nor through CLI flag.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`

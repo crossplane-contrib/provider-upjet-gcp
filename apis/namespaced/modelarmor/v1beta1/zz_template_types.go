@@ -151,6 +151,50 @@ type FilterConfigSdpSettingsParameters struct {
 	BasicConfig *SdpSettingsBasicConfigParameters `json:"basicConfig,omitempty" tf:"basic_config,omitempty"`
 }
 
+type FilterVersionSelectorInitParameters struct {
+
+	// A predefined filter version alias. The template automatically follows the
+	// version this alias points to.
+	// Possible values:
+	// FILTER_VERSION_ALIAS_STABLE
+	// FILTER_VERSION_ALIAS_LATEST
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	// Pins the template to a specific, immutable filter version. Expected
+	// format is a case-sensitive string such as 'v1' or 'v2'.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type FilterVersionSelectorObservation struct {
+
+	// A predefined filter version alias. The template automatically follows the
+	// version this alias points to.
+	// Possible values:
+	// FILTER_VERSION_ALIAS_STABLE
+	// FILTER_VERSION_ALIAS_LATEST
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	// Pins the template to a specific, immutable filter version. Expected
+	// format is a case-sensitive string such as 'v1' or 'v2'.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type FilterVersionSelectorParameters struct {
+
+	// A predefined filter version alias. The template automatically follows the
+	// version this alias points to.
+	// Possible values:
+	// FILTER_VERSION_ALIAS_STABLE
+	// FILTER_VERSION_ALIAS_LATEST
+	// +kubebuilder:validation:Optional
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	// Pins the template to a specific, immutable filter version. Expected
+	// format is a case-sensitive string such as 'v1' or 'v2'.
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type RaiSettingsRaiFiltersInitParameters struct {
 
 	// Possible values:
@@ -211,8 +255,8 @@ type SdpSettingsAdvancedConfigInitParameters struct {
 	// in inspect template.
 	// e.g.
 	// projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datalossprevention/v1beta1.DeidentifyTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/datalossprevention/v1beta1.DeidentifyTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	DeidentifyTemplate *string `json:"deidentifyTemplate,omitempty" tf:"deidentify_template,omitempty"`
 
 	// Reference to a DeidentifyTemplate in datalossprevention to populate deidentifyTemplate.
@@ -230,8 +274,8 @@ type SdpSettingsAdvancedConfigInitParameters struct {
 	// inspection will be returned as SdpFinding in SdpInsepctionResult.
 	// e.g:-
 	// projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datalossprevention/v1beta1.InspectTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/datalossprevention/v1beta1.InspectTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	InspectTemplate *string `json:"inspectTemplate,omitempty" tf:"inspect_template,omitempty"`
 
 	// Reference to a InspectTemplate in datalossprevention to populate inspectTemplate.
@@ -275,8 +319,8 @@ type SdpSettingsAdvancedConfigParameters struct {
 	// in inspect template.
 	// e.g.
 	// projects/{project}/locations/{location}/deidentifyTemplates/{deidentify_template}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datalossprevention/v1beta1.DeidentifyTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/datalossprevention/v1beta1.DeidentifyTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DeidentifyTemplate *string `json:"deidentifyTemplate,omitempty" tf:"deidentify_template,omitempty"`
 
@@ -295,8 +339,8 @@ type SdpSettingsAdvancedConfigParameters struct {
 	// inspection will be returned as SdpFinding in SdpInsepctionResult.
 	// e.g:-
 	// projects/{project}/locations/{location}/inspectTemplates/{inspect_template}
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datalossprevention/v1beta1.InspectTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/datalossprevention/v1beta1.InspectTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InspectTemplate *string `json:"inspectTemplate,omitempty" tf:"inspect_template,omitempty"`
 
@@ -445,6 +489,11 @@ type TemplateMetadataInitParameters struct {
 	// INSPECT_AND_BLOCK
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	// Selects the filter version to use for this template. Set exactly one of
+	// 'alias' or 'version'.
+	// Structure is documented below.
+	FilterVersionSelector *FilterVersionSelectorInitParameters `json:"filterVersionSelector,omitempty" tf:"filter_version_selector,omitempty"`
+
 	// If true, partial detector failures should be ignored.
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
@@ -501,6 +550,11 @@ type TemplateMetadataObservation struct {
 	// INSPECT_AND_BLOCK
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	// Selects the filter version to use for this template. Set exactly one of
+	// 'alias' or 'version'.
+	// Structure is documented below.
+	FilterVersionSelector *FilterVersionSelectorObservation `json:"filterVersionSelector,omitempty" tf:"filter_version_selector,omitempty"`
+
 	// If true, partial detector failures should be ignored.
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
@@ -543,6 +597,12 @@ type TemplateMetadataParameters struct {
 	// +kubebuilder:validation:Optional
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	// Selects the filter version to use for this template. Set exactly one of
+	// 'alias' or 'version'.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FilterVersionSelector *FilterVersionSelectorParameters `json:"filterVersionSelector,omitempty" tf:"filter_version_selector,omitempty"`
+
 	// If true, partial detector failures should be ignored.
 	// +kubebuilder:validation:Optional
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
@@ -566,6 +626,8 @@ type TemplateObservation struct {
 	// Create time stamp
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular

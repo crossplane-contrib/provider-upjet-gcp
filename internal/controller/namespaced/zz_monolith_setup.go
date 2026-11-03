@@ -9,413 +9,436 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	accesslevel "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/accesscontextmanager/accesslevel"
-	accesslevelcondition "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/accesscontextmanager/accesslevelcondition"
-	accesspolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/accesscontextmanager/accesspolicy"
-	accesspolicyiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/accesscontextmanager/accesspolicyiammember"
-	serviceperimeter "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/accesscontextmanager/serviceperimeter"
-	serviceperimeterresource "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/accesscontextmanager/serviceperimeterresource"
-	domain "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/activedirectory/domain"
-	backup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/alloydb/backup"
-	cluster "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/alloydb/cluster"
-	instance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/alloydb/instance"
-	addonsconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/addonsconfig"
-	endpointattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/endpointattachment"
-	envgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/envgroup"
-	envgroupattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/envgroupattachment"
-	environment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/environment"
-	environmentiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/environmentiammember"
-	envkeystore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/envkeystore"
-	envreferences "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/envreferences"
-	instanceapigee "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/instance"
-	instanceattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/instanceattachment"
-	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/keystoresaliaseskeycertfile"
-	nataddress "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/nataddress"
-	organization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/organization"
-	syncauthorization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/syncauthorization"
-	targetserver "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/targetserver"
-	application "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/application"
-	applicationurldispatchrules "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/applicationurldispatchrules"
-	firewallrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/firewallrule"
-	servicenetworksettings "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/servicenetworksettings"
-	standardappversion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/appengine/standardappversion"
-	registryrepository "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/artifact/registryrepository"
-	registryrepositoryiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/artifact/registryrepositoryiammember"
-	appconnection "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/beyondcorp/appconnection"
-	appconnector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/beyondcorp/appconnector"
-	appgateway "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/beyondcorp/appgateway"
-	analyticshubdataexchange "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshubdataexchange"
-	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshubdataexchangeiammember"
-	analyticshublisting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshublisting"
-	analyticshublistingsubscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshublistingsubscription"
-	connection "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/connection"
-	dataset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/dataset"
-	datasetaccess "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/datasetaccess"
-	datasetiambinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/datasetiambinding"
-	datasetiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/datasetiammember"
-	datasetiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/datasetiampolicy"
-	datatransferconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/datatransferconfig"
-	job "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/job"
-	reservation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/reservation"
-	reservationassignment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/reservationassignment"
-	routine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/routine"
-	table "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/table"
-	tableiambinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/tableiambinding"
-	tableiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/tableiammember"
-	tableiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/tableiampolicy"
-	appprofile "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/appprofile"
-	garbagecollectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/garbagecollectionpolicy"
-	instancebigtable "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/instance"
-	instanceiambinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/instanceiambinding"
-	instanceiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/instanceiammember"
-	instanceiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/instanceiampolicy"
-	tablebigtable "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/table"
-	tableiambindingbigtable "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/tableiambinding"
-	tableiammemberbigtable "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/tableiammember"
-	tableiampolicybigtable "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigtable/tableiampolicy"
-	attestor "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/binaryauthorization/attestor"
-	policy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/binaryauthorization/policy"
-	certificate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/certificatemanager/certificate"
-	certificatemap "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/certificatemanager/certificatemap"
-	certificatemapentry "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/certificatemanager/certificatemapentry"
-	dnsauthorization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/certificatemanager/dnsauthorization"
-	trustconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/certificatemanager/trustconfig"
-	idsendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloud/idsendpoint"
-	trigger "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudbuild/trigger"
-	workerpool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudbuild/workerpool"
-	function "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions/function"
-	functioniammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions/functioniammember"
-	functioncloudfunctions2 "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions2/function"
-	group "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudidentity/group"
-	groupmembership "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudidentity/groupmembership"
-	folder "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/folder"
-	folderiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/folderiammember"
-	organizationiamauditconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/organizationiamauditconfig"
-	organizationiamcustomrole "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/organizationiamcustomrole"
-	organizationiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/organizationiammember"
-	project "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/project"
-	projectdefaultserviceaccounts "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/projectdefaultserviceaccounts"
-	projectiamauditconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/projectiamauditconfig"
-	projectiamcustomrole "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/projectiamcustomrole"
-	projectiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/projectiammember"
-	projectservice "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/projectservice"
-	projectusageexportbucket "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/projectusageexportbucket"
-	serviceaccount "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/serviceaccount"
-	serviceaccountiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/serviceaccountiammember"
-	serviceaccountkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/serviceaccountkey"
-	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/servicenetworkingpeereddnsdomain"
-	quotapreference "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudquotas/quotapreference"
-	domainmapping "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/domainmapping"
-	service "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/service"
-	serviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/serviceiammember"
-	v2job "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2job"
-	v2service "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudrun/v2service"
-	jobcloudscheduler "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudscheduler/job"
-	queue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudtasks/queue"
-	environmentcomposer "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/environment"
-	address "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/address"
-	attacheddisk "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/attacheddisk"
-	autoscaler "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/autoscaler"
-	backendbucket "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/backendbucket"
-	backendbucketsignedurlkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/backendbucketsignedurlkey"
-	backendservice "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/backendservice"
-	backendservicesignedurlkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/backendservicesignedurlkey"
-	disk "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/disk"
-	diskiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/diskiammember"
-	diskresourcepolicyattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/diskresourcepolicyattachment"
-	externalvpngateway "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/externalvpngateway"
-	firewall "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/firewall"
-	firewallpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/firewallpolicy"
-	firewallpolicyassociation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/firewallpolicyassociation"
-	firewallpolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/firewallpolicyrule"
-	forwardingrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/forwardingrule"
-	globaladdress "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/globaladdress"
-	globalforwardingrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/globalforwardingrule"
-	globalnetworkendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/globalnetworkendpoint"
-	globalnetworkendpointgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/globalnetworkendpointgroup"
-	havpngateway "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/havpngateway"
-	healthcheck "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/healthcheck"
-	httphealthcheck "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/httphealthcheck"
-	httpshealthcheck "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/httpshealthcheck"
-	image "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/image"
-	imageiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/imageiammember"
-	instancecompute "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instance"
-	instancefromtemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instancefromtemplate"
-	instancegroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instancegroup"
-	instancegroupmanager "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instancegroupmanager"
-	instancegroupnamedport "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instancegroupnamedport"
-	instanceiammembercompute "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instanceiammember"
-	instancetemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/instancetemplate"
-	interconnectattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/interconnectattachment"
-	managedsslcertificate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/managedsslcertificate"
-	network "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/network"
-	networkendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkendpoint"
-	networkendpointgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkendpointgroup"
-	networkfirewallpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkfirewallpolicy"
-	networkfirewallpolicyassociation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkfirewallpolicyassociation"
-	networkfirewallpolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkfirewallpolicyrule"
-	networkpeering "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkpeering"
-	networkpeeringroutesconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkpeeringroutesconfig"
-	nodegroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/nodegroup"
-	nodetemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/nodetemplate"
-	packetmirroring "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/packetmirroring"
-	perinstanceconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/perinstanceconfig"
-	projectdefaultnetworktier "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/projectdefaultnetworktier"
-	projectmetadata "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/projectmetadata"
-	projectmetadataitem "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/projectmetadataitem"
-	regionautoscaler "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionautoscaler"
-	regionbackendservice "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionbackendservice"
-	regiondisk "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regiondisk"
-	regiondiskiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regiondiskiammember"
-	regiondiskresourcepolicyattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regiondiskresourcepolicyattachment"
-	regionhealthcheck "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionhealthcheck"
-	regioninstancegroupmanager "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regioninstancegroupmanager"
-	regionnetworkendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionnetworkendpoint"
-	regionnetworkendpointgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionnetworkendpointgroup"
-	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionnetworkfirewallpolicy"
-	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionnetworkfirewallpolicyassociation"
-	regionperinstanceconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionperinstanceconfig"
-	regionsecuritypolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionsecuritypolicy"
-	regionsslcertificate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionsslcertificate"
-	regionsslpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionsslpolicy"
-	regiontargethttpproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regiontargethttpproxy"
-	regiontargethttpsproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regiontargethttpsproxy"
-	regiontargettcpproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regiontargettcpproxy"
-	regionurlmap "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/regionurlmap"
-	reservationcompute "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/reservation"
-	resourcepolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/resourcepolicy"
-	route "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/route"
-	router "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/router"
-	routerinterface "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/routerinterface"
-	routernat "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/routernat"
-	routerpeer "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/routerpeer"
-	securitypolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/securitypolicy"
-	serviceattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/serviceattachment"
-	sharedvpchostproject "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/sharedvpchostproject"
-	sharedvpcserviceproject "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/sharedvpcserviceproject"
-	snapshot "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/snapshot"
-	snapshotiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/snapshotiammember"
-	sslcertificate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/sslcertificate"
-	sslpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/sslpolicy"
-	subnetwork "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/subnetwork"
-	subnetworkiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/subnetworkiammember"
-	targetgrpcproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targetgrpcproxy"
-	targethttpproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targethttpproxy"
-	targethttpsproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targethttpsproxy"
-	targetinstance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targetinstance"
-	targetpool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targetpool"
-	targetsslproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targetsslproxy"
-	targettcpproxy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/targettcpproxy"
-	urlmap "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/urlmap"
-	vpngateway "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/vpngateway"
-	vpntunnel "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/vpntunnel"
-	clustercontainer "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/container/cluster"
-	nodepool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/container/nodepool"
-	registry "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/container/registry"
-	note "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containeranalysis/note"
-	clustercontainerattached "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerattached/cluster"
-	clustercontaineraws "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containeraws/cluster"
-	nodepoolcontaineraws "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containeraws/nodepool"
-	client "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerazure/client"
-	clustercontainerazure "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerazure/cluster"
-	nodepoolcontainerazure "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/containerazure/nodepool"
-	entry "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/entry"
-	entrygroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/entrygroup"
-	policytag "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/policytag"
-	tag "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/tag"
-	tagtemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/tagtemplate"
-	taxonomy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/taxonomy"
-	jobdataflow "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataflow/job"
-	instancedatafusion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datafusion/instance"
-	deidentifytemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/deidentifytemplate"
-	inspecttemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/inspecttemplate"
-	jobtrigger "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/jobtrigger"
-	storedinfotype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datalossprevention/storedinfotype"
-	aspecttype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/aspecttype"
-	asset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/asset"
-	lake "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/lake"
-	lakeiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/lakeiampolicy"
-	zone "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataplex/zone"
-	autoscalingpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataproc/autoscalingpolicy"
-	clusterdataproc "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataproc/cluster"
-	jobdataproc "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataproc/job"
-	metastoreservice "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataproc/metastoreservice"
-	workflowtemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dataproc/workflowtemplate"
-	connectionprofile "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datastream/connectionprofile"
-	privateconnection "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datastream/privateconnection"
-	stream "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datastream/stream"
-	connectaccountconnector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/developerconnect/connectaccountconnector"
-	connectconnection "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/developerconnect/connectconnection"
-	connectgitrepositorylink "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/developerconnect/connectgitrepositorylink"
-	agent "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/agent"
-	entitytype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/entitytype"
-	environmentdialogflowcx "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/environment"
-	flow "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/flow"
-	intent "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/intent"
-	page "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/page"
-	version "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/version"
-	webhook "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/webhook"
-	managedzone "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/managedzone"
-	managedzoneiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/managedzoneiammember"
-	policydns "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/policy"
-	recordset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/recordset"
-	responsepolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/responsepolicy"
-	responsepolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/responsepolicyrule"
-	processor "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/documentai/processor"
-	contact "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/essentialcontacts/contact"
-	channel "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/eventarc/channel"
-	googlechannelconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/eventarc/googlechannelconfig"
-	triggereventarc "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/eventarc/trigger"
-	backupfilestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/filestore/backup"
-	instancefilestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/filestore/instance"
-	snapshotfilestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/filestore/snapshot"
-	release "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/release"
-	ruleset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/ruleset"
-	database "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/database"
-	field "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/field"
-	index "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firestore/index"
-	coderepositoryindex "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/coderepositoryindex"
-	codetoolssetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/codetoolssetting"
-	datasharingwithgooglesetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
-	geminigcpenablementsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/geminigcpenablementsetting"
-	loggingsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/loggingsetting"
-	releasechannelsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/releasechannelsetting"
-	repositorygroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/repositorygroup"
-	backupbackupplan "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gke/backupbackupplan"
-	membership "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gkehub/membership"
-	membershipiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gkehub/membershipiammember"
-	consentstore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/healthcare/consentstore"
-	datasethealthcare "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/healthcare/dataset"
-	datasetiammemberhealthcare "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/healthcare/datasetiammember"
-	workloadidentitypool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iam/workloadidentitypool"
-	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iam/workloadidentitypoolprovider"
-	appengineserviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/appengineserviceiammember"
-	appengineversioniammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/appengineversioniammember"
-	tunneliammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/tunneliammember"
-	webbackendserviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/webbackendserviceiammember"
-	webiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/webiammember"
-	webtypeappengineiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/webtypeappengineiammember"
-	webtypecomputeiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/iap/webtypecomputeiammember"
-	config "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/config"
-	defaultsupportedidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/defaultsupportedidpconfig"
-	inboundsamlconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/inboundsamlconfig"
-	oauthidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/oauthidpconfig"
-	tenant "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenant"
-	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenantdefaultsupportedidpconfig"
-	tenantinboundsamlconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenantinboundsamlconfig"
-	tenantoauthidpconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/identityplatform/tenantoauthidpconfig"
-	cryptokey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/cryptokey"
-	cryptokeyiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/cryptokeyiammember"
-	cryptokeyversion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/cryptokeyversion"
-	keyring "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyring"
-	keyringiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyringiammember"
-	keyringimportjob "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyringimportjob"
-	secretciphertext "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/secretciphertext"
-	folderbucketconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/folderbucketconfig"
-	folderexclusion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/folderexclusion"
-	foldersink "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/foldersink"
-	logview "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/logview"
-	metric "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/metric"
-	projectbucketconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/projectbucketconfig"
-	projectexclusion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/projectexclusion"
-	projectsink "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/logging/projectsink"
-	instancememcache "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memcache/instance"
-	instancememorystore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memorystore/instance"
-	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
-	model "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/mlengine/model"
-	floorsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/modelarmor/floorsetting"
-	template "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/modelarmor/template"
-	alertpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/alertpolicy"
-	customservice "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/customservice"
-	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/dashboard"
-	groupmonitoring "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/group"
-	metricdescriptor "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/metricdescriptor"
-	monitoredproject "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/monitoredproject"
-	notificationchannel "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/notificationchannel"
-	servicemonitoring "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/service"
-	slo "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/slo"
-	uptimecheckconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/monitoring/uptimecheckconfig"
-	groupnetworkconnectivity "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/group"
-	hub "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/hub"
-	internalrange "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/internalrange"
-	serviceconnectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
-	spoke "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkconnectivity/spoke"
-	connectivitytest "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkmanagement/connectivitytest"
-	addressgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/addressgroup"
-	dnsthreatdetector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/dnsthreatdetector"
-	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/gatewaysecuritypolicy"
-	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/gatewaysecuritypolicyrule"
-	tlsinspectionpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/tlsinspectionpolicy"
-	urllists "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networksecurity/urllists"
-	gateway "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/networkservices/gateway"
-	environmentnotebooks "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/notebooks/environment"
-	instancenotebooks "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/notebooks/instance"
-	instanceiammembernotebooks "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/notebooks/instanceiammember"
-	runtime "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/notebooks/runtime"
-	runtimeiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/notebooks/runtimeiammember"
-	policyorgpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/orgpolicy/policy"
-	ospolicyassignment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/osconfig/ospolicyassignment"
-	patchdeployment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/osconfig/patchdeployment"
-	sshpublickey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/oslogin/sshpublickey"
-	capool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/privateca/capool"
-	capooliammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/privateca/capooliammember"
-	certificateprivateca "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/privateca/certificate"
-	certificateauthority "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/privateca/certificateauthority"
-	certificatetemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/privateca/certificatetemplate"
-	certificatetemplateiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/privateca/certificatetemplateiammember"
-	providerconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/providerconfig"
-	litereservation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litereservation"
-	litesubscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litesubscription"
-	litetopic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litetopic"
-	schema "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/schema"
-	subscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/subscription"
-	subscriptioniammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/subscriptioniammember"
-	topic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/topic"
-	topiciammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/topiciammember"
-	clusterredis "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/redis/cluster"
-	clusterusercreatedconnections "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/redis/clusterusercreatedconnections"
-	instanceredis "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/redis/instance"
-	secret "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/secretmanager/secret"
-	secretiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/secretmanager/secretiammember"
-	secretversion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/secretmanager/secretversion"
-	connectionservicenetworking "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/servicenetworking/connection"
-	repository "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sourcerepo/repository"
-	repositoryiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sourcerepo/repositoryiammember"
-	databasespanner "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/database"
-	databaseiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/databaseiammember"
-	instancespanner "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/instance"
-	instanceiammemberspanner "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/spanner/instanceiammember"
-	databasesql "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/database"
-	databaseinstance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/databaseinstance"
-	sourcerepresentationinstance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/sourcerepresentationinstance"
-	sslcert "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/sslcert"
-	user "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/sql/user"
-	bucket "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/bucket"
-	bucketaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/bucketaccesscontrol"
-	bucketacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/bucketacl"
-	bucketiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/bucketiammember"
-	bucketiampolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/bucketiampolicy"
-	bucketobject "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/bucketobject"
-	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/defaultobjectaccesscontrol"
-	defaultobjectacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/defaultobjectacl"
-	hmackey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/hmackey"
-	managedfolder "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolder"
-	managedfolderiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolderiammember"
-	notification "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/notification"
-	objectaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectaccesscontrol"
-	objectacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectacl"
-	agentpool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storagetransfer/agentpool"
-	jobstoragetransfer "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storagetransfer/job"
-	locationtagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/locationtagbinding"
-	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagbinding"
-	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagkey"
-	tagvalue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagvalue"
-	datasetvertexai "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/dataset"
-	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestore"
-	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestoreentitytype"
-	tensorboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/tensorboard"
-	connector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vpcaccess/connector"
-	workflow "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/workflows/workflow"
+	accesslevel "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesslevel"
+	accesslevelcondition "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesslevelcondition"
+	accesspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesspolicy"
+	accesspolicyiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesspolicyiammember"
+	serviceperimeter "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/serviceperimeter"
+	serviceperimeterresource "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/serviceperimeterresource"
+	domain "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/activedirectory/domain"
+	backup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/backup"
+	cluster "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/cluster"
+	instance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/instance"
+	user "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/alloydb/user"
+	addonsconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/addonsconfig"
+	endpointattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/endpointattachment"
+	envgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/envgroup"
+	envgroupattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/envgroupattachment"
+	environment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/environment"
+	environmentiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/environmentiammember"
+	envkeystore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/envkeystore"
+	envreferences "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/envreferences"
+	instanceapigee "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/instance"
+	instanceattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/instanceattachment"
+	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/keystoresaliaseskeycertfile"
+	nataddress "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/nataddress"
+	organization "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/organization"
+	syncauthorization "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/syncauthorization"
+	targetserver "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/apigee/targetserver"
+	application "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/appengine/application"
+	applicationurldispatchrules "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/appengine/applicationurldispatchrules"
+	firewallrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/appengine/firewallrule"
+	servicenetworksettings "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/appengine/servicenetworksettings"
+	standardappversion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/appengine/standardappversion"
+	registryrepository "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/artifact/registryrepository"
+	registryrepositoryiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/artifact/registryrepositoryiammember"
+	backupplan "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/backupdr/backupplan"
+	backupplanassociation "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/backupdr/backupplanassociation"
+	backupvault "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/backupdr/backupvault"
+	appconnection "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/beyondcorp/appconnection"
+	appconnector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/beyondcorp/appconnector"
+	appgateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/beyondcorp/appgateway"
+	analyticshubdataexchange "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshubdataexchange"
+	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshubdataexchangeiammember"
+	analyticshublisting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshublisting"
+	analyticshublistingsubscription "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshublistingsubscription"
+	connection "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/connection"
+	dataset "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/dataset"
+	datasetaccess "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/datasetaccess"
+	datasetiambinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/datasetiambinding"
+	datasetiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/datasetiammember"
+	datasetiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/datasetiampolicy"
+	datatransferconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/datatransferconfig"
+	job "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/job"
+	reservation "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/reservation"
+	reservationassignment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/reservationassignment"
+	routine "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/routine"
+	table "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/table"
+	tableiambinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/tableiambinding"
+	tableiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/tableiammember"
+	tableiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/tableiampolicy"
+	appprofile "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/appprofile"
+	garbagecollectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/garbagecollectionpolicy"
+	instancebigtable "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/instance"
+	instanceiambinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/instanceiambinding"
+	instanceiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/instanceiammember"
+	instanceiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/instanceiampolicy"
+	tablebigtable "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/table"
+	tableiambindingbigtable "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/tableiambinding"
+	tableiammemberbigtable "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/tableiammember"
+	tableiampolicybigtable "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigtable/tableiampolicy"
+	attestor "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/binaryauthorization/attestor"
+	policy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/binaryauthorization/policy"
+	certificate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/certificatemanager/certificate"
+	certificatemap "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/certificatemanager/certificatemap"
+	certificatemapentry "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/certificatemanager/certificatemapentry"
+	dnsauthorization "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/certificatemanager/dnsauthorization"
+	trustconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/certificatemanager/trustconfig"
+	idsendpoint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloud/idsendpoint"
+	trigger "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudbuild/trigger"
+	workerpool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudbuild/workerpool"
+	function "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudfunctions/function"
+	functioniammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudfunctions/functioniammember"
+	functioncloudfunctions2 "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudfunctions2/function"
+	group "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudidentity/group"
+	groupmembership "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudidentity/groupmembership"
+	folder "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/folder"
+	folderiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/folderiammember"
+	organizationiamauditconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/organizationiamauditconfig"
+	organizationiamcustomrole "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/organizationiamcustomrole"
+	organizationiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/organizationiammember"
+	project "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/project"
+	projectdefaultserviceaccounts "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/projectdefaultserviceaccounts"
+	projectiamauditconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/projectiamauditconfig"
+	projectiamcustomrole "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/projectiamcustomrole"
+	projectiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/projectiammember"
+	projectservice "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/projectservice"
+	projectusageexportbucket "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/projectusageexportbucket"
+	serviceaccount "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/serviceaccount"
+	serviceaccountiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/serviceaccountiammember"
+	serviceaccountkey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/serviceaccountkey"
+	servicenetworkingpeereddnsdomain "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudplatform/servicenetworkingpeereddnsdomain"
+	quotapreference "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudquotas/quotapreference"
+	domainmapping "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/domainmapping"
+	service "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/service"
+	serviceiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/serviceiammember"
+	v2job "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2job"
+	v2jobiambinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2jobiambinding"
+	v2jobiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2jobiammember"
+	v2jobiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2jobiampolicy"
+	v2service "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudrun/v2service"
+	jobcloudscheduler "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudscheduler/job"
+	queue "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudtasks/queue"
+	queueiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/cloudtasks/queueiammember"
+	environmentcomposer "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/composer/environment"
+	address "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/address"
+	attacheddisk "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/attacheddisk"
+	autoscaler "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/autoscaler"
+	backendbucket "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/backendbucket"
+	backendbucketsignedurlkey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/backendbucketsignedurlkey"
+	backendservice "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/backendservice"
+	backendservicesignedurlkey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/backendservicesignedurlkey"
+	disk "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/disk"
+	diskiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/diskiammember"
+	diskresourcepolicyattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/diskresourcepolicyattachment"
+	externalvpngateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/externalvpngateway"
+	firewall "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/firewall"
+	firewallpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/firewallpolicy"
+	firewallpolicyassociation "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/firewallpolicyassociation"
+	firewallpolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/firewallpolicyrule"
+	forwardingrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/forwardingrule"
+	globaladdress "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/globaladdress"
+	globalforwardingrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/globalforwardingrule"
+	globalnetworkendpoint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/globalnetworkendpoint"
+	globalnetworkendpointgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/globalnetworkendpointgroup"
+	havpngateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/havpngateway"
+	healthcheck "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/healthcheck"
+	httphealthcheck "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/httphealthcheck"
+	httpshealthcheck "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/httpshealthcheck"
+	image "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/image"
+	imageiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/imageiammember"
+	instancecompute "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instance"
+	instancefromtemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instancefromtemplate"
+	instancegroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instancegroup"
+	instancegroupmanager "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instancegroupmanager"
+	instancegroupnamedport "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instancegroupnamedport"
+	instanceiammembercompute "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instanceiammember"
+	instancetemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/instancetemplate"
+	interconnectattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/interconnectattachment"
+	managedsslcertificate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/managedsslcertificate"
+	network "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/network"
+	networkendpoint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkendpoint"
+	networkendpointgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkendpointgroup"
+	networkfirewallpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkfirewallpolicy"
+	networkfirewallpolicyassociation "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkfirewallpolicyassociation"
+	networkfirewallpolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkfirewallpolicyrule"
+	networkpeering "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkpeering"
+	networkpeeringroutesconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/networkpeeringroutesconfig"
+	nodegroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/nodegroup"
+	nodetemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/nodetemplate"
+	packetmirroring "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/packetmirroring"
+	perinstanceconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/perinstanceconfig"
+	projectcloudarmortier "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectcloudarmortier"
+	projectdefaultnetworktier "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectdefaultnetworktier"
+	projectmetadata "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectmetadata"
+	projectmetadataitem "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/projectmetadataitem"
+	regionautoscaler "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionautoscaler"
+	regionbackendservice "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionbackendservice"
+	regiondisk "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regiondisk"
+	regiondiskiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regiondiskiammember"
+	regiondiskresourcepolicyattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regiondiskresourcepolicyattachment"
+	regionhealthcheck "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionhealthcheck"
+	regioninstancegroupmanager "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regioninstancegroupmanager"
+	regionnetworkendpoint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionnetworkendpoint"
+	regionnetworkendpointgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionnetworkendpointgroup"
+	regionnetworkfirewallpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionnetworkfirewallpolicy"
+	regionnetworkfirewallpolicyassociation "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionnetworkfirewallpolicyassociation"
+	regionperinstanceconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionperinstanceconfig"
+	regionsecuritypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionsecuritypolicy"
+	regionsslcertificate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionsslcertificate"
+	regionsslpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionsslpolicy"
+	regiontargethttpproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regiontargethttpproxy"
+	regiontargethttpsproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regiontargethttpsproxy"
+	regiontargettcpproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regiontargettcpproxy"
+	regionurlmap "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/regionurlmap"
+	reservationcompute "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/reservation"
+	resourcepolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/resourcepolicy"
+	route "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/route"
+	router "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/router"
+	routerinterface "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/routerinterface"
+	routernat "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/routernat"
+	routerpeer "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/routerpeer"
+	securitypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/securitypolicy"
+	serviceattachment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/serviceattachment"
+	sharedvpchostproject "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/sharedvpchostproject"
+	sharedvpcserviceproject "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/sharedvpcserviceproject"
+	snapshot "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/snapshot"
+	snapshotiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/snapshotiammember"
+	sslcertificate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/sslcertificate"
+	sslpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/sslpolicy"
+	subnetwork "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/subnetwork"
+	subnetworkiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/subnetworkiammember"
+	targetgrpcproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targetgrpcproxy"
+	targethttpproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targethttpproxy"
+	targethttpsproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targethttpsproxy"
+	targetinstance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targetinstance"
+	targetpool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targetpool"
+	targetsslproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targetsslproxy"
+	targettcpproxy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/targettcpproxy"
+	urlmap "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/urlmap"
+	vpngateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/vpngateway"
+	vpntunnel "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/compute/vpntunnel"
+	clustercontainer "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/container/cluster"
+	nodepool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/container/nodepool"
+	registry "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/container/registry"
+	note "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containeranalysis/note"
+	clustercontainerattached "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containerattached/cluster"
+	clustercontaineraws "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containeraws/cluster"
+	nodepoolcontaineraws "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containeraws/nodepool"
+	client "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containerazure/client"
+	clustercontainerazure "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containerazure/cluster"
+	nodepoolcontainerazure "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/containerazure/nodepool"
+	entry "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/entry"
+	entrygroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/entrygroup"
+	policytag "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/policytag"
+	tag "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/tag"
+	tagtemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/tagtemplate"
+	taxonomy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/taxonomy"
+	jobdataflow "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataflow/job"
+	instancedatafusion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datafusion/instance"
+	deidentifytemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datalossprevention/deidentifytemplate"
+	inspecttemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datalossprevention/inspecttemplate"
+	jobtrigger "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datalossprevention/jobtrigger"
+	storedinfotype "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datalossprevention/storedinfotype"
+	aspecttype "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataplex/aspecttype"
+	asset "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataplex/asset"
+	lake "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataplex/lake"
+	lakeiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataplex/lakeiampolicy"
+	zone "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataplex/zone"
+	autoscalingpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataproc/autoscalingpolicy"
+	clusterdataproc "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataproc/cluster"
+	jobdataproc "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataproc/job"
+	metastoreservice "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataproc/metastoreservice"
+	workflowtemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataproc/workflowtemplate"
+	connectionprofile "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datastream/connectionprofile"
+	privateconnection "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datastream/privateconnection"
+	stream "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datastream/stream"
+	connectaccountconnector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/developerconnect/connectaccountconnector"
+	connectconnection "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/developerconnect/connectconnection"
+	connectgitrepositorylink "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/developerconnect/connectgitrepositorylink"
+	agent "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/agent"
+	entitytype "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/entitytype"
+	environmentdialogflowcx "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/environment"
+	flow "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/flow"
+	intent "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/intent"
+	page "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/page"
+	version "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/version"
+	webhook "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dialogflowcx/webhook"
+	managedzone "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dns/managedzone"
+	managedzoneiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dns/managedzoneiammember"
+	policydns "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dns/policy"
+	recordset "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dns/recordset"
+	responsepolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dns/responsepolicy"
+	responsepolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dns/responsepolicyrule"
+	processor "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/documentai/processor"
+	contact "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/essentialcontacts/contact"
+	channel "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/eventarc/channel"
+	googlechannelconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/eventarc/googlechannelconfig"
+	triggereventarc "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/eventarc/trigger"
+	backupfilestore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/filestore/backup"
+	instancefilestore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/filestore/instance"
+	snapshotfilestore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/filestore/snapshot"
+	release "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firebaserules/release"
+	ruleset "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firebaserules/ruleset"
+	database "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firestore/database"
+	field "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firestore/field"
+	index "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/firestore/index"
+	coderepositoryindex "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/coderepositoryindex"
+	codetoolssetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/codetoolssetting"
+	datasharingwithgooglesetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
+	geminigcpenablementsetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/geminigcpenablementsetting"
+	loggingsetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/loggingsetting"
+	releasechannelsetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/releasechannelsetting"
+	repositorygroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gemini/repositorygroup"
+	backupbackupplan "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gke/backupbackupplan"
+	membership "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gkehub/membership"
+	membershipiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/gkehub/membershipiammember"
+	consentstore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/healthcare/consentstore"
+	datasethealthcare "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/healthcare/dataset"
+	datasetiammemberhealthcare "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/healthcare/datasetiammember"
+	denypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/denypolicy"
+	oauthclient "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/oauthclient"
+	oauthclientcredential "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/oauthclientcredential"
+	workloadidentitypool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/workloadidentitypool"
+	workloadidentitypoolprovider "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iam/workloadidentitypoolprovider"
+	appengineserviceiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/appengineserviceiammember"
+	appengineversioniammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/appengineversioniammember"
+	tunneliammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/tunneliammember"
+	webbackendserviceiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/webbackendserviceiammember"
+	webiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/webiammember"
+	webtypeappengineiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/webtypeappengineiammember"
+	webtypecomputeiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/iap/webtypecomputeiammember"
+	config "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/config"
+	defaultsupportedidpconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/defaultsupportedidpconfig"
+	inboundsamlconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/inboundsamlconfig"
+	oauthidpconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/oauthidpconfig"
+	tenant "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/tenant"
+	tenantdefaultsupportedidpconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/tenantdefaultsupportedidpconfig"
+	tenantinboundsamlconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/tenantinboundsamlconfig"
+	tenantoauthidpconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/identityplatform/tenantoauthidpconfig"
+	cryptokey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/cryptokey"
+	cryptokeyiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/cryptokeyiammember"
+	cryptokeyversion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/cryptokeyversion"
+	keyring "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/keyring"
+	keyringiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/keyringiammember"
+	keyringimportjob "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/keyringimportjob"
+	secretciphertext "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/kms/secretciphertext"
+	folderbucketconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/folderbucketconfig"
+	folderexclusion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/folderexclusion"
+	foldersink "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/foldersink"
+	logview "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/logview"
+	metric "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/metric"
+	projectbucketconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/projectbucketconfig"
+	projectexclusion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/projectexclusion"
+	projectsink "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/projectsink"
+	instancememcache "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memcache/instance"
+	instancememorystore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instance"
+	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
+	model "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/mlengine/model"
+	floorsetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/modelarmor/floorsetting"
+	template "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/modelarmor/template"
+	alertpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/alertpolicy"
+	customservice "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/customservice"
+	dashboard "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/dashboard"
+	groupmonitoring "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/group"
+	metricdescriptor "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/metricdescriptor"
+	monitoredproject "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/monitoredproject"
+	notificationchannel "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/notificationchannel"
+	servicemonitoring "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/service"
+	slo "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/slo"
+	uptimecheckconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/uptimecheckconfig"
+	groupnetworkconnectivity "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/group"
+	hub "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/hub"
+	internalrange "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/internalrange"
+	serviceconnectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/serviceconnectionpolicy"
+	spoke "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkconnectivity/spoke"
+	connectivitytest "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkmanagement/connectivitytest"
+	addressgroup "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/addressgroup"
+	backendauthenticationconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/backendauthenticationconfig"
+	clienttlspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/clienttlspolicy"
+	dnsthreatdetector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/dnsthreatdetector"
+	gatewaysecuritypolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/gatewaysecuritypolicy"
+	gatewaysecuritypolicyrule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/gatewaysecuritypolicyrule"
+	servertlspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/servertlspolicy"
+	tlsinspectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/tlsinspectionpolicy"
+	urllists "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/urllists"
+	gateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkservices/gateway"
+	environmentnotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/environment"
+	instancenotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/instance"
+	instanceiammembernotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/instanceiammember"
+	runtime "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/runtime"
+	runtimeiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/runtimeiammember"
+	customconstraint "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/orgpolicy/customconstraint"
+	policyorgpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/orgpolicy/policy"
+	ospolicyassignment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/osconfig/ospolicyassignment"
+	patchdeployment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/osconfig/patchdeployment"
+	sshpublickey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/oslogin/sshpublickey"
+	capool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/privateca/capool"
+	capooliammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/privateca/capooliammember"
+	certificateprivateca "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/privateca/certificate"
+	certificateauthority "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/privateca/certificateauthority"
+	certificatetemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/privateca/certificatetemplate"
+	certificatetemplateiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/privateca/certificatetemplateiammember"
+	providerconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/providerconfig"
+	litereservation "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/litereservation"
+	litesubscription "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/litesubscription"
+	litetopic "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/litetopic"
+	schema "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/schema"
+	subscription "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/subscription"
+	subscriptioniammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/subscriptioniammember"
+	topic "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/topic"
+	topiciammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/topiciammember"
+	clusterredis "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/redis/cluster"
+	clusterusercreatedconnections "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/redis/clusterusercreatedconnections"
+	instanceredis "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/redis/instance"
+	secret "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/secretmanager/secret"
+	secretiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/secretmanager/secretiammember"
+	secretversion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/secretmanager/secretversion"
+	connectionservicenetworking "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/servicenetworking/connection"
+	repository "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sourcerepo/repository"
+	repositoryiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sourcerepo/repositoryiammember"
+	backupschedule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/backupschedule"
+	databasespanner "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/database"
+	databaseiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/databaseiammember"
+	instancespanner "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/instance"
+	instanceiammemberspanner "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/instanceiammember"
+	databasesql "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sql/database"
+	databaseinstance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sql/databaseinstance"
+	sourcerepresentationinstance "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sql/sourcerepresentationinstance"
+	sslcert "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sql/sslcert"
+	usersql "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sql/user"
+	bucket "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/bucket"
+	bucketaccesscontrol "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/bucketaccesscontrol"
+	bucketacl "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/bucketacl"
+	bucketiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/bucketiammember"
+	bucketiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/bucketiampolicy"
+	bucketobject "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/bucketobject"
+	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/defaultobjectaccesscontrol"
+	defaultobjectacl "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/defaultobjectacl"
+	hmackey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/hmackey"
+	managedfolder "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/managedfolder"
+	managedfolderiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/managedfolderiammember"
+	notification "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/notification"
+	objectaccesscontrol "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/objectaccesscontrol"
+	objectacl "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/objectacl"
+	agentpool "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storagetransfer/agentpool"
+	jobstoragetransfer "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storagetransfer/job"
+	locationtagbinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/tags/locationtagbinding"
+	tagbinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/tags/tagbinding"
+	tagkey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/tags/tagkey"
+	tagvalue "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/tags/tagvalue"
+	collection "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vectorsearch/collection"
+	indexvectorsearch "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vectorsearch/index"
+	datasetvertexai "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/dataset"
+	featurestore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/featurestore"
+	featurestoreentitytype "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/featurestoreentitytype"
+	reasoningengine "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/reasoningengine"
+	reasoningengineiambinding "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/reasoningengineiambinding"
+	reasoningengineiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/reasoningengineiammember"
+	reasoningengineiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/reasoningengineiampolicy"
+	tensorboard "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/tensorboard"
+	connector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vpcaccess/connector"
+	workflow "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/workflows/workflow"
 )
 
 // Setup_monolith creates all controllers with the supplied logger and adds them to
@@ -432,6 +455,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		backup.Setup,
 		cluster.Setup,
 		instance.Setup,
+		user.Setup,
 		addonsconfig.Setup,
 		endpointattachment.Setup,
 		envgroup.Setup,
@@ -454,6 +478,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		standardappversion.Setup,
 		registryrepository.Setup,
 		registryrepositoryiammember.Setup,
+		backupplan.Setup,
+		backupplanassociation.Setup,
+		backupvault.Setup,
 		appconnection.Setup,
 		appconnector.Setup,
 		appgateway.Setup,
@@ -522,9 +549,13 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		service.Setup,
 		serviceiammember.Setup,
 		v2job.Setup,
+		v2jobiambinding.Setup,
+		v2jobiammember.Setup,
+		v2jobiampolicy.Setup,
 		v2service.Setup,
 		jobcloudscheduler.Setup,
 		queue.Setup,
+		queueiammember.Setup,
 		environmentcomposer.Setup,
 		address.Setup,
 		attacheddisk.Setup,
@@ -573,6 +604,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		nodetemplate.Setup,
 		packetmirroring.Setup,
 		perinstanceconfig.Setup,
+		projectcloudarmortier.Setup,
 		projectdefaultnetworktier.Setup,
 		projectmetadata.Setup,
 		projectmetadataitem.Setup,
@@ -700,6 +732,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		consentstore.Setup,
 		datasethealthcare.Setup,
 		datasetiammemberhealthcare.Setup,
+		denypolicy.Setup,
+		oauthclient.Setup,
+		oauthclientcredential.Setup,
 		workloadidentitypool.Setup,
 		workloadidentitypoolprovider.Setup,
 		appengineserviceiammember.Setup,
@@ -755,9 +790,12 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.Setup,
 		connectivitytest.Setup,
 		addressgroup.Setup,
+		backendauthenticationconfig.Setup,
+		clienttlspolicy.Setup,
 		dnsthreatdetector.Setup,
 		gatewaysecuritypolicy.Setup,
 		gatewaysecuritypolicyrule.Setup,
+		servertlspolicy.Setup,
 		tlsinspectionpolicy.Setup,
 		urllists.Setup,
 		gateway.Setup,
@@ -766,6 +804,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instanceiammembernotebooks.Setup,
 		runtime.Setup,
 		runtimeiammember.Setup,
+		customconstraint.Setup,
 		policyorgpolicy.Setup,
 		ospolicyassignment.Setup,
 		patchdeployment.Setup,
@@ -794,6 +833,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connectionservicenetworking.Setup,
 		repository.Setup,
 		repositoryiammember.Setup,
+		backupschedule.Setup,
 		databasespanner.Setup,
 		databaseiammember.Setup,
 		instancespanner.Setup,
@@ -802,7 +842,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		databaseinstance.Setup,
 		sourcerepresentationinstance.Setup,
 		sslcert.Setup,
-		user.Setup,
+		usersql.Setup,
 		bucket.Setup,
 		bucketaccesscontrol.Setup,
 		bucketacl.Setup,
@@ -823,9 +863,15 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
+		collection.Setup,
+		indexvectorsearch.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
+		reasoningengine.Setup,
+		reasoningengineiambinding.Setup,
+		reasoningengineiammember.Setup,
+		reasoningengineiampolicy.Setup,
 		tensorboard.Setup,
 		connector.Setup,
 		workflow.Setup,
@@ -851,6 +897,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		backup.SetupGated,
 		cluster.SetupGated,
 		instance.SetupGated,
+		user.SetupGated,
 		addonsconfig.SetupGated,
 		endpointattachment.SetupGated,
 		envgroup.SetupGated,
@@ -873,6 +920,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		standardappversion.SetupGated,
 		registryrepository.SetupGated,
 		registryrepositoryiammember.SetupGated,
+		backupplan.SetupGated,
+		backupplanassociation.SetupGated,
+		backupvault.SetupGated,
 		appconnection.SetupGated,
 		appconnector.SetupGated,
 		appgateway.SetupGated,
@@ -941,9 +991,13 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		service.SetupGated,
 		serviceiammember.SetupGated,
 		v2job.SetupGated,
+		v2jobiambinding.SetupGated,
+		v2jobiammember.SetupGated,
+		v2jobiampolicy.SetupGated,
 		v2service.SetupGated,
 		jobcloudscheduler.SetupGated,
 		queue.SetupGated,
+		queueiammember.SetupGated,
 		environmentcomposer.SetupGated,
 		address.SetupGated,
 		attacheddisk.SetupGated,
@@ -992,6 +1046,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		nodetemplate.SetupGated,
 		packetmirroring.SetupGated,
 		perinstanceconfig.SetupGated,
+		projectcloudarmortier.SetupGated,
 		projectdefaultnetworktier.SetupGated,
 		projectmetadata.SetupGated,
 		projectmetadataitem.SetupGated,
@@ -1119,6 +1174,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		consentstore.SetupGated,
 		datasethealthcare.SetupGated,
 		datasetiammemberhealthcare.SetupGated,
+		denypolicy.SetupGated,
+		oauthclient.SetupGated,
+		oauthclientcredential.SetupGated,
 		workloadidentitypool.SetupGated,
 		workloadidentitypoolprovider.SetupGated,
 		appengineserviceiammember.SetupGated,
@@ -1174,9 +1232,12 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		spoke.SetupGated,
 		connectivitytest.SetupGated,
 		addressgroup.SetupGated,
+		backendauthenticationconfig.SetupGated,
+		clienttlspolicy.SetupGated,
 		dnsthreatdetector.SetupGated,
 		gatewaysecuritypolicy.SetupGated,
 		gatewaysecuritypolicyrule.SetupGated,
+		servertlspolicy.SetupGated,
 		tlsinspectionpolicy.SetupGated,
 		urllists.SetupGated,
 		gateway.SetupGated,
@@ -1185,6 +1246,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instanceiammembernotebooks.SetupGated,
 		runtime.SetupGated,
 		runtimeiammember.SetupGated,
+		customconstraint.SetupGated,
 		policyorgpolicy.SetupGated,
 		ospolicyassignment.SetupGated,
 		patchdeployment.SetupGated,
@@ -1213,6 +1275,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		connectionservicenetworking.SetupGated,
 		repository.SetupGated,
 		repositoryiammember.SetupGated,
+		backupschedule.SetupGated,
 		databasespanner.SetupGated,
 		databaseiammember.SetupGated,
 		instancespanner.SetupGated,
@@ -1221,7 +1284,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		databaseinstance.SetupGated,
 		sourcerepresentationinstance.SetupGated,
 		sslcert.SetupGated,
-		user.SetupGated,
+		usersql.SetupGated,
 		bucket.SetupGated,
 		bucketaccesscontrol.SetupGated,
 		bucketacl.SetupGated,
@@ -1242,9 +1305,15 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
+		collection.SetupGated,
+		indexvectorsearch.SetupGated,
 		datasetvertexai.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
+		reasoningengine.SetupGated,
+		reasoningengineiambinding.SetupGated,
+		reasoningengineiammember.SetupGated,
+		reasoningengineiampolicy.SetupGated,
 		tensorboard.SetupGated,
 		connector.SetupGated,
 		workflow.SetupGated,
@@ -1269,6 +1338,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		backup.SetupWebhookWithManager,
 		cluster.SetupWebhookWithManager,
 		instance.SetupWebhookWithManager,
+		user.SetupWebhookWithManager,
 		addonsconfig.SetupWebhookWithManager,
 		endpointattachment.SetupWebhookWithManager,
 		envgroup.SetupWebhookWithManager,
@@ -1291,6 +1361,9 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		standardappversion.SetupWebhookWithManager,
 		registryrepository.SetupWebhookWithManager,
 		registryrepositoryiammember.SetupWebhookWithManager,
+		backupplan.SetupWebhookWithManager,
+		backupplanassociation.SetupWebhookWithManager,
+		backupvault.SetupWebhookWithManager,
 		appconnection.SetupWebhookWithManager,
 		appconnector.SetupWebhookWithManager,
 		appgateway.SetupWebhookWithManager,
@@ -1359,9 +1432,13 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		service.SetupWebhookWithManager,
 		serviceiammember.SetupWebhookWithManager,
 		v2job.SetupWebhookWithManager,
+		v2jobiambinding.SetupWebhookWithManager,
+		v2jobiammember.SetupWebhookWithManager,
+		v2jobiampolicy.SetupWebhookWithManager,
 		v2service.SetupWebhookWithManager,
 		jobcloudscheduler.SetupWebhookWithManager,
 		queue.SetupWebhookWithManager,
+		queueiammember.SetupWebhookWithManager,
 		environmentcomposer.SetupWebhookWithManager,
 		address.SetupWebhookWithManager,
 		attacheddisk.SetupWebhookWithManager,
@@ -1410,6 +1487,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		nodetemplate.SetupWebhookWithManager,
 		packetmirroring.SetupWebhookWithManager,
 		perinstanceconfig.SetupWebhookWithManager,
+		projectcloudarmortier.SetupWebhookWithManager,
 		projectdefaultnetworktier.SetupWebhookWithManager,
 		projectmetadata.SetupWebhookWithManager,
 		projectmetadataitem.SetupWebhookWithManager,
@@ -1537,6 +1615,9 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		consentstore.SetupWebhookWithManager,
 		datasethealthcare.SetupWebhookWithManager,
 		datasetiammemberhealthcare.SetupWebhookWithManager,
+		denypolicy.SetupWebhookWithManager,
+		oauthclient.SetupWebhookWithManager,
+		oauthclientcredential.SetupWebhookWithManager,
 		workloadidentitypool.SetupWebhookWithManager,
 		workloadidentitypoolprovider.SetupWebhookWithManager,
 		appengineserviceiammember.SetupWebhookWithManager,
@@ -1592,9 +1673,12 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		spoke.SetupWebhookWithManager,
 		connectivitytest.SetupWebhookWithManager,
 		addressgroup.SetupWebhookWithManager,
+		backendauthenticationconfig.SetupWebhookWithManager,
+		clienttlspolicy.SetupWebhookWithManager,
 		dnsthreatdetector.SetupWebhookWithManager,
 		gatewaysecuritypolicy.SetupWebhookWithManager,
 		gatewaysecuritypolicyrule.SetupWebhookWithManager,
+		servertlspolicy.SetupWebhookWithManager,
 		tlsinspectionpolicy.SetupWebhookWithManager,
 		urllists.SetupWebhookWithManager,
 		gateway.SetupWebhookWithManager,
@@ -1603,6 +1687,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		instanceiammembernotebooks.SetupWebhookWithManager,
 		runtime.SetupWebhookWithManager,
 		runtimeiammember.SetupWebhookWithManager,
+		customconstraint.SetupWebhookWithManager,
 		policyorgpolicy.SetupWebhookWithManager,
 		ospolicyassignment.SetupWebhookWithManager,
 		patchdeployment.SetupWebhookWithManager,
@@ -1631,6 +1716,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		connectionservicenetworking.SetupWebhookWithManager,
 		repository.SetupWebhookWithManager,
 		repositoryiammember.SetupWebhookWithManager,
+		backupschedule.SetupWebhookWithManager,
 		databasespanner.SetupWebhookWithManager,
 		databaseiammember.SetupWebhookWithManager,
 		instancespanner.SetupWebhookWithManager,
@@ -1639,7 +1725,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		databaseinstance.SetupWebhookWithManager,
 		sourcerepresentationinstance.SetupWebhookWithManager,
 		sslcert.SetupWebhookWithManager,
-		user.SetupWebhookWithManager,
+		usersql.SetupWebhookWithManager,
 		bucket.SetupWebhookWithManager,
 		bucketaccesscontrol.SetupWebhookWithManager,
 		bucketacl.SetupWebhookWithManager,
@@ -1660,9 +1746,15 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		tagbinding.SetupWebhookWithManager,
 		tagkey.SetupWebhookWithManager,
 		tagvalue.SetupWebhookWithManager,
+		collection.SetupWebhookWithManager,
+		indexvectorsearch.SetupWebhookWithManager,
 		datasetvertexai.SetupWebhookWithManager,
 		featurestore.SetupWebhookWithManager,
 		featurestoreentitytype.SetupWebhookWithManager,
+		reasoningengine.SetupWebhookWithManager,
+		reasoningengineiambinding.SetupWebhookWithManager,
+		reasoningengineiammember.SetupWebhookWithManager,
+		reasoningengineiampolicy.SetupWebhookWithManager,
 		tensorboard.SetupWebhookWithManager,
 		connector.SetupWebhookWithManager,
 		workflow.SetupWebhookWithManager,

@@ -16,7 +16,7 @@ import (
 type DNSThreatDetectorInitParameters struct {
 
 	// List of networks that are excluded from detection. Format: projects/{project}/global/networks/{name}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ExcludedNetworks []*string `json:"excludedNetworks,omitempty" tf:"excluded_networks,omitempty"`
 
@@ -91,7 +91,7 @@ type DNSThreatDetectorObservation struct {
 type DNSThreatDetectorParameters struct {
 
 	// List of networks that are excluded from detection. Format: projects/{project}/global/networks/{name}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1.Network
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ExcludedNetworks []*string `json:"excludedNetworks,omitempty" tf:"excluded_networks,omitempty"`

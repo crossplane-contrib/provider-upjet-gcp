@@ -22,9 +22,9 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/reconciler/reconciliationpolicy"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1beta1 "github.com/upbound/provider-gcp/v2/apis/namespaced/apigee/v1beta1"
-	"github.com/upbound/provider-gcp/v2/internal/clients"
-	features "github.com/upbound/provider-gcp/v2/internal/features"
+	v1beta1 "github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1"
+	"github.com/upbound/provider-gcp/v3/internal/clients"
+	features "github.com/upbound/provider-gcp/v3/internal/features"
 )
 
 // SetupWebhookWithManager registers the conversion webhook for KeystoresAliasesKeyCertFile.
@@ -50,6 +50,7 @@ func SetupGated(mgr ctrl.Manager, o tjcontroller.Options) error {
 func Setup(mgr ctrl.Manager, o tjcontroller.Options) error {
 	name := managed.ControllerName(v1beta1.KeystoresAliasesKeyCertFile_GroupVersionKind.String())
 	var initializers managed.InitializerChain
+	initializers = append(initializers, managed.NewNameAsExternalName(mgr.GetClient()))
 	rl := reconciliationpolicy.NewExponentialFailureRateLimiter(time.Second, 60*time.Second)
 	eventHandler := handler.NewEventHandler(handler.WithDefaultRateLimiter(rl), handler.WithLogger(o.Logger.WithValues("gvk", v1beta1.KeystoresAliasesKeyCertFile_GroupVersionKind)))
 	ac := tjcontroller.NewAPICallbacks(mgr, xpresource.ManagedKind(v1beta1.KeystoresAliasesKeyCertFile_GroupVersionKind), tjcontroller.WithEventHandler(eventHandler), tjcontroller.WithStatusUpdates(false))

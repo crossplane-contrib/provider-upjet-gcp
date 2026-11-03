@@ -32,7 +32,7 @@ spec:
     ingress: "INGRESS_TRAFFIC_ALL"
     location: us-central1
     template:
-    - containers:
+      containers:
       - image: us-docker.pkg.dev/cloudrun/container/hello
 
 

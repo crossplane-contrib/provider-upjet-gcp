@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: registryrepositories.artifact.gcp.upbound.io
 spec:
   group: artifact.gcp.upbound.io
@@ -386,6 +386,10 @@ spec:
                               One of the publicly available Yum repositories supported by Artifact Registry.
                               Structure is documented below.
                             type: string
+                        type: object
+                      noCache:
+                        description: The repository will act as a non-caching proxy
+                          (connector mode).
                         type: object
                       npmRepository:
                         description: |-
@@ -978,6 +982,10 @@ spec:
                               One of the publicly available Yum repositories supported by Artifact Registry.
                               Structure is documented below.
                             type: string
+                        type: object
+                      noCache:
+                        description: The repository will act as a non-caching proxy
+                          (connector mode).
                         type: object
                       npmRepository:
                         description: |-
@@ -1611,6 +1619,10 @@ spec:
                               One of the publicly available Yum repositories supported by Artifact Registry.
                               Structure is documented below.
                             type: string
+                        type: object
+                      noCache:
+                        description: The repository will act as a non-caching proxy
+                          (connector mode).
                         type: object
                       npmRepository:
                         description: |-

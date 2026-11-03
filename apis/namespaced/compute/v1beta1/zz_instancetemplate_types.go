@@ -349,7 +349,7 @@ type InstanceTemplateDiskInitParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
 
@@ -364,7 +364,7 @@ type InstanceTemplateDiskInitParameters struct {
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
 	// The image from which to
@@ -587,7 +587,7 @@ type InstanceTemplateDiskParameters struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// - A list (short name or id) of resource policies to attach to this disk for automatic snapshot creations. Currently a max of 1 resource policy is supported.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ResourcePolicy
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.ResourcePolicy
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ResourcePolicies []*string `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
@@ -603,7 +603,7 @@ type InstanceTemplateDiskParameters struct {
 	// The name (not self_link)
 	// of the disk (such as those managed by google_compute_disk) to attach.
 	// ~> Note: Either source, source_image, or source_snapshot is required in a disk block unless the disk type is local-ssd. Check the API docs for details.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Disk
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Disk
 	// +kubebuilder:validation:Optional
 	Source *string `json:"source,omitempty" tf:"source,omitempty"`
 
@@ -789,6 +789,10 @@ type InstanceTemplateInitParameters struct {
 	// Tags to attach to the instance.
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Workload Identity Config. More details about
+	// this configuration option are detailed below.
+	WorkloadIdentityConfig *InstanceTemplateWorkloadIdentityConfigInitParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceAccessConfigInitParameters struct {
@@ -934,7 +938,7 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
@@ -964,7 +968,7 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// the name of the subnetwork to attach this interface
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	// The ID of the project in which the subnetwork belongs.
@@ -1082,7 +1086,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// The name or self_link of the network to attach this interface to.
 	// Use network attribute for Legacy or Auto subnetted networks and
 	// subnetwork for custom subnetted networks.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -1118,7 +1122,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// the name of the subnetwork to attach this interface
 	// to. The subnetwork must exist in the same region this instance will be
 	// created in. Either network or subnetwork must be provided.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -1295,6 +1299,10 @@ type InstanceTemplateObservation struct {
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	// Workload Identity Config. More details about
+	// this configuration option are detailed below.
+	WorkloadIdentityConfig *InstanceTemplateWorkloadIdentityConfigObservation `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 }
 
 type InstanceTemplateParameters struct {
@@ -1430,6 +1438,11 @@ type InstanceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Workload Identity Config. More details about
+	// this configuration option are detailed below.
+	// +kubebuilder:validation:Optional
+	WorkloadIdentityConfig *InstanceTemplateWorkloadIdentityConfigParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 }
 
 type InstanceTemplateReservationAffinityInitParameters struct {
@@ -1503,6 +1516,9 @@ type InstanceTemplateSchedulingInitParameters struct {
 	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
+	// Specifies the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
+
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -1533,10 +1549,13 @@ type InstanceTemplateSchedulingInitParameters struct {
 	// here.
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+	// Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
 	// preemptible should be true and automatic_restart should be
 	// false. For more info about
-	// SPOT, read here
+	// SPOT, read here.
+	// If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+	// FLEX_START, read here.
+	// If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 
 	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
@@ -1680,6 +1699,9 @@ type InstanceTemplateSchedulingObservation struct {
 	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
+	// Specifies the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
+
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -1710,10 +1732,13 @@ type InstanceTemplateSchedulingObservation struct {
 	// here.
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+	// Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
 	// preemptible should be true and automatic_restart should be
 	// false. For more info about
-	// SPOT, read here
+	// SPOT, read here.
+	// If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+	// FLEX_START, read here.
+	// If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 
 	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
@@ -1750,6 +1775,10 @@ type InstanceTemplateSchedulingParameters struct {
 	// Specifies the availability domain to place the instance in. The value must be a number between 1 and the number of availability domains specified in the spread placement policy attached to the instance.
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// Specifies the time in seconds for host error detection, the value must be within the range of [90, 330] with the increment of 30, if unset, the default behavior of host error recovery will be used.
+	// +kubebuilder:validation:Optional
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
 
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	// +kubebuilder:validation:Optional
@@ -1789,10 +1818,13 @@ type InstanceTemplateSchedulingParameters struct {
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+	// Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
 	// preemptible should be true and automatic_restart should be
 	// false. For more info about
-	// SPOT, read here
+	// SPOT, read here.
+	// If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+	// FLEX_START, read here.
+	// If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
 	// +kubebuilder:validation:Optional
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 
@@ -1805,7 +1837,7 @@ type InstanceTemplateServiceAccountInitParameters struct {
 
 	// The service account e-mail address. If not given, the
 	// default Google Compute Engine service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
 
@@ -1841,7 +1873,7 @@ type InstanceTemplateServiceAccountParameters struct {
 
 	// The service account e-mail address. If not given, the
 	// default Google Compute Engine service account is used.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
 	// +kubebuilder:validation:Optional
 	Email *string `json:"email,omitempty" tf:"email,omitempty"`
@@ -1899,6 +1931,35 @@ type InstanceTemplateShieldedInstanceConfigParameters struct {
 	// - Use a virtualized trusted platform module, which is a specialized computer chip you can use to encrypt objects like keys and certificates. Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
+}
+
+type InstanceTemplateWorkloadIdentityConfigInitParameters struct {
+
+	// Identity SPIFFE id.
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// Specifies whether identity certificates are enabled.
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceTemplateWorkloadIdentityConfigObservation struct {
+
+	// Identity SPIFFE id.
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// Specifies whether identity certificates are enabled.
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceTemplateWorkloadIdentityConfigParameters struct {
+
+	// Identity SPIFFE id.
+	// +kubebuilder:validation:Optional
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// Specifies whether identity certificates are enabled.
+	// +kubebuilder:validation:Optional
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
 }
 
 // InstanceTemplateSpec defines the desired state of InstanceTemplate

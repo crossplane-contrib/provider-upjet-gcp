@@ -114,7 +114,7 @@ type UserInitParameters struct {
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/sql/v1beta2.DatabaseInstance
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// Reference to a DatabaseInstance in sql to populate instance.
@@ -178,6 +178,9 @@ type UserObservation struct {
 
 	PasswordPolicy *PasswordPolicyObservation `json:"passwordPolicy,omitempty" tf:"password_policy,omitempty"`
 
+	// An integer value used to trigger an update for password_wo. This property should be incremented when updating password_wo. For more info see updating write-only arguments.
+	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+
 	// The ID of the project in which the resource belongs. If it
 	// is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -219,7 +222,7 @@ type UserParameters struct {
 
 	// The name of the Cloud SQL instance. Changing this
 	// forces a new resource to be created.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/sql/v1beta2.DatabaseInstance
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/sql/v1beta2.DatabaseInstance
 	// +kubebuilder:validation:Optional
 	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 

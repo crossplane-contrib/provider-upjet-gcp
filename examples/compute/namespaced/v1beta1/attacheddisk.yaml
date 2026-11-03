@@ -34,7 +34,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    image: debian-11-bullseye-v20220719
+    image: debian-cloud/debian-13
     physicalBlockSizeBytes: 4096
     type: pd-ssd
     zone: us-central1-a
@@ -55,5 +55,5 @@ spec:
     networkInterface:
       - network: default
     bootDisk:
-      - initializeParams:
-          - image: debian-cloud/debian-11
+      initializeParams:
+        image: debian-cloud/debian-13

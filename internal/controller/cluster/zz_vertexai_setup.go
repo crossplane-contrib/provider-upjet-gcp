@@ -9,10 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	dataset "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/dataset"
-	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/featurestore"
-	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/featurestoreentitytype"
-	tensorboard "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/tensorboard"
+	dataset "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/dataset"
+	featurestore "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/featurestore"
+	featurestoreentitytype "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/featurestoreentitytype"
+	reasoningengine "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/reasoningengine"
+	reasoningengineiambinding "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/reasoningengineiambinding"
+	reasoningengineiammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/reasoningengineiammember"
+	reasoningengineiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/reasoningengineiampolicy"
+	tensorboard "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/tensorboard"
 )
 
 // Setup_vertexai creates all controllers with the supplied logger and adds them to
@@ -22,6 +26,10 @@ func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 		dataset.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
+		reasoningengine.Setup,
+		reasoningengineiambinding.Setup,
+		reasoningengineiammember.Setup,
+		reasoningengineiampolicy.Setup,
 		tensorboard.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -38,6 +46,10 @@ func SetupGated_vertexai(mgr ctrl.Manager, o controller.Options) error {
 		dataset.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
+		reasoningengine.SetupGated,
+		reasoningengineiambinding.SetupGated,
+		reasoningengineiammember.SetupGated,
+		reasoningengineiampolicy.SetupGated,
 		tensorboard.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -53,6 +65,10 @@ func SetupWebhookWithManager_vertexai(mgr ctrl.Manager) error {
 		dataset.SetupWebhookWithManager,
 		featurestore.SetupWebhookWithManager,
 		featurestoreentitytype.SetupWebhookWithManager,
+		reasoningengine.SetupWebhookWithManager,
+		reasoningengineiambinding.SetupWebhookWithManager,
+		reasoningengineiammember.SetupWebhookWithManager,
+		reasoningengineiampolicy.SetupWebhookWithManager,
 		tensorboard.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {

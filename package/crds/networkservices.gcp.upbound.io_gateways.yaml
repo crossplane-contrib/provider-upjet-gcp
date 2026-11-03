@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.0
+    controller-gen.kubebuilder.io/version: v0.22.0
   name: gateways.networkservices.gcp.upbound.io
 spec:
   group: networkservices.gcp.upbound.io
@@ -87,6 +87,12 @@ spec:
                       Configures this gateway to ​listen on all ports.
                       By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
                       it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+                      This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+                    type: boolean
+                  allowGlobalAccess:
+                    description: |-
+                      Optional. If true, the gateway will allow traffic from clients outside
+                      of the region where the gateway is located.
                       This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
                     type: boolean
                   certificateUrls:
@@ -513,6 +519,12 @@ spec:
                       Configures this gateway to ​listen on all ports.
                       By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
                       it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+                      This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+                    type: boolean
+                  allowGlobalAccess:
+                    description: |-
+                      Optional. If true, the gateway will allow traffic from clients outside
+                      of the region where the gateway is located.
                       This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
                     type: boolean
                   certificateUrls:
@@ -1017,6 +1029,12 @@ spec:
                       Configures this gateway to ​listen on all ports.
                       By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
                       it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+                      This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+                    type: boolean
+                  allowGlobalAccess:
+                    description: |-
+                      Optional. If true, the gateway will allow traffic from clients outside
+                      of the region where the gateway is located.
                       This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
                     type: boolean
                   certificateUrls:

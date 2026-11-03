@@ -8,10 +8,10 @@
 
 PROVIDER_NAME := gcp
 PROJECT_NAME := provider-$(PROVIDER_NAME)
-PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)/v2
+PROJECT_REPO := github.com/upbound/$(PROJECT_NAME)/v3
 
 export TERRAFORM_VERSION := 1.5.5
-export TERRAFORM_PROVIDER_VERSION := 7.39.0
+export TERRAFORM_PROVIDER_VERSION := 7.46.1
 export TERRAFORM_PROVIDER_SOURCE := hashicorp/google
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-google
 export TERRAFORM_DOCS_PATH ?= website/docs/r
@@ -51,7 +51,7 @@ export GOPRIVATE = github.com/upbound/*
 GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $2}')
 # GOLANGCILINT_VERSION is inherited from build submodule by default.
 # Uncomment below if you need to override the version.
-GOLANGCILINT_VERSION ?= 2.11.3
+GOLANGCILINT_VERSION ?= 2.15.0
 
 RUN_BUILDTAGGER ?= false
 # if RUN_BUILDTAGGER is set to "true", we will use build constraints
@@ -68,7 +68,7 @@ override SUBPACKAGES := $(filter-out monolith,$(shell find cmd/provider -type d 
 endif
 GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
-GO_SUBDIRS += cmd internal apis generate
+GO_SUBDIRS += cmd internal apis generate config
 GO111MODULE = on
 
 export SUBPACKAGES := $(SUBPACKAGES)
@@ -78,13 +78,14 @@ export SUBPACKAGES := $(SUBPACKAGES)
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.32.0
+KIND_VERSION = v0.33.0
 UPTEST_VERSION = v2.2.0
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 2.3.4
-CROSSPLANE_CLI_VERSION = v2.3.4
+CROSSPLANE_VERSION = 2.4.3
+CROSSPLANE_CLI_VERSION = v2.5.0
 CRDDIFF_VERSION = v0.12.1
+KUBECTL_VALIDATE_VERSION ?= v0.0.4
 
 export CROSSPLANE_CLI_VERSION := $(CROSSPLANE_CLI_VERSION)
 
@@ -190,10 +191,13 @@ pull-docs:
 	rm -fR "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))"
 	git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))";
 	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
-	@# workaround for fetching fixed docs of model_armor_template. Prior to this version, examples were malformed in the docs
-	@# TODO: remove after TF provider version is bumped v7.27.0+
-	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" fetch --depth 1 origin v7.27.0
-	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" checkout FETCH_HEAD -- "$(TERRAFORM_DOCS_PATH)/model_armor_template.html.markdown"
+	@# google_beyondcorp_app_connection and google_beyondcorp_app_connector were deprecated upstream and
+	@# their doc examples removed in v7.44.0, which makes the upjet scraper drop both resources from
+	@# provider-metadata.yaml (no CRD field docs, no generated examples, no injected references).
+	@# Keep scraping the last complete docs from v7.43.0 until the resources are removed in the v8 bump.
+	@# TODO: remove together with the two resources when the TF provider is bumped to v8.x
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" fetch --depth 1 origin v7.43.0
+	@git -C "$(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))" checkout FETCH_HEAD -- "$(TERRAFORM_DOCS_PATH)/beyondcorp_app_connection.html.markdown" "$(TERRAFORM_DOCS_PATH)/beyondcorp_app_connector.html.markdown"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
@@ -384,7 +388,46 @@ go.lint.analysiskey:
 print-subpackages:
 	@echo $(SUBPACKAGES)
 
-.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.lint.analysiskey-interval go.lint.analysiskey go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA) load-pkg print-subpackages
+KUBECTL_VALIDATE := $(TOOLS_HOST_DIR)/kubectl-validate-$(KUBECTL_VALIDATE_VERSION)
+
+$(KUBECTL_VALIDATE):
+	@$(INFO) installing kubectl-validate $(KUBECTL_VALIDATE_VERSION)
+	@mkdir -p $(TOOLS_HOST_DIR)
+	@GOBIN=$(abspath $(TOOLS_HOST_DIR)) go install sigs.k8s.io/kubectl-validate@$(KUBECTL_VALIDATE_VERSION)
+	@mv $(TOOLS_HOST_DIR)/kubectl-validate $@
+	@$(OK) installed kubectl-validate $(KUBECTL_VALIDATE_VERSION)
+
+# example-lint validates example manifests against CRD schemas using kubectl-validate.
+# Key implementation details:
+#   - Operates on a tmpdir copy so source files are never mutated.
+#   - Replaces uptest template variables (e.g. ${Rand.RFC1123Subdomain}) with a valid
+#     placeholder; kubectl-validate rejects those tokens as malformed field values.
+#   - Filters out non-GCP YAML files by matching only the apiVersion: line against
+#     gcp.*upbound.io, which covers both the family (gcp.upbound.io) and monolith
+#     (gcp.m.upbound.io) variants. Anchoring prevents false positives from description
+#     fields or comments that mention other providers.
+#   - Captures absolute paths for the binary and CRDs before cd-ing into tmpdir, and runs
+#     kubectl-validate from there so error output shows short relative paths.
+#   - Iterates one API group directory at a time so failures are reported per group.
+example-lint: $(KUBECTL_VALIDATE)
+	@$(INFO) linting example manifests; \
+	failed=0; \
+	tmpdir=$$(mktemp -d); \
+	crdsdir=$$(pwd)/package/crds; \
+	kv=$$(realpath "$(KUBECTL_VALIDATE)"); \
+	cp -r examples/. "$$tmpdir/"; \
+	find "$$tmpdir" -name "*.yaml" | xargs perl -pi -e 's/\$$\{Rand\.[^}]*\}/uptest/g'; \
+	find "$$tmpdir" -name "*.yaml" | while read f; do grep -q '^apiVersion:.*gcp.*upbound\.io' "$$f" || rm -f "$$f"; done; \
+	for dir in examples/*/; do \
+		group=$$(basename "$$dir"); \
+		[ -d "$$tmpdir/$$group" ] || continue; \
+		$(INFO) linting $$dir; \
+		(cd "$$tmpdir" && "$$kv" "$$group" --local-crds "$$crdsdir") && $(OK) linted $$dir || { $(WARN) failed to lint $$dir; failed=1; }; \
+	done; \
+	rm -rf "$$tmpdir"; \
+	[ "$$failed" -eq 0 ] && $(OK) linted example manifests || $(FAIL)
+
+.PHONY: cobertura reviewable submodules fallthrough go.mod.cachedir go.lint.analysiskey-interval go.lint.analysiskey go.cachedir run crds.clean $(TERRAFORM_PROVIDER_SCHEMA) load-pkg print-subpackages example-lint
 
 build.init: kustomize-crds
 

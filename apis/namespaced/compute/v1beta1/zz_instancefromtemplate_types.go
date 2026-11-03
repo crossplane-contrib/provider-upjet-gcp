@@ -524,8 +524,8 @@ type InstanceFromTemplateInitParameters struct {
 	// Name or self link of an instance
 	// template to create the instance based on. It is recommended to reference
 	// instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
 	// Reference to a InstanceTemplate in compute to populate sourceInstanceTemplate.
@@ -538,6 +538,8 @@ type InstanceFromTemplateInitParameters struct {
 
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	WorkloadIdentityConfig *InstanceFromTemplateWorkloadIdentityConfigInitParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
@@ -580,7 +582,7 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
@@ -601,7 +603,7 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
@@ -679,7 +681,7 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
@@ -706,7 +708,7 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
 
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
@@ -840,6 +842,8 @@ type InstanceFromTemplateObservation struct {
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
 
+	WorkloadIdentityConfig *InstanceFromTemplateWorkloadIdentityConfigObservation `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
+
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
@@ -946,8 +950,8 @@ type InstanceFromTemplateParameters struct {
 	// Name or self link of an instance
 	// template to create the instance based on. It is recommended to reference
 	// instance templates through their unique id (self_link_unique attribute).
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.InstanceTemplate
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.InstanceTemplate
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SourceInstanceTemplate *string `json:"sourceInstanceTemplate,omitempty" tf:"source_instance_template,omitempty"`
 
@@ -962,6 +966,9 @@ type InstanceFromTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WorkloadIdentityConfig *InstanceFromTemplateWorkloadIdentityConfigParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 
 	// The zone that the machine should be created in. If not
 	// set, the provider zone is used.
@@ -1014,6 +1021,8 @@ type InstanceFromTemplateSchedulingInitParameters struct {
 
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
 
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
+
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
 	LocalSsdRecoveryTimeout *SchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
@@ -1039,6 +1048,8 @@ type InstanceFromTemplateSchedulingObservation struct {
 	AutomaticRestart *bool `json:"automaticRestart,omitempty" tf:"automatic_restart,omitempty"`
 
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
 
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
@@ -1068,6 +1079,9 @@ type InstanceFromTemplateSchedulingParameters struct {
 
 	// +kubebuilder:validation:Optional
 	AvailabilityDomain *float64 `json:"availabilityDomain,omitempty" tf:"availability_domain,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	HostErrorTimeoutSeconds *float64 `json:"hostErrorTimeoutSeconds,omitempty" tf:"host_error_timeout_seconds,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
@@ -1186,6 +1200,27 @@ type InstanceFromTemplateShieldedInstanceConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
+}
+
+type InstanceFromTemplateWorkloadIdentityConfigInitParameters struct {
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceFromTemplateWorkloadIdentityConfigObservation struct {
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceFromTemplateWorkloadIdentityConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
 }
 
 type NetworkInterfaceAccessConfigInitParameters struct {

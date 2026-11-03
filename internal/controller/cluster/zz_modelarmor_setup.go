@@ -9,8 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	floorsetting "github.com/upbound/provider-gcp/v2/internal/controller/cluster/modelarmor/floorsetting"
-	template "github.com/upbound/provider-gcp/v2/internal/controller/cluster/modelarmor/template"
+	floorsetting "github.com/upbound/provider-gcp/v3/internal/controller/cluster/modelarmor/floorsetting"
+	template "github.com/upbound/provider-gcp/v3/internal/controller/cluster/modelarmor/template"
 )
 
 // Setup_modelarmor creates all controllers with the supplied logger and adds them to
