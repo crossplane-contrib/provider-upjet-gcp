@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: monitoring.gcp.upbound.io/v1beta1
+kind: MonitoredProject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: monitoring/v1beta1/monitoredproject
+    # The monitored project name is used as the external name of the resource.
+    crossplane.io/external-name: monitored-project-id
+    upjet.upbound.io/manual-intervention: "Requires an existing monitored project, which needs organization level IAM permissions to create."
+  labels:
+    testing.upbound.io/example-name: primary
+  name: primary
+spec:
+  forProvider:
+    metricsScope: my-project-name
