@@ -79,6 +79,11 @@ func storageNotification() config.ExternalName {
 // belonging to Terraform resources to be reconciled under the no-fork
 // architecture for this provider.
 var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
+	// accessapproval
+	//
+	// Imported by using the following format: projects/{{project_id}}/accessApprovalSettings
+	"google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
+
 	// activedirectory
 	//
 	// Imported by using the following format: {{name}}
