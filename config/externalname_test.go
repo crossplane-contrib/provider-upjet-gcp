@@ -285,3 +285,91 @@ func TestVectorSearchCollectionGetExternalNameFn(t *testing.T) {
 		t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
 	}
 }
+
+func TestStorageInsightsReportConfigGetIDFn(t *testing.T) {
+	cases := map[string]struct {
+		externalName string
+		parameters   map[string]any
+		setup        map[string]any
+		want         string
+		wantErr      bool
+	}{
+		"ProjectFromResource": {
+			externalName: "my-config",
+			parameters:   map[string]any{"project": "my-project", "location": "us-central1"},
+			setup:        map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:         "projects/my-project/locations/us-central1/reportConfigs/my-config",
+		},
+		"ProjectFromProviderConfig": {
+			externalName: "my-config",
+			parameters:   map[string]any{"location": "us-central1"},
+			setup:        map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:         "projects/pc-project/locations/us-central1/reportConfigs/my-config",
+		},
+		"EmptyExternalName": {
+			externalName: "",
+			parameters:   map[string]any{"project": "my-project", "location": "us-central1"},
+			setup:        map[string]any{},
+			want:         "",
+		},
+		"NoLocation": {
+			externalName: "my-config",
+			parameters:   map[string]any{"project": "my-project"},
+			setup:        map[string]any{},
+			wantErr:      true,
+		},
+		"NoProject": {
+			externalName: "my-config",
+			parameters:   map[string]any{"location": "us-central1"},
+			setup:        map[string]any{},
+			wantErr:      true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := storageInsightsReportConfig().GetIDFn(context.Background(), tc.externalName, tc.parameters, tc.setup)
+			if tc.wantErr {
+				if err == nil {
+					t.Fatalf("GetIDFn(): want error, got %q", got)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("GetIDFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetIDFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestStorageInsightsReportConfigGetExternalNameFn(t *testing.T) {
+	cases := map[string]struct {
+		tfstate map[string]any
+		want    string
+	}{
+		"FromName": {
+			tfstate: map[string]any{
+				"name": "my-config",
+				"id":   "projects/my-project/locations/us-central1/reportConfigs/my-config",
+			},
+			want: "my-config",
+		},
+		"FromFullyQualifiedID": {
+			tfstate: map[string]any{"id": "projects/my-project/locations/us-central1/reportConfigs/my-config"},
+			want:    "my-config",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := storageInsightsReportConfig().GetExternalNameFn(tc.tfstate)
+			if err != nil {
+				t.Fatalf("GetExternalNameFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
