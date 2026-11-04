@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accessapproval.gcp.upbound.io/v1beta1
+kind: ProjectSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accessapproval/v1beta1/projectsettings
+  labels:
+    testing.upbound.io/example-name: project_access_approval
+  name: project-access-approval
+spec:
+  forProvider:
+    enrolledServices:
+    - cloudProduct: all
+      enrollmentLevel: BLOCK_ALL
+    notificationEmails:
+    - testuser@example.com
+    - example.user@example.com
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

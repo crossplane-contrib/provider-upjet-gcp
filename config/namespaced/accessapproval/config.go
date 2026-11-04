@@ -19,5 +19,8 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_project_access_approval_settings", func(r *config.Resource) {
 		r.Kind = "ProjectSettings"
+		r.References["project_id"] = config.Reference{
+			TerraformName: "google_project",
+		}
 	})
 }

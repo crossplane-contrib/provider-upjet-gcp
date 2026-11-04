@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	projectsettings "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accessapproval/projectsettings"
 	accesslevel "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesslevel"
 	accesslevelcondition "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesspolicy"
@@ -444,6 +445,7 @@ import (
 // the supplied manager.
 func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		projectsettings.Setup,
 		accesslevel.Setup,
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
@@ -885,6 +887,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		projectsettings.SetupGated,
 		accesslevel.SetupGated,
 		accesslevelcondition.SetupGated,
 		accesspolicy.SetupGated,
@@ -1325,6 +1328,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager_monolith registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		projectsettings.SetupWebhookWithManager,
 		accesslevel.SetupWebhookWithManager,
 		accesslevelcondition.SetupWebhookWithManager,
 		accesspolicy.SetupWebhookWithManager,
