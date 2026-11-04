@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managedkafka.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/cluster
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: 3221225472
+      vcpuCount: 3
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: google_project
+    labels:
+      key: value
+    location: us-central1
+    rebalanceConfig:
+      mode: AUTO_REBALANCE_ON_SCALE_UP

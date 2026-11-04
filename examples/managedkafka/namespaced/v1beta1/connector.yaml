@@ -1,0 +1,175 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Connector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+    uptest.upbound.io/timeout: "5400"
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-mk-connector
+  namespace: upbound-system
+spec:
+  forProvider:
+    configs:
+      connector.class: com.google.pubsub.kafka.sink.CloudPubSubSinkConnector
+      cps.project: official-provider-testing
+      cps.topic: example-mk-connector-cps
+      key.converter: org.apache.kafka.connect.storage.StringConverter
+      name: example-mk-connector
+      tasks.max: "3"
+      topics: example-mk-connector-topic
+      value.converter: org.apache.kafka.connect.storage.StringConverter
+    connectClusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connector-connect
+    location: us-central1
+    taskRestartPolicy:
+      maximumBackoff: 1800s
+      minimumBackoff: 60s
+
+---
+
+apiVersion: pubsub.gcp.m.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: connector-cps
+  name: example-mk-connector-cps
+  namespace: upbound-system
+spec:
+  forProvider:
+    labels:
+      key: value
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+    uptest.upbound.io/timeout: "5400"
+  labels:
+    testing.upbound.io/example-name: connector-topic
+  name: example-mk-connector-topic
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connector-cluster
+    location: us-central1
+    partitionCount: 2
+    replicationFactor: 3
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: ConnectCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+    uptest.upbound.io/timeout: "5400"
+  labels:
+    testing.upbound.io/example-name: connector-connect
+  name: example-mk-connector-connect
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: "3221225472"
+      vcpuCount: "3"
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - primarySubnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: connector-connect-subnet
+    kafkaClusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connector-cluster
+    location: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+    uptest.upbound.io/timeout: "5400"
+  labels:
+    testing.upbound.io/example-name: connector-cluster
+  name: example-mk-connector-cluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: "3221225472"
+      vcpuCount: "3"
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: connector-subnet
+    location: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: connector-net
+  name: mk-connector-net
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: connector-subnet
+  name: mk-connector-subnet
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.14.0.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connector-net
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: connector-connect-subnet
+  name: mk-connector-connect-subnet
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.14.4.0/22
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connector-net
+    region: us-central1

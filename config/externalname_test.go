@@ -285,3 +285,79 @@ func TestVectorSearchCollectionGetExternalNameFn(t *testing.T) {
 		t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
 	}
 }
+
+func TestManagedKafkaACLGetIDFn(t *testing.T) {
+	cases := map[string]struct {
+		parameters map[string]any
+		setup      map[string]any
+		want       string
+	}{
+		"ProjectFromResource": {
+			parameters: map[string]any{"project": "my-project", "location": "us-central1", "cluster": "my-cluster"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/my-project/locations/us-central1/clusters/my-cluster/acls/topic/my-topic",
+		},
+		"ProjectFromProviderConfig": {
+			parameters: map[string]any{"location": "us-central1", "cluster": "my-cluster"},
+			setup:      map[string]any{"configuration": terraform.ProviderConfiguration{"project": "pc-project"}},
+			want:       "projects/pc-project/locations/us-central1/clusters/my-cluster/acls/topic/my-topic",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := terraformPluginSDKExternalNameConfigs["google_managed_kafka_acl"].GetIDFn(context.Background(), "topic/my-topic", tc.parameters, tc.setup)
+			if err != nil {
+				t.Fatalf("GetIDFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetIDFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestManagedKafkaACLGetExternalNameFn(t *testing.T) {
+	cases := map[string]struct {
+		id      string
+		want    string
+		wantErr bool
+	}{
+		"AllTopics": {
+			id:   "projects/my-project/locations/us-central1/clusters/my-cluster/acls/allTopics",
+			want: "allTopics",
+		},
+		"Topic": {
+			id:   "projects/my-project/locations/us-central1/clusters/my-cluster/acls/topic/my-topic",
+			want: "topic/my-topic",
+		},
+		"ConsumerGroupPrefixed": {
+			id:   "projects/my-project/locations/us-central1/clusters/my-cluster/acls/consumerGroupPrefixed/my-prefix",
+			want: "consumerGroupPrefixed/my-prefix",
+		},
+		"ClusterNamedACLs": {
+			id:   "projects/my-project/locations/us-central1/clusters/acls/acls/topic/my-topic",
+			want: "topic/my-topic",
+		},
+		"NoACLSegment": {
+			id:      "projects/my-project/locations/us-central1/clusters/my-cluster",
+			wantErr: true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got, err := terraformPluginSDKExternalNameConfigs["google_managed_kafka_acl"].GetExternalNameFn(map[string]any{"id": tc.id})
+			if tc.wantErr {
+				if err == nil {
+					t.Fatalf("GetExternalNameFn(): want error, got %q", got)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("GetExternalNameFn(): unexpected error: %v", err)
+			}
+			if diff := cmp.Diff(tc.want, got); diff != "" {
+				t.Errorf("GetExternalNameFn(): -want, +got:\n%s", diff)
+			}
+		})
+	}
+}

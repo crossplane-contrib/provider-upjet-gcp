@@ -40,6 +40,7 @@ import (
 	"github.com/upbound/provider-gcp/v3/config/namespaced/identityplatform"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/kms"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/logging"
+	"github.com/upbound/provider-gcp/v3/config/namespaced/managedkafka"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/modelarmor"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/monitoring"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/networkconnectivity"
@@ -118,5 +119,6 @@ func init() {
 	ProviderConfiguration.AddConfig(gkehub.Configure)
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
+	ProviderConfiguration.AddConfig(managedkafka.Configure)
 	ProviderConfiguration.AddConfig(alloydb.Configure)
 }
