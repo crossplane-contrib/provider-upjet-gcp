@@ -92,6 +92,7 @@ import (
 	v1beta2kms "github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2"
 	v1beta1logging "github.com/upbound/provider-gcp/v3/apis/cluster/logging/v1beta1"
 	v1beta2logging "github.com/upbound/provider-gcp/v3/apis/cluster/logging/v1beta2"
+	v1beta1managedkafka "github.com/upbound/provider-gcp/v3/apis/cluster/managedkafka/v1beta1"
 	v1beta2memcache "github.com/upbound/provider-gcp/v3/apis/cluster/memcache/v1beta2"
 	v1beta1memorystore "github.com/upbound/provider-gcp/v3/apis/cluster/memorystore/v1beta1"
 	v1beta2mlengine "github.com/upbound/provider-gcp/v3/apis/cluster/mlengine/v1beta2"
@@ -221,6 +222,7 @@ func init() {
 		v1beta2kms.SchemeBuilder.AddToScheme,
 		v1beta1logging.SchemeBuilder.AddToScheme,
 		v1beta2logging.SchemeBuilder.AddToScheme,
+		v1beta1managedkafka.SchemeBuilder.AddToScheme,
 		v1beta2memcache.SchemeBuilder.AddToScheme,
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta2mlengine.SchemeBuilder.AddToScheme,

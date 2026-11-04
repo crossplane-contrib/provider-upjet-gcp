@@ -7,6 +7,7 @@ package config
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/crossplane/upjet/v2/pkg/config"
@@ -1246,6 +1247,19 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{region}}/instances/{{name}}
 	"google_memorystore_instance_desired_user_created_endpoints": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/instances/{{ .external_name }}"),
 
+	// managedkafka
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
+	"google_managed_kafka_cluster": config.TemplatedStringAsIdentifier("cluster_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/clusters/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/topics/{{topic_id}}
+	"google_managed_kafka_topic": config.TemplatedStringAsIdentifier("topic_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/topics/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/clusters/{{cluster}}/acls/{{acl_id}}
+	"google_managed_kafka_acl": managedKafkaACL(),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/connectClusters/{{connect_cluster_id}}
+	"google_managed_kafka_connect_cluster": config.TemplatedStringAsIdentifier("connect_cluster_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/connectClusters/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/connectClusters/{{connect_cluster}}/connectors/{{connector_id}}
+	"google_managed_kafka_connector": config.TemplatedStringAsIdentifier("connector_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/connectClusters/{{ .parameters.connect_cluster }}/connectors/{{ .external_name }}"),
+
 	// cloudidentity
 	//
 	// Imported by using the following: groups/<group_id>
@@ -1346,6 +1360,27 @@ func serviceAccountEmailHost(project string) string {
 	}
 	return id + "." + domain
 }
+
+// managedKafkaACL configures the external name for the
+// google_managed_kafka_acl TF resource. An acl_id such as "topic/my-topic"
+// contains "/", and the templated parser keeps only the last path segment.
+func managedKafkaACL() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("acl_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/clusters/{{ .parameters.cluster }}/acls/{{ .external_name }}")
+	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+		id, ok := tfstate["id"].(string)
+		if !ok || id == "" {
+			return "", errors.New("cannot get the id from tfstate")
+		}
+		m := managedKafkaACLIDRegexp.FindStringSubmatch(id)
+		if m == nil {
+			return "", errors.Errorf("cannot get the acl_id from id %q", id)
+		}
+		return m[1], nil
+	}
+	return e
+}
+
+var managedKafkaACLIDRegexp = regexp.MustCompile(`^projects/[^/]+/locations/[^/]+/clusters/[^/]+/acls/(.+)$`)
 
 // projectFromExternalNameArgs resolves the project a resource belongs to,
 // preferring the one set on the resource over the ProviderConfig default.

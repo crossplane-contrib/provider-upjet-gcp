@@ -331,6 +331,11 @@ import (
 	projectbucketconfig "github.com/upbound/provider-gcp/v3/internal/controller/cluster/logging/projectbucketconfig"
 	projectexclusion "github.com/upbound/provider-gcp/v3/internal/controller/cluster/logging/projectexclusion"
 	projectsink "github.com/upbound/provider-gcp/v3/internal/controller/cluster/logging/projectsink"
+	acl "github.com/upbound/provider-gcp/v3/internal/controller/cluster/managedkafka/acl"
+	clustermanagedkafka "github.com/upbound/provider-gcp/v3/internal/controller/cluster/managedkafka/cluster"
+	connectcluster "github.com/upbound/provider-gcp/v3/internal/controller/cluster/managedkafka/connectcluster"
+	connector "github.com/upbound/provider-gcp/v3/internal/controller/cluster/managedkafka/connector"
+	topic "github.com/upbound/provider-gcp/v3/internal/controller/cluster/managedkafka/topic"
 	instancememcache "github.com/upbound/provider-gcp/v3/internal/controller/cluster/memcache/instance"
 	instancememorystore "github.com/upbound/provider-gcp/v3/internal/controller/cluster/memorystore/instance"
 	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v3/internal/controller/cluster/memorystore/instancedesiredusercreatedendpoints"
@@ -387,7 +392,7 @@ import (
 	schema "github.com/upbound/provider-gcp/v3/internal/controller/cluster/pubsub/schema"
 	subscription "github.com/upbound/provider-gcp/v3/internal/controller/cluster/pubsub/subscription"
 	subscriptioniammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/pubsub/subscriptioniammember"
-	topic "github.com/upbound/provider-gcp/v3/internal/controller/cluster/pubsub/topic"
+	topicpubsub "github.com/upbound/provider-gcp/v3/internal/controller/cluster/pubsub/topic"
 	topiciammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/pubsub/topiciammember"
 	clusterredis "github.com/upbound/provider-gcp/v3/internal/controller/cluster/redis/cluster"
 	clusterusercreatedconnections "github.com/upbound/provider-gcp/v3/internal/controller/cluster/redis/clusterusercreatedconnections"
@@ -439,7 +444,7 @@ import (
 	reasoningengineiammember "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/reasoningengineiammember"
 	reasoningengineiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/reasoningengineiampolicy"
 	tensorboard "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vertexai/tensorboard"
-	connector "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vpcaccess/connector"
+	connectorvpcaccess "github.com/upbound/provider-gcp/v3/internal/controller/cluster/vpcaccess/connector"
 	workflow "github.com/upbound/provider-gcp/v3/internal/controller/cluster/workflows/workflow"
 )
 
@@ -769,6 +774,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectbucketconfig.Setup,
 		projectexclusion.Setup,
 		projectsink.Setup,
+		acl.Setup,
+		clustermanagedkafka.Setup,
+		connectcluster.Setup,
+		connector.Setup,
+		topic.Setup,
 		instancememcache.Setup,
 		instancememorystore.Setup,
 		instancedesiredusercreatedendpoints.Setup,
@@ -825,7 +835,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		schema.Setup,
 		subscription.Setup,
 		subscriptioniammember.Setup,
-		topic.Setup,
+		topicpubsub.Setup,
 		topiciammember.Setup,
 		clusterredis.Setup,
 		clusterusercreatedconnections.Setup,
@@ -877,7 +887,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		reasoningengineiammember.Setup,
 		reasoningengineiampolicy.Setup,
 		tensorboard.Setup,
-		connector.Setup,
+		connectorvpcaccess.Setup,
 		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -1213,6 +1223,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectbucketconfig.SetupGated,
 		projectexclusion.SetupGated,
 		projectsink.SetupGated,
+		acl.SetupGated,
+		clustermanagedkafka.SetupGated,
+		connectcluster.SetupGated,
+		connector.SetupGated,
+		topic.SetupGated,
 		instancememcache.SetupGated,
 		instancememorystore.SetupGated,
 		instancedesiredusercreatedendpoints.SetupGated,
@@ -1269,7 +1284,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		schema.SetupGated,
 		subscription.SetupGated,
 		subscriptioniammember.SetupGated,
-		topic.SetupGated,
+		topicpubsub.SetupGated,
 		topiciammember.SetupGated,
 		clusterredis.SetupGated,
 		clusterusercreatedconnections.SetupGated,
@@ -1321,7 +1336,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		reasoningengineiammember.SetupGated,
 		reasoningengineiampolicy.SetupGated,
 		tensorboard.SetupGated,
-		connector.SetupGated,
+		connectorvpcaccess.SetupGated,
 		workflow.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -1656,6 +1671,11 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		projectbucketconfig.SetupWebhookWithManager,
 		projectexclusion.SetupWebhookWithManager,
 		projectsink.SetupWebhookWithManager,
+		acl.SetupWebhookWithManager,
+		clustermanagedkafka.SetupWebhookWithManager,
+		connectcluster.SetupWebhookWithManager,
+		connector.SetupWebhookWithManager,
+		topic.SetupWebhookWithManager,
 		instancememcache.SetupWebhookWithManager,
 		instancememorystore.SetupWebhookWithManager,
 		instancedesiredusercreatedendpoints.SetupWebhookWithManager,
@@ -1712,7 +1732,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		schema.SetupWebhookWithManager,
 		subscription.SetupWebhookWithManager,
 		subscriptioniammember.SetupWebhookWithManager,
-		topic.SetupWebhookWithManager,
+		topicpubsub.SetupWebhookWithManager,
 		topiciammember.SetupWebhookWithManager,
 		clusterredis.SetupWebhookWithManager,
 		clusterusercreatedconnections.SetupWebhookWithManager,
@@ -1764,7 +1784,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		reasoningengineiammember.SetupWebhookWithManager,
 		reasoningengineiampolicy.SetupWebhookWithManager,
 		tensorboard.SetupWebhookWithManager,
-		connector.SetupWebhookWithManager,
+		connectorvpcaccess.SetupWebhookWithManager,
 		workflow.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {
