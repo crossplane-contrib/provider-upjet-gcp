@@ -87,7 +87,8 @@ spec:
                       Apigee instance.
                     type: string
                   orgIdRef:
-                    description: Reference to a API in apigee to populate orgId.
+                    description: Reference to a Organization in apigee to populate
+                      orgId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -121,7 +122,8 @@ spec:
                     - name
                     type: object
                   orgIdSelector:
-                    description: Selector for a API in apigee to populate orgId.
+                    description: Selector for a Organization in apigee to populate
+                      orgId.
                     properties:
                       matchControllerRef:
                         description: |-
