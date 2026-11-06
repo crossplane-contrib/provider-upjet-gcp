@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-apiVersion: apigee.gcp.upbound.io/v1beta1
+apiVersion: apigee.gcp.m.upbound.io/v1beta1
 kind: API
 metadata:
   annotations:
@@ -10,6 +10,7 @@ metadata:
   labels:
     testing.upbound.io/example-name: api_proxy
   name: api-proxy
+  namespace: upbound-system
 spec:
   forProvider:
     configBundle: ${data.archive_file.bundle.output_path}

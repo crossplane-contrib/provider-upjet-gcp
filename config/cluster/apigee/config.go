@@ -18,9 +18,10 @@ import (
 // ResourceConfigurators.
 func Configure(p *config.Provider) { //nolint:gocyclo
 	p.AddResourceConfigurator("google_apigee_api", func(r *config.Resource) {
+		// org_id requires Organization ID without organization/ prefix, so extract name attribute
 		r.References["org_id"] = config.Reference{
-			TerraformName: "google_apigee_api",
-			Extractor:     common.ExtractResourceIDFuncPath,
+			TerraformName: "google_apigee_organization",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
 		}
 	})
 	p.AddResourceConfigurator("google_apigee_endpoint_attachment", func(r *config.Resource) {
