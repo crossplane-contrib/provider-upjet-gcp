@@ -26,14 +26,14 @@ func (mg *API) ResolveReferences( // ResolveReferences of this API.
 	var rsp reference.NamespacedResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("apigee.gcp.m.upbound.io", "v1beta1", "API", "APIList")
+		m, l, err = apisresolver.GetManagedResource("apigee.gcp.m.upbound.io", "v1beta1", "Organization", "OrganizationList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.OrgID),
-			Extract:      common.ExtractResourceID(),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.OrgIDRef,
 			Selector:     mg.Spec.ForProvider.OrgIDSelector,

@@ -65,16 +65,16 @@ type APIParameters struct {
 	DetectMd5Hash *string `json:"detectMd5Hash,omitempty" tf:"detect_md5hash,omitempty"`
 
 	// The Apigee Organization name associated with the Apigee instance.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/apigee/v1beta1.API
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/cluster/common.ExtractResourceID()
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/apigee/v1beta2.Organization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
 
-	// Reference to a API in apigee to populate orgId.
+	// Reference to a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
 
-	// Selector for a API in apigee to populate orgId.
+	// Selector for a Organization in apigee to populate orgId.
 	// +kubebuilder:validation:Optional
 	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 }
