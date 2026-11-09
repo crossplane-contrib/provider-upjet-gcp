@@ -5,12 +5,14 @@
 package compute
 
 import (
+	"go/types"
 	"strings"
 
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config/conversion"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
@@ -52,6 +54,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_backend_service", func(r *config.Resource) {
+		generatedIDAsString(r, "v1beta2", "v1beta3")
 		r.References["health_checks"] = config.Reference{
 			TerraformName: "google_compute_health_check",
 			Extractor:     common.PathSelfLinkExtractor,
@@ -370,6 +373,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 	})
 
 	p.AddResourceConfigurator("google_compute_region_backend_service", func(r *config.Resource) {
+		generatedIDAsString(r, "v1beta2", "v1beta3")
 		r.References["health_checks"] = config.Reference{
 			TerraformName: "google_compute_region_health_check",
 			Extractor:     common.PathSelfLinkExtractor,
@@ -623,5 +627,28 @@ func ClusterInstanceGroupExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		return r
+	}
+}
+
+// generatedIDAsString generates the server-generated generated_id as a string
+// instead of a float64, which rounds 64-bit IDs above 2^53
+// (https://github.com/crossplane-contrib/provider-upjet-gcp/issues/1093).
+// Objects already stored with a numeric generatedId could not be decoded into
+// a string field, so the type changes in a new API version, which becomes the
+// storage version, with conversions from and to the previous version.
+func generatedIDAsString(r *config.Resource, previousVersion, version string) {
+	if err := r.OverrideScalarFieldType("generated_id", types.NewPointer(types.Universe.Lookup("string").Type())); err != nil {
+		panic(err)
+	}
+	r.Version = version
+	r.PreviousVersions = []string{previousVersion}
+	r.SetCRDStorageVersion(version)
+	r.ControllerReconcileVersion = version //nolint:staticcheck // still handling the deprecated behavior
+	// Replaces the default identity conversion, which would copy the number
+	// into the string field and fail, with one that skips generatedId.
+	r.Conversions = []conversion.Conversion{
+		conversion.NewIdentityConversionExpandPaths(conversion.AllVersions, conversion.AllVersions, conversion.DefaultPathPrefixes(), "generatedId"),
+		conversion.NewFieldTypeConversion(previousVersion, version, "status.atProvider.generatedId", conversion.FloatToString),
+		conversion.NewFieldTypeConversion(version, previousVersion, "status.atProvider.generatedId", conversion.StringToFloat),
 	}
 }

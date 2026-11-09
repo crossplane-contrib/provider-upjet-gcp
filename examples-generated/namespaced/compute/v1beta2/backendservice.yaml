@@ -2,35 +2,33 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-apiVersion: compute.gcp.upbound.io/v1beta2
-kind: RegionBackendService
+apiVersion: compute.gcp.m.upbound.io/v1beta2
+kind: BackendService
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta2/regionbackendservice
+    meta.upbound.io/example-id: compute/v1beta2/backendservice
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
-    connectionDrainingTimeoutSec: 10
     healthChecksRefs:
     - name: default
-    region: us-central1
-    sessionAffinity: CLIENT_IP
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta2
-kind: HealthCheck
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: HTTPHealthCheck
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta2/regionbackendservice
+    meta.upbound.io/example-id: compute/v1beta2/backendservice
   labels:
     testing.upbound.io/example-name: default
   name: default
+  namespace: upbound-system
 spec:
   forProvider:
     checkIntervalSec: 1
-    tcpHealthCheck:
-      port: "80"
+    requestPath: /
     timeoutSec: 1

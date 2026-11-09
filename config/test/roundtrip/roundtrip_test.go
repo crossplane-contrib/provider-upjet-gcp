@@ -13,8 +13,10 @@ import (
 	"sigs.k8s.io/randfill"
 
 	clusterapis "github.com/upbound/provider-gcp/v3/apis/cluster"
+	computeclusterv1beta3 "github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta3"
 	storageclusterv1beta3 "github.com/upbound/provider-gcp/v3/apis/cluster/storage/v1beta3"
 	namespacedapis "github.com/upbound/provider-gcp/v3/apis/namespaced"
+	computensv1beta2 "github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta2"
 	storagensv1beta2 "github.com/upbound/provider-gcp/v3/apis/namespaced/storage/v1beta2"
 	"github.com/upbound/provider-gcp/v3/config"
 )
@@ -72,6 +74,44 @@ func TestRoundTrip(t *testing.T) {
 var gcpCustomFuzzers = []roundtrip.FuzzFunc{
 	fuzzClusterStorageBucketV1Beta3,
 	fuzzNamespacedStorageBucketV1Beta2,
+	fuzzClusterComputeBackendServiceV1Beta3,
+	fuzzClusterComputeRegionBackendServiceV1Beta3,
+	fuzzNamespacedComputeBackendServiceV1Beta2,
+	fuzzNamespacedComputeRegionBackendServiceV1Beta2,
+}
+
+// generatedIDFuzzValue is a valid numeric string for status.atProvider.generatedId,
+// so that the StringToFloat conversion to the previous version succeeds. It is
+// below 2^53 so that the float64 of the previous version holds it exactly; real
+// 64-bit IDs are rounded when read through the previous version.
+const generatedIDFuzzValue = "1234567890123"
+
+func fuzzClusterComputeBackendServiceV1Beta3(s *computeclusterv1beta3.BackendService, c randfill.Continue) {
+	c.Fill(s)
+	if s.Status.AtProvider.GeneratedID != nil {
+		s.Status.AtProvider.GeneratedID = ptr.To(generatedIDFuzzValue)
+	}
+}
+
+func fuzzClusterComputeRegionBackendServiceV1Beta3(s *computeclusterv1beta3.RegionBackendService, c randfill.Continue) {
+	c.Fill(s)
+	if s.Status.AtProvider.GeneratedID != nil {
+		s.Status.AtProvider.GeneratedID = ptr.To(generatedIDFuzzValue)
+	}
+}
+
+func fuzzNamespacedComputeBackendServiceV1Beta2(s *computensv1beta2.BackendService, c randfill.Continue) {
+	c.Fill(s)
+	if s.Status.AtProvider.GeneratedID != nil {
+		s.Status.AtProvider.GeneratedID = ptr.To(generatedIDFuzzValue)
+	}
+}
+
+func fuzzNamespacedComputeRegionBackendServiceV1Beta2(s *computensv1beta2.RegionBackendService, c randfill.Continue) {
+	c.Fill(s)
+	if s.Status.AtProvider.GeneratedID != nil {
+		s.Status.AtProvider.GeneratedID = ptr.To(generatedIDFuzzValue)
+	}
 }
 
 // fuzzClusterStorageBucketV1Beta3 ensures retentionPolicy.retentionPeriod is a

@@ -13,9 +13,6 @@ func (tr *Autoscaler) Hub() {}
 func (tr *BackendBucket) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *BackendService) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Disk) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -74,9 +71,6 @@ func (tr *PerInstanceConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionAutoscaler) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionBackendService) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionDisk) Hub() {}

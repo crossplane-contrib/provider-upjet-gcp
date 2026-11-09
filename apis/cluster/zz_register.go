@@ -47,6 +47,7 @@ import (
 	v1beta2composer "github.com/upbound/provider-gcp/v3/apis/cluster/composer/v1beta2"
 	v1beta1compute "github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta1"
 	v1beta2compute "github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta2"
+	v1beta3compute "github.com/upbound/provider-gcp/v3/apis/cluster/compute/v1beta3"
 	v1beta1container "github.com/upbound/provider-gcp/v3/apis/cluster/container/v1beta1"
 	v1beta2container "github.com/upbound/provider-gcp/v3/apis/cluster/container/v1beta2"
 	v1beta2containeranalysis "github.com/upbound/provider-gcp/v3/apis/cluster/containeranalysis/v1beta2"
@@ -176,6 +177,7 @@ func init() {
 		v1beta2composer.SchemeBuilder.AddToScheme,
 		v1beta1compute.SchemeBuilder.AddToScheme,
 		v1beta2compute.SchemeBuilder.AddToScheme,
+		v1beta3compute.SchemeBuilder.AddToScheme,
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta2container.SchemeBuilder.AddToScheme,
 		v1beta2containeranalysis.SchemeBuilder.AddToScheme,
