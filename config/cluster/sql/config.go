@@ -106,8 +106,7 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			if !ok {
 				return "", errors.New("cannot get the id field as string in tfstate")
 			}
-			words := strings.Split(id, "/")
-			return words[0], nil
+			return userNameFromID(id)
 		}
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
 			instance, err := common.GetField(parameters, "instance")
@@ -148,4 +147,16 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			TerraformName: "google_sql_database_instance",
 		}
 	})
+}
+
+// userNameFromID returns the user name from a google_sql_user Terraform ID of
+// the form <name>/<host>/<instance>. Host and instance names cannot contain
+// "/", but user names can (e.g. Cloud SQL IAM workload principals such as
+// "ns/<namespace>/sa/<service account>"), so the ID is parsed from the right.
+func userNameFromID(id string) (string, error) {
+	words := strings.Split(id, "/")
+	if len(words) < 3 {
+		return "", fmt.Errorf("unexpected google_sql_user id %q, expected <name>/<host>/<instance>", id)
+	}
+	return strings.Join(words[:len(words)-2], "/"), nil
 }
