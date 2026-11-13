@@ -1,0 +1,144 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Connector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    configs:
+      connector.class: com.google.pubsub.kafka.sink.CloudPubSubSinkConnector
+      cps.project: ${data.google_project.project.project_id}
+      cps.topic: ${google_pubsub_topic.cps_topic.name}
+      key.converter: org.apache.kafka.connect.storage.StringConverter
+      name: my-connector
+      tasks.max: "3"
+      topics: ${google_managed_kafka_topic.gmk_topic.topic_id}
+      value.converter: org.apache.kafka.connect.storage.StringConverter
+    connectClusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: mkc_cluster
+    location: us-central1
+    taskRestartPolicy:
+      maximumBackoff: 1800s
+      minimumBackoff: 60s
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: mkc_secondary_subnet
+  name: mkc-secondary-subnet
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.5.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    project: ${data.google_project.project.project_id}
+    region: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: gmk_cluster
+  name: gmk-cluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: 3221225472
+      vcpuCount: 3
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: google_project
+    location: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: ConnectCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: mkc_cluster
+  name: mkc-cluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: 21474836480
+      vcpuCount: 12
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - additionalSubnetsRefs:
+          - name: mkc_secondary_subnet
+          dnsDomainNames:
+          - ${google_managed_kafka_cluster.gmk_cluster.cluster_id}.us-central1.managedkafka.${data.google_project.project.project_id}.cloud.goog
+          primarySubnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: google_project
+    kafkaClusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_project
+    labels:
+      key: value
+    location: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: gmk_topic
+  name: gmk-topic
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    location: us-central1
+    partitionCount: 2
+    replicationFactor: 3
+
+---
+
+apiVersion: pubsub.gcp.m.upbound.io/v1beta1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connector
+  labels:
+    testing.upbound.io/example-name: cps_topic
+  name: cps-topic
+  namespace: upbound-system
+spec:
+  forProvider:
+    messageRetentionDuration: 86600s
+    project: ${data.google_project.project.project_id}
