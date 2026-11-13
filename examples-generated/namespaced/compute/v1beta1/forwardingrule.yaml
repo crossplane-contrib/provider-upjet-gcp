@@ -182,7 +182,7 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.m.upbound.io/v1beta1
+apiVersion: compute.gcp.m.upbound.io/v1beta2
 kind: RegionBackendService
 metadata:
   annotations:

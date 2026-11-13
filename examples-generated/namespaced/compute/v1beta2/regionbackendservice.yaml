@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-apiVersion: compute.gcp.m.upbound.io/v1beta1
+apiVersion: compute.gcp.m.upbound.io/v1beta2
 kind: RegionBackendService
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta1/regionbackendservice
+    meta.upbound.io/example-id: compute/v1beta2/regionbackendservice
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -25,7 +25,7 @@ apiVersion: compute.gcp.m.upbound.io/v1beta1
 kind: HealthCheck
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta1/regionbackendservice
+    meta.upbound.io/example-id: compute/v1beta2/regionbackendservice
   labels:
     testing.upbound.io/example-name: default
   name: default

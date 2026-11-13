@@ -6,7 +6,7 @@ apiVersion: compute.gcp.upbound.io/v1beta2
 kind: BackendService
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta2/backendservice
+    meta.upbound.io/example-id: compute/v1beta3/backendservice
   labels:
     testing.upbound.io/example-name: default
   name: default
@@ -21,7 +21,7 @@ apiVersion: compute.gcp.upbound.io/v1beta1
 kind: HTTPHealthCheck
 metadata:
   annotations:
-    meta.upbound.io/example-id: compute/v1beta2/backendservice
+    meta.upbound.io/example-id: compute/v1beta3/backendservice
   labels:
     testing.upbound.io/example-name: default
   name: default

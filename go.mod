@@ -212,3 +212,5 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.4.2 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
+
+replace github.com/crossplane/upjet/v2 => github.com/dcardellino24/upjet/v2 v2.5.1-0.20261109112657-e4c77e00802c

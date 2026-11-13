@@ -35,6 +35,7 @@ import (
 	v1beta1cloudtasks "github.com/upbound/provider-gcp/v3/apis/namespaced/cloudtasks/v1beta1"
 	v1beta1composer "github.com/upbound/provider-gcp/v3/apis/namespaced/composer/v1beta1"
 	v1beta1compute "github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1"
+	v1beta2compute "github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta2"
 	v1beta1container "github.com/upbound/provider-gcp/v3/apis/namespaced/container/v1beta1"
 	v1beta1containeranalysis "github.com/upbound/provider-gcp/v3/apis/namespaced/containeranalysis/v1beta1"
 	v1beta1containerattached "github.com/upbound/provider-gcp/v3/apis/namespaced/containerattached/v1beta1"
@@ -126,6 +127,7 @@ func init() {
 		v1beta1cloudtasks.SchemeBuilder.AddToScheme,
 		v1beta1composer.SchemeBuilder.AddToScheme,
 		v1beta1compute.SchemeBuilder.AddToScheme,
+		v1beta2compute.SchemeBuilder.AddToScheme,
 		v1beta1container.SchemeBuilder.AddToScheme,
 		v1beta1containeranalysis.SchemeBuilder.AddToScheme,
 		v1beta1containerattached.SchemeBuilder.AddToScheme,

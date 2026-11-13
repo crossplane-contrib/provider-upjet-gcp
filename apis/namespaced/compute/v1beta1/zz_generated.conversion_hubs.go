@@ -22,9 +22,6 @@ func (tr *BackendBucket) Hub() {}
 func (tr *BackendBucketSignedURLKey) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *BackendService) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *BackendServiceSignedURLKey) Hub() {}
 
 // Hub marks this type as a conversion hub.
@@ -161,9 +158,6 @@ func (tr *ProjectMetadataItem) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionAutoscaler) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *RegionBackendService) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *RegionDisk) Hub() {}

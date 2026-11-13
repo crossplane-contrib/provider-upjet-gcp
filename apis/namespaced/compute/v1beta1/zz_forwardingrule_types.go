@@ -36,7 +36,7 @@ type ForwardingRuleInitParameters struct {
 	// Identifies the backend service to which the forwarding rule sends traffic.
 	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
 	// must be omitted for all other load balancer types.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta2.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
@@ -463,7 +463,7 @@ type ForwardingRuleParameters struct {
 	// Identifies the backend service to which the forwarding rule sends traffic.
 	// Required for Internal TCP/UDP Load Balancing and Network Load Balancing;
 	// must be omitted for all other load balancer types.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.RegionBackendService
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta2.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v3/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
