@@ -144,6 +144,24 @@ func TestDropEmptyKubeletConfigDiff(t *testing.T) {
 				"node_config.0.machine_type": {Old: "e2-medium", New: "e2-standard-2"},
 			}},
 		},
+		"omitted_subtree_preserved_without_hiding_other_pool_updates": {
+			args: args{diff: &terraform.InstanceDiff{
+				Attributes: map[string]*terraform.ResourceAttrDiff{
+					"node_pool.0.node_config.0.kubelet_config.#":                      {Old: "1", New: "0"},
+					"node_pool.0.node_config.0.kubelet_config.0.topology_manager.#":   {Old: "1", New: "0"},
+					"node_pool.0.node_config.0.kubelet_config.0.cpu_manager_policy":   {Old: "static", New: ""},
+					"node_pool.0.node_config.0.kubelet_config.0.cpu_cfs_quota_period": {Old: "100ms", New: ""},
+					"node_pool.1.node_config.0.kubelet_config.#":                      {Old: "1", New: "1"},
+					"node_pool.1.node_config.0.kubelet_config.0.cpu_cfs_quota":        {Old: "false", New: "true"},
+					"node_pool.0.node_config.0.machine_type":                          {Old: "e2-medium", New: "e2-standard-2", RequiresNew: true},
+				},
+			}},
+			want: want{attributes: map[string]*terraform.ResourceAttrDiff{
+				"node_pool.1.node_config.0.kubelet_config.#":               {Old: "1", New: "1"},
+				"node_pool.1.node_config.0.kubelet_config.0.cpu_cfs_quota": {Old: "false", New: "true"},
+				"node_pool.0.node_config.0.machine_type":                   {Old: "e2-medium", New: "e2-standard-2", RequiresNew: true},
+			}},
+		},
 		"node_pool_nested_count_dropped": {
 			args: args{diff: &terraform.InstanceDiff{
 				Attributes: map[string]*terraform.ResourceAttrDiff{
