@@ -41,6 +41,16 @@ func dropEmptyBlockCountDiffs(diff *terraform.InstanceDiff, keys ...string) {
 	}
 }
 
+// Keep real count changes: the SDK reads a list with no count as empty,
+// which omits shareSettings on create.
+func reservationShareDiff(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+	if diff == nil || diff.Destroy {
+		return diff, nil
+	}
+	dropEmptyBlockCountDiffs(diff, "share_settings.#")
+	return diff, nil
+}
+
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) { // nolint: gocyclo
@@ -462,12 +472,7 @@ func Configure(p *config.Provider) { // nolint: gocyclo
 
 	p.AddResourceConfigurator("google_compute_reservation", func(r *config.Resource) {
 		r.MarkAsRequired("zone")
-		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
-			if diff != nil {
-				delete(diff.Attributes, "share_settings.#")
-			}
-			return diff, nil
-		}
+		r.TerraformCustomDiff = reservationShareDiff
 	})
 
 	p.AddResourceConfigurator("google_compute_firewall_policy_association", func(r *config.Resource) {
