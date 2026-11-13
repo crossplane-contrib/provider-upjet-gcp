@@ -7,7 +7,7 @@ kind: ConnectCluster
 metadata:
   annotations:
     meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
-    uptest.upbound.io/timeout: "3600"
+    uptest.upbound.io/timeout: "5400"
   labels:
     testing.upbound.io/example-name: example
   name: example-mk-connect
@@ -37,7 +37,7 @@ kind: Cluster
 metadata:
   annotations:
     meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
-    uptest.upbound.io/timeout: "3600"
+    uptest.upbound.io/timeout: "5400"
   labels:
     testing.upbound.io/example-name: connectcluster-cluster
   name: example-mk-connectcluster-cluster
