@@ -360,6 +360,7 @@
   "google_privateca_certificate_template",
   "google_privateca_certificate_template_iam_member",
   "google_project",
+  "google_project_access_approval_settings",
   "google_project_default_service_accounts",
   "google_project_iam_audit_config",
   "google_project_iam_custom_role",
