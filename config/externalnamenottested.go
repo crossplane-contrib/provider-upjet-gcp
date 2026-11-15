@@ -100,8 +100,6 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	"google_folder_access_approval_settings": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder_id }}/accessApprovalSettings"),
 	// Imported by using the following format: organizations/{{organization_id}}/accessApprovalSettings
 	"google_organization_access_approval_settings": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization_id }}/accessApprovalSettings"),
-	// Imported by using the following format: projects/{{project_id}}/accessApprovalSettings
-	"google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
 
 	// accesscontextmanager
 	//
