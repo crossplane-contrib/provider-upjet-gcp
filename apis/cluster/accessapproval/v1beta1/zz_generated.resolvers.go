@@ -11,6 +11,7 @@ import (
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/v3/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -31,7 +32,7 @@ func (mg *ProjectSettings) ResolveReferences( // ResolveReferences of this Proje
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
-			Extract:      reference.ExternalName(),
+			Extract:      common.ExtractProjectID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ProjectIDRef,
 			Selector:     mg.Spec.ForProvider.ProjectIDSelector,
