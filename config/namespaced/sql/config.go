@@ -106,7 +106,9 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			if !ok {
 				return "", errors.New("cannot get the id field as string in tfstate")
 			}
-			return userNameFromID(id)
+			host, _ := tfstate["host"].(string)
+			instance, _ := tfstate["instance"].(string)
+			return userNameFromID(id, host, instance)
 		}
 		r.ExternalName.GetIDFn = func(_ context.Context, externalName string, parameters map[string]interface{}, providerConfig map[string]interface{}) (string, error) {
 			instance, err := common.GetField(parameters, "instance")
@@ -150,13 +152,22 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 }
 
 // userNameFromID returns the user name from a google_sql_user Terraform ID of
-// the form <name>/<host>/<instance>. Host and instance names cannot contain
-// "/", but user names can (e.g. Cloud SQL IAM workload principals such as
-// "ns/<namespace>/sa/<service account>"), so the ID is parsed from the right.
-func userNameFromID(id string) (string, error) {
+// the form <name>/<host>/<instance>. Both the name (e.g. Cloud SQL IAM
+// workload principals such as "ns/<namespace>/sa/<service account>") and the
+// host (e.g. "10.0.0.0/24") can contain "/", so the ID cannot be split by
+// position. The "/<host>/<instance>" suffix is trimmed using the host and
+// instance from the same state instead. When they do not form the suffix,
+// the first segment is returned, as before, so existing external names stay
+// stable.
+func userNameFromID(id, host, instance string) (string, error) {
+	if instance != "" {
+		if name, ok := strings.CutSuffix(id, "/"+host+"/"+instance); ok && name != "" {
+			return name, nil
+		}
+	}
 	words := strings.Split(id, "/")
-	if len(words) < 3 {
+	if words[0] == "" {
 		return "", fmt.Errorf("unexpected google_sql_user id %q, expected <name>/<host>/<instance>", id)
 	}
-	return strings.Join(words[:len(words)-2], "/"), nil
+	return words[0], nil
 }
