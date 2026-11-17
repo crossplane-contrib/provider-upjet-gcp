@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accessapproval.gcp.upbound.io/v1beta1
+kind: ProjectSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accessapproval/v1beta1/projectsettings
+    upjet.upbound.io/manual-intervention: "Requires permission to edit Access Approval settings on an existing project (roles/accessapproval.configEditor)"
+  labels:
+    testing.upbound.io/example-name: project_access_approval
+  name: project-access-approval
+spec:
+  forProvider:
+    projectId: my-project-id
+    enrolledServices:
+    - cloudProduct: all
+      enrollmentLevel: BLOCK_ALL
+    notificationEmails:
+    - access-approval@example.com

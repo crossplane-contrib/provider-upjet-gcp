@@ -1,0 +1,114 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: ACL
+metadata:
+  annotations:
+    crossplane.io/external-name: allTopics
+    meta.upbound.io/example-id: managedkafka/v1beta1/acl
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-mk-acl
+  namespace: upbound-system
+spec:
+  forProvider:
+    aclEntries:
+    - host: '*'
+      operation: ALL
+      permissionType: ALLOW
+      principal: User:admin@official-provider-testing.iam.gserviceaccount.com
+    - host: '*'
+      operation: WRITE
+      permissionType: ALLOW
+      principal: User:producer-client@official-provider-testing.iam.gserviceaccount.com
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: acl-cluster
+    location: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: ACL
+metadata:
+  annotations:
+    crossplane.io/external-name: topic/example-mk-acl-topic
+    meta.upbound.io/example-id: managedkafka/v1beta1/acl
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: example-topic
+  name: example-mk-acl-topic
+  namespace: upbound-system
+spec:
+  forProvider:
+    aclEntries:
+    - host: '*'
+      operation: READ
+      permissionType: ALLOW
+      principal: User:consumer-client@official-provider-testing.iam.gserviceaccount.com
+    clusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: acl-cluster
+    location: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/acl
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: acl-cluster
+  name: example-mk-acl-cluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: "3221225472"
+      vcpuCount: "3"
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: acl-subnet
+    location: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/acl
+  labels:
+    testing.upbound.io/example-name: acl-net
+  name: mk-acl-net
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/acl
+  labels:
+    testing.upbound.io/example-name: acl-subnet
+  name: mk-acl-subnet
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.12.0.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: acl-net
+    region: us-central1

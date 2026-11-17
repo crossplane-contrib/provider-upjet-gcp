@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: ConnectCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: 21474836480
+      vcpuCount: 12
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - additionalSubnetsRefs:
+          - name: mkc_secondary_subnet
+          dnsDomainNames:
+          - ${google_managed_kafka_cluster.cluster.cluster_id}.us-central1.managedkafka.${data.google_project.project.project_id}.cloud.goog
+          primarySubnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: google_project
+    kafkaClusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_project
+    labels:
+      key: value
+    location: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+  labels:
+    testing.upbound.io/example-name: mkc_secondary_subnet
+  name: mkc-secondary-subnet
+  namespace: upbound-system
+spec:
+  forProvider:
+    ipCidrRange: 10.3.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    project: ${data.google_project.project.project_id}
+    region: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.m.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+  labels:
+    testing.upbound.io/example-name: cluster
+  name: cluster
+  namespace: upbound-system
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: 3221225472
+      vcpuCount: 3
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: google_project
+    location: us-central1

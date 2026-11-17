@@ -10,7 +10,8 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/provider-gcp/v3/apis/cluster/accesscontextmanager/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/v3/apis/cluster/accessapproval/v1beta1"
+	v1beta1accesscontextmanager "github.com/upbound/provider-gcp/v3/apis/cluster/accesscontextmanager/v1beta1"
 	v1beta2 "github.com/upbound/provider-gcp/v3/apis/cluster/accesscontextmanager/v1beta2"
 	v1beta1activedirectory "github.com/upbound/provider-gcp/v3/apis/cluster/activedirectory/v1beta1"
 	v1beta1alloydb "github.com/upbound/provider-gcp/v3/apis/cluster/alloydb/v1beta1"
@@ -92,6 +93,7 @@ import (
 	v1beta2kms "github.com/upbound/provider-gcp/v3/apis/cluster/kms/v1beta2"
 	v1beta1logging "github.com/upbound/provider-gcp/v3/apis/cluster/logging/v1beta1"
 	v1beta2logging "github.com/upbound/provider-gcp/v3/apis/cluster/logging/v1beta2"
+	v1beta1managedkafka "github.com/upbound/provider-gcp/v3/apis/cluster/managedkafka/v1beta1"
 	v1beta2memcache "github.com/upbound/provider-gcp/v3/apis/cluster/memcache/v1beta2"
 	v1beta1memorystore "github.com/upbound/provider-gcp/v3/apis/cluster/memorystore/v1beta1"
 	v1beta2mlengine "github.com/upbound/provider-gcp/v3/apis/cluster/mlengine/v1beta2"
@@ -140,6 +142,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1accesscontextmanager.SchemeBuilder.AddToScheme,
 		v1beta2.SchemeBuilder.AddToScheme,
 		v1beta1activedirectory.SchemeBuilder.AddToScheme,
 		v1beta1alloydb.SchemeBuilder.AddToScheme,
@@ -221,6 +224,7 @@ func init() {
 		v1beta2kms.SchemeBuilder.AddToScheme,
 		v1beta1logging.SchemeBuilder.AddToScheme,
 		v1beta2logging.SchemeBuilder.AddToScheme,
+		v1beta1managedkafka.SchemeBuilder.AddToScheme,
 		v1beta2memcache.SchemeBuilder.AddToScheme,
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta2mlengine.SchemeBuilder.AddToScheme,

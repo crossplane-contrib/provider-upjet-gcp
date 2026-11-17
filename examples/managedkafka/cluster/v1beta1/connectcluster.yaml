@@ -1,0 +1,104 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: managedkafka.gcp.upbound.io/v1beta1
+kind: ConnectCluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+    uptest.upbound.io/timeout: "5400"
+  labels:
+    testing.upbound.io/example-name: example
+  name: example-mk-connect
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: "3221225472"
+      vcpuCount: "3"
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - primarySubnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: connectcluster-connect-subnet
+    kafkaClusterSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connectcluster-cluster
+    labels:
+      key: value
+    location: us-central1
+
+---
+
+apiVersion: managedkafka.gcp.upbound.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+    uptest.upbound.io/timeout: "5400"
+  labels:
+    testing.upbound.io/example-name: connectcluster-cluster
+  name: example-mk-connectcluster-cluster
+spec:
+  forProvider:
+    capacityConfig:
+      memoryBytes: "3221225472"
+      vcpuCount: "3"
+    gcpConfig:
+      accessConfig:
+        networkConfigs:
+        - subnetSelector:
+            matchLabels:
+              testing.upbound.io/example-name: connectcluster-subnet
+    location: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+  labels:
+    testing.upbound.io/example-name: connectcluster-net
+  name: mk-connectcluster-net
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+  labels:
+    testing.upbound.io/example-name: connectcluster-subnet
+  name: mk-connectcluster-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.13.0.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connectcluster-net
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: managedkafka/v1beta1/connectcluster
+  labels:
+    testing.upbound.io/example-name: connectcluster-connect-subnet
+  name: mk-connectcluster-connect-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.13.4.0/22
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: connectcluster-net
+    region: us-central1

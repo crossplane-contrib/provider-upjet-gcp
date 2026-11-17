@@ -83,6 +83,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_game_services.+":                ReplaceGroupWords("", 2),
 	"google_gke_hub.+":                      ReplaceGroupWords("", 2),
 	"google_identity_platform.+":            ReplaceGroupWords("", 2),
+	"google_managed_kafka.+":                ReplaceGroupWords("", 2),
 	"google_ml_engine.+":                    ReplaceGroupWords("", 2),
 	"google_model_armor.+":                  ReplaceGroupWords("", 2),
 	"google_network_management.+":           ReplaceGroupWords("", 2),

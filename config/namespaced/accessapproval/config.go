@@ -6,6 +6,8 @@ package accessapproval
 
 import (
 	"github.com/crossplane/upjet/v2/pkg/config"
+
+	"github.com/upbound/provider-gcp/v3/config/namespaced/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -19,5 +21,9 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("google_project_access_approval_settings", func(r *config.Resource) {
 		r.Kind = "ProjectSettings"
+		r.References["project_id"] = config.Reference{
+			TerraformName: "google_project",
+			Extractor:     common.ExtractProjectIDFuncPath,
+		}
 	})
 }

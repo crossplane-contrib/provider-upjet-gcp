@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	projectsettings "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accessapproval/projectsettings"
 	accesslevel "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesslevel"
 	accesslevelcondition "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/accesscontextmanager/accesspolicy"
@@ -331,6 +332,11 @@ import (
 	projectbucketconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/projectbucketconfig"
 	projectexclusion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/projectexclusion"
 	projectsink "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/logging/projectsink"
+	acl "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/managedkafka/acl"
+	clustermanagedkafka "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/managedkafka/cluster"
+	connectcluster "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/managedkafka/connectcluster"
+	connector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/managedkafka/connector"
+	topic "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/managedkafka/topic"
 	instancememcache "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memcache/instance"
 	instancememorystore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instance"
 	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
@@ -387,7 +393,7 @@ import (
 	schema "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/schema"
 	subscription "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/subscription"
 	subscriptioniammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/subscriptioniammember"
-	topic "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/topic"
+	topicpubsub "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/topic"
 	topiciammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/pubsub/topiciammember"
 	clusterredis "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/redis/cluster"
 	clusterusercreatedconnections "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/redis/clusterusercreatedconnections"
@@ -417,6 +423,7 @@ import (
 	defaultobjectaccesscontrol "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/defaultobjectaccesscontrol"
 	defaultobjectacl "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/defaultobjectacl"
 	hmackey "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/hmackey"
+	insightsreportconfig "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/insightsreportconfig"
 	managedfolder "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/managedfolder"
 	managedfolderiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/managedfolderiammember"
 	notification "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/storage/notification"
@@ -438,7 +445,7 @@ import (
 	reasoningengineiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/reasoningengineiammember"
 	reasoningengineiampolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/reasoningengineiampolicy"
 	tensorboard "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vertexai/tensorboard"
-	connector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vpcaccess/connector"
+	connectorvpcaccess "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/vpcaccess/connector"
 	workflow "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/workflows/workflow"
 )
 
@@ -446,6 +453,7 @@ import (
 // the supplied manager.
 func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		projectsettings.Setup,
 		accesslevel.Setup,
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
@@ -768,6 +776,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectbucketconfig.Setup,
 		projectexclusion.Setup,
 		projectsink.Setup,
+		acl.Setup,
+		clustermanagedkafka.Setup,
+		connectcluster.Setup,
+		connector.Setup,
+		topic.Setup,
 		instancememcache.Setup,
 		instancememorystore.Setup,
 		instancedesiredusercreatedendpoints.Setup,
@@ -824,7 +837,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		schema.Setup,
 		subscription.Setup,
 		subscriptioniammember.Setup,
-		topic.Setup,
+		topicpubsub.Setup,
 		topiciammember.Setup,
 		clusterredis.Setup,
 		clusterusercreatedconnections.Setup,
@@ -854,6 +867,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.Setup,
 		defaultobjectacl.Setup,
 		hmackey.Setup,
+		insightsreportconfig.Setup,
 		managedfolder.Setup,
 		managedfolderiammember.Setup,
 		notification.Setup,
@@ -875,7 +889,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		reasoningengineiammember.Setup,
 		reasoningengineiampolicy.Setup,
 		tensorboard.Setup,
-		connector.Setup,
+		connectorvpcaccess.Setup,
 		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -889,6 +903,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		projectsettings.SetupGated,
 		accesslevel.SetupGated,
 		accesslevelcondition.SetupGated,
 		accesspolicy.SetupGated,
@@ -1211,6 +1226,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectbucketconfig.SetupGated,
 		projectexclusion.SetupGated,
 		projectsink.SetupGated,
+		acl.SetupGated,
+		clustermanagedkafka.SetupGated,
+		connectcluster.SetupGated,
+		connector.SetupGated,
+		topic.SetupGated,
 		instancememcache.SetupGated,
 		instancememorystore.SetupGated,
 		instancedesiredusercreatedendpoints.SetupGated,
@@ -1267,7 +1287,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		schema.SetupGated,
 		subscription.SetupGated,
 		subscriptioniammember.SetupGated,
-		topic.SetupGated,
+		topicpubsub.SetupGated,
 		topiciammember.SetupGated,
 		clusterredis.SetupGated,
 		clusterusercreatedconnections.SetupGated,
@@ -1297,6 +1317,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		defaultobjectaccesscontrol.SetupGated,
 		defaultobjectacl.SetupGated,
 		hmackey.SetupGated,
+		insightsreportconfig.SetupGated,
 		managedfolder.SetupGated,
 		managedfolderiammember.SetupGated,
 		notification.SetupGated,
@@ -1318,7 +1339,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		reasoningengineiammember.SetupGated,
 		reasoningengineiampolicy.SetupGated,
 		tensorboard.SetupGated,
-		connector.SetupGated,
+		connectorvpcaccess.SetupGated,
 		workflow.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -1331,6 +1352,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager_monolith registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		projectsettings.SetupWebhookWithManager,
 		accesslevel.SetupWebhookWithManager,
 		accesslevelcondition.SetupWebhookWithManager,
 		accesspolicy.SetupWebhookWithManager,
@@ -1653,6 +1675,11 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		projectbucketconfig.SetupWebhookWithManager,
 		projectexclusion.SetupWebhookWithManager,
 		projectsink.SetupWebhookWithManager,
+		acl.SetupWebhookWithManager,
+		clustermanagedkafka.SetupWebhookWithManager,
+		connectcluster.SetupWebhookWithManager,
+		connector.SetupWebhookWithManager,
+		topic.SetupWebhookWithManager,
 		instancememcache.SetupWebhookWithManager,
 		instancememorystore.SetupWebhookWithManager,
 		instancedesiredusercreatedendpoints.SetupWebhookWithManager,
@@ -1709,7 +1736,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		schema.SetupWebhookWithManager,
 		subscription.SetupWebhookWithManager,
 		subscriptioniammember.SetupWebhookWithManager,
-		topic.SetupWebhookWithManager,
+		topicpubsub.SetupWebhookWithManager,
 		topiciammember.SetupWebhookWithManager,
 		clusterredis.SetupWebhookWithManager,
 		clusterusercreatedconnections.SetupWebhookWithManager,
@@ -1739,6 +1766,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		defaultobjectaccesscontrol.SetupWebhookWithManager,
 		defaultobjectacl.SetupWebhookWithManager,
 		hmackey.SetupWebhookWithManager,
+		insightsreportconfig.SetupWebhookWithManager,
 		managedfolder.SetupWebhookWithManager,
 		managedfolderiammember.SetupWebhookWithManager,
 		notification.SetupWebhookWithManager,
@@ -1760,7 +1788,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		reasoningengineiammember.SetupWebhookWithManager,
 		reasoningengineiampolicy.SetupWebhookWithManager,
 		tensorboard.SetupWebhookWithManager,
-		connector.SetupWebhookWithManager,
+		connectorvpcaccess.SetupWebhookWithManager,
 		workflow.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {
