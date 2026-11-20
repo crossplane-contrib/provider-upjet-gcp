@@ -42,6 +42,17 @@ type ProviderConfigSpec struct {
 	// is required and must match the credentials value.
 	// +optional
 	UniverseDomain *string `json:"universeDomain,omitempty"`
+
+	// CustomEndpoints overrides the endpoint of individual Google Cloud
+	// services, keyed by the Terraform provider's service name (for example
+	// "storage", "kms" or "iam"). Each value is a URL ending in "/" and becomes
+	// the Terraform provider's "<key>_custom_endpoint" setting, so the
+	// accepted keys and URL formats are the Terraform provider's. Use it to
+	// reach Google APIs through non-default hostnames, such as Private Service
+	// Connect endpoints, or an API emulator in tests. Leave it unset to use
+	// the default endpoints.
+	// +optional
+	CustomEndpoints map[string]string `json:"customEndpoints,omitempty"`
 }
 
 // ProviderCredentials required to authenticate.

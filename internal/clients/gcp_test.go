@@ -16,6 +16,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-provider-google/google/provider"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 	"golang.org/x/oauth2"
 
@@ -284,5 +285,91 @@ func Test_configureNoForkGCPClient_propagatesContextValue(t *testing.T) {
 	}
 	if got != want {
 		t.Errorf("configureNoForkGCPClient(...): Configure saw HTTP client %v, want the one placed on the given context (%v)", got, want)
+	}
+}
+
+func Test_setCustomEndpoints(t *testing.T) {
+	type args struct {
+		pcSpec *namespacedv1beta1.ProviderConfigSpec
+	}
+	type want struct {
+		configuration map[string]interface{}
+	}
+	cases := map[string]struct {
+		args args
+		want want
+	}{
+		"unset_field_leaves_configuration_untouched": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{ProjectID: "example-project"}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+		"each_entry_becomes_its_custom_endpoint_key": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID: "example-project",
+				CustomEndpoints: map[string]string{
+					"storage": "http://gcp-emulator:4588/storage/v1/",
+					"kms":     "http://gcp-emulator:4588/v1/",
+				},
+			}},
+			want: want{configuration: map[string]interface{}{
+				keyProject:                "example-project",
+				"storage_custom_endpoint": "http://gcp-emulator:4588/storage/v1/",
+				"kms_custom_endpoint":     "http://gcp-emulator:4588/v1/",
+			}},
+		},
+		"empty_url_ignored": {
+			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
+				ProjectID:       "example-project",
+				CustomEndpoints: map[string]string{"storage": ""},
+			}},
+			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			cfg := map[string]interface{}{keyProject: tc.args.pcSpec.ProjectID}
+			setCustomEndpoints(cfg, tc.args.pcSpec)
+			if diff := cmp.Diff(tc.want.configuration, cfg); diff != "" {
+				t.Errorf("setCustomEndpoints(...) configuration mismatch (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func Test_validateCustomEndpoints(t *testing.T) {
+	// The Terraform provider's own schema, so the accepted keys are the ones
+	// the provider actually has a custom endpoint setting for.
+	providerSchema := provider.Provider().Schema
+	cases := map[string]struct {
+		configuration map[string]interface{}
+		wantErr       bool
+	}{
+		"no_custom_endpoints": {
+			configuration: map[string]interface{}{keyProject: "example-project"},
+		},
+		"known_services": {
+			configuration: map[string]interface{}{
+				keyProject:                "example-project",
+				"storage_custom_endpoint": "http://gcp-emulator:4588/storage/v1/",
+				"kms_custom_endpoint":     "http://gcp-emulator:4588/v1/",
+				"iam_custom_endpoint":     "http://gcp-emulator:4588/",
+			},
+		},
+		"unknown_service": {
+			configuration: map[string]interface{}{"storge_custom_endpoint": "http://gcp-emulator:4588/storage/v1/"},
+			wantErr:       true,
+		},
+		"url_without_trailing_slash": {
+			configuration: map[string]interface{}{"storage_custom_endpoint": "http://gcp-emulator:4588/storage/v1"},
+			wantErr:       true,
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			err := validateCustomEndpoints(tc.configuration, providerSchema)
+			if (err != nil) != tc.wantErr {
+				t.Errorf("validateCustomEndpoints(...) error = %v, wantErr %t", err, tc.wantErr)
+			}
+		})
 	}
 }
