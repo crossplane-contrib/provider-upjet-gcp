@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: API
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/api
+  labels:
+    testing.upbound.io/example-name: api_proxy
+  name: api-proxy
+spec:
+  forProvider:
+    configBundle: ${data.archive_file.bundle.output_path}
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

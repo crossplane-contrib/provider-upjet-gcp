@@ -11,6 +11,7 @@
   "google_alloydb_instance",
   "google_alloydb_user",
   "google_apigee_addons_config",
+  "google_apigee_api",
   "google_apigee_endpoint_attachment",
   "google_apigee_env_keystore",
   "google_apigee_env_references",
