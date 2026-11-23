@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: apigee.gcp.upbound.io/v1beta1
+kind: API
+metadata:
+  annotations:
+    meta.upbound.io/example-id: apigee/v1beta1/api
+  labels:
+    testing.upbound.io/example-name: example-api
+  name: example-api-${Rand.RFC1123Subdomain}
+spec:
+  forProvider:
+    # The API proxy bundle is a zip archive with an apiproxy directory, base64
+    # encoded: zip -r bundle.zip apiproxy && base64 bundle.zip
+    # This bundle proxies /example to https://example.com.
+    configBundle: |
+      UEsDBBQAAAAAAAAAIVwAAAAAAAAAAAAAAAAJAAAAYXBpcHJveHkvUEsDBBQAAAAIAAAAIVz5MIKc
+      ZgAAAH4AAAAUAAAAYXBpcHJveHkvZXhhbXBsZS54bWyzsa/IzVEoSy0qzszPs1Uy1DNQUkjNS85P
+      ycxLt1UKDXHTtVCyt+OycQzwDCjKr6hUyEvMTbVVSq1IzC3ISVWy41IAAhuX1OLkosyCEqAZdq4Q
+      KQWgDoUCkBYbfWRpLht9mFl2XABQSwMEFAAAAAAAAAAhXAAAAAAAAAAAAAAAABEAAABhcGlwcm94
+      eS9wcm94aWVzL1BLAwQUAAAACAAAACFcGpMJ7pwAAAATAQAAHAAAAGFwaXByb3h5L3Byb3hpZXMv
+      ZGVmYXVsdC54bWx1T8sKwjAQvPcrQu4avXlIUlAqHkuJHxCatRaSTUlTiX9vaWtB0T3OzM6D58lZ
+      8oDQtx4F3W93lADW3rTYCHpV582B5jLjZfDpWaDpfIuRoHYgqIGbHmykMiPj8YtS5SQ7eUSo42g4
+      MxN71D2UOt4lg6RdZ4GzFZr/2V8DXvkhQjVY+Jk8SZQODcR3Q7koOPvCl6jVcJzGPrbJ7AVQSwME
+      FAAAAAAAAAAhXAAAAAAAAAAAAAAAABEAAABhcGlwcm94eS90YXJnZXRzL1BLAwQUAAAACAAAACFc
+      XXH6RIQAAAC3AAAAHAAAAGFwaXByb3h5L3RhcmdldHMvZGVmYXVsdC54bWxtjbEOwiAURfd+BWG3
+      6GYM0MHUODgYQz+AwLOSwIO0T9PPt8pk4l3PzTmyW1JkL5jmkFHxXbvlDNBlH3BUfDCnzZ53upHG
+      TiNQj77kgMTQJlDcw90+I3HdsHXybMy1/o4ZERytyoq+eLhd9IOozAchYLGpRGhdTlJ8QDWI/wop
+      fvO6eQNQSwECFAMUAAAAAAAAACFcAAAAAAAAAAAAAAAACQAAAAAAAAAAABAA7UEAAAAAYXBpcHJv
+      eHkvUEsBAhQDFAAAAAgAAAAhXPkwgpxmAAAAfgAAABQAAAAAAAAAAAAAAKSBJwAAAGFwaXByb3h5
+      L2V4YW1wbGUueG1sUEsBAhQDFAAAAAAAAAAhXAAAAAAAAAAAAAAAABEAAAAAAAAAAAAQAO1BvwAA
+      AGFwaXByb3h5L3Byb3hpZXMvUEsBAhQDFAAAAAgAAAAhXBqTCe6cAAAAEwEAABwAAAAAAAAAAAAA
+      AKSB7gAAAGFwaXByb3h5L3Byb3hpZXMvZGVmYXVsdC54bWxQSwECFAMUAAAAAAAAACFcAAAAAAAA
+      AAAAAAAAEQAAAAAAAAAAABAA7UHEAQAAYXBpcHJveHkvdGFyZ2V0cy9QSwECFAMUAAAACAAAACFc
+      XXH6RIQAAAC3AAAAHAAAAAAAAAAAAAAApIHzAQAAYXBpcHJveHkvdGFyZ2V0cy9kZWZhdWx0Lnht
+      bFBLBQYAAAAABgAGAIsBAACxAgAAAAA=
+    orgId: ${data.cloudplatform_project.projectId}
