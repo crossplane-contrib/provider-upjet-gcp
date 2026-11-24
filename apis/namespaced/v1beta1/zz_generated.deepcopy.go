@@ -187,7 +187,7 @@ func (in *ProviderConfigSpec) DeepCopyInto(out *ProviderConfigSpec) {
 	}
 	if in.CustomEndpoints != nil {
 		in, out := &in.CustomEndpoints, &out.CustomEndpoints
-		*out = make(map[string]string, len(*in))
+		*out = make(map[string]CustomEndpointURL, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}

@@ -45,15 +45,25 @@ type ProviderConfigSpec struct {
 
 	// CustomEndpoints overrides the endpoint of individual Google Cloud
 	// services, keyed by the Terraform provider's service name (for example
-	// "storage", "kms" or "iam"). Each value is a URL ending in "/" and becomes
-	// the Terraform provider's "<key>_custom_endpoint" setting, so the
-	// accepted keys and URL formats are the Terraform provider's. Use it to
-	// reach Google APIs through non-default hostnames, such as Private Service
-	// Connect endpoints, or an API emulator in tests. Leave it unset to use
-	// the default endpoints.
+	// "storage", "kms" or "iam_beta"). Each value replaces the service's whole
+	// base URL, so it keeps the version path and must end in "/", and becomes
+	// the Terraform provider's "<key>_custom_endpoint" setting. Use it to reach
+	// Google APIs through non-default hostnames, such as Private Service Connect
+	// endpoints, or an API emulator in tests. Leave it unset to use the default
+	// endpoints.
+	//
+	// Requests to a custom endpoint carry the credentials' bearer token, so set
+	// only hosts you trust with it. This includes the token of the pod's own
+	// identity when the credentials source is InjectedIdentity.
 	// +optional
-	CustomEndpoints map[string]string `json:"customEndpoints,omitempty"`
+	CustomEndpoints map[string]CustomEndpointURL `json:"customEndpoints,omitempty"`
 }
+
+// CustomEndpointURL is the base URL of a Google Cloud service endpoint: an
+// absolute http or https URL whose path ends in "/".
+// +kubebuilder:validation:MaxLength=2048
+// +kubebuilder:validation:Pattern=`^https?://[^/?#\s]+/([^?#\s]*/)?$`
+type CustomEndpointURL string
 
 // ProviderCredentials required to authenticate.
 type ProviderCredentials struct {

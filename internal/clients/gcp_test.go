@@ -16,7 +16,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-provider-google/google/provider"
+	_ "github.com/hashicorp/terraform-provider-google/google/provider"
+	"github.com/hashicorp/terraform-provider-google/google/registry"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 	"golang.org/x/oauth2"
 
@@ -306,7 +307,7 @@ func Test_setCustomEndpoints(t *testing.T) {
 		"each_entry_becomes_its_custom_endpoint_key": {
 			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
 				ProjectID: "example-project",
-				CustomEndpoints: map[string]string{
+				CustomEndpoints: map[string]namespacedv1beta1.CustomEndpointURL{
 					"storage": "http://gcp-emulator:4588/storage/v1/",
 					"kms":     "http://gcp-emulator:4588/v1/",
 				},
@@ -320,7 +321,7 @@ func Test_setCustomEndpoints(t *testing.T) {
 		"empty_url_ignored": {
 			args: args{pcSpec: &namespacedv1beta1.ProviderConfigSpec{
 				ProjectID:       "example-project",
-				CustomEndpoints: map[string]string{"storage": ""},
+				CustomEndpoints: map[string]namespacedv1beta1.CustomEndpointURL{"storage": ""},
 			}},
 			want: want{configuration: map[string]interface{}{keyProject: "example-project"}},
 		},
@@ -337,9 +338,9 @@ func Test_setCustomEndpoints(t *testing.T) {
 }
 
 func Test_validateCustomEndpoints(t *testing.T) {
-	// The Terraform provider's own schema, so the accepted keys are the ones
-	// the provider actually has a custom endpoint setting for.
-	providerSchema := provider.Provider().Schema
+	// The products ProviderConfigure reads custom endpoints for. Importing the
+	// provider package registers them.
+	products := registry.ListProducts()
 	cases := map[string]struct {
 		configuration map[string]interface{}
 		wantErr       bool
@@ -349,11 +350,15 @@ func Test_validateCustomEndpoints(t *testing.T) {
 		},
 		"known_services": {
 			configuration: map[string]interface{}{
-				keyProject:                "example-project",
-				"storage_custom_endpoint": "http://gcp-emulator:4588/storage/v1/",
-				"kms_custom_endpoint":     "http://gcp-emulator:4588/v1/",
-				"iam_custom_endpoint":     "http://gcp-emulator:4588/",
+				keyProject:                 "example-project",
+				"storage_custom_endpoint":  "http://gcp-emulator:4588/storage/v1/",
+				"kms_custom_endpoint":      "http://gcp-emulator:4588/v1/",
+				"iam_beta_custom_endpoint": "http://gcp-emulator:4588/v1/",
 			},
+		},
+		"retired_service_in_the_provider_schema": {
+			configuration: map[string]interface{}{"iam_custom_endpoint": "http://gcp-emulator:4588/v1/"},
+			wantErr:       true,
 		},
 		"unknown_service": {
 			configuration: map[string]interface{}{"storge_custom_endpoint": "http://gcp-emulator:4588/storage/v1/"},
@@ -366,7 +371,7 @@ func Test_validateCustomEndpoints(t *testing.T) {
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			err := validateCustomEndpoints(tc.configuration, providerSchema)
+			err := validateCustomEndpoints(tc.configuration, products)
 			if (err != nil) != tc.wantErr {
 				t.Errorf("validateCustomEndpoints(...) error = %v, wantErr %t", err, tc.wantErr)
 			}

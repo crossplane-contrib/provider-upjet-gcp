@@ -22,6 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/hashicorp/terraform-provider-google/google/fwprovider"
+	"github.com/hashicorp/terraform-provider-google/google/registry"
 	transporttpg "github.com/hashicorp/terraform-provider-google/google/transport"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -243,24 +244,27 @@ func setUniverseDomain(cfg map[string]interface{}, pcSpec *namespacedv1beta1.Pro
 func setCustomEndpoints(cfg map[string]interface{}, pcSpec *namespacedv1beta1.ProviderConfigSpec) {
 	for service, url := range pcSpec.CustomEndpoints {
 		if url != "" {
-			cfg[service+suffixCustomEndpoint] = url
+			cfg[service+suffixCustomEndpoint] = string(url)
 		}
 	}
 }
 
-// validateCustomEndpoints checks every custom endpoint in cfg against the
-// Terraform provider's schema before the provider is configured: the key must
-// name a service the provider has a custom endpoint setting for, and the URL
-// must end in "/", as the provider requires. Configure itself does not run the
-// provider's validation, so without this a misspelt key would be silently
-// ignored and the default endpoint used instead.
-func validateCustomEndpoints(cfg map[string]interface{}, providerSchema map[string]*schema.Schema) error {
+// validateCustomEndpoints checks every custom endpoint in cfg before the
+// provider is configured: the key must be the custom endpoint field of a
+// registered product, and the URL must end in "/". The provider schema is not
+// enough for the key: it still lists fields of retired products that
+// ProviderConfigure never reads, so they would be accepted and ignored.
+func validateCustomEndpoints(cfg map[string]interface{}, products []registry.Product) error {
+	fields := make(map[string]struct{}, len(products))
+	for _, p := range products {
+		fields[p.CustomEndpointField] = struct{}{}
+	}
 	for key, value := range cfg {
 		if !strings.HasSuffix(key, suffixCustomEndpoint) {
 			continue
 		}
 		service := strings.TrimSuffix(key, suffixCustomEndpoint)
-		if _, ok := providerSchema[key]; !ok {
+		if _, ok := fields[key]; !ok {
 			return errors.Errorf("customEndpoints: %q is not a service the Terraform provider has a custom endpoint for", service)
 		}
 		if url, _ := value.(string); !strings.HasSuffix(url, "/") {
@@ -295,7 +299,7 @@ func configureNoForkGCPClient(ctx context.Context, ps *terraform.Setup, p schema
 	ctx, cancel := context.WithCancel(ctx)
 	time.AfterFunc(providerTimeout, cancel)
 
-	if err := validateCustomEndpoints(ps.Configuration, p.Schema); err != nil {
+	if err := validateCustomEndpoints(ps.Configuration, registry.ListProducts()); err != nil {
 		return err
 	}
 	diag := p.Configure(ctx, &tfsdk.ResourceConfig{
