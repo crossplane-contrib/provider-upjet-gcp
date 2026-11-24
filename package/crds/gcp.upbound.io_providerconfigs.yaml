@@ -154,23 +154,28 @@ spec:
                 additionalProperties:
                   description: |-
                     CustomEndpointURL is the base URL of a Google Cloud service endpoint: an
-                    absolute http or https URL whose path ends in "/".
+                    absolute http or https URL whose path ends in "/", or empty for the default
+                    endpoint.
                   maxLength: 2048
-                  pattern: ^https?://[^/?#\s]+/([^?#\s]*/)?$
+                  pattern: ^(https?://[^/?#\s]+/([^?#\s]*/)?)?$
                   type: string
                 description: |-
                   CustomEndpoints overrides the endpoint of individual Google Cloud
-                  services, keyed by the Terraform provider's service name (for example
-                  "storage", "kms" or "iam_beta"). Each value replaces the service's whole
-                  base URL, so it keeps the version path and must end in "/", and becomes
-                  the Terraform provider's "<key>_custom_endpoint" setting. Use it to reach
-                  Google APIs through non-default hostnames, such as Private Service Connect
-                  endpoints, or an API emulator in tests. Leave it unset to use the default
-                  endpoints.
+                  services. It is meant for API emulators and Private Service Connect
+                  endpoints. Each key is the Terraform provider's service prefix, without
+                  the "_custom_endpoint" suffix (for example "storage", "kms" or
+                  "iam_beta"), and each value becomes that "<key>_custom_endpoint" setting.
+                  A value replaces the service's whole base URL, so it keeps the version
+                  path and must end in "/". An empty value leaves the default endpoint in
+                  effect. For its service, a custom endpoint takes precedence over
+                  universeDomain.
 
-                  Requests to a custom endpoint carry the credentials' bearer token, so set
-                  only hosts you trust with it. This includes the token of the pod's own
-                  identity when the credentials source is InjectedIdentity.
+                  The provider sends the credentials' bearer token to the configured host.
+                  With a credentials source that uses the pod's own identity
+                  (InjectedIdentity, ImpersonateServiceAccount, Upbound, Environment or
+                  Filesystem), anyone who can create this ProviderConfig can direct that
+                  token to any host.
+                maxProperties: 256
                 type: object
               projectID:
                 description: ProjectID is the project name (not numerical ID) of this

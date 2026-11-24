@@ -8,8 +8,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"maps"
 	"net/http"
 	"net/url"
+	"slices"
 	"strings"
 	"time"
 
@@ -259,10 +261,13 @@ func validateCustomEndpoints(cfg map[string]interface{}, products []registry.Pro
 	for _, p := range products {
 		fields[p.CustomEndpointField] = struct{}{}
 	}
-	for key, value := range cfg {
+	// Sorted, so that with several bad entries the error names the same one
+	// on every connect.
+	for _, key := range slices.Sorted(maps.Keys(cfg)) {
 		if !strings.HasSuffix(key, suffixCustomEndpoint) {
 			continue
 		}
+		value := cfg[key]
 		service := strings.TrimSuffix(key, suffixCustomEndpoint)
 		if _, ok := fields[key]; !ok {
 			return errors.Errorf("customEndpoints: %q is not a service the Terraform provider has a custom endpoint for", service)

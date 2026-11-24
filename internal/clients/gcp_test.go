@@ -343,7 +343,7 @@ func Test_validateCustomEndpoints(t *testing.T) {
 	products := registry.ListProducts()
 	cases := map[string]struct {
 		configuration map[string]interface{}
-		wantErr       bool
+		wantErr       string
 	}{
 		"no_custom_endpoints": {
 			configuration: map[string]interface{}{keyProject: "example-project"},
@@ -358,22 +358,33 @@ func Test_validateCustomEndpoints(t *testing.T) {
 		},
 		"retired_service_in_the_provider_schema": {
 			configuration: map[string]interface{}{"iam_custom_endpoint": "http://gcp-emulator:4588/v1/"},
-			wantErr:       true,
+			wantErr:       `customEndpoints: "iam" is not a service the Terraform provider has a custom endpoint for`,
 		},
 		"unknown_service": {
 			configuration: map[string]interface{}{"storge_custom_endpoint": "http://gcp-emulator:4588/storage/v1/"},
-			wantErr:       true,
+			wantErr:       `customEndpoints: "storge" is not a service the Terraform provider has a custom endpoint for`,
 		},
 		"url_without_trailing_slash": {
 			configuration: map[string]interface{}{"storage_custom_endpoint": "http://gcp-emulator:4588/storage/v1"},
-			wantErr:       true,
+			wantErr:       `customEndpoints: the endpoint for "storage" must end in "/", got "http://gcp-emulator:4588/storage/v1"`,
+		},
+		"several_bad_entries_report_the_first_in_key_order": {
+			configuration: map[string]interface{}{
+				"storage_custom_endpoint": "http://gcp-emulator:4588/storage/v1",
+				"kms_custom_endpoint":     "http://gcp-emulator:4588/v1",
+				"iam_custom_endpoint":     "http://gcp-emulator:4588/v1/",
+			},
+			wantErr: `customEndpoints: "iam" is not a service the Terraform provider has a custom endpoint for`,
 		},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			err := validateCustomEndpoints(tc.configuration, products)
-			if (err != nil) != tc.wantErr {
-				t.Errorf("validateCustomEndpoints(...) error = %v, wantErr %t", err, tc.wantErr)
+			got := ""
+			if err := validateCustomEndpoints(tc.configuration, products); err != nil {
+				got = err.Error()
+			}
+			if diff := cmp.Diff(tc.wantErr, got); diff != "" {
+				t.Errorf("validateCustomEndpoints(...) error mismatch (-want +got):\n%s", diff)
 			}
 		})
 	}
