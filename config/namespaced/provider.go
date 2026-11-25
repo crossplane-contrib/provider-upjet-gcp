@@ -45,6 +45,7 @@ import (
 	"github.com/upbound/provider-gcp/v3/config/namespaced/monitoring"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/networkconnectivity"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/networksecurity"
+	"github.com/upbound/provider-gcp/v3/config/namespaced/networkservices"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/notebooks"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/oslogin"
 	"github.com/upbound/provider-gcp/v3/config/namespaced/privateca"
@@ -96,6 +97,7 @@ func init() {
 	ProviderConfiguration.AddConfig(kms.Configure)
 	ProviderConfiguration.AddConfig(networkconnectivity.Configure)
 	ProviderConfiguration.AddConfig(networksecurity.Configure)
+	ProviderConfiguration.AddConfig(networkservices.Configure)
 	ProviderConfiguration.AddConfig(notebooks.Configure)
 	ProviderConfiguration.AddConfig(privateca.Configure)
 	ProviderConfiguration.AddConfig(oslogin.Configure)

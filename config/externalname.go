@@ -1244,6 +1244,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	"google_network_services_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gateways/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/lbTrafficExtensions/{{name}}
+	"google_network_services_lb_traffic_extension": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/lbTrafficExtensions/{{ .external_name }}"),
 
 	// memorystore
 	//

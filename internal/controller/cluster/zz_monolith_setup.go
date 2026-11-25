@@ -370,6 +370,7 @@ import (
 	tlsinspectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/tlsinspectionpolicy"
 	urllists "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networksecurity/urllists"
 	gateway "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/gateway"
+	lbtrafficextension "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/lbtrafficextension"
 	environmentnotebooks "github.com/upbound/provider-gcp/v3/internal/controller/cluster/notebooks/environment"
 	instancenotebooks "github.com/upbound/provider-gcp/v3/internal/controller/cluster/notebooks/instance"
 	instanceiammembernotebooks "github.com/upbound/provider-gcp/v3/internal/controller/cluster/notebooks/instanceiammember"
@@ -814,6 +815,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tlsinspectionpolicy.Setup,
 		urllists.Setup,
 		gateway.Setup,
+		lbtrafficextension.Setup,
 		environmentnotebooks.Setup,
 		instancenotebooks.Setup,
 		instanceiammembernotebooks.Setup,
@@ -1264,6 +1266,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tlsinspectionpolicy.SetupGated,
 		urllists.SetupGated,
 		gateway.SetupGated,
+		lbtrafficextension.SetupGated,
 		environmentnotebooks.SetupGated,
 		instancenotebooks.SetupGated,
 		instanceiammembernotebooks.SetupGated,
@@ -1713,6 +1716,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		tlsinspectionpolicy.SetupWebhookWithManager,
 		urllists.SetupWebhookWithManager,
 		gateway.SetupWebhookWithManager,
+		lbtrafficextension.SetupWebhookWithManager,
 		environmentnotebooks.SetupWebhookWithManager,
 		instancenotebooks.SetupWebhookWithManager,
 		instanceiammembernotebooks.SetupWebhookWithManager,

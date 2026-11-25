@@ -1,0 +1,191 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkservices.gcp.upbound.io/v1beta1
+kind: LBTrafficExtension
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: my traffic extension
+    extensionChains:
+    - extensions:
+      - authority: ext11.com
+        failOpen: false
+        forwardAttributes:
+        - request.host
+        - request.path
+        forwardHeaders:
+        - custom-header
+        metadata:
+          key1: value1
+          key2: value2
+        name: ext11
+        serviceSelector:
+          matchLabels:
+            testing.upbound.io/example-name: callouts_backend
+        supportedEvents:
+        - REQUEST_HEADERS
+        timeout: 0.1s
+      matchCondition:
+        celExpression: request.host == 'example.com'
+      name: chain1
+    forwardingRulesRefs:
+    - name: default
+    labels:
+      foo: bar
+    loadBalancingScheme: INTERNAL_MANAGED
+    location: us-west1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: ForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ipProtocol: TCP
+    loadBalancingScheme: INTERNAL_MANAGED
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ilb_network
+    networkTier: PREMIUM
+    portRange: "80"
+    region: us-west1
+    subnetworkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ilb_subnet
+    targetSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: RegionTargetHTTPProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: us-west1
+    urlMapSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionURLMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    defaultServiceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: callouts_backend
+    region: us-west1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionBackendService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: callouts_backend
+  name: callouts-backend
+spec:
+  forProvider:
+    healthChecksRefs:
+    - name: callouts-health-check
+    loadBalancingScheme: INTERNAL_MANAGED
+    protocol: HTTP2
+    region: us-west1
+    timeoutSec: 10
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: RegionHealthCheck
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: callouts_health_check
+  name: callouts-health-check
+spec:
+  forProvider:
+    httpHealthCheck:
+      port: 80
+    region: us-west1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: proxy_subnet
+  name: proxy-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ilb_network
+    purpose: REGIONAL_MANAGED_PROXY
+    region: us-west1
+    role: ACTIVE
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: ilb_subnet
+  name: ilb-subnet
+spec:
+  forProvider:
+    ipCidrRange: 10.0.1.0/24
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: ilb_network
+    region: us-west1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/lbtrafficextension
+  labels:
+    testing.upbound.io/example-name: ilb_network
+  name: ilb-network
+spec:
+  forProvider:
+    autoCreateSubnetworks: false

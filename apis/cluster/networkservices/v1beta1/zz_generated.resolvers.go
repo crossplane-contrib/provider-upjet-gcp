@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/v3/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -185,6 +186,107 @@ func (mg *Gateway) ResolveReferences( // ResolveReferences of this Gateway.
 	}
 	mg.Spec.InitProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.SubnetworkRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this LBTrafficExtension.
+func (mg *LBTrafficExtension) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ExtensionChains); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.ExtensionChains[i3].Extensions); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ExtensionChains[i3].Extensions[i4].Service),
+					Extract:      common.SelfLinkExtractor(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.ExtensionChains[i3].Extensions[i4].ServiceRef,
+					Selector:     mg.Spec.ForProvider.ExtensionChains[i3].Extensions[i4].ServiceSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.ExtensionChains[i3].Extensions[i4].Service")
+			}
+			mg.Spec.ForProvider.ExtensionChains[i3].Extensions[i4].Service = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.ExtensionChains[i3].Extensions[i4].ServiceRef = rsp.ResolvedReference
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ForwardingRules),
+			Extract:       common.SelfLinkExtractor(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.ForProvider.ForwardingRulesRefs,
+			Selector:      mg.Spec.ForProvider.ForwardingRulesSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ForwardingRules")
+	}
+	mg.Spec.ForProvider.ForwardingRules = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.ForwardingRulesRefs = mrsp.ResolvedReferences
+
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ExtensionChains); i3++ {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.ExtensionChains[i3].Extensions); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionBackendService", "RegionBackendServiceList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ExtensionChains[i3].Extensions[i4].Service),
+					Extract:      common.SelfLinkExtractor(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.ExtensionChains[i3].Extensions[i4].ServiceRef,
+					Selector:     mg.Spec.InitProvider.ExtensionChains[i3].Extensions[i4].ServiceSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.ExtensionChains[i3].Extensions[i4].Service")
+			}
+			mg.Spec.InitProvider.ExtensionChains[i3].Extensions[i4].Service = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.ExtensionChains[i3].Extensions[i4].ServiceRef = rsp.ResolvedReference
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ForwardingRule", "ForwardingRuleList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ForwardingRules),
+			Extract:       common.SelfLinkExtractor(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.InitProvider.ForwardingRulesRefs,
+			Selector:      mg.Spec.InitProvider.ForwardingRulesSelector,
+			To:            reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ForwardingRules")
+	}
+	mg.Spec.InitProvider.ForwardingRules = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.ForwardingRulesRefs = mrsp.ResolvedReferences
 
 	return nil
 }

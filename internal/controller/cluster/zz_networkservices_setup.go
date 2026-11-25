@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	gateway "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/gateway"
+	lbtrafficextension "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/lbtrafficextension"
 )
 
 // Setup_networkservices creates all controllers with the supplied logger and adds them to
@@ -17,6 +18,7 @@ import (
 func Setup_networkservices(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		gateway.Setup,
+		lbtrafficextension.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +32,7 @@ func Setup_networkservices(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_networkservices(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		gateway.SetupGated,
+		lbtrafficextension.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -42,6 +45,7 @@ func SetupGated_networkservices(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_networkservices(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		gateway.SetupWebhookWithManager,
+		lbtrafficextension.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {
 			return err
