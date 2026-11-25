@@ -10,6 +10,9 @@ package v1beta1
 func (tr *AddonsConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *API) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *EndpointAttachment) Hub() {}
 
 // Hub marks this type as a conversion hub.
