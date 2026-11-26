@@ -51,6 +51,8 @@ const (
 	// error messages
 	errNoProviderConfig              = "no providerConfigRef provided"
 	errGetProviderConfig             = "cannot get referenced ProviderConfig"
+	errResolveProviderConfig         = "cannot resolve the referenced ProviderConfig"
+	errNotManaged                    = "resource is not a managed"
 	errTrackUsage                    = "cannot track ProviderConfig usage"
 	errExtractKeyCredentials         = "cannot extract JSON key credentials"
 	errExtractTokenCredentials       = "cannot extract Access Token credentials"
@@ -294,14 +296,40 @@ func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.Provi
 	return &mSpec, err
 }
 
+// resolveProviderConfig returns the spec of the ProviderConfig referenced by
+// mg and tracks the managed resource's usage of it.
 func resolveProviderConfig(ctx context.Context, crClient client.Client, mg resource.Managed) (*namespacedv1beta1.ProviderConfigSpec, error) {
+	pcSpec, err := getProviderConfigSpec(ctx, crClient, mg)
+	if err != nil {
+		return nil, err
+	}
+	if err := trackProviderConfigUsage(ctx, crClient, mg); err != nil {
+		return nil, errors.Wrap(err, errTrackUsage)
+	}
+	return pcSpec, nil
+}
+
+// getProviderConfigSpec returns the spec of the ProviderConfig referenced by
+// mg without tracking the managed resource's usage of it.
+func getProviderConfigSpec(ctx context.Context, crClient client.Client, mg resource.Managed) (*namespacedv1beta1.ProviderConfigSpec, error) {
 	switch managed := mg.(type) {
 	case resource.LegacyManaged:
 		return resolveLegacy(ctx, crClient, managed)
 	case resource.ModernManaged:
 		return resolveV2(ctx, crClient, managed)
 	default:
-		return nil, errors.New("resource is not a managed")
+		return nil, errors.New(errNotManaged)
+	}
+}
+
+func trackProviderConfigUsage(ctx context.Context, crClient client.Client, mg resource.Managed) error {
+	switch managed := mg.(type) {
+	case resource.LegacyManaged:
+		return resource.NewLegacyProviderConfigUsageTracker(crClient, &clusterv1beta1.ProviderConfigUsage{}).Track(ctx, managed)
+	case resource.ModernManaged:
+		return resource.NewProviderConfigUsageTracker(crClient, &namespacedv1beta1.ProviderConfigUsage{}).Track(ctx, managed)
+	default:
+		return errors.New(errNotManaged)
 	}
 }
 
@@ -313,11 +341,6 @@ func resolveLegacy(ctx context.Context, client client.Client, mg resource.Legacy
 	pc := &clusterv1beta1.ProviderConfig{}
 	if err := client.Get(ctx, types.NamespacedName{Name: configRef.Name}, pc); err != nil {
 		return nil, errors.Wrap(err, errGetProviderConfig)
-	}
-
-	t := resource.NewLegacyProviderConfigUsageTracker(client, &clusterv1beta1.ProviderConfigUsage{})
-	if err := t.Track(ctx, mg); err != nil {
-		return nil, errors.Wrap(err, errTrackUsage)
 	}
 
 	return toSharedPCSpec(pc)
@@ -353,7 +376,6 @@ func resolveV2(ctx context.Context, crClient client.Client, mg resource.ModernMa
 	}
 
 	var pcSpec namespacedv1beta1.ProviderConfigSpec
-	pcu := &namespacedv1beta1.ProviderConfigUsage{}
 	switch pc := pcObj.(type) {
 	case *namespacedv1beta1.ProviderConfig:
 		pcSpec = pc.Spec
@@ -366,17 +388,18 @@ func resolveV2(ctx context.Context, crClient client.Client, mg resource.ModernMa
 		// TODO(erhan)
 		return nil, errors.New("unknown")
 	}
-	t := resource.NewProviderConfigUsageTracker(crClient, pcu)
-	if err := t.Track(ctx, mg); err != nil {
-		return nil, errors.Wrap(err, errTrackUsage)
-	}
 	return &pcSpec, nil
 }
 
+// ReconciliationPolicy returns the reconciliation policy of the ProviderConfig
+// referenced by mg. It runs at the start of every reconcile, before Connect
+// tracks the ProviderConfig usage, so it must not track the usage itself: a
+// second Track in the same reconcile reads the cache before it has seen the
+// ProviderConfigUsage the first one created, and fails with AlreadyExists.
 func ReconciliationPolicy(ctx context.Context, client client.Client, mg resource.Managed) (*v1alpha1.ReconciliationPolicy, error) {
-	spec, err := resolveProviderConfig(ctx, client, mg)
+	spec, err := getProviderConfigSpec(ctx, client, mg)
 	if err != nil {
-		return nil, errors.Wrap(err, "cannot resolve the referenced ProviderConfig")
+		return nil, errors.Wrap(err, errResolveProviderConfig)
 	}
 	return spec.ReconciliationPolicy, nil
 }
